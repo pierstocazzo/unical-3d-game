@@ -1,0 +1,34 @@
+= Indicazioni creazione modello 3d =
+
+Un unico modello 3d umano, possibilmente un soldato
+
+due texture diverse, una per il player e una per i nemici
+
+animazioni modello:
+
+# "rest" : posa statica (obbligatoria)
+# "walk" : cammina 
+# "run" : corre
+# "jump" : salta
+# "shoot" : spara
+
+i nomi sono importanti per gestire le animazioni col nostro motore grafico
+
+le armi di cui abbiamo bisogno sono:
+
+# mp5
+# lancia razzi o bazooka
+# mitragliatore machine gun
+
+tutte le pose devono prevedere che il modello tenga un'arma pesante (a due mani)
+
+nella "rest" e "walk" l'mp5 viene tenuto in riposo rivolto verso il basso
+
+in "run" e "shoot" viene tenuto in posizione di attacco
+
+in "jump" non ne ho idea...
+
+per bazooka e mitragliatore non c'è bisogno dell'animazione "run" in quanto non la prevederemo proprio;
+in tutte le altre verranno tenute in posizione di attacco 
+
+per ora basta :-)
