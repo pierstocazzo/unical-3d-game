@@ -1,3 +1,7 @@
+= Note Importanti =
+
+Il modello deve essere completamente importabile in Blender
+
 = Indicazioni creazione modello 3d =
 
 Un unico modello 3d umano, possibilmente un soldato
