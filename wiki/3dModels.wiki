@@ -6,19 +6,19 @@ due texture diverse, una per il player e una per i nemici
 
 animazioni modello:
 
-# "rest" : posa statica (obbligatoria)
-# "walk" : cammina 
-# "run" : corre
-# "jump" : salta
-# "shoot" : spara
+  # "rest" : posa statica (obbligatoria)
+  # "walk" : cammina 
+  # "run" : corre
+  # "jump" : salta
+  # "shoot" : spara
 
 i nomi sono importanti per gestire le animazioni col nostro motore grafico
 
 le armi di cui abbiamo bisogno sono:
 
-# mp5
-# lancia razzi o bazooka
-# mitragliatore machine gun
+  # mp5
+  # lancia razzi o bazooka
+  # mitragliatore machine gun
 
 tutte le pose devono prevedere che il modello tenga un'arma pesante (a due mani)
 
