@@ -1,10 +1,14 @@
 package joework.app;
 
+import com.jme.input.InputHandler;
+
 /**
  *
  * @author joseph
  */
 public abstract class AssHoleBaseGame extends PhysicsGame {
+
+    protected InputHandler input;
 
     @Override
     protected void simpleInitGame() {
