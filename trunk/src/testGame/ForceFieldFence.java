@@ -67,7 +67,7 @@ public class ForceFieldFence extends Node {
 		// carico una texture per le torri
 		TextureState towerTextureState = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
 		Texture towerTexture = TextureManager.loadTexture(Game.class.getClassLoader()
-		                  .getResource("texture/post.jpg"),
+		                  .getResource("data/texture/post.jpg"),
 		                  Texture.MinificationFilter.BilinearNearestMipMap,
 		                  Texture.MagnificationFilter.Bilinear); 
 		towerTextureState.setTexture( towerTexture );
@@ -106,7 +106,7 @@ public class ForceFieldFence extends Node {
 		// gli carico una texture
 		TextureState strutTextureState= DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
 		Texture strutTexture = TextureManager.loadTexture(Game.class.getClassLoader()
-		                  .getResource("texture/rust.jpg"),
+		                  .getResource("data/texture/rust.jpg"),
 		                  Texture.MinificationFilter.BilinearNearestMipMap,
 		                  Texture.MagnificationFilter.Bilinear);
 		strutTextureState.setTexture( strutTexture );
@@ -140,7 +140,7 @@ public class ForceFieldFence extends Node {
 		// carichiamo la texture
 		TextureState forceFieldTextureState = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
 		Texture forceFieldTexture = TextureManager.loadTexture(Game.class.getClassLoader()
-		                  .getResource("texture/reflector.jpg"),
+		                  .getResource("data/texture/reflector.jpg"),
 		                  Texture.MinificationFilter.BilinearNearestMipMap,
 		                  Texture.MagnificationFilter.Bilinear);
 		 

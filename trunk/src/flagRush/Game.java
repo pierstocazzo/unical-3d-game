@@ -80,8 +80,8 @@ import com.jmex.terrain.util.ProceduralTextureGenerator;
  * Lesson 9
  * @author Andrea
  */
-public class Ex9 extends BaseGame {
-    private static final Logger logger = Logger.getLogger(Ex9.class
+public class Game extends BaseGame {
+    private static final Logger logger = Logger.getLogger(Game.class
             .getName());
     
     // the terrain we will drive over.
@@ -128,9 +128,9 @@ public class Ex9 extends BaseGame {
      * Main entry point of the application
      */
     public static void main(String[] args) {
-        Ex9 app = new Ex9();
+        Game app = new Game();
         // We will load our own "fantastic" Flag Rush logo. Yes, I'm an artist.
-        app.setConfigShowMode(ConfigShowMode.AlwaysShow, Ex9.class
+        app.setConfigShowMode(ConfigShowMode.AlwaysShow, Game.class
                 .getClassLoader().getResource(
                         "jmetest/data/images/FlagRush.png"));
         //new ShadowTweaker(shadowPass).setVisible(true);
@@ -305,7 +305,7 @@ public class Ex9 extends BaseGame {
          * BounceOff = collisione con rimbalzo
          * Stop = collisione con arresto
          */
-        bounce = new CollisionDetection(player, fence, CollisionDetection.BounceOff);
+        bounce = new CollisionDetection(player, fence, CollisionDetection.Stop);
         //************************************************************************************
       
         // update the scene graph for rendering
@@ -353,7 +353,7 @@ public class Ex9 extends BaseGame {
     private void buildPlayer() {
         Spatial model = null;
         try {
-            URL bikeFile = Ex9.class.getClassLoader().getResource("jmetest/data/model/bike.jme");
+            URL bikeFile = Game.class.getClassLoader().getResource("jmetest/data/model/bike.jme");
             BinaryImporter importer = new BinaryImporter();
             model = (Spatial)importer.load(bikeFile.openStream());
             model.setModelBound(new BoundingBox());

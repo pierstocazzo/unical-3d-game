@@ -133,7 +133,7 @@ public class Player extends Node {
 
     /**
      * sets the model spatial of this vehicle. It first
-     * detaches any previously attached models.
+     * detaches any previously attached xmlModels.
      * @param model the model to attach to this vehicle.
      */
     public void setModel(Spatial model) {

@@ -444,7 +444,7 @@ public class Game extends BaseGame {
 //				
 //				ByteArrayOutputStream BO = new ByteArrayOutputStream();
 //				
-//				URL url = Game3.class.getClassLoader().getResource("models/nordhorse.md3");
+//				URL url = Game3.class.getClassLoader().getResource("xmlModels/nordhorse.md3");
 //	
 //				converter.convert( url.openStream(),BO);
 //				model = (Node)BinaryImporter.getInstance().load(new ByteArrayInputStream(BO.toByteArray()));
@@ -462,7 +462,7 @@ public class Game extends BaseGame {
 //			}
 //			
 //	        Texture texture = TextureManager.loadTexture(
-//	                Game3.class.getClassLoader().getResource("models/nordhorse_color.jpg"),
+//	                Game3.class.getClassLoader().getResource("xmlModels/nordhorse_color.jpg"),
 //	                Texture.MinificationFilter.Trilinear,
 //	                Texture.MagnificationFilter.Bilinear);
 //	
@@ -474,7 +474,7 @@ public class Game extends BaseGame {
 			
 		Node model = null;
 		
-		URL url = Game.class.getClassLoader().getResource("models/prova-jme.xml");
+		URL url = Game.class.getClassLoader().getResource("xmlModels/prova-jme.xml");
 		
 		try {
 			model = (Node)XMLImporter.getInstance().load( url );

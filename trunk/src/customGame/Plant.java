@@ -59,9 +59,9 @@ public class Plant
     private static Random rnd = new Random();
 
     /**
-     * creates a plant example: pathURL = "models/vegetation/trees", modelName =
+     * creates a plant example: pathURL = "xmlModels/vegetation/trees", modelName =
      * "tree", plantTypes = 9 --> modelURL =
-     * "models/vegetation/trees/tree1-9.jme"
+     * "xmlModels/vegetation/trees/tree1-9.jme"
      * the plantType specifies the amount of different plants there are.
      * the planttype is calculated by random 
      * @param pathURL
@@ -73,7 +73,7 @@ public class Plant
     public static Node createPlant(String pathURL, String modelName,
             int plantTypes, String texURL)
     {
-        URL modelURL = Game.class.getClassLoader().getResource(/*pathURL + "/" + modelName + (rnd.nextInt(plantTypes) + 1) + "1.jme" */ "models/bike.jme" );
+        URL modelURL = Game.class.getClassLoader().getResource(/*pathURL + "/" + modelName + (rnd.nextInt(plantTypes) + 1) + "1.jme" */ "xmlModels/bike.jme" );
         URL textureURL = Game.class.getClassLoader().getResource(texURL + "/" + modelName + (rnd.nextInt(plantTypes) + 1) + ".tga");
         
         Node tmp = load(modelURL, textureURL);
