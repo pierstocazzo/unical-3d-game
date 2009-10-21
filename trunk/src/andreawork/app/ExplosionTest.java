@@ -25,16 +25,16 @@ public class ExplosionTest extends SimplePhysicsGame{
 	@Override
 	protected void simpleInitGame() {
 		// TODO Auto-generated method stub
-		// crea un nodo fisico statico, al quale sarà attaccato il pavimento
+		// crea un nodo fisico statico, al quale sarï¿½ attaccato il pavimento
         StaticPhysicsNode staticNode = getPhysicsSpace().createStaticNode();
         // attacco il nodo statico al root
         rootNode.attachChild( staticNode );
-        // creo il mio pavimento, che è un box (dimensioni default (1,1,1)) attaccato al nodo statico
+        // creo il mio pavimento, che ï¿½ un box (dimensioni default (1,1,1)) attaccato al nodo statico
         PhysicsBox floorBox = staticNode.createBox( "floor" );
-        // cambio le dimensioni del box pavimento a (50,0.5,50) cioè un pavimento 50x50 di spessore 0.5
+        // cambio le dimensioni del box pavimento a (50,0.5,50) cioï¿½ un pavimento 50x50 di spessore 0.5
         floorBox.getLocalScale().set( 50, 0.1f, 50 );
         
-        // creo un gruppo di nodi dinamici (conterrà tutti i box che farò cadere dall'alto sul pavimento)
+        // creo un gruppo di nodi dinamici (conterrï¿½ tutti i box che farï¿½ cadere dall'alto sul pavimento)
         Node dynamicNodeR = new Node( "gruppoAB" );
         // ciclo di creazione dei vari box "cadenti"
         for(int z=0; z<4; z++)
@@ -48,7 +48,7 @@ public class ExplosionTest extends SimplePhysicsGame{
 		            n.setMass(100);
 		            // setto il materiale del box, materiali diversi hanno comportamenti diversi!
 		            n.setMaterial(Material.ICE);
-		            // aggiorno la massa in base alla densità del materiale
+		            // aggiorno la massa in base alla densitï¿½ del materiale
 		            n.computeMass();
 		            // aggiungo il box appena creato al mio gruppo
 		            dynamicNodeR.attachChild(n);
