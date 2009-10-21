@@ -38,7 +38,7 @@ public class Ex6 extends SimplePhysicsGame {
         color( player, new ColorRGBA( 0, 0, 1, 1 ) );
         // lo sistemo al centro del primo piano
         player.getLocalTranslation().set( 8, 1, 0 );
-        // gli sposto il centro di massa un po più giù
+        // gli sposto il centro di massa un po piï¿½ giï¿½
         player.computeMass();
         player.setCenterOfMass( new Vector3f( 0, -0.5f, 0 ) );
         // per il movimento del box, gli impostiamo un materiale custum, a cui setteremo il surfacemotion
@@ -46,7 +46,7 @@ public class Ex6 extends SimplePhysicsGame {
         player.setMaterial( playerMaterial );
         // vedi MoveAction
 
-        // i quattro movimenti Home - Fine - Canc - PgGiù
+        // i quattro movimenti Home - Fine - Canc - PgGiï¿½
         input.addAction( new MoveAction( new Vector3f( -2, 0, 0 ) ),
                 InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_DELETE, InputHandler.AXIS_NONE, false );
         input.addAction( new MoveAction( new Vector3f( 2, 0, 0 ) ),
@@ -65,7 +65,7 @@ public class Ex6 extends SimplePhysicsGame {
             }
         }, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_SPACE, InputHandler.AXIS_NONE, false );
 
-        // per capire quando il box è poggiato sul piano, usiamo una variabile booleana playerOnFloor
+        // per capire quando il box ï¿½ poggiato sul piano, usiamo una variabile booleana playerOnFloor
         // se piano e box hanno colliso il nostro box si trova sul piano, quindi impostiamo playerOnFloor a true
 
         // evento di collisione
@@ -80,7 +80,7 @@ public class Ex6 extends SimplePhysicsGame {
         }, playerCollisionEventHandler, false );
 
         // ad ogni step fisico reimpostiamo a false playerOnFloor
-        // in modo da non permettere salti quando si è già in aria
+        // in modo da non permettere salti quando si ï¿½ giï¿½ in aria
         getPhysicsSpace().addToUpdateCallbacks( new PhysicsUpdateCallback() {
             public void beforeStep( PhysicsSpace space, float time ) {
                 playerOnFloor = false;
@@ -111,7 +111,7 @@ public class Ex6 extends SimplePhysicsGame {
 
     /**
      * Classe per gestire i movimenti
-     * non molto diversa da quella già vista
+     * non molto diversa da quella giï¿½ vista
      */
     private class MoveAction extends InputAction {
         private Vector3f direction;
@@ -130,7 +130,7 @@ public class Ex6 extends SimplePhysicsGame {
         }
     }
 
-    // metodi già visti in precedenza
+    // metodi giï¿½ visti in precedenza
     private void color( Spatial spatial, ColorRGBA color ) {
         final MaterialState materialState = display.getRenderer().createMaterialState();
         materialState.setDiffuse( color );
