@@ -16,7 +16,7 @@ public class XmlWorld extends SimpleGame {
     }
 
     protected void simpleInitGame() {
-        URL url = XmlWorld.class.getClassLoader().getResource("models/prova-jme.xml");
+        URL url = XmlWorld.class.getClassLoader().getResource("xmlModels/prova-jme.xml");
         try {
             MouseInput.get().setCursorVisible(true);
             ((FirstPersonHandler) input).setButtonPressRequired(true);

@@ -20,7 +20,7 @@ import com.jme.animation.Bone;
  */
 public class XmlAnimator extends XmlWorld {
     /**
-     * Instantiate a jME game world, loading the specified jME XML models
+     * Instantiate a jME game world, loading the specified jME XML xmlModels
      * into the scene, then executing the first animation present.
      *
      * @param args

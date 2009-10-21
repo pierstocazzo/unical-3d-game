@@ -120,7 +120,7 @@ public abstract class PhysicsGame extends BaseGame {
             showPhysics = !showPhysics;
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
-            finish();
+            super.finish();
         }
     }
 
@@ -131,20 +131,20 @@ public abstract class PhysicsGame extends BaseGame {
      * @see AbstractGame#render(float interpolation)
      */
     protected void render( float interpolation ) {
-        Renderer r = display.getRenderer();
+        Renderer renderer = super.display.getRenderer();
         /** Clears the previously rendered information. */
-        r.clearBuffers();
+        renderer.clearBuffers();
 
         // Execute renderQueue item
         GameTaskQueueManager.getManager().getQueue(GameTaskQueue.RENDER).execute();
 
         /** Draw the rootNode and all its children. */
-        r.draw(rootNode);
+        renderer.draw(rootNode);
 
         /** Call simpleRender() in any derived classes. */
         simpleRender();
 
-        doDebug(r);
+        doDebug(renderer);
     }
 
     /**

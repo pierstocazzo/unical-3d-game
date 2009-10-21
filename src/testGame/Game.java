@@ -1,10 +1,13 @@
 package testGame;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.net.URL;
 
+import javax.lang.model.element.Element;
 import javax.swing.ImageIcon;
 
 import jmetest.renderer.TestSkybox;
@@ -21,6 +24,7 @@ import com.jme.input.KeyInput;
 import com.jme.input.thirdperson.ThirdPersonMouseLook;
 import com.jme.light.DirectionalLight;
 import com.jme.math.FastMath;
+import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
 import com.jme.renderer.ColorRGBA;
@@ -38,10 +42,12 @@ import com.jme.system.DisplaySystem;
 import com.jme.system.JmeException;
 import com.jme.util.TextureManager;
 import com.jme.util.Timer;
+import com.jmex.model.converters.Md3ToJme;
 import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 
+import com.jme.util.export.binary.BinaryImporter;
 import com.jme.util.export.xml.XMLImporter;;
 
 /** 
@@ -59,7 +65,7 @@ public class Game extends BaseGame {
 	Timer timer;
 	// il terreno
 	TerrainBlock terrain;
-	// scene sar� il nostro "rootNode"
+	// scene sara' il nostro "rootNode"
 	Node scene;
 	// il nostro mondo esterno
 	Skybox skybox;
@@ -69,7 +75,7 @@ public class Game extends BaseGame {
 	Node player;
 	// l'inputHandler personalizzato
 	InputHandler input;
-	// vector used for the normal of the terrain
+	// vettore usato per la normale del terreno
 	private Vector3f normal;
 
 	public static void main(String[] args) {
@@ -262,11 +268,11 @@ public class Game extends BaseGame {
 	   // generiamo le textures...
 	   ProceduralTextureGenerator pt = new ProceduralTextureGenerator(heightMap);
 	   // per le zone basse usiamo l'erba
-	   pt.addTexture(new ImageIcon(Game.class.getClassLoader().getResource("texture/grassb.png")), -128, 0, 128);
+	   pt.addTexture(new ImageIcon(Game.class.getClassLoader().getResource("data/texture/grassb.png")), -128, 0, 128);
 	   // per le zone di media altezza usiamo terra e rocce
-	   pt.addTexture(new ImageIcon(Game.class.getClassLoader().getResource("texture/dirt.jpg")), 0, 128, 255);
+	   pt.addTexture(new ImageIcon(Game.class.getClassLoader().getResource("data/texture/dirt.jpg")), 0, 128, 255);
 	   // per le zone alte usiamo la neve!
-	   pt.addTexture(new ImageIcon(Game.class.getClassLoader().getResource("texture/highest.jpg")), 128, 255, 384);
+	   pt.addTexture(new ImageIcon(Game.class.getClassLoader().getResource("data/texture/highest.jpg")), 128, 255, 384);
 	   // il numero passato alla funzione significa che creeremo textures n x n
 	   pt.createTexture(32);
 	   // il nostro proceduralblabla � in grado di miscelare le textures per creare un terreno un po pi� realistico
@@ -280,7 +286,7 @@ public class Game extends BaseGame {
 	   ts.setTexture(t1, 0);
 	   Texture t2 = TextureManager.loadTexture(
                Game.class.getClassLoader().getResource(
-               "texture/Detail.jpg"),
+               "data/texture/Detail.jpg"),
                Texture.MinificationFilter.BilinearNearestMipMap,
                Texture.MagnificationFilter.Bilinear);
 
@@ -337,32 +343,32 @@ public class Game extends BaseGame {
  
         Texture north = TextureManager.loadTexture(
             TestSkybox.class.getClassLoader().getResource(
-            "texture/north.jpg"),
+            "data/texture/north.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear);
         Texture south = TextureManager.loadTexture(
             TestSkybox.class.getClassLoader().getResource(
-            "texture/south.jpg"),
+            "data/texture/south.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear);
         Texture east = TextureManager.loadTexture(
             TestSkybox.class.getClassLoader().getResource(
-            "texture/east.jpg"),
+            "data/texture/east.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear);
         Texture west = TextureManager.loadTexture(
             TestSkybox.class.getClassLoader().getResource(
-            "texture/west.jpg"),
+            "data/texture/west.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear);
         Texture up = TextureManager.loadTexture(
             TestSkybox.class.getClassLoader().getResource(
-            "texture/top.jpg"),
+            "data/texture/top.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear);
         Texture down = TextureManager.loadTexture(
             TestSkybox.class.getClassLoader().getResource(
-            "texture/bottom.jpg"),
+            "data/texture/bottom.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear);
  
@@ -408,7 +414,7 @@ public class Game extends BaseGame {
 		player = new Node("player");
 		
 //***************** Codice per caricare un modelli 3ds, md3, md2, ase, obj *************************
-/*		Node model = null;
+		Node model = null;
 
 		try {
 //			MaxToJme converter = new MaxToJme();
@@ -421,7 +427,7 @@ public class Game extends BaseGame {
 
 			ByteArrayOutputStream BO = new ByteArrayOutputStream();
 
-			URL url = Game3.class.getClassLoader().getResource("models/nordhorse.md3");
+			URL url = Game.class.getClassLoader().getResource("data/model/nordhorse.md3");
 
 			converter.convert( url.openStream(),BO);
 			model = (Node)BinaryImporter.getInstance().load(new ByteArrayInputStream(BO.toByteArray()));
@@ -439,7 +445,7 @@ public class Game extends BaseGame {
 		}
 
         Texture texture = TextureManager.loadTexture(
-                Game3.class.getClassLoader().getResource("models/nordhorse_color.jpg"),
+                Game.class.getClassLoader().getResource("data/model/nordhorse_color.jpg"),
                 Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
 
@@ -447,22 +453,28 @@ public class Game extends BaseGame {
         ts.setEnabled(true);
         ts.setTexture(texture);
 
+        List<Spatial> list = model.getChildren();
+        
+        for( Spatial elem : list ){
+        	System.out.println(elem.toString());
+        }
+        
         model.setRenderState( ts );
- */
+ 
 			
 /** 
  * 			codice per caricare un modello 3d xml animato 
  */
-		Node model = null;
-		// creo un url con il percorso "relativo" del file xml da caricare
-		URL url = Game.class.getClassLoader().getResource("models/prova-jme.xml");
-		// carico il modello nel mio nodo 
-		try {
-			model = (Node)XMLImporter.getInstance().load( url );
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		Node model = null;
+//		// creo un url con il percorso "relativo" del file xml da caricare
+//		URL url = Game.class.getClassLoader().getResource("xmlModels/prova-jme.xml");
+//		// carico il modello nel mio nodo 
+//		try {
+//			model = (Node)XMLImporter.getInstance().load( url );
+//			
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 		player.attachChild(model);
 		
@@ -473,13 +485,13 @@ public class Game extends BaseGame {
 		player.updateModelBound();
 		
 		scene.attachChild(player);
-		
+//		
 		// attivo l'animazione
 		// creo un controller d'animazione
-        AnimationController ac = getAnimationController();
+//        AnimationController ac = getAnimationController();
         // attivo una animazione (devo conoscere il nome)
-        ac.setActiveAnimation("walk");
-        ac.setActive(true);
+//        ac.setActiveAnimation(0);
+//        ac.setActive(true);
 		
 		scene.updateGeometricState(0, true);
 		player.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
@@ -545,7 +557,7 @@ public class Game extends BaseGame {
 		t = display.getRenderer().createTextureState();
 		t.setEnabled(true);
 		t.setTexture(TextureManager.loadTexture(
-				Game.class.getClassLoader().getResource("images/rockwall2.jpg"),
+				Game.class.getClassLoader().getResource("data/images/rockwall2.jpg"),
 				Texture.MinificationFilter.BilinearNearestMipMap, 
 				Texture.MagnificationFilter.Bilinear));
 
