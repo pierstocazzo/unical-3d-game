@@ -56,8 +56,8 @@ public class ExplosionTest extends SimplePhysicsGame{
         
         //Inserire l'esplosione e' semplicissimo - per la texture poi si vede
         ExplosionManager.createExplosion(getPhysicsSpace(), new Vector3f(2,0,2), 2000f, 20f);
-        ParticleMesh exp = ExplosionFactory.getSmallExplosion(); 
-        exp.setLocalScale(0.001f);
+        ParticleMesh exp = ExplosionFactory.getExplosion(); 
+        exp.setLocalScale(0.2f);
         rootNode.attachChild(exp);
         exp.forceRespawn();
         rootNode.attachChild(exp);
