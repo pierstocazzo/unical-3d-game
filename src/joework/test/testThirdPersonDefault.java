@@ -91,6 +91,8 @@ public class testThirdPersonDefault extends PhysicsGame {
         handlerProps.put(ThirdPersonHandler.PROP_CAMERAALIGNEDMOVE, "true");
         input = new ThirdPersonHandler(player, cam, handlerProps);
         input.setActionSpeed(100f);
+
+        
     }
 
     @Override
@@ -130,38 +132,6 @@ public class testThirdPersonDefault extends PhysicsGame {
         player.setRenderState(ts);
     }
 
-    /*
-    private void setupPlayer() {
-        // Creo lo spazio fisico dinamico
-        player = getPhysicsSpace().createDynamicNode();
-
-        // Creo il player
-        Box playerModel = new Box("player_model", new Vector3f(-.5f,-.5f,-.5f), new Vector3f(.5f,.5f,.5f));
-        playerModel.setModelBound(new BoundingBox());
-        playerModel.updateModelBound();
-
-        TextureState ts = display.getRenderer().createTextureState();
-        ts.setEnabled(true);
-        ts.setTexture(
-            TextureManager.loadTexture(
-            TestThirdPersonController.class.getClassLoader().getResource(
-            "data/images/Monkey.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear));
-        player.setRenderState(ts);
-
-        player.attachChild(playerModel);
-        player.generatePhysicsGeometry();
-        player.setMaterial(Material.PLASTIC);
-        player.setMass(10);
-        player.computeMass();
-        player.getLocalTranslation().set(0,180,0);
-        player.updateWorldBound();
-
-        rootNode.attachChild(player);
-    }
-    */
-
     private void setupTerrain() {
         rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
         display.getRenderer().setBackgroundColor(new ColorRGBA(0.5f, 0.5f, 0.5f, 1));
@@ -183,7 +153,7 @@ public class testThirdPersonDefault extends PhysicsGame {
         lightState.detachAll();
         lightState.attach(dr);
 
-        FaultFractalHeightMap heightMap = new FaultFractalHeightMap(257, 32, 0, 255, 0.75f);
+        FaultFractalHeightMap heightMap = new FaultFractalHeightMap(513, 10, 0, 127, 0.75f);
         Vector3f terrainScale = new Vector3f(10, 1, 10);
         heightMap.setHeightScale(0.001f);
         terrain = new TerrainPage("Terrain", 33, heightMap.getSize(), terrainScale, heightMap.getHeightMap());
