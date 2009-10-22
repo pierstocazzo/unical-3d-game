@@ -172,7 +172,6 @@ public abstract class PhysicsGame extends BaseGame {
                     );
 
             cam = display.getRenderer().createCamera( display.getWidth(), display.getHeight() );
-
         } catch ( JmeException e ) {
             System.exit( 1 );
         }
@@ -262,7 +261,7 @@ public abstract class PhysicsGame extends BaseGame {
 
         /** Attach the light to a lightState and the lightState to rootNode. */
         lightState = display.getRenderer().createLightState();
-        lightState.setEnabled( true );
+        lightState.setEnabled( false );
         lightState.attach( light );
         rootNode.setRenderState( lightState );
 
