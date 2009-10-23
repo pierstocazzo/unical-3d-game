@@ -1,7 +1,5 @@
 package tutorials.flagRush;
 
-import java.util.logging.Logger;
-
 import jmetest.effects.RenParticleEditor;
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
@@ -82,7 +80,8 @@ public class CollisionDetection{
     }
  
  
-    private void createParticles(){
+    @SuppressWarnings("deprecation")
+	private void createParticles(){
     	//imposto tipo di reazione alla collisione
 		particleGeom = ParticleFactory.buildParticles("collsion", 300);
     	particleGeom.addInfluence(SimpleParticleInfluenceFactory

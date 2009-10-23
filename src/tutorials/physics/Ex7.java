@@ -85,7 +85,8 @@ public class Ex7 extends SimplePhysicsGame
         
         boolean playerOnFloor = true;
         
-        private Timer timer;
+        @SuppressWarnings("unused")
+		private Timer timer;
         
         public SimpleThirdPersonState(String name)
         {
