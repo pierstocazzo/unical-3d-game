@@ -16,7 +16,12 @@ import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 
 public class ForceFieldFence extends Node { 
-    /** ForceFieldFence constructor
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/** ForceFieldFence constructor
      * Crea la nostra recinzione
      * @param name nome dell'oggetto
      */

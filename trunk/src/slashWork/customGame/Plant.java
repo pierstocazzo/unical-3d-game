@@ -35,16 +35,13 @@
  */
 package slashWork.customGame;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.scene.Node;
-import com.jme.system.DisplaySystem;
 import com.jme.util.export.binary.BinaryImporter;
-import com.jme.util.export.xml.XMLImporter;
 
 /**
  * loads a plant and returns a node with the it

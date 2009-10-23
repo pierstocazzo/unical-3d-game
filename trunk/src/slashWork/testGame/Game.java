@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.net.URL;
 
-import javax.lang.model.element.Element;
 import javax.swing.ImageIcon;
 
 import jmetest.renderer.TestSkybox;
@@ -47,8 +46,7 @@ import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 
-import com.jme.util.export.binary.BinaryImporter;
-import com.jme.util.export.xml.XMLImporter;;
+import com.jme.util.export.binary.BinaryImporter;;
 
 /** 
  * @author slash17
