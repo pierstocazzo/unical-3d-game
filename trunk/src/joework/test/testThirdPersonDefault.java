@@ -23,6 +23,7 @@ import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
 import com.jme.scene.state.ZBufferState;
 import com.jme.util.TextureManager;
+import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.terrain.TerrainPage;
 import com.jmex.terrain.util.FaultFractalHeightMap;
@@ -41,8 +42,8 @@ public class testThirdPersonDefault extends PhysicsGame {
 
     Box floor;
     StaticPhysicsNode staticNode;
-    //DynamicPhysicsNode player;
-    Node player;
+    DynamicPhysicsNode player;
+//    Node player;
     ChaseCamera chaser;
     TerrainPage terrain;
     InputHandler input;
@@ -116,7 +117,12 @@ public class testThirdPersonDefault extends PhysicsGame {
         Box b = new Box("box", new Vector3f(), 5,5,5);
         b.setModelBound(new BoundingBox());
         b.updateModelBound();
-        player = new Node("char node");
+        
+        player = getPhysicsSpace().createDynamicNode(); 
+        // se il player e' soggetto alla gravita', su questo terreno non piano 
+        // fa un casino, sfarfalla lo schermo... quindi facciamolo immune alla gravita'!
+        player.setAffectedByGravity(false); 
+        
         rootNode.attachChild(player);
         player.attachChild(b);
         player.updateWorldBound(); // We do this to allow the camera setup access to the world bound in our setup code.

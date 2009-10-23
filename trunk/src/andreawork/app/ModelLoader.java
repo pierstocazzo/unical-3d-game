@@ -4,65 +4,98 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
-
-import testGame.Game;
+import java.util.regex.Pattern;
 
 import com.jme.bounding.BoundingBox;
-import com.jme.image.Texture;
-import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
-import com.jme.math.Vector3f;
 import com.jme.scene.Node;
-import com.jme.scene.state.TextureState;
-import com.jme.system.DisplaySystem;
-import com.jme.util.TextureManager;
 import com.jme.util.export.binary.BinaryImporter;
+import com.jmex.model.converters.AseToJme;
+import com.jmex.model.converters.FormatConverter;
 import com.jmex.model.converters.MaxToJme;
+import com.jmex.model.converters.Md2ToJme;
 import com.jmex.model.converters.Md3ToJme;
-import com.jmex.physics.DynamicPhysicsNode;
+import com.jmex.model.converters.ObjToJme;
 
+/**
+ * Classe per il caricamento di modelli 3d.
+ * Modelli supportati: 3ds, md2, md3, obj, ase<br>
+ * 
+ * <br>Esempio d'uso:
+ * <pre><code>ModelLoader.loadModel( "data/model/bike.3ds", 1, new Quaternion() )
+ * </code></pre>
+ * 
+ * @author slash17
+ * @author andrea (l'idea era sua)
+ */
 public class ModelLoader {
-	public Node loadMd3(String pathModel, Node rootNode, DisplaySystem display){
+
+	static FormatConverter converter;
+
+	/** Funzione che permette di caricare un modello 3d ed eventualmente 
+	 * scalarlo o ruotarlo. <br>
+	 * Modelli supportati: 3ds, md2, md3, obj, ase. <br>
+	 * Esempio d'uso:
+	 * <pre><code>ModelLoader.loadModel( "data/model/bike.3ds", 1, new Quaternion() )
+	 * </code></pre>
+	 * 
+	 * @param modelPath -> (String) il path del modello 3d 
+	 * @param scaleFactor -> (float) il fattore di ridimensionamento 
+	 * del modello NB: 1 per non ridimensionare
+	 * @param rotation -> (Quaternion) la rotazione che si vuole dare al 
+	 * modello NB: <code>new Quaternion()</code> per non ruotare
+	 * @return (Node) Ritorna il nodo a cui è attaccato il modello 
+	 */
+	public static Node loadModel( String modelPath, float scaleFactor, Quaternion rotation ){
 
 		Node model = null;
 
+		/* 
+		 * In questa parte controllo che tipo di file devo convertire e 
+		 * setto il convertitore adatto
+		 * NB: la stampa è solo momentanea per debug, in seguito meglio
+		 * usare un logger
+		 * NB2: andrebbero gestite le exeptions
+		 */
+		if ( Pattern.matches(".+.[mM][dD]3", modelPath) ) {
+			System.out.println("E' un md3");
+			converter = new Md3ToJme();
+		}	
+		if ( Pattern.matches(".+.[mM][dD]2", modelPath) ) {
+			System.out.println("E' un md2");
+			converter =  new Md2ToJme();
+		}	
+		if ( Pattern.matches(".+.3[dD][sS]", modelPath) ) {
+			System.out.println("E' un 3ds");
+			converter = new MaxToJme();
+		}	
+		if ( Pattern.matches(".+.[oO][bB][jJ]", modelPath) ) {
+			System.out.println("E' un obj");
+			converter = new ObjToJme();
+		}	
+		if ( Pattern.matches(".+.[aA][sS][eE]", modelPath) ) {
+			System.out.println("E' un ase");
+			converter = new AseToJme();
+		}	
+		// carico il modello
 		try {
-			MaxToJme converter = new MaxToJme();
-//			ObjToJme converter = new ObjToJme();
-//			Md3ToJme converter = new Md3ToJme();
-//			Md2ToJme converter = new Md2ToJme();
-//			AseToJme converter = new AseToJme();
-
-//			C1.setProperty("mtllib",maxFile);
-
 			ByteArrayOutputStream BO = new ByteArrayOutputStream();
-			//"data/model/nordhorse.md3"
-			URL url = Game.class.getClassLoader().getResource(pathModel);
+			URL modelUrl = ModelLoader.class.getClassLoader().getResource( modelPath );
 
-			converter.convert( url.openStream(),BO);
-			model = (Node)BinaryImporter.getInstance().load(new ByteArrayInputStream(BO.toByteArray()));
-//			model = (Node)BinaryImporter.getInstance().load( url );
-			//scale it to be MUCH smaller than it is originally
-			model.setLocalScale(0.025f);
+			converter.convert( modelUrl.openStream(),BO);
+			model = (Node)BinaryImporter.getInstance().load( new ByteArrayInputStream( BO.toByteArray() ) );
+
+			model.setLocalScale( scaleFactor );
+			model.setLocalRotation( rotation );
+			
 			model.setModelBound(new BoundingBox());
 			model.updateModelBound();
-
-			Quaternion quaternion1 = new Quaternion();
-			quaternion1.fromAngleAxis(FastMath.PI/2, new Vector3f(0, 1, 0));
-			model.setLocalRotation(quaternion1);
+			
 		} catch (IOException e) {
-		   e.printStackTrace();
+			e.printStackTrace();
 		}
 
-        Texture texture = TextureManager.loadTexture(
-                Game.class.getClassLoader().getResource("data/model/nordhorse_color.jpg"),
-                Texture.MinificationFilter.Trilinear,
-                Texture.MagnificationFilter.Bilinear);
-
-        TextureState ts = display.getRenderer().createTextureState();
-        ts.setEnabled(true);
-        ts.setTexture(texture);
-        model.setRenderState( ts );
 		return model;
 	}
+
 }
