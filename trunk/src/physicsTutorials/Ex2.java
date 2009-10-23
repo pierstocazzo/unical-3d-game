@@ -31,14 +31,14 @@ public class Ex2 extends SimplePhysicsGame {
 		// creo il nodo fisico statico del piano
 		StaticPhysicsNode staticNode = getPhysicsSpace().createStaticNode();
         rootNode.attachChild( staticNode );
-
+        
 		// creo due piani
         final Box floor1 = new Box( "floor", new Vector3f(), 50, 0.25f, 50 );
         final Box floor2 = new Box( "floor", new Vector3f(), 50, 0.25f, 50 );
         
         // impostazione texture (la cartella images dev'essere nella src!)
         Texture texture = TextureManager.loadTexture(
-                Ex2.class.getClassLoader().getResource("images/Fieldstone.jpg"),
+                Ex2.class.getClassLoader().getResource("data/images/Fieldstone.jpg"),
                 Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
 

@@ -5,7 +5,7 @@
 
 package joework.test;
 
-import com.jme.app.AbstractGame.ConfigShowMode;
+
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
 import com.jme.input.ChaseCamera;
@@ -13,6 +13,7 @@ import com.jme.input.InputHandler;
 import com.jme.input.ThirdPersonHandler;
 import com.jme.light.DirectionalLight;
 import com.jme.math.FastMath;
+import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
@@ -25,11 +26,14 @@ import com.jme.scene.state.ZBufferState;
 import com.jme.util.TextureManager;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.StaticPhysicsNode;
+import com.jmex.physics.material.Material;
 import com.jmex.terrain.TerrainPage;
 import com.jmex.terrain.util.FaultFractalHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
+
+import utils.ModelLoader;
 import jmetest.input.TestThirdPersonController;
 import jmetest.terrain.TestTerrain;
 import joework.app.PhysicsGame;
@@ -47,7 +51,9 @@ public class testThirdPersonDefault extends PhysicsGame {
     ChaseCamera chaser;
     TerrainPage terrain;
     InputHandler input;
-
+	// vettore usato per la normale del terreno
+	private Vector3f normal;
+	
     public static void main( String[] args ) {
         testThirdPersonDefault obj = new testThirdPersonDefault();
         obj.setConfigShowMode(ConfigShowMode.AlwaysShow);
@@ -69,7 +75,9 @@ public class testThirdPersonDefault extends PhysicsGame {
         rootNode.setRenderState(cs);
 
         // Creazione del gioco
+        
         setupTerrain();
+        setupWall();
         setupPlayer();
         setupChaseCamera();
         setupInput();
@@ -92,10 +100,17 @@ public class testThirdPersonDefault extends PhysicsGame {
         handlerProps.put(ThirdPersonHandler.PROP_CAMERAALIGNEDMOVE, "true");
         input = new ThirdPersonHandler(player, cam, handlerProps);
         input.setActionSpeed(100f);
-
-        
     }
 
+    public void setupWall() {
+        final Box wall = new Box("wall", new Vector3f(), 1000, 100, 1f);
+        StaticPhysicsNode wallNode = getPhysicsSpace().createStaticNode();
+        rootNode.attachChild(wallNode);
+        wallNode.attachChild(wall);
+        wall.getLocalTranslation().set(new Vector3f(50, terrain.getHeight(50, 50) , 50));
+        wallNode.generatePhysicsGeometry();
+    }
+    
     @Override
     protected void simpleUpdate() {
 
@@ -104,7 +119,7 @@ public class testThirdPersonDefault extends PhysicsGame {
             cam.update();
         }
 
-        float playerMinHeight = terrain.getHeight(player.getLocalTranslation())+((BoundingBox)player.getWorldBound()).yExtent + 2;
+        float playerMinHeight = terrain.getHeight(player.getLocalTranslation())+((BoundingBox)player.getWorldBound()).yExtent;
         if (!Float.isInfinite(playerMinHeight) && !Float.isNaN(playerMinHeight)) {
             player.getLocalTranslation().y = playerMinHeight;
         }
@@ -114,17 +129,27 @@ public class testThirdPersonDefault extends PhysicsGame {
     }
 
     private void setupPlayer() {
-        Box b = new Box("box", new Vector3f(), 5,5,5);
+        Box b = new Box("box", Vector3f.ZERO, 1,2,1);
         b.setModelBound(new BoundingBox());
         b.updateModelBound();
         
+
+/* 		se il player collide anche leggermente con il terreno o con 
+ * 		il muro che ho creato, inizia a rimbalzare di qua e di la
+ * 		dobbiamo discuterne...
+ */
+    	Node model = ModelLoader.loadModel("data/model/drfreak.md2", 1f, 
+    				new Quaternion().fromAngleAxis(FastMath.PI/2, new Vector3f(0,-1,0)));
+
         player = getPhysicsSpace().createDynamicNode(); 
-        // se il player e' soggetto alla gravita', su questo terreno non piano 
-        // fa un casino, sfarfalla lo schermo... quindi facciamolo immune alla gravita'!
-        player.setAffectedByGravity(false); 
+
+//		disabilitiamo la gravità sul player altrimenti non si trova con l'update
+        player.setAffectedByGravity(false);      
         
+        player.setLocalTranslation(20, 200, 20);
         rootNode.attachChild(player);
-        player.attachChild(b);
+//        player.attachChild(b);
+        player.attachChild(model);
         player.updateWorldBound(); // We do this to allow the camera setup access to the world bound in our setup code.
 
         TextureState ts = display.getRenderer().createTextureState();
@@ -132,10 +157,11 @@ public class testThirdPersonDefault extends PhysicsGame {
         ts.setTexture(
             TextureManager.loadTexture(
             TestThirdPersonController.class.getClassLoader().getResource(
-            "jmetest/data/images/Monkey.jpg"),
+            "data/model/drfreak.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear));
         player.setRenderState(ts);
+        player.generatePhysicsGeometry();
     }
 
     private void setupTerrain() {
@@ -165,7 +191,10 @@ public class testThirdPersonDefault extends PhysicsGame {
         terrain = new TerrainPage("Terrain", 33, heightMap.getSize(), terrainScale, heightMap.getHeightMap());
 
         terrain.setDetailTexture(1, 16);
-        staticNode.attachChild(terrain);
+        
+/* *************************** ecco la parte modificata ***************************/
+//        staticNode.attachChild(terrain);
+        rootNode.attachChild(terrain);
 
         staticNode.generatePhysicsGeometry(true);
 
@@ -201,7 +230,7 @@ public class testThirdPersonDefault extends PhysicsGame {
         t2.setCombineOp0RGB(Texture.CombinerOperandRGB.SourceColor);
         t2.setCombineSrc1RGB(Texture.CombinerSource.Previous);
         t2.setCombineOp1RGB(Texture.CombinerOperandRGB.SourceColor);
-        rootNode.setRenderState(ts);
+        terrain.setRenderState(ts);
 
         FogState fs = display.getRenderer().createFogState();
         fs.setDensity(0.5f);
@@ -211,6 +240,6 @@ public class testThirdPersonDefault extends PhysicsGame {
         fs.setStart(500);
         fs.setDensityFunction(FogState.DensityFunction.Linear);
         fs.setQuality(FogState.Quality.PerVertex);
-        rootNode.setRenderState(fs);
+        terrain.setRenderState(fs);
     }
 }
