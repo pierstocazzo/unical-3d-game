@@ -1,8 +1,5 @@
 package slashWork.customGame;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +22,6 @@ import com.jme.input.KeyInput;
 import com.jme.input.thirdperson.ThirdPersonMouseLook;
 import com.jme.light.DirectionalLight;
 import com.jme.math.FastMath;
-import com.jme.math.Matrix3f;
-import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
 import com.jme.renderer.ColorRGBA;
@@ -35,7 +30,6 @@ import com.jme.scene.Controller;
 import com.jme.scene.Node;
 import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
-import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Sphere;
 import com.jme.scene.state.CullState;
 import com.jme.scene.state.LightState;
@@ -43,20 +37,11 @@ import com.jme.scene.state.TextureState;
 import com.jme.scene.state.ZBufferState;
 import com.jme.system.DisplaySystem;
 import com.jme.system.JmeException;
-import com.jme.util.BinaryFileReader;
 import com.jme.util.TextureManager;
 import com.jme.util.Timer;
-import com.jme.util.export.binary.BinaryImporter;
 import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
-
-import com.jmex.model.converters.AseToJme;
-import com.jmex.model.converters.MaxToJme;
-import com.jmex.model.converters.Md2ToJme;
-import com.jmex.model.converters.Md3ToJme;
-import com.jmex.model.converters.ObjToJme;
-import com.jmex.model.converters.X3dToJme;
 
 import com.jme.util.export.xml.XMLImporter;;
 
