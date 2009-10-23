@@ -1,0 +1,34 @@
+= *Prima Trama* =
+
+Il gioco è uno sparatutto 3D in terza persona con supporto fisico. Si svolge in un'ambientazione esotica, nel mondo reale, ma non si escludono gradevoli effetti speciali.
+Il protagonista del gioco si trova su un'isola sperduta, è un soldato delle forze speciali inviato in missione per recuperare documenti segreti sui vari sviluppi delle forze ribelli che stanno occupando l'isola - probabilmente come base per la progettazione di armi di distruzione di massa - e tengono in ostaggio gli abitanti.
+
+L'obiettivo principale del gioco è quello di eliminare le forze ribelli, liberare più ostaggi possibili e recuperare documenti riguardanti la costruzione delle armi.
+
+= *Seconda Trama* =
+
+Perchè no? Potrebbe essercene un'altra...
+
+= *Come si sviluppa*=
+
+Il gioco si sviluppa in un'unica grande scena e il protagonista sarà totalmente libero di esplorarla in lungo e largo, scegliere la migliore strategia di gioco.
+In particolare, in varie posizioni dell'isola ci saranno delle postazioni nemiche di diversa dimensione ed entità e sarà libera scelta del giocatore stabilire la migliore strategia di attacco.
+
+Sparsi nella scena ci saranno kit medici che il protagonista potrà recuperare e utilizzare nel momento di bisogno.
+L'equipaggiamento del giocatore prevede diversi tipi di armi. All'inizio del gioco il protagonista avrà a disposizione solo un'arma.
+Altre nuove armi verranno scoperte durante la fase di gioco, in particolare nelle postazioni nemiche dopo che saranno ripulite.
+
+= *Sistema di eperienza (da studiare) *=
+
+Si prevede un sistema di esperienza in base al quale viene aumentato il livello di difficoltà del gioco in modo del tutto automatico.
+L'esperienza del giocatore sarà aumentato ad ogni uccisione dei nemici; sarà diminuita ogni qualvolta il giocatore muore oppure uccide civili.
+
+L'energia massima del giocatore aumenta proporzionalmente all'aumentare dello score, ma allo stesso tempo aumenterà anche l'energia dei nemici. Aumentando di conseguenza la difficoltà di gioco.
+
+= *Sistema di puntamento* =
+
+Il sistema di puntamento - ovvero mirare ai nemici e sparare - "sarà" in prima persona
+
+= *Intelligenza Artificiale dei Nemici *=
+
+_Continuerò domani_
