@@ -26,7 +26,6 @@ import com.jme.scene.state.ZBufferState;
 import com.jme.util.TextureManager;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.StaticPhysicsNode;
-import com.jmex.physics.material.Material;
 import com.jmex.terrain.TerrainPage;
 import com.jmex.terrain.util.FaultFractalHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
@@ -51,10 +50,7 @@ public class testThirdPersonDefault extends PhysicsGame {
     ChaseCamera chaser;
     TerrainPage terrain;
     InputHandler input;
-	// vettore usato per la normale del terreno
-	private Vector3f normal;
-	
-    public static void main( String[] args ) {
+	public static void main( String[] args ) {
         testThirdPersonDefault obj = new testThirdPersonDefault();
         obj.setConfigShowMode(ConfigShowMode.AlwaysShow);
         obj.start();

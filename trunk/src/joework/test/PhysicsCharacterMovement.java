@@ -7,7 +7,6 @@ package joework.test;
 
 import com.jme.image.Texture;
 import com.jme.input.FirstPersonHandler;
-import com.jme.input.KeyboardLookHandler;
 import com.jme.light.DirectionalLight;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
@@ -16,15 +15,12 @@ import com.jme.scene.shape.Box;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
 import com.jme.util.TextureManager;
-import com.jmex.effects.water.HeightGenerator;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.contact.MutableContactInfo;
 import com.jmex.physics.geometry.PhysicsSphere;
 import com.jmex.physics.material.Material;
 import com.jmex.terrain.TerrainBlock;
-import com.jmex.terrain.TerrainPage;
-import com.jmex.terrain.util.FaultFractalHeightMap;
 import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 import javax.swing.ImageIcon;
@@ -171,7 +167,8 @@ public class PhysicsCharacterMovement extends AssHoleBaseGame {
          * la geometria del cilindro che conterrà il modello
          */
         float cRadius = player_geometry.xExtent >= player_geometry.zExtent ? player_geometry.xExtent : player_geometry.zExtent ;
-        float cHeight = player_geometry.yExtent * 2f;
+        @SuppressWarnings("unused")
+		float cHeight = player_geometry.yExtent * 2f;
 
         /**
          * Creo la sfera fisica che starà sul terreno
