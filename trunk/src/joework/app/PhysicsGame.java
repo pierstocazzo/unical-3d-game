@@ -79,9 +79,10 @@ public abstract class PhysicsGame extends BaseGame {
         // Execute updateQueue item
         GameTaskQueueManager.getManager().getQueue(GameTaskQueue.UPDATE).execute();
 
+        simpleUpdate();
+        
         if ( !pause ) {
-            simpleUpdate();
-
+            
             if ( tpf > 0.2 || Float.isNaN( tpf ) ) {
                 getPhysicsSpace().update( 0.2f * physicsSpeed );
             } else {
