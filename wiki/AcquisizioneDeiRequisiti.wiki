@@ -1,6 +1,10 @@
+= *Tipo di gioco* =
+
+Il gioco è uno sparatutto (genere splatter) 3D in terza persona con supporto fisico. 
+
 = *Prima Trama* =
 
-Il gioco è uno sparatutto 3D in terza persona con supporto fisico. Si svolge in un'ambientazione esotica, nel mondo reale, ma non si escludono gradevoli effetti speciali.
+Si svolge in un'ambientazione esotica, nel mondo reale, ma non si escludono gradevoli effetti speciali.
 Il protagonista del gioco si trova su un'isola sperduta, è un soldato delle forze speciali inviato in missione per recuperare documenti segreti sui vari sviluppi delle forze ribelli che stanno occupando l'isola - probabilmente come base per la progettazione di armi di distruzione di massa - e tengono in ostaggio gli abitanti.
 
 L'obiettivo principale del gioco è quello di eliminare le forze ribelli, liberare più ostaggi possibili e recuperare documenti riguardanti la costruzione delle armi.
@@ -31,4 +35,8 @@ Il sistema di puntamento - ovvero mirare ai nemici e sparare - "sarà" in prima 
 
 = *Intelligenza Artificiale dei Nemici *=
 
-_Continuerò domani_
+Generalmente i nemici non sapranno della nostra presenza e ciascuna postazione nemica presente sull'isola è indipendete dalle altre.
+Ciascun nemico possiede degli stati di attività (Es: Sentinella, Allerta, Attacco, etc...). Si passa da uno stato di attività all'altro in base agli avvenimenti che accadono durante il gioco.
+Normalmente i nemici saranno sempre in stato di "Sentinella" o "Riposo" con uno scarso raggio visivo poichè non si aspettano di essere attaccati (dopotutto non sospettano della nostra presenza).
+
+_Se un nemico si accorge della nostra presenza .... (to be continued)_
