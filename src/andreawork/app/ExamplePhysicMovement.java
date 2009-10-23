@@ -43,14 +43,13 @@ import customGame.Game;
 
 import javax.management.DynamicMBean;
 import javax.swing.ImageIcon;
+
+import utils.ModelLoader;
 import jmetest.input.TestThirdPersonController;
 import jmetest.terrain.TestTerrain;
 import joework.app.AssHoleBaseGame;
 
-/**
- *
- * @author joseph
- */
+
 public class ExamplePhysicMovement extends AssHoleBaseGame {
 
     StaticPhysicsNode staticNode;
