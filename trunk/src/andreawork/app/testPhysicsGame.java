@@ -5,6 +5,10 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 
+import slashWork.customGame.Game;
+import slashWork.customGame.Game2;
+import slashWork.customGame.Player;
+
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
 import com.jme.input.FirstPersonHandler;
@@ -21,9 +25,6 @@ import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 
-import customGame.Game;
-import customGame.Game2;
-import customGame.Player;
 
 import joework.app.AssHoleBaseGame;
 
