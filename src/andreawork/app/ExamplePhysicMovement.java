@@ -5,6 +5,8 @@
 
 package andreawork.app;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 
@@ -25,6 +27,7 @@ import com.jme.scene.state.TextureState;
 import com.jme.util.TextureManager;
 import com.jme.util.export.binary.BinaryImporter;
 import com.jmex.effects.water.HeightGenerator;
+import com.jmex.model.converters.MaxToJme;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.contact.MutableContactInfo;
@@ -215,8 +218,9 @@ public class ExamplePhysicMovement extends AssHoleBaseGame {
         //model.updateRenderState();
         player.attachChild(model);
         rootNode.attachChild(player);*/
-        ModelLoader mL = new ModelLoader();
-        Node model = mL.loadMd3("data/model/bike.3ds", rootNode, display);
+        
+        Node model = ModelLoader.loadModel("data/model/bike.3ds", 0.025f, new Quaternion());
+       
         DynamicPhysicsNode dynamicMoto = getPhysicsSpace().createDynamicNode();
         rootNode.attachChild(dynamicMoto);
         dynamicMoto.attachChild(model);

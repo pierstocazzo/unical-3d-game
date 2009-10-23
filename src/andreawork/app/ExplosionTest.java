@@ -66,7 +66,7 @@ public class ExplosionTest extends SimplePhysicsGame{
         rootNode.attachChild( dynamicNodeR );
         
         // visualizza la fisica degli oggetti
-        showPhysics = true;
+//        showPhysics = true;
         pause = true;
 	}
 }
