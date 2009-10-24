@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.management.MalformedObjectNameException;
@@ -41,7 +42,8 @@ import com.jmex.model.converters.ObjToJme;
  * @author andrea (l'idea era sua)
  */
 public class ModelLoader {
-    private static final Logger logger = Logger.getLogger(TestX3DLoading.class.getName());
+	
+    static final Logger logger = Logger.getLogger(TestX3DLoading.class.getName());
 	static FormatConverter converter;
 	static XMLImporter xmlImporter;
 
@@ -60,38 +62,39 @@ public class ModelLoader {
 	 * modello NB: <code>new Quaternion()</code> per non ruotare
 	 * @return (Node) Ritorna il nodo a cui è attaccato il modello 
 	 */
+
 	public static Node loadModel( String modelPath, String texturePath, float scaleFactor, Quaternion rotation ){
 
 		Node model = null;
 		converter = null;
 		xmlImporter = null;
 
-		try {
-			if ( Pattern.matches(".+.[mM][dD]3", modelPath) ) {
+		try {			
+			if ( Pattern.matches(".+\\.(?i)md3", modelPath) ) {
 				logger.info("Loading md3 file...");
 				converter = new Md3ToJme();
 			}	
-			else if ( Pattern.matches(".+.[mM][dD]2", modelPath) ) {
+			else if ( Pattern.matches(".+\\.(?i)md2", modelPath) ) {
 				logger.info("Loading md2 file...");
 				converter =  new Md2ToJme();
 			}	
-			else if ( Pattern.matches(".+.3[dD][sS]", modelPath) ) {
+			else if ( Pattern.matches(".+\\.(?i)3ds", modelPath) ) {
 				logger.info("Loading 3ds file...");
 				converter = new MaxToJme();
 			}	
-			else if ( Pattern.matches(".+.[oO][bB][jJ]", modelPath) ) {
+			else if ( Pattern.matches(".+\\.(?i)obj", modelPath) ) {
 				logger.info("Loading obj file...");
 				converter = new ObjToJme();
 			}	
-			else if ( Pattern.matches(".+.[aA][sS][eE]", modelPath) ) {
+			else if ( Pattern.matches(".+\\.(?i)ase", modelPath) ) {
 				logger.info("Loading ase file...");
 				converter = new AseToJme();
 			}	
-			else if ( Pattern.matches(".+.[xX][mM][lL]", modelPath) ) {
+			else if ( Pattern.matches(".+\\.(?i)xml", modelPath) ) {
 				logger.info("Loading xml file...");
 				xmlImporter = new XMLImporter();
 			}
-			else if ( Pattern.matches(".+.[jJ][mM][eE]", modelPath) ) {
+			else if ( Pattern.matches(".+\\.(?i)jme", modelPath) ) {
 				logger.info("Loading jme file...");
 			}
 			else throw new MalformedObjectNameException();
@@ -126,15 +129,14 @@ public class ModelLoader {
 		                ModelLoader.class.getClassLoader().getResource( texturePath ),
 		                Texture.MinificationFilter.Trilinear,
 		                Texture.MagnificationFilter.Bilinear);
-	
 		        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
 		        ts.setEnabled(true);
 		        ts.setTexture(texture);
 				model.setRenderState( ts );
-				
 				logger.info( "Texture " + texturePath + " applied" );
 			}
-			else logger.info( "No texture to apply" );
+			else 
+				logger.info( "No texture to apply" );
 			
 		} catch (NullPointerException e) {
 			logger.log(Level.SEVERE, "Failed to load model\nMake sure the path you entered is correct\n" + e);
