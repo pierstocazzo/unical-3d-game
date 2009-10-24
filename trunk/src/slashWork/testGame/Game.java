@@ -2,7 +2,6 @@ package slashWork.testGame;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
@@ -32,7 +31,6 @@ import com.jme.scene.Controller;
 import com.jme.scene.Node;
 import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
-import com.jme.scene.shape.Sphere;
 import com.jme.scene.state.CullState;
 import com.jme.scene.state.LightState;
 import com.jme.scene.state.TextureState;
@@ -75,6 +73,8 @@ public class Game extends BaseGame {
 	InputHandler input;
 	// vettore usato per la normale del terreno
 	private Vector3f normal;
+	// per tenere il player a contatto col terreno
+	float terrainToPlayer;
 
 	public static void main(String[] args) {
 		Game application = new Game();
@@ -221,7 +221,7 @@ public class Game extends BaseGame {
         
 		// aggiorniamo la posizione y del player ogni volta, visto che il terreno sar� dissestato 
 		// e ci saranno salite e discese
-        float characterMinHeight = terrain.getHeight(player.getLocalTranslation()) + ((BoundingBox)player.getWorldBound()).yExtent + 3f;
+        float characterMinHeight = terrain.getHeight(player.getLocalTranslation()) + ((BoundingBox)player.getWorldBound()).yExtent + terrainToPlayer;
         if (!Float.isInfinite(characterMinHeight) && !Float.isNaN(characterMinHeight)) {
             player.getLocalTranslation().y = characterMinHeight;
         }
@@ -413,39 +413,18 @@ public class Game extends BaseGame {
 	private void buildPlayer() {
 		
 		player = new Node("player");
+		terrainToPlayer = -2.5f;
+		float scaleFactor = 0.05f;
+		Quaternion rotation = new Quaternion()/*.fromAngleAxis(FastMath.PI/2, new Vector3f(-1,0,0))*/;
 		
-//************** Codice per caricare un modelli 3ds, md3, md2, ase, obj *****************
-		Node model = ModelLoader.loadModel("data/model/nordhorse.md3", 0.5f, 
-				new Quaternion()/*.fromAngleAxis(FastMath.PI/2, new Vector3f(0,-1,0))*/);
+		//************** Codice per caricare un modelli 3d *****************
+		Node model = ModelLoader.loadModel("data/model/Soldato/Soldato.obj", "", scaleFactor, rotation);
 
-        Texture texture = TextureManager.loadTexture(
-                Game.class.getClassLoader().getResource("data/model/nordhorse_color.jpg"),
-                Texture.MinificationFilter.BilinearNearestMipMap,
-                Texture.MagnificationFilter.Bilinear);
 
-        TextureState ts = display.getRenderer().createTextureState();
-        ts.setEnabled(true);
-        ts.setTexture(texture);
-		model.setRenderState( ts );
-
-        List<Spatial> list = model.getChildren();
-        for( Spatial elem : list ){
-     	   logger.info("Model Child " + elem.toString());
-        }
-			
-/** 
- * 			codice per caricare un modello 3d xml animato 
- */
-//		Node model = null;
-//		// creo un url con il percorso "relativo" del file xml da caricare
-//		URL url = Game.class.getClassLoader().getResource("xmlModels/prova-jme.xml");
-//		// carico il modello nel mio nodo 
-//		try {
-//			model = (Node)XMLImporter.getInstance().load( url );
-//			
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+//        List<Spatial> list = model.getChildren();
+//        for( Spatial elem : list ){
+//     	   logger.info("Model Child " + elem.toString());
+//        }
 		
 		player.attachChild(model);
 		
@@ -519,21 +498,11 @@ public class Game extends BaseGame {
 //            Vegetation.loadPlants(terrain, 12);
 //        }
 //		
-		Sphere s = new Sphere("Sphere", 30, 30, 15);
-		s.setLocalTranslation(new Vector3f(150, 20, 150));
-		s.setModelBound(new BoundingBox());
-		s.updateModelBound();
-		// le diamo un volto
-		TextureState t;
-		t = display.getRenderer().createTextureState();
-		t.setEnabled(true);
-		t.setTexture(TextureManager.loadTexture(
-				Game.class.getClassLoader().getResource("data/images/rockwall2.jpg"),
-				Texture.MinificationFilter.BilinearNearestMipMap, 
-				Texture.MagnificationFilter.Bilinear));
 
-		s.setRenderState(t);
-		scene.attachChild(s);
+		Node model = ModelLoader.loadModel("data/model/Soldato/Soldato.obj", "", 0.3f, new Quaternion());
+		model.setLocalTranslation(new Vector3f(150, terrain.getHeight(150,150), 150));
+		model.setModelBound(new BoundingBox());
+		scene.attachChild( model );
 		
 	}
 
