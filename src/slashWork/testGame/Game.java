@@ -1,15 +1,15 @@
 package slashWork.testGame;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.net.URL;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
+import utils.ModelLoader;
+
 import jmetest.renderer.TestSkybox;
+import jmetest.renderer.loader.TestX3DLoading;
 
 import com.jme.animation.AnimationController;
 import com.jme.animation.Bone;
@@ -41,17 +41,17 @@ import com.jme.system.DisplaySystem;
 import com.jme.system.JmeException;
 import com.jme.util.TextureManager;
 import com.jme.util.Timer;
-import com.jmex.model.converters.Md3ToJme;
 import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
-
-import com.jme.util.export.binary.BinaryImporter;;
 
 /** 
  * @author slash17
  */
 public class Game extends BaseGame {
+	
+	// logger
+    private static final Logger logger = Logger.getLogger(TestX3DLoading.class.getName());
 	// parametri di visualizzazione del gioco
 	int width, height, depth, freq;
 	boolean fullscreen;
@@ -249,7 +249,7 @@ public class Game extends BaseGame {
 		
 		scene.updateGeometricState(0.0f, true);
 		scene.updateRenderState();
-		}
+	}
 
 	private void buildTerrain() {
 	   // generiamo i dati di un terreno casuale
@@ -312,6 +312,7 @@ public class Game extends BaseGame {
 	   terrain.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
 	   
 	   scene.attachChild( terrain );  
+	   logger.info("Terrain building complete\n");
 	}
 	
 	/** Funzione che crea una luce direzionale
@@ -330,11 +331,12 @@ public class Game extends BaseGame {
 	    lightState.setEnabled(true);
 	    lightState.attach(light);
 	    scene.setRenderState(lightState);
+		logger.info("Lighting building complete\n");
 	    // e luce sia!
 	}
 	
 	private void buildSkyBox() {
-		// � un box che contiene tutto e che vediamo dall'interno, quindi 
+		// e' un box che contiene tutto e che vediamo dall'interno, quindi 
 		// dobbiamo impostare le textures per le 6 facce visibili!
 		
         skybox = new Skybox("skybox", 10, 10, 10);
@@ -379,6 +381,7 @@ public class Game extends BaseGame {
         skybox.preloadTextures();
         skybox.updateRenderState();
         scene.attachChild(skybox);
+ 	   logger.info("Skybox building complete\n");
     }
 	
     /**
@@ -411,54 +414,24 @@ public class Game extends BaseGame {
 		
 		player = new Node("player");
 		
-//***************** Codice per caricare un modelli 3ds, md3, md2, ase, obj *************************
-		Node model = null;
-
-		try {
-//			MaxToJme converter = new MaxToJme();
-//			ObjToJme converter = new ObjToJme();
-			Md3ToJme converter = new Md3ToJme();
-//			Md2ToJme converter = new Md2ToJme();
-//			AseToJme converter = new AseToJme();
-
-//			C1.setProperty("mtllib",maxFile);
-
-			ByteArrayOutputStream BO = new ByteArrayOutputStream();
-
-			URL url = Game.class.getClassLoader().getResource("data/model/nordhorse.md3");
-
-			converter.convert( url.openStream(),BO);
-			model = (Node)BinaryImporter.getInstance().load(new ByteArrayInputStream(BO.toByteArray()));
-//			model = (Node)BinaryImporter.getInstance().load( url );
-			//scale it to be MUCH smaller than it is originally
-			model.setLocalScale(0.25f);
-			model.setModelBound(new BoundingBox());
-			model.updateModelBound();
-
-			Quaternion quaternion1 = new Quaternion();
-			quaternion1.fromAngleAxis(FastMath.PI/2, new Vector3f(0, -1, 0));
-			model.setLocalRotation(quaternion1);
-		} catch (IOException e) {
-		   e.printStackTrace();
-		}
+//************** Codice per caricare un modelli 3ds, md3, md2, ase, obj *****************
+		Node model = ModelLoader.loadModel("data/model/nordhorse.md3", 0.5f, 
+				new Quaternion()/*.fromAngleAxis(FastMath.PI/2, new Vector3f(0,-1,0))*/);
 
         Texture texture = TextureManager.loadTexture(
                 Game.class.getClassLoader().getResource("data/model/nordhorse_color.jpg"),
-                Texture.MinificationFilter.Trilinear,
+                Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
 
         TextureState ts = display.getRenderer().createTextureState();
         ts.setEnabled(true);
         ts.setTexture(texture);
+		model.setRenderState( ts );
 
         List<Spatial> list = model.getChildren();
-        
         for( Spatial elem : list ){
-        	System.out.println(elem.toString());
+     	   logger.info("Model Child " + elem.toString());
         }
-        
-        model.setRenderState( ts );
- 
 			
 /** 
  * 			codice per caricare un modello 3d xml animato 
