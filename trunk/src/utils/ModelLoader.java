@@ -4,7 +4,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
+
+import javax.management.MalformedObjectNameException;
+
+import jmetest.renderer.loader.TestX3DLoading;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.math.Quaternion;
@@ -29,7 +35,7 @@ import com.jmex.model.converters.ObjToJme;
  * @author andrea (l'idea era sua)
  */
 public class ModelLoader {
-
+    private static final Logger logger = Logger.getLogger(TestX3DLoading.class.getName());
 	static FormatConverter converter;
 
 	/** Funzione che permette di caricare un modello 3d ed eventualmente 
@@ -49,52 +55,59 @@ public class ModelLoader {
 	public static Node loadModel( String modelPath, float scaleFactor, Quaternion rotation ){
 
 		Node model = null;
-
 		/* 
 		 * In questa parte controllo che tipo di file devo convertire e 
 		 * setto il convertitore adatto
-		 * NB: la stampa è solo momentanea per debug, in seguito meglio
-		 * usare un logger
-		 * NB2: andrebbero gestite le exeptions
 		 */
-		if ( Pattern.matches(".+.[mM][dD]3", modelPath) ) {
-			System.out.println("E' un md3");
-			converter = new Md3ToJme();
-		}	
-		if ( Pattern.matches(".+.[mM][dD]2", modelPath) ) {
-			System.out.println("E' un md2");
-			converter =  new Md2ToJme();
-		}	
-		if ( Pattern.matches(".+.3[dD][sS]", modelPath) ) {
-			System.out.println("E' un 3ds");
-			converter = new MaxToJme();
-		}	
-		if ( Pattern.matches(".+.[oO][bB][jJ]", modelPath) ) {
-			System.out.println("E' un obj");
-			converter = new ObjToJme();
-		}	
-		if ( Pattern.matches(".+.[aA][sS][eE]", modelPath) ) {
-			System.out.println("E' un ase");
-			converter = new AseToJme();
-		}	
-		// carico il modello
 		try {
+			if ( Pattern.matches(".+.[mM][dD]3", modelPath) ) {
+				logger.info("Loading md3 file...");
+				converter = new Md3ToJme();
+			}	
+			else if ( Pattern.matches(".+.[mM][dD]2", modelPath) ) {
+				logger.info("Loading md2 file...");
+				converter =  new Md2ToJme();
+			}	
+			else if ( Pattern.matches(".+.3[dD][sS]", modelPath) ) {
+				logger.info("Loading 3ds file...");
+				converter = new MaxToJme();
+			}	
+			else if ( Pattern.matches(".+.[oO][bB][jJ]", modelPath) ) {
+				logger.info("Loading obj file...");
+				converter = new ObjToJme();
+			}	
+			else if ( Pattern.matches(".+.[aA][sS][eE]", modelPath) ) {
+				logger.info("Loading ase file...");
+				converter = new AseToJme();
+			}	
+			else throw new MalformedObjectNameException();
+			
+			// carico il modello
 			ByteArrayOutputStream BO = new ByteArrayOutputStream();
 			URL modelUrl = ModelLoader.class.getClassLoader().getResource( modelPath );
 
 			converter.convert( modelUrl.openStream(),BO);
 			model = (Node)BinaryImporter.getInstance().load( new ByteArrayInputStream( BO.toByteArray() ) );
-
+			
+			logger.info("DONE: Model loaded");
+			
 			model.setLocalScale( scaleFactor );
 			model.setLocalRotation( rotation );
 			
 			model.setModelBound(new BoundingBox());
 			model.updateModelBound();
 			
+		} catch (NullPointerException e) {
+			logger.log(Level.SEVERE, "Failed to load model\nMake sure the path you entered is correct\n" + e);
+			System.exit(0);
+		} catch (MalformedObjectNameException e) {
+			logger.log(Level.SEVERE, "You are trying to load an unsupported model\n");
+			System.exit(0);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.log(Level.SEVERE, "Load Failed\n");
+			System.exit(0);
 		}
-
+		
 		return model;
 	}
 
