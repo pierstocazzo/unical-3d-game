@@ -46,15 +46,15 @@ public class Ex6 extends SimplePhysicsGame {
         player.setMaterial( playerMaterial );
         // vedi MoveAction
 
-        // i quattro movimenti Home - Fine - Canc - PgGi�
+        // i quattro movimenti Y - G - H - J
         input.addAction( new MoveAction( new Vector3f( -2, 0, 0 ) ),
-                InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_DELETE, InputHandler.AXIS_NONE, false );
+                InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_G, InputHandler.AXIS_NONE, false );
         input.addAction( new MoveAction( new Vector3f( 2, 0, 0 ) ),
-                InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_PGDN, InputHandler.AXIS_NONE, false );
+                InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_J, InputHandler.AXIS_NONE, false );
         input.addAction( new MoveAction( new Vector3f( 0, 0, -2 ) ),
-                InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_HOME, InputHandler.AXIS_NONE, false );
+                InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_Y, InputHandler.AXIS_NONE, false );
         input.addAction( new MoveAction( new Vector3f( 0, 0, 2 ) ),
-                InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_END, InputHandler.AXIS_NONE, false );
+                InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_H, InputHandler.AXIS_NONE, false );
 
         // per far saltare il nostro box applichiamo una forza verso l'alto (per il salto premere SPAZIO)
         input.addAction( new InputAction() {
@@ -65,7 +65,7 @@ public class Ex6 extends SimplePhysicsGame {
             }
         }, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_SPACE, InputHandler.AXIS_NONE, false );
 
-        // per capire quando il box � poggiato sul piano, usiamo una variabile booleana playerOnFloor
+        // per capire quando il box e' poggiato sul piano, usiamo una variabile booleana playerOnFloor
         // se piano e box hanno colliso il nostro box si trova sul piano, quindi impostiamo playerOnFloor a true
 
         // evento di collisione
@@ -104,6 +104,10 @@ public class Ex6 extends SimplePhysicsGame {
         // e il terzo, dopo il trampolino
         final Box visualFloorBox3 = new Box( "floor", new Vector3f(), 5, 0.25f, 5 );
         floor.attachChild( visualFloorBox3 );
+        visualFloorBox3.getLocalTranslation().set( -11, 0, 0 );
+        
+        final Box visualFloorBox4 = new Box( "floor", new Vector3f(), 0.25f, 1, 5 );
+        floor.attachChild( visualFloorBox4 );
         visualFloorBox3.getLocalTranslation().set( -11, 0, 0 );
         
         floor.generatePhysicsGeometry();
