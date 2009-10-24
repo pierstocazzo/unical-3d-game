@@ -6,7 +6,7 @@ package logicClasses;
  * @author Andrea
  *
  */
-public class Enemy extends Charapter {
+public class Enemy extends Character {
 
 	/**
 	 * Costruttore Oggetto Enemy

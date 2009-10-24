@@ -4,7 +4,7 @@ package logicClasses;
  * 
  * @author Andrea
  */
-public abstract class Charapter {
+public abstract class Character {
 
 	/* Idenfiticatore */
 	String id;
@@ -18,7 +18,8 @@ public abstract class Charapter {
 	/* Punteggio */
 	private int score;
 	
-	private int currState;
+	/* Stato attuale */
+	private int currentState;
 	
 	/**
 	 * Costruttore dell'oggetto Charapter
@@ -29,11 +30,11 @@ public abstract class Charapter {
 	 * @param cLife - Valore vita corrente
 	 * @param mLife - Valore massimo che la vita puo' assumere
 	 */
-	public Charapter(String i, int cLife, int mLife) {
+	public Character(String i, int cLife, int mLife) {
 		id=i;
 		currentLife=cLife;
 		maxLife=mLife;
-		currState=State.DEFAULT;
+		currentState=State.DEFAULT;
 		score=0;
 	}
 	
@@ -60,7 +61,7 @@ public abstract class Charapter {
 		currentLife-=rmLife;
 		if(currentLife<0){
 			currentLife=0;
-			currState=State.DEATH;
+			currentState=State.DEATH;
 		}
 	}
 	
@@ -72,7 +73,7 @@ public abstract class Charapter {
 	 * @param newState - Nuovo stato
 	 */
 	void setState(int newState){
-		currState=newState;
+		currentState=newState;
 	}
 	
 	/**
@@ -99,7 +100,7 @@ public abstract class Charapter {
 	}
 
 	public int getCurrState() {
-		return currState;
+		return currentState;
 	}
 
 	public int getScore() {

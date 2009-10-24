@@ -5,7 +5,7 @@ package logicClasses;
  * 
  * @author Andrea
  */
-public class Player extends Charapter {
+public class Player extends Character {
 
 	/**
 	 * @param i - Identificatore
