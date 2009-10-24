@@ -134,7 +134,7 @@ public class testThirdPersonDefault extends PhysicsGame {
  * 		il muro che ho creato, inizia a rimbalzare di qua e di la
  * 		dobbiamo discuterne...
  */
-    	Node model = ModelLoader.loadModel("data/model/drfreak.md2", 1f, 
+    	Node model = ModelLoader.loadModel("data/model/drfreak.md2", "data/model/drfreak.jpg", 1f, 
     				new Quaternion().fromAngleAxis(FastMath.PI/2, new Vector3f(0,-1,0)));
 
         player = getPhysicsSpace().createDynamicNode(); 
