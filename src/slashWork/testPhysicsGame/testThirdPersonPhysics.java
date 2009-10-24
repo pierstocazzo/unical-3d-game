@@ -1,18 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-package joework.test;
-
+package slashWork.testPhysicsGame;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
 import com.jme.input.ChaseCamera;
+import com.jme.input.FirstPersonHandler;
 import com.jme.input.InputHandler;
-import com.jme.input.ThirdPersonHandler;
+import com.jme.input.KeyInput;
+import com.jme.input.action.InputAction;
+import com.jme.input.action.InputActionEvent;
+import com.jme.input.util.SyntheticButton;
 import com.jme.light.DirectionalLight;
-import com.jme.math.FastMath;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
@@ -23,11 +20,14 @@ import com.jme.scene.state.TextureState;
 import com.jme.scene.state.ZBufferState;
 import com.jme.util.TextureManager;
 import com.jmex.physics.DynamicPhysicsNode;
+import com.jmex.physics.PhysicsSpace;
+import com.jmex.physics.PhysicsUpdateCallback;
 import com.jmex.physics.StaticPhysicsNode;
+import com.jmex.physics.contact.ContactInfo;
+import com.jmex.physics.material.Material;
 import com.jmex.terrain.TerrainPage;
 import com.jmex.terrain.util.FaultFractalHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
-import java.util.HashMap;
 import javax.swing.ImageIcon;
 
 import jmetest.input.TestThirdPersonController;
@@ -35,20 +35,22 @@ import jmetest.terrain.TestTerrain;
 import joework.app.PhysicsGame;
 
 /**
+ * Esempio di terreno - giocatore - ostacolo con fisica
+ * 
+ * @author slash17
  *
- * @author joseph
  */
-public class testThirdPersonDefault extends PhysicsGame {
-
+public class testThirdPersonPhysics extends PhysicsGame {
+	boolean playerOnFloor = false;
     Box floor;
     StaticPhysicsNode staticNode;
     DynamicPhysicsNode player;
-//    Node player;
     ChaseCamera chaser;
     TerrainPage terrain;
     InputHandler input;
+    
 	public static void main( String[] args ) {
-        testThirdPersonDefault obj = new testThirdPersonDefault();
+        testThirdPersonPhysics obj = new testThirdPersonPhysics();
         obj.setConfigShowMode(ConfigShowMode.AlwaysShow);
         obj.start();
     }
@@ -60,11 +62,11 @@ public class testThirdPersonDefault extends PhysicsGame {
 	        cam.getLocation().y = terrain.getHeight(cam.getLocation()) + 10;
 	        cam.update();
 	    }
-	
-	    float playerMinHeight = terrain.getHeight(player.getLocalTranslation())+((BoundingBox)player.getWorldBound()).yExtent;
-	    if (!Float.isInfinite(playerMinHeight) && !Float.isNaN(playerMinHeight)) {
-	        player.getLocalTranslation().y = playerMinHeight;
-	    }
+//	
+//	    float playerMinHeight = terrain.getHeight(player.getLocalTranslation())+((BoundingBox)player.getWorldBound()).yExtent;
+//	    if (!Float.isInfinite(playerMinHeight) && !Float.isNaN(playerMinHeight)) {
+//	        player.getLocalTranslation().y = playerMinHeight;
+//	    }
 	
 	    chaser.update(tpf);
 	    input.update(tpf);
@@ -85,12 +87,11 @@ public class testThirdPersonDefault extends PhysicsGame {
         rootNode.setRenderState(cs);
 
         // Creazione del gioco
-        
+        setupInput();
         setupTerrain();
         setupWall();
         setupPlayer();
         setupChaseCamera();
-        setupInput();
 
         pause = true;
     }
@@ -103,13 +104,17 @@ public class testThirdPersonDefault extends PhysicsGame {
     }
 
     private void setupInput() {
-        HashMap<String, Object> handlerProps = new HashMap<String, Object>();
-        handlerProps.put(ThirdPersonHandler.PROP_DOGRADUAL, "true");
-        handlerProps.put(ThirdPersonHandler.PROP_TURNSPEED, ""+(1.0f * FastMath.PI));
-        handlerProps.put(ThirdPersonHandler.PROP_LOCKBACKWARDS, "false");
-        handlerProps.put(ThirdPersonHandler.PROP_CAMERAALIGNEDMOVE, "true");
-        input = new ThirdPersonHandler(player, cam, handlerProps);
-        input.setActionSpeed(100f);
+//        HashMap<String, Object> handlerProps = new HashMap<String, Object>();
+//        handlerProps.put(ThirdPersonHandler.PROP_DOGRADUAL, "true");
+//        handlerProps.put(ThirdPersonHandler.PROP_TURNSPEED, ""+(1.0f * FastMath.PI));
+//        handlerProps.put(ThirdPersonHandler.PROP_LOCKBACKWARDS, "false");
+//        handlerProps.put(ThirdPersonHandler.PROP_CAMERAALIGNEDMOVE, "true");
+//        input = new ThirdPersonHandler(player, cam, handlerProps);
+//        input.setActionSpeed(100f);
+        /** Create a basic input controller. */
+        FirstPersonHandler firstPersonHandler = new FirstPersonHandler( cam, 500,
+                100 );
+        input = firstPersonHandler;
     }
 
     public void setupWall() {
@@ -118,33 +123,29 @@ public class testThirdPersonDefault extends PhysicsGame {
         rootNode.attachChild(wallNode);
         wallNode.attachChild(wall);
         wall.getLocalTranslation().set(new Vector3f(50, terrain.getHeight(50, 50) , 50));
+        
+        TextureState ts = display.getRenderer().createTextureState();
+        ts.setEnabled(true);
+        ts.setTexture(
+            TextureManager.loadTexture(
+            TestThirdPersonController.class.getClassLoader().getResource(
+            "data/images/rockwall2.jpg"),
+            Texture.MinificationFilter.BilinearNearestMipMap,
+            Texture.MagnificationFilter.Bilinear));
+        wall.setRenderState(ts);
+        
         wallNode.generatePhysicsGeometry();
     }
     
     private void setupPlayer() {
-        Box b = new Box("box", Vector3f.ZERO, 1,1,1);
-        b.setModelBound(new BoundingBox());
-        b.updateModelBound();
-//        player = new Node("player");
-        
-
-/* 		se il player collide anche leggermente con il terreno o con 
- * 		il muro che ho creato, inizia a rimbalzare di qua e di la
- * 		dobbiamo discuterne...
- */
-//    	Node model = ModelLoader.loadModel("data/model/drfreak.md2", "data/model/drfreak.jpg", 1f, 
-//    				new Quaternion().fromAngleAxis(FastMath.PI/2, new Vector3f(0,-1,0)));
-//    	model.setModelBound(new BoundingBox());
-//    	model.updateModelBound();
-        player = getPhysicsSpace().createDynamicNode(); 
-
-//		disabilitiamo la gravità sul player altrimenti non si trova con l'update
-//        player.setAffectedByGravity(false);      
-        
+    	player = createBox();
+        player.setName( "player" );
+        player.setModelBound(new BoundingBox());
+        player.updateModelBound();
+        // per il movimento del box, gli impostiamo un materiale custum, a cui setteremo il surfacemotion
+        final Material playerMaterial = new Material( "player material" );
+        player.setMaterial( playerMaterial );
         player.setLocalTranslation(20, 200, 20);
-        rootNode.attachChild(player);
-        player.attachChild(b);
-//        player.attachChild(model);
         player.updateWorldBound(); // We do this to allow the camera setup access to the world bound in our setup code.
 
         TextureState ts = display.getRenderer().createTextureState();
@@ -152,11 +153,56 @@ public class testThirdPersonDefault extends PhysicsGame {
         ts.setTexture(
             TextureManager.loadTexture(
             TestThirdPersonController.class.getClassLoader().getResource(
-            "data/model/drfreak.jpg"),
+            "data/images/openGame.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear));
         player.setRenderState(ts);
         player.generatePhysicsGeometry();
+        
+
+        // i quattro movimenti Y - G - H - J
+        input.addAction( new MoveAction( new Vector3f( -2, 0, 0 ) ),
+                InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_G, InputHandler.AXIS_NONE, false );
+        input.addAction( new MoveAction( new Vector3f( 2, 0, 0 ) ),
+                InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_J, InputHandler.AXIS_NONE, false );
+        input.addAction( new MoveAction( new Vector3f( 0, 0, -2 ) ),
+                InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_Y, InputHandler.AXIS_NONE, false );
+        input.addAction( new MoveAction( new Vector3f( 0, 0, 2 ) ),
+                InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_H, InputHandler.AXIS_NONE, false );
+
+        // per far saltare il nostro box applichiamo una forza verso l'alto (per il salto premere SPAZIO)
+        input.addAction( new InputAction() {
+            public void performAction( InputActionEvent evt ) {
+                if ( playerOnFloor && evt.getTriggerPressed() ) {
+                    player.addForce( new Vector3f( 0, 500, 0 ) );
+                }
+            }
+        }, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_SPACE, InputHandler.AXIS_NONE, false );
+
+        // per capire quando il box e' poggiato sul piano, usiamo una variabile booleana playerOnFloor
+        // se piano e box hanno colliso il nostro box si trova sul piano, quindi impostiamo playerOnFloor a true
+
+        // evento di collisione
+        SyntheticButton playerCollisionEventHandler = player.getCollisionEventHandler();
+        input.addAction( new InputAction() {
+            public void performAction( InputActionEvent evt ) {
+                ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
+                if ( contactInfo.getNode1() == staticNode || contactInfo.getNode2() == staticNode ) {
+                    playerOnFloor = true;
+                }
+            }
+        }, playerCollisionEventHandler, false );
+
+        // ad ogni step fisico reimpostiamo a false playerOnFloor
+        // in modo da non permettere salti quando si ï¿½ giï¿½ in aria
+        getPhysicsSpace().addToUpdateCallbacks( new PhysicsUpdateCallback() {
+            public void beforeStep( PhysicsSpace space, float time ) {
+                playerOnFloor = false;
+            }
+            public void afterStep( PhysicsSpace space, float time ) {
+            }
+        } );
+
     }
 
     private void setupTerrain() {
@@ -172,11 +218,6 @@ public class testThirdPersonDefault extends PhysicsGame {
         dr.setAmbient(new ColorRGBA(0.5f, 0.5f, 0.5f, 1.0f));
         dr.setDirection(new Vector3f(0.5f, -0.5f, 0));
 
-        CullState cs = display.getRenderer().createCullState();
-        cs.setCullFace(CullState.Face.Back);
-        cs.setEnabled(true);
-        rootNode.setRenderState(cs);
-
         lightState.detachAll();
         lightState.attach(dr);
 
@@ -187,9 +228,7 @@ public class testThirdPersonDefault extends PhysicsGame {
 
         terrain.setDetailTexture(1, 16);
         
-/* *************************** ecco la parte modificata ***************************/
         staticNode.attachChild(terrain);
-//        rootNode.attachChild(terrain);
 
         staticNode.generatePhysicsGeometry(true);
 
@@ -236,5 +275,34 @@ public class testThirdPersonDefault extends PhysicsGame {
         fs.setDensityFunction(FogState.DensityFunction.Linear);
         fs.setQuality(FogState.Quality.PerVertex);
         terrain.setRenderState(fs);
+    }
+    
+    private DynamicPhysicsNode createBox() {
+        DynamicPhysicsNode dynamicNode = getPhysicsSpace().createDynamicNode();
+        rootNode.attachChild( dynamicNode );
+        final Box visualFallingBox = new Box( "falling box", new Vector3f(), 0.5f, 0.5f, 0.5f );
+        dynamicNode.attachChild( visualFallingBox );
+        dynamicNode.generatePhysicsGeometry();
+        return dynamicNode;
+    }
+
+    /**
+     * Classe per gestire i movimenti
+     */
+    private class MoveAction extends InputAction {
+        private Vector3f direction;
+
+        public MoveAction( Vector3f direction ) {
+            this.direction = direction;
+        }
+        public void performAction( InputActionEvent evt ) {
+            if ( evt.getTriggerPressed() ) {
+                // quando viene premuto un testo, impostiamo il movimento nella direzione passata al costruttore
+                player.getMaterial().setSurfaceMotion( direction );
+            } else {
+                // appena rilasciamo il tasto il movimento si azzera...
+                player.getMaterial().setSurfaceMotion( Vector3f.ZERO );
+            }
+        }
     }
 }
