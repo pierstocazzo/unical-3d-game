@@ -18,12 +18,21 @@ public class Equipment {
 	/** Numero di armi nella lista */
 	private int numberOfWeapons;
 	
+	/** Numero massimo di armi che il contenitore puo' avere */
+	private int maxWeapons;
+	
 	/**
 	 * Costruttore di Equipment
 	 */
-	public Equipment(){
+	public Equipment(int maxWeapons){
 		this.current = 0;
 		this.numberOfWeapons = 0;
+		
+		/* Ci assicuriamo che contenga almeno un'arma */
+		if(maxWeapons>0)
+			this.setMaxWeapons(maxWeapons);
+		else
+			this.setMaxWeapons(1);
 	}
 	
 	/**
@@ -80,10 +89,16 @@ public class Equipment {
 	 * Aggiunge una nuova arma in lista
 	 * 
 	 * @param newWeapon - (Weapon) L'arma da inserire
+	 * @return (boolean) - true se l'arma e' stata inserita, false altrimenti
 	 */
-	public void addWeapon(Weapon newWeapon){
-		weaponsList.add(newWeapon);
-		numberOfWeapons++;
+	public boolean addWeapon(Weapon newWeapon){
+		if((numberOfWeapons+1) <= maxWeapons){
+			weaponsList.add(newWeapon);
+			numberOfWeapons++;
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	/**
@@ -106,5 +121,19 @@ public class Equipment {
 	 */
 	public Weapon removeCurrentWeapon(){
 		return weaponsList.remove(current);
+	}
+
+	/**
+	 * @param maxWeapons the maxWeapons to set
+	 */
+	public void setMaxWeapons(int maxWeapons) {
+		this.maxWeapons = maxWeapons;
+	}
+
+	/**
+	 * @return the maxWeapons
+	 */
+	public int getMaxWeapons() {
+		return maxWeapons;
 	}
 }
