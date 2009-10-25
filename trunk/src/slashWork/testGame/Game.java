@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
+import utils.ModelConverter;
 import utils.ModelLoader;
 
 import jmetest.renderer.TestSkybox;
@@ -417,15 +418,15 @@ public class Game extends BaseGame {
 		float scaleFactor = 0.05f;
 		Quaternion rotation = new Quaternion()/*.fromAngleAxis(FastMath.PI/2, new Vector3f(-1,0,0))*/;
 		
-		//************** Codice per caricare un modelli 3d *****************
-		Node model = ModelLoader.loadModel("data/model/Soldato/Soldato.obj", "", scaleFactor, rotation);
 
-
-//        List<Spatial> list = model.getChildren();
-//        for( Spatial elem : list ){
-//     	   logger.info("Model Child " + elem.toString());
-//        }
+/**************** Codice per convertire il modello obj Soldato.obj in soldato.jme *******************
+ * 
+ *		ModelConverter.convert( "data/model/Soldato/Soldato.obj", "data/model/Soldato/soldato.jme");
+ *
+ */	
 		
+		Node model = ModelLoader.loadModel("data/model/Soldato/soldato.jme", "", scaleFactor, rotation);
+	
 		player.attachChild(model);
 		
 		// lo metto da qualche parte

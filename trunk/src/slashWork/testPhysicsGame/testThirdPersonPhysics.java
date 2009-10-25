@@ -58,10 +58,10 @@ public class testThirdPersonPhysics extends PhysicsGame {
     @Override
 	protected void simpleUpdate() {
 	
-	    if ( cam.getLocation().y < terrain.getHeight(cam.getLocation()) + 10 ) {
-	        cam.getLocation().y = terrain.getHeight(cam.getLocation()) + 10;
-	        cam.update();
-	    }
+//	    if ( cam.getLocation().y < terrain.getHeight(cam.getLocation()) + 10 ) {
+//	        cam.getLocation().y = terrain.getHeight(cam.getLocation()) + 10;
+//	        cam.update();
+//	    }
 //	
 //	    float playerMinHeight = terrain.getHeight(player.getLocalTranslation())+((BoundingBox)player.getWorldBound()).yExtent;
 //	    if (!Float.isInfinite(playerMinHeight) && !Float.isNaN(playerMinHeight)) {
@@ -89,7 +89,7 @@ public class testThirdPersonPhysics extends PhysicsGame {
         // Creazione del gioco
         setupInput();
         setupTerrain();
-        setupWall();
+//        setupWall();
         setupPlayer();
         setupChaseCamera();
 
@@ -161,13 +161,13 @@ public class testThirdPersonPhysics extends PhysicsGame {
         
 
         // i quattro movimenti Y - G - H - J
-        input.addAction( new MoveAction( new Vector3f( -2, 0, 0 ) ),
+        input.addAction( new MoveAction( new Vector3f( -10, 0, 0 ) ),
                 InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_G, InputHandler.AXIS_NONE, false );
-        input.addAction( new MoveAction( new Vector3f( 2, 0, 0 ) ),
+        input.addAction( new MoveAction( new Vector3f( 10, 0, 0 ) ),
                 InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_J, InputHandler.AXIS_NONE, false );
-        input.addAction( new MoveAction( new Vector3f( 0, 0, -2 ) ),
+        input.addAction( new MoveAction( new Vector3f( 0, 0, -10 ) ),
                 InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_Y, InputHandler.AXIS_NONE, false );
-        input.addAction( new MoveAction( new Vector3f( 0, 0, 2 ) ),
+        input.addAction( new MoveAction( new Vector3f( 0, 0, 10 ) ),
                 InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_H, InputHandler.AXIS_NONE, false );
 
         // per far saltare il nostro box applichiamo una forza verso l'alto (per il salto premere SPAZIO)
@@ -207,7 +207,7 @@ public class testThirdPersonPhysics extends PhysicsGame {
 
     private void setupTerrain() {
         rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
-        display.getRenderer().setBackgroundColor(new ColorRGBA(0.5f, 0.5f, 0.5f, 1));
+        display.getRenderer().setBackgroundColor(ColorRGBA.black);
 
         staticNode = getPhysicsSpace().createStaticNode();
         rootNode.attachChild( staticNode );
@@ -220,61 +220,66 @@ public class testThirdPersonPhysics extends PhysicsGame {
 
         lightState.detachAll();
         lightState.attach(dr);
-
-        FaultFractalHeightMap heightMap = new FaultFractalHeightMap(513, 10, 0, 127, 0.75f);
-        Vector3f terrainScale = new Vector3f(10, 1, 10);
-        heightMap.setHeightScale(0.001f);
-        terrain = new TerrainPage("Terrain", 33, heightMap.getSize(), terrainScale, heightMap.getHeightMap());
-
-        terrain.setDetailTexture(1, 16);
         
-        staticNode.attachChild(terrain);
+        Box floor = new Box("floor", Vector3f.ZERO, 100, 1, 100);
+        
+        staticNode.attachChild( floor );
+        staticNode.generatePhysicsGeometry();
 
-        staticNode.generatePhysicsGeometry(true);
-
-        ProceduralTextureGenerator pt = new ProceduralTextureGenerator(heightMap);
-        pt.addTexture(new ImageIcon(TestTerrain.class.getClassLoader().getResource("data/texture/grassb.png")), -128, 0, 128);
-        pt.addTexture(new ImageIcon(TestTerrain.class.getClassLoader().getResource("data/texture/dirt.jpg")), 0, 128, 255);
-        pt.addTexture(new ImageIcon(TestTerrain.class.getClassLoader().getResource("data/texture/highest.jpg")), 128, 255, 384);
-
-        pt.createTexture(512);
-
-        TextureState ts = display.getRenderer().createTextureState();
-        ts.setEnabled(true);
-        Texture t1 = TextureManager.loadTexture(pt.getImageIcon().getImage(), Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear, true);
-        ts.setTexture(t1, 0);
-
-        Texture t2 = TextureManager.loadTexture(TestThirdPersonController.class
-                .getClassLoader()
-                .getResource("data/texture/Detail.jpg"),
-                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear);
-        ts.setTexture(t2, 1);
-        t2.setWrap(Texture.WrapMode.Repeat);
-
-        t1.setApply(Texture.ApplyMode.Combine);
-        t1.setCombineFuncRGB(Texture.CombinerFunctionRGB.Modulate);
-        t1.setCombineSrc0RGB(Texture.CombinerSource.CurrentTexture);
-        t1.setCombineOp0RGB(Texture.CombinerOperandRGB.SourceColor);
-        t1.setCombineSrc1RGB(Texture.CombinerSource.PrimaryColor);
-        t1.setCombineOp1RGB(Texture.CombinerOperandRGB.SourceColor);
-
-        t2.setApply(Texture.ApplyMode.Combine);
-        t2.setCombineFuncRGB(Texture.CombinerFunctionRGB.AddSigned);
-        t2.setCombineSrc0RGB(Texture.CombinerSource.CurrentTexture);
-        t2.setCombineOp0RGB(Texture.CombinerOperandRGB.SourceColor);
-        t2.setCombineSrc1RGB(Texture.CombinerSource.Previous);
-        t2.setCombineOp1RGB(Texture.CombinerOperandRGB.SourceColor);
-        terrain.setRenderState(ts);
-
-        FogState fs = display.getRenderer().createFogState();
-        fs.setDensity(0.5f);
-        fs.setEnabled(true);
-        fs.setColor(new ColorRGBA(0.5f, 0.5f, 0.5f, 0.5f));
-        fs.setEnd(1000);
-        fs.setStart(500);
-        fs.setDensityFunction(FogState.DensityFunction.Linear);
-        fs.setQuality(FogState.Quality.PerVertex);
-        terrain.setRenderState(fs);
+//        FaultFractalHeightMap heightMap = new FaultFractalHeightMap(33, 10, 0, 127, 0.75f);
+//        Vector3f terrainScale = new Vector3f(10, 1, 10);
+//        heightMap.setHeightScale(0.001f);
+//        terrain = new TerrainPage("Terrain", 33, heightMap.getSize(), terrainScale, heightMap.getHeightMap());
+//
+//        terrain.setDetailTexture(1, 16);
+//        
+//        staticNode.attachChild(terrain);
+//
+//        staticNode.generatePhysicsGeometry(false);
+//
+//        ProceduralTextureGenerator pt = new ProceduralTextureGenerator(heightMap);
+//        pt.addTexture(new ImageIcon(TestTerrain.class.getClassLoader().getResource("data/texture/grassb.png")), -128, 0, 128);
+//        pt.addTexture(new ImageIcon(TestTerrain.class.getClassLoader().getResource("data/texture/dirt.jpg")), 0, 128, 255);
+//        pt.addTexture(new ImageIcon(TestTerrain.class.getClassLoader().getResource("data/texture/highest.jpg")), 128, 255, 384);
+//
+//        pt.createTexture(512);
+//
+//        TextureState ts = display.getRenderer().createTextureState();
+//        ts.setEnabled(true);
+//        Texture t1 = TextureManager.loadTexture(pt.getImageIcon().getImage(), Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear, true);
+//        ts.setTexture(t1, 0);
+//
+//        Texture t2 = TextureManager.loadTexture(TestThirdPersonController.class
+//                .getClassLoader()
+//                .getResource("data/texture/Detail.jpg"),
+//                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear);
+//        ts.setTexture(t2, 1);
+//        t2.setWrap(Texture.WrapMode.Repeat);
+//
+//        t1.setApply(Texture.ApplyMode.Combine);
+//        t1.setCombineFuncRGB(Texture.CombinerFunctionRGB.Modulate);
+//        t1.setCombineSrc0RGB(Texture.CombinerSource.CurrentTexture);
+//        t1.setCombineOp0RGB(Texture.CombinerOperandRGB.SourceColor);
+//        t1.setCombineSrc1RGB(Texture.CombinerSource.PrimaryColor);
+//        t1.setCombineOp1RGB(Texture.CombinerOperandRGB.SourceColor);
+//
+//        t2.setApply(Texture.ApplyMode.Combine);
+//        t2.setCombineFuncRGB(Texture.CombinerFunctionRGB.AddSigned);
+//        t2.setCombineSrc0RGB(Texture.CombinerSource.CurrentTexture);
+//        t2.setCombineOp0RGB(Texture.CombinerOperandRGB.SourceColor);
+//        t2.setCombineSrc1RGB(Texture.CombinerSource.Previous);
+//        t2.setCombineOp1RGB(Texture.CombinerOperandRGB.SourceColor);
+//        terrain.setRenderState(ts);
+//
+//        FogState fs = display.getRenderer().createFogState();
+//        fs.setDensity(0.5f);
+//        fs.setEnabled(true);
+//        fs.setColor(new ColorRGBA(0.5f, 0.5f, 0.5f, 0.5f));
+//        fs.setEnd(1000);
+//        fs.setStart(500);
+//        fs.setDensityFunction(FogState.DensityFunction.Linear);
+//        fs.setQuality(FogState.Quality.PerVertex);
+//        terrain.setRenderState(fs);
     }
     
     private DynamicPhysicsNode createBox() {
