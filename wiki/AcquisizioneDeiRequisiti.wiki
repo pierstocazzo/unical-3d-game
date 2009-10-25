@@ -2,44 +2,44 @@
 
 === *Tipo di gioco* ===
 
-Il gioco è uno sparatutto (genere splatter) 3D in terza persona con supporto fisico. 
+_Il gioco è uno sparatutto (genere splatter) 3D in terza persona con supporto fisico._ 
 
 === *Trama* ===
 
-Si svolge in un'ambientazione esotica, nel mondo reale, ma non si escludono gradevoli effetti speciali.
-Il protagonista del gioco si trova su un'isola sperduta; è un soldato delle forze speciali inviato in missione per recuperare documenti segreti sui vari sviluppi delle forze ribelli che stanno occupando l'isola, probabilmente come base per la progettazione di armi di distruzione di massa, e ne tengono in ostaggio gli abitanti.
+_Si svolge in un'ambientazione esotica, nel mondo reale, ma non si escludono gradevoli effetti speciali.
+Il protagonista del gioco si trova su un'isola sperduta; è un soldato delle forze speciali inviato in missione per recuperare documenti segreti sui vari sviluppi delle forze ribelli che stanno occupando l'isola, probabilmente come base per la progettazione di armi di distruzione di massa, e ne tengono in ostaggio gli abitanti._
 
-L'obiettivo principale del gioco è quello di eliminare le forze ribelli, liberare più ostaggi possibili e recuperare i documenti riguardanti la costruzione delle armi.
+_L'obiettivo principale del gioco è quello di eliminare le forze ribelli, liberare più ostaggi possibili e recuperare i documenti riguardanti la costruzione delle armi._
 
 === *Come si sviluppa* ===
 
-Il gioco si sviluppa in un'unica grande scena e il protagonista sarà totalmente libero di esplorarla in lungo e largo e di scegliere la sua strategia di gioco.
-In particolare, in varie posizioni dell'isola, ci saranno delle postazioni nemiche di diversa dimensione ed entità, e sarà libera scelta del giocatore stabilire il momento in cui attaccare.
+_Il gioco si sviluppa in un'unica grande scena e il protagonista sarà totalmente libero di esplorarla in lungo e largo e di scegliere la sua strategia di gioco.
+In particolare, in varie posizioni dell'isola, ci saranno delle postazioni nemiche di diversa dimensione ed entità, e sarà libera scelta del giocatore stabilire il momento in cui attaccare._
 
-Sparsi nella scena ci saranno kit medici che il protagonista potrà recuperare e utilizzare nel momento di bisogno.
+_Sparsi nella scena ci saranno kit medici che il protagonista potrà recuperare e utilizzare nel momento di bisogno.
 L'equipaggiamento del giocatore prevede diversi tipi di armi. All'inizio del gioco il protagonista avrà a disposizione solo un'arma.
-Nuove armi verranno ritrovate durante la fase di gioco, in particolare nelle postazioni nemiche dopo aver ucciso tutti i soldati di guardia.
+Nuove armi verranno ritrovate durante la fase di gioco, in particolare nelle postazioni nemiche dopo aver ucciso tutti i soldati di guardia._
 
 === *Sistema di eperienza (da studiare)* ===
 
-Si prevede un sistema di esperienza in base al quale viene aumentato il livello di difficoltà del gioco in modo del tutto automatico.
-L'esperienza del giocatore sarà aumentata ad ogni uccisione dei nemici e sarà diminuita ogni qualvolta il giocatore muore oppure uccide civili.
+_Si prevede un sistema di esperienza in base al quale viene aumentato il livello di difficoltà del gioco in modo del tutto automatico.
+L'esperienza del giocatore sarà aumentata ad ogni uccisione dei nemici e sarà diminuita ogni qualvolta il giocatore muore oppure uccide civili._
 
-L'energia massima del giocatore aumenta proporzionalmente all'aumentare dello score, ma allo stesso tempo aumenterà anche l'energia dei nemici. Aumentando di conseguenza la difficoltà di gioco.
+_L'energia massima del giocatore aumenta proporzionalmente all'aumentare dello score, ma allo stesso tempo aumenterà anche l'energia dei nemici. Aumentando di conseguenza la difficoltà di gioco._
 
 === *Sistema di puntamento* ===
 
-Il sistema di puntamento "sarà" in prima persona.
+_Il sistema di puntamento "sarà" in prima persona._
 
 === *Intelligenza Artificiale dei Nemici* ===
 
-Generalmente i nemici non sapranno della nostra presenza e ciascuna postazione nemica presente sull'isola è indipendete dalle altre.
+_Generalmente i nemici non sapranno della nostra presenza e ciascuna postazione nemica presente sull'isola è indipendete dalle altre.
 Ciascun nemico possiede degli stati di attività (Es: Sentinella, Allerta, Attacco, etc...). Si passa da uno stato di attività all'altro in base agli avvenimenti che accadono durante il gioco.
-Normalmente i nemici saranno sempre in stato di "Sentinella" o "Riposo" con uno scarso raggio visivo poichè non si aspettano di essere attaccati (dopotutto non sospettano della nostra presenza).
+Normalmente i nemici saranno sempre in stato di "Sentinella" o "Riposo" con uno scarso raggio visivo poichè non si aspettano di essere attaccati (dopotutto non sospettano della nostra presenza)._
 
-Se un nemico ci vede vede (entriamo nel suo raggio visivo) passa in stato di attacco, e tenterà di ucciderci.
+_Se un nemico ci vede vede (entriamo nel suo raggio visivo) passa in stato di attacco, e tenterà di ucciderci.
 Se invece non ci vede (ad esempio siamo nascosti dietro un ostacolo) ma siamo comunque nel suo raggio visivo, il nemico avverte la nostra presenza, e passerà nello stato di allerta, aumentando il suo raggio visivo in quanto si aspetta un attacco.
 Se un altro soldato si accorge che un suo compagno è in stato di attacco, anche se non ci vede, passa in stato di allerta, aumentando il suo raggio visivo. 
-Se un nemico resta in stato di allerta a lungo, ma non viene attaccato, torna al suo stato di riposo o sentinella.
+Se un nemico resta in stato di allerta a lungo, ma non viene attaccato, torna al suo stato di riposo o sentinella._
 
-I soldati nemici hanno l'ordine di difendere a tutti i costi la propria postazione, quindi non la lascieranno nemmeno in stato di attacco.
+_I soldati nemici hanno l'ordine di difendere a tutti i costi la propria postazione, quindi non la lascieranno nemmeno in stato di attacco._
