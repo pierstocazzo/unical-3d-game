@@ -61,7 +61,6 @@ public class ModelLoader {
 	 * modello NB: <code>new Quaternion()</code> per non ruotare
 	 * @return (Node) Ritorna il nodo a cui è attaccato il modello 
 	 */
-
 	public static Node loadModel( String modelPath, String texturePath, float scaleFactor, Quaternion rotation ){
 
 		Node model = null;
