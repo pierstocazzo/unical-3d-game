@@ -11,13 +11,13 @@ public class Enemy extends Character {
 	/**
 	 * Costruttore Oggetto Enemy
 	 * 
-	 * @param i - identificatore
-	 * @param cLife - vita corrente
-	 * @param mLife - vita massima
+	 * @param id - (String) Identificatore
+	 * @param currentLife - (int) Vita Corrente
+	 * @param maxLife - (int) Vita Massima
 	 */
-	public Enemy(String i, int cLife, int mLife) {
-		super(i, cLife, mLife);
-		
+	public Enemy( String id, int currentLife, int maxLife ) {
+		super( id, currentLife, maxLife );
+		// TODO Auto-generated constructor stub
 	}
 
 }

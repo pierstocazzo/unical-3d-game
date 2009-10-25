@@ -22,82 +22,85 @@ public abstract class Character {
 	private int currentState;
 	
 	/**
-	 * Costruttore dell'oggetto Charapter
+	 * Costruttore dell'oggetto Character
 	 * che verra' invocato solo dalle classi derivate
-	 * in quanto Charapter e' una classe astratta
+	 * in quanto Character e' una classe astratta
 	 * 
-	 * @param i - Idenficatore
-	 * @param cLife - Valore vita corrente
-	 * @param mLife - Valore massimo che la vita puo' assumere
+	 * @param id - (String) Idenficatore
+	 * @param currentLife - (int) Valore vita corrente
+	 * @param maxLife - (int) Valore massimo che la vita puo' assumere
 	 */
-	public Character(String i, int cLife, int mLife) {
-		id=i;
-		currentLife=cLife;
-		maxLife=mLife;
-		currentState=State.DEFAULT;
-		score=0;
+	public Character( String id, int currentLife, int maxLife ) {
+		this.id = id;
+		this.currentLife = currentLife;
+		this.maxLife = maxLife;
+		this.currentState = State.DEFAULT;
+		this.score = 0;
 	}
 	
 	/**
 	 * Metodo che incrementa il valore currentLife
 	 * rispettando il limite posto da maxLife
 	 * 
-	 * @param newLife - Valore vita da aggiungere
+	 * @param newLife - (int) Valore vita da aggiungere
 	 */
-	void addLife(int newLife){
-		if(currentLife+newLife>=maxLife){
-			currentLife=maxLife;
+	void addLife( int newLife ) {
+		if( currentLife + newLife >= maxLife) {
+			currentLife = maxLife;
 		}
 		else
-			currentLife+=newLife;
+			currentLife = currentLife + newLife;
 	}
 	
+	// DA RIVEDERE
 	/**
 	 * Decrementa la vita corrente lasciando un valore coerente
 	 * 
-	 * @param rmLife - Valore vita da rimuovere
+	 * @param removedLife - (int) Valore vita da rimuovere
 	 */
-	void removeLife(int rmLife){
-		currentLife-=rmLife;
-		if(currentLife<0){
-			currentLife=0;
-			currentState=State.DEATH;
+	void removeLife( int removedLife ){
+		currentLife = currentLife - removedLife;
+		if( currentLife <= 0 ) {
+			currentLife = 0;
+			currentState = State.DEATH;
 		}
 	}
 	
+	// DA RIVEDERE
 	/**
-	 * Cambia il valore dello stato corrente.
+	 * Cambia lo stato corrente.
 	 * Per coerenza si inseriscano solo stati definiti 
 	 * nella classe State
 	 * 
-	 * @param newState - Nuovo stato
+	 * @param newState - (int) Nuovo stato 
 	 */
-	void setState(int newState){
-		currentState=newState;
+	void setState( int newState ){
+		currentState = newState;
 	}
 	
+	// DA RIVEDERE 
 	/**
 	 * Inserisce il nuovo valore di score
 	 * assicurandosi che sia un valore coerente
 	 * 
-	 * @param newScore
+	 * @param newScore - (int) nuovo valore di score
 	 */
-	void setScore(int newScore){
-		if(newScore>0)
-			score=newScore;
+	void setScore( int newScore ){
+		if( newScore > 0 )
+			score = newScore;
 	}
 
 	/**
-	 * Restituisce la vita corrente
+	 * Ritorna il valore di vita corrente
 	 * 
-	 * @return currentLife
+	 * @return currentLife 
 	 */
 	public int getCurrentLife() {
 		return currentLife;
 	}
 
 	/**
-	 * Restituisce la massima vita corrente
+	 * Ritorna la massima vita 
 	 * 
 	 * @return maxLife
 	 */
@@ -109,13 +112,13 @@ public abstract class Character {
 	 * Imposta il valore di vita massima,
 	 * assicurandosi di lasciare valori coerenti
 	 * 
-	 * @param maxLife
+	 * @param maxLife - (int) nuovo valore di massima vita
 	 */
-	public void setMaxLife(int maxLife) {
-		if(maxLife>0){
-			this.maxLife = maxLife;
-			if(currentLife>maxLife)
-				this.currentLife=maxLife;
+	public void setMaxLife(int newMaxLife) {
+		if( newMaxLife > 0) {
+			this.maxLife = newMaxLife;
+			if( currentLife > maxLife )
+				this.currentLife = maxLife;
 		}
 	}
 
