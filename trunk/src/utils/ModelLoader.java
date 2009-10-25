@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.management.MalformedObjectNameException;
@@ -71,52 +70,62 @@ public class ModelLoader {
 
 		try {			
 			if ( Pattern.matches(".+\\.(?i)md3", modelPath) ) {
-				logger.info("Loading md3 file...");
+				logger.info( "Loading md3 file..." );
 				converter = new Md3ToJme();
 			}	
 			else if ( Pattern.matches(".+\\.(?i)md2", modelPath) ) {
-				logger.info("Loading md2 file...");
+				logger.info( "Loading md2 file..." );
 				converter =  new Md2ToJme();
 			}	
 			else if ( Pattern.matches(".+\\.(?i)3ds", modelPath) ) {
-				logger.info("Loading 3ds file...");
+				logger.info( "Loading 3ds file..." );
 				converter = new MaxToJme();
 			}	
 			else if ( Pattern.matches(".+\\.(?i)obj", modelPath) ) {
-				logger.info("Loading obj file...");
+				logger.info( "Loading obj file..." );
 				converter = new ObjToJme();
 			}	
 			else if ( Pattern.matches(".+\\.(?i)ase", modelPath) ) {
-				logger.info("Loading ase file...");
+				logger.info( "Loading ase file..." );
 				converter = new AseToJme();
 			}	
 			else if ( Pattern.matches(".+\\.(?i)xml", modelPath) ) {
-				logger.info("Loading xml file...");
+				logger.info( "Loading xml file..." );
 				xmlImporter = new XMLImporter();
 			}
 			else if ( Pattern.matches(".+\\.(?i)jme", modelPath) ) {
-				logger.info("Loading jme file...");
+				logger.info( "Loading jme file..." );
 			}
-			else throw new MalformedObjectNameException();
+			else {
+				/* 	if the modelPath doesen't match with any of those regular expressions, 
+				 *  the model type are not supported by the converter (es: .fbx) or the 
+				 *  extension was not correctly written (es: .33ds)
+				 */
+				throw new MalformedObjectNameException();
+			}
 			
-			// model loading
+			/* model loading */
 			
 			URL modelUrl = ModelLoader.class.getClassLoader().getResource( modelPath );
 			
 			if( converter != null ) {
-				ByteArrayOutputStream BO = new ByteArrayOutputStream();
+				/* convert and load a 3d model with the right converter */
+				ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 				if( converter instanceof ObjToJme )
-					converter.setProperty("mtllib", modelUrl );
-				converter.convert( modelUrl.openStream(),BO);
-				model = (Node)BinaryImporter.getInstance().load( new ByteArrayInputStream( BO.toByteArray() ) );
+					converter.setProperty( "mtllib", modelUrl );
+				converter.convert( modelUrl.openStream(), outStream );
+				model = (Node) BinaryImporter.getInstance().load( new ByteArrayInputStream( outStream.toByteArray() ) );
 			}
-			else if( xmlImporter != null )
-				model = (Node) xmlImporter.load( modelUrl );				
-			else 
+			else if( xmlImporter != null ) {
+				/* load a xml file with XMLImporter */
+				model = (Node) xmlImporter.load( modelUrl );	
+			}
+			else {
+				/* load a jme binary file */
 				model = (Node) BinaryImporter.getInstance().load( modelUrl );
+			}
 			
-			
-			logger.info("Model loaded");
+			logger.info( "Model loaded" );
 			
 			model.setLocalScale( scaleFactor );
 			model.setLocalRotation( rotation );
@@ -139,15 +148,19 @@ public class ModelLoader {
 				logger.info( "No texture to apply" );
 			
 		} catch (NullPointerException e) {
-			logger.log(Level.SEVERE, "Failed to load model\nMake sure the path you entered is correct\n" + e);
+			e.printStackTrace();
+			logger.log( Level.SEVERE, "The model you are trying to load doesen't exist" +
+									  "\nMake sure you entered the correct path" );
 			System.exit(0);
 		} catch (MalformedObjectNameException e) {
-			logger.log(Level.SEVERE, "You are trying to load an unsupported model\n");
+			e.printStackTrace();
+			logger.log( Level.SEVERE, "You are trying to load an unsupported model\n");
 			System.exit(0);
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "Load Failed\n");
+			e.printStackTrace();
+			logger.log( Level.SEVERE, "Load Failed\n" );
 			System.exit(0);
-		}
+		} 
 		
 		return model;
 	}
