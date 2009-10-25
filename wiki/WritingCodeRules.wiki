@@ -18,7 +18,7 @@
   `function(Type firstParam,Type secondParam)` NO<br>
   `function( Type firstParam, Type secondParam)` SI
 
-  * Usare sempre this e super quando ci si riferisce, rispettivamente, ad un campo della classe e della superclasse:
+  * Usare sempre *this* e *super* quando ci si riferisce, rispettivamente, ad un campo della classe e della superclasse:
   `classField = firstParam;`<br>
   `superClassField = secondParam;`  NO<br>
                  ____
