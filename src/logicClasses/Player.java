@@ -7,6 +7,9 @@ package logicClasses;
  */
 public class Player extends Character {
 
+	/** Contenitore di armi */
+	private Equipment equipment;
+	
 	/**
 	 * Costruttore Oggetto Player
 	 * 
@@ -18,5 +21,15 @@ public class Player extends Character {
 		super( id, currentLife, maxLife );
 		// TODO Auto-generated constructor stub
 	}
+
+	/**
+	 * Restituisce il contenitore di armi
+	 * 
+	 * @return equipment - (Equipment) Contenitore di armi associato
+	 */
+	public Equipment getEquipment(){
+		return equipment;
+	}
+	
 
 }
