@@ -33,14 +33,14 @@ public class Ex5 extends SimplePhysicsGame {
                 
         // per legare la sfera all'ambiente uso un joint
         final Joint sphereJoint = getPhysicsSpace().createJoint();
-        // creiamo un asse di rotazione per il notro joint (l'effetto desiderato è quello
+        // creiamo un asse di rotazione per il notro joint (l'effetto desiderato ï¿½ quello
         // di usare la sfera come un pendolo!
         final RotationalJointAxis rotationalAxis = sphereJoint.createRotationalAxis();
         // gli assegnamo la direzione z
         rotationalAxis.setDirection( new Vector3f( 0, 0, 1 ) );
         // attacchiamo la sfera al joint
         sphereJoint.attach( dynamicSphereNode );
-        // ancoriamo il nostro joint ad un punto virtuale con y=5 (5 unità sopra il piano)
+        // ancoriamo il nostro joint ad un punto virtuale con y=5 (5 unitï¿½ sopra il piano)
         sphereJoint.setAnchor( new Vector3f( 0, 5, 0 ) );
         
         // creiamo due box..
