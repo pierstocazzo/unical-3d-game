@@ -1,0 +1,46 @@
+= Regole di scrittura codice =
+
+*Regole fondamentali:*
+ 
+  * Non risparmiare nei nomi delle variabili:  
+  `fVariab` NO<br>
+  `firstVariable` SI 
+ 
+  * Spaziare gli operatori dai nomi delle variabili:  
+  `firstVariable=secondVariable` NO<br>
+  `firstVariable = secondVariable` SI 
+
+  * Evitare scorciatoie di operatori:  
+  `firstVariable += secondVariable` NO<br>
+  `firstVariable = firstVariable + secondVariable` SI 
+ 
+  * Spaziare i parametri passati ad una funzione tra di loro e anche dalle parentesi: 
+  `function(Type firstParam,Type secondParam)` NO<br>
+  `function( Type firstParam, Type secondParam)` SI
+
+  * Usare sempre this e super quando ci si riferisce, rispettivamente, ad un campo della classe e della superclasse:
+  `classField = firstParam;`<br>
+  `superClassField = secondParam;`  NO<br>
+                 ____
+  `this.classField = firstParam;`<br>
+  `super.superClassField = secondParam;`  SI<br>
+<br>
+*Javadoc Template:*
+{{{
+/** Function <code>functionName</code> ... short description ...
+ *  
+ * @param firstParam - (FirstType) ... short description ...
+ * @param secondParam - (SecondType) ... short description ...
+ *     ...
+ *     ...
+ * @param nthParam - (NthType) ... short description ...
+ *
+ * @returns (returnType) ... short description ...
+ *
+ */
+modifier returnType functionName( FirstType firstParam, SecondType secondParam, ... NthType nthParam ) {
+     /* 
+      * function code
+      */
+}
+}}}
