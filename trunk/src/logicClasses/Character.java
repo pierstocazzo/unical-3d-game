@@ -6,19 +6,19 @@ package logicClasses;
  */
 public abstract class Character {
 
-	/* Idenfiticatore */
+	/** Idenfiticatore */
 	String id;
 	
-	/* Valore Vita Corrente */
+	/** Valore Vita Corrente */
 	private int currentLife;
 	
-	/* Valore Vita Massima */
+	/** Valore Vita Massima */
 	private int maxLife;
 	
-	/* Punteggio */
+	/** Punteggio */
 	private int score;
 	
-	/* Stato attuale */
+	/** Stato attuale */
 	private int currentState;
 	
 	/**
@@ -87,24 +87,53 @@ public abstract class Character {
 			score=newScore;
 	}
 
+	/**
+	 * Restituisce la vita corrente
+	 * 
+	 * @return currentLife
+	 */
 	public int getCurrentLife() {
 		return currentLife;
 	}
 
+	/**
+	 * Restituisce la massima vita corrente
+	 * 
+	 * @return maxLife
+	 */
 	public int getMaxLife() {
 		return maxLife;
 	}
 
+	/**
+	 * Imposta il valore di vita massima,
+	 * assicurandosi di lasciare valori coerenti
+	 * 
+	 * @param maxLife
+	 */
 	public void setMaxLife(int maxLife) {
-		this.maxLife = maxLife;
+		if(maxLife>0){
+			this.maxLife = maxLife;
+			if(currentLife>maxLife)
+				this.currentLife=maxLife;
+		}
 	}
 
+	/**
+	 * Restituisce lo stato corrente
+	 * 
+	 * @return currentState
+	 */
 	public int getCurrState() {
 		return currentState;
 	}
 
+	/**
+	 * Restituisce score attuale
+	 * 
+	 * @return score
+	 */
 	public int getScore() {
 		return score;
 	}
-
 }
