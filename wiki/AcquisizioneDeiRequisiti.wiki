@@ -1,19 +1,17 @@
-= *Tipo di gioco* =
+= Descrizione Gioco =
+
+=== *Tipo di gioco* ===
 
 Il gioco è uno sparatutto (genere splatter) 3D in terza persona con supporto fisico. 
 
-= *Prima Trama* =
+=== *Trama* ===
 
 Si svolge in un'ambientazione esotica, nel mondo reale, ma non si escludono gradevoli effetti speciali.
 Il protagonista del gioco si trova su un'isola sperduta; è un soldato delle forze speciali inviato in missione per recuperare documenti segreti sui vari sviluppi delle forze ribelli che stanno occupando l'isola, probabilmente come base per la progettazione di armi di distruzione di massa, e ne tengono in ostaggio gli abitanti.
 
 L'obiettivo principale del gioco è quello di eliminare le forze ribelli, liberare più ostaggi possibili e recuperare i documenti riguardanti la costruzione delle armi.
 
-= *Seconda Trama* =
-
-Perchè no? Potrebbe essercene un'altra...
-
-= *Come si sviluppa*=
+=== *Come si sviluppa* ===
 
 Il gioco si sviluppa in un'unica grande scena e il protagonista sarà totalmente libero di esplorarla in lungo e largo e di scegliere la sua strategia di gioco.
 In particolare, in varie posizioni dell'isola, ci saranno delle postazioni nemiche di diversa dimensione ed entità, e sarà libera scelta del giocatore stabilire il momento in cui attaccare.
@@ -22,18 +20,18 @@ Sparsi nella scena ci saranno kit medici che il protagonista potrà recuperare e
 L'equipaggiamento del giocatore prevede diversi tipi di armi. All'inizio del gioco il protagonista avrà a disposizione solo un'arma.
 Nuove armi verranno ritrovate durante la fase di gioco, in particolare nelle postazioni nemiche dopo aver ucciso tutti i soldati di guardia.
 
-= *Sistema di eperienza (da studiare) *=
+=== *Sistema di eperienza (da studiare)* ===
 
 Si prevede un sistema di esperienza in base al quale viene aumentato il livello di difficoltà del gioco in modo del tutto automatico.
 L'esperienza del giocatore sarà aumentata ad ogni uccisione dei nemici e sarà diminuita ogni qualvolta il giocatore muore oppure uccide civili.
 
 L'energia massima del giocatore aumenta proporzionalmente all'aumentare dello score, ma allo stesso tempo aumenterà anche l'energia dei nemici. Aumentando di conseguenza la difficoltà di gioco.
 
-= *Sistema di puntamento* =
+=== *Sistema di puntamento* ===
 
 Il sistema di puntamento "sarà" in prima persona.
 
-= *Intelligenza Artificiale dei Nemici *=
+=== *Intelligenza Artificiale dei Nemici* ===
 
 Generalmente i nemici non sapranno della nostra presenza e ciascuna postazione nemica presente sull'isola è indipendete dalle altre.
 Ciascun nemico possiede degli stati di attività (Es: Sentinella, Allerta, Attacco, etc...). Si passa da uno stato di attività all'altro in base agli avvenimenti che accadono durante il gioco.
