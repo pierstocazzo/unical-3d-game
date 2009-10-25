@@ -8,12 +8,14 @@ package logicClasses;
 public class Player extends Character {
 
 	/**
-	 * @param i - Identificatore
-	 * @param cLife - Vita Corrente
-	 * @param mLife - Vita Massima
+	 * Costruttore Oggetto Player
+	 * 
+	 * @param id - (String) Identificatore
+	 * @param currentLife - (int) Vita Corrente
+	 * @param maxLife - (int) Vita Massima
 	 */
-	public Player(String i, int cLife, int mLife) {
-		super(i, cLife, mLife);
+	public Player( String id, int currentLife, int maxLife ) {
+		super( id, currentLife, maxLife );
 		// TODO Auto-generated constructor stub
 	}
 
