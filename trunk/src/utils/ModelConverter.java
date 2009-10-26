@@ -11,8 +11,6 @@ import java.util.regex.Pattern;
 
 import javax.management.MalformedObjectNameException;
 
-import jmetest.renderer.loader.TestX3DLoading;
-
 import com.jme.util.export.Savable;
 import com.jme.util.export.binary.BinaryExporter;
 import com.jme.util.export.binary.BinaryImporter;
@@ -34,7 +32,7 @@ import com.jmex.model.converters.ObjToJme;
  */
 public class ModelConverter {
 
-    static final Logger logger = Logger.getLogger(TestX3DLoading.class.getName());
+    static final Logger logger = Logger.getLogger(ModelConverter.class.getName());
 	static FormatConverter converter;
 
 	/** Funzione che permette di convertire un modello 3d nel formato binario jme. <br>
