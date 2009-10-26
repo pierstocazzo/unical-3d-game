@@ -24,15 +24,15 @@ public class Equipment {
 	/**
 	 * Costruttore di Equipment
 	 */
-	public Equipment(int maxWeapons){
+	public Equipment( int maxWeapons ){
 		this.current = 0;
 		this.numberOfWeapons = 0;
 		
 		/* Ci assicuriamo che contenga almeno un'arma */
-		if(maxWeapons>0)
-			this.setMaxWeapons(maxWeapons);
+		if( maxWeapons > 0)
+			this.setMaxWeapons( maxWeapons );
 		else
-			this.setMaxWeapons(1);
+			this.setMaxWeapons( 1 );
 	}
 	
 	/**
@@ -41,8 +41,8 @@ public class Equipment {
 	 * @return (Weapon) - Arma nella posizione 'current'
 	 */
 	public Weapon getCurrentWeapon(){
-		if(numberOfWeapons > 0)
-			return weaponsList.get(current);
+		if( numberOfWeapons > 0 )
+			return weaponsList.get( current );
 		else
 			return null;
 	}
@@ -53,7 +53,7 @@ public class Equipment {
 	 * e quando supera la fine della lista riparte dall'inizio
 	 */
 	public void nextWeapon(){
-		if((current + 1) >= numberOfWeapons)
+		if( (current + 1) >= numberOfWeapons )
 			current = 0;
 		else
 			current = current + 1;
@@ -65,7 +65,7 @@ public class Equipment {
 	 * e quando supera l'inizio della lista riparte dalla fine
 	 */
 	public void backWeapon(){
-		if((current - 1) < 0)
+		if( (current - 1) < 0 )
 			current = numberOfWeapons - 1;
 		else
 			current = current - 1;
@@ -79,7 +79,7 @@ public class Equipment {
 	 * @return (Weapon) Arma richiesta
 	 */
 	public Weapon getWeapon(int i){
-		if((i >= 0) && (i < numberOfWeapons))
+		if( (i >= 0) && (i < numberOfWeapons) )
 			return weaponsList.get(i);
 		else
 			return null;
@@ -92,9 +92,9 @@ public class Equipment {
 	 * @return (boolean) - true se l'arma e' stata inserita, false altrimenti
 	 */
 	public boolean addWeapon(Weapon newWeapon){
-		if((numberOfWeapons+1) <= maxWeapons){
-			weaponsList.add(newWeapon);
-			numberOfWeapons++;
+		if( ( numberOfWeapons + 1 ) <= maxWeapons ){
+			weaponsList.add( newWeapon );
+			numberOfWeapons = numberOfWeapons + 1;
 			return true;
 		}
 		else
@@ -108,8 +108,8 @@ public class Equipment {
 	 * @return (Weapon) - Arma rimossa dalla lista
 	 */
 	public Weapon removeWeapon(int i){
-		if((i >= 0) && (i < numberOfWeapons))
-			return weaponsList.remove(i);
+		if( ( i >= 0 ) && ( i < numberOfWeapons ) )
+			return weaponsList.remove( i );
 		else 
 			return null;
 	}
@@ -120,13 +120,13 @@ public class Equipment {
 	 * @return Weapon - Arma rimossa
 	 */
 	public Weapon removeCurrentWeapon(){
-		return weaponsList.remove(current);
+		return weaponsList.remove( current );
 	}
 
 	/**
 	 * @param maxWeapons the maxWeapons to set
 	 */
-	public void setMaxWeapons(int maxWeapons) {
+	public void setMaxWeapons( int maxWeapons ) {
 		this.maxWeapons = maxWeapons;
 	}
 
