@@ -1,21 +1,21 @@
 package logicClasses;
 
 /**
- * Contenitore di Stati
+ * State's Container
  * 
  * @author Andrea
  */
 public class State {
-	/** Stato di riposo */
+	/** Resting state */
 	final static int DEFAULT = 0;
-	/** Stato di sentinella con percorso prefissato*/
+	/** Sentry state with fixed path */
 	final static int SENTINEL = 1;
-	/** Stato di guardia con posizione fissa */
+	/** Guard state with fixed position */
 	final static int GUARD = 2;
-	/** Stato di allerta */
+	/** Alert state */
 	final static int ALERT = 3;
-	/** Stato di attacco */
+	/** Attack state */
 	final static int ATTACK = 4;
-	/** Stato di morte*/
+	/** Death state */
 	final static int DEATH = 5;
 }

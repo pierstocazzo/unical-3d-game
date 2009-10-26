@@ -1,7 +1,7 @@
 package logicClasses;
 
 /**
- * Classe Enemy
+ * Class Enemy
  * 
  * @author Andrea
  *
@@ -9,11 +9,11 @@ package logicClasses;
 public class Enemy extends Character {
 
 	/**
-	 * Costruttore Oggetto Enemy
+	 * Constructor Oggetto Enemy
 	 * 
-	 * @param id - (String) Identificatore
-	 * @param currentLife - (int) Vita Corrente
-	 * @param maxLife - (int) Vita Massima
+	 * @param id - (String) Identifier
+	 * @param currentLife - (int) Current Life
+	 * @param maxLife - (int) Max Life
 	 */
 	public Enemy( String id, int currentLife, int maxLife ) {
 		super( id, currentLife, maxLife );

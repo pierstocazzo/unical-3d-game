@@ -1,34 +1,32 @@
 package logicClasses;
 /**
- * Classe Astratta Personaggio
+ * Abstract Class Character
  * 
  * @author Andrea
  */
 public abstract class Character {
 
-	/** Idenfiticatore */
+	/** Idenfitier */
 	String id;
 	
-	/** Valore Vita Corrente */
+	/** Current Life */
 	private int currentLife;
 	
-	/** Valore Vita Massima */
+	/** Max Life */
 	private int maxLife;
 	
-	/** Punteggio */
+	/** Score */
 	private int score;
 	
-	/** Stato attuale */
+	/** Present State */
 	private int currentState;
 	
 	/**
-	 * Costruttore dell'oggetto Character
-	 * che verra' invocato solo dalle classi derivate
-	 * in quanto Character e' una classe astratta
+	 * Constructor Character
 	 * 
-	 * @param id - (String) Idenficatore
-	 * @param currentLife - (int) Valore vita corrente
-	 * @param maxLife - (int) Valore massimo che la vita puo' assumere
+	 * @param id - (String) Idenfier
+	 * @param currentLife - (int) Current Life
+	 * @param maxLife - (int) Max Life
 	 */
 	public Character( String id, int currentLife, int maxLife ) {
 		this.id = id;
@@ -39,8 +37,7 @@ public abstract class Character {
 	}
 	
 	/**
-	 * Metodo che incrementa il valore currentLife
-	 * rispettando il limite posto da maxLife
+	 * 	Method that increases the value currentLife respecting the limit set by Maxlife
 	 * 
 	 * @param newLife - (int) Valore vita da aggiungere
 	 */
@@ -54,7 +51,7 @@ public abstract class Character {
 	
 	// DA RIVEDERE
 	/**
-	 * Decrementa la vita corrente lasciando un valore coerente
+	 * Decrements the current life, leaving a consistent value
 	 * 
 	 * @param removedLife - (int) Valore vita da rimuovere
 	 */
@@ -68,11 +65,9 @@ public abstract class Character {
 	
 	// DA RIVEDERE
 	/**
-	 * Cambia lo stato corrente.
-	 * Per coerenza si inseriscano solo stati definiti 
-	 * nella classe State
+	 * Change the current state. Please fit only defined states in class State
 	 * 
-	 * @param newState - (int) Nuovo stato 
+	 * @param newState - (int) New State
 	 */
 	void setState( int newState ){
 		currentState = newState;
@@ -80,10 +75,9 @@ public abstract class Character {
 	
 	// DA RIVEDERE 
 	/**
-	 * Inserisce il nuovo valore di score
-	 * assicurandosi che sia un valore coerente
+	 * Set new Score
 	 * 
-	 * @param newScore - (int) nuovo valore di score
+	 * @param newScore - (int) New Score
 	 */
 	void setScore( int newScore ){
 		if( newScore > 0 )
@@ -91,7 +85,7 @@ public abstract class Character {
 	}
 
 	/**
-	 * Ritorna il valore di vita corrente
+	 * It gets current Life
 	 * 
 	 * @return currentLife 
 	 */
@@ -100,7 +94,7 @@ public abstract class Character {
 	}
 
 	/**
-	 * Ritorna la massima vita 
+	 * It gets max life
 	 * 
 	 * @return maxLife
 	 */
@@ -109,8 +103,7 @@ public abstract class Character {
 	}
 
 	/**
-	 * Imposta il valore di vita massima,
-	 * assicurandosi di lasciare valori coerenti
+	 * Sets the value of maximum life
 	 * 
 	 * @param maxLife - (int) nuovo valore di massima vita
 	 */
@@ -123,7 +116,7 @@ public abstract class Character {
 	}
 
 	/**
-	 * Restituisce lo stato corrente
+	 * It return current state
 	 * 
 	 * @return currentState
 	 */
@@ -132,7 +125,7 @@ public abstract class Character {
 	}
 
 	/**
-	 * Restituisce score attuale
+	 * It return current score
 	 * 
 	 * @return score
 	 */

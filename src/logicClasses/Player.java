@@ -1,22 +1,22 @@
 package logicClasses;
 
 /**
- * Oggetto Player
+ * Class Player
  * 
  * @author Andrea
  */
 public class Player extends Character {
 
-	/** Contenitore di armi */
+	/** Weapon's Container */
 	private Equipment equipment;
 	
 	/**
-	 * Costruttore Oggetto Player
+	 * Constructor Object Player
 	 * 
-	 * @param id - (String) Identificatore
-	 * @param currentLife - (int) Vita Corrente
-	 * @param maxLife - (int) Vita Massima
-	 * @param maxWeapons - (int) Numero massimo di Armi
+	 * @param id - (String) Identifier
+	 * @param currentLife - (int) Current Life
+	 * @param maxLife - (int) Max Life
+	 * @param maxWeapons - (int) Max Weapons
 	 */
 	public Player( String id, int currentLife, int maxLife, int maxWeapons) {
 		super( id, currentLife, maxLife );
@@ -24,9 +24,9 @@ public class Player extends Character {
 	}
 
 	/**
-	 * Restituisce il contenitore di armi
+	 * It gets the equipment
 	 * 
-	 * @return equipment - (Equipment) Contenitore di armi associato
+	 * @return equipment - (Equipment) Weapon's Container
 	 */
 	public Equipment getEquipment(){
 		return equipment;
