@@ -3,26 +3,26 @@ package logicClasses;
 import java.util.List;
 
 /**
- * Classe Equipment - Contenitore di armi
+ * Classe Equipment - Weapon's Container
  * 
  * @author Andrea
  */
 public class Equipment {
 	
-	/** Lista di armi */
+	/** List of weapons */
 	private List<Weapon> weaponsList;
 	
-	/** Arma corrente */
+	/** Current Weapon */
 	private int current;
 	
-	/** Numero di armi nella lista */
+	/** Number of weapons */
 	private int numberOfWeapons;
 	
-	/** Numero massimo di armi che il contenitore puo' avere */
+	/** Max number of weapons */
 	private int maxWeapons;
 	
 	/**
-	 * Costruttore di Equipment
+	 * Constructor Equipment
 	 */
 	public Equipment( int maxWeapons ){
 		this.current = 0;
@@ -36,9 +36,9 @@ public class Equipment {
 	}
 	
 	/**
-	 * Restituisce l'arma corrente
+	 * It gets current weapon
 	 * 
-	 * @return (Weapon) - Arma nella posizione 'current'
+	 * @return (Weapon) - Weapon in 'current' position
 	 */
 	public Weapon getCurrentWeapon(){
 		if( numberOfWeapons > 0 )
@@ -48,9 +48,7 @@ public class Equipment {
 	}
 	
 	/**
-	 * Sposta l'indice alla successiva arma in lista.
-	 * In particolare lo spostamento avviene in modo ciclico
-	 * e quando supera la fine della lista riparte dall'inizio
+	 * It moves index at next weapon
 	 */
 	public void nextWeapon(){
 		if( (current + 1) >= numberOfWeapons )
@@ -60,9 +58,7 @@ public class Equipment {
 	}
 	
 	/**
-	 * Sposta l'indice alla precedente arma in lista.
-	 * In particolare lo spostamento avviene in modo ciclico
-	 * e quando supera l'inizio della lista riparte dalla fine
+	 * It moves index at previous weapon
 	 */
 	public void backWeapon(){
 		if( (current - 1) < 0 )
@@ -72,11 +68,10 @@ public class Equipment {
 	}
 	
 	/**
-	 * Restituisce l'arma in posizione i in lista.
-	 * Fa un controllo di coerenza dell'indice
+	 * It gets weapon in 'i' position
 	 * 
-	 * @param i - (int) Indice dell'arma richiesta
-	 * @return (Weapon) Arma richiesta
+	 * @param i - (int) Index of requested weapon
+	 * @return (Weapon) Requested weapon
 	 */
 	public Weapon getWeapon(int i){
 		if( (i >= 0) && (i < numberOfWeapons) )
@@ -86,10 +81,10 @@ public class Equipment {
 	}
 	
 	/**
-	 * Aggiunge una nuova arma in lista
+	 * It add a new weapon
 	 * 
-	 * @param newWeapon - (Weapon) L'arma da inserire
-	 * @return (boolean) - true se l'arma e' stata inserita, false altrimenti
+	 * @param newWeapon - (Weapon) The weapon to be included
+	 * @return (boolean) - true if weapon has been included, false else
 	 */
 	public boolean addWeapon(Weapon newWeapon){
 		if( ( numberOfWeapons + 1 ) <= maxWeapons ){
@@ -102,10 +97,10 @@ public class Equipment {
 	}
 	
 	/**
-	 * Rimuove l'arma indicata dalla lista e la restituisce
+	 * Removes the weapon shown in the list and returns
 	 * 
-	 * @param i - (int) Indice dell'arma da rimuovere
-	 * @return (Weapon) - Arma rimossa dalla lista
+	 * @param i - (int) Index of the weapon to be removed
+	 * @return (Weapon) - Removed weapon
 	 */
 	public Weapon removeWeapon(int i){
 		if( ( i >= 0 ) && ( i < numberOfWeapons ) )
@@ -115,9 +110,9 @@ public class Equipment {
 	}
 	
 	/**
-	 * Rimuove l'arma nella posizione 'current'
+	 * Removes weapon in 'current' position
 	 * 
-	 * @return Weapon - Arma rimossa
+	 * @return Weapon - Removed weapon
 	 */
 	public Weapon removeCurrentWeapon(){
 		return weaponsList.remove( current );
