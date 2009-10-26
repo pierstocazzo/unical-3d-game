@@ -1,49 +1,49 @@
 package logicClasses;
 
 /**
- * Classe Arma
+ * Classe Weapon
  * 
  * @author Andrea
  *
  */
 public class Weapon {
 	
-	/** Identificatore */
+	/** Identifier */
 	String id;
 	
 	/** Tipo di arma */
 	private String type;
 	
-	/** Potenza dell'arma */
+	/** Weapon's power */
 	private int power;
 	
-	/** Danni arrecati da ogni colpo dell'arma */
+	/** Damage of every bullet */
 	private int damage;
 	
-	/** Proiettili o razzi correnti */
+	/** Remaining bullets */
 	private int currBullets;
 	
-	/** True se l'arma e' pesante, False altrimenti */
+	/** True = Heavy weapon, False else */
 	boolean isHeavy;
 	
 	/**
-	 * Costruttore
+	 * Constructor
 	 * 
-	 * @param i - Identificatore
-	 * @param pw - Potenza di Fuoco per singolo colpo
-	 * @param currBull - Colpi disponibili
-	 * @param isH - Se Pesante o meno
+	 * @param i - Identifier
+	 * @param pw - Power of every bullet
+	 * @param currBull - Aviable bullets
+	 * @param isH - If it is heavy
 	 */
-	public Weapon(String i,int pw, int dmg, int currBull, boolean isH) {
-		id=i;
-		power=pw;
-		damage=dmg;
-		currBullets=currBull;
-		isHeavy=isH;
+	public Weapon( String id, int power, int damage, int currentBull, boolean isHeavy) {
+		this.id = id;
+		this.power = power;
+		this.damage = damage;
+		this.currBullets = currentBull;
+		this.isHeavy = isHeavy;
 	}
 
 	/**
-	 * Restituisce il tipo dell'arma
+	 * It gets weapon's type
 	 * 
 	 * @return type
 	 */
@@ -52,7 +52,7 @@ public class Weapon {
 	}
 
 	/**
-	 * Permette di cambiare il tipo
+	 * It allows to set weapon's type
 	 * 
 	 * @param type
 	 */
@@ -61,7 +61,7 @@ public class Weapon {
 	}
 
 	/**
-	 * Restituisce la potenza dell'arma
+	 * It get weapon's power
 	 * 
 	 * @return power
 	 */
@@ -70,7 +70,7 @@ public class Weapon {
 	}
 
 	/**
-	 * Imposta la potenza dell'arma
+	 * It sets weapon's power
 	 * 
 	 * @param power
 	 */
@@ -79,7 +79,7 @@ public class Weapon {
 	}
 
 	/**
-	 * Restituisce i danni causabili da ogni colpo
+	 * It gets damage of every bullet
 	 * 
 	 * @return damage
 	 */
@@ -88,7 +88,7 @@ public class Weapon {
 	}
 	
 	/**
-	 * Imposta i danni causabili da ogni colpo
+	 * It sets damage of every bullet
 	 * 
 	 * @param damage
 	 */
@@ -97,7 +97,7 @@ public class Weapon {
 	}
 
 	/**
-	 * Restituisce i colpi rimanenti
+	 * It returns remaining bullets
 	 * 
 	 * @return currBullets
 	 */
@@ -106,7 +106,7 @@ public class Weapon {
 	}
 
 	/**
-	 * Aggiunge nuovi colpi
+	 * Add new bullets
 	 * 
 	 * @param newBullets
 	 */
