@@ -8,6 +8,7 @@ package joework.test;
 import com.jme.input.FirstPersonHandler;
 import com.jme.math.Vector3f;
 import com.jme.scene.shape.Box;
+import com.jme.scene.shape.Sphere;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.StaticPhysicsNode;
 import joework.app.AssHoleBaseGame;
@@ -55,14 +56,13 @@ public class testPhysics extends AssHoleBaseGame {
 
     @Override
     protected void setupPlayer() {
-        Box player = new Box("player", new Vector3f(-1, -1, -1), new Vector3f(1,1,1));
+        Sphere player = new Sphere("player", 20, 20, 5);
         player.setRandomColors();
 
         dynamicNode.setLocalTranslation(100, 50, 100);
         
         dynamicNode.attachChild(player);
         dynamicNode.generatePhysicsGeometry();
-
     }
 
     @Override
@@ -79,5 +79,6 @@ public class testPhysics extends AssHoleBaseGame {
     @Override
     protected void simpleUpdate() {
         input.update(tpf);
+        //characterController.update(tpf);
     }
 }
