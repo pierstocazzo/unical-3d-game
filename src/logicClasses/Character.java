@@ -114,7 +114,7 @@ public abstract class Character {
 	 * 
 	 * @param maxLife - (int) nuovo valore di massima vita
 	 */
-	public void setMaxLife(int newMaxLife) {
+	public void setMaxLife( int newMaxLife ) {
 		if( newMaxLife > 0) {
 			this.maxLife = newMaxLife;
 			if( currentLife > maxLife )

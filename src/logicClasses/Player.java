@@ -16,10 +16,11 @@ public class Player extends Character {
 	 * @param id - (String) Identificatore
 	 * @param currentLife - (int) Vita Corrente
 	 * @param maxLife - (int) Vita Massima
+	 * @param maxWeapons - (int) Numero massimo di Armi
 	 */
-	public Player( String id, int currentLife, int maxLife ) {
+	public Player( String id, int currentLife, int maxLife, int maxWeapons) {
 		super( id, currentLife, maxLife );
-		// TODO Auto-generated constructor stub
+		equipment = new Equipment(maxWeapons);
 	}
 
 	/**
