@@ -10,8 +10,6 @@ import java.util.regex.Pattern;
 
 import javax.management.MalformedObjectNameException;
 
-import jmetest.renderer.loader.TestX3DLoading;
-
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
 import com.jme.math.Quaternion;
@@ -42,7 +40,7 @@ import com.jmex.model.converters.ObjToJme;
  */
 public class ModelLoader {
 	
-    static final Logger logger = Logger.getLogger(TestX3DLoading.class.getName());
+    static final Logger logger = Logger.getLogger(ModelLoader.class.getName());
 	static FormatConverter converter;
 	static XMLImporter xmlImporter;
 
@@ -59,7 +57,7 @@ public class ModelLoader {
 	 * del modello NB: 1 per non ridimensionare
 	 * @param rotation -> (Quaternion) la rotazione che si vuole dare al 
 	 * modello NB: <code>new Quaternion()</code> per non ruotare
-	 * @return (Node) Ritorna il nodo a cui è attaccato il modello 
+	 * @return (Node) Ritorna il nodo a cui ï¿½ attaccato il modello 
 	 */
 	public static Node loadModel( String modelPath, String texturePath, float scaleFactor, Quaternion rotation ){
 
