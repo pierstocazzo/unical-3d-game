@@ -14,19 +14,18 @@ import joework.input.PhysicsInputHandler;
  *
  * @author joseph
  */
-public class PhysicsForwardAction extends InputAction {
+public class PhysicsStrafeLeftAction extends InputAction {
     PhysicsInputHandler handler;
     Vector3f newRotationalAxis;
 
-    public PhysicsForwardAction( PhysicsInputHandler handler, float speed ) {
+    public PhysicsStrafeLeftAction( PhysicsInputHandler handler ) {
         this.handler = handler;
-        handler.getTarget().setSpeed(speed);
     }
 
     public void performAction(InputActionEvent evt) {
         handler.getTarget().setRest(false);
-        handler.getTarget().setMovingForward(true);
-        newRotationalAxis = handler.getCamera().getDirection().normalizeLocal().crossLocal(0,1,0);
+        handler.getTarget().setStrafingLeft(true);
+        newRotationalAxis = handler.getCamera().getDirection().normalizeLocal();
         handler.getTarget().move(newRotationalAxis);
     }
 

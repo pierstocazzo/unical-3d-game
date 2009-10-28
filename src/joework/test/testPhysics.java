@@ -81,4 +81,9 @@ public class testPhysics extends AssHoleBaseGame {
         input.update(tpf);
         //characterController.update(tpf);
     }
+
+    @Override
+    protected void setupChaseCamera() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

@@ -63,7 +63,7 @@ public class testPhysicsGame extends AssHoleBaseGame{
 		   pt.addTexture(new ImageIcon(Game2.class.getClassLoader().getResource("data/texture/highest.jpg")), 128, 255, 384);
 		   // il numero passato alla funzione significa che creeremo textures n x n
 		   pt.createTexture(32);
-		   // il nostro proceduralblabla è in grado di miscelare le textures per creare un terreno un po più realistico
+		   // il nostro proceduralblabla ï¿½ in grado di miscelare le textures per creare un terreno un po piï¿½ realistico
 		   
 		   // ora applichiamo le textures create al nostro terreno
 		   TextureState ts = display.getRenderer().createTextureState();
@@ -124,5 +124,10 @@ public class testPhysicsGame extends AssHoleBaseGame{
 		input.update(tpf);
 		cam.update();
 	}
+
+    @Override
+    protected void setupChaseCamera() {
+        // TODO
+    }
 
 }
