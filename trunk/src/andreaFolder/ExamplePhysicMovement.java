@@ -212,8 +212,8 @@ public class ExamplePhysicMovement extends AssHoleBaseGame {
         dynamicMoto.generatePhysicsGeometry();
         /** Nota bene: 
          * 
-         * 	La computeMass() si può applicare solo se presenta la geometria
-         *  altrimenti non può fare calcoli di densità, centro massa etc...
+         * 	La computeMass() si puï¿½ applicare solo se presenta la geometria
+         *  altrimenti non puï¿½ fare calcoli di densitï¿½, centro massa etc...
          */
         dynamicMoto.computeMass();
     }
@@ -257,6 +257,11 @@ public class ExamplePhysicMovement extends AssHoleBaseGame {
 			dynamicMoto.addForce(new Vector3f(0,100,0));
         }
 //        dynamicMoto.rotateUpTo(new Vector3f(0,1,0));
+    }
+
+    @Override
+    protected void setupChaseCamera() {
+        //todo
     }
 
 }

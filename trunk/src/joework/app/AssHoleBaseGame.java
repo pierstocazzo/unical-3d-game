@@ -18,6 +18,7 @@ public abstract class AssHoleBaseGame extends PhysicsGame {
         setupPlayer();
         setupCharacters();
         setupCamera();
+        setupChaseCamera();
         setupInput();
     }
     
@@ -26,5 +27,7 @@ public abstract class AssHoleBaseGame extends PhysicsGame {
     protected abstract void setupCharacters();
     protected abstract void setupPlayer();
     protected abstract void setupCamera();
+    protected abstract void setupChaseCamera();
     protected abstract void setupInput();
+
 }

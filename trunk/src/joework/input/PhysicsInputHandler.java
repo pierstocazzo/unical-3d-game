@@ -10,8 +10,13 @@ import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
-import com.jmex.physics.DynamicPhysicsNode;
+import com.jmex.physics.StaticPhysicsNode;
+import joework.controller.PhysicsCharacter;
+import joework.input.action.PhysicsBackwardAction;
 import joework.input.action.PhysicsForwardAction;
+import joework.input.action.PhysicsJumpAction;
+import joework.input.action.PhysicsStrafeLeftAction;
+import joework.input.action.PhysicsStrafeRightAction;
 
 /**
  *
@@ -19,43 +24,46 @@ import joework.input.action.PhysicsForwardAction;
  */
 public class PhysicsInputHandler extends InputHandler {
 
-    public static final Vector3f PROP_DEFAULT_TORQUE = new Vector3f(-60000,0,0);
-
     public static final String PROP_KEY_FORWARD = "fwdKey";
+    public static final String PROP_KEY_BACKWARD = "bkdKey";
+    public static final String PROP_KEY_STRAFE_LEFT = "strLeftKey";
+    public static final String PROP_KEY_STRAFE_RIGHT = "strRightKey";
+    public static final String PROP_KEY_JUMP = "jmpKey";
 
-    DynamicPhysicsNode target;
+    PhysicsCharacter target;
+    StaticPhysicsNode terrain;
     Camera cam;
 
-    Vector3f newCamDirection, prevLocation;
-
-    boolean rest = true;
-    boolean movingForward;
-    boolean movingBackward;
-    boolean rotatingLeft;
-    boolean rotatingRight;
-    boolean jumping;
-
-    boolean targetOnFloor = false;
+    Vector3f prevCamDirection;
 
     protected PhysicsForwardAction forwardAction;
+    protected PhysicsBackwardAction backwardAction;
+    protected PhysicsStrafeLeftAction strafeLeftAction;
+    protected PhysicsStrafeRightAction strafeRightAction;
+    protected PhysicsJumpAction jumpAction;
 
-    public PhysicsInputHandler(DynamicPhysicsNode target, Camera cam) {
+    public PhysicsInputHandler(PhysicsCharacter target, Camera cam) {
         this.target = target;
         this.cam = cam;
-        this.newCamDirection = new Vector3f();
-
-        prevLocation = new Vector3f(100,0,100);
+        this.prevCamDirection = new Vector3f();
 
         updateKeyBinding();
         setActions();
     }
 
     private void setActions() {
-        forwardAction = new PhysicsForwardAction(this, PROP_DEFAULT_TORQUE);
-        // rotateLeftAction = new PhysicsLeftAction(this);
-        
+        forwardAction = new PhysicsForwardAction(this, 600);
+        backwardAction = new PhysicsBackwardAction(this);
+        strafeLeftAction = new PhysicsStrafeLeftAction(this);
+        strafeRightAction = new PhysicsStrafeRightAction(this);
+        jumpAction = new PhysicsJumpAction(this);
         // more here
+        
         addAction(forwardAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_W, InputHandler.AXIS_NONE, true);
+        addAction(backwardAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_S, InputHandler.AXIS_NONE, true);
+        addAction(strafeLeftAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_A, InputHandler.AXIS_NONE, true);
+        addAction(strafeRightAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_D, InputHandler.AXIS_NONE, true);
+        addAction(jumpAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_SPACE, InputHandler.AXIS_NONE, true);
         // more here
 
     }
@@ -68,46 +76,27 @@ public class PhysicsInputHandler extends InputHandler {
 
     @Override
     public void update(float time) {
-        targetOnFloor = false;
+        if ( !isEnabled() ) return;
 
-        super.update(time);
+        /**
+         * Process all input triggers and change internal state variables
+         */
+        doInputUpdate(time);
 
-        newCamDirection.setX( target.getLocalTranslation().x );
-        newCamDirection.setY( target.getLocalTranslation().y + 20 );
-        newCamDirection.setZ( target.getLocalTranslation().z + 100 );
-
-        cam.setLocation(newCamDirection);
-        cam.update();
-
-        if ( rest && targetOnFloor ) {
+        /**
+         * If the player is on the floor clear dynamics
+         */
+        if ( target.getRest() && target.getOnGround() ) {
             target.clearDynamics();
         }
-
-        rest = true;
     }
 
-    public DynamicPhysicsNode getTarget() {
+    public void doInputUpdate(float time) {
+        super.update(time);
+    }
+
+    public PhysicsCharacter getTarget() {
         return target;
-    }
-
-    public void setRest( boolean rest ) {
-        this.rest = rest;
-    }
-
-    public void setTargetOnFloor( boolean onFloor ) {
-        targetOnFloor = onFloor;
-    }
-
-    public void setMovingForward( boolean moving ) {
-        movingForward = moving;
-    }
-
-    public boolean getTargetOnFloor() {
-        return targetOnFloor;
-    }
-
-    public boolean getRest() {
-        return rest;
     }
 
     public Camera getCamera() {

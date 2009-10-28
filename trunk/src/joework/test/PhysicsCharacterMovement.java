@@ -200,4 +200,9 @@ public class PhysicsCharacterMovement extends AssHoleBaseGame {
         input.update(tpf);
     }
 
+    @Override
+    protected void setupChaseCamera() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
