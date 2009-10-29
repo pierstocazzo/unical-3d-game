@@ -18,8 +18,9 @@ public class PhysicsBackwardAction extends InputAction {
     PhysicsInputHandler handler;
     Vector3f newRotationalAxis;
 
-    public PhysicsBackwardAction( PhysicsInputHandler handler ) {
+    public PhysicsBackwardAction( PhysicsInputHandler handler, float speed ) {
         this.handler = handler;
+        this.handler.getTarget().setSpeed(speed);
     }
 
     public void performAction(InputActionEvent evt) {
