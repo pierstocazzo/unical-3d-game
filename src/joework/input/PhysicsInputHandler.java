@@ -9,6 +9,7 @@ import com.jme.input.InputHandler;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
 import com.jme.input.action.InputAction;
+import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
 import joework.controller.PhysicsCharacter;
 import joework.input.action.PhysicsBackwardAction;

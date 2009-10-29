@@ -7,7 +7,6 @@ package joework.input.action;
 
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
-import com.jme.math.Vector3f;
 import joework.input.PhysicsInputHandler;
 
 /**
@@ -27,7 +26,7 @@ public class PhysicsJumpAction extends InputAction {
         if ( handler.getTarget().getOnGround() == true ) {
             handler.getTarget().setJumping(true);
             handler.getTarget().setOnGround(false);
-            handler.getTarget().getCharacterFeet().addForce( new Vector3f( 0, 40000, 0 ) );
+            handler.getTarget().getCharacterFeet().addForce( handler.getTarget().getJumpVector() );
         }
     }
 

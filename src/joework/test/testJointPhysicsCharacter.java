@@ -128,7 +128,7 @@ public class testJointPhysicsCharacter extends AssHoleBaseGame {
 
     @Override
     protected void setupPlayer() {
-        character = new PhysicsCharacter(staticNode, getPhysicsSpace(), Vector3f.UNIT_X, 1000);
+        character = new PhysicsCharacter(staticNode, getPhysicsSpace(), Vector3f.UNIT_X, 1000, 100);
         character.getCharacterNode().setLocalTranslation(160, 30, 160);
 
         rootNode.attachChild( character.getCharacterNode() );
