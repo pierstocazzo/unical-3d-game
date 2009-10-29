@@ -27,6 +27,6 @@ public class PhysicsForwardAction extends InputAction {
         handler.getTarget().setMovingForward(true);
         newRotationalAxis = handler.getCamera().getDirection().normalizeLocal().crossLocal(0,1,0);
         handler.getTarget().move(newRotationalAxis);
+        
     }
-
 }
