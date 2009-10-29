@@ -18,9 +18,8 @@ public class PhysicsForwardAction extends InputAction {
     PhysicsInputHandler handler;
     Vector3f newRotationalAxis;
 
-    public PhysicsForwardAction( PhysicsInputHandler handler, float speed ) {
+    public PhysicsForwardAction( PhysicsInputHandler handler ) {
         this.handler = handler;
-        handler.getTarget().setSpeed(speed);
     }
 
     public void performAction(InputActionEvent evt) {

@@ -18,8 +18,9 @@ public class PhysicsStrafeRightAction extends InputAction {
     PhysicsInputHandler handler;
     Vector3f newRotationalAxis;
 
-    public PhysicsStrafeRightAction( PhysicsInputHandler handler ) {
+    public PhysicsStrafeRightAction( PhysicsInputHandler handler, float speed ) {
         this.handler = handler;
+        this.handler.getTarget().setSpeed(speed);
     }
 
     public void performAction(InputActionEvent evt) {

@@ -8,9 +8,8 @@ package joework.input;
 import com.jme.input.InputHandler;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
-import com.jme.math.Vector3f;
+import com.jme.input.action.InputAction;
 import com.jme.renderer.Camera;
-import com.jmex.physics.StaticPhysicsNode;
 import joework.controller.PhysicsCharacter;
 import joework.input.action.PhysicsBackwardAction;
 import joework.input.action.PhysicsForwardAction;
@@ -31,47 +30,43 @@ public class PhysicsInputHandler extends InputHandler {
     public static final String PROP_KEY_JUMP = "jmpKey";
 
     PhysicsCharacter target;
-    StaticPhysicsNode terrain;
     Camera cam;
 
-    Vector3f prevCamDirection;
-
-    protected PhysicsForwardAction forwardAction;
-    protected PhysicsBackwardAction backwardAction;
-    protected PhysicsStrafeLeftAction strafeLeftAction;
-    protected PhysicsStrafeRightAction strafeRightAction;
-    protected PhysicsJumpAction jumpAction;
+    protected InputAction forwardAction;
+    protected InputAction backwardAction;
+    protected InputAction strafeLeftAction;
+    protected InputAction strafeRightAction;
+    protected InputAction jumpAction;
 
     public PhysicsInputHandler(PhysicsCharacter target, Camera cam) {
         this.target = target;
         this.cam = cam;
-        this.prevCamDirection = new Vector3f();
 
-        updateKeyBinding();
+        updateKeyBinding(); // to improve
         setActions();
     }
 
     private void setActions() {
-        forwardAction = new PhysicsForwardAction(this, 600);
-        backwardAction = new PhysicsBackwardAction(this);
-        strafeLeftAction = new PhysicsStrafeLeftAction(this);
-        strafeRightAction = new PhysicsStrafeRightAction(this);
+        forwardAction = new PhysicsForwardAction(this);
+        backwardAction = new PhysicsBackwardAction(this, target.getSpeed()/2);
+        strafeLeftAction = new PhysicsStrafeLeftAction(this, target.getSpeed()/2);
+        strafeRightAction = new PhysicsStrafeRightAction(this, target.getSpeed()/2);
         jumpAction = new PhysicsJumpAction(this);
-        // more here
-        
-        addAction(forwardAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_W, InputHandler.AXIS_NONE, true);
-        addAction(backwardAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_S, InputHandler.AXIS_NONE, true);
-        addAction(strafeLeftAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_A, InputHandler.AXIS_NONE, true);
-        addAction(strafeRightAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_D, InputHandler.AXIS_NONE, true);
-        addAction(jumpAction, InputHandler.DEVICE_KEYBOARD, KeyInput.KEY_SPACE, InputHandler.AXIS_NONE, true);
-        // more here
 
+        addAction(forwardAction, PROP_KEY_FORWARD, true);
+        addAction(backwardAction, PROP_KEY_BACKWARD, true);
+        addAction(strafeLeftAction, PROP_KEY_STRAFE_LEFT, true);
+        addAction(strafeRightAction, PROP_KEY_STRAFE_RIGHT, true);
+        addAction(jumpAction, PROP_KEY_JUMP, true);
     }
 
     public void updateKeyBinding() {
         KeyBindingManager keyboard = KeyBindingManager.getKeyBindingManager();
         keyboard.set(PROP_KEY_FORWARD, KeyInput.KEY_W);
-        // more here
+        keyboard.set(PROP_KEY_BACKWARD, KeyInput.KEY_S);
+        keyboard.set(PROP_KEY_STRAFE_LEFT, KeyInput.KEY_A);
+        keyboard.set(PROP_KEY_STRAFE_RIGHT, KeyInput.KEY_D);
+        keyboard.set(PROP_KEY_JUMP, KeyInput.KEY_SPACE);
     }
 
     @Override

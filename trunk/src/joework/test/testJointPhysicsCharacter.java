@@ -14,7 +14,6 @@ import com.jme.renderer.Renderer;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
 import com.jme.util.TextureManager;
-import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
@@ -32,7 +31,6 @@ public class testJointPhysicsCharacter extends AssHoleBaseGame {
 
     PhysicsInputHandler myInput;
     StaticPhysicsNode staticNode;
-    DynamicPhysicsNode dynamicNode;
 
     PhysicsCharacter character;
 
@@ -49,10 +47,8 @@ public class testJointPhysicsCharacter extends AssHoleBaseGame {
     @Override
     protected void setupInit() {
         staticNode = getPhysicsSpace().createStaticNode();
-        dynamicNode = getPhysicsSpace().createDynamicNode();
 
         rootNode.attachChild(staticNode);
-        rootNode.attachChild(dynamicNode);
 
         pause = true;
         showPhysics = true;
@@ -132,7 +128,7 @@ public class testJointPhysicsCharacter extends AssHoleBaseGame {
 
     @Override
     protected void setupPlayer() {
-        character = new PhysicsCharacter(staticNode, getPhysicsSpace(), Vector3f.UNIT_X, 600);
+        character = new PhysicsCharacter(staticNode, getPhysicsSpace(), Vector3f.UNIT_X, 1000);
         character.getCharacterNode().setLocalTranslation(160, 30, 160);
 
         rootNode.attachChild( character.getCharacterNode() );
@@ -148,7 +144,7 @@ public class testJointPhysicsCharacter extends AssHoleBaseGame {
     @Override
     protected void setupChaseCamera() {
         Vector3f targetOffset = new Vector3f();
-        targetOffset.y = dynamicNode.getLocalTranslation().y + 5;
+        targetOffset.y = character.getCharacterBody().getLocalTranslation().y + 5;
         chaser = new ChaseCamera(cam, character.getCharacterBody());
         chaser.setTargetOffset(targetOffset);
     }
