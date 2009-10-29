@@ -48,7 +48,7 @@ public class PhysicsCharacter {
     Joint feetToBody;
     RotationalJointAxis rotationalAxis;
 
-    float speed, scale;
+    float speed, mass;
 
     InputHandler contactDetect = new InputHandler();
 
@@ -61,9 +61,9 @@ public class PhysicsCharacter {
     boolean onGround;
 
     Quaternion quaternion;
-    Vector3f moveDirection;
+    Vector3f moveDirection, jumpVector;
 
-    public PhysicsCharacter( StaticPhysicsNode ground, PhysicsSpace physicsSpace, Vector3f direction, float speed ) {
+    public PhysicsCharacter( StaticPhysicsNode ground, PhysicsSpace physicsSpace, Vector3f direction, float speed, float mass ) {
         this.ground = ground;
 
         characterNode = new Node("character node");
@@ -74,6 +74,7 @@ public class PhysicsCharacter {
 
         this.moveDirection = direction;
         this.speed = speed;
+        this.mass = mass;
 
         rest = true;
         movingForward = false;
@@ -140,9 +141,11 @@ public class PhysicsCharacter {
         rotationalAxis.setAvailableAcceleration(0f);
         rotationalAxis.setDesiredVelocity(0f);
 
-        // Set default mass - TO VERIFY
-        feet.setMass(100);
-        //body.setMass(2.6873279f);
+        // Set default mass
+        feet.setMass(mass);
+
+        // Set the jump vector
+        jumpVector = new Vector3f(0, mass*400, 0);
     }
 
     public void update( float time ) {
@@ -265,5 +268,9 @@ public class PhysicsCharacter {
 
     public void setOnGround( boolean onGround ) {
         this.onGround = onGround;
+    }
+
+    public Vector3f getJumpVector() {
+        return jumpVector;
     }
 }
