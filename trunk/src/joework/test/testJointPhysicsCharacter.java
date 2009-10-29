@@ -8,9 +8,11 @@ package joework.test;
 import com.jme.image.Texture;
 import com.jme.input.ChaseCamera;
 import com.jme.light.DirectionalLight;
+import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
+import com.jme.scene.Node;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
 import com.jme.util.TextureManager;
@@ -19,9 +21,12 @@ import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 import javax.swing.ImageIcon;
+
 import joework.app.AssHoleBaseGame;
 import joework.controller.PhysicsCharacter;
 import joework.input.PhysicsInputHandler;
+
+import utils.ModelLoader;
 
 /**
  *
@@ -132,6 +137,11 @@ public class testJointPhysicsCharacter extends AssHoleBaseGame {
         character.getCharacterNode().setLocalTranslation(160, 30, 160);
 
         rootNode.attachChild( character.getCharacterNode() );
+        
+        Node model = ModelLoader.loadModel("data/model/Soldato/Soldato.obj", "", 0.2f, new Quaternion());
+         
+        character.getCharacterBody().attachChild( model );
+        model.setLocalTranslation(0, -2, 0);       
     }
 
     @Override
@@ -156,7 +166,7 @@ public class testJointPhysicsCharacter extends AssHoleBaseGame {
 
     @Override
     protected void simpleUpdate() {
-        character.update(tpf);
+        character.update( tpf );
         myInput.update(tpf);
         chaser.update(tpf);
     }

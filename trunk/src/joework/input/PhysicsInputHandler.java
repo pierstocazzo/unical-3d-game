@@ -9,6 +9,8 @@ import com.jme.input.InputHandler;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
 import com.jme.input.action.InputAction;
+import com.jme.math.FastMath;
+import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
 import joework.controller.PhysicsCharacter;
@@ -32,6 +34,7 @@ public class PhysicsInputHandler extends InputHandler {
 
     PhysicsCharacter target;
     Camera cam;
+    Vector3f prevCamDirection;
 
     protected InputAction forwardAction;
     protected InputAction backwardAction;
@@ -42,7 +45,7 @@ public class PhysicsInputHandler extends InputHandler {
     public PhysicsInputHandler(PhysicsCharacter target, Camera cam) {
         this.target = target;
         this.cam = cam;
-
+        this.prevCamDirection = new Vector3f();
         updateKeyBinding(); // to improve
         setActions();
     }
@@ -73,12 +76,32 @@ public class PhysicsInputHandler extends InputHandler {
     @Override
     public void update(float time) {
         if ( !isEnabled() ) return;
-
+        
         /**
          * Process all input triggers and change internal state variables
          */
         doInputUpdate(time);
-
+        
+        
+        /* 
+         *   Compute rotation for the target
+         */
+//        Vector3f prev = prevCamDirection.normalize();
+//        prev.setY(0);
+//        Vector3f current = cam.getDirection().normalize();
+//        current.setY(0);
+//        
+//        float cos = prev.dot( current );
+//        
+//        float angle = FastMath.acos( cos );
+//        
+//        System.out.println("L'angolo e'. " + angle);
+//        
+//        prevCamDirection.set(cam.getDirection());
+//
+//        Quaternion q = new Quaternion().fromAngleAxis( angle, Vector3f.UNIT_Y );
+//        target.rotateBody(q);
+        
         /**
          * If the player is on the floor clear dynamics
          */
