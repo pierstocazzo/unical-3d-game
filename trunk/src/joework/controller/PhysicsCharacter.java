@@ -181,7 +181,7 @@ public class PhysicsCharacter {
             if( moveDirection != Vector3f.ZERO ){
                 try{
                     rotationalAxis.setDirection( moveDirection );
-                    rotationalAxis.setAvailableAcceleration( 12*speed );
+                    rotationalAxis.setAvailableAcceleration( 15*speed );
                     rotationalAxis.setDesiredVelocity( speed );
                 } catch( Exception e ) {
                     rotationalAxis.setDesiredVelocity(0f);
