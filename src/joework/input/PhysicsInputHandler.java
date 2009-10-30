@@ -102,6 +102,24 @@ public class PhysicsInputHandler extends InputHandler {
 //        Quaternion q = new Quaternion().fromAngleAxis( angle, Vector3f.UNIT_Y );
 //        target.rotateBody(q);
         
+// Tentativo due per la rotazione
+//        Vector3f prev = prevCamDirection.normalize();
+//        prev.setY(0);
+//        Vector3f current = cam.getDirection().normalize();
+//        current.setY(0);
+//        
+//        float angle = prev.angleBetween( current );
+//        
+//        if(!prev.equals(current)){
+//        	
+//	        System.out.println("L'angolo e'. " + angle);
+//	        
+//	        prevCamDirection.set(cam.getDirection());
+//	
+//	        Quaternion q = new Quaternion().fromAngleAxis( angle, Vector3f.UNIT_Y );
+//	        target.getCharacterBody().getChild(1).setLocalRotation(q);
+//        }
+        
         /**
          * If the player is on the floor clear dynamics
          */
