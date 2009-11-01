@@ -122,7 +122,7 @@ public class PhysicsCharacter {
         // Create the body
         PhysicsCapsule bodyGeometry = body.createCapsule("body geometry");
         bodyGeometry.setLocalScale(2);
-        bodyGeometry.setLocalTranslation(0,4.5f,0);
+        bodyGeometry.setLocalTranslation(0,5,0);
         // Set UP the orientation of the Body
         quaternion.fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
         bodyGeometry.setLocalRotation(quaternion);
