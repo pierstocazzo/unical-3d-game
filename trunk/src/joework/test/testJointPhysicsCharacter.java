@@ -141,7 +141,7 @@ public class testJointPhysicsCharacter extends AssHoleBaseGame {
         Node model = ModelLoader.loadModel("data/model/Soldato/Soldato.obj", "", 0.2f, new Quaternion());
          
         character.getCharacterBody().attachChild( model );
-        model.setLocalTranslation(0, -2, 0);       
+        model.setLocalTranslation(0, -1.5f, 0);       
     }
 
     @Override
