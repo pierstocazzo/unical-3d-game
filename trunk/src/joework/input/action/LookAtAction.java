@@ -6,7 +6,6 @@ import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
-import com.jmex.physics.DynamicPhysicsNode;
 
 public class LookAtAction extends InputAction {
 	
