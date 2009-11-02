@@ -49,7 +49,7 @@ public class PhysicsInputHandler extends InputHandler {
         strafeLeftAction = new PhysicsStrafeLeftAction( this, target.getSpeed()/2 );
         strafeRightAction = new PhysicsStrafeRightAction( this, target.getSpeed()/2 );
         jumpAction = new PhysicsJumpAction( this );
-        lookAtAction = new LookAtAction( target.getCharacterBody(), cam );
+        lookAtAction = new LookAtAction( this, cam );
         
         addAction( forwardAction, PROP_KEY_FORWARD, true );
         addAction( backwardAction, PROP_KEY_BACKWARD, true );
