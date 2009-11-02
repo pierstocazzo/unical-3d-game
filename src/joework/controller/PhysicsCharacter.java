@@ -13,6 +13,7 @@ import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
+import com.jme.scene.shape.Torus;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
 import com.jmex.physics.PhysicsSpace;
@@ -192,6 +193,9 @@ public class PhysicsCharacter {
 
     public void clearDynamics() {
         feet.clearDynamics();
+        rotationalAxis.setDesiredVelocity(0);
+        rotationalAxis.setAvailableAcceleration(0);
+        body.clearDynamics();
     }
 
     public Node getCharacterNode() {
