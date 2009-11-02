@@ -13,8 +13,6 @@ import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
-import com.jme.scene.Spatial;
-import com.jme.scene.shape.Torus;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
 import com.jmex.physics.PhysicsSpace;
@@ -283,11 +281,11 @@ public class PhysicsCharacter {
         return jumpVector;
     }
 
-	public Node getModel() {
-		return model;
-	}
+    public Node getModel() {
+        return model;
+    }
 
     public void setModel( Node model ) {
-		this.model = model;
-	}
+        this.model = model;
+    }
 }
