@@ -12,8 +12,8 @@ newmtl 12___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka src\data\model\Soldato\Corpo.jpg
-	map_Kd src\data\model\Soldato\Corpo.jpg
+	map_Ka src/data/model/Soldato/Corpo.jpg
+	map_Kd src/data/model/Soldato/Corpo.jpg
 
 newmtl wire_255000000
 	Ns 32
