@@ -13,8 +13,6 @@ import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
-import com.jme.scene.Spatial;
-import com.jme.scene.shape.Torus;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
 import com.jmex.physics.PhysicsSpace;
@@ -149,6 +147,7 @@ public class PhysicsCharacter {
 
         // Set default mass
         feet.setMass(mass);
+        body.setMass(2.5f);
 
         // Set the jump vector
         jumpVector = new Vector3f(0, mass*400, 0);
@@ -198,9 +197,6 @@ public class PhysicsCharacter {
 
     public void clearDynamics() {
         feet.clearDynamics();
-        rotationalAxis.setDesiredVelocity(0);
-        rotationalAxis.setAvailableAcceleration(0);
-        body.clearDynamics();
     }
 
     public Node getCharacterNode() {
