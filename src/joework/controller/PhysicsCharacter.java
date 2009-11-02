@@ -13,6 +13,7 @@ import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
+import com.jme.scene.Spatial;
 import com.jme.scene.shape.Torus;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
@@ -45,7 +46,9 @@ public class PhysicsCharacter {
 
     Node characterNode;
     DynamicPhysicsNode body, feet;
-    StaticPhysicsNode ground;
+    Node model;
+
+	StaticPhysicsNode ground;
     Joint feetToBody;
     RotationalJointAxis rotationalAxis;
 
@@ -63,8 +66,9 @@ public class PhysicsCharacter {
 
     Quaternion quaternion;
     Vector3f moveDirection, jumpVector;
+	
 
-    public PhysicsCharacter( StaticPhysicsNode ground, PhysicsSpace physicsSpace, Vector3f direction, float speed, float mass ) {
+    public PhysicsCharacter( StaticPhysicsNode ground, PhysicsSpace physicsSpace, Vector3f direction, float speed, float mass, Node model ) {
         this.ground = ground;
 
         characterNode = new Node("character node");
@@ -76,6 +80,7 @@ public class PhysicsCharacter {
         this.moveDirection = direction;
         this.speed = speed;
         this.mass = mass;
+        this.model = model;
 
         rest = true;
         movingForward = false;
@@ -130,7 +135,7 @@ public class PhysicsCharacter {
         // Setting up the body
         body.setAffectedByGravity(false);
         body.computeMass();
-        // TODO: body.attach( MODEL );
+        body.attachChild( model );
 
         // Append body to main Character Node
         characterNode.attachChild(body);
@@ -277,4 +282,12 @@ public class PhysicsCharacter {
     public Vector3f getJumpVector() {
         return jumpVector;
     }
+
+	public Node getModel() {
+		return model;
+	}
+	
+    public void setModel( Node model ) {
+		this.model = model;
+	}
 }
