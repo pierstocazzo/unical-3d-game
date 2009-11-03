@@ -12,7 +12,7 @@ public class LogicWeapon {
 	String id;
 	
 	/** Remaining ammo */
-	int currentAmmo;
+	int ammo;
 	
 	/** Weapon type */
 	WeaponType type;
@@ -26,7 +26,7 @@ public class LogicWeapon {
 	 */
 	public LogicWeapon( String id, int ammo, WeaponType type ) {
 		this.id = id;
-		this.currentAmmo = ammo;
+		this.ammo = ammo;
 		this.type = type;
 	}
 
@@ -53,17 +53,21 @@ public class LogicWeapon {
 	 * 
 	 * @return currBullets
 	 */
-	public int getCurrBullets() {
-		return currentAmmo;
+	public int getAmmo() {
+		return ammo;
 	}
 
 	/**
-	 * Add new bullets
+	 * Add ammo
 	 * 
-	 * @param newBullets
+	 * @param ammo
 	 */
-	public void addBullets(int newBullets) {
-		if( currentAmmo > 0 )
-			this.currentAmmo += newBullets;
+	public void addAmmo( int addedAmmo ) {
+		if( ammo > 0 )
+			ammo = ammo + addedAmmo;
+	}
+	
+	public void decreaseAmmo() {
+		ammo = ammo - 1;
 	}
 }

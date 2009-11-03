@@ -14,6 +14,7 @@ public class LogicPlayer extends LogicCharacter {
 	
 	int weaponCounter;
 	
+	/** Weapon in use */
 	LogicWeapon currentWeapon;
 	
 	/**
@@ -40,8 +41,12 @@ public class LogicPlayer extends LogicCharacter {
 	 * @param weapon - (LogicWeapon) the weapon to add
 	 */
 	public void addWeapon( LogicWeapon weapon ) {
-		equipment.put( weaponCounter, weapon );
-		weaponCounter = weaponCounter + 1;
+		// the player can't carry more than three weapons
+		if( weaponCounter >= 3 ) {
+			equipment.put( weaponCounter, weapon );
+			weaponCounter = weaponCounter + 1;
+		} 
+		// advise the player he can't carry more than three weapons
 	}
 	
 	/** Function <code>changeWeapon</code><br>
@@ -53,7 +58,15 @@ public class LogicPlayer extends LogicCharacter {
 		try {
 			currentWeapon = equipment.get( weaponKey );
 		} catch( Exception e ) {
-			// just don't change the current weapon
+			// don't change the current weapon and advise
+			// that the desired weapon isn't in the equipment
 		}
+	}
+	
+	/** 
+	 * Just decrease ammunitions
+	 */
+	public void shoot() {
+		currentWeapon.decreaseAmmo();
 	}
 }
