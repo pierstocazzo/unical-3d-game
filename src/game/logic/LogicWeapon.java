@@ -14,19 +14,19 @@ public class LogicWeapon {
 	/** Remaining ammo */
 	int currentAmmo;
 	
+	/** Weapon type */
 	WeaponType type;
 	
 	/**
-	 * Constructor
+	 * <code>LogicWeapon</code> Constructor
 	 * 
-	 * @param i - Identifier
-	 * @param pw - Power of every bullet
-	 * @param currBull - Aviable bullets
-	 * @param isH - If it is heavy
+	 * @param id - (String) Identifier
+	 * @param ammo - (int) character's ammo
+	 * @param type - (WeaponType) the weapon type
 	 */
-	public LogicWeapon( String id, int currentAmmo, WeaponType type ) {
+	public LogicWeapon( String id, int ammo, WeaponType type ) {
 		this.id = id;
-		this.currentAmmo = currentAmmo;
+		this.currentAmmo = ammo;
 		this.type = type;
 	}
 

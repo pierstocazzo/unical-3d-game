@@ -2,12 +2,11 @@ package game.logic;
 
 /**
  * Class LogicEnemy
- * 
- * @author Andrea
  *
  */
 public class LogicEnemy extends LogicCharacter {
 
+	/** Enemy weapon */
 	LogicWeapon weapon;
 	
 	/**
