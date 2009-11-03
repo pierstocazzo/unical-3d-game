@@ -6,7 +6,7 @@ import com.jme.input.InputHandler;
  *
  * @author joseph
  */
-public abstract class AssHoleBaseGame extends PhysicsGame {
+public abstract class CustomGame extends PhysicsGame {
 
     protected InputHandler input;
 

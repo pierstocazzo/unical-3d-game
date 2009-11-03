@@ -5,7 +5,8 @@ import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
 import com.jme.input.action.InputAction;
 import com.jme.renderer.Camera;
-import game.physics.PhysicsCharacter;
+
+import game.graphics.PhysicsCharacter;
 import game.input.action.PhysicsBackwardAction;
 import game.input.action.PhysicsForwardAction;
 import game.input.action.PhysicsJumpAction;

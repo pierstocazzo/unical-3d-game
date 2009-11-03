@@ -1,14 +1,15 @@
 package game.logic;
 
 import com.jme.math.Vector3f;
-import game.physics.Characterable;
+
+import game.graphics.CharacterInterface;
 
 /**
  * Abstract Class LogicCharacter
  * 
  * @author Andrea
  */
-public abstract class LogicCharacter implements Characterable {
+public abstract class LogicCharacter implements CharacterInterface {
 
 	/** Idenfitier */
 	String id;
@@ -25,8 +26,11 @@ public abstract class LogicCharacter implements Characterable {
 	/** Present LogicState */
 	int currentState;
 
-        /** Current Position Vector */
-        Vector3f position;
+    /** Current Position Vector */
+	Vector3f position;
+	
+	/** fucker */
+	CharacterInterface core;
 	
 	/**
 	 * Constructor LogicCharacter
@@ -41,7 +45,8 @@ public abstract class LogicCharacter implements Characterable {
 		this.maxLife = maxLife;
 		this.currentState = LogicState.DEFAULT;
 		this.score = 0;
-                this.position = new Vector3f();
+		this.position = new Vector3f();
+		this.core = this;
 	}
 	
 	/**
@@ -141,9 +146,14 @@ public abstract class LogicCharacter implements Characterable {
 		return score;
 	}
 
-        public void refresh( Vector3f position ) {
-            this.position.set(position);
-            System.out.println("Posizione corrente logica: " + this.position.toString());
-        }
+	@Override
+	public void refresh( Vector3f position ) {
+		this.position.set(position);
+//		debug print
+//		System.out.println("Posizione corrente logica: " + this.position.toString());
+	}
 
+	public CharacterInterface getCore() {
+		return core;
+	}
 }
