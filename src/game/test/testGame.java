@@ -22,9 +22,10 @@ import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 import javax.swing.ImageIcon;
 
-import game.base.AssHoleBaseGame;
-import game.physics.PhysicsCharacter;
+import game.base.CustomGame;
+import game.graphics.PhysicsCharacter;
 import game.input.PhysicsInputHandler;
+import game.logic.LogicCharacter;
 
 import utils.ModelLoader;
 
@@ -32,19 +33,20 @@ import utils.ModelLoader;
  *
  * @author joseph
  */
-public class testPhysicsInputHandler extends AssHoleBaseGame {
+public class testGame extends CustomGame {
 
     PhysicsInputHandler myInput;
     StaticPhysicsNode staticNode;
 
     PhysicsCharacter character;
-
+    LogicCharacter logicCharacter;
+     
     ChaseCamera chaser;
 
     TerrainBlock terrain;
 
     public static void main( String args[] ) {
-        testPhysicsInputHandler m = new testPhysicsInputHandler();
+        testGame m = new testGame();
         m.setConfigShowMode(ConfigShowMode.AlwaysShow);
         m.start();
     }
@@ -52,7 +54,7 @@ public class testPhysicsInputHandler extends AssHoleBaseGame {
     @Override
     protected void setupInit() {
         staticNode = getPhysicsSpace().createStaticNode();
-
+        
         rootNode.attachChild(staticNode);
 
         pause = true;
@@ -82,9 +84,9 @@ public class testPhysicsInputHandler extends AssHoleBaseGame {
         staticNode.generatePhysicsGeometry(true);
 
         ProceduralTextureGenerator pt = new ProceduralTextureGenerator(heightMap);
-        pt.addTexture(new ImageIcon(testPhysicsInputHandler.class.getClassLoader().getResource("data/texture/grassb.png")), -128, 0, 128);
-        pt.addTexture(new ImageIcon(testPhysicsInputHandler.class.getClassLoader().getResource("data/texture/dirt.jpg")), 0, 128, 255);
-        pt.addTexture(new ImageIcon(testPhysicsInputHandler.class.getClassLoader().getResource("data/texture/highest.jpg")), 128, 255, 384);
+        pt.addTexture(new ImageIcon(testGame.class.getClassLoader().getResource("data/texture/grassb.png")), -128, 0, 128);
+        pt.addTexture(new ImageIcon(testGame.class.getClassLoader().getResource("data/texture/dirt.jpg")), 0, 128, 255);
+        pt.addTexture(new ImageIcon(testGame.class.getClassLoader().getResource("data/texture/highest.jpg")), 128, 255, 384);
 
         pt.createTexture(512);
 
@@ -93,7 +95,7 @@ public class testPhysicsInputHandler extends AssHoleBaseGame {
         Texture t1 = TextureManager.loadTexture(pt.getImageIcon().getImage(), Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear, true);
         ts.setTexture(t1, 0);
 
-        Texture t2 = TextureManager.loadTexture(testPhysicsInputHandler.class
+        Texture t2 = TextureManager.loadTexture(testGame.class
                 .getClassLoader()
                 .getResource("data/texture/Detail.jpg"),
                 Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear);
@@ -133,11 +135,18 @@ public class testPhysicsInputHandler extends AssHoleBaseGame {
 
     @Override
     protected void setupPlayer() {
+    	
+    	/** create logic player
+    	 */
+    	logicCharacter = new LogicCharacter("player", 10, 10 ) {};
+    	
+    	/** create grafic player */
         Node model = ModelLoader.loadModel("data/model/Soldato/Soldato.obj", "", 0.2f, new Quaternion());
          
         model.setLocalTranslation(0, -1.5f, 0);   
         
-        character = new PhysicsCharacter(staticNode, getPhysicsSpace(), Vector3f.UNIT_X, 1000, 100, model);
+        character = new PhysicsCharacter(staticNode, getPhysicsSpace(), Vector3f.UNIT_X,
+        								1000, 100, model, logicCharacter.getCore() );
         character.getCharacterNode().setLocalTranslation(160, 30, 160);
 
         rootNode.attachChild( character.getCharacterNode() );

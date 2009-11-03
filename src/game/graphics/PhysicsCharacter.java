@@ -1,4 +1,4 @@
-package game.physics;
+package game.graphics;
 
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
@@ -59,9 +59,11 @@ public class PhysicsCharacter {
 
     Quaternion quaternion;
     Vector3f moveDirection, jumpVector;
+    
+    CharacterInterface core;
 
 
-    public PhysicsCharacter( StaticPhysicsNode ground, PhysicsSpace physicsSpace, Vector3f direction, float speed, float mass, Node model ) {
+    public PhysicsCharacter( StaticPhysicsNode ground, PhysicsSpace physicsSpace, Vector3f direction, float speed, float mass, Node model, CharacterInterface core ) {
         this.ground = ground;
 
         characterNode = new Node("character node");
@@ -84,6 +86,8 @@ public class PhysicsCharacter {
         onGround = false;
 
         quaternion = new Quaternion();
+        
+        this.core = core;
 
         createPhysics();
         contactDetection();
@@ -155,11 +159,14 @@ public class PhysicsCharacter {
         strafingRight = false;
         jumping = false;
         onGround = false;
-
+        
         preventFall();
 
         contactDetect.update(time);
         body.rest();
+        
+        /** interaction with logic class */
+        core.refresh( feet.getWorldTranslation() );
     }
 
     private void preventFall() {
@@ -175,7 +182,7 @@ public class PhysicsCharacter {
 
     public void move( Vector3f direction ) {
         moveDirection.set(direction);
-
+        
         if( onGround ) {
             if( moveDirection != Vector3f.ZERO ){
                 try{
