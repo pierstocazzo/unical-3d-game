@@ -2,14 +2,12 @@ package game.logic;
 
 import com.jme.math.Vector3f;
 
-import game.graphics.CharacterInterface;
-
 /**
  * Abstract Class LogicCharacter
  * 
  * @author Andrea
  */
-public abstract class LogicCharacter implements CharacterInterface {
+public abstract class LogicCharacter {
 
 	/** Idenfitier */
 	String id;
@@ -28,9 +26,7 @@ public abstract class LogicCharacter implements CharacterInterface {
 
     /** Current Position Vector */
 	Vector3f position;
-	
-	/** fucker */
-	CharacterInterface core;
+
 	
 	/**
 	 * Constructor LogicCharacter
@@ -46,7 +42,6 @@ public abstract class LogicCharacter implements CharacterInterface {
 		this.currentState = LogicState.DEFAULT;
 		this.score = 0;
 		this.position = new Vector3f();
-		this.core = this;
 	}
 	
 	/**
@@ -144,16 +139,5 @@ public abstract class LogicCharacter implements CharacterInterface {
 	 */
 	public int getScore() {
 		return score;
-	}
-
-	@Override
-	public void refresh( Vector3f position ) {
-		this.position.set(position);
-//		debug print
-//		System.out.println("Posizione corrente logica: " + this.position.toString());
-	}
-
-	public CharacterInterface getCore() {
-		return core;
 	}
 }

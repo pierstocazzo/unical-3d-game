@@ -146,7 +146,7 @@ public class testGame extends CustomGame {
         model.setLocalTranslation(0, -1.5f, 0);   
         
         character = new PhysicsCharacter(staticNode, getPhysicsSpace(), Vector3f.UNIT_X,
-        								1000, 100, model, logicCharacter.getCore() );
+        								1000, 100, model );
         character.getCharacterNode().setLocalTranslation(160, 30, 160);
 
         rootNode.attachChild( character.getCharacterNode() );
