@@ -8,6 +8,8 @@ package game.logic;
  */
 public class LogicEnemy extends LogicCharacter {
 
+	LogicWeapon weapon;
+	
 	/**
 	 * Constructor Oggetto LogicEnemy
 	 * 
@@ -15,9 +17,10 @@ public class LogicEnemy extends LogicCharacter {
 	 * @param currentLife - (int) Current Life
 	 * @param maxLife - (int) Max Life
 	 */
-	public LogicEnemy( String id, int currentLife, int maxLife ) {
+	public LogicEnemy( String id, int currentLife, int maxLife, WeaponType weapon ) {
 		super( id, currentLife, maxLife );
-		// TODO Auto-generated constructor stub
+		/** create the enemy weapon */
+		this.weapon = new LogicWeapon( super.id + "w", Integer.MAX_VALUE, weapon );
 	}
 
 }

@@ -11,20 +11,10 @@ public class LogicWeapon {
 	/** Identifier */
 	String id;
 	
-	/** Tipo di arma */
-	private String type;
+	/** Remaining ammo */
+	int currentAmmo;
 	
-	/** LogicWeapon's power */
-	private int power;
-	
-	/** Damage of every bullet */
-	private int damage;
-	
-	/** Remaining bullets */
-	private int currBullets;
-	
-	/** True = Heavy weapon, False else */
-	boolean isHeavy;
+	WeaponType type;
 	
 	/**
 	 * Constructor
@@ -34,29 +24,9 @@ public class LogicWeapon {
 	 * @param currBull - Aviable bullets
 	 * @param isH - If it is heavy
 	 */
-	public LogicWeapon( String id, int power, int damage, int currentBull, boolean isHeavy) {
+	public LogicWeapon( String id, int currentAmmo, WeaponType type ) {
 		this.id = id;
-		this.power = power;
-		this.damage = damage;
-		this.currBullets = currentBull;
-		this.isHeavy = isHeavy;
-	}
-
-	/**
-	 * It gets weapon's type
-	 * 
-	 * @return type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * It allows to set weapon's type
-	 * 
-	 * @param type
-	 */
-	public void setType(String type) {
+		this.currentAmmo = currentAmmo;
 		this.type = type;
 	}
 
@@ -66,16 +36,7 @@ public class LogicWeapon {
 	 * @return power
 	 */
 	public int getPower() {
-		return power;
-	}
-
-	/**
-	 * It sets weapon's power
-	 * 
-	 * @param power
-	 */
-	public void setPower(int power) {
-		this.power = power;
+		return type.power;
 	}
 
 	/**
@@ -84,16 +45,7 @@ public class LogicWeapon {
 	 * @return damage
 	 */
 	public int getDamage() {
-		return damage;
-	}
-	
-	/**
-	 * It sets damage of every bullet
-	 * 
-	 * @param damage
-	 */
-	public void setDamage(int damage) {
-		this.damage = damage;
+		return type.damage;
 	}
 
 	/**
@@ -102,7 +54,7 @@ public class LogicWeapon {
 	 * @return currBullets
 	 */
 	public int getCurrBullets() {
-		return currBullets;
+		return currentAmmo;
 	}
 
 	/**
@@ -111,8 +63,7 @@ public class LogicWeapon {
 	 * @param newBullets
 	 */
 	public void addBullets(int newBullets) {
-		if(currBullets>0)
-			this.currBullets += newBullets;
+		if( currentAmmo > 0 )
+			this.currentAmmo += newBullets;
 	}
-
 }

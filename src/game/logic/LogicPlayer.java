@@ -1,5 +1,7 @@
 package game.logic;
 
+import java.util.HashMap;
+
 /**
  * Class LogicPlayer
  * 
@@ -7,6 +9,8 @@ package game.logic;
  */
 public class LogicPlayer extends LogicCharacter {
 
+	HashMap< String, LogicWeapon > equipment;
+	
 	/**
 	 * Constructor Object LogicPlayer
 	 * 

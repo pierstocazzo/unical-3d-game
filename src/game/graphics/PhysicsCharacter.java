@@ -19,10 +19,6 @@ import com.jmex.physics.geometry.PhysicsCapsule;
 import com.jmex.physics.geometry.PhysicsSphere;
 import com.jmex.physics.material.Material;
 
-/**
- *
- * @author joseph
- */
 public class PhysicsCharacter {
 
     static final Material characterMaterial;
@@ -60,10 +56,7 @@ public class PhysicsCharacter {
     Quaternion quaternion;
     Vector3f moveDirection, jumpVector;
     
-    CharacterInterface core;
-
-
-    public PhysicsCharacter( StaticPhysicsNode ground, PhysicsSpace physicsSpace, Vector3f direction, float speed, float mass, Node model, CharacterInterface core ) {
+    public PhysicsCharacter( StaticPhysicsNode ground, PhysicsSpace physicsSpace, Vector3f direction, float speed, float mass, Node model ) {
         this.ground = ground;
 
         characterNode = new Node("character node");
@@ -86,8 +79,6 @@ public class PhysicsCharacter {
         onGround = false;
 
         quaternion = new Quaternion();
-        
-        this.core = core;
 
         createPhysics();
         contactDetection();
@@ -164,9 +155,6 @@ public class PhysicsCharacter {
 
         contactDetect.update(time);
         body.rest();
-        
-        /** interaction with logic class */
-        core.refresh( feet.getWorldTranslation() );
     }
 
     private void preventFall() {
