@@ -22,7 +22,7 @@ public abstract class LogicCharacter {
 	int score;
 	
 	/** Present LogicState */
-	int currentState;
+	State currentState;
 
     /** Current Position Vector */
 	Vector3f position;
@@ -39,7 +39,7 @@ public abstract class LogicCharacter {
 		this.id = id;
 		this.currentLife = currentLife;
 		this.maxLife = maxLife;
-		this.currentState = LogicState.DEFAULT;
+		this.currentState = State.DEFAULT;
 		this.score = 0;
 		this.position = new Vector3f();
 	}
@@ -67,17 +67,16 @@ public abstract class LogicCharacter {
 		currentLife = currentLife - removedLife;
 		if( currentLife <= 0 ) {
 			currentLife = 0;
-			currentState = LogicState.DEATH;
+			currentState = State.DEATH;
 		}
 	}
 	
-	// DA RIVEDERE
 	/**
-	 * Change the current state. Please fit only defined states in class LogicState
+	 * Change the current state.
 	 * 
-	 * @param newState - (int) New LogicState
+	 * @param newState - (State) the new state
 	 */
-	void setState( int newState ){
+	void setState( State newState ){
 		currentState = newState;
 	}
 	
@@ -92,6 +91,14 @@ public abstract class LogicCharacter {
 			score = newScore;
 	}
 
+	void addScore( int toAdd ) {
+		score = score + toAdd;
+	}
+	
+	void decreaseScore( int toDecrease ) {
+		score = score - toDecrease;
+	}
+	
 	/**
 	 * It gets current Life
 	 * 
@@ -128,7 +135,7 @@ public abstract class LogicCharacter {
 	 * 
 	 * @return currentState
 	 */
-	public int getCurrState() {
+	public State getCurrState() {
 		return currentState;
 	}
 
@@ -139,5 +146,21 @@ public abstract class LogicCharacter {
 	 */
 	public int getScore() {
 		return score;
+	}
+	
+	/** 
+	 * 
+	 * @param bulletDamage - (int) the bullet damage power
+	 */
+	public void isShooted( int bulletDamage ) {
+		if( currentLife - bulletDamage <= 0 )
+			die();
+		else
+			currentLife = currentLife - bulletDamage;
+	}
+
+	private void die() {
+		currentState = State.DEATH;
+		// TODO
 	}
 }

@@ -9,6 +9,8 @@ public class LogicEnemy extends LogicCharacter {
 	/** Enemy weapon */
 	LogicWeapon weapon;
 	
+	// TODO enemyPath
+	
 	/**
 	 * Constructor Oggetto LogicEnemy
 	 * 
@@ -19,7 +21,6 @@ public class LogicEnemy extends LogicCharacter {
 	public LogicEnemy( String id, int currentLife, int maxLife, WeaponType weapon ) {
 		super( id, currentLife, maxLife );
 		/** create the enemy weapon */
-		this.weapon = new LogicWeapon( super.id + "w", Integer.MAX_VALUE, weapon );
+		this.weapon = new LogicWeapon( super.id + "w", 1, weapon );
 	}
-
 }

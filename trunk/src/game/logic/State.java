@@ -30,5 +30,7 @@ public enum State {
 	/**
 	 * The character is dead
 	 */
-	DEATH;
+	DEATH, 
+	
+	DEFAULT;
 }
