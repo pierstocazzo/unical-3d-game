@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_dZ5kscs6Ed6hbvDKIVWkxQ" name="Actors Diagram">
+  <elementImport xmi:id="_dfOwoMs6Ed6hbvDKIVWkxQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_dfXTgMs6Ed6hbvDKIVWkxQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_dfXTgcs6Ed6hbvDKIVWkxQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <elementImport xmi:id="_dfXTgss6Ed6hbvDKIVWkxQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_gb2SwMs6Ed6hbvDKIVWkxQ" name="Utente"/>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_iT29QMs6Ed6hbvDKIVWkxQ" name="Cliente">
+    <generalization xmi:id="_RcOpoMu6Ed67mNP6SK0pEg" general="_gb2SwMs6Ed6hbvDKIVWkxQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_jPhUQMs6Ed6hbvDKIVWkxQ" name="Personale">
+    <generalization xmi:id="_TR05UMu6Ed67mNP6SK0pEg" general="_gb2SwMs6Ed6hbvDKIVWkxQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_dxfLkMu5Ed67mNP6SK0pEg" name="Manager">
+    <generalization xmi:id="_UEhhkMu6Ed67mNP6SK0pEg" general="_jPhUQMs6Ed6hbvDKIVWkxQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_gzQ6gMu5Ed67mNP6SK0pEg" name="Coordinatore">
+    <generalization xmi:id="_cmUjgMu6Ed67mNP6SK0pEg" general="_jPhUQMs6Ed6hbvDKIVWkxQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_hm6lAMu5Ed67mNP6SK0pEg" name="Tecnico">
+    <generalization xmi:id="_VNxBkMu6Ed67mNP6SK0pEg" general="_jPhUQMs6Ed6hbvDKIVWkxQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_ifhoAMu5Ed67mNP6SK0pEg" name="Direttore">
+    <generalization xmi:id="_WGc9EMu6Ed67mNP6SK0pEg" general="_dxfLkMu5Ed67mNP6SK0pEg"/>
+    <generalization xmi:id="_WsIdAMu6Ed67mNP6SK0pEg" general="_gzQ6gMu5Ed67mNP6SK0pEg"/>
+    <generalization xmi:id="_XQ-2gMu6Ed67mNP6SK0pEg" general="_hm6lAMu5Ed67mNP6SK0pEg"/>
+  </packagedElement>
+</uml:Package>
