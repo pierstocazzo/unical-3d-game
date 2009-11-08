@@ -25,20 +25,23 @@ public class LogicWorld implements WorldInterface {
 	 *  Initialize the game logic
 	 */
 	public LogicWorld() {
-		
-		characters = new HashMap<String, LogicCharacter>();
-		
-		/** create player */
-		player = new LogicPlayer( "player", 100, 100 );
-		characters.put( player.id, player );
-		
-		/** create enemies */
-		for( int i = 0; i < 20; i++ ) {
+		characters = new HashMap< String, LogicCharacter >();
+	}
+	
+	/** create player */
+	public void createPlayer( String id, int life, int maxLife ) {
+		player = new LogicPlayer( id, life, maxLife );
+	}
+	
+	/**
+	 * Function that create enemies in the number specified
+	 * @param numberOfEnemies - (int) number of enemies to create
+	 */
+	public void createEnemies( int numberOfEnemies ) {
+		for( int i = 0; i < numberOfEnemies; i++ ) {
 			LogicEnemy enemy = new LogicEnemy( "enemy" + i, 50, 50, WeaponType.MP5 );
 			characters.put( enemy.id, enemy );
 		}
-		
-		// TODO items init
 	}
 	
 	@Override 
@@ -54,9 +57,11 @@ public class LogicWorld implements WorldInterface {
 	 * @return String to print
 	 */
 	public String printWorld() {
-		String s = "World Situation: ";
+		String s = "World status: ";
 		
 		Set<String> keySet = characters.keySet();
+		
+		s = s + "\n Player position: " + player.position;
 		
 		for( String key : keySet ){
 			s = s + "\n" + characters.get(key).id + " in position: " + characters.get(key).position;
@@ -65,4 +70,13 @@ public class LogicWorld implements WorldInterface {
 		return s;
 	}
 
+	@Override
+	public Set<String> getCharactersId() {
+		return characters.keySet();
+	}
+	
+	@Override
+	public String getPlayerId() {
+		return player.id;
+	}
 }
