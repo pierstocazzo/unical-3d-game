@@ -37,7 +37,7 @@ public class PhysicsInputHandler extends InputHandler {
 	LookAtAction lookAtAction;
 
     
-    public PhysicsInputHandler(PhysicsCharacter target, Camera cam) {
+    public PhysicsInputHandler( PhysicsCharacter target, Camera cam ) {
         this.target = target;
         this.cam = cam;
         updateKeyBinding(); // to improve
