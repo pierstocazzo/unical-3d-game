@@ -10,7 +10,6 @@ import com.jme.math.Vector3f;
 import com.jme.scene.Node;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
-import com.jmex.physics.PhysicsSpace;
 import com.jmex.physics.RotationalJointAxis;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
@@ -21,6 +20,8 @@ import com.jmex.physics.material.Material;
 
 public class PhysicsCharacter {
 
+	String id;
+	
     static final Material characterMaterial;
     static {
         characterMaterial = new Material("Character Material");
@@ -37,6 +38,7 @@ public class PhysicsCharacter {
     DynamicPhysicsNode body, feet;
     Node model;
 
+    GraficalWorld world;
     StaticPhysicsNode ground;
     Joint feetToBody;
     RotationalJointAxis rotationalAxis;
@@ -56,13 +58,17 @@ public class PhysicsCharacter {
     Quaternion quaternion;
     Vector3f moveDirection, jumpVector;
     
-    public PhysicsCharacter( StaticPhysicsNode ground, PhysicsSpace physicsSpace, Vector3f direction, float speed, float mass, Node model ) {
-        this.ground = ground;
-
+    public PhysicsCharacter( String id, GraficalWorld world, Vector3f direction, float speed, float mass, Node model ) {
+        
+    	this.id = id;
+    	
+    	this.world = world;
+    	this.ground = world.getGround();
+        
         characterNode = new Node("character node");
-        body = physicsSpace.createDynamicNode();
-        feet = physicsSpace.createDynamicNode();
-        feetToBody = physicsSpace.createJoint();
+        body = world.getPhysicsSpace().createDynamicNode();
+        feet = world.getPhysicsSpace().createDynamicNode();
+        feetToBody = world.getPhysicsSpace().createJoint();
         rotationalAxis = feetToBody.createRotationalAxis();
 
         this.moveDirection = direction;
@@ -177,6 +183,8 @@ public class PhysicsCharacter {
                     rotationalAxis.setDirection( moveDirection );
                     rotationalAxis.setAvailableAcceleration( 15*speed );
                     rotationalAxis.setDesiredVelocity( speed );
+                    
+                    world.getCore().move( id, feet.getWorldTranslation() );
                 } catch( Exception e ) {
                     rotationalAxis.setDesiredVelocity(0f);
                 }
