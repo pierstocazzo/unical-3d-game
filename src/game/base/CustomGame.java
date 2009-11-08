@@ -2,11 +2,10 @@ package game.base;
 
 import com.jme.input.InputHandler;
 
-/**
+/** 
  *
- * @author joseph
  */
-public abstract class CustomGame extends PhysicsGame {
+public abstract class CustomGame extends BasePhysicsGame {
 
     protected InputHandler input;
 

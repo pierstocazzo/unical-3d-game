@@ -183,8 +183,6 @@ public class PhysicsCharacter {
                     rotationalAxis.setDirection( moveDirection );
                     rotationalAxis.setAvailableAcceleration( 15*speed );
                     rotationalAxis.setDesiredVelocity( speed );
-                    
-                    world.getCore().move( id, feet.getWorldTranslation() );
                 } catch( Exception e ) {
                     rotationalAxis.setDesiredVelocity(0f);
                 }

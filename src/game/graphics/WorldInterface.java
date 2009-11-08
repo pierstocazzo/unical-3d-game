@@ -1,5 +1,7 @@
 package game.graphics;
 
+import java.util.Set;
+
 import com.jme.math.Vector3f;
 
 /**
@@ -19,4 +21,14 @@ public interface WorldInterface {
 	 * Print the world current situation
 	 */
 	public abstract String printWorld();
+	
+	/** Function getPlayerId()
+	 *  returns the identificator of the logic player
+	 */
+	public abstract String getPlayerId();
+	
+	/** Function getPlayerId()
+	 *  returns the identificators of the logic characters
+	 */
+	public abstract Set<String> getCharactersId();
 }

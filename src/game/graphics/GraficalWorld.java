@@ -1,5 +1,8 @@
 package game.graphics;
 
+import java.util.Random;
+import java.util.Set;
+
 import javax.swing.ImageIcon;
 
 import utils.ModelLoader;
@@ -12,9 +15,11 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
+import com.jme.scene.shape.Box;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
 import com.jme.util.TextureManager;
+import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
@@ -31,9 +36,9 @@ public class GraficalWorld extends CustomGame {
 	
     PhysicsInputHandler myInput;
     StaticPhysicsNode staticNode;
-
-    PhysicsCharacter character;
-    LogicCharacter logicCharacter;
+    Node enemies;
+    
+    PhysicsCharacter player;
      
     ChaseCamera chaser;
 
@@ -46,11 +51,13 @@ public class GraficalWorld extends CustomGame {
 	@Override
     protected void setupInit() {
         staticNode = getPhysicsSpace().createStaticNode();
+        enemies = new Node("enemies");
         
         rootNode.attachChild(staticNode);
+        rootNode.attachChild(enemies);
 
         pause = true;
-        showPhysics = true;
+//        showPhysics = true;
     }
 
     @Override
@@ -122,25 +129,29 @@ public class GraficalWorld extends CustomGame {
 
     @Override
     protected void setupCharacters() {
-        // todo
+    	Random r = new Random();
+    	    	
+    	Set<String> ids = core.getCharactersId();
+    	
+        for( String id : ids ) {
+        	PhysicsEnemy enemy = new PhysicsEnemy( id, this );
+            enemy.model.setLocalTranslation( r.nextInt(200), 30, r.nextInt(200) );
+
+            rootNode.attachChild( enemy.model );
+        }
     }
 
     @Override
     protected void setupPlayer() {
-    	
-    	/** create logic player
-    	 */
-    	logicCharacter = new LogicCharacter("player", 10, 10 ) {};
-    	
     	/** create grafic player */
         Node model = ModelLoader.loadModel("data/model/Soldato/Soldato.obj", "", 0.2f, new Quaternion());
          
         model.setLocalTranslation(0, -1.5f, 0);   
         
-        character = new PhysicsCharacter( "player", this, Vector3f.UNIT_X, 1000, 100, model );
-        character.getCharacterNode().setLocalTranslation(160, 30, 160);
+        player = new PhysicsCharacter( core.getPlayerId(), this, Vector3f.UNIT_X, 1000, 100, model );
+        player.getCharacterNode().setLocalTranslation(160, 30, 160);
 
-        rootNode.attachChild( character.getCharacterNode() );
+        rootNode.attachChild( player.getCharacterNode() );
     }
 
     @Override
@@ -153,19 +164,19 @@ public class GraficalWorld extends CustomGame {
     @Override
     protected void setupChaseCamera() {
         Vector3f targetOffset = new Vector3f();
-        targetOffset.y = character.getCharacterBody().getLocalTranslation().y + 5;
-        chaser = new ChaseCamera(cam, character.getCharacterBody());
+        targetOffset.y = player.getCharacterBody().getLocalTranslation().y + 5;
+        chaser = new ChaseCamera(cam, player.getCharacterBody());
         chaser.setTargetOffset(targetOffset);
     }
 
     @Override
     protected void setupInput() {
-        myInput = new PhysicsInputHandler( character, cam );
+        myInput = new PhysicsInputHandler( player, cam );
     }
 
     @Override
     protected void simpleUpdate() {
-        character.update( tpf );
+        player.update( tpf );
         myInput.update(tpf);
         chaser.update(tpf);
         
