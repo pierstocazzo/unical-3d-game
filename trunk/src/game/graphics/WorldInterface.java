@@ -1,5 +1,8 @@
 package game.graphics;
 
+import game.logic.LogicEnemy;
+
+import java.util.HashMap;
 import java.util.Set;
 
 import com.jme.math.Vector3f;
@@ -30,5 +33,8 @@ public interface WorldInterface {
 	/** Function getPlayerId()
 	 *  returns the identificators of the logic characters
 	 */
-	public abstract Set<String> getCharactersId();
+	public abstract Set<String> getEnemiesId();
+	
+	//da rivedere
+	public abstract HashMap<String, LogicEnemy> getEnemies();
 }

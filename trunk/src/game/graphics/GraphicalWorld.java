@@ -1,6 +1,5 @@
 package game.graphics;
 
-import java.util.Random;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
@@ -15,11 +14,9 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
-import com.jme.scene.shape.Box;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
 import com.jme.util.TextureManager;
-import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
@@ -27,10 +24,9 @@ import com.jmex.terrain.util.ProceduralTextureGenerator;
 
 import game.base.CustomGame;
 import game.input.PhysicsInputHandler;
-import game.logic.LogicCharacter;
 import game.test.testGame;
 
-public class GraficalWorld extends CustomGame {
+public class GraphicalWorld extends CustomGame {
 
 	WorldInterface core;
 	
@@ -44,7 +40,7 @@ public class GraficalWorld extends CustomGame {
 
     TerrainBlock terrain;
 
-	public GraficalWorld( WorldInterface core ) {
+	public GraphicalWorld( WorldInterface core ) {
 		setCore( core );
 	}
 	
@@ -55,7 +51,7 @@ public class GraficalWorld extends CustomGame {
         
         rootNode.attachChild(staticNode);
         rootNode.attachChild(enemies);
-
+        
         pause = true;
 //        showPhysics = true;
     }
@@ -129,13 +125,13 @@ public class GraficalWorld extends CustomGame {
 
     @Override
     protected void setupCharacters() {
-    	Random r = new Random();
+//    	Random r = new Random();
     	    	
-    	Set<String> ids = core.getCharactersId();
+    	Set<String> ids = core.getEnemiesId();
     	
         for( String id : ids ) {
-        	PhysicsEnemy enemy = new PhysicsEnemy( id, this );
-            enemy.model.setLocalTranslation( r.nextInt(200), 30, r.nextInt(200) );
+        	PhysicsEnemy enemy = new PhysicsEnemy( id, this , core.getEnemies().get(id).position );
+            //enemy.model.setLocalTranslation( r.nextInt(200), 30, r.nextInt(200) );
 
             rootNode.attachChild( enemy.model );
         }

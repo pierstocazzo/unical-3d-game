@@ -1,7 +1,9 @@
 package game.test;
 
 import com.jme.app.AbstractGame.ConfigShowMode;
-import game.graphics.GraficalWorld;
+import com.jme.math.Vector3f;
+
+import game.graphics.GraphicalWorld;
 import game.logic.LogicWorld;
 
 public class testGame {
@@ -10,10 +12,10 @@ public class testGame {
     	
     	LogicWorld logicGame = new LogicWorld();
     	
-    	logicGame.createPlayer( "player", 100, 100 );
-    	logicGame.createEnemies( 10 );
+    	logicGame.createPlayer( "player", 100, 100, new Vector3f(10,10,10));
+    	logicGame.createEnemies( 10 , new Vector3f(40,10,40) );
     	
-        GraficalWorld game = new GraficalWorld( logicGame );
+        GraphicalWorld game = new GraphicalWorld( logicGame );
         game.setConfigShowMode( ConfigShowMode.AlwaysShow );
         game.start();
     }

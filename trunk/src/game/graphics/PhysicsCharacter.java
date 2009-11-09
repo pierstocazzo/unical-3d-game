@@ -38,7 +38,7 @@ public class PhysicsCharacter {
     DynamicPhysicsNode body, feet;
     Node model;
 
-    GraficalWorld world;
+    GraphicalWorld world;
     StaticPhysicsNode ground;
     Joint feetToBody;
     RotationalJointAxis rotationalAxis;
@@ -58,7 +58,7 @@ public class PhysicsCharacter {
     Quaternion quaternion;
     Vector3f moveDirection, jumpVector;
     
-    public PhysicsCharacter( String id, GraficalWorld world, Vector3f direction, float speed, float mass, Node model ) {
+    public PhysicsCharacter( String id, GraphicalWorld world, Vector3f direction, float speed, float mass, Node model ) {
         
     	this.id = id;
     	
