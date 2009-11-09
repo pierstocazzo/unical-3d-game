@@ -2,6 +2,8 @@ package game.logic;
 
 import java.util.HashMap;
 
+import com.jme.math.Vector3f;
+
 /**
  * Class LogicPlayer
  * 
@@ -11,6 +13,9 @@ public class LogicPlayer extends LogicCharacter {
 
 	/** Player's equipment */
 	HashMap< Integer, LogicWeapon > equipment;
+	
+	int currentLevel;
+	int previousLevel;
 	
 	int weaponCounter;
 	
@@ -24,10 +29,13 @@ public class LogicPlayer extends LogicCharacter {
 	 * @param currentLife - (int) Current Life
 	 * @param maxLife - (int) Max Life
 	 */
-	public LogicPlayer( String id, int currentLife, int maxLife ) {
-		super( id, currentLife, maxLife );
+	public LogicPlayer( String id, int currentLife, int maxLife , Vector3f position) {
+		super( id, currentLife, maxLife, position );
 		
-		weaponCounter = 0;
+		this.weaponCounter = 0;
+		
+		this.currentLevel = 0;
+		this.previousLevel = 0;
 		
 		/** Initially the player has just the MP5 */
 		addWeapon( new LogicWeapon( "mp5", 100, WeaponType.MP5 ) );

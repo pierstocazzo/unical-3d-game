@@ -25,9 +25,17 @@ public abstract class LogicCharacter {
 	State currentState;
 
     /** Current Position Vector */
-	Vector3f position;
+	public Vector3f position;
 
 	
+	public Vector3f getPosition() {
+		return position;
+	}
+
+	public void setPosition(Vector3f position) {
+		this.position = position;
+	}
+
 	/**
 	 * Constructor LogicCharacter
 	 * 
@@ -35,13 +43,13 @@ public abstract class LogicCharacter {
 	 * @param currentLife - (int) Current Life
 	 * @param maxLife - (int) Max Life
 	 */
-	public LogicCharacter( String id, int currentLife, int maxLife ) {
+	public LogicCharacter( String id, int currentLife, int maxLife, Vector3f position ) {
 		this.id = id;
 		this.currentLife = currentLife;
 		this.maxLife = maxLife;
 		this.currentState = State.DEFAULT;
 		this.score = 0;
-		this.position = new Vector3f();
+		this.position = position;
 	}
 	
 	/**
