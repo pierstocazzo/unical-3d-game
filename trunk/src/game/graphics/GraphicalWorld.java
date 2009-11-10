@@ -1,5 +1,6 @@
 package game.graphics;
 
+import java.util.HashMap;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
@@ -124,27 +125,31 @@ public class GraphicalWorld extends CustomGame {
     }
 
     @Override
-    protected void setupCharacters() {
-//    	Random r = new Random();
-    	    	
+    protected void setupEnemies() { 	    	
     	Set<String> ids = core.getEnemiesId();
     	
+    	HashMap< String, Vector3f > positions = core.getEnemiesPosition();
+    	
         for( String id : ids ) {
-        	PhysicsEnemy enemy = new PhysicsEnemy( id, this , core.getEnemies().get(id).position );
-            //enemy.model.setLocalTranslation( r.nextInt(200), 30, r.nextInt(200) );
-
+        	PhysicsEnemy enemy = new PhysicsEnemy( id, this, positions.get(id) );
             rootNode.attachChild( enemy.model );
         }
     }
 
     @Override
     protected void setupPlayer() {
-    	/** create grafic player */
+    	/** create graphic player */
         Node model = ModelLoader.loadModel("data/model/Soldato/Soldato.obj", "", 0.2f, new Quaternion());
          
         model.setLocalTranslation(0, -1.5f, 0);   
         
-        player = new PhysicsCharacter( core.getPlayerId(), this, Vector3f.UNIT_X, 1000, 100, model );
+    	//Set<String> ids = core.getPlayersId();
+    	
+        //for( String id : ids ) {
+        	player = new PhysicsCharacter( "player1", this, Vector3f.UNIT_X, 1000, 100, model );
+//            rootNode.attachChild( player.model );
+        //}
+
         player.getCharacterNode().setLocalTranslation(160, 30, 160);
 
         rootNode.attachChild( player.getCharacterNode() );
@@ -172,7 +177,9 @@ public class GraphicalWorld extends CustomGame {
 
     @Override
     protected void simpleUpdate() {
-        player.update( tpf );
+        
+    	
+    	player.update( tpf );
         myInput.update(tpf);
         chaser.update(tpf);
         

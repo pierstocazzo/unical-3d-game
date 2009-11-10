@@ -1,7 +1,5 @@
 package game.graphics;
 
-import game.logic.LogicEnemy;
-
 import java.util.HashMap;
 import java.util.Set;
 
@@ -12,14 +10,14 @@ import com.jme.math.Vector3f;
  */
 public interface WorldInterface {
 	
-	/** Function <code>move</code><br>
-	 * Update the position of the character with this id
+	/** Function <code>moveEnemy</code><br>
+	 * Update the position of the enemy with this id
 	 *  
-	 * @param id - (String) character id
-	 * @param position - (Vector3f) new character position
+	 * @param id - (String) enemy id
+	 * @param position - (Vector3f) new enemy position
 	 */
-    public abstract void move( String id, Vector3f position );
-
+    public abstract void moveCharacter( String id, Vector3f position );
+    
 	/** Function <code>printWorld</code><br>
 	 * Print the world current situation
 	 */
@@ -28,13 +26,122 @@ public interface WorldInterface {
 	/** Function getPlayerId()
 	 *  returns the identificator of the logic player
 	 */
-	public abstract String getPlayerId();
+	public abstract Set<String> getPlayersId();
 	
 	/** Function getPlayerId()
 	 *  returns the identificators of the logic characters
 	 */
 	public abstract Set<String> getEnemiesId();
 	
-	//da rivedere
-	public abstract HashMap<String, LogicEnemy> getEnemies();
+	/** Function getEnemiesPosition()
+	 * return an hashMap with the position of each logic enemy
+	 * @return HashMap
+	 */
+	public abstract HashMap<String, Vector3f> getEnemiesPosition();
+	
+	/** 
+	 * 
+	 * @param id
+	 * @return true if character isn't moving
+	 */
+	public abstract boolean getCharacterRest( String id );
+	
+	/**
+	 * 
+	 * @param id
+	 * @param b
+	 */
+	public abstract void setCharacterRest(String id, boolean b);
+	
+	
+	/** Function playerRest()
+	 * set rest for the player
+	 */
+	public abstract void characterRest( String id );
+
+	/** 
+	 * 
+	 * @param id
+	 * @param b
+	 */
+	public abstract void setCharacterOnGround( String id, boolean b );
+
+	/** 
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public abstract boolean getCharacterOnGround( String id );
+	
+	/** 
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public abstract boolean getCharacterMovingForward( String id );
+	
+	/**
+	 * 
+	 * @param id
+	 * @param b
+	 */
+	public abstract void setCharacterMovingForward(String id, boolean b);
+	
+	/** 
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public abstract boolean getCharacterMovingBackward( String id );
+	
+	/**
+	 * 
+	 * @param id
+	 * @param b
+	 */
+	public abstract void setCharacterMovingBackward(String id, boolean b);
+	
+	/** 
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public abstract boolean getCharacterStrafingLeft( String id );
+	
+	/**
+	 * 
+	 * @param id
+	 * @param b
+	 */
+	public abstract void setCharacterStrafingLeft(String id, boolean b);
+	
+	
+	/** 
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public abstract boolean getCharacterStrafingRight( String id );
+	
+	/**
+	 * 
+	 * @param id
+	 * @param b
+	 */
+	public abstract void setCharacterStrafingRight(String id, boolean b);
+	
+	/** 
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public abstract boolean getCharacterJumping( String id );
+	
+	/**
+	 * 
+	 * @param id
+	 * @param b
+	 */
+	public abstract void setCharacterJumping(String id, boolean b);
+	
 }
