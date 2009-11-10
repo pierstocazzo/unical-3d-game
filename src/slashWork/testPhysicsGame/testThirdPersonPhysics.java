@@ -15,7 +15,6 @@ import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.shape.Box;
 import com.jme.scene.state.CullState;
-import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
 import com.jme.scene.state.ZBufferState;
 import com.jme.util.TextureManager;
@@ -26,12 +25,7 @@ import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 import com.jmex.physics.material.Material;
 import com.jmex.terrain.TerrainPage;
-import com.jmex.terrain.util.FaultFractalHeightMap;
-import com.jmex.terrain.util.ProceduralTextureGenerator;
-import javax.swing.ImageIcon;
-
 import jmetest.input.TestThirdPersonController;
-import jmetest.terrain.TestTerrain;
 import joework.app.PhysicsGame;
 
 /**

@@ -167,7 +167,8 @@ public class PhysicsCharacterMovement extends AssHoleBaseGame {
          * la geometria del cilindro che conterrà il modello
          */
         float cRadius = player_geometry.xExtent >= player_geometry.zExtent ? player_geometry.xExtent : player_geometry.zExtent ;
-        float cHeight = player_geometry.yExtent * 2f;
+        @SuppressWarnings("unused")
+		float cHeight = player_geometry.yExtent * 2f;
 
         /**
          * Creo la sfera fisica che starà sul terreno
