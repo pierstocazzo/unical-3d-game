@@ -45,9 +45,6 @@ import javax.swing.JDesktopPane;
 import javax.swing.SwingUtilities;
 
 import jmetest.awt.swingui.HelloJMEDesktop;
-import joework.test.testJointPhysicsCharacter;
-
-import com.jme.app.AbstractGame;
 import com.jme.app.SimpleGame;
 import com.jme.image.Image;
 import com.jme.image.Texture;

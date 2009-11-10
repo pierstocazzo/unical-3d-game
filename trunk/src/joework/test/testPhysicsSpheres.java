@@ -13,7 +13,6 @@ import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
 import com.jmex.physics.RotationalJointAxis;
 import com.jmex.physics.StaticPhysicsNode;
-import com.jmex.physics.impl.ode.joints.HingeJointAxis;
 import com.jmex.physics.material.Material;
 import joework.app.AssHoleBaseGame;
 
