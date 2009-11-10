@@ -47,14 +47,6 @@ public class PhysicsCharacter {
 
     InputHandler contactDetect = new InputHandler();
 
-    boolean rest;
-    boolean movingForward;
-    boolean movingBackward;
-    boolean strafingLeft;
-    boolean strafingRight;
-    boolean jumping;
-    boolean onGround;
-
     Quaternion quaternion;
     Vector3f moveDirection, jumpVector;
     
@@ -76,13 +68,7 @@ public class PhysicsCharacter {
         this.mass = mass;
         this.model = model;
 
-        rest = true;
-        movingForward = false;
-        movingBackward = false;
-        strafingLeft = false;
-        strafingRight = false;
-        jumping = false;
-        onGround = false;
+        this.rest();
 
         quaternion = new Quaternion();
 
@@ -90,7 +76,11 @@ public class PhysicsCharacter {
         contactDetection();
     }
 
-    void contactDetection() {
+    private void rest() {
+    	world.getCore().characterRest(id);
+	}
+
+	void contactDetection() {
         /**
          * Detect the ground collision
          */
@@ -99,7 +89,7 @@ public class PhysicsCharacter {
             public void performAction( InputActionEvent evt ) {
                 ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
                 if ( contactInfo.getNode1() == ground || contactInfo.getNode2() == ground ) {
-                    onGround = true;
+                    world.getCore().setCharacterOnGround( id, true );
                 }
             }
         }, playerCollisionEventHandler, false );
@@ -149,15 +139,9 @@ public class PhysicsCharacter {
     }
 
     public void update( float time ) {
-        rest = true;
-        movingForward = false;
-        movingBackward = false;
-        strafingLeft = false;
-        strafingRight = false;
-        jumping = false;
-        onGround = false;
-        
-        preventFall();
+        this.rest();
+    	
+    	preventFall();
 
         contactDetect.update(time);
         body.rest();
@@ -177,7 +161,7 @@ public class PhysicsCharacter {
     public void move( Vector3f direction ) {
         moveDirection.set(direction);
         
-        if( onGround ) {
+        if( world.getCore().getCharacterOnGround( id ) ) {
             if( moveDirection != Vector3f.ZERO ){
                 try{
                     rotationalAxis.setDirection( moveDirection );
@@ -217,62 +201,6 @@ public class PhysicsCharacter {
         this.speed = speed;
     }
 
-    public boolean getRest() {
-        return rest;
-    }
-
-    public void setRest( boolean rest ) {
-        this.rest = rest;
-    }
-
-    public boolean getMovingForward() {
-        return movingForward;
-    }
-
-    public void setMovingForward( boolean movingForward ) {
-        this.movingForward = movingForward;
-    }
-
-    public boolean getMovingBackward() {
-        return movingBackward;
-    }
-
-    public void setMovingBackward( boolean movingBackward ) {
-        this.movingBackward = movingBackward;
-    }
-
-    public boolean getStrafingLeft() {
-        return strafingLeft;
-    }
-
-    public void setStrafingLeft( boolean strafingLeft ) {
-        this.strafingLeft = strafingLeft;
-    }
-
-    public boolean getStrafingRight() {
-        return strafingRight;
-    }
-
-    public void setStrafingRight( boolean strafingRight ) {
-        this.strafingRight = strafingRight;
-    }
-
-    public boolean getJumping() {
-        return jumping;
-    }
-
-    public void setJumping( boolean jumping ) {
-        this.jumping = jumping;
-    }
-
-    public boolean getOnGround() {
-        return onGround;
-    }
-
-    public void setOnGround( boolean onGround ) {
-        this.onGround = onGround;
-    }
-
     public Vector3f getJumpVector() {
         return jumpVector;
     }
@@ -284,4 +212,41 @@ public class PhysicsCharacter {
     public void setModel( Node model ) {
         this.model = model;
     }
+
+	public boolean getRest() {
+		return world.getCore().getCharacterRest(id);
+	}
+
+	public boolean getOnGround() {
+		return world.getCore().getCharacterOnGround(id);
+	}
+	
+	public void setOnGround(boolean b) {
+		world.getCore().setCharacterOnGround(id, b);
+	}
+	
+	public void setRest(boolean b) {
+		world.getCore().setCharacterRest( id, b );
+	}
+
+	public void setMovingBackward(boolean b) {
+		world.getCore().setCharacterMovingBackward( id, b );
+		
+	}
+
+	public void setMovingForward(boolean b) {
+		world.getCore().setCharacterMovingForward(id, b);
+	}
+
+	public void setJumping(boolean b) {
+		world.getCore().setCharacterJumping(id, b);
+	}
+
+	public void setStrafingLeft(boolean b) {
+		world.getCore().setCharacterStrafingLeft(id, b);
+	}
+
+	public void setStrafingRight(boolean b) {
+		world.getCore().setCharacterStrafingRight(id, b);
+	}
 }
