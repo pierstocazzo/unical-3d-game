@@ -15,7 +15,7 @@ public abstract class CustomGame extends BasePhysicsGame {
         setupInit();
         setupEnvironment();
         setupPlayer();
-        setupCharacters();
+        setupEnemies();
         setupCamera();
         setupChaseCamera();
         setupInput();
@@ -23,7 +23,7 @@ public abstract class CustomGame extends BasePhysicsGame {
     
     protected abstract void setupInit();
     protected abstract void setupEnvironment();
-    protected abstract void setupCharacters();
+    protected abstract void setupEnemies();
     protected abstract void setupPlayer();
     protected abstract void setupCamera();
     protected abstract void setupChaseCamera();
