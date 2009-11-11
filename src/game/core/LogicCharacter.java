@@ -175,6 +175,11 @@ public abstract class LogicCharacter {
 			currentLife = currentLife - bulletDamage;
 	}
 
+        // Just do nothing
+        public void shoot() {
+		// to override
+	}
+
 	public void die() {
 		currentState = EnumState.DEATH;
 		// TODO
