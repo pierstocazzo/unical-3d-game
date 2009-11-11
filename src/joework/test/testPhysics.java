@@ -11,13 +11,13 @@ import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Sphere;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.StaticPhysicsNode;
-import joework.app.AssHoleBaseGame;
+import game.base.CustomGame;
 
 /**
  *
  * @author joseph
  */
-public class testPhysics extends AssHoleBaseGame {
+public class testPhysics extends CustomGame {
 
     StaticPhysicsNode staticNode;
     DynamicPhysicsNode dynamicNode;
@@ -50,11 +50,6 @@ public class testPhysics extends AssHoleBaseGame {
     }
 
     @Override
-    protected void setupCharacters() {
-        // todo
-    }
-
-    @Override
     protected void setupPlayer() {
         Sphere player = new Sphere("player", 20, 20, 5);
         player.setRandomColors();
@@ -84,6 +79,11 @@ public class testPhysics extends AssHoleBaseGame {
 
     @Override
     protected void setupChaseCamera() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // todo
+    }
+
+    @Override
+    protected void setupEnemies() {
+        // todo
     }
 }

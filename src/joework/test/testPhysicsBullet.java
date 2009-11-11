@@ -13,14 +13,14 @@ import com.jme.math.Vector3f;
 import com.jme.scene.shape.Box;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.terrain.TerrainBlock;
+import game.base.CustomGame;
 import java.util.logging.Logger;
-import joework.app.AssHoleBaseGame;
 
 /**
  *
  * @author joseph
  */
-public class testPhysicsBullet extends AssHoleBaseGame {
+public class testPhysicsBullet extends CustomGame {
     private static final Logger logger = Logger.getLogger(testPhysicsBullet.class.getName());
 
     StaticPhysicsNode staticNode;
@@ -49,11 +49,6 @@ public class testPhysicsBullet extends AssHoleBaseGame {
 
         staticNode.attachChild(floorGeometry);
         staticNode.generatePhysicsGeometry();
-    }
-
-    @Override
-    protected void setupCharacters() {
-        // todo
     }
 
     @Override
@@ -86,6 +81,11 @@ public class testPhysicsBullet extends AssHoleBaseGame {
     @Override
     protected void simpleUpdate() {
         input.update(tpf);
+    }
+
+    @Override
+    protected void setupEnemies() {
+        // todo
     }
 
     public class FireAction extends InputAction {
