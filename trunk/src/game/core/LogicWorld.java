@@ -190,5 +190,9 @@ public class LogicWorld implements WorldInterface {
 	@Override
 	public void setCharacterStrafingRight(String id, boolean b) {
 		characters.get(id).setStrafingRight(b);
-	}	
+	}
+
+        public void characterShoot(String id) {
+                characters.get(id).shoot();
+        }
 }

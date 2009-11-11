@@ -49,7 +49,7 @@ public class LogicPlayer extends LogicCharacter {
 	 */
 	public void addWeapon( LogicWeapon weapon ) {
 		// the player can't carry more than three weapons
-		if( weaponCounter >= 3 ) {
+		if( weaponCounter < 3 ) {
 			equipment.put( weaponCounter, weapon );
 			weaponCounter = weaponCounter + 1;
 		} 
@@ -73,6 +73,7 @@ public class LogicPlayer extends LogicCharacter {
 	/** 
 	 * Just decrease ammunitions
 	 */
+        @Override
 	public void shoot() {
 		currentWeapon.decreaseAmmo();
 	}
