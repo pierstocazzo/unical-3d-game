@@ -38,7 +38,12 @@ public interface WorldInterface {
 	 * @return HashMap
 	 */
 	public abstract HashMap<String, Vector3f> getEnemiesPosition();
-	
+
+        /** Function characterShoot()
+         * invoke the shoot method of logic character
+         */
+        public abstract void characterShoot( String id );
+
 	/** 
 	 * 
 	 * @param id
