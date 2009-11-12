@@ -19,9 +19,6 @@ public class LogicEnemy extends LogicCharacter {
 	
 	/** current movement the enemy is executing */
 	Movement currentMovement;
-	
-	/** initial position of the current path segment */
-	Vector3f initialPosition;
 
 	/**
 	 * Constructor Oggetto LogicEnemy
@@ -35,16 +32,6 @@ public class LogicEnemy extends LogicCharacter {
 		/** create the enemy weapon */
 		this.weapon = new LogicWeapon( super.id + "w", 1, weapon );
 		this.movements = movements;
-		this.initialPosition = new Vector3f();
-		this.initialPosition.set(position);
-	}
-	
-	public Vector3f getInitialPosition() {
-		return initialPosition;
-	}
-
-	public void setInitialPosition( Vector3f position ) {
-		this.initialPosition.set(position);
 	}
 	
 	public Movement getNextMovement() {

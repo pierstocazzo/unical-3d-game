@@ -10,20 +10,22 @@ public class PhysicsEnemy extends PhysicsCharacter {
 	float distance;
 	Movement currentMovement;
 	
-	/** vettori debug */
+	/** Helper movement vector */
 	private Vector3f currentPosition;
-	private Vector3f initPosition;
+	private Vector3f initialPosition;
 	
 	public PhysicsEnemy( String id, GraphicalWorld world, Vector3f direction, float speed, float mass, Node model ) {
 		super( id, world, direction, speed, mass, model );
 		currentMovement = world.getCore().getEnemyNextMovement( id );
 		
 		currentPosition = new Vector3f();
-		initPosition = new Vector3f();
-		initPosition.set( world.getCore().getEnemyInitialPosition(id) );
-		initPosition.setY(0);
+
+		initialPosition = new Vector3f();
+		initialPosition.set( world.getCore().getCharacterInitialPosition(id) );
+		initialPosition.setY(0);
 	}
 	
+        @Override
 	public void update( float time ) {
 		super.update(time);
 		super.move( currentMovement.getDirection().toVector() );
@@ -31,21 +33,12 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		currentPosition.set( world.getCore().getCharacterPosition(id) );
 		currentPosition.setY(0);
 		
-		distance = currentPosition.distance( initPosition );	
+		distance = currentPosition.distance( initialPosition );
 		
 		if( distance >= currentMovement.getLength() ) {
 			super.clearDynamics();
-			
-//			world.getCore().setEnemyInitialPosition( id, feet.getWorldTranslation() );
-			initPosition.set( currentPosition );
-									
-			System.out.println("*********\nRAGGIUNTA DISTANZA: " + distance + " di " + currentMovement.getLength());
-			System.out.println( "Current Position: " + currentPosition.toString() + 
-					"\nInitPosition: " + initPosition.toString() );
-			
+			initialPosition.set( currentPosition );
 			currentMovement = world.getCore().getEnemyNextMovement( id );
-			
-			System.out.println( "nuovo movimento: " + currentMovement.getDirection().toVector().toString() );
 		}
 	}
 }

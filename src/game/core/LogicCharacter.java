@@ -27,6 +27,9 @@ public abstract class LogicCharacter {
     /** Current Position Vector of the character */
 	public Vector3f position;
 
+        /** initial position of the current path segment */
+	Vector3f initialPosition;
+
 	/** Control variables */
     boolean rest;
     boolean movingForward;
@@ -49,8 +52,9 @@ public abstract class LogicCharacter {
 		this.currentLife = maxLife;
 		this.currentState = EnumCharacterState.DEFAULT;
 		this.score = 0;
-		this.position = new Vector3f();
-		this.position.set( position );
+		this.position = new Vector3f(position);
+		//this.position.set( position );
+                this.initialPosition = new Vector3f(position);
 	}
 	
 	/**
@@ -262,5 +266,11 @@ public abstract class LogicCharacter {
 
 	public abstract Movement getNextMovement();
 
-	public abstract void setInitialPosition(Vector3f position2);
+        public Vector3f getInitialPosition() {
+		return initialPosition;
+	}
+
+	public void setInitialPosition( Vector3f position ) {
+		this.initialPosition.set(position);
+	}
 }

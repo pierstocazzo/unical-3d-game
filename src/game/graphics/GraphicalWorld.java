@@ -33,10 +33,10 @@ public class GraphicalWorld extends CustomGame {
     PhysicsInputHandler myInput;
     StaticPhysicsNode staticNode;
     Node enemies;
-    
+
     PhysicsCharacter player;
     PhysicsEnemy enemy;
-     
+
     ChaseCamera chaser;
 
     TerrainBlock terrain;
@@ -68,8 +68,8 @@ public class GraphicalWorld extends CustomGame {
     	
         for( String id : ids ) {
         	enemy = new PhysicsEnemy( id, this, Vector3f.UNIT_X, 40, 100,  model );
-        	enemy.getCharacterNode().setLocalTranslation( core.getEnemyInitialPosition( id ) );
-            rootNode.attachChild( enemy.getCharacterNode() );
+                enemy.getCharacterNode().setLocalTranslation( core.getCharacterInitialPosition(id) );
+                rootNode.attachChild( enemy.getCharacterNode() );
 //    		Thread t = new Thread( enemy );
 //    		t.start();
         }

@@ -3,7 +3,6 @@ package game.enemyAI;
 public class Movement {
 	
 	EnumDirection direction;
-
 	float length;
 	
 	Movement( EnumDirection direction, float length ){
