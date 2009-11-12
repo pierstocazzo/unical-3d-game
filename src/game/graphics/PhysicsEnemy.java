@@ -31,7 +31,7 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		currentPosition = new Vector3f();
 
 		initialPosition = new Vector3f();
-		initialPosition.set( world.getCore().getCharacterInitialPosition(id) );
+		initialPosition.set( world.getCore().getCharacterPosition(id) );
 		initialPosition.setY(0);
 	}
 	
