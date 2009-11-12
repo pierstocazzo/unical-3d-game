@@ -1,11 +1,11 @@
 package game.core;
 
+import game.enemyAI.Movement;
+
 import com.jme.math.Vector3f;
 
 /**
  * Abstract Class LogicCharacter
- * 
- * @author Andrea
  */
 public abstract class LogicCharacter {
 
@@ -15,16 +15,16 @@ public abstract class LogicCharacter {
 	/** Current Life */
 	int currentLife;
 	
-	/** Max Life */
+	/** Max Life - the maximum energy the character can reach */
 	int maxLife;
 	
-	/** Score */
+	/** Current Score of the player */
 	int score;
 	
 	/** Present LogicState */
-	EnumState currentState;
+	EnumCharacterState currentState;
 
-    /** Current Position Vector */
+    /** Current Position Vector of the character */
 	public Vector3f position;
 
 	/** Control variables */
@@ -35,45 +35,37 @@ public abstract class LogicCharacter {
     boolean strafingRight;
     boolean jumping;
     boolean onGround;
-	
-	public Vector3f getPosition() {
-		return position;
-	}
-
-	public void setPosition(Vector3f position) {
-		this.position = position;
-	}
 
 	/**
 	 * Constructor LogicCharacter
 	 * 
 	 * @param id - (String) Idenfier
-	 * @param currentLife - (int) Current Life
-	 * @param maxLife - (int) Max Life
+	 * @param maxLife - (int) Maximum Life
+	 * @param position - (Vector3d) the initial position
 	 */
-	public LogicCharacter( String id, int currentLife, int maxLife, Vector3f position ) {
+	public LogicCharacter( String id, int maxLife, Vector3f position ) {
 		this.id = id;
-		this.currentLife = currentLife;
 		this.maxLife = maxLife;
-		this.currentState = EnumState.DEFAULT;
+		this.currentLife = maxLife;
+		this.currentState = EnumCharacterState.DEFAULT;
 		this.score = 0;
-		this.position = position;
+		this.position = new Vector3f();
+		this.position.set( position );
 	}
 	
 	/**
-	 * 	Method that increases the value currentLife respecting the limit set by Maxlife
+	 * 	Method that increases the value currentLife respecting the limit setted by Maxlife
 	 * 
-	 * @param newLife - (int) Valore vita da aggiungere
+	 * @param lifeToAdd - (int) Valore vita da aggiungere
 	 */
-	void addLife( int newLife ) {
-		if( currentLife + newLife >= maxLife) {
+	void addLife( int lifeToAdd ) {
+		if( currentLife + lifeToAdd >= maxLife) {
 			currentLife = maxLife;
 		}
 		else
-			currentLife = currentLife + newLife;
+			currentLife = currentLife + lifeToAdd;
 	}
 	
-	// DA RIVEDERE
 	/**
 	 * Decrements the current life, leaving a consistent value
 	 * 
@@ -82,8 +74,7 @@ public abstract class LogicCharacter {
 	void removeLife( int removedLife ){
 		currentLife = currentLife - removedLife;
 		if( currentLife <= 0 ) {
-			currentLife = 0;
-			currentState = EnumState.DEATH;
+			this.die();
 		}
 	}
 	
@@ -92,7 +83,7 @@ public abstract class LogicCharacter {
 	 * 
 	 * @param newState - (State) the new state
 	 */
-	void setState( EnumState newState ){
+	void setState( EnumCharacterState newState ){
 		currentState = newState;
 	}
 	
@@ -151,7 +142,7 @@ public abstract class LogicCharacter {
 	 * 
 	 * @return currentState
 	 */
-	public EnumState getCurrState() {
+	public EnumCharacterState getCurrState() {
 		return currentState;
 	}
 
@@ -162,6 +153,23 @@ public abstract class LogicCharacter {
 	 */
 	public int getScore() {
 		return score;
+	}
+	
+	
+    /** Function 
+     * 
+     * @return
+     */
+	public Vector3f getPosition() {
+		return position;
+	}
+
+	/** 
+	 * 
+	 * @param position
+	 */
+	public void setPosition(Vector3f position) {
+		this.position.set(position);
 	}
 	
 	/** 
@@ -175,13 +183,13 @@ public abstract class LogicCharacter {
 			currentLife = currentLife - bulletDamage;
 	}
 
-        // Just do nothing
-        public void shoot() {
+	// Just do nothing
+	public void shoot() {
 		// to override
 	}
 
 	public void die() {
-		currentState = EnumState.DEATH;
+		currentState = EnumCharacterState.DEATH;
 		// TODO
 	}
 	
@@ -251,4 +259,8 @@ public abstract class LogicCharacter {
     public void setOnGround( boolean onGround ) {
         this.onGround = onGround;
     }
+
+	public abstract Movement getNextMovement();
+
+	public abstract void setInitialPosition(Vector3f position2);
 }

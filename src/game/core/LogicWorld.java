@@ -1,10 +1,12 @@
 package game.core;
 
+import game.enemyAI.MovementList;
+import game.enemyAI.Movement;
+import game.enemyAI.MovementList.MovementType;
 import game.graphics.WorldInterface;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -26,8 +28,8 @@ public class LogicWorld implements WorldInterface {
 	}
 	
 	/** create player */
-	public void createPlayer( String id, int life, int maxLife, Vector3f position ) {
-		characters.put( id , new LogicPlayer( id, life, maxLife, position ) );
+	public void createPlayer( String id, int maxLife, Vector3f position ) {
+		characters.put( id , new LogicPlayer( id, maxLife, position ) );
 	}
 	
 	/**
@@ -35,20 +37,25 @@ public class LogicWorld implements WorldInterface {
 	 * @param numberOfEnemies - (int) number of enemies to create
 	 */
 	public void createEnemies( int numberOfEnemies, Vector3f area ) {
-		float x = area.getX();
-		float z = area.getY();
-
-		Random r = new Random();
+//		float x = area.getX();
+//		float z = area.getY();
+//
+//		Random r = new Random();
 
 		
 		for( int i = 0; i < numberOfEnemies; i++ ) {
+//			
+//			float xRelative = x + r.nextInt(numberOfEnemies * 5);
+//			float zRelative = z + r.nextInt(numberOfEnemies * 5);
+//			
+//			Vector3f position = new Vector3f( xRelative, 50, zRelative );
+//			
+//			LogicEnemy enemy = new LogicEnemy( "enemy" + i, 50, EnumWeaponType.MP5, 
+//					position, new MovementList( MovementType.LARGE_PERIMETER ) );
+//			characters.put( enemy.id, enemy );
 			
-			float xRelative = x + r.nextInt(numberOfEnemies * 5);
-			float zRelative = z + r.nextInt(numberOfEnemies * 5);
-			
-			Vector3f position = new Vector3f( xRelative, 30, zRelative );
-			
-			LogicEnemy enemy = new LogicEnemy( "enemy" + i, 50, 50, EnumWeaponType.MP5, position );
+			LogicEnemy enemy = new LogicEnemy( "enemy" + i, 50, EnumWeaponType.MP5, 
+			area, new MovementList( MovementType.LARGE_PERIMETER ) );
 			characters.put( enemy.id, enemy );
 		}
 	}
@@ -58,7 +65,7 @@ public class LogicWorld implements WorldInterface {
 	 *  override interface method move
 	 */
 	public void moveCharacter( String id, Vector3f position ) {
-		characters.get( id ).position = position;
+		characters.get( id ).setPosition( position );
 	}
 	
 	/** 
@@ -192,7 +199,33 @@ public class LogicWorld implements WorldInterface {
 		characters.get(id).setStrafingRight(b);
 	}
 
-        public void characterShoot(String id) {
-                characters.get(id).shoot();
-        }
+    public void characterShoot(String id) {
+        characters.get(id).shoot();
+    }
+
+	@Override
+	public Movement getEnemyNextMovement( String id ) {
+		return characters.get(id).getNextMovement();
+	}
+	
+	@Override
+	public Movement getEnemyCurrentMovement( String id ) {
+		return ((LogicEnemy) characters.get(id)).getCurrentMovement();
+	}
+
+	@Override
+	public Vector3f getEnemyInitialPosition(String id) {
+		//to manage exception
+		return ((LogicEnemy)characters.get(id)).initialPosition;
+	}
+
+	@Override
+	public void setEnemyInitialPosition( String id, Vector3f position ) {
+		characters.get(id).setInitialPosition(position);
+	}
+
+	@Override
+	public Vector3f getCharacterPosition(String id) {
+		return characters.get(id).position;
+	}
 }

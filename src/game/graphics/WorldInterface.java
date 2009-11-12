@@ -1,5 +1,8 @@
 package game.graphics;
 
+
+import game.enemyAI.Movement;
+
 import java.util.HashMap;
 import java.util.Set;
 
@@ -148,5 +151,21 @@ public interface WorldInterface {
 	 * @param b
 	 */
 	public abstract void setCharacterJumping(String id, boolean b);
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public abstract Movement getEnemyNextMovement( String id );
+	
+	public abstract Movement getEnemyCurrentMovement( String id );
+	
+	public abstract Vector3f getEnemyInitialPosition( String id );
+	
+	public abstract void setEnemyInitialPosition( String id, Vector3f position );
+
+	public abstract Vector3f getCharacterPosition( String id );
+
+
 	
 }

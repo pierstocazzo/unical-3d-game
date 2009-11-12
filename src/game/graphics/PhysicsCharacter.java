@@ -145,9 +145,12 @@ public class PhysicsCharacter {
 
         contactDetect.update(time);
         body.rest();
+        
+        // update core
+        world.getCore().moveCharacter( id, feet.getWorldTranslation() );
     }
 
-    private void preventFall() {
+    public void preventFall() {
         quaternion = body.getLocalRotation();
         Vector3f[] axes = new Vector3f[3];
         quaternion.toAxes(axes);

@@ -1,5 +1,7 @@
 package game.core;
 
+import game.enemyAI.Movement;
+
 import java.util.HashMap;
 
 import com.jme.math.Vector3f;
@@ -12,7 +14,7 @@ import com.jme.math.Vector3f;
 public class LogicPlayer extends LogicCharacter {
 
 	/** Player's equipment */
-	HashMap< Integer, LogicWeapon > equipment;
+	HashMap< Integer, LogicWeapon > equipment = new HashMap<Integer, LogicWeapon>();
 	
 	int currentLevel;
 	int previousLevel;
@@ -29,8 +31,8 @@ public class LogicPlayer extends LogicCharacter {
 	 * @param currentLife - (int) Current Life
 	 * @param maxLife - (int) Max Life
 	 */
-	public LogicPlayer( String id, int currentLife, int maxLife , Vector3f position) {
-		super( id, currentLife, maxLife, position );
+	public LogicPlayer( String id, int maxLife , Vector3f position) {
+		super( id, maxLife, position );
 		
 		this.weaponCounter = 0;
 		
@@ -76,5 +78,15 @@ public class LogicPlayer extends LogicCharacter {
         @Override
 	public void shoot() {
 		currentWeapon.decreaseAmmo();
+	}
+
+	@Override
+	public Movement getNextMovement() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setInitialPosition(Vector3f position2) {
 	}
 }
