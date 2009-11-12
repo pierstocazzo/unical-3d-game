@@ -2,7 +2,6 @@ package game.core;
 
 import game.enemyAI.MovementList;
 import game.enemyAI.Movement;
-import game.enemyAI.MovementList.MovementType;
 import game.graphics.WorldInterface;
 
 import java.util.HashMap;
@@ -36,7 +35,7 @@ public class LogicWorld implements WorldInterface {
 	 * Function that create enemies in the number specified
 	 * @param numberOfEnemies - (int) number of enemies to create
 	 */
-	public void createEnemies( int numberOfEnemies, Vector3f area ) {
+	public void createEnemies( int numberOfEnemies, Vector3f area, MovementList movementList ) {
 //		float x = area.getX();
 //		float z = area.getY();
 //
@@ -54,8 +53,7 @@ public class LogicWorld implements WorldInterface {
 //					position, new MovementList( MovementType.LARGE_PERIMETER ) );
 //			characters.put( enemy.id, enemy );
 			
-			LogicEnemy enemy = new LogicEnemy( "enemy" + i, 50, EnumWeaponType.MP5, 
-			area, new MovementList( MovementType.LARGE_PERIMETER ) );
+			LogicEnemy enemy = new LogicEnemy( "enemy" + i, 50, EnumWeaponType.MP5, area, movementList );
 			characters.put( enemy.id, enemy );
 		}
 	}
@@ -204,28 +202,25 @@ public class LogicWorld implements WorldInterface {
     }
 
 	@Override
+	public Vector3f getCharacterPosition(String id) {
+		return characters.get(id).position;
+	}
+
+        public Vector3f getCharacterInitialPosition(String id) {
+            return characters.get(id).initialPosition;
+        }
+
+        public void setCharacterInitialPosition(String id, Vector3f position) {
+                characters.get(id).setInitialPosition(position);
+        }
+
+        @Override
 	public Movement getEnemyNextMovement( String id ) {
 		return characters.get(id).getNextMovement();
 	}
-	
+
 	@Override
 	public Movement getEnemyCurrentMovement( String id ) {
 		return ((LogicEnemy) characters.get(id)).getCurrentMovement();
-	}
-
-	@Override
-	public Vector3f getEnemyInitialPosition(String id) {
-		//to manage exception
-		return ((LogicEnemy)characters.get(id)).initialPosition;
-	}
-
-	@Override
-	public void setEnemyInitialPosition( String id, Vector3f position ) {
-		characters.get(id).setInitialPosition(position);
-	}
-
-	@Override
-	public Vector3f getCharacterPosition(String id) {
-		return characters.get(id).position;
 	}
 }

@@ -19,7 +19,7 @@ public interface WorldInterface {
 	 * @param id - (String) enemy id
 	 * @param position - (Vector3f) new enemy position
 	 */
-    public abstract void moveCharacter( String id, Vector3f position );
+        public abstract void moveCharacter( String id, Vector3f position );
     
 	/** Function <code>printWorld</code><br>
 	 * Print the world current situation
@@ -151,21 +151,38 @@ public interface WorldInterface {
 	 * @param b
 	 */
 	public abstract void setCharacterJumping(String id, boolean b);
-	
-	/**
-	 * 
+
+        /**
+         *
+         * @param id
+         * @return
+         */
+	public abstract Vector3f getCharacterPosition( String id );
+
+        /**
+         *
+         * @param id
+         * @return
+         */
+        public abstract Vector3f getCharacterInitialPosition( String id );
+        
+        /**
+         *
+         * @param id
+         * @param position
+         */
+        public abstract void setCharacterInitialPosition( String id, Vector3f position );
+
+        /**
+	 *
 	 * @param id
 	 */
 	public abstract Movement getEnemyNextMovement( String id );
-	
+
+        /**
+         *
+         * @param id
+         * @return
+         */
 	public abstract Movement getEnemyCurrentMovement( String id );
-	
-	public abstract Vector3f getEnemyInitialPosition( String id );
-	
-	public abstract void setEnemyInitialPosition( String id, Vector3f position );
-
-	public abstract Vector3f getCharacterPosition( String id );
-
-
-	
 }

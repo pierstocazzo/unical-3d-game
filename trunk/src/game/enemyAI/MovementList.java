@@ -21,16 +21,15 @@ public class MovementList{
 			break;
 			
 		case SMALL_PERIMETER:
-			movements.add( new Movement( EnumDirection.FORWARD, 10 ) );
-			movements.add( new Movement( EnumDirection.RIGHT, 10 ) );
-			movements.add( new Movement( EnumDirection.BACKWARD, 10 ) );
-			movements.add( new Movement( EnumDirection.LEFT, 10 ) );
+			movements.add( new Movement( EnumDirection.FORWARD, 20 ) );
+			movements.add( new Movement( EnumDirection.RIGHT, 20 ) );
+			movements.add( new Movement( EnumDirection.BACKWARD, 20 ) );
+			movements.add( new Movement( EnumDirection.LEFT, 20 ) );
 			break;
 			
-			// modified
 		case HORIZONTAL_SENTINEL:
-			movements.add( new Movement( EnumDirection.FORWARD, 10 ) );
-			movements.add( new Movement( EnumDirection.BACKWARD, 10 ) );
+			movements.add( new Movement( EnumDirection.FORWARD, 40 ) );
+			movements.add( new Movement( EnumDirection.BACKWARD, 40 ) );
 			break;
 			
 		case VERTICAL_SENTINEL:
@@ -44,7 +43,6 @@ public class MovementList{
 		}
 		
 		it = movements.iterator();
-//		it.next();
 	}
 	
 	public enum MovementType {

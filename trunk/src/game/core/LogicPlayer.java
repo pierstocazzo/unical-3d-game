@@ -82,11 +82,6 @@ public class LogicPlayer extends LogicCharacter {
 
 	@Override
 	public Movement getNextMovement() {
-		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void setInitialPosition(Vector3f position2) {
 	}
 }
