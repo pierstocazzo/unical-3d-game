@@ -3,7 +3,6 @@ package game.graphics;
 
 import game.enemyAI.Movement;
 
-import java.util.HashMap;
 import java.util.Set;
 
 import com.jme.math.Vector3f;
@@ -13,18 +12,21 @@ import com.jme.math.Vector3f;
  */
 public interface WorldInterface {
 
-	/** Function <code>moveEnemy</code><br>
-	 * Update the position of the enemy with this id
+	/** Function <code>setCharacterPosition</code><br>
+	 * Update the position of the character with this id
 	 *  
-	 * @param id - (String) enemy id
-	 * @param position - (Vector3f) new enemy position
+	 * @param id - (String) character's id
+	 * @param position - (Vector3f) new position
 	 */
-	public abstract void moveCharacter( String id, Vector3f position );
+	public abstract void setCharacterPosition( String id, Vector3f position );
 
-	/** Function <code>printWorld</code><br>
-	 * Print the world current situation
+	/** Function <code>getCharacterPosition</code><br>
+	 * return the position of the enemy with this id
+	 *
+	 * @param id - (String) the character's id
+	 * @return the position of the enemy with this id
 	 */
-	public abstract String printWorld();
+	public abstract Vector3f getCharacterPosition( String id );
 
 	/** Function getPlayerId()
 	 *  returns the identificator of the logic player
@@ -35,12 +37,6 @@ public interface WorldInterface {
 	 *  returns the identificators of the logic characters
 	 */
 	public abstract Set<String> getEnemiesId();
-
-	/** Function getEnemiesPosition()
-	 * return an hashMap with the position of each logic enemy
-	 * @return HashMap
-	 */
-	public abstract HashMap<String, Vector3f> getEnemiesPosition();
 
 	/** Function characterShoot()
 	 * invoke the shoot method of logic character
@@ -155,13 +151,6 @@ public interface WorldInterface {
 	/**
 	 *
 	 * @param id
-	 * @return
-	 */
-	public abstract Vector3f getCharacterPosition( String id );
-
-	/**
-	 *
-	 * @param id
 	 */
 	public abstract Movement getEnemyNextMovement( String id );
 
@@ -171,4 +160,9 @@ public interface WorldInterface {
 	 * @return
 	 */
 	public abstract Movement getEnemyCurrentMovement( String id );
+
+	/** Function <code>printWorld</code><br>
+	 * Print the world current situation
+	 */
+	public abstract String printWorld();
 }

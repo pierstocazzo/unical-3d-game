@@ -26,6 +26,9 @@ public abstract class LogicCharacter {
 
     /** Current Position Vector of the character */
 	Vector3f position;
+	
+	/** the logic world in whitch the character live */
+	LogicWorld world;
 
 	/** Control variables */
     boolean rest;
@@ -42,14 +45,16 @@ public abstract class LogicCharacter {
 	 * @param id - (String) Idenfier
 	 * @param maxLife - (int) Maximum Life
 	 * @param position - (Vector3d) the initial position
+	 * @param world - (LogicWorld) the logic world in whitch the character live
 	 */
-	public LogicCharacter( String id, int maxLife, Vector3f position ) {
+	public LogicCharacter( String id, int maxLife, Vector3f position, LogicWorld world ) {
 		this.id = id;
 		this.maxLife = maxLife;
 		this.currentLife = maxLife;
 		this.currentState = EnumCharacterState.DEFAULT;
 		this.score = 0;
 		this.position = new Vector3f(position);
+		this.world = world;
 	}
 	
 	/**
