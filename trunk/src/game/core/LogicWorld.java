@@ -218,7 +218,7 @@ public class LogicWorld implements WorldInterface {
 		return characters.get(id).position;
 	}
 	
-/**************** PERCHE' ??? ****************************/
+/**************** PERCHE' ??? ****************************
 	public Vector3f getCharacterInitialPosition(String id) {
 		return characters.get(id).initialPosition;
 	}
@@ -226,7 +226,7 @@ public class LogicWorld implements WorldInterface {
 	public void setCharacterInitialPosition(String id, Vector3f position) {
 		characters.get(id).setInitialPosition(position);
 	}
-/*********************************************************/
+*********************************************************/
 	
 	@Override
 	public Movement getEnemyNextMovement( String id ) {

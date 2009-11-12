@@ -57,41 +57,42 @@ public class GraphicalWorld extends CustomGame {
 //        showPhysics = true;
     }
 
+    /** Create graphic enemies
+     *  and set them in the positions setted in the logic game
+     */
     @Override
     protected void setupEnemies() { 	    	
     	Set<String> ids = core.getEnemiesId();
-    	
-//    	HashMap< String, Vector3f > positions = core.getEnemiesPosition();
     	
     	Node model = ModelLoader.loadModel("data/model/Soldato/Soldato.obj", "", 0.2f, new Quaternion());
     	model.setLocalTranslation(0, -1.5f, 0);
     	
         for( String id : ids ) {
         	enemy = new PhysicsEnemy( id, this, Vector3f.UNIT_X, 40, 100,  model );
-                enemy.getCharacterNode().setLocalTranslation( core.getCharacterInitialPosition(id) );
-                rootNode.attachChild( enemy.getCharacterNode() );
-//    		Thread t = new Thread( enemy );
-//    		t.start();
+//        	
+//        	A QUANTO PARE PER UNO STRANO MOTIVO USANDO SETLOCALTRANSLACTION NON FUNZIONA, MENTRE 
+//        	USANDO QUESTO METODO VA TUTTO BENISSIMO...CHE CAZZO SUCCEDE PORCA MISERIA!!!!
+        	enemy.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
+        	rootNode.attachChild( enemy.getCharacterNode() );
         }
     }
-
+    
+    /** Create graphic players
+     *  and set them in the positions setted in the logic game
+     */
     @Override
     protected void setupPlayer() {
-    	/** create graphic player */
+    	
         Node model = ModelLoader.loadModel("data/model/Soldato/Soldato.obj", "", 0.2f, new Quaternion());
-         
         model.setLocalTranslation(0, -1.5f, 0);   
         
-    	//Set<String> ids = core.getPlayersId();
+    	Set<String> ids = core.getPlayersId();
     	
-        //for( String id : ids ) {
-        	player = new PhysicsCharacter( "player1", this, Vector3f.UNIT_X, 1000, 100, model );
-//            rootNode.attachChild( player.model );
-        //}
-
-        player.getCharacterNode().setLocalTranslation(160, 30, 160);
-
-        rootNode.attachChild( player.getCharacterNode() );
+        for( String id : ids ) {
+        	player = new PhysicsCharacter( id, this, Vector3f.UNIT_X, 1000, 100, model );
+            player.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
+            rootNode.attachChild( player.getCharacterNode() );
+        }
     }
 
     @Override
