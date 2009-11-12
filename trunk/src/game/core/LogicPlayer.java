@@ -35,8 +35,8 @@ public class LogicPlayer extends LogicCharacter {
 	 * @param currentLife - (int) Current Life
 	 * @param maxLife - (int) Max Life
 	 */
-	public LogicPlayer( String id, int maxLife , Vector3f position) {
-		super( id, maxLife, position );
+	public LogicPlayer( String id, int maxLife , Vector3f position, LogicWorld world ) {
+		super( id, maxLife, position, world );
 		
 		this.weaponCounter = 0;
 		

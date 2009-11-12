@@ -29,8 +29,9 @@ public class LogicEnemy extends LogicCharacter {
 	 * @param position - (Vector3f) the position of the enemy
 	 * @param movements - (MovementList) the movements the enemy have to repeate
 	 */
-	public LogicEnemy( String id, int maxLife, EnumWeaponType weapon, Vector3f position, MovementList movements ) {
-		super( id, maxLife, position );
+	public LogicEnemy( String id, int maxLife, EnumWeaponType weapon, 
+						Vector3f position, MovementList movements, LogicWorld world ) {
+		super( id, maxLife, position, world );
 		/** create the enemy weapon */
 		this.weapon = new LogicWeapon( super.id + "w", 1, weapon );
 		this.movements = movements;
@@ -43,5 +44,12 @@ public class LogicEnemy extends LogicCharacter {
 
 	public Movement getCurrentMovement() {
 		return currentMovement;
+	}
+	
+	@Override
+	public void die() {
+		super.die();
+		// when an enemy died he releases an ammo pack (in his position)
+		world.createAmmoPack( this.weapon.type, 10, this.position );
 	}
 }

@@ -147,7 +147,7 @@ public class PhysicsCharacter {
         body.rest();
         
         // update core
-        world.getCore().moveCharacter( id, feet.getWorldTranslation() );
+        world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
     }
 
     public void preventFall() {

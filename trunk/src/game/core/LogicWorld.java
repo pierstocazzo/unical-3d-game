@@ -18,6 +18,19 @@ public class LogicWorld implements WorldInterface {
 	 */
 	HashMap< String, LogicCharacter > characters;
 	
+	/**
+	 *  HashMap of the energy packages
+	 */
+	HashMap< Integer, LogicEnergyPack > energyPackages;
+	
+	/**
+	 *  HashMap of the ammo packages
+	 */
+	HashMap< Integer, LogicAmmo > ammoPackages;
+
+	/** utility counters */
+	int ammoPackCounter, energyPackCounter;
+	
 	/** 
 	 *  <code>LogicWorld</code> Constructor<br>
 	 */
@@ -27,10 +40,9 @@ public class LogicWorld implements WorldInterface {
 	
 	/** create one player */
 	public void createPlayer( String id, int maxLife, Vector3f position ) {
-		characters.put( id , new LogicPlayer( id, maxLife, position ) );
+		characters.put( id , new LogicPlayer( id, maxLife, position, this ) );
 	}
 	
-	// DA RIVEDERE
 	/**
 	 * Function that create enemies in the number specified
 	 * @param numberOfEnemies - (int) number of enemies to create
@@ -41,60 +53,51 @@ public class LogicWorld implements WorldInterface {
 //
 //		Random r = new Random();
 
-		
-		for( int i = 0; i < numberOfEnemies; i++ ) {
-//			
+		for( int i = 0; i < numberOfEnemies; i++ ) {		
 //			float xRelative = x + r.nextInt(numberOfEnemies * 5);
 //			float zRelative = z + r.nextInt(numberOfEnemies * 5);
-//			
+//
 //			Vector3f position = new Vector3f( xRelative, 50, zRelative );
-//			
+//
 //			LogicEnemy enemy = new LogicEnemy( "enemy" + i, 50, EnumWeaponType.MP5, 
 //					position, new MovementList( MovementType.LARGE_PERIMETER ) );
 //			characters.put( enemy.id, enemy );
-			
-			LogicEnemy enemy = new LogicEnemy( "enemy" + i, 50, EnumWeaponType.MP5, area, movementList );
+			LogicEnemy enemy = new LogicEnemy( "enemy" + i, 50, EnumWeaponType.MP5, area, movementList, this );
 			characters.put( enemy.id, enemy );
 		}
 	}
+
+	/**
+	 *  Create a number of energy packages in random 
+	 *  positions of the world...
+	 */
+	public void createEnergyPackages(  ) {
+		//TODO 
+	}
+	
+	/**
+	 *  Create an ammo pack
+	 */
+	public void createAmmoPack( EnumWeaponType type, int quantity, Vector3f position ) {
+		LogicAmmo ammoPack = new LogicAmmo( type, quantity, position );
+		ammoPackages.put( ammoPackCounter, ammoPack );
+	}
 	
 	@Override 
-	/** 
-	 *  override interface method move
-	 */
-	public void moveCharacter( String id, Vector3f position ) {
+	public void setCharacterPosition( String id, Vector3f position ) {
 		characters.get( id ).setPosition( position );
 	}
 	
-	/** 
-	 * Print the position of all characters
-	 * @return String to print
-	 */
-	public String printWorld() {
-		String s = "World status: ";
-//		
-//		Set<String> keySet = enemies.keySet();
-//		
-////		s = s + "\n Player position: " + players.gposition;
-//		
-//		for( String key : keySet ){
-//			s = s + "\n" + enemies.get(key).id + " in position: " + enemies.get(key).position;
-//		}
-		
-		return s;
+	@Override
+	public Vector3f getCharacterPosition(String id) {
+		return characters.get(id).position;
 	}
 
 	@Override
-	/**
-	 *  return a Set with all the enemies ids
-	 */
 	public Set<String> getEnemiesId() {
 		return getCharactersId( "enemy" );
 	}
 	
-	/**
-	 *  return a Set with all the players ids
-	 */
 	@Override
 	public Set<String> getPlayersId() {
 		return getCharactersId( "player" );
@@ -114,23 +117,21 @@ public class LogicWorld implements WorldInterface {
 		
 		return charactersId;
 	}
+
+	public void characterShoot(String id) {
+        characters.get(id).shoot();
+    }
 	
 	@Override
-	/** 
-	 * Return an HashMap with the position of each enemy
-	 */
-	public HashMap< String, Vector3f > getEnemiesPosition() {
-		HashMap< String, Vector3f > EnemiesPositions = new HashMap< String, Vector3f >();
-		
-		Set<String> enemiesIds = getEnemiesId();
-		
-		for( String id : enemiesIds ) {
-			EnemiesPositions.put( id, characters.get(id).position );
-		}
-		
-		return EnemiesPositions;
+	public Movement getEnemyNextMovement( String id ) {
+		return characters.get(id).getNextMovement();
 	}
-	
+
+	@Override
+	public Movement getEnemyCurrentMovement( String id ) {
+		return ((LogicEnemy) characters.get(id)).getCurrentMovement();
+	}
+
 	@Override
 	/** 
 	 * stop all character's movements
@@ -209,32 +210,21 @@ public class LogicWorld implements WorldInterface {
 		characters.get(id).setStrafingRight(b);
 	}
 
-    public void characterShoot(String id) {
-        characters.get(id).shoot();
-    }
+	/** 
+	 * Print the position of all characters
+	 * @return String to print
+	 */
+	public String printWorld() {
+		String s = "World status: ";
+		//		
+		//		Set<String> keySet = enemies.keySet();
+		//		
+		////		s = s + "\n Player position: " + players.gposition;
+		//		
+		//		for( String key : keySet ){
+		//			s = s + "\n" + enemies.get(key).id + " in position: " + enemies.get(key).position;
+		//		}
 
-	@Override
-	public Vector3f getCharacterPosition(String id) {
-		return characters.get(id).position;
-	}
-	
-/**************** PERCHE' ??? ****************************
-	public Vector3f getCharacterInitialPosition(String id) {
-		return characters.get(id).initialPosition;
-	}
-
-	public void setCharacterInitialPosition(String id, Vector3f position) {
-		characters.get(id).setInitialPosition(position);
-	}
-*********************************************************/
-	
-	@Override
-	public Movement getEnemyNextMovement( String id ) {
-		return characters.get(id).getNextMovement();
-	}
-
-	@Override
-	public Movement getEnemyCurrentMovement( String id ) {
-		return ((LogicEnemy) characters.get(id)).getCurrentMovement();
+		return s;
 	}
 }
