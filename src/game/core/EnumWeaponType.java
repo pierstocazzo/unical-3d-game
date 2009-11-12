@@ -8,7 +8,7 @@ public enum EnumWeaponType {
 	
 	BAZOOKA ( 30, 100000, 500, true );
 	
-	/** <code>WeaponType> field */
+	/** <code>WeaponType</code> field */
 	int damage, power, distance;
 	boolean isHeavy;
 	

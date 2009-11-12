@@ -41,7 +41,7 @@ public abstract class LogicCharacter {
 
 	/**
 	 * Constructor LogicCharacter
-	 * 
+	 * Create a new character
 	 * @param id - (String) Idenfier
 	 * @param maxLife - (int) Maximum Life
 	 * @param position - (Vector3d) the initial position
@@ -54,7 +54,7 @@ public abstract class LogicCharacter {
 		this.score = 0;
 		this.position = new Vector3f(position);
 		//this.position.set( position );
-                this.initialPosition = new Vector3f(position);
+        this.initialPosition = new Vector3f(position);
 	}
 	
 	/**
@@ -91,7 +91,6 @@ public abstract class LogicCharacter {
 		currentState = newState;
 	}
 	
-	// DA RIVEDERE 
 	/**
 	 * Set new Score
 	 * 
@@ -172,7 +171,7 @@ public abstract class LogicCharacter {
 	 * 
 	 * @param position
 	 */
-	public void setPosition(Vector3f position) {
+	public void setPosition( Vector3f position ) {
 		this.position.set(position);
 	}
 	
@@ -197,6 +196,7 @@ public abstract class LogicCharacter {
 		// TODO
 	}
 	
+	/** reset character movements */
 	public void rest() {
         rest = true;
         movingForward = false;
@@ -207,7 +207,6 @@ public abstract class LogicCharacter {
         onGround = false;
 	}
 	
-
     public boolean getRest() {
         return rest;
     }
@@ -265,7 +264,6 @@ public abstract class LogicCharacter {
     }
 
 	public abstract Movement getNextMovement();
-
         public Vector3f getInitialPosition() {
 		return initialPosition;
 	}

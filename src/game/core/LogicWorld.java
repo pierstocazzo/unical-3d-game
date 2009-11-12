@@ -20,17 +20,17 @@ public class LogicWorld implements WorldInterface {
 	
 	/** 
 	 *  <code>LogicWorld</code> Constructor<br>
-	 *  Initialize the game logic
 	 */
 	public LogicWorld() {
 		characters = new HashMap< String, LogicCharacter >();
 	}
 	
-	/** create player */
+	/** create one player */
 	public void createPlayer( String id, int maxLife, Vector3f position ) {
 		characters.put( id , new LogicPlayer( id, maxLife, position ) );
 	}
 	
+	// DA RIVEDERE
 	/**
 	 * Function that create enemies in the number specified
 	 * @param numberOfEnemies - (int) number of enemies to create
@@ -85,10 +85,16 @@ public class LogicWorld implements WorldInterface {
 	}
 
 	@Override
+	/**
+	 *  return a Set with all the enemies ids
+	 */
 	public Set<String> getEnemiesId() {
 		return getCharactersId( "enemy" );
 	}
 	
+	/**
+	 *  return a Set with all the players ids
+	 */
 	@Override
 	public Set<String> getPlayersId() {
 		return getCharactersId( "player" );
@@ -110,7 +116,10 @@ public class LogicWorld implements WorldInterface {
 	}
 	
 	@Override
-	public HashMap< String,Vector3f > getEnemiesPosition() {
+	/** 
+	 * Return an HashMap with the position of each enemy
+	 */
+	public HashMap< String, Vector3f > getEnemiesPosition() {
 		HashMap< String, Vector3f > EnemiesPositions = new HashMap< String, Vector3f >();
 		
 		Set<String> enemiesIds = getEnemiesId();
@@ -123,6 +132,9 @@ public class LogicWorld implements WorldInterface {
 	}
 	
 	@Override
+	/** 
+	 * stop all character's movements
+	 */
 	public void characterRest( String id ) {
 		characters.get(id).rest();
 	}
@@ -205,16 +217,18 @@ public class LogicWorld implements WorldInterface {
 	public Vector3f getCharacterPosition(String id) {
 		return characters.get(id).position;
 	}
+	
+/**************** PERCHE' ??? ****************************/
+	public Vector3f getCharacterInitialPosition(String id) {
+		return characters.get(id).initialPosition;
+	}
 
-        public Vector3f getCharacterInitialPosition(String id) {
-            return characters.get(id).initialPosition;
-        }
-
-        public void setCharacterInitialPosition(String id, Vector3f position) {
-                characters.get(id).setInitialPosition(position);
-        }
-
-        @Override
+	public void setCharacterInitialPosition(String id, Vector3f position) {
+		characters.get(id).setInitialPosition(position);
+	}
+/*********************************************************/
+	
+	@Override
 	public Movement getEnemyNextMovement( String id ) {
 		return characters.get(id).getNextMovement();
 	}

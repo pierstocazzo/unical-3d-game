@@ -1,28 +1,26 @@
 package game.core;
 
 /**
- * Classe LogicWeapon
- * 
- * @author Andrea
- *
+ * Class <code>LogicWeapon</code><br>
+ * Represent the game weapons
  */
 public class LogicWeapon {
 	
 	/** Identifier */
 	String id;
 	
-	/** Remaining ammo */
+	/** residue ammo */
 	int ammo;
 	
-	/** Weapon type */
+	/** Weapon's type */
 	EnumWeaponType type;
 	
 	/**
 	 * <code>LogicWeapon</code> Constructor
 	 * 
 	 * @param id - (String) Identifier
-	 * @param ammo - (int) character's ammo
-	 * @param type - (WeaponType) the weapon type
+	 * @param ammo - (int) initial ammunitions quantity
+	 * @param type - (WeaponType) the weapon's type
 	 */
 	public LogicWeapon( String id, int ammo, EnumWeaponType type ) {
 		this.id = id;

@@ -16,17 +16,21 @@ public class LogicPlayer extends LogicCharacter {
 	/** Player's equipment */
 	HashMap< Integer, LogicWeapon > equipment = new HashMap<Integer, LogicWeapon>();
 	
+	/** current level of experience */
 	int currentLevel;
+	
+	/** previous level of experience */
 	int previousLevel;
 	
+	/** number of weapons in the player's equipment */
 	int weaponCounter;
 	
 	/** Weapon in use */
 	LogicWeapon currentWeapon;
 	
 	/**
-	 * Constructor Object LogicPlayer
-	 * 
+	 * LogicPlayer Constructor <br>
+	 * Create a new Player
 	 * @param id - (String) Identifier
 	 * @param currentLife - (int) Current Life
 	 * @param maxLife - (int) Max Life
@@ -41,7 +45,9 @@ public class LogicPlayer extends LogicCharacter {
 		
 		/** Initially the player has just the MP5 */
 		addWeapon( new LogicWeapon( "mp5", 100, EnumWeaponType.MP5 ) );
-		changeWeapon( 1 );
+		
+		/** assign the mp5 as current weapon */
+		changeWeapon( weaponCounter );
 	}
 	
 	/** Function <code>addWeapon</code><br>

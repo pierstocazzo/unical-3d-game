@@ -11,21 +11,23 @@ import com.jme.math.Vector3f;
  */
 public class LogicEnemy extends LogicCharacter {
 
-	/** Enemy weapon */
+	/** Enemy's weapon */
 	LogicWeapon weapon;
 	
-	/** enemyPath */
+	/** list of the enemy's movements */
 	MovementList movements;
 	
 	/** current movement the enemy is executing */
 	Movement currentMovement;
 
 	/**
-	 * Constructor Oggetto LogicEnemy
-	 * 
+	 * <code>LogicEnemy</code> constructor<br>
+	 * Create a new Enemy
 	 * @param id - (String) Identifier
-	 * @param currentLife - (int) Current Life
 	 * @param maxLife - (int) Max Life
+	 * @param weapon - (EnumWeaponType) the weapon of the enemy
+	 * @param position - (Vector3f) the position of the enemy
+	 * @param movements - (MovementList) the movements the enemy have to repeate
 	 */
 	public LogicEnemy( String id, int maxLife, EnumWeaponType weapon, Vector3f position, MovementList movements ) {
 		super( id, maxLife, position );
