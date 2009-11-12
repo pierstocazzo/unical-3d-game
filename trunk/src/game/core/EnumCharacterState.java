@@ -1,6 +1,6 @@
 package game.core;
 
-public enum EnumState {
+public enum EnumCharacterState {
 	
 	/**
 	 * The character is a guard, so he just rests

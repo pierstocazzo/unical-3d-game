@@ -1,33 +1,51 @@
 package game.graphics;
 
-import com.jme.bounding.BoundingBox;
+import game.enemyAI.Movement;
+
 import com.jme.math.Vector3f;
-import com.jme.scene.shape.Box;
-import com.jmex.physics.DynamicPhysicsNode;
-import com.jmex.physics.material.Material;
+import com.jme.scene.Node;
 
-public class PhysicsEnemy {
-	String id;
+public class PhysicsEnemy extends PhysicsCharacter {
 	
-	DynamicPhysicsNode model;
-	Vector3f position;
+	float distance;
+	Movement currentMovement;
 	
-	public PhysicsEnemy( String id, GraphicalWorld world, Vector3f position) {
-		this.id = id;
+	/** vettori debug */
+	private Vector3f currentPosition;
+	private Vector3f initPosition;
+	
+	public PhysicsEnemy( String id, GraphicalWorld world, Vector3f direction, float speed, float mass, Node model ) {
+		super( id, world, direction, speed, mass, model );
+		currentMovement = world.getCore().getEnemyNextMovement( id );
 		
-		/** per ora i nemici sono dei box! */
-		Box box = new Box("box", new Vector3f(-1,-1,-1), new Vector3f(1,1,1));
-		box.setModelBound( new BoundingBox() );
-		box.updateModelBound();
+		currentPosition = new Vector3f();
+		initPosition = new Vector3f();
+		initPosition.set( world.getCore().getEnemyInitialPosition(id) );
+		initPosition.setY(0);
+	}
+	
+	public void update( float time ) {
+		super.update(time);
+		super.move( currentMovement.getDirection().toVector() );
 		
+		currentPosition.set( world.getCore().getCharacterPosition(id) );
+		currentPosition.setY(0);
 		
-		model = world.getPhysicsSpace().createDynamicNode();
-
-		model.setLocalTranslation(position);
+		distance = currentPosition.distance( initPosition );	
 		
-		model.attachChild( box );
-		model.generatePhysicsGeometry();
-		model.setMass( 10000 );
-		model.setMaterial( Material.IRON );
+		if( distance >= currentMovement.getLength() ) {
+			super.clearDynamics();
+			
+//			world.getCore().setEnemyInitialPosition( id, feet.getWorldTranslation() );
+			initPosition.set( currentPosition );
+									
+			System.out.println("*********\nRAGGIUNTA DISTANZA: " + distance + " di " + currentMovement.getLength());
+			System.out.println( "Current Position: " + currentPosition.toString() + 
+					"\nInitPosition: " + initPosition.toString() );
+			
+			currentMovement = world.getCore().getEnemyNextMovement( id );
+			
+			System.out.println( "nuovo movimento: " + currentMovement.getDirection().toVector().toString() );
+		}
 	}
 }
