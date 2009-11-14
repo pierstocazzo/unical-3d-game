@@ -41,6 +41,13 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		/** move the character in the direction specified in the current movement */
 		super.move( currentMovement.getDirection().toVector() );
 		
+// 		PROVA LOOKAT 
+//        Vector3f v = new Vector3f( this.getModel().getWorldTranslation().x,
+//        		this.getModel().getWorldTranslation().y,
+//        		this.getModel().getWorldTranslation().z );
+//        v.addLocal( currentMovement.getDirection().toVector().x, 0 ,currentMovement.getDirection().toVector().z );
+//		  this.getModel().lookAt( currentMovement.getDirection().toVector(), Vector3f.UNIT_Y );
+		
 		currentPosition.set( world.getCore().getCharacterPosition(id) );
 		currentPosition.setY(0);
 		
