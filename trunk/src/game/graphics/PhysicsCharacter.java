@@ -118,10 +118,10 @@ public class PhysicsCharacter {
     	world.getCore().characterRest(id);
 	}
 
+    /**
+     * Detect the ground collision
+     */
 	void contactDetection() {
-        /**
-         * Detect the ground collision
-         */
         SyntheticButton playerCollisionEventHandler = feet.getCollisionEventHandler();
         contactDetect.addAction( new InputAction() {
             public void performAction( InputActionEvent evt ) {
@@ -133,10 +133,10 @@ public class PhysicsCharacter {
         }, playerCollisionEventHandler, false );
     }
 
+    /**
+     * Create the physics geometry of character
+     */
     void createPhysics() {
-        /**
-         * Create the physics geometry of character
-         */
 
         // Create the feet
         PhysicsSphere feetGeometry = feet.createSphere("feet geometry");
@@ -283,7 +283,7 @@ public class PhysicsCharacter {
 		world.getCore().setCharacterOnGround( id, onGround );
 	}
 	
-	public void setRest( boolean rest ) {
+	public void setRest( boolean rest ) {		
 		world.getCore().setCharacterRest( id, rest );
 	}
 
@@ -292,7 +292,7 @@ public class PhysicsCharacter {
 	}
 
 	public void setMovingForward( boolean movingForward ) {
-    	// ATTIVO L'ANIMAZIONE SOLTANTO SE QUELLA PRECEDENTE ERA DIVERSA e se il character � sul terreno
+    	// ATTIVO L'ANIMAZIONE SOLTANTO SE QUELLA PRECEDENTE ERA DIVERSA e se il character e' sul terreno
     	if( animationController.getMaxTime() != (26 / animationController.FPS) && movingForward == true && getOnGround() == true ) {
     		// activate the animation "run"
     		animationController.setTimes( 16, 26 );
@@ -305,7 +305,7 @@ public class PhysicsCharacter {
 		// if the character is jumping
     	if( animationController.getMaxTime() != (40 / animationController.FPS) && jumping == true ) {
     		// activate the animation "jump"
-    		animationController.setTimes( 28, 40 );
+    		animationController.setTimes( 42, 54 );
     	}
 		world.getCore().setCharacterJumping( id, jumping );
 	}

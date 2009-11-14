@@ -47,7 +47,7 @@ public class ModelLoader {
 
 	/** Funzione che permette di caricare un modello 3d ed eventualmente 
 	 * applicargli una texture, scalarlo o ruotarlo. <br>
-	 * Modelli supportati: 3ds, md2, md3, obj, ase, xml, jme. <br>
+	 * Modelli supportati: 3ds, md2, md3, obj, ase, ms3d, xml, jme. <br>
 	 * Esempio d'uso:<br>
 	 * <code>ModelLoader.loadModel("model.3ds", "texture.jpg", 1, new Quaternion())
 	 * </code>
@@ -58,7 +58,7 @@ public class ModelLoader {
 	 * del modello NB: 1 per non ridimensionare
 	 * @param rotation -> (Quaternion) la rotazione che si vuole dare al 
 	 * modello NB: <code>new Quaternion()</code> per non ruotare
-	 * @return (Node) Ritorna il nodo a cui � attaccato il modello 
+	 * @return (Node) Ritorna il nodo a cui e' attaccato il modello 
 	 */
 	public static Node loadModel( String modelPath, String texturePath, float scaleFactor, Quaternion rotation ){
 

@@ -19,9 +19,7 @@ public class LookAtAction extends InputAction {
 
     public void performAction( InputActionEvent evt ) {
         if ( evt.getTriggerDelta() != 0f ) {
-            Vector3f v = new Vector3f( handler.getTarget().getModel().getWorldTranslation().x,
-                                       handler.getTarget().getModel().getWorldTranslation().y,
-                                       handler.getTarget().getModel().getWorldTranslation().z );
+            Vector3f v = new Vector3f( handler.getTarget().getModel().getWorldTranslation() );
             v.addLocal( cam.getDirection().negate().x, 0 ,cam.getDirection().negate().z );
             handler.getTarget().getModel().lookAt( v , Vector3f.UNIT_Y );
         }

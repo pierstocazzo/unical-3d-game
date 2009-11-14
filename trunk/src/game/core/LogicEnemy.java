@@ -2,6 +2,7 @@ package game.core;
 
 import game.enemyAI.MovementList;
 import game.enemyAI.Movement;
+import game.enemyAI.MovementList.MovementType;
 
 import com.jme.math.Vector3f;
 
@@ -30,11 +31,11 @@ public class LogicEnemy extends LogicCharacter {
 	 * @param movements - (MovementList) the movements the enemy have to repeate
 	 */
 	public LogicEnemy( String id, int maxLife, EnumWeaponType weapon, 
-						Vector3f position, MovementList movements, LogicWorld world ) {
+						Vector3f position, MovementType movements, LogicWorld world ) {
 		super( id, maxLife, position, world );
 		/** create the enemy weapon */
 		this.weapon = new LogicWeapon( super.id + "w", 1, weapon );
-		this.movements = movements;
+		this.movements = new MovementList( movements );
 	}
 	
 	public Movement getNextMovement() {
