@@ -148,7 +148,7 @@ public class PhysicsCharacter {
         // Set default mass
         feet.setMass(mass);
 
-        // Set the jump vector
+        // Set the jump direction
         jumpVector = new Vector3f(0, mass*400, 0);
     }
 

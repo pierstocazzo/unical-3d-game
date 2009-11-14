@@ -83,7 +83,7 @@ public class ForceFieldFence extends Node {
         //the appearance the forcefield is moving.
         t.getTranslation().y += 0.3f * interpolation;
         //if the translation is over 1, it's wrapped, so go ahead
-        //and check for this (to keep the vector's y value from getting
+        //and check for this (to keep the direction's y value from getting
         //too large.)
         if(t.getTranslation().y > 1) {
             t.getTranslation().y = 0;

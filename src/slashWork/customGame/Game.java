@@ -49,14 +49,14 @@ import com.jme.util.export.xml.XMLImporter;;
  * Terzo game customizzato. 
  * Aggiungiamo all'environment creato in game2 un box che rappresenta il
  * nostro futuristico mezzo di trasporto
- * verrà gestito il movimento attraverso un inputHandler customizzato 
- * e soprattutto verrà creata la chase camera che serve a noi!
- * proprietà della camera:
- * punta sempre al nostro player e lo inseguirà (senno perchè chase!)
- * da libertà di rotazione col mouse attorno al player
+ * verrï¿½ gestito il movimento attraverso un inputHandler customizzato 
+ * e soprattutto verrï¿½ creata la chase camera che serve a noi!
+ * proprietï¿½ della camera:
+ * punta sempre al nostro player e lo inseguirï¿½ (senno perchï¿½ chase!)
+ * da libertï¿½ di rotazione col mouse attorno al player
  * permette di zoomare con la rotellina del mouse
  * 
- * direi che è perfetta!
+ * direi che ï¿½ perfetta!
  * @author slash17
  */
 public class Game extends BaseGame {
@@ -71,7 +71,7 @@ public class Game extends BaseGame {
 	Timer timer;
 	// il terreno
 	TerrainBlock terrain;
-	// scene sarà il nostro "rootNode"
+	// scene sarï¿½ il nostro "rootNode"
 	Node scene;
 	// il nostro mondo esterno
 	Skybox skybox;
@@ -81,7 +81,7 @@ public class Game extends BaseGame {
 	Player player;
 	// l'inputHandler personalizzato
 	InputHandler input;
-	// vector used for the normal of the terrain
+	// direction used for the normal of the terrain
 	private Vector3f normal;
 
 	public static void main(String[] args) {
@@ -96,7 +96,7 @@ public class Game extends BaseGame {
 		display.setTitle( "Assholes Game" );
 		// inizializziamo il nostro rootNode
 		scene = new Node("Scene graph node");
-		// creiamo un depth buffer per gestire la profondità su z
+		// creiamo un depth buffer per gestire la profonditï¿½ su z
 		ZBufferState zBuf = display.getRenderer().createZBufferState();
 		zBuf.setEnabled(true);
 		zBuf.setFunction(ZBufferState.TestFunction.LessThanOrEqualTo);
@@ -120,9 +120,9 @@ public class Game extends BaseGame {
 		buildModels();
 
 		
-		// un CullState è in pratica un modo per velocizzare il tutto, visto la dovrà girare su una vm
-		// la sua filosofia è: se per com'è la telecamera io questo oggetto lo vedo solo di fronte, 
-		// perchè dovrei caricare anche le textures del retro?
+		// un CullState ï¿½ in pratica un modo per velocizzare il tutto, visto la dovrï¿½ girare su una vm
+		// la sua filosofia ï¿½: se per com'ï¿½ la telecamera io questo oggetto lo vedo solo di fronte, 
+		// perchï¿½ dovrei caricare anche le textures del retro?
 		CullState cullState = display.getRenderer().createCullState();
 		cullState.setCullFace( CullState.Face.Back );
 		scene.setRenderState(cullState);
@@ -143,7 +143,7 @@ public class Game extends BaseGame {
 		
 		normal = new Vector3f();
 		// impostiamo il nostro dysplaySystem, inizializziamo la finestra e creiamo la camera 
-		// (è in un try/catch per uscire in caso di problemi nella creazione della finestra)
+		// (ï¿½ in un try/catch per uscire in caso di problemi nella creazione della finestra)
 		try {
 			display = DisplaySystem.getDisplaySystem(this.getNewSettings().getRenderer());
 			display.createWindow(width, height, depth, freq, fullscreen);
@@ -157,8 +157,8 @@ public class Game extends BaseGame {
 		// impostiamo lo sfondo nero classico
 		display.getRenderer().setBackgroundColor(ColorRGBA.black);
 	
-		// inizializziamo la camera a 45° dalla scena, è solo un esempio!
-		// ps: un frustum è in pratica il tronco di una piramide; nel nostro 
+		// inizializziamo la camera a 45ï¿½ dalla scena, ï¿½ solo un esempio!
+		// ps: un frustum ï¿½ in pratica il tronco di una piramide; nel nostro 
 		// caso rappresenta lo spazio visibile dalla telecamera, bisogna impostargli l'angolo di
 		// visualizzazione, l'aspectratio (tipo 4:3 o 16/9 ecc) e il valore minimo e massimo di 
 		// distanza dalla cam per cui visualizzare le textures (la distanza visiva in pratica)
@@ -174,7 +174,7 @@ public class Game extends BaseGame {
 		// abbiamo cambiato la camera quindi aggiorniamo
 		cam.update();
 	
-		// usiamo il timer per calcolarci gli fps, ma può servire per molto altro
+		// usiamo il timer per calcolarci gli fps, ma puï¿½ servire per molto altro
 	    timer = Timer.getTimer();
 	    
         //KeyBindingManager.getKeyBindingManager().set(KeyInput.get());
@@ -182,7 +182,7 @@ public class Game extends BaseGame {
 	    // impostiamo la camera al displaySystem
 		display.getRenderer().setCamera(cam);
 	
-		// gestiamo ancora un solo evento, cioè la pressione del tasto "Esc" per chiudere il gioco
+		// gestiamo ancora un solo evento, cioï¿½ la pressione del tasto "Esc" per chiudere il gioco
 		KeyBindingManager.getKeyBindingManager().set("exit", KeyInput.KEY_ESCAPE);
 	}
 
@@ -207,7 +207,7 @@ public class Game extends BaseGame {
 		timer.update();
 
 		interpolation = timer.getTimePerFrame();
-		// usciamo se è stato dato il comando exit (tasto esc)
+		// usciamo se ï¿½ stato dato il comando exit (tasto esc)
 		if (KeyBindingManager.getKeyBindingManager().isValidCommand("exit")) {
 			finished = true;
 		}
@@ -228,7 +228,7 @@ public class Game extends BaseGame {
             cam.update();
         }
         
-		// aggiorniamo la posizione y del player ogni volta, visto che il terreno sarà dissestato 
+		// aggiorniamo la posizione y del player ogni volta, visto che il terreno sarï¿½ dissestato 
 		// e ci saranno salite e discese
         float characterMinHeight = terrain.getHeight(player.getLocalTranslation()) + ((BoundingBox)player.getWorldBound()).yExtent + 3f;
         if (!Float.isInfinite(characterMinHeight) && !Float.isNaN(characterMinHeight)) {
@@ -281,7 +281,7 @@ public class Game extends BaseGame {
 	   pt.addTexture(new ImageIcon(Game.class.getClassLoader().getResource("texture/highest.jpg")), 128, 255, 384);
 	   // il numero passato alla funzione significa che creeremo textures n x n
 	   pt.createTexture(32);
-	   // il nostro proceduralblabla è in grado di miscelare le textures per creare un terreno un po più realistico
+	   // il nostro proceduralblabla ï¿½ in grado di miscelare le textures per creare un terreno un po piï¿½ realistico
 	   
 	   // ora applichiamo le textures create al nostro terreno
 	   TextureState ts = display.getRenderer().createTextureState();
@@ -330,7 +330,7 @@ public class Game extends BaseGame {
 	    DirectionalLight light = new DirectionalLight();
 	    light.setDiffuse(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
 	    light.setAmbient(new ColorRGBA(0.5f, 0.5f, 0.5f, 1.0f));
-	    // la direzione della luce sarà in basso verso destra
+	    // la direzione della luce sarï¿½ in basso verso destra
 	    light.setDirection(new Vector3f(1,-1,0));
 	    light.setEnabled(true);
 	    
@@ -342,7 +342,7 @@ public class Game extends BaseGame {
 	}
 	
 	private void buildSkyBox() {
-		// è un box che contiene tutto e che vediamo dall'interno, quindi 
+		// ï¿½ un box che contiene tutto e che vediamo dall'interno, quindi 
 		// dobbiamo impostare le textures per le 6 facce visibili!
 		
         skybox = new Skybox("skybox", 10, 10, 10);

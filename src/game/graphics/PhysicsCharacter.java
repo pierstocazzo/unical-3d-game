@@ -69,7 +69,7 @@ public class PhysicsCharacter {
     /** the move direction */
     Vector3f moveDirection;
     
-    /** jump vector */
+    /** jump direction */
     Vector3f jumpVector;
     
     /** an util that detect the contact between the character and the ground */
@@ -172,7 +172,7 @@ public class PhysicsCharacter {
         // Set default mass
         feet.setMass(mass);
 
-        // Set the jump vector
+        // Set the jump direction
         jumpVector = new Vector3f(0, mass*400, 0);
         
         /** initialize the animation */ 

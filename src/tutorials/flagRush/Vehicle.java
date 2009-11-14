@@ -64,7 +64,7 @@ public class Vehicle extends Node {
     private float maxSpeed = 30;
     private float minSpeed = 10;
     
-//  temporary vector for the rotation
+//  temporary direction for the rotation
     private static final Vector3f tempVa = new Vector3f();
     private int lean;
     private float leanAngle;

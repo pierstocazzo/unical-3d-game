@@ -1,6 +1,6 @@
 package game.graphics;
 
-import game.enemyAI.EnumDirection;
+import game.enemyAI.Direction;
 import game.enemyAI.Movement;
 
 import com.jme.math.Vector3f;
@@ -57,7 +57,7 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		/** move the character in the direction specified in the current movement */
 		super.move( currentMovement.getDirection().getRotationalAxis() );
 		        
-		/** update the utility vector currentPosition */
+		/** update the utility direction currentPosition */
 		currentPosition.set( world.getCore().getCharacterPosition(id) );
 		currentPosition.setY(0);
 		
@@ -87,7 +87,7 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		/** 
 		 *  Set the correct animation and control variables status
 		 */
-		if( currentMovement.getDirection() != EnumDirection.REST ) 
+		if( currentMovement.getDirection() != Direction.REST ) 
 			setMovingForward( true );
 		else
 			setRest( true );

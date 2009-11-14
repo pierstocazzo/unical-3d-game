@@ -2,15 +2,15 @@ package game.enemyAI;
 
 public class Movement {
 	
-	EnumDirection direction;
+	Direction direction;
 	float length;
 	
-	Movement( EnumDirection direction, float length ){
+	Movement( Direction direction, float length ){
 		this.direction = direction;
 		this.length = length;
 	}
 	
-	public EnumDirection getDirection() {
+	public Direction getDirection() {
 		return direction;
 	}
 

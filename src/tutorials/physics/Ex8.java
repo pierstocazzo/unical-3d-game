@@ -141,7 +141,7 @@ public class Ex8 extends SimplePhysicsGame {
     }
 
     /**
-     * helper vector for zeroing motion.
+     * helper direction for zeroing motion.
      */
     private static final Vector3f ZERO = new Vector3f( 0, 0, 0 );
 

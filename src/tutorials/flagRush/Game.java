@@ -182,7 +182,7 @@ public class Game extends BaseGame {
             player.getLocalTranslation().y = characterMinHeight;
         }
         
-        //get the normal of the terrain at our current location. We then apply it to the up vector
+        //get the normal of the terrain at our current location. We then apply it to the up direction
         //of the player.
         tb.getSurfaceNormal(player.getLocalTranslation(), normal);
         if(normal != null) {
@@ -301,7 +301,7 @@ public class Game extends BaseGame {
         //************************************************************************************
         /** Inizializzo il mio gestore collisioni.
          * Riceve come param i due oggetti di cui si vuole gestire la collisione.
-         * Il terzo parametro è invece il tipo di collisione.
+         * Il terzo parametro ï¿½ invece il tipo di collisione.
          * BounceOff = collisione con rimbalzo
          * Stop = collisione con arresto
          */
