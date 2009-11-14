@@ -228,7 +228,7 @@ public class Ex7 extends SimplePhysicsGame
             
             
             // now the player should be able to jump
-            // we do this by applying a single force vector when the HOME key is pressed
+            // we do this by applying a single force direction when the HOME key is pressed
             // this should happen only while the player is touching the floor (we determine that below)
             input.addAction( new InputAction()
             {

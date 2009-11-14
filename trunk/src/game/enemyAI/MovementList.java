@@ -14,45 +14,35 @@ public class MovementList{
 				
 		switch ( movementType ) {
 		case LARGE_PERIMETER:
-			movements.add( new Movement( EnumDirection.FORWARD, 40 ) );
-			movements.add( new Movement( EnumDirection.RIGHT, 40 ) );
-			movements.add( new Movement( EnumDirection.BACKWARD, 40 ) );
-			movements.add( new Movement( EnumDirection.LEFT, 40 ) );
+			movements.add( new Movement( Direction.FORWARD, 40 ) );
+			movements.add( new Movement( Direction.RIGHT, 40 ) );
+			movements.add( new Movement( Direction.BACKWARD, 40 ) );
+			movements.add( new Movement( Direction.LEFT, 40 ) );
 			break;
 			
 		case SMALL_PERIMETER:
-			movements.add( new Movement( EnumDirection.FORWARD, 20 ) );
-			movements.add( new Movement( EnumDirection.RIGHT, 20 ) );
-			movements.add( new Movement( EnumDirection.BACKWARD, 20 ) );
-			movements.add( new Movement( EnumDirection.LEFT, 20 ) );
+			movements.add( new Movement( Direction.FORWARD, 20 ) );
+			movements.add( new Movement( Direction.RIGHT, 20 ) );
+			movements.add( new Movement( Direction.BACKWARD, 20 ) );
+			movements.add( new Movement( Direction.LEFT, 20 ) );
 			break;
 			
 		case HORIZONTAL_SENTINEL:
-			movements.add( new Movement( EnumDirection.FORWARD, 40 ) );
-			movements.add( new Movement( EnumDirection.BACKWARD, 40 ) );
+			movements.add( new Movement( Direction.FORWARD, 40 ) );
+			movements.add( new Movement( Direction.BACKWARD, 40 ) );
 			break;
 			
 		case VERTICAL_SENTINEL:
-			movements.add( new Movement( EnumDirection.LEFT, 40 ) );
-			movements.add( new Movement( EnumDirection.RIGHT, 40 ) );
+			movements.add( new Movement( Direction.LEFT, 40 ) );
+			movements.add( new Movement( Direction.RIGHT, 40 ) );
 			break;
 			
-		default:
-			movements.add( new Movement( EnumDirection.REST, 0 ) );
+		case REST:
+			movements.add( new Movement( Direction.REST, 0 ) );
 			break;
 		}
 		
 		it = movements.iterator();
-	}
-	
-	public enum MovementType {
-		SMALL_PERIMETER,
-		
-		LARGE_PERIMETER,
-		
-		HORIZONTAL_SENTINEL,
-		
-		VERTICAL_SENTINEL;
 	}
 	
 	public Movement getNextMovement() {
@@ -64,4 +54,16 @@ public class MovementList{
 		}
 	}
  
+	
+	public enum MovementType {
+		SMALL_PERIMETER,
+		
+		LARGE_PERIMETER,
+		
+		HORIZONTAL_SENTINEL,
+		
+		VERTICAL_SENTINEL, 
+		
+		REST;
+	}
 }

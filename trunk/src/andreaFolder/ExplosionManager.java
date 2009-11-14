@@ -46,7 +46,7 @@ public class ExplosionManager {
             // Calculate the distance between the object and the explosion centre.
             obj.getChild(0).getWorldTranslation().subtract(position, distance);
 
-            // Calculate the direction vector between the explosion centre
+            // Calculate the direction direction between the explosion centre
             // and the object.
             direction.set(distance);
             direction.normalizeLocal();
