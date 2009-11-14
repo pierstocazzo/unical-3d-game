@@ -5,7 +5,7 @@ import com.jme.input.InputHandler;
 /** 
  *
  */
-public abstract class CustomGame extends BasePhysicsGame {
+public abstract class CustomGame extends PhysicsGame {
 
     protected InputHandler input;
 

@@ -79,7 +79,7 @@ public class testPhysicsBullet extends CustomGame {
     }
 
     @Override
-    protected void simpleUpdate() {
+    protected void update() {
         input.update(tpf);
     }
 
