@@ -1,11 +1,12 @@
 package game.core;
 
-import game.enemyAI.MovementList;
 import game.enemyAI.Movement;
+import game.enemyAI.MovementList.MovementType;
 import game.graphics.WorldInterface;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -29,49 +30,63 @@ public class LogicWorld implements WorldInterface {
 	HashMap< Integer, LogicAmmo > ammoPackages;
 
 	/** utility counters */
-	int ammoPackCounter, energyPackCounter;
+	int ammoPackCounter, energyPackCounter, enemyCounter, playerCounter;
 	
 	/** 
 	 *  <code>LogicWorld</code> Constructor<br>
 	 */
 	public LogicWorld() {
 		characters = new HashMap< String, LogicCharacter >();
+		ammoPackCounter = 0;
+		energyPackCounter = 0;
+		enemyCounter = 0;
+		playerCounter = 0;
 	}
 	
 	/** create one player */
-	public void createPlayer( String id, int maxLife, Vector3f position ) {
-		characters.put( id , new LogicPlayer( id, maxLife, position, this ) );
+	public void createPlayer( int maxLife, Vector3f position ) {
+		playerCounter = playerCounter + 1;
+		LogicPlayer player = new LogicPlayer( "player" + playerCounter, maxLife, position, this );
+		characters.put( player.id, player );
 	}
 	
-	/**
-	 * Function that create enemies in the number specified
-	 * @param numberOfEnemies - (int) number of enemies to create
+	/** Function that create characters in the number specified in this area
+	 * 
+	 * @param numberOfEnemies - (int) number of characters to create
+	 * @param area - (Vector3f) the vector that identify the area in whitch characters will be created
 	 */
-	public void createEnemies( int numberOfEnemies, Vector3f area, MovementList movementList ) {
-//		float x = area.getX();
-//		float z = area.getY();
-//
-//		Random r = new Random();
+	public void createEnemies( int numberOfEnemies, Vector3f area ) {
+		float x = area.getX();
+		float z = area.getY();
+
+		Random r = new Random();
 
 		for( int i = 0; i < numberOfEnemies; i++ ) {		
-//			float xRelative = x + r.nextInt(numberOfEnemies * 5);
-//			float zRelative = z + r.nextInt(numberOfEnemies * 5);
-//
-//			Vector3f position = new Vector3f( xRelative, 50, zRelative );
-//
-//			LogicEnemy enemy = new LogicEnemy( "enemy" + i, 50, EnumWeaponType.MP5, 
-//					position, new MovementList( MovementType.LARGE_PERIMETER ) );
-//			characters.put( enemy.id, enemy );
-			LogicEnemy enemy = new LogicEnemy( "enemy" + i, 50, EnumWeaponType.MP5, area, movementList, this );
-			characters.put( enemy.id, enemy );
+			float xRelative = x + r.nextInt( numberOfEnemies * 5 );
+			float zRelative = z + r.nextInt( numberOfEnemies * 5 );
+
+			Vector3f position = new Vector3f( xRelative, area.getY(), zRelative );
+			
+			createEnemy( position, MovementType.VERTICAL_SENTINEL );
 		}
 	}
 
+	/** Function that create an enemy, with this movementList, in this position
+	 * 
+	 * @param position - (Vector3f) the position of the enemy
+	 * @param movementList - (MovementList) list of movements
+	 */
+	public void createEnemy( Vector3f position, MovementType movements ) {
+		enemyCounter = enemyCounter + 1;
+		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 50, EnumWeaponType.MP5, position, movements, this );
+		characters.put( enemy.id, enemy );
+	}
+	
 	/**
 	 *  Create a number of energy packages in random 
 	 *  positions of the world...
 	 */
-	public void createEnergyPackages(  ) {
+	public void createEnergyPackages( int number ) {
 		//TODO 
 	}
 	
@@ -89,7 +104,7 @@ public class LogicWorld implements WorldInterface {
 	}
 	
 	@Override
-	public Vector3f getCharacterPosition(String id) {
+	public Vector3f getCharacterPosition( String id ) {
 		return characters.get(id).position;
 	}
 
@@ -118,9 +133,13 @@ public class LogicWorld implements WorldInterface {
 		return charactersId;
 	}
 
-	public void characterShoot(String id) {
+	public void characterShoot( String id ) {
         characters.get(id).shoot();
     }
+	
+	public void removeCharacter( String id ) {
+		characters.remove( id );
+	}
 	
 	@Override
 	public Movement getEnemyNextMovement( String id ) {
@@ -146,67 +165,67 @@ public class LogicWorld implements WorldInterface {
 	}
 
 	@Override
-	public boolean getCharacterOnGround(String id) {
+	public boolean getCharacterOnGround( String id ) {
 		return characters.get(id).getOnGround();
 	}
 
 	@Override
-	public boolean getCharacterRest(String id) {
+	public boolean getCharacterRest( String id ) {
 		return characters.get(id).getRest();
 	}
 
 	@Override
-	public void setCharacterRest(String id, boolean b) {
+	public void setCharacterRest( String id, boolean b ) {
 		characters.get(id).setRest(b);
 	}
 
 	@Override
-	public void setCharacterMovingBackward(String id, boolean b) {
+	public void setCharacterMovingBackward( String id, boolean b ) {
 		characters.get(id).setMovingBackward(b);
 	}
 
 	@Override
-	public boolean getCharacterJumping(String id) {
+	public boolean getCharacterJumping( String id ) {
 		return characters.get(id).getJumping();
 	}
 
 	@Override
-	public boolean getCharacterMovingBackward(String id) {
+	public boolean getCharacterMovingBackward( String id ) {
 		return characters.get(id).getMovingBackward();
 	}
 
 	@Override
-	public boolean getCharacterMovingForward(String id) {
+	public boolean getCharacterMovingForward( String id ) {
 		return characters.get(id).getMovingForward();
 	}
 
 	@Override
-	public boolean getCharacterStrafingLeft(String id) {
+	public boolean getCharacterStrafingLeft( String id ) {
 		return characters.get(id).getStrafingLeft();
 	}
 
 	@Override
-	public boolean getCharacterStrafingRight(String id) {
+	public boolean getCharacterStrafingRight( String id ) {
 		return characters.get(id).getStrafingRight();
 	}
 
 	@Override
-	public void setCharacterJumping(String id, boolean b) {
+	public void setCharacterJumping( String id, boolean b ) {
 		characters.get(id).setJumping(b);
 	}
 
 	@Override
-	public void setCharacterMovingForward(String id, boolean b) {
+	public void setCharacterMovingForward( String id, boolean b ) {
 		characters.get(id).setMovingForward(b);
 	}
 
 	@Override
-	public void setCharacterStrafingLeft(String id, boolean b) {
+	public void setCharacterStrafingLeft( String id, boolean b ) {
 		characters.get(id).setStrafingLeft(b);
 	}
 
 	@Override
-	public void setCharacterStrafingRight(String id, boolean b) {
+	public void setCharacterStrafingRight( String id, boolean b ) {
 		characters.get(id).setStrafingRight(b);
 	}
 
@@ -217,12 +236,12 @@ public class LogicWorld implements WorldInterface {
 	public String printWorld() {
 		String s = "World status: ";
 		//		
-		//		Set<String> keySet = enemies.keySet();
+		//		Set<String> keySet = characters.keySet();
 		//		
 		////		s = s + "\n Player position: " + players.gposition;
 		//		
 		//		for( String key : keySet ){
-		//			s = s + "\n" + enemies.get(key).id + " in position: " + enemies.get(key).position;
+		//			s = s + "\n" + characters.get(key).id + " in position: " + characters.get(key).position;
 		//		}
 
 		return s;

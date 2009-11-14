@@ -33,8 +33,8 @@ public class MovementList{
 			break;
 			
 		case VERTICAL_SENTINEL:
-			movements.add( new Movement( Direction.LEFT, 40 ) );
 			movements.add( new Movement( Direction.RIGHT, 40 ) );
+			movements.add( new Movement( Direction.LEFT, 40 ) );
 			break;
 			
 		case REST:

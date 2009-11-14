@@ -21,10 +21,10 @@ public interface WorldInterface {
 	public abstract void setCharacterPosition( String id, Vector3f position );
 
 	/** Function <code>getCharacterPosition</code><br>
-	 * return the position of the enemy with this id
+	 * return the position of the character with this id
 	 *
 	 * @param id - (String) the character's id
-	 * @return the position of the enemy with this id
+	 * @return the position of the character with this id
 	 */
 	public abstract Vector3f getCharacterPosition( String id );
 
