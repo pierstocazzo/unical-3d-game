@@ -19,6 +19,7 @@ import com.jmex.model.converters.FormatConverter;
 import com.jmex.model.converters.MaxToJme;
 import com.jmex.model.converters.Md2ToJme;
 import com.jmex.model.converters.Md3ToJme;
+import com.jmex.model.converters.MilkToJme;
 import com.jmex.model.converters.ObjToJme;
 
 /** Classe che permette di convertire modelli 3d nel formato binario jme. <br>
@@ -72,6 +73,10 @@ public class ModelConverter {
 			else if ( Pattern.matches(".+\\.(?i)ase", inputFilePath) ) {
 				logger.info( "Converting ase file..." );
 				converter = new AseToJme();
+			}	
+			else if ( Pattern.matches(".+\\.(?i)ms3d", inputFilePath) ) {
+				logger.info( "Loading MilkShape file..." );
+				converter = new MilkToJme();
 			}	
 			else {
 				/* 	if the modelPath doesen't match with any of those regular expressions, 
