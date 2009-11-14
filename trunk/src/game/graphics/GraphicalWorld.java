@@ -58,14 +58,14 @@ public class GraphicalWorld extends CustomGame {
     }
 
     /** Create graphic enemies
-     *  and set them in the positions setted in the logic game
+     *  and place them in positions setted in the logic game
      */
     @Override
     protected void setupEnemies() { 	    	
     	Set<String> ids = core.getEnemiesId();
     	
         Node model = ModelLoader.loadModel("game/data/models/dwarf/dwarf1.ms3d", "game/data/models/dwarf/dwarf.jpg", 0.1f, new Quaternion());
-        model.setLocalTranslation(0, -1.5f, 0);   
+        model.setLocalTranslation(0, -1.7f, 0);   
     	
         for( String id : ids ) {
         	enemy = new PhysicsEnemy( id, this, Vector3f.UNIT_X, 40, 100,  model );
@@ -75,13 +75,13 @@ public class GraphicalWorld extends CustomGame {
     }
     
     /** Create graphic players
-     *  and set them in the positions setted in the logic game
+     *  and place them in positions setted in the logic game
      */
     @Override
     protected void setupPlayer() {
     	
         Node model = ModelLoader.loadModel("game/data/models/dwarf/dwarf2.ms3d", "game/data/models/dwarf/dwarf2.jpg", 0.1f, new Quaternion());
-        model.setLocalTranslation(0, -1.5f, 0);   
+        model.setLocalTranslation(0, -1.7f, 0);   
         
     	Set<String> ids = core.getPlayersId();
     	
@@ -113,17 +113,12 @@ public class GraphicalWorld extends CustomGame {
     }
 
     @Override
-    protected void simpleUpdate() {
-        
-    	
+    protected void update() {
     	player.update( tpf );
         myInput.update(tpf);
         chaser.update(tpf);
         
         enemy.update(tpf);
-        
-//        debug print
-//        System.out.println( core.printWorld() );
     }
 	
 	@Override

@@ -41,7 +41,7 @@ import com.jmex.physics.PhysicsSpace;
  * 
  * @author Salvatore Loria, Giuseppe Leone, Andrea Martire.
  */
-public abstract class BasePhysicsGame extends AbstractGame {
+public abstract class PhysicsGame extends AbstractGame {
 
     // Main scene components:
     protected Camera cam;
@@ -76,10 +76,10 @@ public abstract class BasePhysicsGame extends AbstractGame {
 	protected ThrowableHandler throwableHandler;
 
     /**  
-     *  BasePhysicsGame constructor<br>
+     *  PhysicsGame constructor<br>
      *  Set up game properties
      */
-    public BasePhysicsGame() {
+    public PhysicsGame() {
         System.setProperty( "jme.stats", "set" );
     }
 
@@ -169,7 +169,7 @@ public abstract class BasePhysicsGame extends AbstractGame {
         // Execute updateQueue item
         GameTaskQueueManager.getManager().getQueue(GameTaskQueue.UPDATE).execute();
 
-        simpleUpdate();
+        update();
         
         if ( !pause ) {
             
@@ -196,7 +196,7 @@ public abstract class BasePhysicsGame extends AbstractGame {
             pause = !pause;
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("step", true ) ) {
-            simpleUpdate();
+            update();
             rootNode.updateGeometricState(tpf, true);
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("toggle_wire", false ) ) {
@@ -376,7 +376,7 @@ public abstract class BasePhysicsGame extends AbstractGame {
      * Can be defined in derived classes for custom updating. Called every frame
      * in update.
      */
-    protected abstract void simpleUpdate();
+    protected abstract void update();
 
     /**
      * Can be defined in derived classes for custom rendering.

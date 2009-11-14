@@ -22,7 +22,7 @@ public class LookAtAction extends InputAction {
             Vector3f v = new Vector3f( handler.getTarget().getModel().getWorldTranslation().x,
                                        handler.getTarget().getModel().getWorldTranslation().y,
                                        handler.getTarget().getModel().getWorldTranslation().z );
-            v.addLocal( cam.getDirection().x, 0 ,cam.getDirection().z );
+            v.addLocal( cam.getDirection().negate().x, 0 ,cam.getDirection().negate().z );
             handler.getTarget().getModel().lookAt( v , Vector3f.UNIT_Y );
         }
     }

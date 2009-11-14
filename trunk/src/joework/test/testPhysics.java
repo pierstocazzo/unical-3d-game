@@ -72,7 +72,7 @@ public class testPhysics extends CustomGame {
     }
 
     @Override
-    protected void simpleUpdate() {
+    protected void update() {
         input.update(tpf);
         //characterController.update(tpf);
     }
