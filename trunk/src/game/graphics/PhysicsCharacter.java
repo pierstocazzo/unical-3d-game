@@ -8,6 +8,7 @@ import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
+import com.jmex.model.animation.JointController;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
 import com.jmex.physics.RotationalJointAxis;
@@ -20,9 +21,11 @@ import com.jmex.physics.material.Material;
 
 public class PhysicsCharacter {
 
+	/** the character identifier */
 	String id;
 	
-    static final Material characterMaterial;
+	/** the physics parts material */
+	static final Material characterMaterial;
     static {
         characterMaterial = new Material("Character Material");
         characterMaterial.setDensity(1f);
@@ -33,23 +36,58 @@ public class PhysicsCharacter {
         contactDetails.setDampingCoefficient(0);
         characterMaterial.putContactHandlingDetails( Material.DEFAULT, contactDetails );
     }
-
+  
+    /** the main node of the character */
     Node characterNode;
+    
+    /** physics parts of the character */
     DynamicPhysicsNode body, feet;
+    
+    /** model applied to the character */
     Node model;
-
+    
+	/** animation controller */
+	JointController animationController;
+	
+	/** the graphical world in whitch the character live */
     GraphicalWorld world;
+    
     StaticPhysicsNode ground;
+    
+    /** the joint that connect the feet to the body */
     Joint feetToBody;
+    
+    /** the joint that permit the rotation of the feet (feet is a Sphere) */
     RotationalJointAxis rotationalAxis;
 
-    float speed, mass;
-
-    InputHandler contactDetect = new InputHandler();
-
-    Quaternion quaternion;
-    Vector3f moveDirection, jumpVector;
+    /** movements speed */
+    float speed;
     
+    /** physics character mass */
+    float mass;
+
+    /** the move direction */
+    Vector3f moveDirection;
+    
+    /** jump vector */
+    Vector3f jumpVector;
+    
+    /** an util that detect the contact between the character and the ground */
+    InputHandler contactDetect = new InputHandler();
+    
+    /** util quaternion */
+    Quaternion quaternion;
+    
+    /** PhysicsCharacter constructor <br>
+     * Create a new character affected by physics. 
+     * 
+     * @param id - (String) the character's identifier
+     * @param world - (GraphicalWorld) the graphical world in whitch the character live
+     * @param direction (Vector3f) initial direction of the character
+     * @param speed - (float) movements speed
+     * @param mass - (float) the mass of the character
+     * @param model - (Node) the model to apply to the character
+     */
     public PhysicsCharacter( String id, GraphicalWorld world, Vector3f direction, float speed, float mass, Node model ) {
         
     	this.id = id;
@@ -136,6 +174,18 @@ public class PhysicsCharacter {
 
         // Set the jump vector
         jumpVector = new Vector3f(0, mass*400, 0);
+        
+        /** initialize the animation */ 
+		animationController = (JointController) model.getController(0);
+		// set the start and end frame to execute
+		// the initial animation is "idle"
+		animationController.setTimes( 327, 360 );
+		// set the repeate type of the animation
+		animationController.setRepeatType( JointController.RT_CYCLE );
+		// activate the animation 
+		animationController.setActive(true);
+		// set the speed of the animation
+		animationController.setSpeed( 0.25f );
     }
 
     public void update( float time ) {
@@ -182,6 +232,11 @@ public class PhysicsCharacter {
         rotationalAxis.setDesiredVelocity(0);
         rotationalAxis.setAvailableAcceleration(0);
         body.clearDynamics();
+        
+    	if( animationController.getMaxTime() != (360 / animationController.FPS) ) {
+    		// activate the animation "run"
+    		animationController.setTimes( 327, 360 );
+    	}
     }
 
     public Node getCharacterNode() {
@@ -224,32 +279,46 @@ public class PhysicsCharacter {
 		return world.getCore().getCharacterOnGround(id);
 	}
 	
-	public void setOnGround(boolean b) {
-		world.getCore().setCharacterOnGround(id, b);
+	public void setOnGround( boolean onGround ) {
+		world.getCore().setCharacterOnGround( id, onGround );
 	}
 	
-	public void setRest(boolean b) {
-		world.getCore().setCharacterRest( id, b );
+	public void setRest( boolean rest ) {
+		world.getCore().setCharacterRest( id, rest );
 	}
 
-	public void setMovingBackward(boolean b) {
-		world.getCore().setCharacterMovingBackward( id, b );
+	public void setMovingBackward( boolean movingBackward ) {
+		world.getCore().setCharacterMovingBackward( id, movingBackward );
+	}
+
+	public void setMovingForward( boolean movingForward ) {
+    	// ATTIVO L'ANIMAZIONE SOLTANTO SE QUELLA PRECEDENTE ERA DIVERSA e se il character è sul terreno
+    	if( animationController.getMaxTime() != (26 / animationController.FPS) && movingForward == true && getOnGround() == true ) {
+    		// activate the animation "run"
+    		animationController.setTimes( 16, 26 );
+    	}
 		
+		world.getCore().setCharacterMovingForward( id, movingForward );
 	}
 
-	public void setMovingForward(boolean b) {
-		world.getCore().setCharacterMovingForward(id, b);
+	public void setJumping( boolean jumping ) {	
+		// if the character is jumping
+    	if( animationController.getMaxTime() != (40 / animationController.FPS) && jumping == true ) {
+    		// activate the animation "jump"
+    		animationController.setTimes( 28, 40 );
+    	}
+		world.getCore().setCharacterJumping( id, jumping );
 	}
 
-	public void setJumping(boolean b) {
-		world.getCore().setCharacterJumping(id, b);
+	public void setStrafingLeft( boolean strafingLeft ) {
+		world.getCore().setCharacterStrafingLeft( id, strafingLeft );
 	}
 
-	public void setStrafingLeft(boolean b) {
-		world.getCore().setCharacterStrafingLeft(id, b);
+	public void setStrafingRight( boolean strafinRight ) {
+		world.getCore().setCharacterStrafingRight( id, strafinRight );
 	}
-
-	public void setStrafingRight(boolean b) {
-		world.getCore().setCharacterStrafingRight(id, b);
+	
+    public JointController getAnimationController() {
+		return animationController;
 	}
 }

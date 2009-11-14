@@ -64,14 +64,11 @@ public class GraphicalWorld extends CustomGame {
     protected void setupEnemies() { 	    	
     	Set<String> ids = core.getEnemiesId();
     	
-    	Node model = ModelLoader.loadModel("data/model/Soldato/Soldato.obj", "", 0.2f, new Quaternion());
-    	model.setLocalTranslation(0, -1.5f, 0);
+        Node model = ModelLoader.loadModel("game/data/models/dwarf/dwarf1.ms3d", "game/data/models/dwarf/dwarf.jpg", 0.1f, new Quaternion());
+        model.setLocalTranslation(0, -1.5f, 0);   
     	
         for( String id : ids ) {
         	enemy = new PhysicsEnemy( id, this, Vector3f.UNIT_X, 40, 100,  model );
-//        	
-//        	A QUANTO PARE PER UNO STRANO MOTIVO USANDO SETLOCALTRANSLACTION NON FUNZIONA, MENTRE 
-//        	USANDO QUESTO METODO VA TUTTO BENISSIMO...CHE CAZZO SUCCEDE PORCA MISERIA!!!!
         	enemy.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
         	rootNode.attachChild( enemy.getCharacterNode() );
         }
@@ -83,7 +80,7 @@ public class GraphicalWorld extends CustomGame {
     @Override
     protected void setupPlayer() {
     	
-        Node model = ModelLoader.loadModel("data/model/Soldato/Soldato.obj", "", 0.2f, new Quaternion());
+        Node model = ModelLoader.loadModel("game/data/models/dwarf/dwarf2.ms3d", "game/data/models/dwarf/dwarf2.jpg", 0.1f, new Quaternion());
         model.setLocalTranslation(0, -1.5f, 0);   
         
     	Set<String> ids = core.getPlayersId();
