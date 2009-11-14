@@ -25,6 +25,7 @@ import com.jmex.model.converters.MaxToJme;
 import com.jmex.model.converters.Md2ToJme;
 import com.jmex.model.converters.Md3ToJme;
 import com.jmex.model.converters.ObjToJme;
+import com.jmex.model.converters.MilkToJme;
 
 /**
  * Classe statica che permette di caricare un modello 3d ed eventualmente 
@@ -85,6 +86,10 @@ public class ModelLoader {
 			else if ( Pattern.matches(".+\\.(?i)ase", modelPath) ) {
 				logger.info( "Loading ase file..." );
 				converter = new AseToJme();
+			}	
+			else if ( Pattern.matches(".+\\.(?i)ms3d", modelPath) ) {
+				logger.info( "Loading MilkShape file..." );
+				converter = new MilkToJme();
 			}	
 			else if ( Pattern.matches(".+\\.(?i)xml", modelPath) ) {
 				logger.info( "Loading xml file..." );
