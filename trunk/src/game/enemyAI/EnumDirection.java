@@ -17,8 +17,11 @@ public enum EnumDirection {
 		this.z = z;
 	}
 	
-	public Vector3f toVector(){
+	public Vector3f getRotationalAxis(){
 		return new Vector3f(x, y, z);
 	}
 	
+	public Vector3f getDirectionVector() {
+		return new Vector3f(x, y, z).crossLocal( Vector3f.UNIT_Y );
+	}
 }
