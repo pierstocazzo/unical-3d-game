@@ -28,11 +28,11 @@ public class PhysicsCharacter {
 	static final Material characterMaterial;
     static {
         characterMaterial = new Material("Character Material");
-        characterMaterial.setDensity(1f);
+        characterMaterial.setDensity(100f);
         MutableContactInfo contactDetails = new MutableContactInfo();
         contactDetails.setBounce(0);
-        contactDetails.setMu(10);
-        contactDetails.setMuOrthogonal(10);
+        contactDetails.setMu( 100 );
+        contactDetails.setMuOrthogonal( 10 );
         contactDetails.setDampingCoefficient(0);
         characterMaterial.putContactHandlingDetails( Material.DEFAULT, contactDetails );
     }
@@ -292,7 +292,7 @@ public class PhysicsCharacter {
 	}
 
 	public void setMovingForward( boolean movingForward ) {
-    	// ATTIVO L'ANIMAZIONE SOLTANTO SE QUELLA PRECEDENTE ERA DIVERSA e se il character è sul terreno
+    	// ATTIVO L'ANIMAZIONE SOLTANTO SE QUELLA PRECEDENTE ERA DIVERSA e se il character ï¿½ sul terreno
     	if( animationController.getMaxTime() != (26 / animationController.FPS) && movingForward == true && getOnGround() == true ) {
     		// activate the animation "run"
     		animationController.setTimes( 16, 26 );

@@ -1,5 +1,6 @@
 package game.graphics;
 
+import game.enemyAI.EnumDirection;
 import game.enemyAI.Movement;
 
 import com.jme.math.Vector3f;
@@ -39,15 +40,8 @@ public class PhysicsEnemy extends PhysicsCharacter {
 	public void update( float time ) {
 		super.update(time);
 		/** move the character in the direction specified in the current movement */
-		super.move( currentMovement.getDirection().toVector() );
-		
-// 		PROVA LOOKAT 
-//        Vector3f v = new Vector3f( this.getModel().getWorldTranslation().x,
-//        		this.getModel().getWorldTranslation().y,
-//        		this.getModel().getWorldTranslation().z );
-//        v.addLocal( currentMovement.getDirection().toVector().x, 0 ,currentMovement.getDirection().toVector().z );
-//		  this.getModel().lookAt( currentMovement.getDirection().toVector(), Vector3f.UNIT_Y );
-		
+		super.move( currentMovement.getDirection().getRotationalAxis() );
+		        
 		currentPosition.set( world.getCore().getCharacterPosition(id) );
 		currentPosition.setY(0);
 		
@@ -64,5 +58,18 @@ public class PhysicsEnemy extends PhysicsCharacter {
 			initialPosition.set( currentPosition );
 			currentMovement = world.getCore().getEnemyNextMovement( id );
 		}
+		
+		/** Set the correct animation and control variables status */
+		if( currentMovement.getDirection() != EnumDirection.REST ) 
+			setMovingForward( true );
+		else
+			setRest( true );
+		
+		/** Enemy look at action */
+        Vector3f v = new Vector3f( this.getModel().getWorldTranslation().x,
+        		this.getModel().getWorldTranslation().y,
+        		this.getModel().getWorldTranslation().z );
+        v.addLocal( currentMovement.getDirection().getDirectionVector().x, 0 ,currentMovement.getDirection().getDirectionVector().z );
+        this.getModel().lookAt( v, Vector3f.UNIT_Y );
 	}
 }
