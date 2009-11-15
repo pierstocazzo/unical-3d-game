@@ -17,7 +17,7 @@ public class PhysicsEnemy extends PhysicsCharacter {
 	
 	/** utility Vector used for the look at action */
 	Vector3f vectorToLookAt;
-	
+	Vector3f direction;
 	
 	/** PhysicsEnemy Constructor<br>
 	 * Create a new graphical enemy and start his movements
@@ -40,10 +40,12 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		initialPosition.setY(0);
 		
 		vectorToLookAt = new Vector3f();
+		direction = new Vector3f();
 		
 		/** initial look at action */
 		vectorToLookAt.set( this.getModel().getWorldTranslation() );
-		vectorToLookAt.addLocal( currentMovement.getDirection().toVector().x, 0, currentMovement.getDirection().toVector().z );
+		direction.set( currentMovement.getDirection().toVector() );
+		vectorToLookAt.addLocal( direction.negate().x, 0, direction.negate().z );
 		this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 	}
 	
@@ -76,7 +78,8 @@ public class PhysicsEnemy extends PhysicsCharacter {
 			 *  Enemy look at action. 
 			 */
 	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-	        vectorToLookAt.addLocal( currentMovement.getDirection().toVector().negate().x, 0, currentMovement.getDirection().toVector().negate().z );
+	        direction.set( currentMovement.getDirection().toVector() );
+	        vectorToLookAt.addLocal( direction.negate().x, 0, direction.negate().z );
 	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 		}
 		
