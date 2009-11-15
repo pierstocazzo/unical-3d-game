@@ -41,26 +41,26 @@ Copiate queste due cartelle nella vostra workspace di eclipse. <br>
 
 === Setting up jME2 ===
 
-Una volta avviato eclipse create un nuovo progetto java: new -> Java Project
-come nome del progetto inserite: jME
-e poi cliccare su finish:
+Una volta avviato eclipse create un nuovo progetto java: <i>new -> Java Project</i><br>
+come nome del progetto inserite: <i>jME</i> <br>
+e poi cliccare su finish.
 
 Verrà creato il progetto svn jME2 (visibile nel Package Explorer) <br><br>
 
 Ora bisogna aggiungere swt:
 
-nel Package Explorer click destro su jME2 e scegliete "Properties"
+  nel Package Explorer click destro su jME2 e scegliete <i>"Properties"</i>
 
-nella finestra che apparirà scegliere "Java Build Path" e poi la linguetta "Libraries"
+  nella finestra che apparirà scegliere <i>"Java Build Path"</i> e poi la linguetta <i>"Libraries"</i>
 
-clickate su "Add JARs"
+  clickate su <i>"Add JARs"</i>
 
-doppio click su jME2, poi lib, poi swt, poi linux e selezionare swt.jar
+  doppio click su jME2, poi <i>lib</i>, poi <i>swt</i>, poi <i>linux</i> e selezionare <i>swt.jar</i>
 
 <br>
 Ora bisogna impostare le native per lwjgl:
 
-sempre nella finestra libraries espandere lwjgl.jar doppio click su "Native library location" e inserite: jME2/lib/lwjgl/native/linux
+sempre nella finestra <i>libraries</i> espandete lwjgl.jar, doppio click su <i>"Native library location"</i> e inserite: <i>jME2/lib/lwjgl/native/linux</i>
 <br>
 
 === Setting up jME2Physics ===
@@ -71,13 +71,13 @@ Verrà creato il progetto svn jME2Physics (visibile nel Package Explorer)
 
 Bisogna settare i required projects e le native di ode quindi:
 
-nel package explorer click destro su jME2Physics e scegliete "Properties"
+  nel package explorer click destro su jME2Physics e scegliete <i>"Properties"</i>
 
-nella finestra che apparirà scegliete "Java Build Path" e poi la linguetta "Projects"
+  nella finestra che apparirà scegliete <i>"Java Build Path"</i> e poi la linguetta <i>"Projects"</i>
 
-rimuovere il progetto inesistente jme e aggiungere jME2
+  rimuovere il progetto inesistente jme e aggiungere jME2
 
-ora andate in "Libraries" ed espandete odejava-ini.jar e mettete le native: jME2Physics/impl/ode/lib
+Ora andate in <i>"Libraries"</i> ed espandete odejava-ini.jar e mettete le native: <i>jME2Physics/impl/ode/lib</i>
 
 <br><br>
 
