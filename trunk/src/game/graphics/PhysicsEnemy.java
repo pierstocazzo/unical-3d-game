@@ -3,8 +3,6 @@ package game.graphics;
 import game.enemyAI.Direction;
 import game.enemyAI.Movement;
 
-import com.jme.math.FastMath;
-import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
 
@@ -54,9 +52,9 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		super.update(time);
 		
 		/** move the character in the direction specified in the current movement */
-		super.move( currentMovement.getRotationalAxis() );
+		super.move( currentMovement.getDirection().toVector() );
 		        
-		/** update the utility direction currentPosition */
+		/** update the utility vector currentPosition */
 		currentPosition.set( world.getCore().getCharacterPosition(id) );
 		currentPosition.setY(0);
 		
@@ -74,20 +72,12 @@ public class PhysicsEnemy extends PhysicsCharacter {
 			initialPosition.set( currentPosition );
 			currentMovement = world.getCore().getEnemyNextMovement( id );
 	
-//			DON'T WORK WELL
-//			/** 
-//			 *  Enemy look at action. 
-//			 */
-//	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-//	        vectorToLookAt.addLocal( currentMovement.getDirection().getDirectionVector().x, 0, currentMovement.getDirection().getDirectionVector().z );
-//	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
-			
-//			LET'S USE THE QUATERNION... :-)
-			float angle = currentMovement.getDirection().toVector().angleBetween( vectorToLookAt );
-			if( currentMovement.getDirection() == Direction.RIGHT ) {
-				angle = FastMath.PI*3/2;
-			}
-			model.setLocalRotation( new Quaternion().fromAngleAxis( angle, Vector3f.UNIT_Y ) );
+			/** 
+			 *  Enemy look at action. 
+			 */
+	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
+	        vectorToLookAt.addLocal( currentMovement.getDirection().toVector().negate().x, 0, currentMovement.getDirection().toVector().negate().z );
+	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 		}
 		
 		/** 
