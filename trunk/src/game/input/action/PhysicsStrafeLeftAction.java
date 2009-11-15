@@ -16,7 +16,7 @@ import game.input.PhysicsInputHandler;
  */
 public class PhysicsStrafeLeftAction extends InputAction {
     PhysicsInputHandler handler;
-    Vector3f newRotationalAxis;
+    Vector3f direction;
 
     public PhysicsStrafeLeftAction( PhysicsInputHandler handler, float speed ) {
         this.handler = handler;
@@ -26,8 +26,8 @@ public class PhysicsStrafeLeftAction extends InputAction {
     public void performAction(InputActionEvent evt) {
         handler.getTarget().setRest(false);
         handler.getTarget().setStrafingLeft(true);
-        newRotationalAxis = handler.getCamera().getDirection().normalizeLocal();
-        handler.getTarget().move(newRotationalAxis);
+        direction = handler.getCamera().getDirection().crossLocal( Vector3f.UNIT_Y ).negateLocal();
+        handler.getTarget().move( direction );
     }
 
 }

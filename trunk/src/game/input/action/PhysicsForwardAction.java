@@ -16,7 +16,7 @@ import game.input.PhysicsInputHandler;
  */
 public class PhysicsForwardAction extends InputAction {
     PhysicsInputHandler handler;
-    Vector3f newRotationalAxis;
+    Vector3f direction;
 
     public PhysicsForwardAction( PhysicsInputHandler handler ) {
         this.handler = handler;
@@ -25,8 +25,8 @@ public class PhysicsForwardAction extends InputAction {
     public void performAction(InputActionEvent evt) {
         handler.getTarget().setRest(false);
         handler.getTarget().setMovingForward(true);
-        newRotationalAxis = handler.getCamera().getDirection().normalizeLocal().crossLocal(0,1,0);
-        handler.getTarget().move(newRotationalAxis);
+        direction = handler.getCamera().getDirection();
+        handler.getTarget().move( direction );
         
     }
 }

@@ -26,13 +26,12 @@ public class PhysicsEnemy extends PhysicsCharacter {
 	 * 
 	 * @param id - (String) the enemy's identifier
 	 * @param world - (GraphicalWorld) the graphical world in whitch the enemy is created
-	 * @param direction - (Vector3f) the initial direction
 	 * @param speed - (int) the enemy's movement's speed
 	 * @param mass - (int) the enemy's mass
 	 * @param model - (Node) the model to attach to the enemy
 	 */
-	public PhysicsEnemy( String id, GraphicalWorld world, Vector3f direction, float speed, float mass, Node model ) {
-		super( id, world, direction, speed, mass, model );
+	public PhysicsEnemy( String id, GraphicalWorld world, float speed, float mass, Node model ) {
+		super( id, world, speed, mass, model );
 		
 		currentMovement = world.getCore().getEnemyNextMovement( id );
 		
@@ -46,7 +45,7 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		
 		/** initial look at action */
 		vectorToLookAt.set( this.getModel().getWorldTranslation() );
-		vectorToLookAt.addLocal( currentMovement.getDirection().getDirectionVector().x, 0, currentMovement.getDirection().getDirectionVector().z );
+		vectorToLookAt.addLocal( currentMovement.getDirection().toVector().x, 0, currentMovement.getDirection().toVector().z );
 		this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 	}
 	
@@ -55,7 +54,7 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		super.update(time);
 		
 		/** move the character in the direction specified in the current movement */
-		super.move( currentMovement.getDirection().getRotationalAxis() );
+		super.move( currentMovement.getRotationalAxis() );
 		        
 		/** update the utility direction currentPosition */
 		currentPosition.set( world.getCore().getCharacterPosition(id) );
@@ -84,9 +83,8 @@ public class PhysicsEnemy extends PhysicsCharacter {
 //	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 			
 //			LET'S USE THE QUATERNION... :-)
-			float angle = currentMovement.getDirection().getDirectionVector().angleBetween( vectorToLookAt );
+			float angle = currentMovement.getDirection().toVector().angleBetween( vectorToLookAt );
 			if( currentMovement.getDirection() == Direction.RIGHT ) {
-				System.out.println( "FUCK");
 				angle = FastMath.PI*3/2;
 			}
 			model.setLocalRotation( new Quaternion().fromAngleAxis( angle, Vector3f.UNIT_Y ) );

@@ -88,7 +88,7 @@ public class GraphicalWorld extends CustomGame {
             ts1.setTexture(texture);
     		model.getChild("axe").setRenderState( ts1 );
 
-            PhysicsEnemy enemy = new PhysicsEnemy( id, this, Vector3f.UNIT_X, 40, 100,  model );
+            PhysicsEnemy enemy = new PhysicsEnemy( id, this, 40, 100,  model );
         	enemy.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
         	characters.put( id, enemy );
         	rootNode.attachChild( characters.get(id).getCharacterNode() );
@@ -125,7 +125,7 @@ public class GraphicalWorld extends CustomGame {
     	Set<String> ids = core.getPlayersId();
     	
         for( String id : ids ) {
-        	player = new PhysicsCharacter( id, this, Vector3f.UNIT_X, 1000, 100, model );
+        	player = new PhysicsCharacter( id, this, 1000, 100, model );
             player.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
             rootNode.attachChild( player.getCharacterNode() );
         }
