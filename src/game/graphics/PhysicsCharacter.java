@@ -1,5 +1,7 @@
 package game.graphics;
 
+import game.graphics.CustomAnimationController.Animation;
+
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
@@ -8,7 +10,6 @@ import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
-import com.jmex.model.animation.JointController;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
 import com.jmex.physics.RotationalJointAxis;
@@ -41,7 +42,7 @@ public class PhysicsCharacter {
     Node model;
     
 	/** animation controller */
-	JointController animationController;
+	CustomAnimationController animationController;
 	
 	/** the graphical world in whitch the character live */
     GraphicalWorld world;
@@ -167,16 +168,7 @@ public class PhysicsCharacter {
 	    jumpVector = new Vector3f(0, mass*400, 0);
 	    
 	    /** initialize the animation */ 
-		animationController = (JointController) model.getController(0);
-		// set the start and end frame to execute
-		// the initial animation is "idle"
-		animationController.setTimes( 327, 360 );
-		// set the repeate type of the animation
-		animationController.setRepeatType( JointController.RT_CYCLE );
-		// activate the animation 
-		animationController.setActive(true);
-		// set the speed of the animation
-		animationController.setSpeed( 0.25f );
+		animationController = new CustomAnimationController( model.getController(0) );
 	}
 
 	/** Function <code>move</code> <br>
@@ -265,9 +257,9 @@ public class PhysicsCharacter {
         
         body.clearDynamics();
         
-    	if( animationController.getMaxTime() != (360 / animationController.FPS) ) {
+    	if( animationController.getCurrentAnimation() != Animation.IDLE ) {
     		// activate the animation "idle"
-    		animationController.setTimes( 327, 360 );
+    		animationController.runAnimation( Animation.IDLE );
     	}
     }
 
@@ -359,7 +351,7 @@ public class PhysicsCharacter {
 	 * 
 	 * @return the animation controller
 	 */
-    public JointController getAnimationController() {
+    public CustomAnimationController getAnimationController() {
 		return animationController;
 	}
 	
@@ -393,9 +385,9 @@ public class PhysicsCharacter {
 	 */
 	public void setMovingForward( boolean movingForward ) {
     	// activate the animation only if the previous animation was different and if the character is on the ground
-    	if( animationController.getMaxTime() != (26 / animationController.FPS) && movingForward == true && getOnGround() == true ) {
+    	if( animationController.getCurrentAnimation() != Animation.RUN && movingForward == true && getOnGround() == true ) {
     		// activate the animation "run" 
-    		animationController.setTimes( 16, 26 );
+    		animationController.runAnimation( Animation.RUN );
     	}
 		
 		world.getCore().setCharacterMovingForward( id, movingForward );
@@ -407,9 +399,9 @@ public class PhysicsCharacter {
 	 */
 	public void setJumping( boolean jumping ) {	
 		// if the character is jumping
-    	if( animationController.getMaxTime() != (40 / animationController.FPS) && jumping == true ) {
+    	if( animationController.getCurrentAnimation() != Animation.JUMP && jumping == true ) {
     		// activate the animation "jump"
-    		animationController.setTimes( 42, 54 );
+    		animationController.runAnimation( Animation.JUMP );
     	}
 		world.getCore().setCharacterJumping( id, jumping );
 	}
