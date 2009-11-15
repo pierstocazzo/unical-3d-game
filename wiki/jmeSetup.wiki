@@ -42,7 +42,7 @@ Copiate queste due cartelle nella vostra workspace di eclipse. <br>
 === Setting up jME2 ===
 
 Una volta avviato eclipse create un nuovo progetto java: <i>new -> Java Project</i><br>
-come nome del progetto inserite: <i>jME</i> <br>
+come nome del progetto inserite: <i>jME2</i> <br>
 e poi cliccare su finish.
 
 Verrà creato il progetto svn jME2 (visibile nel Package Explorer) <br><br>
