@@ -26,7 +26,7 @@ public class PhysicsStrafeRightAction extends InputAction {
     public void performAction(InputActionEvent evt) {
         handler.getTarget().setRest(false);
         handler.getTarget().setStrafingRight(true);
-        newRotationalAxis = handler.getCamera().getDirection().normalizeLocal().mult(-1);
+        newRotationalAxis = handler.getCamera().getDirection().crossLocal( Vector3f.UNIT_Y );
         handler.getTarget().move(newRotationalAxis);
     }
 

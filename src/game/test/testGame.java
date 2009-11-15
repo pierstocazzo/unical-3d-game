@@ -13,9 +13,9 @@ public class testGame {
     	
     	LogicWorld logicGame = new LogicWorld();
     	
-    	logicGame.createPlayer( 100, new Vector3f(160,30,160));
-    	logicGame.createEnemy( new Vector3f(140,30,140), MovementType.SMALL_PERIMETER );
-    	logicGame.createEnemies( 3, new Vector3f( 50, 30, 50) );
+    	logicGame.createPlayer( 100, new Vector3f( 3, 10, 3) );
+    	logicGame.createEnemy( new Vector3f( 140, 10, 140 ), MovementType.SMALL_PERIMETER );
+    	logicGame.createEnemies( 3, new Vector3f( 50, 10, 50 ) );
     	
         GraphicalWorld game = new GraphicalWorld( logicGame );
 //        game.setConfigShowMode( ConfigShowMode.AlwaysShow );

@@ -16,18 +16,18 @@ import game.input.PhysicsInputHandler;
  */
 public class PhysicsBackwardAction extends InputAction {
     PhysicsInputHandler handler;
-    Vector3f newRotationalAxis;
+    Vector3f direction;
 
     public PhysicsBackwardAction( PhysicsInputHandler handler, float speed ) {
         this.handler = handler;
-        this.handler.getTarget().setSpeed(speed);
+        this.handler.getTarget().setSpeed( speed );
     }
 
     public void performAction(InputActionEvent evt) {
         handler.getTarget().setRest(false);
         handler.getTarget().setMovingBackward(true);
-        newRotationalAxis = handler.getCamera().getDirection().normalizeLocal().crossLocal(0,1,0).mult(-1);
-        handler.getTarget().move(newRotationalAxis);
+        direction = handler.getCamera().getDirection().negateLocal();
+        handler.getTarget().move( direction );
     }
 
 }
