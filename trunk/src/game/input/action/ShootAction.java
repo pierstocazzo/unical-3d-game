@@ -6,12 +6,12 @@ import com.jme.input.MouseInput;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.MouseInputAction;
 
-public class MouseAction extends MouseInputAction {
+public class ShootAction extends MouseInputAction {
 	
     PhysicsInputHandler handler;
     MouseInput mouseInput;
     
-    public MouseAction( PhysicsInputHandler handler ) {
+    public ShootAction( PhysicsInputHandler handler ) {
         this.handler = handler;
         
         this.mouseInput = MouseInput.get();
