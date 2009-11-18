@@ -74,8 +74,10 @@ public class PhysicsCharacter {
     /** utilitly quaternion */
     Quaternion quaternion;
     
-    
-    /** PhysicsCharacter constructor <br>
+    /** fuck */
+    boolean firstPerson = false;
+
+	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
      * 
      * @param id - (String) the character's identifier
@@ -206,8 +208,16 @@ public class PhysicsCharacter {
 	    contactDetect.update(time);
 	    body.rest();
 	    
+	    lookAtAction();
+	    
 	    // update core
 	    world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
+	}
+
+	void lookAtAction() {
+        Vector3f v = new Vector3f( getModel().getWorldTranslation() );
+        v.addLocal( world.getCam().getDirection().negate().x, 0 ,world.getCam().getDirection().negate().z );
+        getModel().lookAt( v , Vector3f.UNIT_Y );
 	}
 
 	/** Function <code>preventFall</code> <br>
@@ -420,5 +430,21 @@ public class PhysicsCharacter {
 	 */
 	public void setStrafingRight( boolean strafinRight ) {
 		world.getCore().setCharacterStrafingRight( id, strafinRight );
+	}
+	
+	public boolean isFirstPerson() {
+		return firstPerson;
+	}
+
+	public void setFirstPerson( boolean firstPerson ) {
+		this.firstPerson = firstPerson;
+	}
+	
+	public void shoot( Vector3f direction ) {
+		world.bulletsCounter = world.bulletsCounter + 1;
+		PhysicsBullet fucker = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
+				world.getCore().getCharacterWeapon(id), 
+				world.getCam().getLocation().add( world.getCam().getDirection().mult( 5 ) ) );
+		world.bullets.put( fucker.id, fucker );
 	}
 }

@@ -1,6 +1,7 @@
 package game.graphics;
 
 
+import game.core.EnumWeaponType;
 import game.enemyAI.Movement;
 
 import java.util.Set;
@@ -165,4 +166,6 @@ public interface WorldInterface {
 	 * Print the world current situation
 	 */
 	public abstract String printWorld();
+	
+	public abstract EnumWeaponType getCharacterWeapon( String id );
 }

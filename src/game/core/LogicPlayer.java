@@ -58,8 +58,8 @@ public class LogicPlayer extends LogicCharacter {
 	public void addWeapon( LogicWeapon weapon ) {
 		// the player can't carry more than three weapons
 		if( weaponCounter < 3 ) {
-			equipment.put( weaponCounter, weapon );
 			weaponCounter = weaponCounter + 1;
+			equipment.put( weaponCounter, weapon );
 		} 
 		// advise the player he can't carry more than three weapons
 	}
@@ -89,5 +89,10 @@ public class LogicPlayer extends LogicCharacter {
 	@Override
 	public Movement getNextMovement() {
 		return null;
+	}
+
+	@Override
+	public EnumWeaponType getCurrentWeapon() {
+		return currentWeapon.type;
 	}
 }

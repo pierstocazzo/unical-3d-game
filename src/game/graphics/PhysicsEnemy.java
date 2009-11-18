@@ -73,14 +73,6 @@ public class PhysicsEnemy extends PhysicsCharacter {
 			
 			initialPosition.set( currentPosition );
 			currentMovement = world.getCore().getEnemyNextMovement( id );
-	
-			/** 
-			 *  Enemy look at action. 
-			 */
-	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-	        direction.set( currentMovement.getDirection().toVector() );
-	        vectorToLookAt.addLocal( direction.negate().x, 0, direction.negate().z );
-	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 		}
 		
 		/** 
@@ -90,5 +82,12 @@ public class PhysicsEnemy extends PhysicsCharacter {
 			setMovingForward( true );
 		else 
 			setRest( true );
+	}
+    
+	void lookAtAction() {
+        vectorToLookAt.set( this.getModel().getWorldTranslation() );
+        direction.set( currentMovement.getDirection().toVector() );
+        vectorToLookAt.addLocal( direction.negate().x, 0, direction.negate().z );
+        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 	}
 }

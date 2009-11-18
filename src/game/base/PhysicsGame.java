@@ -449,7 +449,7 @@ public abstract class PhysicsGame extends AbstractGame {
             this.physicsSpace = physicsSpace;
         }
     }
-
+    
     protected void doDebug(Renderer r) {
         if ( showPhysics ) PhysicsDebugger.drawPhysics( getPhysicsSpace(), r );
     }
@@ -486,5 +486,12 @@ public abstract class PhysicsGame extends AbstractGame {
             load();
         }
     }
-
+    
+    public Camera getCam() {
+    	return this.cam;
+    }
+    
+    public Node getRootNode() {
+    	return this.rootNode;
+    }
 }

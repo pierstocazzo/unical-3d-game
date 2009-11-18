@@ -264,4 +264,6 @@ public abstract class LogicCharacter {
     }
 
 	public abstract Movement getNextMovement();
+	
+	public abstract EnumWeaponType getCurrentWeapon();
 }

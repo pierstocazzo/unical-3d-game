@@ -1,5 +1,9 @@
 package game.graphics;
 
+import game.base.CustomGame;
+import game.input.PhysicsInputHandler;
+import game.test.testGame;
+
 import java.util.HashMap;
 import java.util.Set;
 
@@ -8,8 +12,8 @@ import javax.swing.ImageIcon;
 import utils.ModelLoader;
 
 import com.jme.image.Texture;
-import com.jme.input.ChaseCamera;
 import com.jme.light.DirectionalLight;
+import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
@@ -20,42 +24,43 @@ import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 import com.jmex.physics.StaticPhysicsNode;
+import com.jmex.physics.geometry.PhysicsBox;
 import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
-
-import game.base.CustomGame;
-import game.input.PhysicsInputHandler;
-import game.test.testGame;
 
 public class GraphicalWorld extends CustomGame {
 
 	WorldInterface core;
 	
-    PhysicsInputHandler myInput;
-    StaticPhysicsNode staticNode;
+    PhysicsInputHandler physicsInputHandler;
+    
+    StaticPhysicsNode ground;
+    StaticPhysicsNode gameBounds;
     
     HashMap< String, PhysicsEnemy > characters; 
     
+    int bulletsCounter;
+	HashMap< String, PhysicsBullet > bullets;
+    
     PhysicsCharacter player;
-
-    ChaseCamera chaser;
 
     TerrainBlock terrain;
 
 	public GraphicalWorld( WorldInterface core ) {
 		setCore( core );
+		bulletsCounter = 0;
 		characters = new HashMap<String, PhysicsEnemy>();
+		bullets = new HashMap<String, PhysicsBullet>();
 	}
 	
 	@Override
     protected void setupInit() {
-        staticNode = getPhysicsSpace().createStaticNode();
+        ground = getPhysicsSpace().createStaticNode();
         
-        rootNode.attachChild(staticNode);
+        rootNode.attachChild(ground);
         
         pause = true;
-//        showPhysics = true;
     }
 
     /** Create graphic characters
@@ -133,36 +138,38 @@ public class GraphicalWorld extends CustomGame {
 
     @Override
     protected void setupCamera() {
-        cam.setLocation(new Vector3f(100,30,200));
+        cam.setLocation(new Vector3f(160,30,160));
         cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, 1000);
         cam.update();
     }
 
     @Override
-    protected void setupChaseCamera() {
-        Vector3f targetOffset = new Vector3f();
-        targetOffset.y = player.getCharacterBody().getLocalTranslation().y + 5;
-        chaser = new ChaseCamera(cam, player.getCharacterBody());
-        chaser.setTargetOffset(targetOffset);
-    }
-
-    @Override
     protected void setupInput() {
-        myInput = new PhysicsInputHandler( player, cam );
+        physicsInputHandler = new PhysicsInputHandler( player, cam );
     }
 
     @Override
     protected void update() {
-    	player.update( tpf );
-        myInput.update(tpf);
-        chaser.update(tpf);
+    	
+    	player.setFirstPerson(false);
+    	
+    	player.update(tpf);
+        physicsInputHandler.update(tpf);
         
         updateEnemies(tpf);
+        updateBullets(tpf);
     }
-	
+    
 	private void updateEnemies( float tpf ) {
 		for( String id : characters.keySet() ) {
 			characters.get(id).update(tpf);
+		}
+	}
+	
+	private void updateBullets( float tpf ) {
+		Set<String> ids = bullets.keySet();
+		for( String id : ids ) {
+			bullets.get(id).update(tpf);
 		}
 	}
 
@@ -184,9 +191,9 @@ public class GraphicalWorld extends CustomGame {
 	    terrain = new TerrainBlock("Terrain", heightMap.getSize(), terrainScale, heightMap.getHeightMap(), Vector3f.ZERO);
 	
 	    terrain.setDetailTexture(1, 16);
-	    staticNode.attachChild(terrain);
+	    ground.attachChild(terrain);
 	
-	    staticNode.generatePhysicsGeometry(true);
+	    ground.generatePhysicsGeometry(true);
 	
 	    ProceduralTextureGenerator pt = new ProceduralTextureGenerator(heightMap);
 	    pt.addTexture(new ImageIcon(testGame.class.getClassLoader().getResource("data/texture/grassb.png")), -128, 0, 128);
@@ -231,8 +238,47 @@ public class GraphicalWorld extends CustomGame {
 	    fs.setDensityFunction(FogState.DensityFunction.Linear);
 	    fs.setQuality(FogState.Quality.PerVertex);
 	    rootNode.setRenderState(fs);
+	    
+	    createLimits();
 	}
+	
+    /** Function that creates the game limits with a physics box that contains all the world
+     */
+	public void createLimits() {
 
+	    gameBounds = getPhysicsSpace().createStaticNode();
+
+	    PhysicsBox downBox = gameBounds.createBox("downBox");
+	    downBox.setLocalTranslation( 160, 0, 160 );
+	    downBox.setLocalScale( new Vector3f( 320, 0.5f, 320) );
+
+	    PhysicsBox upperBox = gameBounds.createBox("upperBox");
+	    upperBox.setLocalTranslation( 160, 100, 160 );
+	    upperBox.setLocalScale( new Vector3f( 320, 0.5f, 320) );
+	    
+	    PhysicsBox eastBox = gameBounds.createBox("eastBox");
+	    eastBox.setLocalTranslation( 320, 50, 160 );
+	    eastBox.setLocalScale( new Vector3f( 100, 0.5f, 320) );
+	    eastBox.setLocalRotation( new Quaternion().fromAngleAxis( FastMath.HALF_PI, Vector3f.UNIT_Z ));
+	    
+	    PhysicsBox westBox = gameBounds.createBox("westBox");
+	    westBox.setLocalTranslation( 0, 50, 160 );
+	    westBox.setLocalScale( new Vector3f( 100, 0.5f, 320) );
+	    westBox.setLocalRotation( new Quaternion().fromAngleAxis( FastMath.HALF_PI, Vector3f.UNIT_Z ));
+	    
+	    PhysicsBox southBox = gameBounds.createBox("southBox");
+	    southBox.setLocalTranslation( 160, 50, 0 );
+	    southBox.setLocalScale( new Vector3f( 100, 0.5f, 320) );
+	    southBox.setLocalRotation( new Quaternion(new Quaternion(new float[] {
+                0, (float) Math.toRadians(90), (float) Math.toRadians(90) })));
+
+	    PhysicsBox northBox = gameBounds.createBox("northBox");
+	    northBox.setLocalTranslation( 160, 50, 320 );
+	    northBox.setLocalScale( new Vector3f( 100, 0.5f, 320) );
+	    northBox.setLocalRotation( new Quaternion(new Quaternion(new float[] {
+                0, (float) Math.toRadians(90), (float) Math.toRadians(90) })));
+	}
+	
 	public WorldInterface getCore() {
 		return core;
 	}
@@ -242,7 +288,7 @@ public class GraphicalWorld extends CustomGame {
 	}
 	
 	public StaticPhysicsNode getGround() {
-		return staticNode;
+		return ground;
 	}
 	
 }
