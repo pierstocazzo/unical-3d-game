@@ -13,7 +13,6 @@ import utils.ModelLoader;
 
 import com.jme.image.Texture;
 import com.jme.light.DirectionalLight;
-import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
@@ -57,8 +56,10 @@ public class GraphicalWorld extends CustomGame {
 	@Override
     protected void setupInit() {
         ground = getPhysicsSpace().createStaticNode();
+        gameBounds = getPhysicsSpace().createStaticNode();
         
         rootNode.attachChild(ground);
+        rootNode.attachChild(gameBounds);
         
         pause = true;
     }
@@ -151,7 +152,7 @@ public class GraphicalWorld extends CustomGame {
     @Override
     protected void update() {
     	
-    	player.setFirstPerson(false);
+//    	player.setFirstPerson(false);
     	
     	player.update(tpf);
         physicsInputHandler.update(tpf);
@@ -227,7 +228,7 @@ public class GraphicalWorld extends CustomGame {
 	    t2.setCombineOp0RGB(Texture.CombinerOperandRGB.SourceColor);
 	    t2.setCombineSrc1RGB(Texture.CombinerSource.Previous);
 	    t2.setCombineOp1RGB(Texture.CombinerOperandRGB.SourceColor);
-	    rootNode.setRenderState(ts);
+	    ground.setRenderState(ts);
 	
 	    FogState fs = display.getRenderer().createFogState();
 	    fs.setDensity(0.5f);
@@ -239,44 +240,36 @@ public class GraphicalWorld extends CustomGame {
 	    fs.setQuality(FogState.Quality.PerVertex);
 	    rootNode.setRenderState(fs);
 	    
-	    createLimits();
+	    createWorldBounds();
 	}
 	
     /** Function that creates the game limits with a physics box that contains all the world
      */
-	public void createLimits() {
-
-	    gameBounds = getPhysicsSpace().createStaticNode();
+	public void createWorldBounds() {
 
 	    PhysicsBox downBox = gameBounds.createBox("downBox");
-	    downBox.setLocalTranslation( 160, 0, 160 );
-	    downBox.setLocalScale( new Vector3f( 320, 0.5f, 320) );
+	    downBox.setLocalTranslation( 160, -20, 160 );
+	    downBox.setLocalScale( new Vector3f( 320, 5, 320) );
 
 	    PhysicsBox upperBox = gameBounds.createBox("upperBox");
 	    upperBox.setLocalTranslation( 160, 100, 160 );
-	    upperBox.setLocalScale( new Vector3f( 320, 0.5f, 320) );
+	    upperBox.setLocalScale( new Vector3f( 320, 5, 320) );
 	    
 	    PhysicsBox eastBox = gameBounds.createBox("eastBox");
-	    eastBox.setLocalTranslation( 320, 50, 160 );
-	    eastBox.setLocalScale( new Vector3f( 100, 0.5f, 320) );
-	    eastBox.setLocalRotation( new Quaternion().fromAngleAxis( FastMath.HALF_PI, Vector3f.UNIT_Z ));
+	    eastBox.setLocalTranslation( 320, 40, 160 );
+	    eastBox.setLocalScale( new Vector3f( 5, 120, 320 ) );
 	    
 	    PhysicsBox westBox = gameBounds.createBox("westBox");
-	    westBox.setLocalTranslation( 0, 50, 160 );
-	    westBox.setLocalScale( new Vector3f( 100, 0.5f, 320) );
-	    westBox.setLocalRotation( new Quaternion().fromAngleAxis( FastMath.HALF_PI, Vector3f.UNIT_Z ));
+	    westBox.setLocalTranslation( 0, 40, 160 );
+	    westBox.setLocalScale( new Vector3f( 5, 120, 320 ) );
 	    
 	    PhysicsBox southBox = gameBounds.createBox("southBox");
-	    southBox.setLocalTranslation( 160, 50, 0 );
-	    southBox.setLocalScale( new Vector3f( 100, 0.5f, 320) );
-	    southBox.setLocalRotation( new Quaternion(new Quaternion(new float[] {
-                0, (float) Math.toRadians(90), (float) Math.toRadians(90) })));
+	    southBox.setLocalTranslation( 160, 40, 0 );
+	    southBox.setLocalScale( new Vector3f( 320, 120, 5 ) );
 
 	    PhysicsBox northBox = gameBounds.createBox("northBox");
-	    northBox.setLocalTranslation( 160, 50, 320 );
-	    northBox.setLocalScale( new Vector3f( 100, 0.5f, 320) );
-	    northBox.setLocalRotation( new Quaternion(new Quaternion(new float[] {
-                0, (float) Math.toRadians(90), (float) Math.toRadians(90) })));
+	    northBox.setLocalTranslation( 160, 40, 320 );
+	    northBox.setLocalScale( new Vector3f( 320, 120, 5 ) );
 	}
 	
 	public WorldInterface getCore() {

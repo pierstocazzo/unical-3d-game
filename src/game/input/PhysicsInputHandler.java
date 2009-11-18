@@ -37,17 +37,12 @@ public class PhysicsInputHandler extends InputHandler {
     InputAction strafeLeftAction;
     InputAction strafeRightAction;
     InputAction jumpAction;
-    MouseInputAction mouseAction;
+    MouseInputAction shootAction;
 	MouseInputAction firstPersonAction;
-    /** 
-     *  to turn the target to always look in cam direction
-     */
-//	LookAtAction lookAtAction;
 	
 	MouseLookHandler mouseLookHandler;
 	
 	Vector3f targetOffSet;
-
 	
     public PhysicsInputHandler( PhysicsCharacter target, Camera cam ) {
     	mouseLookHandler = new MouseLookHandler( cam, 1 );
@@ -70,8 +65,7 @@ public class PhysicsInputHandler extends InputHandler {
         strafeLeftAction = new PhysicsStrafeLeftAction( this, target.getSpeed()/2 );
         strafeRightAction = new PhysicsStrafeRightAction( this, target.getSpeed()/2 );
         jumpAction = new PhysicsJumpAction( this );
-//        lookAtAction = new LookAtAction( this, cam );
-        mouseAction = new ShootAction( this );
+        shootAction = new ShootAction( this );
         firstPersonAction = new FirstPersonAction( this );
         
         addAction( forwardAction, PROP_KEY_FORWARD, true );
@@ -79,8 +73,7 @@ public class PhysicsInputHandler extends InputHandler {
         addAction( strafeLeftAction, PROP_KEY_STRAFE_LEFT, true );
         addAction( strafeRightAction, PROP_KEY_STRAFE_RIGHT, true );
         addAction( jumpAction, PROP_KEY_JUMP, true );
-//        addAction( lookAtAction, InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_NONE, InputHandler.AXIS_ALL, false );
-        addAction( mouseAction, DEVICE_MOUSE, MouseButtonBinding.LEFT_BUTTON, AXIS_NONE, false );
+        addAction( shootAction, DEVICE_MOUSE, MouseButtonBinding.LEFT_BUTTON, AXIS_NONE, false );
         addAction( firstPersonAction, DEVICE_MOUSE, MouseButtonBinding.RIGHT_BUTTON, AXIS_NONE, false );
     }
 
