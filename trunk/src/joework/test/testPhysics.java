@@ -78,11 +78,6 @@ public class testPhysics extends CustomGame {
     }
 
     @Override
-    protected void setupChaseCamera() {
-        // todo
-    }
-
-    @Override
     protected void setupEnemies() {
         // todo
     }
