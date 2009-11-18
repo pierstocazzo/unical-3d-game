@@ -13,6 +13,7 @@ public class FirstPersonAction extends MouseInputAction {
     }
 
     public void performAction(InputActionEvent evt) {
+    	// usefull gotcha
     	handler.getTarget().setFirstPerson( !handler.getTarget().isFirstPerson() );
     }
 }

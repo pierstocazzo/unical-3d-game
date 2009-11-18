@@ -39,7 +39,7 @@ public class PhysicsBullet {
 		physicsBullet = world.getPhysicsSpace().createDynamicNode();
 		physicsBullet.setName( id );
 		bulletGeometry = physicsBullet.createSphere(id);
-		bulletGeometry.setLocalScale(0.1f);
+		bulletGeometry.setLocalScale( 1 );
 		physicsBullet.attachChild(bulletGeometry);
 		
 		bullet.attachChild(physicsBullet);
@@ -47,8 +47,9 @@ public class PhysicsBullet {
 		
 		world.getRootNode().attachChild( bullet );
 		
+		physicsBullet.generatePhysicsGeometry();
 
-		physicsBullet.addForce( direction.mult( /*weaponType.getPower()*/ 60000 ) );
+		physicsBullet.addForce( direction.mult( weaponType.getPower() ) );
 		
 		contactDetection();
 	}
@@ -60,14 +61,12 @@ public class PhysicsBullet {
                 ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
                 if ( contactInfo.getNode1() == physicsBullet || contactInfo.getNode2() == physicsBullet ) {
                 	if( bullet.getParent() == world.getRootNode() ) {
-	                	// world.bullets.remove(id);
+	                	world.bullets.remove(id);
                 		physicsBullet.clearDynamics();
 	            		physicsBullet.detachAllChildren();
 	            		physicsBullet.delete();
 	            		bullet.detachAllChildren(); 
 	            		world.getRootNode().detachChild( bullet );
-	            		//debug print
-	            		System.out.println( "Bullet: " + id + " removed...FUCK!");
                 	}
                 }
             }

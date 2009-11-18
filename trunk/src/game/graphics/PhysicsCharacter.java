@@ -214,6 +214,9 @@ public class PhysicsCharacter {
 	    world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
 	}
 
+	/** TODO
+	 * 
+	 */
 	void lookAtAction() {
         Vector3f v = new Vector3f( getModel().getWorldTranslation() );
         v.addLocal( world.getCam().getDirection().negate().x, 0 ,world.getCam().getDirection().negate().z );
@@ -432,14 +435,26 @@ public class PhysicsCharacter {
 		world.getCore().setCharacterStrafingRight( id, strafinRight );
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isFirstPerson() {
 		return firstPerson;
 	}
 
+	/**
+	 * 
+	 * @param firstPerson
+	 */
 	public void setFirstPerson( boolean firstPerson ) {
 		this.firstPerson = firstPerson;
 	}
 	
+	/**
+	 * 
+	 * @param direction - (Vector3f) the direction of the shoot
+	 */
 	public void shoot( Vector3f direction ) {
 		world.bulletsCounter = world.bulletsCounter + 1;
 		PhysicsBullet fucker = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
