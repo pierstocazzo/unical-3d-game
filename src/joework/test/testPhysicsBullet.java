@@ -64,11 +64,6 @@ public class testPhysicsBullet extends CustomGame {
     }
 
     @Override
-    protected void setupChaseCamera() {
-        // todo
-    }
-
-    @Override
     protected void setupInput() {
         input = new FirstPersonHandler(cam, 200, 1);
 
