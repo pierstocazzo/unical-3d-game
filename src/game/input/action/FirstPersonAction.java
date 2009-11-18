@@ -1,10 +1,11 @@
 package game.input.action;
 
-import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
+import com.jme.input.action.MouseInputAction;
+
 import game.input.PhysicsInputHandler;
 
-public class FirstPersonAction extends InputAction {
+public class FirstPersonAction extends MouseInputAction {
     PhysicsInputHandler handler;
 
     public FirstPersonAction( PhysicsInputHandler handler ) {
@@ -12,6 +13,6 @@ public class FirstPersonAction extends InputAction {
     }
 
     public void performAction(InputActionEvent evt) {
-    	handler.getTarget().setFirstPerson( true );
+    	handler.getTarget().setFirstPerson( !handler.getTarget().isFirstPerson() );
     }
 }
