@@ -1,18 +1,23 @@
 package game.input;
 
-import com.jme.input.InputHandler;
-import com.jme.input.KeyBindingManager;
-import com.jme.input.KeyInput;
-import com.jme.input.action.InputAction;
-import com.jme.renderer.Camera;
-
 import game.graphics.PhysicsCharacter;
+import game.input.action.LookAtAction;
+import game.input.action.MouseAction;
 import game.input.action.PhysicsBackwardAction;
 import game.input.action.PhysicsForwardAction;
 import game.input.action.PhysicsJumpAction;
 import game.input.action.PhysicsStrafeLeftAction;
 import game.input.action.PhysicsStrafeRightAction;
-import game.input.action.LookAtAction;
+
+import com.jme.input.ChaseCamera;
+import com.jme.input.InputHandler;
+import com.jme.input.KeyBindingManager;
+import com.jme.input.KeyInput;
+import com.jme.input.MouseLookHandler;
+import com.jme.input.action.InputAction;
+import com.jme.input.action.MouseInputAction;
+import com.jme.math.Vector3f;
+import com.jme.renderer.Camera;
 
 public class PhysicsInputHandler extends InputHandler {
 
@@ -24,24 +29,37 @@ public class PhysicsInputHandler extends InputHandler {
 
     PhysicsCharacter target;
     Camera cam;
-
+    ChaseCamera chaser; 
+    
     InputAction forwardAction;
     InputAction backwardAction;
     InputAction strafeLeftAction;
     InputAction strafeRightAction;
     InputAction jumpAction;
+    MouseInputAction mouseAction;
     
     /** 
      *  to turn the target to always look in cam direction
      */
-	LookAtAction lookAtAction;
-
-    
+//	LookAtAction lookAtAction;
+	
+	MouseLookHandler mouseLookHandler;
+	
+	Vector3f targetOffSet;
+	
     public PhysicsInputHandler( PhysicsCharacter target, Camera cam ) {
-        this.target = target;
+    	mouseLookHandler = new MouseLookHandler( cam, 1 );
+    	mouseLookHandler.setEnabled(false);
+    	
+    	this.target = target;
         this.cam = cam;
-        updateKeyBinding(); // to improve
+        this.chaser = new ChaseCamera( cam, target.getCharacterNode() );
+        this.targetOffSet = new Vector3f();
+        this.targetOffSet.setY(5);
+        
+        updateKeyBinding();
         setActions();
+        setupChaseCamera();
     }
 
     private void setActions() {
@@ -50,15 +68,16 @@ public class PhysicsInputHandler extends InputHandler {
         strafeLeftAction = new PhysicsStrafeLeftAction( this, target.getSpeed()/2 );
         strafeRightAction = new PhysicsStrafeRightAction( this, target.getSpeed()/2 );
         jumpAction = new PhysicsJumpAction( this );
-        lookAtAction = new LookAtAction( this, cam );
+//        lookAtAction = new LookAtAction( this, cam );
+        mouseAction = new MouseAction( this );
         
         addAction( forwardAction, PROP_KEY_FORWARD, true );
         addAction( backwardAction, PROP_KEY_BACKWARD, true );
         addAction( strafeLeftAction, PROP_KEY_STRAFE_LEFT, true );
         addAction( strafeRightAction, PROP_KEY_STRAFE_RIGHT, true );
         addAction( jumpAction, PROP_KEY_JUMP, true );
-               
-        addAction( lookAtAction, InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_NONE, InputHandler.AXIS_ALL, false );
+//        addAction( lookAtAction, InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_NONE, InputHandler.AXIS_ALL, false );
+        addAction( mouseAction );
     }
 
     public void updateKeyBinding() {
@@ -70,7 +89,7 @@ public class PhysicsInputHandler extends InputHandler {
         keyboard.set( PROP_KEY_STRAFE_RIGHT, KeyInput.KEY_D );
         keyboard.set( PROP_KEY_JUMP, KeyInput.KEY_SPACE );
     }
-
+    
     @Override
     public void update(float time) {
         if ( !isEnabled() ) return;
@@ -86,6 +105,17 @@ public class PhysicsInputHandler extends InputHandler {
         if ( target.getRest() && target.getOnGround() ) {
             target.clearDynamics();
         }
+        
+        if ( target.isFirstPerson() ) {
+        	chaser.setEnabled(false);
+        	mouseLookHandler.setEnabled(true);
+        	mouseLookHandler.update(time);
+        	cam.setLocation( target.getCharacterFeet().getWorldTranslation().add(this.targetOffSet) );
+        } else {
+    		chaser.update( time );
+    		chaser.setEnabled(true);
+        	mouseLookHandler.setEnabled(false);
+        }
     }
 
     public void doInputUpdate(float time) {
@@ -98,5 +128,12 @@ public class PhysicsInputHandler extends InputHandler {
 
     public Camera getCamera() {
         return cam;
+    }
+
+    protected void setupChaseCamera() {
+        Vector3f targetOffset = new Vector3f();
+        targetOffset.y = getTarget().getCharacterBody().getLocalTranslation().y + 5;
+        chaser = new ChaseCamera(cam, getTarget().getCharacterBody());
+        chaser.setTargetOffset(targetOffset);
     }
 }

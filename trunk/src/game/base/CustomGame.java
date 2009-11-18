@@ -17,7 +17,7 @@ public abstract class CustomGame extends PhysicsGame {
         setupPlayer();
         setupEnemies();
         setupCamera();
-        setupChaseCamera();
+//        setupChaseCamera();
         setupInput();
     }
     
@@ -26,7 +26,7 @@ public abstract class CustomGame extends PhysicsGame {
     protected abstract void setupEnemies();
     protected abstract void setupPlayer();
     protected abstract void setupCamera();
-    protected abstract void setupChaseCamera();
+//    protected abstract void setupChaseCamera();
     protected abstract void setupInput();
 
 }

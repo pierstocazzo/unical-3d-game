@@ -28,7 +28,7 @@ public class LogicWorld implements WorldInterface {
 	 *  HashMap of the ammo packages
 	 */
 	HashMap< Integer, LogicAmmo > ammoPackages;
-
+	
 	/** utility counters */
 	int ammoPackCounter, energyPackCounter, enemyCounter, playerCounter;
 	
@@ -246,4 +246,10 @@ public class LogicWorld implements WorldInterface {
 
 		return s;
 	}
+
+	@Override
+	public EnumWeaponType getCharacterWeapon(String id) {
+		return characters.get(id).getCurrentWeapon();
+	}
+
 }

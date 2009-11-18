@@ -53,4 +53,9 @@ public class LogicEnemy extends LogicCharacter {
 		// when an enemy died he releases an ammo pack (in his position)
 		world.createAmmoPack( this.weapon.type, 10, this.position );
 	}
+
+	@Override
+	public EnumWeaponType getCurrentWeapon() {
+		return weapon.type;
+	}
 }
