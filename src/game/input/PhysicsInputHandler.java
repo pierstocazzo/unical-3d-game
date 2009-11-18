@@ -1,8 +1,8 @@
 package game.input;
 
 import game.graphics.PhysicsCharacter;
-import game.input.action.LookAtAction;
-import game.input.action.MouseAction;
+import game.input.action.FirstPersonAction;
+import game.input.action.ShootAction;
 import game.input.action.PhysicsBackwardAction;
 import game.input.action.PhysicsForwardAction;
 import game.input.action.PhysicsJumpAction;
@@ -16,6 +16,7 @@ import com.jme.input.KeyInput;
 import com.jme.input.MouseLookHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.MouseInputAction;
+import com.jme.input.controls.binding.MouseButtonBinding;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
 
@@ -37,7 +38,7 @@ public class PhysicsInputHandler extends InputHandler {
     InputAction strafeRightAction;
     InputAction jumpAction;
     MouseInputAction mouseAction;
-    
+	MouseInputAction firstPersonAction;
     /** 
      *  to turn the target to always look in cam direction
      */
@@ -46,6 +47,7 @@ public class PhysicsInputHandler extends InputHandler {
 	MouseLookHandler mouseLookHandler;
 	
 	Vector3f targetOffSet;
+
 	
     public PhysicsInputHandler( PhysicsCharacter target, Camera cam ) {
     	mouseLookHandler = new MouseLookHandler( cam, 1 );
@@ -69,7 +71,8 @@ public class PhysicsInputHandler extends InputHandler {
         strafeRightAction = new PhysicsStrafeRightAction( this, target.getSpeed()/2 );
         jumpAction = new PhysicsJumpAction( this );
 //        lookAtAction = new LookAtAction( this, cam );
-        mouseAction = new MouseAction( this );
+        mouseAction = new ShootAction( this );
+        firstPersonAction = new FirstPersonAction( this );
         
         addAction( forwardAction, PROP_KEY_FORWARD, true );
         addAction( backwardAction, PROP_KEY_BACKWARD, true );
@@ -77,7 +80,8 @@ public class PhysicsInputHandler extends InputHandler {
         addAction( strafeRightAction, PROP_KEY_STRAFE_RIGHT, true );
         addAction( jumpAction, PROP_KEY_JUMP, true );
 //        addAction( lookAtAction, InputHandler.DEVICE_MOUSE, InputHandler.BUTTON_NONE, InputHandler.AXIS_ALL, false );
-        addAction( mouseAction );
+        addAction( mouseAction, DEVICE_MOUSE, MouseButtonBinding.LEFT_BUTTON, AXIS_NONE, false );
+        addAction( firstPersonAction, DEVICE_MOUSE, MouseButtonBinding.RIGHT_BUTTON, AXIS_NONE, false );
     }
 
     public void updateKeyBinding() {
