@@ -193,6 +193,7 @@ public abstract class LogicCharacter {
 
 	public void die() {
 		currentState = EnumCharacterState.DEATH;
+		//TODO call the graphical die function
 		world.removeCharacter(id);
 	}
 	

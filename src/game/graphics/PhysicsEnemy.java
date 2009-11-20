@@ -52,36 +52,38 @@ public class PhysicsEnemy extends PhysicsCharacter {
     @Override
 	public void update( float time ) {
 		super.update(time);
-		
-		/** move the character in the direction specified in the current movement */
-		super.move( currentMovement.getDirection().toVector() );
-		        
-		/** update the utility vector currentPosition */
-		currentPosition.set( world.getCore().getCharacterPosition(id) );
-		currentPosition.setY(0);
-		
-		/** calculate distance between the current movement's start position and
-		 *  the current character position
-		 */
-		distance = currentPosition.distance( initialPosition );
-		
-		/** If this distance is major than the lenght specified in the movement 
-		 *  start the next movement
-		 */
-		if( distance >= currentMovement.getLength() ) {
-			super.clearDynamics();
-			
-			initialPosition.set( currentPosition );
-			currentMovement = world.getCore().getEnemyNextMovement( id );
+		if( isActive() ) {
+			if( currentMovement.getDirection() != Direction.REST ) {
+				/** move the character in the direction specified in the current movement */
+				super.move( currentMovement.getDirection().toVector() );
+				        
+				/** update the utility vector currentPosition */
+				currentPosition.set( world.getCore().getCharacterPosition(id) );
+				currentPosition.setY(0);
+				
+				/** calculate distance between the current movement's start position and
+				 *  the current character position
+				 */
+				distance = currentPosition.distance( initialPosition );
+				
+				/** If this distance is major than the lenght specified in the movement 
+				 *  start the next movement
+				 */
+				if( distance >= currentMovement.getLength() ) {
+					super.clearDynamics();
+					
+					initialPosition.set( currentPosition );
+					currentMovement = world.getCore().getEnemyNextMovement( id );
+				}
+			}
+			/** 
+			 *  Set the correct animation and control variables status
+			 */
+			if( currentMovement.getDirection() != Direction.REST ) 
+				setMovingForward( true );
+			else 
+				setRest( true );
 		}
-		
-		/** 
-		 *  Set the correct animation and control variables status
-		 */
-		if( currentMovement.getDirection() != Direction.REST ) 
-			setMovingForward( true );
-		else 
-			setRest( true );
 	}
     
 	void lookAtAction() {

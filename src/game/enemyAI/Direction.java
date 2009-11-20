@@ -12,7 +12,7 @@ public enum Direction {
 	
 	LEFT ( Vector3f.UNIT_X ), 
 	
-	REST (Vector3f.ZERO );
+	REST (Vector3f.UNIT_X );
 	
 	Vector3f direction;
 	

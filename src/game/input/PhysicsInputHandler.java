@@ -1,5 +1,7 @@
 package game.input;
 
+import java.util.HashMap;
+
 import game.graphics.PhysicsCharacter;
 import game.input.action.FirstPersonAction;
 import game.input.action.ShootAction;
@@ -17,6 +19,8 @@ import com.jme.input.MouseLookHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.MouseInputAction;
 import com.jme.input.controls.binding.MouseButtonBinding;
+import com.jme.input.thirdperson.ThirdPersonMouseLook;
+import com.jme.math.FastMath;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
 
@@ -103,12 +107,13 @@ public class PhysicsInputHandler extends InputHandler {
             target.clearDynamics();
         }
         
+        /** swith to first person view when the muose right bottom is down */
         if ( target.isFirstPerson() ) {
         	chaser.setEnabled(false);
         	mouseLookHandler.setEnabled(true);
         	mouseLookHandler.update(time);
         	cam.setLocation( target.getCharacterFeet().getWorldTranslation().add(this.targetOffSet) );
-        } else {
+        } else { /** return to third person view */
     		chaser.update( time );
     		chaser.setEnabled(true);
         	mouseLookHandler.setEnabled(false);
@@ -130,7 +135,15 @@ public class PhysicsInputHandler extends InputHandler {
     protected void setupChaseCamera() {
         Vector3f targetOffset = new Vector3f();
         targetOffset.y = getTarget().getCharacterBody().getLocalTranslation().y + 5;
-        chaser = new ChaseCamera(cam, getTarget().getCharacterBody());
-        chaser.setTargetOffset(targetOffset);
+        HashMap<String, Object> props = new HashMap<String, Object>();
+        props.put(ThirdPersonMouseLook.PROP_MAXROLLOUT, "30");
+        props.put(ThirdPersonMouseLook.PROP_MINROLLOUT, "10");
+        props.put(ChaseCamera.PROP_TARGETOFFSET, targetOffset);
+        props.put(ThirdPersonMouseLook.PROP_MAXASCENT, ""+90 * FastMath.DEG_TO_RAD);
+        props.put(ChaseCamera.PROP_INITIALSPHERECOORDS, new Vector3f(5, 0, 30 * FastMath.DEG_TO_RAD));
+        props.put(ChaseCamera.PROP_TARGETOFFSET, targetOffset);
+        chaser = new ChaseCamera(cam, getTarget().getCharacterBody(), props);
+        chaser.setMaxDistance(50);
+        chaser.setMinDistance(15);
     }
 }

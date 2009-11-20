@@ -13,7 +13,6 @@ import com.jme.scene.Node;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
 import com.jmex.physics.RotationalJointAxis;
-import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 import com.jmex.physics.contact.MutableContactInfo;
 import com.jmex.physics.geometry.PhysicsCapsule;
@@ -44,11 +43,8 @@ public class PhysicsCharacter {
 	/** animation controller */
 	CustomAnimationController animationController;
 	
-	/** the graphical world in whitch the character live */
+	/** the graphical world in which the character live */
     GraphicalWorld world;
-    
-    /** the ground on whitch the character moves */
-    StaticPhysicsNode ground;
     
     /** the joint that connect the feet to the body */
     Joint feetToBodyJoint;
@@ -71,12 +67,16 @@ public class PhysicsCharacter {
     /** an util handler that detect the contact between the character and the ground */
     InputHandler contactDetect = new InputHandler();
     
-    /** utilitly quaternion */
+    /** Utility quaternion */
     Quaternion quaternion;
     
-    /** fuck */
+    /** character firstPerson view */
     boolean firstPerson = false;
+    
+    /** character status */
+    boolean active = true;
 
+    
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
      * 
@@ -91,7 +91,6 @@ public class PhysicsCharacter {
     	this.id = id;
     	
     	this.world = world;
-    	this.ground = world.getGround();
         
         characterNode = new Node("character node");
         body = world.getPhysicsSpace().createDynamicNode();
@@ -179,15 +178,18 @@ public class PhysicsCharacter {
 	 * @param direction - (Vector3f) the direction of the character's movement
 	 */
 	public void move( Vector3f direction ) {
-	    moveDirection.set( direction );
+//	    moveDirection.set( direction );
 	    
 	    if( world.getCore().getCharacterOnGround( id ) ) {
-	        if( moveDirection != Vector3f.ZERO ){
+	        if( direction != Vector3f.ZERO ){
 	            try{
+//	            	if( !direction.equals( moveDirection ) )
+//	            		clearDynamics();
+	            	moveDirection.set(direction);
 	            	// the rotational axis is orthogonal to the direction and
 	            	// to the Y axis. It's calculated using cross product
 	                rotationalAxis.setDirection( moveDirection.cross( Vector3f.UNIT_Y ) );
-	                rotationalAxis.setAvailableAcceleration( 15*speed );
+	                rotationalAxis.setAvailableAcceleration( 30*speed );
 	                rotationalAxis.setDesiredVelocity( speed );
 	            } catch( Exception e ) {
 	                rotationalAxis.setDesiredVelocity(0f);
@@ -201,21 +203,34 @@ public class PhysicsCharacter {
 	 * @param time
 	 */
 	public void update( float time ) {
-	    this.rest();
+	    if( world.getCore().isAlive( id ) == true ) {
+		    this.rest();
+			
+			preventFall();
 		
-		preventFall();
-	
-	    contactDetect.update(time);
-	    body.rest();
-	    
-	    lookAtAction();
-	    
-	    // update core
-	    world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
+		    contactDetect.update(time);
+		    body.rest();
+		    lookAtAction();
+		    // update core
+		    world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
+	    } else {
+	    	die();
+	    }
 	}
 
-	/** TODO
-	 * 
+	private void die() {
+    	clearDynamics();
+//    	animationController.runAnimation( Animation.DIE );
+    	setActive( false );
+    	
+    	body.detachAllChildren();
+    	feet.detachAllChildren();
+    	
+    	world.getRootNode().detachChild( characterNode );
+	}
+
+	/** Function <code>lookAtAction</code> <br>
+	 * Change the model direction to follow the mouse movements
 	 */
 	void lookAtAction() {
         Vector3f v = new Vector3f( getModel().getWorldTranslation() );
@@ -242,14 +257,17 @@ public class PhysicsCharacter {
      */
 	void contactDetection() {
         SyntheticButton playerCollisionEventHandler = feet.getCollisionEventHandler();
-        contactDetect.addAction( new InputAction() {
+        
+        InputAction collisionAction = new InputAction() {
             public void performAction( InputActionEvent evt ) {
                 ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
-                if ( contactInfo.getNode1() == ground || contactInfo.getNode2() == ground ) {
+                if ( contactInfo.getNode1() == world.getGround() || contactInfo.getNode2() == world.getGround() ) {
                     world.getCore().setCharacterOnGround( id, true );
                 }
             }
-        }, playerCollisionEventHandler, false );
+        };
+        
+        contactDetect.addAction( collisionAction, playerCollisionEventHandler, false );
     }
 
     /** Function <code>rest</code> <p>
@@ -443,7 +461,7 @@ public class PhysicsCharacter {
 		return firstPerson;
 	}
 
-	/**
+	/** 
 	 * 
 	 * @param firstPerson
 	 */
@@ -452,14 +470,28 @@ public class PhysicsCharacter {
 	}
 	
 	/**
+	 * @return the active
+	 */
+	public boolean isActive() {
+		return active;
+	}
+
+	/**
+	 * @param active the active to set
+	 */
+	public void setActive( boolean active ) {
+		this.active = active;
+	}
+
+	/**
 	 * 
 	 * @param direction - (Vector3f) the direction of the shoot
 	 */
 	public void shoot( Vector3f direction ) {
 		world.bulletsCounter = world.bulletsCounter + 1;
-		PhysicsBullet fucker = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
+		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
 				world.getCore().getCharacterWeapon(id), 
 				world.getCam().getLocation().add( world.getCam().getDirection().mult( 5 ) ) );
-		world.bullets.put( fucker.id, fucker );
+		world.bullets.put( bullet.id, bullet );
 	}
 }

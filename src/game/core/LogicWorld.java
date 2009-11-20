@@ -37,6 +37,8 @@ public class LogicWorld implements WorldInterface {
 	 */
 	public LogicWorld() {
 		characters = new HashMap< String, LogicCharacter >();
+		ammoPackages = new HashMap<Integer, LogicAmmo>();
+		energyPackages = new HashMap<Integer, LogicEnergyPack>();
 		ammoPackCounter = 0;
 		energyPackCounter = 0;
 		enemyCounter = 0;
@@ -55,7 +57,7 @@ public class LogicWorld implements WorldInterface {
 	 * @param numberOfEnemies - (int) number of characters to create
 	 * @param area - (Vector3f) the vector that identify the area in whitch characters will be created
 	 */
-	public void createEnemies( int numberOfEnemies, Vector3f area ) {
+	public void createEnemiesGroup( int numberOfEnemies, Vector3f area ) {
 		float x = area.getX();
 		float z = area.getY();
 
@@ -95,6 +97,7 @@ public class LogicWorld implements WorldInterface {
 	 */
 	public void createAmmoPack( EnumWeaponType type, int quantity, Vector3f position ) {
 		LogicAmmo ammoPack = new LogicAmmo( type, quantity, position );
+		ammoPackCounter++;
 		ammoPackages.put( ammoPackCounter, ammoPack );
 	}
 	
@@ -235,14 +238,12 @@ public class LogicWorld implements WorldInterface {
 	 */
 	public String printWorld() {
 		String s = "World status: ";
-		//		
-		//		Set<String> keySet = characters.keySet();
-		//		
-		////		s = s + "\n Player position: " + players.gposition;
-		//		
-		//		for( String key : keySet ){
-		//			s = s + "\n" + characters.get(key).id + " in position: " + characters.get(key).position;
-		//		}
+				
+		//		s = s + "\n Player position: " + players.gposition;
+				
+		for( String id : characters.keySet() ){
+			s = s + "\n" + characters.get(id).id + " energ = " + characters.get(id).currentLife;
+		}
 
 		return s;
 	}
@@ -250,6 +251,19 @@ public class LogicWorld implements WorldInterface {
 	@Override
 	public EnumWeaponType getCharacterWeapon(String id) {
 		return characters.get(id).getCurrentWeapon();
+	}
+
+	@Override
+	public void characterShoted( String id, int bulletDamage ) {
+		characters.get(id).isShooted( bulletDamage );
+	}
+
+	@Override
+	public boolean isAlive(String id) {
+		if( !characters.containsKey( id ) )
+			return false;
+		else
+			return true;
 	}
 
 }
