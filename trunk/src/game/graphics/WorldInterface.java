@@ -40,10 +40,15 @@ public interface WorldInterface {
 	public abstract Set<String> getEnemiesId();
 
 	/** Function characterShoot()
-	 * invoke the shoot method of logic character
+	 * call the shoot method of logic character
 	 */
 	public abstract void characterShoot( String id );
-
+	
+	/** Function characterShoot()
+	 * call the isShooted method of logic character
+	 */
+	public abstract void characterShoted( String id, int bulletDamage );
+	
 	/** 
 	 * 
 	 * @param id
@@ -168,4 +173,6 @@ public interface WorldInterface {
 	public abstract String printWorld();
 	
 	public abstract EnumWeaponType getCharacterWeapon( String id );
+
+	public abstract boolean isAlive( String id );
 }

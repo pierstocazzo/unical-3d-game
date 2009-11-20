@@ -2,11 +2,11 @@ package game.core;
 
 public enum EnumWeaponType {
 	
-	MP5 ( 1, 1000000, false ),
+	MP5 ( 10, 60000, false ),
 	
-	GATLING ( 10, 1000000, true ),
+	GATLING ( 10, 60000, true ),
 	
-	BAZOOKA ( 30, 100000, true );
+	BAZOOKA ( 30, 10000, true );
 	
 	/** <code>WeaponType</code> field */
 	int damage, power;

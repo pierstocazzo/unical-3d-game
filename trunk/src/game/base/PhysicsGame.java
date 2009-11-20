@@ -305,7 +305,7 @@ public abstract class PhysicsGame extends AbstractGame {
     }
 
     protected void cameraPerspective() {
-        cam.setFrustumPerspective( 45.0f, (float) display.getWidth() / (float) display.getHeight(), 1, 1000 );
+        cam.setFrustumPerspective( 45.0f, (float) display.getWidth() / (float) display.getHeight(), 1, 10000 );
         cam.setParallelProjection( false );
         cam.update();
     }

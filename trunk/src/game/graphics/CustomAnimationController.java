@@ -27,6 +27,9 @@ public class CustomAnimationController {
 	public void runAnimation( Animation animation ) {
 		controller.setTimes( animation.startFrame, animation.endFrame );
 		currentAnimation = animation;
+		if( currentAnimation == Animation.DIE ) {
+			controller.setRepeatType( AnimationController.RT_CLAMP );
+		}
 	}
 	
 	public Animation getCurrentAnimation() {
@@ -55,8 +58,9 @@ public class CustomAnimationController {
 		
 		IDLE ( 327, 360 ),
 		
-		JUMP ( 42, 54 );
+		JUMP ( 42, 54 ),
 		
+		DIE ( 230, 251 );
 		
 		int startFrame; 
 		
