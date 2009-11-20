@@ -12,16 +12,11 @@ import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 
-import jmetest.renderer.TestSkybox;
-import jmetest.terrain.TestTerrain;
-import jmetest.terrain.TestTerrainTrees;
-
 import utils.ModelLoader;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
 import com.jme.light.DirectionalLight;
-import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
@@ -29,12 +24,10 @@ import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.SharedMesh;
-import com.jme.scene.SharedNode;
 import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
 import com.jme.scene.Text;
 import com.jme.scene.Spatial.TextureCombineMode;
-import com.jme.scene.shape.Cylinder;
 import com.jme.scene.shape.Pyramid;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
@@ -317,7 +310,7 @@ public class GraphicalWorld extends CustomGame {
         TextureState treeTex = display.getRenderer().createTextureState();
         treeTex.setEnabled(true);
         Texture tr = TextureManager.loadTexture(
-                TestTerrainTrees.class.getClassLoader().getResource(
+                GraphicalWorld.class.getClassLoader().getResource(
                         "jmetest/data/texture/grass.jpg"), Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
         treeTex.setTexture(tr);
@@ -358,35 +351,35 @@ public class GraphicalWorld extends CustomGame {
         skybox = new Skybox("skybox", 10, 10, 10);
  
         Texture north = TextureManager.loadTexture(
-            TestSkybox.class.getClassLoader().getResource(
-            "game/data/texture/north.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear);
+        		GraphicalWorld.class.getClassLoader().getResource(
+        		"game/data/texture/north.jpg"),
+        		Texture.MinificationFilter.BilinearNearestMipMap,
+        		Texture.MagnificationFilter.Bilinear);
         Texture south = TextureManager.loadTexture(
-            TestSkybox.class.getClassLoader().getResource(
-            "game/data/texture/south.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear);
+        		GraphicalWorld.class.getClassLoader().getResource(
+        		"game/data/texture/south.jpg"),
+        		Texture.MinificationFilter.BilinearNearestMipMap,
+        		Texture.MagnificationFilter.Bilinear);
         Texture east = TextureManager.loadTexture(
-            TestSkybox.class.getClassLoader().getResource(
-            "game/data/texture/east.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear);
+        		GraphicalWorld.class.getClassLoader().getResource(
+        		"game/data/texture/east.jpg"),
+        		Texture.MinificationFilter.BilinearNearestMipMap,
+        		Texture.MagnificationFilter.Bilinear);
         Texture west = TextureManager.loadTexture(
-            TestSkybox.class.getClassLoader().getResource(
-            "game/data/texture/west.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear);
+        		GraphicalWorld.class.getClassLoader().getResource(
+        		"game/data/texture/west.jpg"),
+        		Texture.MinificationFilter.BilinearNearestMipMap,
+        		Texture.MagnificationFilter.Bilinear);
         Texture up = TextureManager.loadTexture(
-            TestSkybox.class.getClassLoader().getResource(
-            "game/data/texture/top.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear);
+        		GraphicalWorld.class.getClassLoader().getResource(
+        		"game/data/texture/top.jpg"),
+        		Texture.MinificationFilter.BilinearNearestMipMap,
+        		Texture.MagnificationFilter.Bilinear);
         Texture down = TextureManager.loadTexture(
-            TestSkybox.class.getClassLoader().getResource(
-            "game/data/texture/bottom.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear);
+        		GraphicalWorld.class.getClassLoader().getResource(
+        		"game/data/texture/bottom.jpg"),
+        		Texture.MinificationFilter.BilinearNearestMipMap,
+        		Texture.MagnificationFilter.Bilinear);
  
         skybox.setTexture(Skybox.Face.North, north);
         skybox.setTexture(Skybox.Face.West, west);
