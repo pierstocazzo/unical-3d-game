@@ -15,6 +15,8 @@ public class CustomAnimationController {
 	
 	Animation currentAnimation;
 
+	Animation previousAntimation;
+
 	
 	public CustomAnimationController( Controller controller ) {
 		this.controller = (JointController) controller;
@@ -26,6 +28,7 @@ public class CustomAnimationController {
 	
 	public void runAnimation( Animation animation ) {
 		controller.setTimes( animation.startFrame, animation.endFrame );
+		previousAntimation = currentAnimation;
 		currentAnimation = animation;
 		if( currentAnimation == Animation.DIE ) {
 			controller.setRepeatType( AnimationController.RT_CLAMP );
