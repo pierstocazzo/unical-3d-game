@@ -17,7 +17,6 @@ public class PhysicsEnemy extends PhysicsCharacter {
 	
 	/** utility Vector used for the look at action */
 	Vector3f vectorToLookAt;
-	Vector3f direction;
 	
 	/** PhysicsEnemy Constructor<br>
 	 * Create a new graphical enemy and start his movements
@@ -40,56 +39,48 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		initialPosition.setY(0);
 		
 		vectorToLookAt = new Vector3f();
-		direction = new Vector3f();
 		
 		/** initial look at action */
 		vectorToLookAt.set( this.getModel().getWorldTranslation() );
-		direction.set( currentMovement.getDirection().toVector() );
-		vectorToLookAt.addLocal( direction.negate().x, 0, direction.negate().z );
+		moveDirection.set( currentMovement.getDirection().toVector() );
+		vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
 		this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 	}
-	
+    
     @Override
-	public void update( float time ) {
-		super.update(time);
-		if( isActive() ) {
-			if( currentMovement.getDirection() != Direction.REST ) {
-				/** move the character in the direction specified in the current movement */
-				super.move( currentMovement.getDirection().toVector() );
-				        
-				/** update the utility vector currentPosition */
-				currentPosition.set( world.getCore().getCharacterPosition(id) );
-				currentPosition.setY(0);
-				
-				/** calculate distance between the current movement's start position and
-				 *  the current character position
-				 */
-				distance = currentPosition.distance( initialPosition );
-				
-				/** If this distance is major than the lenght specified in the movement 
-				 *  start the next movement
-				 */
-				if( distance >= currentMovement.getLength() ) {
-					super.clearDynamics();
-					
-					initialPosition.set( currentPosition );
-					currentMovement = world.getCore().getEnemyNextMovement( id );
-				}
-			}
-			/** 
-			 *  Set the correct animation and control variables status
+    public void moveCharacter() {
+		if( currentMovement.getDirection() != Direction.REST ) {
+			setMovingForward( true );
+			/** move the character in the direction specified in the current movement */
+			super.move( currentMovement.getDirection().toVector() );
+			        
+			/** update the utility vector currentPosition */
+			currentPosition.set( world.getCore().getCharacterPosition(id) );
+			currentPosition.setY(0);
+			
+			/** calculate distance between the current movement's start position and
+			 *  the current character position
 			 */
-			if( currentMovement.getDirection() != Direction.REST ) 
-				setMovingForward( true );
-			else 
-				setRest( true );
+			distance = currentPosition.distance( initialPosition );
+			
+			/** If this distance is major than the lenght specified in the movement 
+			 *  start the next movement
+			 */
+			if( distance >= currentMovement.getLength() ) {
+				super.clearDynamics();
+				
+				initialPosition.set( currentPosition );
+				currentMovement = world.getCore().getEnemyNextMovement( id );
+			}
+		} else {
+			setRest( true );
 		}
-	}
+    }
     
 	void lookAtAction() {
         vectorToLookAt.set( this.getModel().getWorldTranslation() );
-        direction.set( currentMovement.getDirection().toVector() );
-        vectorToLookAt.addLocal( direction.negate().x, 0, direction.negate().z );
+        moveDirection.set( currentMovement.getDirection().toVector() );
+        vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
         this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 	}
 }

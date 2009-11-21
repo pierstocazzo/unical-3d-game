@@ -221,6 +221,7 @@ public abstract class LogicCharacter {
     }
 
     public void setMovingForward( boolean movingForward ) {
+    	this.rest = !movingForward;
         this.movingForward = movingForward;
     }
 
@@ -229,6 +230,7 @@ public abstract class LogicCharacter {
     }
 
     public void setMovingBackward( boolean movingBackward ) {
+    	this.rest = !movingBackward;
         this.movingBackward = movingBackward;
     }
 
@@ -237,6 +239,7 @@ public abstract class LogicCharacter {
     }
 
     public void setStrafingLeft( boolean strafingLeft ) {
+    	this.rest = !strafingLeft;
         this.strafingLeft = strafingLeft;
     }
 
@@ -245,6 +248,7 @@ public abstract class LogicCharacter {
     }
 
     public void setStrafingRight( boolean strafingRight ) {
+    	this.rest = !strafingRight;
         this.strafingRight = strafingRight;
     }
 
@@ -253,6 +257,7 @@ public abstract class LogicCharacter {
     }
 
     public void setJumping( boolean jumping ) {
+    	this.rest = !jumping;
         this.jumping = jumping;
     }
 

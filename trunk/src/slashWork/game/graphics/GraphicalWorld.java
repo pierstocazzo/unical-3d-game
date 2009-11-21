@@ -42,6 +42,10 @@ import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 
+/**
+ * 
+ * @author Giuseppe Leone, Salvatore Loria, Andrea Martire
+ */
 public class GraphicalWorld extends CustomGame {
 
 	static final Logger logger = Logger.getLogger(ModelLoader.class.getName());
@@ -62,7 +66,7 @@ public class GraphicalWorld extends CustomGame {
 
     TerrainBlock terrain;
 
-	private Skybox skybox;
+	Skybox skybox;
 	
 	Vector2f worldDimension;
 	
@@ -152,7 +156,7 @@ public class GraphicalWorld extends CustomGame {
     	Set<String> ids = core.getPlayersId();
     	
         for( String id : ids ) {
-        	player = new PhysicsCharacter( id, this, 1000, 100, model );
+        	player = new PhysicsCharacter( id, this, 100, 100, model );
             player.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
             rootNode.attachChild( player.getCharacterNode() );
             characters.put( player.id, player );
@@ -173,9 +177,9 @@ public class GraphicalWorld extends CustomGame {
 
     @Override
     protected void update() {
-    	updateCharacters(tpf);
         physicsInputHandler.update(tpf);
         
+        updateCharacters(tpf);
         updateBullets(tpf);
         
         skybox.setLocalTranslation(cam.getLocation());
@@ -226,7 +230,7 @@ public class GraphicalWorld extends CustomGame {
 		Collection<PhysicsCharacter> charactersCollection = new LinkedList<PhysicsCharacter>();
 		charactersCollection.addAll( characters.values() );
 		for( PhysicsCharacter character : charactersCollection ) {
-			if( !character.isActive() ) {
+			if( !core.isAlive( character.id ) ) {
 				characters.remove( character.id );
 				logger.info( character.id + " removed");
 			}
