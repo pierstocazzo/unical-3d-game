@@ -86,5 +86,6 @@ Ora andate in <i>"Libraries"</i> ed espandete odejava-ini.jar e mettete le nativ
 Bene, ora jME e jME2Physics sono ok
 <br><br>
 per usarle in un vostro progetto basta creare il progetto normalmente e poi settare i required projects come abbiamo fatto per jME2Physics
+<br> Per una guida leggere qui: http://code.google.com/p/unical-3d-game/wiki/googleCodeHowTo
 <br><br><br><br>
 HAVE FUN!!!
