@@ -1,7 +1,8 @@
 = How To use google code and SVN =
 
 First of all you must set up your eclipse o netbeans ide to build jme2!
-follow this guides: http://jmonkeyengine.com/wiki/doku.php?id=downloading_and_installing_jme_2
+If you use eclipse follow this guide: http://code.google.com/p/unical-3d-game/wiki/jmeSetup
+For other IDE or more tutorial, follow one of this guides: http://jmonkeyengine.com/wiki/doku.php?id=downloading_and_installing_jme_2
 
 Then you have to sync your IDE with our project svn.
 For example in eclipse you have to:
