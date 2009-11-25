@@ -1,0 +1,12 @@
+== Cose da fare ==
+
+  * Migliorare posizionamento energy pack e ammo pack - slash
+  * Migliorare ai nemici e movimenti dopo il cambio di stato - joe
+  * Sistemare la collisione dei bullet con i character - joe
+  * Introdurre vettore di errore per i nemici - slash
+  * Introdurre sistema di score per i livelli - joe/andrea
+  * Animazioni modello e armi - slash
+  * Ambientazione e posizionamento gruppi di nemici - andrea/slash
+  * Sistemare chase camera - joe
+  * Introdurre HUD e barra di caricamento - andrea/slash
+  * Introdurre l'audio e gli effetti visivi - joe/andrea/slash
