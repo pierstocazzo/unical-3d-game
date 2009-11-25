@@ -82,6 +82,9 @@ public class PhysicsCharacter {
     /** character firstPerson view */
     boolean firstPerson = false;
     
+    /** true if the character is shooting */
+    boolean shooting = false;
+
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
      * 
@@ -133,10 +136,10 @@ public class PhysicsCharacter {
 	 *  Also initialize animation controller and set the <i>"idle"</i> animation
 	 */
 	void createPhysics() {
-	
 	    // Create the feet
 	    PhysicsSphere feetGeometry = feet.createSphere("feet geometry");
 	    feetGeometry.setLocalScale(2);
+	    
 	    feet.setMaterial(characterMaterial);
 	    feet.computeMass();
 	
@@ -210,6 +213,11 @@ public class PhysicsCharacter {
 		    	
 		    moveCharacter();
 		    
+		    if( isShooting() ) {
+		    	if( world.timer.getTime() % world.getCore().getCharacterWeapon(id).getLoadTime() == 0 )
+		    		shoot( world.getCam().getDirection() );
+		    }
+		    
 		    // update core
 		    world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
 	    } else {
@@ -231,19 +239,23 @@ public class PhysicsCharacter {
 			} else if( world.getCore().getCharacterStrafingRight(id) ) {
 				moveDirection.set( world.getCam().getDirection().cross( Vector3f.UNIT_Y ) );
 				move( moveDirection );
-			} else if( !world.getCore().getCharacterJumping(id) ) {
+			} else if( getOnGround() ) {
 				clearDynamics();
 			}
 	    }
 	}
 
-	private void die() {
+	public void die() {
     	clearDynamics();
-//    	animationController.runAnimation( Animation.DIE );
+//    	TODO explosion
     	
     	body.detachAllChildren();
     	feet.detachAllChildren();
+    	feet.delete();
+    	body.delete();
     	world.getRootNode().detachChild( characterNode );
+    	
+    	world.characters.remove( id );
 	}
 
 	/** Function <code>lookAtAction</code> <br>
@@ -510,5 +522,19 @@ public class PhysicsCharacter {
 				world.getCore().getCharacterWeapon(id), 
 				world.getCam().getLocation().add( world.getCam().getDirection().mult( 5 ) ) );
 		world.bullets.put( bullet.id, bullet );
+	}
+
+	/**
+	 * @return the shooting
+	 */
+	public boolean isShooting() {
+		return shooting;
+	}
+
+	/**
+	 * @param shooting the shooting to set
+	 */
+	public void setShooting( boolean shooting ) {
+		this.shooting = shooting;
 	}
 }

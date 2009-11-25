@@ -14,7 +14,7 @@ import com.jme.math.Vector3f;
 public class LogicPlayer extends LogicCharacter {
 
 	/** Player's equipment */
-	HashMap< Integer, LogicWeapon > equipment = new HashMap<Integer, LogicWeapon>();
+	HashMap< String, LogicWeapon > equipment = new HashMap<String, LogicWeapon>();
 	
 	/** current level of experience */
 	int currentLevel;
@@ -44,10 +44,10 @@ public class LogicPlayer extends LogicCharacter {
 		this.previousLevel = 0;
 		
 		/** Initially the player has just the MP5 */
-		addWeapon( new LogicWeapon( "mp5", 100, EnumWeaponType.MP5 ) );
+		addWeapon( new LogicWeapon( super.id + "w" + weaponCounter, 100, WeaponType.MP5 ) );
 		
 		/** assign the mp5 as current weapon */
-		changeWeapon( weaponCounter );
+		changeWeapon( "weapon" + weaponCounter );
 	}
 	
 	/** Function <code>addWeapon</code><br>
@@ -59,7 +59,7 @@ public class LogicPlayer extends LogicCharacter {
 		// the player can't carry more than three weapons
 		if( weaponCounter < 3 ) {
 			weaponCounter = weaponCounter + 1;
-			equipment.put( weaponCounter, weapon );
+			equipment.put( "weapon" + weaponCounter, weapon );
 		} 
 		// advise the player he can't carry more than three weapons
 	}
@@ -69,7 +69,7 @@ public class LogicPlayer extends LogicCharacter {
 	 * Switch to another weapon.
 	 * @param weaponKey - (int) the key of the weapon to use.
 	 */
-	public void changeWeapon( int weaponKey ) {
+	public void changeWeapon( String weaponKey ) {
 		try {
 			currentWeapon = equipment.get( weaponKey );
 		} catch( Exception e ) {
@@ -92,7 +92,7 @@ public class LogicPlayer extends LogicCharacter {
 	}
 
 	@Override
-	public EnumWeaponType getCurrentWeapon() {
+	public WeaponType getCurrentWeapon() {
 		return currentWeapon.type;
 	}
 }

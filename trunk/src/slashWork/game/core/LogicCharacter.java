@@ -21,9 +21,6 @@ public abstract class LogicCharacter {
 	/** Current Score of the player */
 	int score;
 	
-	/** Present LogicState */
-	EnumCharacterState currentState;
-
     /** Current Position Vector of the character */
 	Vector3f position;
 	
@@ -51,7 +48,6 @@ public abstract class LogicCharacter {
 		this.id = id;
 		this.maxLife = maxLife;
 		this.currentLife = maxLife;
-		this.currentState = EnumCharacterState.DEFAULT;
 		this.score = 0;
 		this.position = new Vector3f(position);
 		this.world = world;
@@ -80,15 +76,6 @@ public abstract class LogicCharacter {
 		if( currentLife <= 0 ) {
 			this.die();
 		}
-	}
-	
-	/**
-	 * Change the current state.
-	 * 
-	 * @param newState - (State) the new state
-	 */
-	void setState( EnumCharacterState newState ){
-		currentState = newState;
 	}
 	
 	/**
@@ -141,15 +128,6 @@ public abstract class LogicCharacter {
 	}
 
 	/**
-	 * It return current state
-	 * 
-	 * @return currentState
-	 */
-	public EnumCharacterState getCurrState() {
-		return currentState;
-	}
-
-	/**
 	 * It return current score
 	 * 
 	 * @return score
@@ -192,8 +170,6 @@ public abstract class LogicCharacter {
 	}
 
 	public void die() {
-		currentState = EnumCharacterState.DEATH;
-		//TODO call the graphical die function
 		world.removeCharacter(id);
 	}
 	
@@ -271,5 +247,5 @@ public abstract class LogicCharacter {
 
 	public abstract Movement getNextMovement();
 	
-	public abstract EnumWeaponType getCurrentWeapon();
+	public abstract WeaponType getCurrentWeapon();
 }

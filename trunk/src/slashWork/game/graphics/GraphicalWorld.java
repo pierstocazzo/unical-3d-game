@@ -1,19 +1,15 @@
 package slashWork.game.graphics;
 
-import slashWork.game.base.CustomGame;
+import slashWork.game.base.Game;
 import slashWork.game.input.PhysicsInputHandler;
 import slashWork.game.test.testGame;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
-import java.util.logging.Logger;
-
 import javax.swing.ImageIcon;
-
-import jmetest.renderer.TestSkybox;
-import jmetest.terrain.TestTerrainTrees;
 
 import utils.ModelLoader;
 
@@ -42,44 +38,69 @@ import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 
-/**
+/** Class GraphicalWorld <br>
+ * The main graphics class which contains all the graphical objects and characters
  * 
  * @author Giuseppe Leone, Salvatore Loria, Andrea Martire
  */
-public class GraphicalWorld extends CustomGame {
+public class GraphicalWorld extends Game {
 
-	static final Logger logger = Logger.getLogger(ModelLoader.class.getName());
-	
+	/** an interface to communicate with the application core */
 	WorldInterface core;
 	
+	/** a custom input handler to control the player */
     PhysicsInputHandler physicsInputHandler;
     
+    /** the world's ground */
     StaticPhysicsNode ground;
+    
+    /** the world's terrain attached to the ground node */
+    TerrainBlock terrain;
+    
+    /** the game's bounds, a physics box that contains the scene */
     StaticPhysicsNode gameBounds;
     
+    /** hashmap of the characters */
     HashMap< String, PhysicsCharacter > characters; 
     
-    int bulletsCounter = 0;
+    /** hashmap of the bullets */
 	HashMap< String, PhysicsBullet > bullets;
+    int bulletsCounter = 0;
     
+    /** hashmap of the ammo packages */
+	HashMap< String, PhysicsAmmoPackage > ammoPackages;
+    int ammoPackagesCounter = 0;
+    
+    /** hashmap of the energy packages */
+	HashMap< String, PhysicsEnergyPackage > energyPackages;
+    int energyPackagesCounter = 0;
+    
+    /** the player, in single player mode */
     PhysicsCharacter player;
 
-    TerrainBlock terrain;
-
+    /** the sky */
 	Skybox skybox;
 	
+	/** x and z dimension of the world */
 	Vector2f worldDimension;
 	
-
-	public GraphicalWorld( WorldInterface core, int x, int y ) {
+	/** GraphicalWorld constructor <br>
+	 * Initialize the game graphics
+	 * 
+	 * @param core - (WorldInterface) 
+	 * @param x - (int) the x dimension of the world
+	 * @param z - (int) the z dimension of the world
+	 */
+	public GraphicalWorld( WorldInterface core, int x, int z ) {
 		setCore( core );
 		characters = new HashMap<String, PhysicsCharacter>();
 		bullets = new HashMap<String, PhysicsBullet>();
-		worldDimension = new Vector2f( x, y );
+		ammoPackages = new HashMap<String, PhysicsAmmoPackage>();
+		energyPackages = new HashMap<String, PhysicsEnergyPackage>();
+		worldDimension = new Vector2f( x, z );
 	}
-	
-	@Override
-    protected void setupInit() {
+
+    public void setupInit() {
         ground = getPhysicsSpace().createStaticNode();
         gameBounds = getPhysicsSpace().createStaticNode();
         
@@ -88,12 +109,11 @@ public class GraphicalWorld extends CustomGame {
         
         pause = true;
     }
-
+    
     /** Create graphic characters
      *  and place them in positions setted in the logic game
      */
-    @Override
-    protected void setupEnemies() { 	    	
+    public void setupEnemies() { 	    	
     	Set<String> ids = core.getEnemiesId();
         
         for( String id : ids ) {
@@ -129,8 +149,7 @@ public class GraphicalWorld extends CustomGame {
     /** Create graphic players
      *  and place them in positions setted in the logic game
      */
-    @Override
-    protected void setupPlayer() {
+    public void setupPlayer() {
     	
         Node model = ModelLoader.loadModel("game/data/models/dwarf/dwarf2.ms3d", "", 0.1f, new Quaternion());
         model.setLocalTranslation(0, -1.7f, 0);   
@@ -163,88 +182,103 @@ public class GraphicalWorld extends CustomGame {
         }
     }
 
-    @Override
-    protected void setupCamera() {
+    public void setupCamera() {
         cam.setLocation(new Vector3f(160,30,160));
         cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, 1000);
         cam.update();
     }
 
-    @Override
-    protected void setupInput() {
+    public void setupInput() {
         physicsInputHandler = new PhysicsInputHandler( player, cam );
     }
 
-    @Override
+	@Override
     protected void update() {
-        physicsInputHandler.update(tpf);
-        
-        updateCharacters(tpf);
-        updateBullets(tpf);
-        
-        skybox.setLocalTranslation(cam.getLocation());
-        skybox.updateGeometricState(0, false);
+    	if( core.isAlive( player.id ) == false ) {
+    		gameOver();
+    	} else {
+	        physicsInputHandler.update(tpf);
+	        updateCharacters(tpf);
+	        updateBullets(tpf);
+	        updateAmmoPackages(tpf);
+	        updateEnergyPackages(tpf);
+	        
+	        skybox.setLocalTranslation(cam.getLocation());
+	        skybox.updateGeometricState(0, false);
+    	}
     }
     
+	@SuppressWarnings("static-access")
+	private void gameOver() {
+		Text gameOver = new Text("gameOver", "YOU DIED FUCKER!");
+//		fuck.setDefaultColor( ColorRGBA.red );
+        gameOver.setRenderState( gameOver.getDefaultFontTextureState() );
+        gameOver.setRenderState( gameOver.getFontBlend() );
+        gameOver.setLocalScale( 3 );
+		gameOver.setLocalTranslation(new Vector3f(display.getWidth() / 2f - gameOver.getWidth() / 2,
+				display.getHeight() / 2f - gameOver.getHeight() / 2, 0));
+		rootNode.attachChild(gameOver);
+		
+		pause = true;
+	}
+
 	/** Function updateCharacters<br>
 	 * Call the update method of each character contained in the characters hashMap
 	 */
 	private void updateCharacters( float time ) {
-		for( String id : characters.keySet() ) {
-			characters.get(id).update( time );
+		Collection<PhysicsCharacter> c = new LinkedList<PhysicsCharacter>( characters.values() );
+		Iterator<PhysicsCharacter> it = c.iterator();
+		while( it.hasNext() ) {
+			it.next().update(time);
 		}
-		
-		updateCharactersHashMap();
 	}
 	
 	/** Function updateBullets <br>
 	 * Call the update method of each bullet contained in the bullets hashMap
 	 */
 	private void updateBullets( float time ) {
-		Set<String> ids = bullets.keySet();
-		for( String id : ids ) {
-			bullets.get(id).update( time );
+		Collection<PhysicsBullet> c = new LinkedList<PhysicsBullet>( bullets.values() );
+		Iterator<PhysicsBullet> it = c.iterator();
+		while( it.hasNext() ) {
+			it.next().update(time);
 		}
-		
-		updateBulletsHashMap();
 	}
+	
+	/** Function updateAmmoPackages <br>
+	 * Call the update method of each ammo pack contained in the ammoPackages hashMap
+	 */
+    public void updateAmmoPackages( float time ) {
+		Collection<PhysicsAmmoPackage> c = new LinkedList<PhysicsAmmoPackage>( ammoPackages.values() );
+		Iterator<PhysicsAmmoPackage> it = c.iterator();
+    	while( it.hasNext() ) {
+    		it.next().update(time);
+    	}
+    }
+    
+	/** Function updateEnergyPackages <br>
+	 * Call the update method of each energy pack contained in the energyPackages hashMap
+	 */
+    public void updateEnergyPackages( float time ) {
+		Collection<PhysicsEnergyPackage> c = new LinkedList<PhysicsEnergyPackage>( energyPackages.values() );
+		Iterator<PhysicsEnergyPackage> it = c.iterator();
+    	while( it.hasNext() ) {
+    		it.next().update(time);
+    	}
+    }
 
-	/** Function updateBulletsHashMap
-	 * Update the bullets hashMap removing the detached bullets
-	 */
-	private void updateBulletsHashMap() {
-		Collection<PhysicsBullet> bulletsCollection = new LinkedList<PhysicsBullet>();
-		bulletsCollection.addAll( bullets.values() );
-		for( PhysicsBullet bullet : bulletsCollection ) {
-			if( !bullet.isActive() ) {
-				bullets.remove( bullet.id );
-				logger.info( bullet.id + " removed");
-			}
-		}
-	}
-	
-	/** Function updateCharactersHashMap
-	 * Update the characters hashMap removing the dead characters
-	 */
-	private void updateCharactersHashMap() {
-		Collection<PhysicsCharacter> charactersCollection = new LinkedList<PhysicsCharacter>();
-		charactersCollection.addAll( characters.values() );
-		for( PhysicsCharacter character : charactersCollection ) {
-			if( !core.isAlive( character.id ) ) {
-				characters.remove( character.id );
-				logger.info( character.id + " removed");
-			}
-		}
-	}
-	
-	/**
+    /**
 	 * paints a crosshair
 	 */
+	@SuppressWarnings("static-access")
 	private void paintCrossHair()
 	{
 		/** Create a + for the middle of the screen */
 		Text cross = new Text("Crosshairs", "+");
-		cross.setTextColor(ColorRGBA.white);
+//		cross.setTextColor(ColorRGBA.white);
+		
+        cross.setRenderState( cross.getDefaultFontTextureState() );
+        cross.setRenderState( cross.getFontBlend() );
+		
 		// 8 is half the width of a font char
 		/** Move the + to the middle */
 		cross.setLocalTranslation(new Vector3f(display.getWidth() / 2f - 8f,
@@ -252,8 +286,7 @@ public class GraphicalWorld extends CustomGame {
 		rootNode.attachChild(cross);
 	}
 	
-	@Override
-	protected void setupEnvironment() {
+	public void setupEnvironment() {
 	    rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
 	
 	    DirectionalLight dr = new DirectionalLight();
@@ -317,7 +350,7 @@ public class GraphicalWorld extends CustomGame {
         TextureState treeTex = display.getRenderer().createTextureState();
         treeTex.setEnabled(true);
         Texture tr = TextureManager.loadTexture(
-                TestTerrainTrees.class.getClassLoader().getResource(
+                GraphicalWorld.class.getClassLoader().getResource(
                         "jmetest/data/texture/grass.jpg"), Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
         treeTex.setTexture(tr);
@@ -358,32 +391,32 @@ public class GraphicalWorld extends CustomGame {
         skybox = new Skybox("skybox", 10, 10, 10);
  
         Texture north = TextureManager.loadTexture(
-            TestSkybox.class.getClassLoader().getResource(
+            GraphicalWorld.class.getClassLoader().getResource(
             "game/data/texture/north.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear);
         Texture south = TextureManager.loadTexture(
-            TestSkybox.class.getClassLoader().getResource(
+        	GraphicalWorld.class.getClassLoader().getResource(
             "game/data/texture/south.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear);
         Texture east = TextureManager.loadTexture(
-            TestSkybox.class.getClassLoader().getResource(
+        	GraphicalWorld.class.getClassLoader().getResource(
             "game/data/texture/east.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear);
         Texture west = TextureManager.loadTexture(
-            TestSkybox.class.getClassLoader().getResource(
+        	GraphicalWorld.class.getClassLoader().getResource(
             "game/data/texture/west.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear);
         Texture up = TextureManager.loadTexture(
-            TestSkybox.class.getClassLoader().getResource(
+        	GraphicalWorld.class.getClassLoader().getResource(
             "game/data/texture/top.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear);
         Texture down = TextureManager.loadTexture(
-            TestSkybox.class.getClassLoader().getResource(
+        	GraphicalWorld.class.getClassLoader().getResource(
             "game/data/texture/bottom.jpg"),
             Texture.MinificationFilter.BilinearNearestMipMap,
             Texture.MagnificationFilter.Bilinear);
