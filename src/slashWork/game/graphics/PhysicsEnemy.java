@@ -1,5 +1,6 @@
 package slashWork.game.graphics;
 
+import slashWork.game.core.State;
 import slashWork.game.enemyAI.Direction;
 import slashWork.game.enemyAI.Movement;
 
@@ -8,7 +9,6 @@ import com.jme.scene.Node;
 
 public class PhysicsEnemy extends PhysicsCharacter {
 	
-	float distance;
 	Movement currentMovement;
 	
 	/** Helper movement vectors */
@@ -47,9 +47,29 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 	}
     
+	public void update( float time ) {
+		super.update(time);
+		if( world.getCore().isAlive( id ) == true ) {
+			world.getCore().updateEnemyState(id);
+			if( world.getCore().getEnemyState(id) == State.ATTACK ) {
+				//TODO set the correct animation
+				if( world.timer.getTime() % world.getCore().getCharacterWeapon(id).getLoadTime() == 0 ) {
+					shoot( world.getCore().getEnemyShootDirection(id) );
+				}
+			}
+		}
+	}
+	
     @Override
     public void moveCharacter() {
-		if( currentMovement.getDirection() != Direction.REST ) {
+    	float distance;
+    	
+    	/** The enemy will move only if he is in default state. When he attack or is in alert he rest
+    	 */
+		if( currentMovement.getDirection() != Direction.REST 
+			&& world.getCore().getEnemyState(id) != State.ATTACK
+			&& world.getCore().getEnemyState(id) != State.ALERT ) {
+			
 			setMovingForward( true );
 			/** move the character in the direction specified in the current movement */
 			super.move( currentMovement.getDirection().toVector() );
@@ -73,14 +93,39 @@ public class PhysicsEnemy extends PhysicsCharacter {
 				currentMovement = world.getCore().getEnemyNextMovement( id );
 			}
 		} else {
-			setRest( true );
+			if( getOnGround() )
+				clearDynamics();
 		}
     }
     
+    @Override
 	void lookAtAction() {
-        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-        moveDirection.set( currentMovement.getDirection().toVector() );
-        vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
-        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+    	if( world.getCore().getEnemyShootDirection(id).equals( Vector3f.ZERO ) ) {
+	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
+	        moveDirection.set( currentMovement.getDirection().toVector() );
+	        vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
+	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+    	} else {
+	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
+	        vectorToLookAt.addLocal( world.getCore().getEnemyShootDirection(id).negate().x, 0, world.getCore().getEnemyShootDirection(id).negate().z );
+	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+    	}
+	}
+
+	@Override
+	public void shoot( Vector3f direction ) {
+		world.bulletsCounter = world.bulletsCounter + 1;
+		Vector3f bulletPosition = world.getCore().getCharacterPosition(id).add( direction.mult( 5 ) );
+		bulletPosition.addLocal( 0, 3, 0 );
+		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
+				world.getCore().getCharacterWeapon(id), bulletPosition );
+		world.bullets.put( bullet.id, bullet );
+	}
+	
+	@Override
+	public void die() {
+		PhysicsAmmoPackage ammo = new PhysicsAmmoPackage( id + "ammoPack", world, characterNode.getLocalTranslation() );
+		world.ammoPackages.put( ammo.id, ammo );
+		super.die();
 	}
 }

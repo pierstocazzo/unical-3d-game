@@ -13,7 +13,10 @@ public class FirstPersonAction extends MouseInputAction {
     }
 
     public void performAction(InputActionEvent evt) {
-    	// usefull gotcha
-    	handler.getTarget().setFirstPerson( !handler.getTarget().isFirstPerson() );
+    	if( evt.getTriggerPressed() ) {
+    		handler.getTarget().setFirstPerson( true );
+    	} else {
+    		handler.getTarget().setFirstPerson( false );
+    	}
     }
 }

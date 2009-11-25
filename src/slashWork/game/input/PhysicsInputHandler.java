@@ -74,19 +74,13 @@ public class PhysicsInputHandler extends InputHandler {
     
     @Override
     public void update(float time) {
-        if ( !isEnabled() ) return;
+        if ( !isEnabled() ) 
+        	return;
         
         /**
          * Process all input triggers and change internal state variables
          */
         doInputUpdate(time);
-        
-        /**
-         * If the player is on the floor and it isn't moving, clear dynamics
-         */
-        if ( target.getRest() && target.getOnGround() ) {
-            target.clearDynamics();
-        }
         
         /** swith to first person view when the muose right bottom is down */
         if ( target.isFirstPerson() ) {
@@ -120,9 +114,11 @@ public class PhysicsInputHandler extends InputHandler {
         props.put(ThirdPersonMouseLook.PROP_MAXROLLOUT, "30");
         props.put(ThirdPersonMouseLook.PROP_MINROLLOUT, "10");
         props.put(ChaseCamera.PROP_TARGETOFFSET, targetOffset);
-        props.put(ThirdPersonMouseLook.PROP_MAXASCENT, ""+90 * FastMath.DEG_TO_RAD);
+        props.put(ThirdPersonMouseLook.PROP_MAXASCENT, "" + 20 * FastMath.DEG_TO_RAD);
+        props.put(ThirdPersonMouseLook.PROP_MINASCENT, "" + 5 * FastMath.DEG_TO_RAD);
         props.put(ChaseCamera.PROP_INITIALSPHERECOORDS, new Vector3f(5, 0, 30 * FastMath.DEG_TO_RAD));
         props.put(ChaseCamera.PROP_TARGETOFFSET, targetOffset);
+//        props.put(ThirdPersonMouseLook.PROP_INVERTEDY, false );
         chaser = new ChaseCamera(cam, getTarget().getCharacterBody(), props);
         chaser.setMaxDistance(50);
         chaser.setMinDistance(15);

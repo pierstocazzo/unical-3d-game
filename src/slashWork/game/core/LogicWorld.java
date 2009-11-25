@@ -14,41 +14,45 @@ import com.jme.math.Vector3f;
 
 public class LogicWorld implements WorldInterface {
 	
-	/**
-	 *  Hashmap of the characters
+	/** Hashmap of the characters <br>
+	 * Contains all the characters (players and enemies) who interact in the game
 	 */
 	HashMap< String, LogicCharacter > characters;
 	
-	/**
-	 *  HashMap of the energy packages
+	/** HashMap of the energy packages <br>
+	 * Contains the energy packages placed in random position in the world
 	 */
-	HashMap< Integer, LogicEnergyPack > energyPackages;
+	HashMap< String, LogicEnergyPack > energyPackages;
 	
-	/**
-	 *  HashMap of the ammo packages
+	/** HashMap of the ammo packages <br>
+	 * Contains the ammo packages left by enemies when they die
 	 */
-	HashMap< Integer, LogicAmmo > ammoPackages;
+	HashMap< String, LogicAmmo > ammoPackages;
 	
-	/** utility counters */
+	/** utility counter */
 	int ammoPackCounter, energyPackCounter, enemyCounter, playerCounter;
 	
-	/** 
-	 *  <code>LogicWorld</code> Constructor<br>
+	/** <code>LogicWorld</code> Constructor<br>
+	 * Initialize data structures and counters
 	 */
 	public LogicWorld() {
 		characters = new HashMap< String, LogicCharacter >();
-		ammoPackages = new HashMap<Integer, LogicAmmo>();
-		energyPackages = new HashMap<Integer, LogicEnergyPack>();
+		ammoPackages = new HashMap< String, LogicAmmo >();
+		energyPackages = new HashMap< String, LogicEnergyPack >();
 		ammoPackCounter = 0;
 		energyPackCounter = 0;
 		enemyCounter = 0;
 		playerCounter = 0;
 	}
 	
-	/** create one player */
-	public void createPlayer( int maxLife, Vector3f position ) {
+	/** Create one player with this life in this position
+	 * 
+	 * @param life - (int) the initial life of the player
+	 * @param position - (Vector3f) the initial position of the player
+	 */
+	public void createPlayer( int life, Vector3f position ) {
 		playerCounter = playerCounter + 1;
-		LogicPlayer player = new LogicPlayer( "player" + playerCounter, maxLife, position, this );
+		LogicPlayer player = new LogicPlayer( "player" + playerCounter, life, position, this );
 		characters.put( player.id, player );
 	}
 	
@@ -80,7 +84,7 @@ public class LogicWorld implements WorldInterface {
 	 */
 	public void createEnemy( Vector3f position, MovementType movements ) {
 		enemyCounter = enemyCounter + 1;
-		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 50, EnumWeaponType.MP5, position, movements, this );
+		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 50, WeaponType.MP5, State.DEFAULT, position, movements, this );
 		characters.put( enemy.id, enemy );
 	}
 	
@@ -95,10 +99,10 @@ public class LogicWorld implements WorldInterface {
 	/**
 	 *  Create an ammo pack
 	 */
-	public void createAmmoPack( EnumWeaponType type, int quantity, Vector3f position ) {
+	public void createAmmoPack( String id, WeaponType type, int quantity, Vector3f position ) {
 		LogicAmmo ammoPack = new LogicAmmo( type, quantity, position );
 		ammoPackCounter++;
-		ammoPackages.put( ammoPackCounter, ammoPack );
+		ammoPackages.put( id, ammoPack );
 	}
 	
 	@Override 
@@ -249,7 +253,7 @@ public class LogicWorld implements WorldInterface {
 	}
 
 	@Override
-	public EnumWeaponType getCharacterWeapon(String id) {
+	public WeaponType getCharacterWeapon(String id) {
 		return characters.get(id).getCurrentWeapon();
 	}
 
@@ -266,4 +270,36 @@ public class LogicWorld implements WorldInterface {
 			return true;
 	}
 
+	@Override
+	public void updateEnemyState(String id) {
+		((LogicEnemy) characters.get(id)).updateState();
+	}
+
+	@Override
+	public Vector3f getEnemyShootDirection( String id ) {
+		return ((LogicEnemy) characters.get(id)).shootDirection;
+	}
+
+	@Override
+	public State getEnemyState( String id ) {
+		return ((LogicEnemy) characters.get(id)).state;
+	}
+
+	@Override
+	public boolean catchAmmoPack( String playerId, String ammoPackId ) {
+		for( LogicWeapon weapon : ((LogicPlayer) characters.get(playerId)).equipment.values() ) {
+			if( weapon.type == ammoPackages.get(ammoPackId).getType() ) {
+				weapon.addAmmo( ammoPackages.get(ammoPackId).getQuantity() );
+				ammoPackages.remove(ammoPackId);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	@Override
+	public void catchEnergyPack( String playerId, String energyPackId ) {
+		characters.get(playerId).addLife( energyPackages.get(energyPackId).getValue() );
+	}
 }

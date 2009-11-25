@@ -1,15 +1,15 @@
 package slashWork.game.core;
 
-public enum EnumWeaponType {
+public enum WeaponType {
 	
-	MP5 ( 10, 60000, false ),
+	MP5 ( 1, 60000, 40, false ),
 	
-	GATLING ( 10, 60000, true ),
+	GATLING ( 10, 60000, 40, true ),
 	
-	BAZOOKA ( 30, 10000, true );
+	BAZOOKA ( 30, 10000, 1000, true );
 	
 	/** <code>WeaponType</code> field */
-	int damage, power;
+	int damage, power, loadTime;
 	boolean isHeavy;
 	
 	/**
@@ -19,10 +19,11 @@ public enum EnumWeaponType {
 	 * @param power - (int) the shoot power of the weapon
 	 * @param isHeavy - (bool) if true the character can't run when using this weapon
 	 */
-	EnumWeaponType ( int damage, int power, boolean isHeavy ) {
+	WeaponType ( int damage, int power, int loadTime, boolean isHeavy ) {
 		this.damage = damage;
 		this.power = power;
 		this.isHeavy = isHeavy;
+		this.loadTime = loadTime;
 	}
 	
 	public int getPower() {
@@ -31,5 +32,9 @@ public enum EnumWeaponType {
 	
 	public int getDamage() {
 		return this.damage;
+	}
+
+	public long getLoadTime() {
+		return this.loadTime;
 	}
 }

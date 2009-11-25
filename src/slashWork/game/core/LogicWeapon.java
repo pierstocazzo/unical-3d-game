@@ -13,7 +13,7 @@ public class LogicWeapon {
 	int ammo;
 	
 	/** Weapon's type */
-	EnumWeaponType type;
+	WeaponType type;
 	
 	/**
 	 * <code>LogicWeapon</code> Constructor
@@ -22,7 +22,7 @@ public class LogicWeapon {
 	 * @param ammo - (int) initial ammunitions quantity
 	 * @param type - (WeaponType) the weapon's type
 	 */
-	public LogicWeapon( String id, int ammo, EnumWeaponType type ) {
+	public LogicWeapon( String id, int ammo, WeaponType type ) {
 		this.id = id;
 		this.ammo = ammo;
 		this.type = type;

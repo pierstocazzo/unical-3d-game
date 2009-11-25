@@ -1,6 +1,6 @@
 package slashWork.game.graphics;
 
-import slashWork.game.core.EnumWeaponType;
+import slashWork.game.core.WeaponType;
 
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
@@ -36,10 +36,7 @@ public class PhysicsBullet {
 	Vector3f direction;
 	
 	/** the type of the weapon witch shoot the bullet */
-	EnumWeaponType weaponType;
-
-	/** the status of the bullet */
-	boolean active = true;
+	WeaponType weaponType;
 	
 	/** PhysicsBullet constructor <br>
 	 * 
@@ -49,7 +46,7 @@ public class PhysicsBullet {
 	 * @param weaponType - (WeaponType) the type of the weapon witch shoot the bullet
 	 * @param position - (Vector3f) the position where to create the bullet
 	 */
-	public PhysicsBullet( String id, GraphicalWorld world, Vector3f direction, EnumWeaponType weaponType, Vector3f position ) {
+	public PhysicsBullet( String id, GraphicalWorld world, Vector3f direction, WeaponType weaponType, Vector3f position ) {
 		this.id = id;
 		this.world = world;
 		this.direction = new Vector3f( direction );
@@ -85,16 +82,18 @@ public class PhysicsBullet {
         		physicsBullet.delete();
         		bullet.detachAllChildren(); 
         		world.getRootNode().detachChild(bullet);
-        		setActive(false);
+        		world.bullets.remove( id );
         		
         		/** Control if the bullet hit a character */
         		for( String id : world.characters.keySet() ) {
-        			if( contactInfo.getNode1() == world.characters.get(id).getCharacterBody() ||
-        				contactInfo.getNode2() == world.characters.get(id).getCharacterBody() ) {
-        				System.out.println( id + " e stato colpito da un proiettile");
+        			if( ( contactInfo.getNode1() == world.characters.get(id).getCharacterBody() ||
+        				contactInfo.getNode2() == world.characters.get(id).getCharacterBody() ) ||
+        				( contactInfo.getNode1() == world.characters.get(id).getCharacterFeet() ||
+                		contactInfo.getNode2() == world.characters.get(id).getCharacterFeet() ) ){
+        				GraphicalWorld.logger.info( id + " e stato colpito da un proiettile");
         				world.getCore().characterShoted( id, weaponType.getDamage() );
         		        /** debug print */
-        		        System.out.println( world.getCore().printWorld() );
+        				GraphicalWorld.logger.info( world.getCore().printWorld() );
         			}
         		}
             }
@@ -109,19 +108,5 @@ public class PhysicsBullet {
 	 */
 	public void update( float time ) {
 		contactDetect.update(time);
-	}
-
-	/** 
-	 * @return the bullet status
-	 */
-	public boolean isActive() {
-		return active;
-	}
-
-	/**
-	 * @param active - (boolean) set the active status of the bullet
-	 */
-	public void setActive( boolean active ) {
-		this.active = active;
 	}
 }

@@ -4,7 +4,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jme.app.AbstractGame;
-import com.jme.app.BaseGame;
 
 import com.jme.input.InputSystem;
 import com.jme.input.KeyBindingManager;
@@ -44,18 +43,24 @@ import com.jmex.physics.PhysicsSpace;
 public abstract class PhysicsGame extends AbstractGame {
 
     // Main scene components:
+	
+	/** main camera node */
     protected Camera cam;
+    
+    /** the root node, everything visible must be attached to this */
     protected Node rootNode;
-    protected Timer timer;
+    
+    /** main timer to calculate framerate etc */
+    public Timer timer;
+    
+    // Time per FrameRate
+    protected float tpf;
 
     // Main render options
     protected int alphaBits = 0;
     protected int depthBits = 8;
     protected int stencilBits = 0;
     protected int samples = 0;
-
-    // Time per FrameRate
-    protected float tpf;
 
     // ONLY FOR DEBUG PURPOSE
     protected WireframeState wireState;
@@ -70,8 +75,8 @@ public abstract class PhysicsGame extends AbstractGame {
     private float physicsSpeed = 1;
     private boolean firstFrame = true;
     
-    // logger
-    private static final Logger logger = Logger.getLogger( BaseGame.class.getName() );
+    /** The main logger */
+    public static final Logger logger = Logger.getLogger( PhysicsGame.class.getName() );
     
 	protected ThrowableHandler throwableHandler;
 
@@ -357,7 +362,7 @@ public abstract class PhysicsGame extends AbstractGame {
         rootNode.setRenderState( lightState );
 
         /** Let derived classes initialize. */
-        simpleInitGame();
+        setupGame();
 
         timer.reset();
 
@@ -370,7 +375,7 @@ public abstract class PhysicsGame extends AbstractGame {
     /**
      * Called near end of initGame(). Must be defined by derived classes.
      */
-    protected abstract void simpleInitGame();
+    protected abstract void setupGame();
 
     /**
      * Can be defined in derived classes for custom updating. Called every frame
