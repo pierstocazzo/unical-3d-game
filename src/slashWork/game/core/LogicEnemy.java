@@ -1,5 +1,7 @@
 package slashWork.game.core;
 
+import java.util.Random;
+
 import slashWork.game.enemyAI.MovementList;
 import slashWork.game.enemyAI.Movement;
 import slashWork.game.enemyAI.MovementList.MovementType;
@@ -26,6 +28,11 @@ public class LogicEnemy extends LogicCharacter {
 	
 	/** where to shoot */
 	Vector3f shootDirection;
+	
+	Random r;
+
+	/** where to look */
+	Vector3f lookAt;
 
 	/**
 	 * <code>LogicEnemy</code> constructor<br>
@@ -45,6 +52,8 @@ public class LogicEnemy extends LogicCharacter {
 		this.state = state;
 		this.movements = new MovementList( movements );
 		this.shootDirection = new Vector3f();
+		this.lookAt = new Vector3f();
+		r = new Random();
 	}
 	
 	public Movement getNextMovement() {
@@ -83,13 +92,22 @@ public class LogicEnemy extends LogicCharacter {
 					// TODO inserire un timer
 					state = State.ALERT;
 				} else {
-					shootDirection.set( position.subtract( world.characters.get(playerId).position ).normalize().negate() );
+					calculateShootDirection( playerId );
 				}
 				break;
 			}
 		}
 	}
 	
+	private void calculateShootDirection( String playerId ) {
+//		int x = r.nextInt( 3 ) / 2;
+//		int z = r.nextInt( 3 ) / 2;
+		shootDirection.set( position.subtract( world.characters.get(playerId).position ).normalize().negate() );
+		lookAt.set( shootDirection );
+//		shootDirection.setX( shootDirection.x + x );
+//		shootDirection.setZ( shootDirection.z + z );
+	}
+
 	@Override
 	public void isShooted( int bulletDamage ) {
 		state = State.ATTACK;
@@ -131,6 +149,10 @@ public class LogicEnemy extends LogicCharacter {
 	 */
 	public void setShootDirection(Vector3f shootDirection) {
 		this.shootDirection = shootDirection;
+	}
+	
+	public Vector3f getLookAtDirection() {
+		return lookAt;
 	}
 	
 	public void die() {

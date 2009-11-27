@@ -35,13 +35,12 @@ public class PhysicsEnergyPackage {
 	
 	public void createPhysics() {
 		physicsPack = world.getPhysicsSpace().createDynamicNode();
-		
+		world.getRootNode().attachChild( physicsPack );
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
 		pack.setRandomColors();
 		physicsPack.attachChild( pack );
 		physicsPack.generatePhysicsGeometry();
-		physicsPack.setLocalTranslation( position );
-		world.getRootNode().attachChild( physicsPack );
+		physicsPack.getLocalTranslation().set( position );
 	}
 	
 	public void contactDetector() {

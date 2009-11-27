@@ -92,8 +92,6 @@ public class PhysicsBullet {
                 		contactInfo.getNode2() == world.characters.get(id).getCharacterFeet() ) ){
         				GraphicalWorld.logger.info( id + " e stato colpito da un proiettile");
         				world.getCore().characterShoted( id, weaponType.getDamage() );
-        		        /** debug print */
-        				GraphicalWorld.logger.info( world.getCore().printWorld() );
         			}
         		}
             }

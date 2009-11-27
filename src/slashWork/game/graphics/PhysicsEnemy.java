@@ -53,7 +53,7 @@ public class PhysicsEnemy extends PhysicsCharacter {
 			world.getCore().updateEnemyState(id);
 			if( world.getCore().getEnemyState(id) == State.ATTACK ) {
 				//TODO set the correct animation
-				if( world.timer.getTime() % world.getCore().getCharacterWeapon(id).getLoadTime() == 0 ) {
+				if( world.timer.getTimeInSeconds() % 1 == 0 /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
 					shoot( world.getCore().getEnemyShootDirection(id) );
 				}
 			}
@@ -124,7 +124,7 @@ public class PhysicsEnemy extends PhysicsCharacter {
 	
 	@Override
 	public void die() {
-		PhysicsAmmoPackage ammo = new PhysicsAmmoPackage( id + "ammoPack", world, characterNode.getLocalTranslation() );
+		PhysicsAmmoPackage ammo = new PhysicsAmmoPackage( id + "ammoPack", world, world.getCore().getAmmoPack( id + "ammoPack" ).getPosition() );
 		world.ammoPackages.put( ammo.id, ammo );
 		super.die();
 	}

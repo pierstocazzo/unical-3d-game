@@ -73,7 +73,7 @@ public abstract class LogicCharacter {
 	 */
 	void removeLife( int removedLife ){
 		currentLife = currentLife - removedLife;
-		if( currentLife <= 0 ) {
+		if( currentLife < 0 ) {
 			this.die();
 		}
 	}

@@ -27,7 +27,7 @@ public class LogicWorld implements WorldInterface {
 	/** HashMap of the ammo packages <br>
 	 * Contains the ammo packages left by enemies when they die
 	 */
-	HashMap< String, LogicAmmo > ammoPackages;
+	HashMap< String, LogicAmmoPack > ammoPackages;
 	
 	/** utility counter */
 	int ammoPackCounter, energyPackCounter, enemyCounter, playerCounter;
@@ -37,7 +37,7 @@ public class LogicWorld implements WorldInterface {
 	 */
 	public LogicWorld() {
 		characters = new HashMap< String, LogicCharacter >();
-		ammoPackages = new HashMap< String, LogicAmmo >();
+		ammoPackages = new HashMap< String, LogicAmmoPack >();
 		energyPackages = new HashMap< String, LogicEnergyPack >();
 		ammoPackCounter = 0;
 		energyPackCounter = 0;
@@ -92,15 +92,24 @@ public class LogicWorld implements WorldInterface {
 	 *  Create a number of energy packages in random 
 	 *  positions of the world...
 	 */
-	public void createEnergyPackages( int number ) {
-		//TODO 
+	public void createEnergyPackages( int number, int xDimension, int zDimension ) {
+		for( int i = 0; i < number; i++ ) {
+			energyPackCounter = energyPackCounter + 1;
+			Vector3f position = new Vector3f();
+			Random r = new Random();
+			position.setX( r.nextInt( xDimension ) );
+			position.setY( r.nextInt( 20 ) );
+			position.setZ( r.nextInt( zDimension ) );
+			LogicEnergyPack energyPack = new LogicEnergyPack( "energyPack" + energyPackCounter, position, 10 );
+			energyPackages.put( energyPack.id, energyPack );
+		}
 	}
 	
 	/**
 	 *  Create an ammo pack
 	 */
 	public void createAmmoPack( String id, WeaponType type, int quantity, Vector3f position ) {
-		LogicAmmo ammoPack = new LogicAmmo( type, quantity, position );
+		LogicAmmoPack ammoPack = new LogicAmmoPack( type, quantity, position );
 		ammoPackCounter++;
 		ammoPackages.put( id, ammoPack );
 	}
@@ -301,5 +310,24 @@ public class LogicWorld implements WorldInterface {
 	@Override
 	public void catchEnergyPack( String playerId, String energyPackId ) {
 		characters.get(playerId).addLife( energyPackages.get(energyPackId).getValue() );
+	}
+
+	@Override
+	public LogicAmmoPack getAmmoPack( String ammoPackId ) {
+		return ammoPackages.get(ammoPackId);
+	}
+
+	@Override
+	public int getCharacterLife( String id ) {
+		return characters.get(id).currentLife;
+	}
+
+	@Override
+	public HashMap< String, Vector3f > getEnergyPackagesPosition() {
+		HashMap< String, Vector3f > hash = new HashMap<String, Vector3f>();
+		for( LogicEnergyPack energyPack : energyPackages.values() ) {
+			hash.put( energyPack.id, energyPack.position );
+		}
+		return hash;
 	}
 }
