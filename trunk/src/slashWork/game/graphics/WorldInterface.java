@@ -1,10 +1,12 @@
 package slashWork.game.graphics;
 
 
+import slashWork.game.core.LogicAmmoPack;
 import slashWork.game.core.State;
 import slashWork.game.core.WeaponType;
 import slashWork.game.enemyAI.Movement;
 
+import java.util.HashMap;
 import java.util.Set;
 
 import com.jme.math.Vector3f;
@@ -14,6 +16,8 @@ import com.jme.math.Vector3f;
  */
 public interface WorldInterface {
 
+	public abstract int getCharacterLife( String id );
+	
 	/** Function <code>setCharacterPosition</code><br>
 	 * Update the position of the character with this id
 	 *  
@@ -219,4 +223,8 @@ public interface WorldInterface {
 	public abstract boolean catchAmmoPack( String playerId, String ammoPackId );
 
 	public abstract void catchEnergyPack( String playerId, String energyPackId );
+
+	public abstract LogicAmmoPack getAmmoPack( String ammoPackId );
+
+	public abstract HashMap<String, Vector3f> getEnergyPackagesPosition();
 }

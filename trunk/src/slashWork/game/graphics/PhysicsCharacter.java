@@ -85,6 +85,8 @@ public class PhysicsCharacter {
     /** true if the character is shooting */
     boolean shooting = false;
 
+	private float previousTime;
+
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
      * 
@@ -124,6 +126,8 @@ public class PhysicsCharacter {
         
         createPhysics();
         contactDetection();
+        
+        previousTime = 0;
     }
 
     /** Function <code>createPhysics</code> <p>
@@ -210,14 +214,16 @@ public class PhysicsCharacter {
 		    contactDetect.update(time);
 		    body.rest();
 		    lookAtAction();
-		    	
+		    
 		    moveCharacter();
 		    
 		    if( isShooting() ) {
-		    	if( world.timer.getTime() % world.getCore().getCharacterWeapon(id).getLoadTime() == 0 )
+		    	if( world.timer.getTimeInSeconds() - previousTime > 1  ) {
 		    		shoot( world.getCam().getDirection() );
+		    		previousTime = world.timer.getTimeInSeconds();
+		    	}
 		    }
-		    
+		   
 		    // update core
 		    world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
 	    } else {
@@ -245,6 +251,13 @@ public class PhysicsCharacter {
 	    }
 	}
 
+	public void hide( boolean b ) {
+		if( b ) 
+			body.detachChild( model );
+		else
+			body.attachChild( model );
+	}
+	
 	public void die() {
     	clearDynamics();
 //    	TODO explosion

@@ -77,26 +77,23 @@ public class PhysicsInputHandler extends InputHandler {
         if ( !isEnabled() ) 
         	return;
         
-        /**
-         * Process all input triggers and change internal state variables
-         */
-        doInputUpdate(time);
+        /** Process all input triggers and change internal state variables */
+        super.update(time);
         
-        /** swith to first person view when the muose right bottom is down */
+        /** switch to first person view when the mouse right bottom is down
+         */
         if ( target.isFirstPerson() ) {
         	chaser.setEnabled(false);
         	mouseLookHandler.setEnabled(true);
         	mouseLookHandler.update(time);
         	cam.setLocation( target.getCharacterFeet().getWorldTranslation().add(this.targetOffSet) );
+        	target.hide( true );
         } else { /** return to third person view */
     		chaser.update( time );
     		chaser.setEnabled(true);
         	mouseLookHandler.setEnabled(false);
+        	target.hide( false );
         }
-    }
-
-    public void doInputUpdate(float time) {
-        super.update(time);
     }
 
     public PhysicsCharacter getTarget() {

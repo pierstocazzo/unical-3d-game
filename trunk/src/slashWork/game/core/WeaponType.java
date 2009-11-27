@@ -2,9 +2,9 @@ package slashWork.game.core;
 
 public enum WeaponType {
 	
-	MP5 ( 1, 60000, 40, false ),
+	MP5 ( 1, 30000, 20, false ),
 	
-	GATLING ( 10, 60000, 40, true ),
+	GATLING ( 2, 30000, 20, true ),
 	
 	BAZOOKA ( 30, 10000, 1000, true );
 	

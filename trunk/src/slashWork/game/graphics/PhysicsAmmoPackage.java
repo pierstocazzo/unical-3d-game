@@ -39,13 +39,11 @@ public class PhysicsAmmoPackage {
 	public void createPhysics() {
 		physicsPack = world.getPhysicsSpace().createDynamicNode();
 		world.getRootNode().attachChild( physicsPack );
-		
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
 		pack.setRandomColors();
 		physicsPack.attachChild( pack );
 		physicsPack.generatePhysicsGeometry();
-		
-		physicsPack.setLocalTranslation( position );
+		physicsPack.getLocalTranslation().set( position );
 	}
 	
 	public void contactDetector() {

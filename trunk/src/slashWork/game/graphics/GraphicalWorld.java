@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Set;
 import javax.swing.ImageIcon;
 
 import utils.ModelLoader;
@@ -83,6 +82,9 @@ public class GraphicalWorld extends Game {
 	
 	/** x and z dimension of the world */
 	Vector2f worldDimension;
+
+	/** set to false when you don't want to do the world update */
+	boolean enabled = true;
 	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
@@ -114,29 +116,29 @@ public class GraphicalWorld extends Game {
      *  and place them in positions setted in the logic game
      */
     public void setupEnemies() { 	    	
-    	Set<String> ids = core.getEnemiesId();
         
-        for( String id : ids ) {
+		Texture texture = TextureManager.loadTexture(
+                ModelLoader.class.getClassLoader().getResource( "game/data/models/dwarf/dwarf.jpg" ),
+                Texture.MinificationFilter.Trilinear,
+                Texture.MagnificationFilter.Bilinear);
+        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+        ts.setEnabled(true);
+        ts.setTexture(texture);
+        
+		texture = TextureManager.loadTexture(
+                ModelLoader.class.getClassLoader().getResource( "game/data/models/dwarf/axe.jpg" ),
+                Texture.MinificationFilter.Trilinear,
+                Texture.MagnificationFilter.Bilinear);
+        TextureState ts1 = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+        ts1.setEnabled(true);
+        ts1.setTexture(texture);
+    	
+        for( String id : core.getEnemiesId() ) {
         	
             Node model = ModelLoader.loadModel("game/data/models/dwarf/dwarf1.ms3d", "", 0.1f, new Quaternion());
             model.setLocalTranslation(0, -1.7f, 0);   
-        	
-    		Texture texture = TextureManager.loadTexture(
-                    ModelLoader.class.getClassLoader().getResource( "game/data/models/dwarf/dwarf.jpg" ),
-                    Texture.MinificationFilter.Trilinear,
-                    Texture.MagnificationFilter.Bilinear);
-            TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-            ts.setEnabled(true);
-            ts.setTexture(texture);
+
     		model.setRenderState( ts );
-            
-    		texture = TextureManager.loadTexture(
-                    ModelLoader.class.getClassLoader().getResource( "game/data/models/dwarf/axe.jpg" ),
-                    Texture.MinificationFilter.Trilinear,
-                    Texture.MagnificationFilter.Bilinear);
-            TextureState ts1 = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-            ts1.setEnabled(true);
-            ts1.setTexture(texture);
     		model.getChild("axe").setRenderState( ts1 );
 
             PhysicsEnemy enemy = new PhysicsEnemy( id, this, 40, 100,  model );
@@ -172,9 +174,7 @@ public class GraphicalWorld extends Game {
         ts1.setTexture(texture);
 		model.getChild("axe").setRenderState( ts1 );
         
-    	Set<String> ids = core.getPlayersId();
-    	
-        for( String id : ids ) {
+        for( String id : core.getPlayersId() ) {
         	player = new PhysicsCharacter( id, this, 100, 100, model );
             player.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
             rootNode.attachChild( player.getCharacterNode() );
@@ -182,6 +182,13 @@ public class GraphicalWorld extends Game {
         }
     }
 
+    private void printPlayerLife() {
+    	rootNode.detachChildNamed( "life" );
+    	Text life = Text.createDefaultTextLabel( "life", "Life: " + core.getCharacterLife( player.id ) );
+    	life.setLocalTranslation( 20, 20, 0 );
+    	rootNode.attachChild( life );
+    }
+    
     public void setupCamera() {
         cam.setLocation(new Vector3f(160,30,160));
         cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, 1000);
@@ -194,9 +201,13 @@ public class GraphicalWorld extends Game {
 
 	@Override
     protected void update() {
+		if( !enabled )
+			return;
+		
     	if( core.isAlive( player.id ) == false ) {
     		gameOver();
     	} else {
+    		printPlayerLife();
 	        physicsInputHandler.update(tpf);
 	        updateCharacters(tpf);
 	        updateBullets(tpf);
@@ -208,18 +219,14 @@ public class GraphicalWorld extends Game {
     	}
     }
     
-	@SuppressWarnings("static-access")
 	private void gameOver() {
-		Text gameOver = new Text("gameOver", "YOU DIED FUCKER!");
-//		fuck.setDefaultColor( ColorRGBA.red );
-        gameOver.setRenderState( gameOver.getDefaultFontTextureState() );
-        gameOver.setRenderState( gameOver.getFontBlend() );
+		Text gameOver = Text.createDefaultTextLabel( "gameOver", "YOU DIED FUCKER!" );
         gameOver.setLocalScale( 3 );
 		gameOver.setLocalTranslation(new Vector3f(display.getWidth() / 2f - gameOver.getWidth() / 2,
 				display.getHeight() / 2f - gameOver.getHeight() / 2, 0));
 		rootNode.attachChild(gameOver);
 		
-		pause = true;
+		enabled = false;
 	}
 
 	/** Function updateCharacters<br>
@@ -269,17 +276,9 @@ public class GraphicalWorld extends Game {
     /**
 	 * paints a crosshair
 	 */
-	@SuppressWarnings("static-access")
-	private void paintCrossHair()
-	{
+	private void printCrossHair() {
 		/** Create a + for the middle of the screen */
-		Text cross = new Text("Crosshairs", "+");
-//		cross.setTextColor(ColorRGBA.white);
-		
-        cross.setRenderState( cross.getDefaultFontTextureState() );
-        cross.setRenderState( cross.getFontBlend() );
-		
-		// 8 is half the width of a font char
+		Text cross = Text.createDefaultTextLabel( "crosshair", "+" );
 		/** Move the + to the middle */
 		cross.setLocalTranslation(new Vector3f(display.getWidth() / 2f - 8f,
 				display.getHeight() / 2f - 8f, 0));
@@ -299,9 +298,9 @@ public class GraphicalWorld extends Game {
 	    lightState.attach(dr);
 	
 	    MidPointHeightMap heightMap = new MidPointHeightMap( 32, 1 );
-	    Vector3f terrainScale = new Vector3f( worldDimension.x/32, .004f, worldDimension.y/32 );
+	    Vector3f terrainScale = new Vector3f( worldDimension.x/32, .04f, worldDimension.y/32 );
 	    terrain = new TerrainBlock( "Terrain", heightMap.getSize(), terrainScale, 
-	    		heightMap.getHeightMap(), Vector3f.ZERO );
+	    		heightMap.getHeightMap(), new Vector3f( 0, 0, 0 ) );
 	
 	    terrain.setDetailTexture(1, 16);
 	    ground.attachChild(terrain);
@@ -363,7 +362,7 @@ public class GraphicalWorld extends Game {
         p.setRenderState(treeTex);
         p.setTextureCombineMode(TextureCombineMode.Replace);
         
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
         	Spatial s1 = new SharedMesh("tree"+i, p);
             float x = (float) Math.random() * 128 * 5;
             float z = (float) Math.random() * 128 * 5;
@@ -383,10 +382,20 @@ public class GraphicalWorld extends Game {
 	    rootNode.setRenderState(fs);
 	    
 	    createWorldBounds();
-	    paintCrossHair();
+	    printCrossHair();
 	    buildSkyBox();
+	    
+	    setupEnergyPackages();
 	}
 	
+	private void setupEnergyPackages() {
+		HashMap< String, Vector3f > hash = core.getEnergyPackagesPosition();
+		for( String id : hash.keySet() ) {
+			PhysicsEnergyPackage e = new PhysicsEnergyPackage( id, this, hash.get(id) );
+			energyPackages.put( e.id, e );
+		}
+	}
+
 	private void buildSkyBox() {
         skybox = new Skybox("skybox", 10, 10, 10);
  
