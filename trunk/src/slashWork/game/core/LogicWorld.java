@@ -84,7 +84,7 @@ public class LogicWorld implements WorldInterface {
 	 */
 	public void createEnemy( Vector3f position, MovementType movements ) {
 		enemyCounter = enemyCounter + 1;
-		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 50, WeaponType.MP5, State.DEFAULT, position, movements, this );
+		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.MP5, State.DEFAULT, position, movements, this );
 		characters.put( enemy.id, enemy );
 	}
 	

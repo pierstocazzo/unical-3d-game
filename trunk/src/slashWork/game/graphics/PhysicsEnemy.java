@@ -1,11 +1,13 @@
 package slashWork.game.graphics;
 
+import jmetest.TutorialGuide.ExplosionFactory;
 import slashWork.game.core.State;
 import slashWork.game.enemyAI.Direction;
 import slashWork.game.enemyAI.Movement;
 
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
+import com.jmex.effects.particles.ParticleMesh;
 
 public class PhysicsEnemy extends PhysicsCharacter {
 	
@@ -53,9 +55,10 @@ public class PhysicsEnemy extends PhysicsCharacter {
 			world.getCore().updateEnemyState(id);
 			if( world.getCore().getEnemyState(id) == State.ATTACK ) {
 				//TODO set the correct animation
-				if( world.timer.getTimeInSeconds() % 1 == 0 /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
+//				if( world.timer.getTimeInSeconds() - previousTime > 0.1 /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
 					shoot( world.getCore().getEnemyShootDirection(id) );
-				}
+//					previousTime = world.timer.getTimeInSeconds();
+//				}
 			}
 		}
 	}
@@ -116,7 +119,7 @@ public class PhysicsEnemy extends PhysicsCharacter {
 	public void shoot( Vector3f direction ) {
 		world.bulletsCounter = world.bulletsCounter + 1;
 		Vector3f bulletPosition = world.getCore().getCharacterPosition(id).add( direction.mult( 5 ) );
-		bulletPosition.addLocal( 0, 3, 0 );
+		bulletPosition.addLocal( 0, 2, 0 );
 		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
 				world.getCore().getCharacterWeapon(id), bulletPosition );
 		world.bullets.put( bullet.id, bullet );
@@ -124,6 +127,10 @@ public class PhysicsEnemy extends PhysicsCharacter {
 	
 	@Override
 	public void die() {
+		ParticleMesh explosion = ExplosionFactory.getExplosion();
+		explosion.setOriginOffset( feet.getLocalTranslation().clone());
+		explosion.forceRespawn();
+		world.getRootNode().attachChild(explosion);
 		PhysicsAmmoPackage ammo = new PhysicsAmmoPackage( id + "ammoPack", world, world.getCore().getAmmoPack( id + "ammoPack" ).getPosition() );
 		world.ammoPackages.put( ammo.id, ammo );
 		super.die();

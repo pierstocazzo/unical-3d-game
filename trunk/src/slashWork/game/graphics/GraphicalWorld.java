@@ -4,11 +4,14 @@ import slashWork.game.base.Game;
 import slashWork.game.input.PhysicsInputHandler;
 import slashWork.game.test.testGame;
 
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
+
+import jmetest.TutorialGuide.TestPongCool;
 
 import utils.ModelLoader;
 
@@ -31,6 +34,10 @@ import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
+import com.jmex.audio.AudioSystem;
+import com.jmex.audio.AudioTrack;
+import com.jmex.audio.AudioTrack.TrackType;
+import com.jmex.audio.MusicTrackQueue.RepeatType;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
 import com.jmex.terrain.TerrainBlock;
@@ -43,6 +50,10 @@ import com.jmex.terrain.util.ProceduralTextureGenerator;
  * @author Giuseppe Leone, Salvatore Loria, Andrea Martire
  */
 public class GraphicalWorld extends Game {
+	
+	public AudioSystem audio;
+	public AudioTrack shootSound;
+	
 
 	/** an interface to communicate with the application core */
 	WorldInterface core;
@@ -210,6 +221,7 @@ public class GraphicalWorld extends Game {
     		printPlayerLife();
 	        physicsInputHandler.update(tpf);
 	        updateCharacters(tpf);
+	        audio.update();
 	        updateBullets(tpf);
 	        updateAmmoPackages(tpf);
 	        updateEnergyPackages(tpf);
@@ -220,13 +232,14 @@ public class GraphicalWorld extends Game {
     }
     
 	private void gameOver() {
+		rootNode.detachChildNamed( "gameOver" );
 		Text gameOver = Text.createDefaultTextLabel( "gameOver", "YOU DIED FUCKER!" );
         gameOver.setLocalScale( 3 );
 		gameOver.setLocalTranslation(new Vector3f(display.getWidth() / 2f - gameOver.getWidth() / 2,
 				display.getHeight() / 2f - gameOver.getHeight() / 2, 0));
 		rootNode.attachChild(gameOver);
 		
-		enabled = false;
+//		enabled = false;
 	}
 
 	/** Function updateCharacters<br>
@@ -384,7 +397,7 @@ public class GraphicalWorld extends Game {
 	    createWorldBounds();
 	    printCrossHair();
 	    buildSkyBox();
-	    
+	    initSound();
 	    setupEnergyPackages();
 	}
 	
@@ -487,4 +500,35 @@ public class GraphicalWorld extends Game {
 		return ground;
 	}
 	
+	private void initSound() {
+		// grab a handle to our audio system.
+		audio = AudioSystem.getSystem();
+
+		// setup our ear tracker to track the camera's position and orientation.
+		audio.getEar().trackOrientation(cam);
+		audio.getEar().trackPosition(cam);
+
+		// setup a music score for our demo
+		AudioTrack music1 = getMusic(TestPongCool.class.getResource("/jmetest/data/sound/test.ogg"));
+		audio.getMusicQueue().setRepeatType(RepeatType.ALL);
+		audio.getMusicQueue().setCrossfadeinTime(2.5f);
+		audio.getMusicQueue().setCrossfadeoutTime(2.5f);
+		audio.getMusicQueue().addTrack(music1);
+		audio.getMusicQueue().play();
+
+		shootSound = audio.createAudioTrack("/jmetest/data/sound/explosion.ogg", false);
+		shootSound.setRelative(true);
+		shootSound.setMaxAudibleDistance(100000);
+		shootSound.setVolume(1.0f);
+	}
+
+	private AudioTrack getMusic(URL resource) {
+		// Create a non-streaming, non-looping, relative sound clip.
+		AudioTrack sound = AudioSystem.getSystem().createAudioTrack(resource, true);
+		sound.setType(TrackType.MUSIC);
+		sound.setRelative(true);
+		sound.setTargetVolume(0.7f);
+		sound.setLooping(false);
+		return sound;
+	}
 }
