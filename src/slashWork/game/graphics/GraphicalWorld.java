@@ -29,7 +29,6 @@ import com.jme.scene.Spatial.TextureCombineMode;
 import com.jme.scene.shape.Pyramid;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
-import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
@@ -139,32 +138,11 @@ public class GraphicalWorld extends Game {
      *  and place them in positions setted in the logic game
      */
     public void setupEnemies() { 	    	
-        
-		Texture texture = TextureManager.loadTexture(
-                ModelLoader.class.getClassLoader().getResource( "game/data/models/dwarf/dwarf.jpg" ),
-                Texture.MinificationFilter.Trilinear,
-                Texture.MagnificationFilter.Bilinear);
-        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        ts.setEnabled(true);
-        ts.setTexture(texture);
-        
-		texture = TextureManager.loadTexture(
-                ModelLoader.class.getClassLoader().getResource( "game/data/models/dwarf/axe.jpg" ),
-                Texture.MinificationFilter.Trilinear,
-                Texture.MagnificationFilter.Bilinear);
-        TextureState ts1 = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        ts1.setEnabled(true);
-        ts1.setTexture(texture);
-    	
         for( String id : core.getEnemiesId() ) {
-        	
-            Node model = ModelLoader.loadModel("game/data/models/dwarf/dwarf1.ms3d", "", 0.1f, new Quaternion());
+            Node model = ModelLoader.loadModel("data/soldato/soldato.ms3d", "data/soldato/soldato.jpg", 1f, new Quaternion());
             model.setLocalTranslation(0, -1.7f, 0);   
 
-    		model.setRenderState( ts );
-    		model.getChild("axe").setRenderState( ts1 );
-
-            PhysicsEnemy enemy = new PhysicsEnemy( id, this, 40, 100,  model );
+            PhysicsEnemy enemy = new PhysicsEnemy( id, this, 20, 100,  model );
         	enemy.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
         	characters.put( id, enemy );
         	rootNode.attachChild( characters.get(id).getCharacterNode() );
@@ -176,29 +154,11 @@ public class GraphicalWorld extends Game {
      */
     public void setupPlayer() {
     	
-        Node model = ModelLoader.loadModel("game/data/models/dwarf/dwarf2.ms3d", "", 0.1f, new Quaternion());
-        model.setLocalTranslation(0, -1.7f, 0);   
-        
-		Texture texture = TextureManager.loadTexture(
-                ModelLoader.class.getClassLoader().getResource( "game/data/models/dwarf/dwarf2.jpg" ),
-                Texture.MinificationFilter.Trilinear,
-                Texture.MagnificationFilter.Bilinear);
-        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        ts.setEnabled(true);
-        ts.setTexture(texture);
-		model.setRenderState( ts );
-        
-		texture = TextureManager.loadTexture(
-                ModelLoader.class.getClassLoader().getResource( "game/data/models/dwarf/axe.jpg" ),
-                Texture.MinificationFilter.Trilinear,
-                Texture.MagnificationFilter.Bilinear);
-        TextureState ts1 = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        ts1.setEnabled(true);
-        ts1.setTexture(texture);
-		model.getChild("axe").setRenderState( ts1 );
+    	Node model = ModelLoader.loadModel("data/soldato/soldato.ms3d", "data/soldato/soldato.jpg", 1f, new Quaternion());
+        model.setLocalTranslation(0, -2f, 0);   
         
         for( String id : core.getPlayersId() ) {
-        	player = new PhysicsCharacter( id, this, 100, 100, model );
+        	player = new PhysicsCharacter( id, this, 20, 100, model );
             player.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
             rootNode.attachChild( player.getCharacterNode() );
             characters.put( player.id, player );
@@ -396,11 +356,22 @@ public class GraphicalWorld extends Game {
 	    fs.setQuality(FogState.Quality.PerVertex);
 	    rootNode.setRenderState(fs);
 	    
+	    createVegetation();
 	    createWorldBounds();
 	    buildSkyBox();
 	    setupEnergyPackages();
 	}
 	
+	private void createVegetation() {
+//		appesantisce un casino...anche un solo albero...bah!
+//		Node tree = ModelLoader.loadModel( "slashWork/game/data/Tree1.jme", "", .2f, 
+//				new Quaternion().fromAngleAxis( FastMath.HALF_PI, Vector3f.UNIT_Z ) );
+//		
+//		tree.setLocalTranslation( 130, 10, 130 );
+//		
+//		rootNode.attachChild( tree );
+	}
+
 	private void setupEnergyPackages() {
 		HashMap< String, Vector3f > hash = core.getEnergyPackagesPosition();
 		for( String id : hash.keySet() ) {

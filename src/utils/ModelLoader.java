@@ -3,6 +3,7 @@ package utils;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +20,8 @@ import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 import com.jme.util.export.binary.BinaryImporter;
 import com.jme.util.export.xml.XMLImporter;
+import com.jme.util.resource.ResourceLocatorTool;
+import com.jme.util.resource.SimpleResourceLocator;
 import com.jmex.model.converters.AseToJme;
 import com.jmex.model.converters.FormatConverter;
 import com.jmex.model.converters.MaxToJme;
@@ -62,6 +65,20 @@ public class ModelLoader {
 	 */
 	public static Node loadModel( String modelPath, String texturePath, float scaleFactor, Quaternion rotation ){
 
+	    try {
+	        ResourceLocatorTool.addResourceLocator(
+	                ResourceLocatorTool.TYPE_TEXTURE,
+	                new SimpleResourceLocator( ModelLoader.class
+	                        .getClassLoader().getResource( texturePath )));
+	        ResourceLocatorTool.addResourceLocator(
+	                ResourceLocatorTool.TYPE_TEXTURE,
+	                new SimpleResourceLocator( ModelLoader.class
+	                        .getClassLoader().getResource(
+	                                "game/data/texture/")));
+	        } catch (URISyntaxException e1) {
+	            logger.log(Level.WARNING, "unable to setup texture directories.", e1);
+	       }
+		
 		Node model = null;
 		converter = null;
 		xmlImporter = null;
