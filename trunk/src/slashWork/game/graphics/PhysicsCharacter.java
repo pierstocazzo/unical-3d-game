@@ -531,7 +531,6 @@ public class PhysicsCharacter {
 	 */
 	public void shoot( Vector3f direction ) {
 		world.bulletsCounter = world.bulletsCounter + 1;
-		world.shootSound.play();
 		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
 				world.getCore().getCharacterWeapon(id), 
 				world.getCam().getLocation().add( world.getCam().getDirection().mult( 5 ) ) );

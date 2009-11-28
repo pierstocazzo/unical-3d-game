@@ -128,9 +128,10 @@ public class PhysicsEnemy extends PhysicsCharacter {
 	@Override
 	public void die() {
 		ParticleMesh explosion = ExplosionFactory.getExplosion();
-		explosion.setOriginOffset( feet.getLocalTranslation().clone());
+		explosion.setOriginOffset( feet.getWorldTranslation().clone() );
 		explosion.forceRespawn();
 		world.getRootNode().attachChild(explosion);
+		
 		PhysicsAmmoPackage ammo = new PhysicsAmmoPackage( id + "ammoPack", world, world.getCore().getAmmoPack( id + "ammoPack" ).getPosition() );
 		world.ammoPackages.put( ammo.id, ammo );
 		super.die();
