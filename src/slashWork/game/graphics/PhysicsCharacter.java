@@ -85,7 +85,7 @@ public class PhysicsCharacter {
     /** true if the character is shooting */
     boolean shooting = false;
 
-	private float previousTime;
+	float previousTime;
 
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
@@ -218,10 +218,10 @@ public class PhysicsCharacter {
 		    moveCharacter();
 		    
 		    if( isShooting() ) {
-		    	if( world.timer.getTimeInSeconds() - previousTime > 1  ) {
+//		    	if( world.timer.getTimeInSeconds() - previousTime > 0.1  ) {
 		    		shoot( world.getCam().getDirection() );
-		    		previousTime = world.timer.getTimeInSeconds();
-		    	}
+//		    		previousTime = world.timer.getTimeInSeconds();
+//		    	}
 		    }
 		   
 		    // update core
@@ -531,6 +531,7 @@ public class PhysicsCharacter {
 	 */
 	public void shoot( Vector3f direction ) {
 		world.bulletsCounter = world.bulletsCounter + 1;
+		world.shootSound.play();
 		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
 				world.getCore().getCharacterWeapon(id), 
 				world.getCam().getLocation().add( world.getCam().getDirection().mult( 5 ) ) );
