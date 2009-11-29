@@ -140,6 +140,9 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
 				world.getCore().getCharacterWeapon(id), bulletPosition );
 		world.bullets.put( bullet.id, bullet );
+		
+		world.shoot.setWorldPosition( feet.getWorldTranslation() );
+		world.shoot.play();
 	}
 	
 	@Override
@@ -148,7 +151,7 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		explosion.setOriginOffset( feet.getWorldTranslation().clone() );
 		explosion.forceRespawn();
 		world.getRootNode().attachChild(explosion);
-		
+
 		PhysicsAmmoPackage ammo = new PhysicsAmmoPackage( id + "ammoPack", world, world.getCore().getAmmoPack( id + "ammoPack" ).getPosition() );
 		world.ammoPackages.put( ammo.id, ammo );
 		super.die();

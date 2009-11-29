@@ -4,11 +4,14 @@ import slashWork.game.base.Game;
 import slashWork.game.input.PhysicsInputHandler;
 import slashWork.game.test.testGame;
 
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
+
+import jmetest.TutorialGuide.TestPongCool;
 
 import utils.ModelLoader;
 
@@ -30,6 +33,10 @@ import com.jme.scene.shape.Pyramid;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
 import com.jme.util.TextureManager;
+import com.jmex.audio.AudioSystem;
+import com.jmex.audio.AudioTrack;
+import com.jmex.audio.AudioTrack.TrackType;
+import com.jmex.audio.MusicTrackQueue.RepeatType;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
 import com.jmex.terrain.TerrainBlock;
@@ -91,6 +98,14 @@ public class GraphicalWorld extends Game {
 	Text gameOver;
 	Text fps;
 	
+	/** audio controller */
+	AudioSystem audio;
+	
+	public AudioTrack shoot;
+	public AudioTrack explosion;
+	public AudioTrack death;
+	
+	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
 	 * 
@@ -133,6 +148,48 @@ public class GraphicalWorld extends Game {
 		
         pause = true;
     }
+    
+    private void initSound() {
+		// grab a handle to our audio system.
+		audio = AudioSystem.getSystem();
+
+		// setup our ear tracker to track the camera's position and orientation.
+		audio.getEar().trackOrientation(cam);
+		audio.getEar().trackPosition(cam);
+
+		// setup a music score for our demo
+		AudioTrack music1 = getMusic(TestPongCool.class.getResource("/slashWork/game/data/audio/game.ogg"));
+		audio.getMusicQueue().setRepeatType(RepeatType.ALL);
+		audio.getMusicQueue().setCrossfadeinTime(2.5f);
+		audio.getMusicQueue().setCrossfadeoutTime(2.5f);
+		audio.getMusicQueue().addTrack(music1);
+		audio.getMusicQueue().play();
+
+		shoot = audio.createAudioTrack("/slashWork/game/data/audio/mp5.ogg", false);
+		shoot.setRelative(true);
+		shoot.setMaxAudibleDistance(100000);
+		shoot.setVolume(.7f);
+		
+		explosion = audio.createAudioTrack("/slashWork/game/data/audio/explosion.ogg", false);
+		explosion.setRelative(true);
+		explosion.setMaxAudibleDistance(100000);
+		explosion.setVolume(4.0f);
+		
+		death = audio.createAudioTrack("/slashWork/game/data/audio/death.ogg", false);
+		death.setRelative(true);
+		death.setMaxAudibleDistance(100000);
+		death.setVolume(4.0f);
+    }
+    
+	private AudioTrack getMusic(URL resource) {
+		// Create a non-streaming, non-looping, relative sound clip.
+		AudioTrack sound = AudioSystem.getSystem().createAudioTrack(resource, true);
+		sound.setType(TrackType.MUSIC);
+		sound.setRelative(true);
+		sound.setTargetVolume(0.7f);
+		sound.setLooping(false);
+		return sound;
+	}
     
     /** Create graphic characters
      *  and place them in positions setted in the logic game
@@ -179,7 +236,7 @@ public class GraphicalWorld extends Game {
     protected void update() {
 		if( !enabled )
 			return;
-		
+		audio.update();
     	if( core.isAlive( player.id ) == false ) {
     		life.print( "Life: 0" );
     		gameOver();
@@ -212,6 +269,10 @@ public class GraphicalWorld extends Game {
         gameOver.setTextColor( ColorRGBA.red );
 		gameOver.setLocalTranslation(new Vector3f(display.getWidth() / 2f - gameOver.getWidth() / 2,
 				display.getHeight() / 2f - gameOver.getHeight() / 2, 0));
+		
+		death.setWorldPosition( cam.getLocation() );
+		death.play();
+		
 		enabled = false;
 		pause = true;
 	}
@@ -270,6 +331,7 @@ public class GraphicalWorld extends Game {
 
 	public void setupEnvironment() {
 		// TODO ambientazione
+		initSound();
 		
 	    rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
 	

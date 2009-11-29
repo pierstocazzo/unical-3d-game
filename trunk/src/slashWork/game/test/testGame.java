@@ -16,7 +16,7 @@ public class testGame {
     	logicGame.createPlayer( 100, new Vector3f( 160, 10, 160 ) );
     	logicGame.createEnemy( new Vector3f( 100, 10, 100 ), MovementType.REST );
     	logicGame.createEnemiesGroup( 3, new Vector3f( 50, 10, 50 ) );
-    	logicGame.createEnemiesGroup( 7, new Vector3f( 220, 10, 220 ) );
+    	logicGame.createEnemiesGroup( 4, new Vector3f( 220, 10, 220 ) );
 //    	logicGame.createEnemiesGroup( 5, new Vector3f( 250, 10, 250 ) );
 //    	
 //    	logicGame.createEnemiesGroup( 20, new Vector3f( 1000, 10, 1000 ) );

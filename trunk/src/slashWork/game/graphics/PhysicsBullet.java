@@ -7,7 +7,9 @@ import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.util.SyntheticButton;
 import com.jme.math.Vector3f;
+import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
+import com.jme.scene.shape.Sphere;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 import com.jmex.physics.geometry.PhysicsSphere;
@@ -61,6 +63,11 @@ public class PhysicsBullet {
 		physicsBullet.attachChild( bulletGeometry );
 		bullet.attachChild( physicsBullet );
 		bullet.setLocalTranslation( position );
+		
+		Sphere s = new Sphere( id, 10, 10, 0.05f );
+		s.setDefaultColor( ColorRGBA.yellow );
+		physicsBullet.attachChild( s );
+		
 		world.getRootNode().attachChild( bullet );
 		
 		contactDetection();

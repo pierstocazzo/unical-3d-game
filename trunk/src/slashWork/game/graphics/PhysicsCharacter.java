@@ -218,10 +218,10 @@ public class PhysicsCharacter {
 		    moveCharacter();
 		    
 		    if( isShooting() ) {
-//		    	if( world.timer.getTimeInSeconds() - previousTime > 0.1  ) {
+		    	if( world.timer.getTimeInSeconds() - previousTime > 0.1  ) {
+		    		previousTime = world.timer.getTimeInSeconds();
 		    		shoot( world.getCam().getDirection() );
-//		    		previousTime = world.timer.getTimeInSeconds();
-//		    	}
+		    	}
 		    }
 		   
 		    // update core
@@ -260,6 +260,8 @@ public class PhysicsCharacter {
 	
 	public void die() {
     	clearDynamics();
+    	world.explosion.setWorldPosition( feet.getWorldTranslation() );
+    	world.explosion.play();
 //    	TODO explosion
     	
     	body.detachAllChildren();
@@ -549,5 +551,7 @@ public class PhysicsCharacter {
 				world.getCore().getCharacterWeapon(id), 
 				world.getCam().getLocation().add( world.getCam().getDirection().mult( 6 ) ) );
 		world.bullets.put( bullet.id, bullet );
+		world.shoot.setWorldPosition( feet.getWorldTranslation() );
+		world.shoot.play();
 	}
 }
