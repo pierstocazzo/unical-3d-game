@@ -103,16 +103,19 @@ public class PhysicsEnemy extends PhysicsCharacter {
     
     @Override
 	void lookAtAction() {
-    	if( world.getCore().getEnemyShootDirection(id).equals( Vector3f.ZERO ) ) {
+    	Vector3f lookAtDirection = new Vector3f( world.getCore().getEnemyShootDirection(id) );
+    	if( lookAtDirection.equals( Vector3f.ZERO ) ) {
 	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
 	        moveDirection.set( currentMovement.getDirection().toVector() );
 	        vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
 	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
     	} else {
 	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-	        vectorToLookAt.addLocal( world.getCore().getEnemyShootDirection(id).negate().x, 0, world.getCore().getEnemyShootDirection(id).negate().z );
+	        vectorToLookAt.addLocal( lookAtDirection.negate().x, 0, lookAtDirection.negate().z );
 	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
     	}
+    	
+    	lookAtDirection = null;
 	}
 
 	@Override
