@@ -8,5 +8,6 @@
   * Animazioni modello e armi - slash
   * Ambientazione e posizionamento gruppi di nemici - andrea/slash
   * Sistemare chase camera - joe
+  * Modelli 3d e animazioni - slash
   * Introdurre HUD e barra di caricamento - andrea/slash
   * Introdurre l'audio e gli effetti visivi - joe/andrea/slash
