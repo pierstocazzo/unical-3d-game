@@ -63,22 +63,7 @@ public class ModelLoader {
 	 * modello NB: <code>new Quaternion()</code> per non ruotare
 	 * @return (Node) Ritorna il nodo a cui e' attaccato il modello 
 	 */
-	public static Node loadModel( String modelPath, String texturePath, float scaleFactor, Quaternion rotation ){
-
-	    try {
-	        ResourceLocatorTool.addResourceLocator(
-	                ResourceLocatorTool.TYPE_TEXTURE,
-	                new SimpleResourceLocator( ModelLoader.class
-	                        .getClassLoader().getResource( texturePath )));
-	        ResourceLocatorTool.addResourceLocator(
-	                ResourceLocatorTool.TYPE_TEXTURE,
-	                new SimpleResourceLocator( ModelLoader.class
-	                        .getClassLoader().getResource(
-	                                "game/data/texture/")));
-	        } catch (URISyntaxException e1) {
-	            logger.log(Level.WARNING, "unable to setup texture directories.", e1);
-	       }
-		
+	public static Node loadModel( String modelPath, String texturePath, float scaleFactor, Quaternion rotation ){		
 		Node model = null;
 		converter = null;
 		xmlImporter = null;
