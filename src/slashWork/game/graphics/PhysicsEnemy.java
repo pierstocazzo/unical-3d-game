@@ -55,10 +55,10 @@ public class PhysicsEnemy extends PhysicsCharacter {
 			world.getCore().updateEnemyState(id);
 			if( world.getCore().getEnemyState(id) == State.ATTACK ) {
 				//TODO set the correct animation
-//				if( world.timer.getTimeInSeconds() - previousTime > 0.1 /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
+				if( world.timer.getTimeInSeconds() - previousTime > 0.1f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
+					previousTime = world.timer.getTimeInSeconds();
 					shoot( world.getCore().getEnemyShootDirection(id) );
-//					previousTime = world.timer.getTimeInSeconds();
-//				}
+				}
 			}
 		}
 	}

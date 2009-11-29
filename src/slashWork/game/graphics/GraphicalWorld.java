@@ -140,7 +140,7 @@ public class GraphicalWorld extends Game {
     public void setupEnemies() { 	    	
         for( String id : core.getEnemiesId() ) {
             Node model = ModelLoader.loadModel("data/soldato/soldato.ms3d", "data/soldato/soldato.jpg", 1f, new Quaternion());
-            model.setLocalTranslation(0, -1.7f, 0);   
+            model.setLocalTranslation(0, -2f, 0);   
 
             PhysicsEnemy enemy = new PhysicsEnemy( id, this, 20, 100,  model );
         	enemy.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
@@ -225,6 +225,8 @@ public class GraphicalWorld extends Game {
 		while( it.hasNext() ) {
 			it.next().update(time);
 		}
+		c.clear();
+		c = null;
 	}
 	
 	/** Function updateBullets <br>
@@ -236,6 +238,8 @@ public class GraphicalWorld extends Game {
 		while( it.hasNext() ) {
 			it.next().update(time);
 		}
+		c.clear();
+		c = null;
 	}
 	
 	/** Function updateAmmoPackages <br>
@@ -247,6 +251,8 @@ public class GraphicalWorld extends Game {
     	while( it.hasNext() ) {
     		it.next().update(time);
     	}
+		c.clear();
+		c = null;
     }
     
 	/** Function updateEnergyPackages <br>
@@ -258,9 +264,13 @@ public class GraphicalWorld extends Game {
     	while( it.hasNext() ) {
     		it.next().update(time);
     	}
+		c.clear();
+		c = null;
     }
 
 	public void setupEnvironment() {
+		// TODO ambientazione
+		
 	    rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
 	
 	    DirectionalLight dr = new DirectionalLight();
