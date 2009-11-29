@@ -1,7 +1,5 @@
 package slashWork.game.core;
 
-import java.util.Random;
-
 import slashWork.game.enemyAI.MovementList;
 import slashWork.game.enemyAI.Movement;
 import slashWork.game.enemyAI.MovementList.MovementType;
@@ -30,9 +28,6 @@ public class LogicEnemy extends LogicCharacter {
 	
 	/** where to shoot */
 	Vector3f shootDirection;
-	
-	/** random used to set an error on the shootDirection */
-	Random r;
 
 	/**
 	 * <code>LogicEnemy</code> constructor<br>
@@ -52,7 +47,6 @@ public class LogicEnemy extends LogicCharacter {
 		this.state = state;
 		this.movements = new MovementList( movements );
 		this.shootDirection = new Vector3f();
-		r = new Random();
 	}
 	
 	public Movement getNextMovement() {
@@ -104,7 +98,7 @@ public class LogicEnemy extends LogicCharacter {
 		shootDirection.set( world.characters.get(playerId).position.subtract( position ).normalize() );
 		// aggiungo un certo errore ruotando il vettore di un angolo random tra 0 e 10 gradi 
 		// TODO diminuire l'errore possibile all'aumentare del livello
-		float angle = FastMath.DEG_TO_RAD * (r.nextFloat() % 10);
+		float angle = FastMath.DEG_TO_RAD * ( FastMath.rand.nextFloat() % 10 );
 		Quaternion q = new Quaternion().fromAngleAxis( angle, Vector3f.UNIT_Y );
 		q.mult( shootDirection, shootDirection );
 	}
