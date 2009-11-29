@@ -1,11 +1,16 @@
 package slashWork.game.graphics;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import jmetest.TutorialGuide.ExplosionFactory;
 import slashWork.game.core.State;
 import slashWork.game.enemyAI.Direction;
 import slashWork.game.enemyAI.Movement;
+import utils.TextLabel2D;
 
 import com.jme.math.Vector3f;
+import com.jme.scene.BillboardNode;
 import com.jme.scene.Node;
 import com.jmex.effects.particles.ParticleMesh;
 
@@ -47,6 +52,14 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		moveDirection.set( currentMovement.getDirection().toVector() );
 		vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
 		this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+		
+		TextLabel2D label = new TextLabel2D( id + ": " + world.getCore().getCharacterLife( id ) );
+		label.setBackground(Color.blue);
+		BillboardNode bNode = label.getBillboard(0.5f);
+		bNode.getLocalTranslation().y += 10;
+		bNode.setLocalScale( 3 );
+		
+		model.attachChild( bNode );
 	}
     
 	public void update( float time ) {
