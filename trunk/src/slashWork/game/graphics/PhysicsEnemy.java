@@ -1,7 +1,6 @@
 package slashWork.game.graphics;
 
 import java.awt.Color;
-import java.awt.Font;
 
 import jmetest.TutorialGuide.ExplosionFactory;
 import slashWork.game.core.State;
@@ -53,11 +52,13 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
 		this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 		
-		TextLabel2D label = new TextLabel2D( id + ": " + world.getCore().getCharacterLife( id ) );
-		label.setBackground(Color.blue);
+		TextLabel2D label = new TextLabel2D( id );
+		label.setBackground(Color.GREEN);
+		label.setFontResolution( 100 );
+		label.setForeground(Color.GREEN);
 		BillboardNode bNode = label.getBillboard(0.5f);
 		bNode.getLocalTranslation().y += 10;
-		bNode.setLocalScale( 3 );
+		bNode.setLocalScale( 5 );
 		
 		model.attachChild( bNode );
 	}
