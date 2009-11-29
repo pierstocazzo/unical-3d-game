@@ -526,6 +526,20 @@ public class PhysicsCharacter {
 	}
 
 	/**
+	 * @return true if the character is shooting
+	 */
+	public boolean isShooting() {
+		return shooting;
+	}
+
+	/**
+	 * @param shooting 
+	 */
+	public void setShooting( boolean shooting ) {
+		this.shooting = shooting;
+	}
+	
+	/**
 	 * 
 	 * @param direction - (Vector3f) the direction of the shoot
 	 */
@@ -533,21 +547,7 @@ public class PhysicsCharacter {
 		world.bulletsCounter = world.bulletsCounter + 1;
 		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
 				world.getCore().getCharacterWeapon(id), 
-				world.getCam().getLocation().add( world.getCam().getDirection().mult( 5 ) ) );
+				world.getCam().getLocation().add( world.getCam().getDirection().mult( 6 ) ) );
 		world.bullets.put( bullet.id, bullet );
-	}
-
-	/**
-	 * @return the shooting
-	 */
-	public boolean isShooting() {
-		return shooting;
-	}
-
-	/**
-	 * @param shooting the shooting to set
-	 */
-	public void setShooting( boolean shooting ) {
-		this.shooting = shooting;
 	}
 }

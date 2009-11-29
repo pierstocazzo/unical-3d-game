@@ -6,6 +6,8 @@ import slashWork.game.enemyAI.MovementList;
 import slashWork.game.enemyAI.Movement;
 import slashWork.game.enemyAI.MovementList.MovementType;
 
+import com.jme.math.FastMath;
+import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 
 /**
@@ -29,10 +31,8 @@ public class LogicEnemy extends LogicCharacter {
 	/** where to shoot */
 	Vector3f shootDirection;
 	
+	/** random used to set an error on the shootDirection */
 	Random r;
-
-	/** where to look */
-	Vector3f lookAt;
 
 	/**
 	 * <code>LogicEnemy</code> constructor<br>
@@ -52,7 +52,6 @@ public class LogicEnemy extends LogicCharacter {
 		this.state = state;
 		this.movements = new MovementList( movements );
 		this.shootDirection = new Vector3f();
-		this.lookAt = new Vector3f();
 		r = new Random();
 	}
 	
@@ -67,7 +66,7 @@ public class LogicEnemy extends LogicCharacter {
 	
 	public void updateState() {
 		float distance;
-		
+		shootDirection.set( Vector3f.ZERO );
 		for ( String playerId : world.getPlayersId() ) {
 			distance = position.distance( world.getCharacterPosition( playerId ) );
 			
@@ -100,12 +99,14 @@ public class LogicEnemy extends LogicCharacter {
 	}
 	
 	private void calculateShootDirection( String playerId ) {
-//		int x = r.nextInt( 3 ) / 2;
-//		int z = r.nextInt( 3 ) / 2;
-		shootDirection.set( position.subtract( world.characters.get(playerId).position ).normalize().negate() );
-		lookAt.set( shootDirection );
-//		shootDirection.setX( shootDirection.x + x );
-//		shootDirection.setZ( shootDirection.z + z );
+		// ottengo la shootdirection esatta sottraendo il vettore posizione del 
+		// nemico a quello del suo target (ovvero un player) 
+		shootDirection.set( world.characters.get(playerId).position.subtract( position ).normalize() );
+		// aggiungo un certo errore ruotando il vettore di un angolo random tra 0 e 10 gradi 
+		// TODO diminuire l'errore possibile all'aumentare del livello
+		float angle = FastMath.DEG_TO_RAD * (r.nextFloat() % 10);
+		Quaternion q = new Quaternion().fromAngleAxis( angle, Vector3f.UNIT_Y );
+		q.mult( shootDirection, shootDirection );
 	}
 
 	@Override
@@ -149,10 +150,6 @@ public class LogicEnemy extends LogicCharacter {
 	 */
 	public void setShootDirection(Vector3f shootDirection) {
 		this.shootDirection = shootDirection;
-	}
-	
-	public Vector3f getLookAtDirection() {
-		return lookAt;
 	}
 	
 	public void die() {
