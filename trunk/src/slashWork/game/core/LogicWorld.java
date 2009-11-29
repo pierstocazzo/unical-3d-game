@@ -63,7 +63,7 @@ public class LogicWorld implements WorldInterface {
 	 */
 	public void createEnemiesGroup( int numberOfEnemies, Vector3f area ) {
 		float x = area.getX();
-		float z = area.getY();
+		float z = area.getZ();
 
 		Random r = new Random();
 
