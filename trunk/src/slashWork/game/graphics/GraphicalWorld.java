@@ -11,8 +11,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
 
-import jmetest.TutorialGuide.TestPongCool;
-
 import utils.ModelLoader;
 
 import com.jme.bounding.BoundingBox;
@@ -150,19 +148,16 @@ public class GraphicalWorld extends Game {
     }
     
     private void initSound() {
-		// grab a handle to our audio system.
 		audio = AudioSystem.getSystem();
 
-		// setup our ear tracker to track the camera's position and orientation.
 		audio.getEar().trackOrientation(cam);
 		audio.getEar().trackPosition(cam);
 
-		// setup a music score for our demo
-		AudioTrack music1 = getMusic(TestPongCool.class.getResource("/slashWork/game/data/audio/game.ogg"));
+		AudioTrack backgroundMusic = getMusic( getClass().getResource("/slashWork/game/data/audio/game.ogg"));
 		audio.getMusicQueue().setRepeatType(RepeatType.ALL);
 		audio.getMusicQueue().setCrossfadeinTime(2.5f);
 		audio.getMusicQueue().setCrossfadeoutTime(2.5f);
-		audio.getMusicQueue().addTrack(music1);
+		audio.getMusicQueue().addTrack(backgroundMusic);
 		audio.getMusicQueue().play();
 
 		shoot = audio.createAudioTrack("/slashWork/game/data/audio/mp5.ogg", false);
@@ -543,35 +538,10 @@ public class GraphicalWorld extends Game {
 		return ground;
 	}
 	
-//	private void initSound() {
-//		// grab a handle to our audio system.
-//		audio = AudioSystem.getSystem();
-//
-//		// setup our ear tracker to track the camera's position and orientation.
-//		audio.getEar().trackOrientation(cam);
-//		audio.getEar().trackPosition(cam);
-//
-//		// setup a music score for our demo
-//		AudioTrack music1 = getMusic(TestPongCool.class.getResource("/jmetest/data/sound/test.ogg"));
-//		audio.getMusicQueue().setRepeatType(RepeatType.ALL);
-//		audio.getMusicQueue().setCrossfadeinTime(2.5f);
-//		audio.getMusicQueue().setCrossfadeoutTime(2.5f);
-//		audio.getMusicQueue().addTrack(music1);
-//		audio.getMusicQueue().play();
-//
-//		shootSound = audio.createAudioTrack("/jmetest/data/sound/explosion.ogg", false);
-//		shootSound.setRelative(true);
-//		shootSound.setMaxAudibleDistance(100000);
-//		shootSound.setVolume(1.0f);
-//	}
-//
-//	private AudioTrack getMusic(URL resource) {
-//		// Create a non-streaming, non-looping, relative sound clip.
-//		AudioTrack sound = AudioSystem.getSystem().createAudioTrack(resource, true);
-//		sound.setType(TrackType.MUSIC);
-//		sound.setRelative(true);
-//		sound.setTargetVolume(0.7f);
-//		sound.setLooping(false);
-//		return sound;
-//	}
+	protected void cleanup() {
+		super.cleanup();
+		if(AudioSystem.isCreated()) {
+			AudioSystem.getSystem().cleanup();
+		}
+	}
 }
