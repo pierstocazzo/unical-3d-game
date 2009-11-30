@@ -118,12 +118,12 @@ public class GamePanel extends JPanel {
 	 */
 	public void initImageFolder(){
 		imageFolder = new ArrayList<String>();
-		imageFolder.add("src/andreaFolder/img_menu/resume.png");
-		imageFolder.add("src/andreaFolder/img_menu/resume2.png");
-		imageFolder.add("src/andreaFolder/img_menu/save.png");
-		imageFolder.add("src/andreaFolder/img_menu/save2.png");
-		imageFolder.add("src/andreaFolder/img_menu/exit.png");
-		imageFolder.add("src/andreaFolder/img_menu/exit2.png");
+		imageFolder.add("src/game/data/images/menu/resume.png");
+		imageFolder.add("src/game/data/images/menu/resume2.png");
+		imageFolder.add("src/game/data/images/menu/save.png");
+		imageFolder.add("src/game/data/images/menu/save2.png");
+		imageFolder.add("src/game/data/images/menu/exit.png");
+		imageFolder.add("src/game/data/images/menu/exit2.png");
 	}
 
 	/**

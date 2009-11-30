@@ -32,7 +32,7 @@ public class SaveMenu extends JFrame {
 	public SaveMenu(GameMenu gm){
 		super();
 		this.gm = gm;
-		sfondo = Toolkit.getDefaultToolkit().getImage("src/andreaFolder/img_menu/background.jpg");
+		sfondo = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
 		
 		this.setSize(1000, 600);
 //		setDefaultLookAndFeelDecorated(true);
