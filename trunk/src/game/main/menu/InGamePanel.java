@@ -1,4 +1,4 @@
-package game.menu;
+package game.main.menu;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import javax.swing.JPanel;
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
-public class GamePanel extends JPanel {
+public class InGamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	/** current selected item */
 	public int current = 0;
@@ -21,7 +21,7 @@ public class GamePanel extends JPanel {
 	/** images of every items */
 	ArrayList<String> imageFolder;
 	/** Pointer to Game Menu (owner this panel)*/
-	GameMenu gm;
+	InGameMenu gm;
 	/** Pointer to Main Menu */
 	MainMenu mm;
 	
@@ -31,7 +31,7 @@ public class GamePanel extends JPanel {
 	 * @param gm - Game Menu
 	 * @param mm - Main Menu
 	 */
-	public GamePanel(GameMenu gm, MainMenu mm){
+	public InGamePanel(InGameMenu gm, MainMenu mm){
 		super();
 		this.gm = gm;
 		this.mm = mm;

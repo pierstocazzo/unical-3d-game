@@ -1,7 +1,9 @@
-package game.menu;
+package game.main;
+
+import game.main.menu.MainMenu;
 
 
-public class testSwing implements Runnable{
+public class MenuThread implements Runnable{
 	
 	ThreadController tc;
 

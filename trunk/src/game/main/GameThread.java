@@ -1,4 +1,4 @@
-package game.menu;
+package game.main;
 
 import game.core.LogicWorld;
 import game.enemyAI.MovementList.MovementType;
@@ -6,12 +6,12 @@ import game.graphics.GraphicalWorld;
 
 import com.jme.math.Vector3f;
 
-public class testGame implements Runnable {
+public class GameThread implements Runnable {
 
 	ThreadController tc;
-	LogicWorld logicGame;
+	public LogicWorld logicGame;
 	
-	public testGame(ThreadController tc) {
+	public GameThread(ThreadController tc) {
 		this.tc = tc;
 		logicGame = new LogicWorld();
     	logicGame.createPlayer( 100, new Vector3f( 160, 10, 160 ) );
@@ -24,7 +24,7 @@ public class testGame implements Runnable {
     	logicGame.createEnergyPackages( 10, 640, 640 );
 	}
 	
-	public testGame( ThreadController tc, LogicWorld logicGame ){
+	public GameThread( ThreadController tc, LogicWorld logicGame ){
 		this.tc = tc;
 		this.logicGame = logicGame;
 	}
