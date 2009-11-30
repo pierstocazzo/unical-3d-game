@@ -1,13 +1,18 @@
 package game.enemyAI;
 
-import java.util.Iterator;
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class MovementList{
+import game.enemyAI.Direction;
+import game.enemyAI.Movement;
+
+public class MovementList implements Serializable{
+	private static final long serialVersionUID = 1L;
 	
 	LinkedList<Movement> movements;
-	Iterator<Movement> it;
-	
+//	Iterator<Movement> it;
+	int curr = 0;
+	 
 	public MovementList( MovementType movementType ) {
 		
 		movements = new LinkedList<Movement>();
@@ -42,20 +47,26 @@ public class MovementList{
 			break;
 		}
 		
-		it = movements.iterator();
+//		it = movements.iterator();
+		curr = movements.indexOf(movements.getFirst());
 	}
 	
 	public Movement getNextMovement() {
-		if( it.hasNext() ) {
-			return it.next();
-		} else {
-			it = movements.iterator();
-			return it.next();
-		}
+//		if( it.hasNext() ) {
+//			return it.next();
+//		} else {
+//			it = movements.iterator();
+//			return it.next();
+//		}
+		if( curr + 1 >= movements.size())
+			curr = movements.indexOf(movements.getFirst());
+		else
+			curr = curr + 1;
+		return movements.get(curr);
 	}
  
 	
-	public enum MovementType {
+	public enum MovementType implements Serializable{
 		SMALL_PERIMETER,
 		
 		LARGE_PERIMETER,
