@@ -15,7 +15,10 @@ public class ShootAction extends MouseInputAction {
 
     public void performAction(InputActionEvent evt) {
     	if ( handler.getTarget().isFirstPerson() && evt.getTriggerPressed() ) {
-    		handler.getTarget().shoot( handler.getCamera().getDirection() );
+//    		handler.getTarget().shoot( handler.getCam().getDirection() );
+    		handler.getTarget().setShooting( true );
+    	} else {
+    		handler.getTarget().setShooting( false );
     	}
     }
 }

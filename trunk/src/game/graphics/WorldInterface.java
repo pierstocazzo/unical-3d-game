@@ -1,9 +1,13 @@
 package game.graphics;
 
 
-import game.core.EnumWeaponType;
 import game.enemyAI.Movement;
 
+import game.core.LogicAmmoPack;
+import game.core.State;
+import game.core.WeaponType;
+
+import java.util.HashMap;
 import java.util.Set;
 
 import com.jme.math.Vector3f;
@@ -13,6 +17,8 @@ import com.jme.math.Vector3f;
  */
 public interface WorldInterface {
 
+	public abstract int getCharacterLife( String id );
+	
 	/** Function <code>setCharacterPosition</code><br>
 	 * Update the position of the character with this id
 	 *  
@@ -38,6 +44,15 @@ public interface WorldInterface {
 	 *  returns the identificators of the logic characters
 	 */
 	public abstract Set<String> getEnemiesId();
+	
+	/**
+	 * 
+	 * @param id
+	 * @param type
+	 * @param quantity
+	 * @param position
+	 */
+	public abstract void createAmmoPack( String id, WeaponType type, int quantity, Vector3f position );
 
 	/** Function characterShoot()
 	 * call the shoot method of logic character
@@ -156,13 +171,13 @@ public interface WorldInterface {
 
 	/**
 	 *
-	 * @param id
+	 * @param id - (String) the id of the enemy
 	 */
 	public abstract Movement getEnemyNextMovement( String id );
 
 	/**
 	 *
-	 * @param id
+	 * @param id - (String) the id of the enemy
 	 * @return
 	 */
 	public abstract Movement getEnemyCurrentMovement( String id );
@@ -172,7 +187,45 @@ public interface WorldInterface {
 	 */
 	public abstract String printWorld();
 	
-	public abstract EnumWeaponType getCharacterWeapon( String id );
+	/**
+	 * 
+	 * @param id - (String) the id of the enemy
+	 * @return The type of weapon of this character
+	 */
+	public abstract WeaponType getCharacterWeapon( String id );
 
+	/**
+	 * 
+	 * @param id - (String) the id of the character
+	 * @return true if this character is alive
+	 */
 	public abstract boolean isAlive( String id );
+
+	/** 
+	 * Update the state of this enemy
+	 * @param id - (String) the id of the enemy
+	 */
+	public abstract void updateEnemyState( String id );
+
+	/**
+	 * 
+	 * @param id - (String) the id of the enemy
+	 * @return The shoot direction of this enemy
+	 */
+	public abstract Vector3f getEnemyShootDirection( String id );
+
+	/** 
+	 * 
+	 * @param id - (String) the id of the enemy
+	 * @return The current state of this enemy
+	 */
+	public abstract State getEnemyState( String id );
+
+	public abstract boolean catchAmmoPack( String playerId, String ammoPackId );
+
+	public abstract void catchEnergyPack( String playerId, String energyPackId );
+
+	public abstract LogicAmmoPack getAmmoPack( String ammoPackId );
+
+	public abstract HashMap<String, Vector3f> getEnergyPackagesPosition();
 }
