@@ -130,16 +130,16 @@ public class MainPanel extends JPanel {
 	 */
 	public void initImageFolder(){
 		imageFolder = new ArrayList<String>();
-		imageFolder.add("src/andreaFolder/img_menu/newgame.png");
-		imageFolder.add("src/andreaFolder/img_menu/newgame2.png");
-		imageFolder.add("src/andreaFolder/img_menu/load.png");
-		imageFolder.add("src/andreaFolder/img_menu/load2.png");
-		imageFolder.add("src/andreaFolder/img_menu/options.png");
-		imageFolder.add("src/andreaFolder/img_menu/options2.png");
-		imageFolder.add("src/andreaFolder/img_menu/credits.png");
-		imageFolder.add("src/andreaFolder/img_menu/credits2.png");
-		imageFolder.add("src/andreaFolder/img_menu/exit.png");
-		imageFolder.add("src/andreaFolder/img_menu/exit2.png");
+		imageFolder.add("src/game/data/images/menu/newgame.png");
+		imageFolder.add("src/game/data/images/menu/newgame2.png");
+		imageFolder.add("src/game/data/images/menu/load.png");
+		imageFolder.add("src/game/data/images/menu/load2.png");
+		imageFolder.add("src/game/data/images/menu/options.png");
+		imageFolder.add("src/game/data/images/menu/options2.png");
+		imageFolder.add("src/game/data/images/menu/credits.png");
+		imageFolder.add("src/game/data/images/menu/credits2.png");
+		imageFolder.add("src/game/data/images/menu/exit.png");
+		imageFolder.add("src/game/data/images/menu/exit2.png");
 	}
 
 	/**

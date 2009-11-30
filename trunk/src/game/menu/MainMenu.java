@@ -45,7 +45,7 @@ public class MainMenu extends JFrame {
 	public MainMenu(ThreadController tc){
 		super();
 		this.tc = tc;
-		background = Toolkit.getDefaultToolkit().getImage( "src/andreaFolder/img_menu/background.jpg" );
+		background = Toolkit.getDefaultToolkit().getImage( "src/game/data/images/menu/background.jpg" );
 		
 //		this.setSize(1000, 600);
 //		setDefaultLookAndFeelDecorated(true);
