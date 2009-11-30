@@ -1,15 +1,14 @@
 package game.graphics;
 
-import game.base.CustomGame;
+import game.base.Game;
 import game.input.PhysicsInputHandler;
-import game.test.testGame;
+import game.menu.ThreadController;
 
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Set;
-import java.util.logging.Logger;
-
 import javax.swing.ImageIcon;
 
 import utils.ModelLoader;
@@ -31,88 +30,172 @@ import com.jme.scene.Spatial.TextureCombineMode;
 import com.jme.scene.shape.Pyramid;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
-import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
+import com.jmex.audio.AudioSystem;
+import com.jmex.audio.AudioTrack;
+import com.jmex.audio.AudioTrack.TrackType;
+import com.jmex.audio.MusicTrackQueue.RepeatType;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
 import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 
-public class GraphicalWorld extends CustomGame {
-
-	static final Logger logger = Logger.getLogger(ModelLoader.class.getName());
+/** Class GraphicalWorld <br>
+ * The main graphics class which contains all the graphical objects and characters
+ * 
+ * @author Giuseppe Leone, Salvatore Loria, Andrea Martire
+ */
+public class GraphicalWorld extends Game {
 	
+	/** an interface to communicate with the application core */
 	WorldInterface core;
 	
+	/** a custom input handler to control the player */
     PhysicsInputHandler physicsInputHandler;
     
+    /** the world's ground */
     StaticPhysicsNode ground;
+    
+    /** the world's terrain attached to the ground node */
+    TerrainBlock terrain;
+    
+    /** the game's bounds, a physics box that contains the scene */
     StaticPhysicsNode gameBounds;
     
+    /** hashmap of the characters */
     HashMap< String, PhysicsCharacter > characters; 
     
-    int bulletsCounter = 0;
+    /** hashmap of the bullets */
 	HashMap< String, PhysicsBullet > bullets;
+    int bulletsCounter = 0;
     
+    /** hashmap of the ammo packages */
+	HashMap< String, PhysicsAmmoPackage > ammoPackages;
+    int ammoPackagesCounter = 0;
+    
+    /** hashmap of the energy packages */
+	HashMap< String, PhysicsEnergyPackage > energyPackages;
+    int energyPackagesCounter = 0;
+    
+    /** the player, in single player mode */
     PhysicsCharacter player;
 
-    TerrainBlock terrain;
-
-	private Skybox skybox;
+    /** the sky */
+	Skybox skybox;
 	
+	/** x and z dimension of the world */
 	Vector2f worldDimension;
-	
 
-	public GraphicalWorld( WorldInterface core, int x, int y ) {
+	/** set to false when you don't want to do the world update */
+	boolean enabled = true;
+	
+	/** basic basic hud */
+	Text life;
+	Text crosshair;
+	Text gameOver;
+	Text fps;
+	
+	/** audio controller */
+	AudioSystem audio;
+	
+	public AudioTrack shoot;
+	public AudioTrack explosion;
+	public AudioTrack death;
+	
+	
+	/** GraphicalWorld constructor <br>
+	 * Initialize the game graphics
+	 * 
+	 * @param core - (WorldInterface) 
+	 * @param x - (int) the x dimension of the world
+	 * @param z - (int) the z dimension of the world
+	 */
+	public GraphicalWorld( WorldInterface core, ThreadController tc, int x, int z ) {
 		setCore( core );
-		characters = new HashMap<String, PhysicsCharacter>();
-		bullets = new HashMap<String, PhysicsBullet>();
-		worldDimension = new Vector2f( x, y );
+		super.threadController = tc;
+		worldDimension = new Vector2f( x, z );
 	}
 	
-	@Override
-    protected void setupInit() {
+    public void setupInit() {
+		characters = new HashMap<String, PhysicsCharacter>();
+		bullets = new HashMap<String, PhysicsBullet>();
+		ammoPackages = new HashMap<String, PhysicsAmmoPackage>();
+		energyPackages = new HashMap<String, PhysicsEnergyPackage>();
+		
         ground = getPhysicsSpace().createStaticNode();
         gameBounds = getPhysicsSpace().createStaticNode();
         
         rootNode.attachChild(ground);
         rootNode.attachChild(gameBounds);
         
+    	life = Text.createDefaultTextLabel( "life" );
+    	life.setLocalTranslation( 20, 20, 0 );
+    	rootNode.attachChild( life );
+    	
+		crosshair = Text.createDefaultTextLabel( "crosshair" );
+		crosshair.setLocalTranslation(new Vector3f(display.getWidth() / 2f - 8f,
+				display.getHeight() / 2f - 8f, 0));
+		rootNode.attachChild(crosshair);
+        
+		gameOver = Text.createDefaultTextLabel( "gameOver" );
+		rootNode.attachChild(gameOver);
+		
+		fps = Text.createDefaultTextLabel( "life" );
+    	fps.setLocalTranslation( 20, 40, 0 );
+    	rootNode.attachChild( fps );
+		
         pause = true;
     }
+    
+    private void initSound() {
+		audio = AudioSystem.getSystem();
 
+		audio.getEar().trackOrientation(cam);
+		audio.getEar().trackPosition(cam);
+
+		AudioTrack backgroundMusic = getMusic( getClass().getResource("/slashWork/game/data/audio/game.ogg"));
+		audio.getMusicQueue().setRepeatType(RepeatType.ALL);
+		audio.getMusicQueue().setCrossfadeinTime(2.5f);
+		audio.getMusicQueue().setCrossfadeoutTime(2.5f);
+		audio.getMusicQueue().addTrack(backgroundMusic);
+		audio.getMusicQueue().play();
+
+		shoot = audio.createAudioTrack("/slashWork/game/data/audio/mp5.ogg", false);
+		shoot.setRelative(true);
+		shoot.setMaxAudibleDistance(100000);
+		shoot.setVolume(.7f);
+		
+		explosion = audio.createAudioTrack("/slashWork/game/data/audio/explosion.ogg", false);
+		explosion.setRelative(true);
+		explosion.setMaxAudibleDistance(100000);
+		explosion.setVolume(4.0f);
+		
+		death = audio.createAudioTrack("/slashWork/game/data/audio/death.ogg", false);
+		death.setRelative(true);
+		death.setMaxAudibleDistance(100000);
+		death.setVolume(4.0f);
+    }
+    
+	private AudioTrack getMusic(URL resource) {
+		// Create a non-streaming, non-looping, relative sound clip.
+		AudioTrack sound = AudioSystem.getSystem().createAudioTrack(resource, true);
+		sound.setType(TrackType.MUSIC);
+		sound.setRelative(true);
+		sound.setTargetVolume(0.7f);
+		sound.setLooping(false);
+		return sound;
+	}
+    
     /** Create graphic characters
      *  and place them in positions setted in the logic game
      */
-    @Override
-    protected void setupEnemies() { 	    	
-    	Set<String> ids = core.getEnemiesId();
-        
-        for( String id : ids ) {
-        	
-            Node model = ModelLoader.loadModel("game/data/models/dwarf/dwarf1.ms3d", "", 0.1f, new Quaternion());
-            model.setLocalTranslation(0, -1.7f, 0);   
-        	
-    		Texture texture = TextureManager.loadTexture(
-                    ModelLoader.class.getClassLoader().getResource( "game/data/models/dwarf/dwarf.jpg" ),
-                    Texture.MinificationFilter.Trilinear,
-                    Texture.MagnificationFilter.Bilinear);
-            TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-            ts.setEnabled(true);
-            ts.setTexture(texture);
-    		model.setRenderState( ts );
-            
-    		texture = TextureManager.loadTexture(
-                    ModelLoader.class.getClassLoader().getResource( "game/data/models/dwarf/axe.jpg" ),
-                    Texture.MinificationFilter.Trilinear,
-                    Texture.MagnificationFilter.Bilinear);
-            TextureState ts1 = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-            ts1.setEnabled(true);
-            ts1.setTexture(texture);
-    		model.getChild("axe").setRenderState( ts1 );
+    public void setupEnemies() { 	    	
+        for( String id : core.getEnemiesId() ) {
+            Node model = ModelLoader.loadModel("data/soldato/soldato.ms3d", "data/soldato/soldato.jpg", 1f, new Quaternion());
+            model.setLocalTranslation(0, -2f, 0);   
 
-            PhysicsEnemy enemy = new PhysicsEnemy( id, this, 40, 100,  model );
+            PhysicsEnemy enemy = new PhysicsEnemy( id, this, 20, 100,  model );
         	enemy.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
         	characters.put( id, enemy );
         	rootNode.attachChild( characters.get(id).getCharacterNode() );
@@ -122,131 +205,130 @@ public class GraphicalWorld extends CustomGame {
     /** Create graphic players
      *  and place them in positions setted in the logic game
      */
-    @Override
-    protected void setupPlayer() {
+    public void setupPlayer() {
     	
-        Node model = ModelLoader.loadModel("game/data/models/dwarf/dwarf2.ms3d", "", 0.1f, new Quaternion());
-        model.setLocalTranslation(0, -1.7f, 0);   
+    	Node model = ModelLoader.loadModel("data/soldato/soldato.ms3d", "data/soldato/soldato.jpg", 1f, new Quaternion());
+        model.setLocalTranslation(0, -2f, 0);   
         
-		Texture texture = TextureManager.loadTexture(
-                ModelLoader.class.getClassLoader().getResource( "game/data/models/dwarf/dwarf2.jpg" ),
-                Texture.MinificationFilter.Trilinear,
-                Texture.MagnificationFilter.Bilinear);
-        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        ts.setEnabled(true);
-        ts.setTexture(texture);
-		model.setRenderState( ts );
-        
-		texture = TextureManager.loadTexture(
-                ModelLoader.class.getClassLoader().getResource( "game/data/models/dwarf/axe.jpg" ),
-                Texture.MinificationFilter.Trilinear,
-                Texture.MagnificationFilter.Bilinear);
-        TextureState ts1 = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        ts1.setEnabled(true);
-        ts1.setTexture(texture);
-		model.getChild("axe").setRenderState( ts1 );
-        
-    	Set<String> ids = core.getPlayersId();
-    	
-        for( String id : ids ) {
-        	player = new PhysicsCharacter( id, this, 1000, 100, model );
+        for( String id : core.getPlayersId() ) {
+        	player = new PhysicsCharacter( id, this, 20, 100, model );
             player.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
             rootNode.attachChild( player.getCharacterNode() );
             characters.put( player.id, player );
         }
     }
-
-    @Override
-    protected void setupCamera() {
+    
+    public void setupCamera() {
         cam.setLocation(new Vector3f(160,30,160));
         cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, 1000);
         cam.update();
     }
 
-    @Override
-    protected void setupInput() {
+    public void setupInput() {
         physicsInputHandler = new PhysicsInputHandler( player, cam );
     }
 
-    @Override
+	@Override
     protected void update() {
-    	updateCharacters(tpf);
-        physicsInputHandler.update(tpf);
-        
-        updateBullets(tpf);
-        
-        skybox.setLocalTranslation(cam.getLocation());
-        skybox.updateGeometricState(0, false);
+		if( !enabled )
+			return;
+		audio.update();
+    	if( core.isAlive( player.id ) == false ) {
+    		life.print( "Life: 0" );
+    		gameOver();
+    	} else {
+    		life.print( "Life: " + core.getCharacterLife( player.id ) );
+    		
+	        physicsInputHandler.update(tpf);
+	        updateCharacters(tpf);
+	        
+	        if( player.isFirstPerson() ) {
+	        	crosshair.print( "+" );
+	        } else {
+	        	crosshair.print( "" );
+	        }
+	        
+	        updateBullets(tpf);
+	        updateAmmoPackages(tpf);
+	        updateEnergyPackages(tpf);
+	        
+	        skybox.setLocalTranslation(cam.getLocation());
+	        skybox.updateGeometricState( 0, false );
+    	}
+    	
+    	fps.print( "Frame Rate: " + (int) timer.getFrameRate() + "fps" );
     }
     
+	private void gameOver() {
+		gameOver.print( "Game Over" );
+        gameOver.setLocalScale( 3 );
+        gameOver.setTextColor( ColorRGBA.red );
+		gameOver.setLocalTranslation(new Vector3f(display.getWidth() / 2f - gameOver.getWidth() / 2,
+				display.getHeight() / 2f - gameOver.getHeight() / 2, 0));
+		
+		death.setWorldPosition( cam.getLocation() );
+		death.play();
+		
+		enabled = false;
+		pause = true;
+	}
+
 	/** Function updateCharacters<br>
 	 * Call the update method of each character contained in the characters hashMap
 	 */
 	private void updateCharacters( float time ) {
-		for( String id : characters.keySet() ) {
-			characters.get(id).update( time );
+		Collection<PhysicsCharacter> c = new LinkedList<PhysicsCharacter>( characters.values() );
+		Iterator<PhysicsCharacter> it = c.iterator();
+		while( it.hasNext() ) {
+			it.next().update(time);
 		}
-		
-		updateCharactersHashMap();
+		c.clear();
+		c = null;
 	}
 	
 	/** Function updateBullets <br>
 	 * Call the update method of each bullet contained in the bullets hashMap
 	 */
 	private void updateBullets( float time ) {
-		Set<String> ids = bullets.keySet();
-		for( String id : ids ) {
-			bullets.get(id).update( time );
+		Collection<PhysicsBullet> c = new LinkedList<PhysicsBullet>( bullets.values() );
+		Iterator<PhysicsBullet> it = c.iterator();
+		while( it.hasNext() ) {
+			it.next().update(time);
 		}
-		
-		updateBulletsHashMap();
+		c.clear();
+		c = null;
 	}
+	
+	/** Function updateAmmoPackages <br>
+	 * Call the update method of each ammo pack contained in the ammoPackages hashMap
+	 */
+    public void updateAmmoPackages( float time ) {
+		Collection<PhysicsAmmoPackage> c = new LinkedList<PhysicsAmmoPackage>( ammoPackages.values() );
+		Iterator<PhysicsAmmoPackage> it = c.iterator();
+    	while( it.hasNext() ) {
+    		it.next().update(time);
+    	}
+		c.clear();
+		c = null;
+    }
+    
+	/** Function updateEnergyPackages <br>
+	 * Call the update method of each energy pack contained in the energyPackages hashMap
+	 */
+    public void updateEnergyPackages( float time ) {
+		Collection<PhysicsEnergyPackage> c = new LinkedList<PhysicsEnergyPackage>( energyPackages.values() );
+		Iterator<PhysicsEnergyPackage> it = c.iterator();
+    	while( it.hasNext() ) {
+    		it.next().update(time);
+    	}
+		c.clear();
+		c = null;
+    }
 
-	/** Function updateBulletsHashMap
-	 * Update the bullets hashMap removing the detached bullets
-	 */
-	private void updateBulletsHashMap() {
-		Collection<PhysicsBullet> bulletsCollection = new LinkedList<PhysicsBullet>();
-		bulletsCollection.addAll( bullets.values() );
-		for( PhysicsBullet bullet : bulletsCollection ) {
-			if( !bullet.isActive() ) {
-				bullets.remove( bullet.id );
-				logger.info( bullet.id + " removed");
-			}
-		}
-	}
-	
-	/** Function updateCharactersHashMap
-	 * Update the characters hashMap removing the dead characters
-	 */
-	private void updateCharactersHashMap() {
-		Collection<PhysicsCharacter> charactersCollection = new LinkedList<PhysicsCharacter>();
-		charactersCollection.addAll( characters.values() );
-		for( PhysicsCharacter character : charactersCollection ) {
-			if( !character.isActive() ) {
-				characters.remove( character.id );
-				logger.info( character.id + " removed");
-			}
-		}
-	}
-	
-	/**
-	 * paints a crosshair
-	 */
-	private void paintCrossHair()
-	{
-		/** Create a + for the middle of the screen */
-		Text cross = new Text("Crosshairs", "+");
-		cross.setTextColor(ColorRGBA.white);
-		// 8 is half the width of a font char
-		/** Move the + to the middle */
-		cross.setLocalTranslation(new Vector3f(display.getWidth() / 2f - 8f,
-				display.getHeight() / 2f - 8f, 0));
-		rootNode.attachChild(cross);
-	}
-	
-	@Override
-	protected void setupEnvironment() {
+	public void setupEnvironment() {
+		// TODO ambientazione
+		initSound();
+		
 	    rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
 	
 	    DirectionalLight dr = new DirectionalLight();
@@ -259,9 +341,9 @@ public class GraphicalWorld extends CustomGame {
 	    lightState.attach(dr);
 	
 	    MidPointHeightMap heightMap = new MidPointHeightMap( 32, 1 );
-	    Vector3f terrainScale = new Vector3f( worldDimension.x/32, .004f, worldDimension.y/32 );
+	    Vector3f terrainScale = new Vector3f( worldDimension.x/32, .04f, worldDimension.y/32 );
 	    terrain = new TerrainBlock( "Terrain", heightMap.getSize(), terrainScale, 
-	    		heightMap.getHeightMap(), Vector3f.ZERO );
+	    		heightMap.getHeightMap(), new Vector3f( 0, 0, 0 ) );
 	
 	    terrain.setDetailTexture(1, 16);
 	    ground.attachChild(terrain);
@@ -269,11 +351,11 @@ public class GraphicalWorld extends CustomGame {
 	    ground.generatePhysicsGeometry(true);
 	
 	    ProceduralTextureGenerator pt = new ProceduralTextureGenerator(heightMap);
-	    pt.addTexture(new ImageIcon(testGame.class.getClassLoader().getResource(
+	    pt.addTexture(new ImageIcon( getClass().getClassLoader().getResource(
 	    		"game/data/texture/grassb.png" ) ), -128, 0, 200 );
-	    pt.addTexture(new ImageIcon(testGame.class.getClassLoader().getResource(
+	    pt.addTexture(new ImageIcon( getClass().getClassLoader().getResource(
 	    		"game/data/texture/dirt.jpg" ) ), 50, 200, 384 );
-//	    pt.addTexture(new ImageIcon(testGame.class.getClassLoader().getResource(
+//	    pt.addTexture(new ImageIcon( getClass().getClassLoader().getResource(
 //	    		"game/data/texture/highest.jpg" ) ), 128, 255, 384 );
 	
 	    pt.createTexture(512);
@@ -285,8 +367,7 @@ public class GraphicalWorld extends CustomGame {
 	    		Texture.MagnificationFilter.Bilinear, true);
 	    ts.setTexture(t1, 0);
 	
-	    Texture t2 = TextureManager.loadTexture(testGame.class
-	            .getClassLoader()
+	    Texture t2 = TextureManager.loadTexture( getClass().getClassLoader()
 	            .getResource("game/data/texture/Detail.jpg"),
 	            Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear);
 	    ts.setTexture(t2, 1);
@@ -323,7 +404,7 @@ public class GraphicalWorld extends CustomGame {
         p.setRenderState(treeTex);
         p.setTextureCombineMode(TextureCombineMode.Replace);
         
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
         	Spatial s1 = new SharedMesh("tree"+i, p);
             float x = (float) Math.random() * 128 * 5;
             float z = (float) Math.random() * 128 * 5;
@@ -342,44 +423,63 @@ public class GraphicalWorld extends CustomGame {
 	    fs.setQuality(FogState.Quality.PerVertex);
 	    rootNode.setRenderState(fs);
 	    
+	    createVegetation();
 	    createWorldBounds();
-	    paintCrossHair();
 	    buildSkyBox();
+	    setupEnergyPackages();
 	}
 	
+	private void createVegetation() {
+//		appesantisce un casino...anche un solo albero...bah!
+//		Node tree = ModelLoader.loadModel( "slashWork/game/data/Tree1.jme", "", .2f, 
+//				new Quaternion().fromAngleAxis( FastMath.HALF_PI, Vector3f.UNIT_Z ) );
+//		
+//		tree.setLocalTranslation( 130, 10, 130 );
+//		
+//		rootNode.attachChild( tree );
+	}
+
+	private void setupEnergyPackages() {
+		HashMap< String, Vector3f > hash = core.getEnergyPackagesPosition();
+		for( String id : hash.keySet() ) {
+			PhysicsEnergyPackage e = new PhysicsEnergyPackage( id, this, hash.get(id) );
+			energyPackages.put( e.id, e );
+		}
+	}
+
 	private void buildSkyBox() {
         skybox = new Skybox("skybox", 10, 10, 10);
  
         Texture north = TextureManager.loadTexture(
-        		GraphicalWorld.class.getClassLoader().getResource(
-        		"game/data/texture/north.jpg"),
-        		Texture.MinificationFilter.BilinearNearestMipMap,
-        		Texture.MagnificationFilter.Bilinear);
+            GraphicalWorld.class.getClassLoader().getResource(
+            "game/data/texture/north.jpg"),
+            Texture.MinificationFilter.BilinearNearestMipMap,
+            Texture.MagnificationFilter.Bilinear);
         Texture south = TextureManager.loadTexture(
-        		GraphicalWorld.class.getClassLoader().getResource(
-        		"game/data/texture/south.jpg"),
-        		Texture.MinificationFilter.BilinearNearestMipMap,
-        		Texture.MagnificationFilter.Bilinear);
+        	GraphicalWorld.class.getClassLoader().getResource(
+            "game/data/texture/south.jpg"),
+            Texture.MinificationFilter.BilinearNearestMipMap,
+            Texture.MagnificationFilter.Bilinear);
         Texture east = TextureManager.loadTexture(
-        		GraphicalWorld.class.getClassLoader().getResource(
-        		"game/data/texture/east.jpg"),
-        		Texture.MinificationFilter.BilinearNearestMipMap,
-        		Texture.MagnificationFilter.Bilinear);
+        	GraphicalWorld.class.getClassLoader().getResource(
+            "game/data/texture/east.jpg"),
+            Texture.MinificationFilter.BilinearNearestMipMap,
+            Texture.MagnificationFilter.Bilinear);
         Texture west = TextureManager.loadTexture(
-        		GraphicalWorld.class.getClassLoader().getResource(
-        		"game/data/texture/west.jpg"),
-        		Texture.MinificationFilter.BilinearNearestMipMap,
-        		Texture.MagnificationFilter.Bilinear);
+        	GraphicalWorld.class.getClassLoader().getResource(
+            "game/data/texture/west.jpg"),
+            Texture.MinificationFilter.BilinearNearestMipMap,
+            Texture.MagnificationFilter.Bilinear);
         Texture up = TextureManager.loadTexture(
-        		GraphicalWorld.class.getClassLoader().getResource(
-        		"game/data/texture/top.jpg"),
-        		Texture.MinificationFilter.BilinearNearestMipMap,
-        		Texture.MagnificationFilter.Bilinear);
+        	GraphicalWorld.class.getClassLoader().getResource(
+            "game/data/texture/top.jpg"),
+            Texture.MinificationFilter.BilinearNearestMipMap,
+            Texture.MagnificationFilter.Bilinear);
         Texture down = TextureManager.loadTexture(
-        		GraphicalWorld.class.getClassLoader().getResource(
-        		"game/data/texture/bottom.jpg"),
-        		Texture.MinificationFilter.BilinearNearestMipMap,
-        		Texture.MagnificationFilter.Bilinear);
+        	GraphicalWorld.class.getClassLoader().getResource(
+            "game/data/texture/bottom.jpg"),
+            Texture.MinificationFilter.BilinearNearestMipMap,
+            Texture.MagnificationFilter.Bilinear);
  
         skybox.setTexture(Skybox.Face.North, north);
         skybox.setTexture(Skybox.Face.West, west);
@@ -438,4 +538,10 @@ public class GraphicalWorld extends CustomGame {
 		return ground;
 	}
 	
+	protected void cleanup() {
+		super.cleanup();
+		if(AudioSystem.isCreated()) {
+			AudioSystem.getSystem().cleanup();
+		}
+	}
 }

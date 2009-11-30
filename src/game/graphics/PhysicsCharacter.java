@@ -19,6 +19,15 @@ import com.jmex.physics.geometry.PhysicsCapsule;
 import com.jmex.physics.geometry.PhysicsSphere;
 import com.jmex.physics.material.Material;
 
+/** Class <code>PhysicsCharacter</code> <br>
+ * 
+ * Represents a graphical character affected by physics, with the ability to move
+ * by simply call the {@link #move( Vector3f direction )} function
+ * 
+ * @author Giuseppe Leone, Salvatore Loria, Andrea Martire
+ * 
+ * @see {@link game.input.PhysicsInputHandler}
+ */
 public class PhysicsCharacter {
 
 	/** the character identifier */
@@ -73,10 +82,11 @@ public class PhysicsCharacter {
     /** character firstPerson view */
     boolean firstPerson = false;
     
-    /** character status */
-    boolean active = true;
+    /** true if the character is shooting */
+    boolean shooting = false;
 
-    
+	float previousTime;
+
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
      * 
@@ -98,7 +108,7 @@ public class PhysicsCharacter {
         feetToBodyJoint = world.getPhysicsSpace().createJoint();
         rotationalAxis = feetToBodyJoint.createRotationalAxis();
 
-        this.moveDirection = new Vector3f( 0, 1, 0 );
+        this.moveDirection = new Vector3f( Vector3f.ZERO );
         this.speed = speed;
         this.mass = mass;
         this.model = model;
@@ -114,10 +124,10 @@ public class PhysicsCharacter {
 
         quaternion = new Quaternion();
         
-        this.rest();
-
         createPhysics();
         contactDetection();
+        
+        previousTime = 0;
     }
 
     /** Function <code>createPhysics</code> <p>
@@ -130,10 +140,10 @@ public class PhysicsCharacter {
 	 *  Also initialize animation controller and set the <i>"idle"</i> animation
 	 */
 	void createPhysics() {
-	
 	    // Create the feet
 	    PhysicsSphere feetGeometry = feet.createSphere("feet geometry");
 	    feetGeometry.setLocalScale(2);
+	    
 	    feet.setMaterial(characterMaterial);
 	    feet.computeMass();
 	
@@ -156,8 +166,8 @@ public class PhysicsCharacter {
 	    characterNode.attachChild(body);
 	
 	    // Create the joint
-	    rotationalAxis.setDirection(moveDirection);
-	    feetToBodyJoint.attach(body, feet);
+//	    rotationalAxis.setDirection(moveDirection);
+	    feetToBodyJoint.attach( body, feet );
 	    rotationalAxis.setRelativeToSecondObject(true);
 	    rotationalAxis.setAvailableAcceleration(0f);
 	    rotationalAxis.setDesiredVelocity(0f);
@@ -166,10 +176,14 @@ public class PhysicsCharacter {
 	    feet.setMass(mass);
 	
 	    // Set the jump direction
-	    jumpVector = new Vector3f(0, mass*400, 0);
+	    jumpVector = new Vector3f(0, mass*1000, 0);
 	    
 	    /** initialize the animation */ 
 		animationController = new CustomAnimationController( model.getController(0) );
+		
+        rest();
+        setRest( false );
+        setOnGround( false );
 	}
 
 	/** Function <code>move</code> <br>
@@ -178,24 +192,15 @@ public class PhysicsCharacter {
 	 * @param direction - (Vector3f) the direction of the character's movement
 	 */
 	public void move( Vector3f direction ) {
-//	    moveDirection.set( direction );
-	    
-	    if( world.getCore().getCharacterOnGround( id ) ) {
-	        if( direction != Vector3f.ZERO ){
-	            try{
-//	            	if( !direction.equals( moveDirection ) )
-//	            		clearDynamics();
-	            	moveDirection.set(direction);
-	            	// the rotational axis is orthogonal to the direction and
-	            	// to the Y axis. It's calculated using cross product
-	                rotationalAxis.setDirection( moveDirection.cross( Vector3f.UNIT_Y ) );
-	                rotationalAxis.setAvailableAcceleration( 30*speed );
-	                rotationalAxis.setDesiredVelocity( speed );
-	            } catch( Exception e ) {
-	                rotationalAxis.setDesiredVelocity(0f);
-	            }
-	        }
-	    }
+		try{
+			// the rotational axis is orthogonal to the direction and
+			// to the Y axis. It's calculated using cross product
+			rotationalAxis.setDirection( moveDirection.cross( Vector3f.UNIT_Y ) );
+			rotationalAxis.setAvailableAcceleration( 30*speed );
+			rotationalAxis.setDesiredVelocity( speed );
+		} catch( Exception e ) {
+			rotationalAxis.setDesiredVelocity(0f);
+		}
 	}
 
 	/** Function <code>update</code> <br>
@@ -204,13 +209,21 @@ public class PhysicsCharacter {
 	 */
 	public void update( float time ) {
 	    if( world.getCore().isAlive( id ) == true ) {
-		    this.rest();
-			
 			preventFall();
 		
 		    contactDetect.update(time);
 		    body.rest();
 		    lookAtAction();
+		    
+		    moveCharacter();
+		    
+		    if( isShooting() ) {
+		    	if( world.timer.getTimeInSeconds() - previousTime > 0.3f  ) {
+		    		previousTime = world.timer.getTimeInSeconds();
+		    		shoot( world.getCam().getDirection() );
+		    	}
+		    }
+		   
 		    // update core
 		    world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
 	    } else {
@@ -218,15 +231,45 @@ public class PhysicsCharacter {
 	    }
 	}
 
-	private void die() {
+	public void moveCharacter() {
+	    if( getOnGround() ) {
+			if( world.getCore().getCharacterMovingForward(id) ) {
+				moveDirection.set( world.getCam().getDirection() );
+				move( moveDirection );
+			} else if( world.getCore().getCharacterMovingBackward(id) ) {
+				moveDirection.set( world.getCam().getDirection().negate() );
+				move( moveDirection );
+			} else if( world.getCore().getCharacterStrafingLeft(id) ) {
+				moveDirection.set( world.getCam().getDirection().cross( Vector3f.UNIT_Y ).negate() );
+				move( moveDirection );
+			} else if( world.getCore().getCharacterStrafingRight(id) ) {
+				moveDirection.set( world.getCam().getDirection().cross( Vector3f.UNIT_Y ) );
+				move( moveDirection );
+			} else if( getOnGround() ) {
+				clearDynamics();
+			}
+	    }
+	}
+
+	public void hide( boolean b ) {
+		if( b ) 
+			body.detachChild( model );
+		else
+			body.attachChild( model );
+	}
+	
+	public void die() {
     	clearDynamics();
-//    	animationController.runAnimation( Animation.DIE );
-    	setActive( false );
-    	
+    	world.explosion.setWorldPosition( feet.getWorldTranslation() );
+    	world.explosion.play();
+//    	TODO explosion
     	body.detachAllChildren();
     	feet.detachAllChildren();
-    	
+    	feet.delete();
+    	body.delete();
     	world.getRootNode().detachChild( characterNode );
+    	
+    	world.characters.remove( id );
 	}
 
 	/** Function <code>lookAtAction</code> <br>
@@ -273,7 +316,7 @@ public class PhysicsCharacter {
     /** Function <code>rest</code> <p>
 	 * Set the character to the rest status
 	 */
-	private void rest() {
+	public void rest() {
 		world.getCore().characterRest(id);
 	}
 
@@ -294,7 +337,21 @@ public class PhysicsCharacter {
     	}
     }
 
-    /** Function <code>getCharacterNode</code> <br>
+    /**
+	 * @return the moveDirection
+	 */
+	public Vector3f getMoveDirection() {
+		return moveDirection;
+	}
+
+	/**
+	 * @param moveDirection the moveDirection to set
+	 */
+	public void setMoveDirection( Vector3f moveDirection ) {
+		this.moveDirection.set( moveDirection );
+	}
+
+	/** Function <code>getCharacterNode</code> <br>
      *  Return the main Node of the physics character
      * 
      * @return the main Node of the physics character
@@ -468,21 +525,21 @@ public class PhysicsCharacter {
 	public void setFirstPerson( boolean firstPerson ) {
 		this.firstPerson = firstPerson;
 	}
+
+	/**
+	 * @return true if the character is shooting
+	 */
+	public boolean isShooting() {
+		return shooting;
+	}
+
+	/**
+	 * @param shooting 
+	 */
+	public void setShooting( boolean shooting ) {
+		this.shooting = shooting;
+	}
 	
-	/**
-	 * @return the active
-	 */
-	public boolean isActive() {
-		return active;
-	}
-
-	/**
-	 * @param active the active to set
-	 */
-	public void setActive( boolean active ) {
-		this.active = active;
-	}
-
 	/**
 	 * 
 	 * @param direction - (Vector3f) the direction of the shoot
@@ -491,7 +548,9 @@ public class PhysicsCharacter {
 		world.bulletsCounter = world.bulletsCounter + 1;
 		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
 				world.getCore().getCharacterWeapon(id), 
-				world.getCam().getLocation().add( world.getCam().getDirection().mult( 5 ) ) );
+				world.getCam().getLocation().add( world.getCam().getDirection().mult( 6 ) ) );
 		world.bullets.put( bullet.id, bullet );
+		world.shoot.setWorldPosition( feet.getWorldTranslation() );
+		world.shoot.play();
 	}
 }

@@ -1,33 +1,24 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package game.input.action;
 
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
-import com.jme.math.Vector3f;
 import game.input.PhysicsInputHandler;
 
 /**
  *
- * @author joseph
  */
 public class PhysicsStrafeLeftAction extends InputAction {
     PhysicsInputHandler handler;
-    Vector3f direction;
 
-    public PhysicsStrafeLeftAction( PhysicsInputHandler handler, float speed ) {
+    public PhysicsStrafeLeftAction( PhysicsInputHandler handler ) {
         this.handler = handler;
-        this.handler.getTarget().setSpeed(speed);
     }
 
     public void performAction(InputActionEvent evt) {
-        handler.getTarget().setRest(false);
-        handler.getTarget().setStrafingLeft(true);
-        direction = handler.getCamera().getDirection().crossLocal( Vector3f.UNIT_Y ).negateLocal();
-        handler.getTarget().move( direction );
+    	if( evt.getTriggerPressed() ) {
+	        handler.getTarget().setStrafingLeft(true);
+    	} else {
+    		handler.getTarget().setStrafingLeft(false);
+    	}
     }
-
 }

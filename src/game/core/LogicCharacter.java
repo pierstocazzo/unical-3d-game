@@ -1,5 +1,7 @@
 package game.core;
 
+import java.io.Serializable;
+
 import game.enemyAI.Movement;
 
 import com.jme.math.Vector3f;
@@ -7,7 +9,8 @@ import com.jme.math.Vector3f;
 /**
  * Abstract Class LogicCharacter
  */
-public abstract class LogicCharacter {
+@SuppressWarnings("serial")
+public abstract class LogicCharacter implements Serializable {
 
 	/** Idenfitier */
 	String id;
@@ -21,9 +24,6 @@ public abstract class LogicCharacter {
 	/** Current Score of the player */
 	int score;
 	
-	/** Present LogicState */
-	EnumCharacterState currentState;
-
     /** Current Position Vector of the character */
 	Vector3f position;
 	
@@ -51,7 +51,6 @@ public abstract class LogicCharacter {
 		this.id = id;
 		this.maxLife = maxLife;
 		this.currentLife = maxLife;
-		this.currentState = EnumCharacterState.DEFAULT;
 		this.score = 0;
 		this.position = new Vector3f(position);
 		this.world = world;
@@ -77,18 +76,9 @@ public abstract class LogicCharacter {
 	 */
 	void removeLife( int removedLife ){
 		currentLife = currentLife - removedLife;
-		if( currentLife <= 0 ) {
+		if( currentLife < 0 ) {
 			this.die();
 		}
-	}
-	
-	/**
-	 * Change the current state.
-	 * 
-	 * @param newState - (State) the new state
-	 */
-	void setState( EnumCharacterState newState ){
-		currentState = newState;
 	}
 	
 	/**
@@ -141,15 +131,6 @@ public abstract class LogicCharacter {
 	}
 
 	/**
-	 * It return current state
-	 * 
-	 * @return currentState
-	 */
-	public EnumCharacterState getCurrState() {
-		return currentState;
-	}
-
-	/**
 	 * It return current score
 	 * 
 	 * @return score
@@ -192,8 +173,6 @@ public abstract class LogicCharacter {
 	}
 
 	public void die() {
-		currentState = EnumCharacterState.DEATH;
-		//TODO call the graphical die function
 		world.removeCharacter(id);
 	}
 	
@@ -221,6 +200,7 @@ public abstract class LogicCharacter {
     }
 
     public void setMovingForward( boolean movingForward ) {
+    	this.rest = !movingForward;
         this.movingForward = movingForward;
     }
 
@@ -229,6 +209,7 @@ public abstract class LogicCharacter {
     }
 
     public void setMovingBackward( boolean movingBackward ) {
+    	this.rest = !movingBackward;
         this.movingBackward = movingBackward;
     }
 
@@ -237,6 +218,7 @@ public abstract class LogicCharacter {
     }
 
     public void setStrafingLeft( boolean strafingLeft ) {
+    	this.rest = !strafingLeft;
         this.strafingLeft = strafingLeft;
     }
 
@@ -245,6 +227,7 @@ public abstract class LogicCharacter {
     }
 
     public void setStrafingRight( boolean strafingRight ) {
+    	this.rest = !strafingRight;
         this.strafingRight = strafingRight;
     }
 
@@ -253,6 +236,7 @@ public abstract class LogicCharacter {
     }
 
     public void setJumping( boolean jumping ) {
+    	this.rest = !jumping;
         this.jumping = jumping;
     }
 
@@ -266,5 +250,5 @@ public abstract class LogicCharacter {
 
 	public abstract Movement getNextMovement();
 	
-	public abstract EnumWeaponType getCurrentWeapon();
+	public abstract WeaponType getCurrentWeapon();
 }

@@ -20,13 +20,15 @@ public class PhysicsForwardAction extends InputAction {
 
     public PhysicsForwardAction( PhysicsInputHandler handler ) {
         this.handler = handler;
+        this.direction = new Vector3f();
     }
 
     public void performAction(InputActionEvent evt) {
-        handler.getTarget().setRest(false);
-        handler.getTarget().setMovingForward(true);
-        direction = handler.getCamera().getDirection();
-        handler.getTarget().move( direction );
+    	if( evt.getTriggerPressed() ) {
+	        handler.getTarget().setMovingForward(true);
+    	} else {
+    		handler.getTarget().setMovingForward(false);
+    	}
         
     }
 }

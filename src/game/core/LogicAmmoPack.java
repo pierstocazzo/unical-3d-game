@@ -1,13 +1,17 @@
 package game.core;
 
+import java.io.Serializable;
+
 import com.jme.math.Vector3f;
 
 /** Class <code>LogicAmmo</code> <br>
  * Represent pack of ammunitions the player can catch and use
  */
-public class LogicAmmo {
-	/** type of the weapon whitch can use this ammo */
-	private EnumWeaponType type;
+@SuppressWarnings("serial")
+public class LogicAmmoPack implements Serializable {
+	
+	/** type of the weapon which can use this ammo */
+	private WeaponType type;
 	
 	/** quantity of ammunition */
 	private int quantity;
@@ -22,7 +26,7 @@ public class LogicAmmo {
 	 * @param quantity - (int) quantity of ammunition the pack contains
 	 * @param position - (Vector3f) position of the ammo pack
 	 */
-	public LogicAmmo( EnumWeaponType type, int quantity, Vector3f position ){
+	public LogicAmmoPack( WeaponType type, int quantity, Vector3f position ){
 		this.type = type;
 		this.quantity = quantity;
 		this.position = position;
@@ -36,7 +40,7 @@ public class LogicAmmo {
 		return position;
 	}
 
-	public EnumWeaponType getType() {
+	public WeaponType getType() {
 		return type;
 	}
 
