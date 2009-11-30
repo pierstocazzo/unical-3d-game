@@ -1,6 +1,6 @@
 package game.base;
 
-import slashWork.game.base.PhysicsGame;
+import game.base.PhysicsGame;
 
 public abstract class Game extends PhysicsGame {
 	

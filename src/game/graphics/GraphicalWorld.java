@@ -154,24 +154,24 @@ public class GraphicalWorld extends Game {
 		audio.getEar().trackOrientation(cam);
 		audio.getEar().trackPosition(cam);
 
-		AudioTrack backgroundMusic = getMusic( getClass().getResource("/slashWork/game/data/audio/game.ogg"));
+		AudioTrack backgroundMusic = getMusic( getClass().getResource("/game/data/sound/game.ogg"));
 		audio.getMusicQueue().setRepeatType(RepeatType.ALL);
 		audio.getMusicQueue().setCrossfadeinTime(2.5f);
 		audio.getMusicQueue().setCrossfadeoutTime(2.5f);
 		audio.getMusicQueue().addTrack(backgroundMusic);
 		audio.getMusicQueue().play();
 
-		shoot = audio.createAudioTrack("/slashWork/game/data/audio/mp5.ogg", false);
+		shoot = audio.createAudioTrack("/game/data/sound/mp5.ogg", false);
 		shoot.setRelative(true);
 		shoot.setMaxAudibleDistance(100000);
 		shoot.setVolume(.7f);
 		
-		explosion = audio.createAudioTrack("/slashWork/game/data/audio/explosion.ogg", false);
+		explosion = audio.createAudioTrack("/game/data/sound/explosion.ogg", false);
 		explosion.setRelative(true);
 		explosion.setMaxAudibleDistance(100000);
 		explosion.setVolume(4.0f);
 		
-		death = audio.createAudioTrack("/slashWork/game/data/audio/death.ogg", false);
+		death = audio.createAudioTrack("/game/data/sound/death.ogg", false);
 		death.setRelative(true);
 		death.setMaxAudibleDistance(100000);
 		death.setVolume(4.0f);
@@ -192,7 +192,7 @@ public class GraphicalWorld extends Game {
      */
     public void setupEnemies() { 	    	
         for( String id : core.getEnemiesId() ) {
-            Node model = ModelLoader.loadModel("data/soldato/soldato.ms3d", "data/soldato/soldato.jpg", 1f, new Quaternion());
+            Node model = ModelLoader.loadModel("game/data/models/soldier/soldato.ms3d", "game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
             model.setLocalTranslation(0, -2f, 0);   
 
             PhysicsEnemy enemy = new PhysicsEnemy( id, this, 20, 100,  model );
@@ -207,7 +207,7 @@ public class GraphicalWorld extends Game {
      */
     public void setupPlayer() {
     	
-    	Node model = ModelLoader.loadModel("data/soldato/soldato.ms3d", "data/soldato/soldato.jpg", 1f, new Quaternion());
+    	Node model = ModelLoader.loadModel("game/data/models/soldier/soldato.ms3d", "game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
         model.setLocalTranslation(0, -2f, 0);   
         
         for( String id : core.getPlayersId() ) {
@@ -392,7 +392,7 @@ public class GraphicalWorld extends Game {
         treeTex.setEnabled(true);
         Texture tr = TextureManager.loadTexture(
                 GraphicalWorld.class.getClassLoader().getResource(
-                        "jmetest/data/texture/grass.jpg"), Texture.MinificationFilter.Trilinear,
+                        "game/data/texture/grass.jpg"), Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
         treeTex.setTexture(tr);
 

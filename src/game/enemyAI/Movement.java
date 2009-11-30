@@ -1,6 +1,9 @@
 package game.enemyAI;
 
-public class Movement {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Movement implements Serializable {
 	
 	Direction direction;
 	float length;
