@@ -2,7 +2,7 @@ package game.graphics;
 
 import game.base.Game;
 import game.input.PhysicsInputHandler;
-import game.menu.ThreadController;
+import game.main.ThreadController;
 
 import java.net.URL;
 import java.util.Collection;

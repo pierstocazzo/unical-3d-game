@@ -1,4 +1,6 @@
-package game.menu;
+package game.main.menu;
+
+import game.main.ThreadController;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -23,11 +25,11 @@ import javax.swing.JPanel;
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
-public class GameMenu extends JFrame {
+public class InGameMenu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	/** Game Panel */
-	GamePanel gamePanel;
+	InGamePanel gamePanel;
 	
 	/** Monitor for thread management */
 	ThreadController threadController;
@@ -45,7 +47,7 @@ public class GameMenu extends JFrame {
 	 * @param threadController - Thread Monitor
 	 * @param mainMenu - Main Menu
 	 */
-	public GameMenu( ThreadController threadController, MainMenu mainMenu ){
+	public InGameMenu( ThreadController threadController, MainMenu mainMenu ){
 		super();
 		this.threadController = threadController;
 		this.mainMenu = mainMenu;
@@ -95,7 +97,7 @@ public class GameMenu extends JFrame {
 		borderPanel.setLayout( new BorderLayout() );
 		borderPanel.setOpaque(false);
 		setContentPane( borderPanel );
-		gamePanel = new GamePanel( this, mainMenu );
+		gamePanel = new InGamePanel( this, mainMenu );
 		borderPanel.add( gamePanel, BorderLayout.CENTER );
 		
 		//add left vertical empty panel
@@ -128,13 +130,13 @@ public class GameMenu extends JFrame {
 		 * Custom Listener
 		 */
 		class KeyHandler implements KeyListener{
-			GamePanel panel;
+			InGamePanel panel;
 			/**
 			 * Constructor
 			 * 
 			 * @param p - Game Panel
 			 */
-			public KeyHandler( GamePanel p ){
+			public KeyHandler( InGamePanel p ){
 				this.panel = p;
 			}
 			@Override

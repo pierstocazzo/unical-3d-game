@@ -1,4 +1,4 @@
-package game.menu;
+package game.main;
 
 public class ThreadController {
 	//messaggio tra i thread

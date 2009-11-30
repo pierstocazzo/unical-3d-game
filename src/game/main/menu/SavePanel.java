@@ -1,4 +1,4 @@
-package game.menu;
+package game.main.menu;
 
 
 import java.awt.GridLayout;
@@ -20,11 +20,11 @@ public class SavePanel extends JPanel {
 	public int current = 0;
 	ArrayList<JLabel> item;
 	ArrayList<String> imageFolder;
-	GameMenu gm;
+	InGameMenu gm;
 	SaveMenu sm;
 	JTextField text;
 	
-	public SavePanel(SaveMenu sm, GameMenu gm){
+	public SavePanel(SaveMenu sm, InGameMenu gm){
 		super();
 		this.gm = gm;
 		this.sm = sm;

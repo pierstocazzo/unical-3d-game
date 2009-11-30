@@ -1,4 +1,4 @@
-package game.menu;
+package game.main.menu;
 
 import java.awt.GridLayout;
 import java.io.File;
@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import game.core.LogicWorld;
+import game.main.GameThread;
+import game.main.ThreadController;
 
 /**
  * Class MainPanel
@@ -149,12 +151,12 @@ public class MainPanel extends JPanel {
 		switch (current){
 			case 0:{mm.setAlwaysOnTop(false);
 					System.out.println("New Game");
-					mm.game = new testGame(tc);
+					mm.game = new GameThread(tc);
 					Thread gameThread = new Thread(mm.game);
 					gameThread.start();
 					tc.waitThread();
 					mm.setVisible(false);
-					GameMenu gameMenu = new GameMenu(tc,mm);
+					InGameMenu gameMenu = new InGameMenu(tc,mm);
 					gameMenu.setVisible(true);
 					System.out.println("GameMenu");break;}
 			case 1:{//Load game with fileChooser
@@ -177,13 +179,13 @@ public class MainPanel extends JPanel {
 						catch (ClassNotFoundException e) {e.printStackTrace();} 
 						
 						mm.tc.close=false;
-						mm.game = new testGame(mm.tc,gameLoaded);
+						mm.game = new GameThread(mm.tc,gameLoaded);
 						Thread gameThread = new Thread(mm.game);
 						gameThread.start();
 						tc.waitThread();
 						System.out.println("gioco caricato in pausa, svegliato swing");
 						mm.setVisible(false);
-						GameMenu gameMenu = new GameMenu(tc,mm);
+						InGameMenu gameMenu = new InGameMenu(tc,mm);
 						gameMenu.setVisible(true);
 						System.out.println("GameMenu");
 					} 
