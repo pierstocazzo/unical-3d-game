@@ -19,6 +19,7 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
+import com.jme.renderer.pass.BasicPassManager;
 import com.jme.scene.Node;
 import com.jme.scene.state.CullState;
 import com.jme.scene.state.LightState;
@@ -87,6 +88,9 @@ public abstract class PhysicsGame extends AbstractGame {
 
 	/** thread controller */
 	public ThreadController threadController;
+	
+	/** pass manager for terrain splatting etc */
+	protected BasicPassManager passManager;
 	
     /**  
      *  PhysicsGame constructor<br>
@@ -182,19 +186,6 @@ public abstract class PhysicsGame extends AbstractGame {
         // Execute updateQueue item
         GameTaskQueueManager.getManager().getQueue(GameTaskQueue.UPDATE).execute();
 
-        update();
-        
-        if ( !pause ) {
-            
-            if ( tpf > 0.2 || Float.isNaN( tpf ) ) {
-                getPhysicsSpace().update( 0.2f * physicsSpeed );
-            } else {
-                getPhysicsSpace().update( tpf * physicsSpeed );
-            }
-
-            rootNode.updateGeometricState(tpf, true);
-        }
-
         if ( firstFrame ) {
             // drawing and calculating the first frame usually takes longer than the rest
             // to avoid a rushing simulation we reset the timer
@@ -223,10 +214,6 @@ public abstract class PhysicsGame extends AbstractGame {
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("toggle_physics", false ) ) {
             showPhysics = !showPhysics;
         }
-//        if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
-//            super.finish();
-//        }
-        
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
         	//vado in wait e passo il testimone a swing
         	threadController.waitThread();
@@ -234,6 +221,21 @@ public abstract class PhysicsGame extends AbstractGame {
         	timer.reset();
         	if(threadController.close)//se swing comanda esci
         		super.finish();
+        }
+        
+        if ( !pause ) {
+            
+        	update();
+        	
+            if ( tpf > 0.2 || Float.isNaN( tpf ) ) {
+                getPhysicsSpace().update( 0.2f * physicsSpeed );
+            } else {
+                getPhysicsSpace().update( tpf * physicsSpeed );
+            }
+
+            rootNode.updateGeometricState(tpf, true);
+
+			passManager.updatePasses(tpf);
         }
     }
 
@@ -339,6 +341,10 @@ public abstract class PhysicsGame extends AbstractGame {
      * @see AbstractGame#initGame()
      */
     protected void initGame() {
+    	
+    	/** init pass manager */
+    	passManager = new BasicPassManager();
+    	
         /** Create rootNode */
         rootNode = new Node( "rootNode" );
 

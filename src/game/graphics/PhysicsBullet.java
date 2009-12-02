@@ -7,26 +7,17 @@ import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.util.SyntheticButton;
 import com.jme.math.Vector3f;
-import com.jme.renderer.ColorRGBA;
-import com.jme.scene.Node;
 import com.jme.scene.shape.Sphere;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
-import com.jmex.physics.geometry.PhysicsSphere;
 
 public class PhysicsBullet {
 	
 	/** the bullet's identifier */
 	String id;
 	
-	/** the bullet Node */
-	Node bullet;
-	
 	/** the bullet physicsNode */
 	DynamicPhysicsNode physicsBullet;
-	
-	/** the bullet geometry */
-	PhysicsSphere bulletGeometry;
 	
 	/** an input handler used to detect bullet's collisions */
 	InputHandler contactDetect = new InputHandler();
@@ -34,8 +25,8 @@ public class PhysicsBullet {
 	/** the graphical world witch contains the bullet */
 	GraphicalWorld world;
 	
-	/** the direction of the shoot */
-	Vector3f direction;
+	/** the initial position of the bullet */
+	Vector3f position;
 	
 	/** the type of the weapon witch shoot the bullet */
 	WeaponType weaponType;
@@ -48,31 +39,29 @@ public class PhysicsBullet {
 	 * @param weaponType - (WeaponType) the type of the weapon witch shoot the bullet
 	 * @param position - (Vector3f) the position where to create the bullet
 	 */
-	public PhysicsBullet( String id, GraphicalWorld world, Vector3f direction, WeaponType weaponType, Vector3f position ) {
+	public PhysicsBullet( String id, GraphicalWorld world, WeaponType weaponType, Vector3f position ) {
 		this.id = id;
 		this.world = world;
-		this.direction = new Vector3f( direction );
+		this.position = new Vector3f( position );
 		this.weaponType = weaponType;
-		this.bullet = new Node( id );
 		
-		// Create the bullet Physics
 		physicsBullet = world.getPhysicsSpace().createDynamicNode();
+	}
+	
+	public void shoot( Vector3f direction ) {
 		physicsBullet.setName( "physics" + id );
-		bulletGeometry = physicsBullet.createSphere( id + "geometry" );
-		bulletGeometry.setLocalScale( 0.3f );
-		physicsBullet.attachChild( bulletGeometry );
-		bullet.attachChild( physicsBullet );
-		bullet.setLocalTranslation( position );
+		physicsBullet = world.getPhysicsSpace().createDynamicNode();
+		world.getRootNode().attachChild( physicsBullet );
+		physicsBullet.getLocalTranslation().set( position );
+//		physicsBullet.getWorldTranslation().set( position );
 		
 		Sphere s = new Sphere( id, 10, 10, 0.05f );
-		s.setDefaultColor( ColorRGBA.yellow );
 		physicsBullet.attachChild( s );
-		
-		world.getRootNode().attachChild( bullet );
-		
-		contactDetection();
+		physicsBullet.generatePhysicsGeometry();
 		
 		physicsBullet.addForce( direction.mult( weaponType.getPower() ) );
+		
+		contactDetection();
 	}
 	
 	/** Function used to detect a contact between the bullet and something
@@ -87,8 +76,7 @@ public class PhysicsBullet {
         		physicsBullet.clearDynamics();
         		physicsBullet.detachAllChildren();
         		physicsBullet.delete();
-        		bullet.detachAllChildren(); 
-        		world.getRootNode().detachChild(bullet);
+        		world.getRootNode().detachChild( physicsBullet );
         		world.bullets.remove( id );
         		
         		/** Control if the bullet hit a character */

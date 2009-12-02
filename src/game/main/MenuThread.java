@@ -2,15 +2,14 @@ package game.main;
 
 import game.main.menu.MainMenu;
 
-
-public class MenuThread implements Runnable{
+public class MenuThread implements Runnable {
 	
-	ThreadController tc;
+	ThreadController threadController;
 
 	@Override
 	public void run() {
-		tc = new ThreadController();
-		MainMenu menu = new MainMenu(tc);
+		threadController = new ThreadController();
+		MainMenu menu = new MainMenu(threadController);
 		menu.createMenu();
 	}
 
