@@ -34,12 +34,9 @@ package slashWork.game.test;
 
 import java.nio.FloatBuffer;
 
-import slashWork.game.base.Game;
+import jmetest.effects.water.TestQuadWater;
 import slashWork.game.base.PassGame;
 
-import jmetest.effects.water.TestQuadWater;
-
-import com.jme.app.BaseSimpleGame;
 import com.jme.image.Texture;
 import com.jme.math.Plane;
 import com.jme.math.Vector3f;
