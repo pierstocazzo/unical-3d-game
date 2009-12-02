@@ -546,10 +546,11 @@ public class PhysicsCharacter {
 	 */
 	public void shoot( Vector3f direction ) {
 		world.bulletsCounter = world.bulletsCounter + 1;
-		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
+		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, 
 				world.getCore().getCharacterWeapon(id), 
 				world.getCam().getLocation().add( world.getCam().getDirection().mult( 6 ) ) );
 		world.bullets.put( bullet.id, bullet );
+		bullet.shoot(direction);
 		world.shoot.setWorldPosition( feet.getWorldTranslation() );
 		world.shoot.play();
 	}

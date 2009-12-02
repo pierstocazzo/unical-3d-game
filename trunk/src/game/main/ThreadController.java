@@ -1,11 +1,12 @@
 package game.main;
 
 public class ThreadController {
-	//messaggio tra i thread
+	//message between two thread
 	public boolean close = false;
 
 	public synchronized void waitThread(){
-		System.out.println("Sveglio l'altro");
+		// debug print
+//		System.out.println( "Sveglio l'altro" );
 		notify();
 		try {
 			wait();

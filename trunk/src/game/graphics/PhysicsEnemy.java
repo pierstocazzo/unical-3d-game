@@ -136,10 +136,10 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		world.bulletsCounter = world.bulletsCounter + 1;
 		Vector3f bulletPosition = world.getCore().getCharacterPosition(id).add( direction.mult( 5 ) );
 		bulletPosition.addLocal( 0, 2, 0 );
-		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
+		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, 
 				world.getCore().getCharacterWeapon(id), bulletPosition );
 		world.bullets.put( bullet.id, bullet );
-		
+		bullet.shoot(direction);
 		world.shoot.setWorldPosition( feet.getWorldTranslation() );
 		world.shoot.play();
 	}
