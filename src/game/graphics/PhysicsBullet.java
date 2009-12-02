@@ -53,7 +53,6 @@ public class PhysicsBullet {
 		physicsBullet = world.getPhysicsSpace().createDynamicNode();
 		world.getRootNode().attachChild( physicsBullet );
 		physicsBullet.getLocalTranslation().set( position );
-//		physicsBullet.getWorldTranslation().set( position );
 		
 		Sphere s = new Sphere( id, 10, 10, 0.05f );
 		physicsBullet.attachChild( s );

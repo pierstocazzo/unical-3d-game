@@ -87,6 +87,8 @@ public class PhysicsCharacter {
 
 	float previousTime;
 
+	private boolean freeCam;
+
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
      * 
@@ -218,12 +220,20 @@ public class PhysicsCharacter {
 		    moveCharacter();
 		    
 		    if( isShooting() ) {
-		    	if( world.timer.getTimeInSeconds() - previousTime > 0.3f  ) {
+		    	if( world.timer.getTimeInSeconds() - previousTime > 0.2f  ) {
 		    		previousTime = world.timer.getTimeInSeconds();
 		    		shoot( world.getCam().getDirection() );
 		    	}
 		    }
 		   
+		    if( freeCam ) {
+		    	world.physicsInputHandler.setEnabled( false );
+		    	world.input.setEnabled( true );
+		    } else {
+		    	world.input.setEnabled( false );
+		    	world.physicsInputHandler.setEnabled( true );
+		    }
+		    
 		    // update core
 		    world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
 	    } else {
@@ -553,5 +563,9 @@ public class PhysicsCharacter {
 		bullet.shoot(direction);
 		world.shoot.setWorldPosition( feet.getWorldTranslation() );
 		world.shoot.play();
+	}
+
+	public void toggleFreeCam() {
+		freeCam = !freeCam;
 	}
 }
