@@ -17,6 +17,7 @@ import com.jme.input.InputHandler;
 import com.jme.input.KeyInput;
 import com.jme.input.MouseLookHandler;
 import com.jme.input.action.InputAction;
+import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.MouseInputAction;
 import com.jme.input.controls.binding.MouseButtonBinding;
 import com.jme.input.thirdperson.ThirdPersonMouseLook;
@@ -34,6 +35,7 @@ public class PhysicsInputHandler extends InputHandler {
     InputAction strafeLeftAction;
     InputAction strafeRightAction;
     InputAction jumpAction;
+    InputAction freeCamAction;
     MouseInputAction shootAction;
 	MouseInputAction firstPersonAction;
 	
@@ -63,7 +65,16 @@ public class PhysicsInputHandler extends InputHandler {
         jumpAction = new PhysicsJumpAction( this );
         shootAction = new ShootAction( this );
         firstPersonAction = new FirstPersonAction( this );
+        freeCamAction = new InputAction() {
+			
+			@Override
+			public void performAction(InputActionEvent evt) {
+				if( evt.getTriggerPressed() )
+					target.toggleFreeCam();
+			}
+		};
         
+		addAction( freeCamAction, DEVICE_KEYBOARD, KeyInput.KEY_C, AXIS_NONE, false );
         addAction( forwardAction, DEVICE_KEYBOARD, KeyInput.KEY_W, AXIS_NONE, false );
         addAction( backwardAction, DEVICE_KEYBOARD, KeyInput.KEY_S, AXIS_NONE, false );
         addAction( strafeLeftAction, DEVICE_KEYBOARD, KeyInput.KEY_A, AXIS_NONE, false );

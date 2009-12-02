@@ -254,6 +254,7 @@ public class GraphicalWorld extends Game {
     		life.print( "Life: " + core.getCharacterLife( player.id ) );
     		
 	        physicsInputHandler.update(tpf);
+	        input.update(tpf);
 	        
 	        skybox.getLocalTranslation().set( cam.getLocation() );
 	        skybox.updateGeometricState(0.0f, true);
