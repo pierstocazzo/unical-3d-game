@@ -1,7 +1,5 @@
 package slashWork.game.base;
 
-import slashWork.game.input.action.FirstPersonAction;
-
 import com.jme.input.FirstPersonHandler;
 import com.jme.input.InputHandler;
 
