@@ -15,6 +15,7 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
+import com.jme.renderer.pass.BasicPassManager;
 import com.jme.scene.Node;
 import com.jme.scene.state.CullState;
 import com.jme.scene.state.LightState;
@@ -29,6 +30,7 @@ import com.jme.util.GameTaskQueueManager;
 import com.jme.util.TextureManager;
 import com.jme.util.ThrowableHandler;
 import com.jme.util.Timer;
+import com.jmex.audio.AudioSystem;
 import com.jmex.physics.PhysicsDebugger;
 import com.jmex.physics.PhysicsSpace;
 
@@ -80,6 +82,10 @@ public abstract class PhysicsGame extends AbstractGame {
     
 	protected ThrowableHandler throwableHandler;
 
+	/************* ADDED FOR PASS GAME */
+	protected BasicPassManager passManager;
+    /***************************/
+    
     /**  
      *  PhysicsGame constructor<br>
      *  Set up game properties
@@ -170,22 +176,9 @@ public abstract class PhysicsGame extends AbstractGame {
         timer.update();
         // Update tpf to time per frame according to the Timer.
         tpf = timer.getTimePerFrame();
-
+        
         // Execute updateQueue item
         GameTaskQueueManager.getManager().getQueue(GameTaskQueue.UPDATE).execute();
-
-        update();
-        
-        if ( !pause ) {
-            
-            if ( tpf > 0.2 || Float.isNaN( tpf ) ) {
-                getPhysicsSpace().update( 0.2f * physicsSpeed );
-            } else {
-                getPhysicsSpace().update( tpf * physicsSpeed );
-            }
-
-            rootNode.updateGeometricState(tpf, true);
-        }
 
         if ( firstFrame ) {
             // drawing and calculating the first frame usually takes longer than the rest
@@ -218,6 +211,21 @@ public abstract class PhysicsGame extends AbstractGame {
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
             super.finish();
         }
+        
+        if ( !pause ) {
+            
+        	update();
+        	
+            if ( tpf > 0.2 || Float.isNaN( tpf ) ) {
+                getPhysicsSpace().update( 0.2f * physicsSpeed );
+            } else {
+                getPhysicsSpace().update( tpf * physicsSpeed );
+            }
+
+            rootNode.updateGeometricState(tpf, true);
+
+			passManager.updatePasses(tpf);
+        }
     }
 
     /**
@@ -237,9 +245,14 @@ public abstract class PhysicsGame extends AbstractGame {
         /** Draw the rootNode and all its children. */
         renderer.draw(rootNode);
 
+        /** Have the PassManager render. */
+        passManager.renderPasses(display.getRenderer());
+        
         /** Call simpleRender() in any derived classes. */
         simpleRender();
 
+//        display.getRenderer().draw(statNode);
+        
         doDebug(renderer);
     }
 
@@ -267,7 +280,8 @@ public abstract class PhysicsGame extends AbstractGame {
                     settings.isFullscreen()
                     );
 
-            cam = display.getRenderer().createCamera( display.getWidth(), display.getHeight() );
+            cam = display.getRenderer().createCamera( display.getWidth(), 
+            		display.getHeight() );
         } catch ( JmeException e ) {
             System.exit( 1 );
         }
@@ -310,7 +324,7 @@ public abstract class PhysicsGame extends AbstractGame {
     }
 
     protected void cameraPerspective() {
-        cam.setFrustumPerspective( 45.0f, (float) display.getWidth() / (float) display.getHeight(), 1, 10000 );
+        cam.setFrustumPerspective( 45.0f, (float) display.getWidth() / (float) display.getHeight(), 1, 1000 );
         cam.setParallelProjection( false );
         cam.update();
     }
@@ -322,6 +336,9 @@ public abstract class PhysicsGame extends AbstractGame {
      * @see AbstractGame#initGame()
      */
     protected void initGame() {
+    	/************** ADDED FOR PASS */
+    	passManager = new BasicPassManager();
+    	
         /** Create rootNode */
         rootNode = new Node( "rootNode" );
 
@@ -347,7 +364,13 @@ public abstract class PhysicsGame extends AbstractGame {
         cs.setEnabled(true);
         cs.setCullFace(CullState.Face.Back);
         rootNode.setRenderState(cs);
-
+        
+        // -- STATS, text node
+        // Finally, a stand alone node (not attached to root on purpose)
+//        statNode = new Node( "Stats node" );
+//        statNode.setCullHint( Spatial.CullHint.Never );
+//        statNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
+        
         /** Set up a basic, default light. */
         PointLight light = new PointLight();
         light.setDiffuse( new ColorRGBA( 0.75f, 0.75f, 0.75f, 0.75f ) );
@@ -357,7 +380,7 @@ public abstract class PhysicsGame extends AbstractGame {
 
         /** Attach the light to a lightState and the lightState to rootNode. */
         lightState = display.getRenderer().createLightState();
-        lightState.setEnabled( false );
+        lightState.setEnabled( true );
         lightState.attach( light );
         rootNode.setRenderState( lightState );
 
@@ -368,8 +391,10 @@ public abstract class PhysicsGame extends AbstractGame {
 
         rootNode.updateGeometricState( 0.0f, true );
         rootNode.updateRenderState();
+//        statNode.updateGeometricState( 0.0f, true );
+//        statNode.updateRenderState();
 
-        //timer.reset();
+        timer.reset();
     }
 
     /**
@@ -407,10 +432,14 @@ public abstract class PhysicsGame extends AbstractGame {
      */
     protected void cleanup() {
         TextureManager.doTextureCleanup();
-        if (display != null && display.getRenderer() != null) display.getRenderer().cleanup();
+        if (display != null && display.getRenderer() != null)
+            display.getRenderer().cleanup();
         KeyInput.destroyIfInitalized();
         MouseInput.destroyIfInitalized();
         JoystickInput.destroyIfInitalized();
+        if (AudioSystem.isCreated()) {
+            AudioSystem.getSystem().cleanup();
+        }
     }
 
     /**
@@ -456,7 +485,8 @@ public abstract class PhysicsGame extends AbstractGame {
     }
     
     protected void doDebug(Renderer r) {
-        if ( showPhysics ) PhysicsDebugger.drawPhysics( getPhysicsSpace(), r );
+        if ( showPhysics ) 
+        	PhysicsDebugger.drawPhysics( getPhysicsSpace(), r );
     }
     
     /**

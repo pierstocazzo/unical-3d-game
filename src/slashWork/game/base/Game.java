@@ -4,12 +4,12 @@ public abstract class Game extends PhysicsGame {
 	
     @Override
     protected void setupGame() {
+    	setupInput();
+    	setupCamera();
         setupInit();
         setupEnvironment();
         setupPlayer();
         setupEnemies();
-        setupCamera();
-        setupInput();
     }
     
     public abstract void setupInit();

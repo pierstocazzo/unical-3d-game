@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
 
+import jmetest.effects.water.TestQuadWater;
+
 import utils.ModelLoader;
 
 import com.jme.bounding.BoundingBox;
@@ -28,8 +30,10 @@ import com.jme.scene.Spatial;
 import com.jme.scene.Text;
 import com.jme.scene.Spatial.TextureCombineMode;
 import com.jme.scene.shape.Pyramid;
+import com.jme.scene.state.CullState;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
+import com.jme.scene.state.ZBufferState;
 import com.jme.util.TextureManager;
 import com.jmex.audio.AudioSystem;
 import com.jmex.audio.AudioTrack;
@@ -450,37 +454,34 @@ public class GraphicalWorld extends Game {
 	private void buildSkyBox() {
         skybox = new Skybox("skybox", 10, 10, 10);
  
-        Texture north = TextureManager.loadTexture(
-            GraphicalWorld.class.getClassLoader().getResource(
-            "game/data/texture/north.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear);
-        Texture south = TextureManager.loadTexture(
-        	GraphicalWorld.class.getClassLoader().getResource(
-            "game/data/texture/south.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear);
-        Texture east = TextureManager.loadTexture(
-        	GraphicalWorld.class.getClassLoader().getResource(
-            "game/data/texture/east.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear);
-        Texture west = TextureManager.loadTexture(
-        	GraphicalWorld.class.getClassLoader().getResource(
-            "game/data/texture/west.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear);
-        Texture up = TextureManager.loadTexture(
-        	GraphicalWorld.class.getClassLoader().getResource(
-            "game/data/texture/top.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear);
-        Texture down = TextureManager.loadTexture(
-        	GraphicalWorld.class.getClassLoader().getResource(
-            "game/data/texture/bottom.jpg"),
-            Texture.MinificationFilter.BilinearNearestMipMap,
-            Texture.MagnificationFilter.Bilinear);
- 
+        skybox = new Skybox("skybox", 10, 10, 10);
+
+        String dir = "jmetest/data/skybox1/";
+        Texture north = TextureManager.loadTexture(TestQuadWater.class
+                .getClassLoader().getResource(dir + "1.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap,
+                Texture.MagnificationFilter.Bilinear);
+        Texture south = TextureManager.loadTexture(TestQuadWater.class
+                .getClassLoader().getResource(dir + "3.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap,
+                Texture.MagnificationFilter.Bilinear);
+        Texture east = TextureManager.loadTexture(TestQuadWater.class
+                .getClassLoader().getResource(dir + "2.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap,
+                Texture.MagnificationFilter.Bilinear);
+        Texture west = TextureManager.loadTexture(TestQuadWater.class
+                .getClassLoader().getResource(dir + "4.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap,
+                Texture.MagnificationFilter.Bilinear);
+        Texture up = TextureManager.loadTexture(TestQuadWater.class
+                .getClassLoader().getResource(dir + "6.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap,
+                Texture.MagnificationFilter.Bilinear);
+        Texture down = TextureManager.loadTexture(TestQuadWater.class
+                .getClassLoader().getResource(dir + "5.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap,
+                Texture.MagnificationFilter.Bilinear);
+
         skybox.setTexture(Skybox.Face.North, north);
         skybox.setTexture(Skybox.Face.West, west);
         skybox.setTexture(Skybox.Face.South, south);
@@ -488,7 +489,27 @@ public class GraphicalWorld extends Game {
         skybox.setTexture(Skybox.Face.Up, up);
         skybox.setTexture(Skybox.Face.Down, down);
         skybox.preloadTextures();
+
+        CullState cullState = display.getRenderer().createCullState();
+        cullState.setCullFace(CullState.Face.None);
+        cullState.setEnabled(true);
+        skybox.setRenderState(cullState);
+
+        ZBufferState zState = display.getRenderer().createZBufferState();
+        zState.setEnabled(false);
+        skybox.setRenderState(zState);
+
+        FogState fs = display.getRenderer().createFogState();
+        fs.setEnabled(false);
+        skybox.setRenderState(fs);
+
+        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
+        skybox.setCullHint(Spatial.CullHint.Never);
+        skybox.setTextureCombineMode(TextureCombineMode.Replace);
         skybox.updateRenderState();
+
+        skybox.lockBounds();
+        skybox.lockMeshes();
         
         rootNode.attachChild(skybox);
     }
