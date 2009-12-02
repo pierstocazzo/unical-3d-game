@@ -3,6 +3,8 @@ package andreaFolder;
 import javax.swing.ImageIcon;
 
 import slashWork.customGame.Game2;
+import slashWork.game.base.Game;
+
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
 import com.jme.input.FirstPersonHandler;
@@ -18,10 +20,11 @@ import com.jmex.terrain.util.ProceduralTextureGenerator;
 
 import joework.app.AssHoleBaseGame;
 
-public class testPhysicsGame extends AssHoleBaseGame{
+public class testPhysicsGame extends Game{
 
 	Node player;
 	TerrainBlock terrain;
+	private FirstPersonHandler input;
 	
 	public static void main(String[] argc){
 		testPhysicsGame app = new testPhysicsGame();
@@ -29,19 +32,13 @@ public class testPhysicsGame extends AssHoleBaseGame{
 		app.start();
 	}
 	@Override
-	protected void setupCamera() {
+	public void setupCamera() {
 		// TODO Auto-generated method stub
 		//cam.setLocation(new Vector3f(0,500,300));
 	}
 
 	@Override
-	protected void setupCharacters() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void setupEnvironment() {
+	public void setupEnvironment() {
 		// generiamo i dati di un terreno casuale
 		   MidPointHeightMap heightMap = new MidPointHeightMap( 64, 1f );
 		   // creiamo un vettore di ridimensionamento del terreno
@@ -78,7 +75,7 @@ public class testPhysicsGame extends AssHoleBaseGame{
 	}
 
 	@Override
-	protected void setupInit() {
+	public void setupInit() {
 		
 		DynamicPhysicsNode dynamicNode = getPhysicsSpace().createDynamicNode();
 		dynamicNode.createBox("box");
@@ -92,13 +89,13 @@ public class testPhysicsGame extends AssHoleBaseGame{
 	}
 
 	@Override
-	protected void setupInput() {
+	public void setupInput() {
 		
 		input = new FirstPersonHandler(cam,50,1);
 	}
 
 	@Override
-	protected void setupPlayer() {
+	public void setupPlayer() {
 		/*URL modelURL= Game.class.getClassLoader().getResource("data/model/tree1.jme");
 		//URL textureURL = Game.class.getClassLoader().getResource("data/texture/tree1.tga");
         
@@ -119,15 +116,15 @@ public class testPhysicsGame extends AssHoleBaseGame{
 	}
 
 	@Override
-	protected void simpleUpdate() {
+	protected void update() {
 		// TODO Auto-generated method stub
 		input.update(tpf);
 		cam.update();
 	}
-
-    @Override
-    protected void setupChaseCamera() {
-        // TODO
-    }
+	@Override
+	public void setupEnemies() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
