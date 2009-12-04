@@ -29,7 +29,6 @@ import com.jme.renderer.Renderer;
 import com.jme.scene.Controller;
 import com.jme.scene.Node;
 import com.jme.scene.Skybox;
-import com.jme.scene.Spatial;
 import com.jme.scene.shape.Sphere;
 import com.jme.scene.state.CullState;
 import com.jme.scene.state.LightState;
@@ -503,7 +502,7 @@ public class Game extends BaseGame {
 	
 	// funzione che ritorna il controller per il nostro player
     public AnimationController getAnimationController() {
-        List<Spatial> armatures =
+        List<Bone> armatures =
                 player.descendantMatches(Bone.class, ".+SuperBone");
         if (armatures.size() < 1)
             throw new IllegalStateException("Sorry.  Program assumes "

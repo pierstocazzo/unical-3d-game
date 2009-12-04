@@ -8,6 +8,7 @@ import com.jme.math.Vector3f;
 import com.jme.scene.shape.Box;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
+import com.jmex.physics.material.Material;
 
 public class PhysicsEnergyPackage {
 	
@@ -27,7 +28,7 @@ public class PhysicsEnergyPackage {
 		this.id = id;
 		this.world = world;
 		this.position = new Vector3f( position );
-		this.position.setY( 30 );
+		this.position.setY( position.getY() + 30 );
 		this.contactDetect = new InputHandler();
 		createPhysics();
 		contactDetector();
@@ -36,11 +37,13 @@ public class PhysicsEnergyPackage {
 	public void createPhysics() {
 		physicsPack = world.getPhysicsSpace().createDynamicNode();
 		world.getRootNode().attachChild( physicsPack );
+		physicsPack.getLocalTranslation().set( position );
+		physicsPack.setMaterial( Material.RUBBER );
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
 		pack.setRandomColors();
+		pack.updateRenderState();
 		physicsPack.attachChild( pack );
 		physicsPack.generatePhysicsGeometry();
-		physicsPack.getLocalTranslation().set( position );
 	}
 	
 	public void contactDetector() {

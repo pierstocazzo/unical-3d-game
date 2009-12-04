@@ -30,7 +30,7 @@ public class PhysicsAmmoPackage {
 		this.id = id;
 		this.world = world;
 		this.position = new Vector3f( position );
-		this.position.setY( 10 );
+		this.position.setY( position.getY() + 10 );
 		this.contactDetect = new InputHandler();
 		createPhysics();
 		contactDetector();
@@ -39,11 +39,12 @@ public class PhysicsAmmoPackage {
 	public void createPhysics() {
 		physicsPack = world.getPhysicsSpace().createDynamicNode();
 		world.getRootNode().attachChild( physicsPack );
+		physicsPack.getLocalTranslation().set( position );
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
 		pack.setRandomColors();
+		pack.updateRenderState();
 		physicsPack.attachChild( pack );
 		physicsPack.generatePhysicsGeometry();
-		physicsPack.getLocalTranslation().set( position );
 	}
 	
 	public void contactDetector() {
