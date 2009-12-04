@@ -141,8 +141,8 @@ public class PhysicsEnemy extends PhysicsCharacter {
 				world.getCore().getCharacterWeapon(id), bulletPosition );
 		world.bullets.put( bullet.id, bullet );
 		bullet.shoot(direction);
-//		world.shoot.setWorldPosition( feet.getWorldTranslation() );
-//		world.shoot.play();
+		world.shoot.setWorldPosition( feet.getWorldTranslation() );
+		world.shoot.play();
 	}
 	
 	@Override
