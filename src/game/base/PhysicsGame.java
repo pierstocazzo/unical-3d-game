@@ -92,7 +92,7 @@ public abstract class PhysicsGame extends AbstractGame {
 	/** pass manager for terrain splatting etc */
 	protected BasicPassManager passManager;
 
-	public boolean gameIsThread;
+	public boolean isThread;
 	
 	
     /**  
@@ -218,7 +218,7 @@ public abstract class PhysicsGame extends AbstractGame {
             showPhysics = !showPhysics;
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
-        	if( gameIsThread ) {
+        	if( isThread ) {
 	        	//vado in wait e passo il testimone a swing
 	        	threadController.waitThread();
 	        	//reset del timer per evitare problemi nel resume del gioco
