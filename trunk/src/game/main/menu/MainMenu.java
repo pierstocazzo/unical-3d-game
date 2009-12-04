@@ -34,7 +34,7 @@ public class MainMenu extends JFrame {
 	/** Thread Monitor */
 	ThreadController threadController;
 	
-	/** background wallpaper */
+	/** background image */
 	Image background;
 	
 	/** Pointer to thread Game used in other classes*/
@@ -52,7 +52,7 @@ public class MainMenu extends JFrame {
 		
 //		this.setSize(1000, 600);
 //		setDefaultLookAndFeelDecorated(true);
-//		this.setUndecorated(true); 
+		this.setUndecorated(true); 
 		
 //		this.setResizable(true);
 //		this.setAlwaysOnTop(true);
