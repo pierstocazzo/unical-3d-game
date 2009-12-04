@@ -1,6 +1,7 @@
 package game.main;
 
 import game.core.LogicWorld;
+import game.enemyAI.MovementList.MovementType;
 import game.graphics.GraphicalWorld;
 
 import com.jme.math.Vector3f;
@@ -13,8 +14,8 @@ public class GameThread implements Runnable {
 	public GameThread( ThreadController threadController ) {
 		this.threadController = threadController;
 		logicGame = new LogicWorld();
-    	logicGame.createPlayer( 100, new Vector3f( 50, 60, 50 ) );
-//    	logicGame.createEnemy( new Vector3f( 100, 50, 100 ), MovementType.REST );
+    	logicGame.createPlayer( 100, new Vector3f( 700, 60, 700 ) );
+    	logicGame.createEnemy( new Vector3f( 800, 50, 800 ), MovementType.REST );
 //    	logicGame.createEnemiesGroup( 3, new Vector3f( 50, 50, 50 ) );
 //    	logicGame.createEnemiesGroup( 4, new Vector3f( 220, 50, 220 ) );
     	
@@ -22,7 +23,7 @@ public class GameThread implements Runnable {
 //    	logicGame.createEnemiesGroup( 5, new Vector3f( 250, 10, 250 ) );
 //    	
 //    	logicGame.createEnemiesGroup( 20, new Vector3f( 1000, 10, 1000 ) );
-//    	logicGame.createEnergyPackages( 10, 640, 640 );
+    	logicGame.createEnergyPackages( 20, 129*20, 129*20 );
 	}
 	
 	public GameThread( ThreadController threadController, LogicWorld logicGame ){
@@ -32,6 +33,7 @@ public class GameThread implements Runnable {
 
 	public void run() {
         GraphicalWorld game = new GraphicalWorld( logicGame, threadController );
+        game.isThread = true;
         game.start();
     }
 }
