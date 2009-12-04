@@ -4,12 +4,15 @@ import game.base.Game;
 import game.input.PhysicsInputHandler;
 import game.main.ThreadController;
 
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.FloatBuffer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+
+import jmetest.TutorialGuide.ExplosionFactory;
 import jmetest.effects.water.TestQuadWater;
 
 import slashWork.game.test.TestNewTerrain;
@@ -36,7 +39,12 @@ import com.jme.scene.state.CullState;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
 import com.jme.scene.state.ZBufferState;
+import com.jme.scene.state.BlendState.DestinationFunction;
+import com.jme.scene.state.BlendState.SourceFunction;
+import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
+import com.jme.util.resource.ResourceLocatorTool;
+import com.jme.util.resource.SimpleResourceLocator;
 import com.jmex.audio.AudioSystem;
 import com.jmex.audio.AudioTrack;
 import com.jmex.audio.AudioTrack.TrackType;
@@ -58,6 +66,7 @@ public class GraphicalWorld extends Game {
     WaterRenderPass waterEffectRenderPass;
     Quad waterQuad;
     
+    TerrainPage terrain;
     Spatial splatTerrain;
     Spatial reflectionTerrain;
     
@@ -69,7 +78,7 @@ public class GraphicalWorld extends Game {
 	/** an interface to communicate with the application core */
 	WorldInterface core;
 	
-	/** a custom input handler to control the player */
+	/** a custom freeCamInput handler to control the player */
     PhysicsInputHandler physicsInputHandler;
     
     /** the world's ground */
@@ -102,9 +111,11 @@ public class GraphicalWorld extends Game {
 	/** set to false when you don't want to do the world update */
 	boolean enabled = true;
 	
+	/** HUD node */
+	Node hudNode;
 	/** very very basic hud */
 	Text life;
-	Text crosshair;
+	Quad crosshair;
 	Text gameOver;
 	Text fps;
 	
@@ -129,7 +140,47 @@ public class GraphicalWorld extends Game {
 		super.threadController = tc;
 	}
 	
+	public void setCrosshair() {
+		BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
+        as.setBlendEnabled(true);
+        as.setTestEnabled(false);
+        as.setSourceFunction( SourceFunction.SourceAlpha );
+        as.setDestinationFunction( DestinationFunction.OneMinusSourceAlpha );
+        as.setEnabled(true);
+		TextureState cross = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+		cross.setTexture( TextureManager.loadTexture( getClass().getClassLoader().getResource(
+		                "game/data/images/crosshair.png" ), false ) );
+		cross.setEnabled(true);
+		crosshair = new Quad( "quad", 30, 30 );
+		crosshair.setLocalTranslation( DisplaySystem.getDisplaySystem().getWidth() / 2,
+				DisplaySystem.getDisplaySystem().getHeight() / 2, 0 );
+		crosshair.setRenderState(as);
+		crosshair.setRenderState(cross);
+		
+		hudNode.attachChild(crosshair);
+		hudNode.updateGeometricState( 0.0f, true );
+		hudNode.updateRenderState();
+	}
+	
     public void setupInit() {
+		try {
+			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_AUDIO,
+					new SimpleResourceLocator( getClass().getClassLoader().getResource(
+							"game/data/sound")));
+			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_TEXTURE,
+					new SimpleResourceLocator( getClass().getClassLoader().getResource(
+							"game/data/texture")));
+			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_SHADER,
+					new SimpleResourceLocator( getClass().getClassLoader().getResource(
+							"game/data/images")));
+		} catch (URISyntaxException e1) {
+			finish();
+		}
+    	
+		hudNode = new Node( "HUD" );
+		rootNode.attachChild( hudNode );
+		hudNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
+		
 		characters = new HashMap<String, PhysicsCharacter>();
 		bullets = new HashMap<String, PhysicsBullet>();
 		ammoPackages = new HashMap<String, PhysicsAmmoPackage>();
@@ -145,11 +196,8 @@ public class GraphicalWorld extends Game {
     	life.setLocalTranslation( 20, 20, 0 );
     	rootNode.attachChild( life );
     	
-		crosshair = Text.createDefaultTextLabel( "crosshair" );
-		crosshair.setLocalTranslation(new Vector3f(display.getWidth() / 2f - 8f,
-				display.getHeight() / 2f - 8f, 0));
-		rootNode.attachChild(crosshair);
-        
+    	setCrosshair();
+    	
 		gameOver = Text.createDefaultTextLabel( "gameOver" );
 		rootNode.attachChild(gameOver);
 		
@@ -157,7 +205,9 @@ public class GraphicalWorld extends Game {
     	fps.setLocalTranslation( 20, 40, 0 );
     	rootNode.attachChild( fps );
 		
-        pause = true;
+    	ExplosionFactory.warmup();
+    	
+//        pause = true;
     }
     
     private void initSound() {
@@ -204,8 +254,9 @@ public class GraphicalWorld extends Game {
      */
     public void setupEnemies() { 	    	
         for( String id : core.getEnemiesId() ) {
-            Node model = ModelLoader.loadModel("game/data/models/soldier/soldato.ms3d", "game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
-            model.setLocalTranslation(0, -2f, 0);   
+            Node model = ModelLoader.loadModel("game/data/models/soldier/soldato.ms3d", 
+            		"game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
+            model.setLocalTranslation( 0, -2f, 0 );   
 
             PhysicsEnemy enemy = new PhysicsEnemy( id, this, 20, 100,  model );
         	enemy.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
@@ -219,7 +270,8 @@ public class GraphicalWorld extends Game {
      */
     public void setupPlayer() {
     	
-    	Node model = ModelLoader.loadModel("game/data/models/soldier/soldato.ms3d", "game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
+    	Node model = ModelLoader.loadModel("game/data/models/soldier/soldato.ms3d", 
+    			"game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
         model.setLocalTranslation(0, -2f, 0);   
         
         for( String id : core.getPlayersId() ) {
@@ -254,7 +306,7 @@ public class GraphicalWorld extends Game {
     		life.print( "Life: " + core.getCharacterLife( player.id ) );
     		
 	        physicsInputHandler.update(tpf);
-	        input.update(tpf);
+	        freeCamInput.update(tpf);
 	        
 	        skybox.getLocalTranslation().set( cam.getLocation() );
 	        skybox.updateGeometricState(0.0f, true);
@@ -268,10 +320,13 @@ public class GraphicalWorld extends Game {
 	        
 	        updateCharacters(tpf);
 	        
+	        /** print the crosshair only in first person view */
 	        if( player.isFirstPerson() ) {
-	        	crosshair.print( "+" );
+	        	if( !hudNode.hasChild( crosshair ) )
+	        		hudNode.attachChild( crosshair );
 	        } else {
-	        	crosshair.print( "" );
+	        	if( hudNode.hasChild( crosshair ) )
+	        		hudNode.detachChild( crosshair );
 	        }
 	        
 	        updateBullets(tpf);
@@ -383,7 +438,7 @@ public class GraphicalWorld extends Game {
 	    rootNode.setRenderState(fogState);
 	    
 		createTerrain();
-        createReflectionTerrain();
+//        createReflectionTerrain();
 
         buildSkyBox();
         
@@ -403,18 +458,17 @@ public class GraphicalWorld extends Game {
 	    setupEnergyPackages();
 	}
 	
-	// TODO
+	// TODO creare alberi e cazzate varie
 	private void createVegetation() {
 //		appesantisce un casino...anche un solo albero...bah!
-//		Node tree = ModelLoader.loadModel( "slashWork/game/data/Tree1.jme", "", .2f, 
-//				new Quaternion().fromAngleAxis( FastMath.HALF_PI, Vector3f.UNIT_Z ) );
+//		Node tree = ModelLoader.loadModel( "game/data/models/vegetation/tree1.3ds", 
+//				"", 0.02f, Util.X270 );
 //		
-//		tree.setLocalTranslation( 130, 10, 130 );
+//		tree.setLocalTranslation( 30, terrain.getHeight( 30, 30 ), 30 );
 //		
 //		rootNode.attachChild( tree );
 		
-//	    TODO
-//      TextureState treeTex = display.getRenderer().createTextureState();
+//     TextureState treeTex = display.getRenderer().createTextureState();
 //      treeTex.setEnabled(true);
 //      Texture tr = TextureManager.loadTexture(
 //              GraphicalWorld.class.getClassLoader().getResource(
@@ -527,14 +581,14 @@ public class GraphicalWorld extends Game {
                 .getClassLoader().getResource(
                         "jmetest/data/texture/terrain/heights.raw"),
                 129, RawHeightMap.FORMAT_16BITLE, false);
-
+		
         Vector3f terrainScale = new Vector3f( 20, 0.003f, 20 );
         heightMap.setHeightScale(0.001f);
         
-        TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
+        terrain = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
-        page.getLocalTranslation().set(0, -9.5f, 0);
-        page.setDetailTexture(1, 1);
+        terrain.getLocalTranslation().set( 129*20/2, -9.5f, 129*20/2);
+        terrain.setDetailTexture(1, 1);
 
         // create some interesting texturestates for splatting
         TextureState ts1 = createSplatTextureState(
@@ -580,7 +634,7 @@ public class GraphicalWorld extends Game {
         // //////////////////// PASS STUFF START
         // try out a passnode to use for splatting
         PassNode splattingPassNode = new PassNode("SplatPassNode");
-        splattingPassNode.attachChild(page);
+        splattingPassNode.attachChild(terrain);
 
         PassNodeState passNodeState = new PassNodeState();
         passNodeState.setPassState(ts1);
@@ -635,7 +689,7 @@ public class GraphicalWorld extends Game {
         heightMap.setHeightScale(0.001f);
         TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
-        page.getLocalTranslation().set( 0, -9.5f, 0 );
+        page.getLocalTranslation().set( 129*20/2, -9.5f, 129*20/2);
         page.setDetailTexture(1, 1);
 
         // create some interesting texturestates for splatting

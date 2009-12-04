@@ -87,7 +87,7 @@ public class PhysicsCharacter {
 
 	float previousTime;
 
-	private boolean freeCam;
+	private boolean freeCam = false;
 
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
@@ -228,9 +228,9 @@ public class PhysicsCharacter {
 		   
 		    if( freeCam ) {
 		    	world.physicsInputHandler.setEnabled( false );
-		    	world.input.setEnabled( true );
+		    	world.freeCamInput.setEnabled( true );
 		    } else {
-		    	world.input.setEnabled( false );
+		    	world.freeCamInput.setEnabled( false );
 		    	world.physicsInputHandler.setEnabled( true );
 		    }
 		    
@@ -271,8 +271,9 @@ public class PhysicsCharacter {
 	public void die() {
     	clearDynamics();
     	world.explosion.setWorldPosition( feet.getWorldTranslation() );
+    	world.explosion.setVolume( 5 );
     	world.explosion.play();
-//    	TODO explosion
+
     	body.detachAllChildren();
     	feet.detachAllChildren();
     	feet.delete();
@@ -562,6 +563,7 @@ public class PhysicsCharacter {
 		world.bullets.put( bullet.id, bullet );
 		bullet.shoot(direction);
 		world.shoot.setWorldPosition( feet.getWorldTranslation() );
+		world.shoot.setVolume( 0.2f );
 		world.shoot.play();
 	}
 

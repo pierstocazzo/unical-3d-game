@@ -67,7 +67,7 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		if( world.getCore().isAlive( id ) == true ) {
 			world.getCore().updateEnemyState(id);
 			if( world.getCore().getEnemyState(id) == State.ATTACK ) {
-				//TODO set the correct animation
+				//TODO attivare l'animazione shoot quando si spara
 				if( world.timer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
 					previousTime = world.timer.getTimeInSeconds();
 					shoot( world.getCore().getEnemyShootDirection(id) );
@@ -134,24 +134,28 @@ public class PhysicsEnemy extends PhysicsCharacter {
 	@Override
 	public void shoot( Vector3f direction ) {
 		world.bulletsCounter = world.bulletsCounter + 1;
-		Vector3f bulletPosition = world.getCore().getCharacterPosition(id).add( direction.mult( 5 ) );
+		Vector3f bulletPosition = world.getCore().
+					getCharacterPosition(id).add( direction.mult( 5 ) );
 		bulletPosition.addLocal( 0, 2, 0 );
 		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, 
 				world.getCore().getCharacterWeapon(id), bulletPosition );
 		world.bullets.put( bullet.id, bullet );
 		bullet.shoot(direction);
-		world.shoot.setWorldPosition( feet.getWorldTranslation() );
-		world.shoot.play();
+//		world.shoot.setWorldPosition( feet.getWorldTranslation() );
+//		world.shoot.play();
 	}
 	
 	@Override
 	public void die() {
-		ParticleMesh explosion = ExplosionFactory.getExplosion();
-		explosion.setOriginOffset( feet.getWorldTranslation().clone() );
-		explosion.forceRespawn();
-		world.getRootNode().attachChild(explosion);
-
-		PhysicsAmmoPackage ammo = new PhysicsAmmoPackage( id + "ammoPack", world, world.getCore().getAmmoPack( id + "ammoPack" ).getPosition() );
+        ParticleMesh exp = ExplosionFactory.getSmallExplosion(); 
+		exp.setOriginOffset( feet.getWorldTranslation().clone() );
+//		  non si sa come ma da problemi...
+//        exp.setLocalScale( 0.3f); 
+        world.getRootNode().attachChild(exp);
+        exp.forceRespawn();
+		
+		PhysicsAmmoPackage ammo = new PhysicsAmmoPackage( id + "ammoPack", 
+				world, feet.getWorldTranslation().clone().add( new Vector3f(0,15,0) ) );
 		world.ammoPackages.put( ammo.id, ammo );
 		super.die();
 	}

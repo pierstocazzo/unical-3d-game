@@ -10,7 +10,7 @@ import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 
 /**
- * TODO sistemare la posizione iniziale...
+ * TODO sistemare la posizione iniziale dei bullet
  */
 public class PhysicsAmmoPackage {
 	
