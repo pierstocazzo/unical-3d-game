@@ -78,14 +78,14 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 				if ( distance <= state.getViewRange() ) {
 					state = State.ATTACK;
 				} else if ( distance > state.getActionRange() ) {
-					// TODO inserire un timer
+					// TODO inserire un timer per lo stato di allerta
 					state = State.DEFAULT;
 				}
 				break;
 			
 			case ATTACK:
 				if ( distance > state.getViewRange() ) {
-					// TODO inserire un timer
+					// TODO inserire un timer per stato di attacco
 					state = State.ALERT;
 				} else {
 					calculateShootDirection( playerId );
@@ -100,7 +100,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		// nemico a quello del suo target (ovvero un player) 
 		shootDirection.set( world.characters.get(playerId).position.subtract( position ).normalize() );
 		// aggiungo un certo errore ruotando il vettore di un angolo random tra 0 e 10 gradi 
-		// TODO diminuire l'errore possibile all'aumentare del livello
+		// TODO gestire l'errore della shootdirection in base al livello
 		float angle = FastMath.DEG_TO_RAD * ( FastMath.rand.nextFloat() % 10 );
 		Quaternion q = new Quaternion().fromAngleAxis( angle, Vector3f.UNIT_Y );
 		q.mult( shootDirection, shootDirection );

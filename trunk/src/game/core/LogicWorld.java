@@ -271,7 +271,8 @@ public class LogicWorld implements WorldInterface, Serializable {
 
 	@Override
 	public void characterShoted( String id, int bulletDamage ) {
-		characters.get(id).isShooted( bulletDamage );
+		if( characters.containsKey( id ))
+			characters.get(id).isShooted( bulletDamage );
 	}
 
 	@Override

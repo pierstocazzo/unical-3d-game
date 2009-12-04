@@ -19,7 +19,7 @@ public class PhysicsBullet {
 	/** the bullet physicsNode */
 	DynamicPhysicsNode physicsBullet;
 	
-	/** an input handler used to detect bullet's collisions */
+	/** an freeCamInput handler used to detect bullet's collisions */
 	InputHandler contactDetect = new InputHandler();
 	
 	/** the graphical world witch contains the bullet */

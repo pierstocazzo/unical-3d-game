@@ -91,6 +91,9 @@ public abstract class PhysicsGame extends AbstractGame {
 	
 	/** pass manager for terrain splatting etc */
 	protected BasicPassManager passManager;
+
+	public boolean gameIsThread;
+	
 	
     /**  
      *  PhysicsGame constructor<br>
@@ -117,7 +120,7 @@ public abstract class PhysicsGame extends AbstractGame {
 
                 // main loop
                 while ( !finished && !display.isClosing() ) {
-                    // handle input events prior to updating the scene
+                    // handle freeCamInput events prior to updating the scene
                     // - some applications may want to put this into update of
                     // the game state
                     InputSystem.update();
@@ -170,7 +173,7 @@ public abstract class PhysicsGame extends AbstractGame {
 	}
 
     /**
-     * Updates the timer, sets tpf, updates the input and updates the fps
+     * Updates the timer, sets tpf, updates the freeCamInput and updates the fps
      * string. Also checks keys for toggling pause, bounds, normals, lights,
      * wire etc.
      *
@@ -215,12 +218,17 @@ public abstract class PhysicsGame extends AbstractGame {
             showPhysics = !showPhysics;
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
-        	//vado in wait e passo il testimone a swing
-        	threadController.waitThread();
-        	//reset del timer per evitare problemi nel resume del gioco
-        	timer.reset();
-        	if(threadController.close)//se swing comanda esci
-        		super.finish();
+        	if( gameIsThread ) {
+	        	//vado in wait e passo il testimone a swing
+	        	threadController.waitThread();
+	        	//reset del timer per evitare problemi nel resume del gioco
+	        	timer.reset();
+	        	if(threadController.close)//se swing comanda esci
+	        		finish();
+        	} else {
+        		finish();
+        	}
+	        	
         }
         
         if ( !pause ) {
@@ -255,6 +263,9 @@ public abstract class PhysicsGame extends AbstractGame {
 
         /** Draw the rootNode and all its children. */
         renderer.draw(rootNode);
+        
+        /** Have the PassManager render. */
+        passManager.renderPasses(display.getRenderer());
 
         /** Call simpleRender() in any derived classes. */
         simpleRender();

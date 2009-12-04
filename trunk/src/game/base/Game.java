@@ -7,7 +7,7 @@ import game.base.PhysicsGame;
 
 public abstract class Game extends PhysicsGame {
 	
-	public InputHandler input;
+	public InputHandler freeCamInput;
 	
     @Override
     protected void setupGame() {
@@ -18,8 +18,8 @@ public abstract class Game extends PhysicsGame {
         setupCamera();
         setupInput();
         
-        input = new FirstPersonHandler( cam, 50, 1 );
-        input.setEnabled( false );
+        freeCamInput = new FirstPersonHandler( cam, 50, 1 );
+        freeCamInput.setEnabled( false );
     }
     
     public abstract void setupInit();
