@@ -544,9 +544,8 @@ public class GraphicalWorld extends Game {
 	
 	protected void cleanup() {
 		super.cleanup();
-		if(AudioSystem.isCreated()) {
-			AudioSystem.getSystem().cleanup();
-		}
+//		TODO se si fa il cleanup dell'audiosystem non funziona..
+//		audio.cleanup();
 	}
 	
 	/************* METODI AGGIUNTI PER L'AMBIENTAZIONE *****************/
