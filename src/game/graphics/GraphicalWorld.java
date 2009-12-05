@@ -216,7 +216,7 @@ public class GraphicalWorld extends Game {
 		audio.getEar().trackOrientation(cam);
 		audio.getEar().trackPosition(cam);
 
-		AudioTrack backgroundMusic = getMusic( Loader.load("/game/data/sound/game.ogg"));
+		AudioTrack backgroundMusic = getMusic( Loader.load("game/data/sound/game.ogg"));
 		audio.getMusicQueue().setRepeatType(RepeatType.ALL);
 		audio.getMusicQueue().setCrossfadeinTime(2.5f);
 		audio.getMusicQueue().setCrossfadeoutTime(2.5f);
