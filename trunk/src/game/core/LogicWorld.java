@@ -144,7 +144,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		for( String id : characters.keySet() ) {
 			// pattern matching on id: character id must be like "typeN" where N 
 			// is a number and type is "player" or "enemy"
-			if( Pattern.matches( "^" + type + ".", id ) ) {
+			if( Pattern.matches( "^" + type + ".+", id ) ) {
 				charactersId.add( id );
 			}
 		}
