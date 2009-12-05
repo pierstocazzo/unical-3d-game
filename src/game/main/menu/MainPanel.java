@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -30,25 +31,27 @@ public class MainPanel extends JPanel {
 	public int current = 0;
 	/** List of image path */
 	ArrayList<String> imageFolder;
+	/** Preloaded images */
+	ArrayList<ImageIcon> imageContainer;
 	/** Thread Monitor */
-	ThreadController threadController;
+	ThreadController tc;
 	/** MainMenu */
-	MainMenu mainMenu;
+	MainMenu mm;
 	
 	/**
 	 * Constructor
 	 * 
-	 * @param threadController - ThreadController
-	 * @param mainMenu - MainMenu
+	 * @param tc - ThreadController
+	 * @param mm - MainMenu
 	 */
-	public MainPanel( ThreadController threadController, MainMenu mainMenu ){
+	public MainPanel(ThreadController tc, MainMenu mm){
 		super();
-		this.threadController = threadController;
-		this.mainMenu = mainMenu;
+		this.tc = tc;
+		this.mm = mm;
 		initImageFolder();
 		initItem();
 		
-		this.setLayout( new GridLayout( 5, 1 ) );
+		this.setLayout(new GridLayout(5,1));
 		this.setOpaque(false);
 	}
 	
@@ -57,9 +60,9 @@ public class MainPanel extends JPanel {
 	 * 
 	 * @return (int) current
 	 */
-	public int prev() {
+	public int prev(){
 		this.current = this.current + 1;
-		if( this.current >= item.size() )
+		if(this.current >= item.size())
 			this.current = 0;
 		refreshMenu();
 		return current;
@@ -70,9 +73,9 @@ public class MainPanel extends JPanel {
 	 * 
 	 * @return (int) current
 	 */
-	public int next() {
+	public int next(){
 		this.current = this.current - 1;
-		if( this.current < 0 )
+		if(this.current < 0)
 			this.current = item.size() - 1;
 		refreshMenu();
 		return current;
@@ -84,8 +87,8 @@ public class MainPanel extends JPanel {
 	 * @param i
 	 * @return (String) path
 	 */
-	public String StandardImage( int i ) {
-		return imageFolder.get( i*2 );
+	public Icon StandardImage(int i){
+		return imageContainer.get(i*2);
 	}
 	
 	/**
@@ -94,8 +97,8 @@ public class MainPanel extends JPanel {
 	 * @param i
 	 * @return (String) path
 	 */
-	public String SelectedImage( int i ) {
-		return imageFolder.get( i*2+1 );
+	public Icon SelectedImage(int i){
+		return imageContainer.get(i*2+1);
 	}
 	
 	/**
@@ -103,112 +106,105 @@ public class MainPanel extends JPanel {
 	 */
 	public void refreshMenu(){
 		for( int i=0; i < item.size(); i++ ){
-			if( current == i )
-				item.get(i).setIcon( new ImageIcon(SelectedImage(i) ) );
+			if(current == i)
+				item.get(i).setIcon(SelectedImage(i));
 			else
-				item.get(i).setIcon( new ImageIcon(StandardImage(i) ) );
+				item.get(i).setIcon(StandardImage(i));
 		}
 	}
 	
 	/**
 	 * Initialize item images
 	 */
-	public void initItem() {
+	public void initItem(){
 		item = new ArrayList<JLabel>();
-		item.add( new JLabel( new ImageIcon( imageFolder.get(1) ) ) );
-		this.add( item.get(0) );
-		item.add( new JLabel( new ImageIcon( imageFolder.get(2) ) ) );
-		this.add( item.get(1) );
-		item.add( new JLabel( new ImageIcon( imageFolder.get(4) ) ) );
-		this.add( item.get(2) );
-		item.add( new JLabel( new ImageIcon( imageFolder.get(6) ) ) );
-		this.add( item.get(3) );
-		item.add( new JLabel( new ImageIcon( imageFolder.get(8) ) ) );
-		this.add( item.get(4) );
+		item.add( new JLabel(imageContainer.get(1)));
+		this.add(item.get(0));
+		item.add( new JLabel(imageContainer.get(2)));
+		this.add(item.get(1));
+		item.add( new JLabel(imageContainer.get(4)));
+		this.add(item.get(2));
+		item.add( new JLabel(imageContainer.get(6)));
+		this.add(item.get(3));
+		item.add( new JLabel(imageContainer.get(8)));
+		this.add(item.get(4));
 	}
 	
 	/**
 	 * Initialize image path list
 	 */
-	public void initImageFolder() {
+	public void initImageFolder(){
 		imageFolder = new ArrayList<String>();
-		imageFolder.add( "src/game/data/images/menu/newgame.png" );
-		imageFolder.add( "src/game/data/images/menu/newgame2.png" );
-		imageFolder.add( "src/game/data/images/menu/load.png" );
-		imageFolder.add( "src/game/data/images/menu/load2.png" );
-		imageFolder.add( "src/game/data/images/menu/options.png" );
-		imageFolder.add( "src/game/data/images/menu/options2.png" );
-		imageFolder.add( "src/game/data/images/menu/credits.png" );
-		imageFolder.add( "src/game/data/images/menu/credits2.png" );
-		imageFolder.add( "src/game/data/images/menu/exit.png" );
-		imageFolder.add( "src/game/data/images/menu/exit2.png" );
+		imageFolder.add("src/game/data/images/menu/newgame.png");
+		imageFolder.add("src/game/data/images/menu/newgame2.png");
+		imageFolder.add("src/game/data/images/menu/load.png");
+		imageFolder.add("src/game/data/images/menu/load2.png");
+		imageFolder.add("src/game/data/images/menu/options.png");
+		imageFolder.add("src/game/data/images/menu/options2.png");
+		imageFolder.add("src/game/data/images/menu/credits.png");
+		imageFolder.add("src/game/data/images/menu/credits2.png");
+		imageFolder.add("src/game/data/images/menu/exit.png");
+		imageFolder.add("src/game/data/images/menu/exit2.png");
+		imageContainer = new ArrayList<ImageIcon>();
+		for(int i=0; i<imageFolder.size(); i++)
+			imageContainer.add( new ImageIcon(imageFolder.get(i)) );
 	}
 
 	/**
 	 * Execute operation of selected element
 	 */
-	public void executeSelectedItem() {
-		switch (current) {
-		case 0:
-			mainMenu.setAlwaysOnTop(false);
-			System.out.println("New Game");
-			mainMenu.game = new GameThread(threadController);
-			Thread gameThread = new Thread(mainMenu.game);
-			gameThread.start();
-			threadController.waitThread();
-			mainMenu.setVisible(false);
-			InGameMenu gameMenu = new InGameMenu(threadController,mainMenu);
-			gameMenu.setVisible(true);
-			System.out.println("GameMenu");
-			break;
-			
-		case 1://Load game with fileChooser
-			mainMenu.showCursor();
-			JFileChooser fc = new JFileChooser();
-			int returnVal = fc.showOpenDialog(this);
-			
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				File file = fc.getSelectedFile();
-				System.out.println("Opening: " + file.getName() + ".");
-
-				FileInputStream fin = null;
-				try { fin = new FileInputStream("gameSave/"+file.getName());} 
-				catch (FileNotFoundException e) {e.printStackTrace();}
-				ObjectInputStream ois = null;
-				try { ois = new ObjectInputStream(fin); } 
-				catch (IOException e) { e.printStackTrace(); }
-				LogicWorld gameLoaded = null;
-				try {try { gameLoaded = (LogicWorld) ois.readObject();
-				} catch (IOException e) {e.printStackTrace();}}
-				catch (ClassNotFoundException e) {e.printStackTrace();} 
-
-				mainMenu.threadController.close=false;
-				mainMenu.game = new GameThread(mainMenu.threadController,gameLoaded);
-				Thread newGgameThread = new Thread(mainMenu.game);
-				newGgameThread.start();
-				threadController.waitThread();
-				System.out.println("gioco caricato in pausa, svegliato swing");
-				mainMenu.setVisible(false);
-				InGameMenu newGameMenu = new InGameMenu(threadController,mainMenu);
-				newGameMenu.setVisible(true);
-				System.out.println("GameMenu");
-			} else {
-				System.out.println("Open command cancelled by user.");
-			}
-			
-			mainMenu.hideCursor();
-			break;
-			
-		case 2:
-			break;//todo Options
-			
-		case 3:
-			break;//todo Credits
-			
-		case 4:
-			threadController.notifyCloseGame();
-			System.exit(0);
-			break;
+	public void executeSelectedItem(){
+		switch (current){
+			case 0:{mm.setAlwaysOnTop(false);
+					System.out.println("New Game");
+					mm.game = new GameThread(tc);
+					Thread gameThread = new Thread(mm.game);
+					gameThread.start();
+					tc.waitThread();
+					mm.setVisible(false);
+					InGameMenu gameMenu = new InGameMenu(tc,mm);
+					gameMenu.setVisible(true);
+					System.out.println("GameMenu");break;}
+			case 1:{//Load game with fileChooser
+					mm.showCursor();
+					JFileChooser fc = new JFileChooser();
+					int returnVal = fc.showOpenDialog(this);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
+						System.out.println("Opening: " + file.getName() + ".");
+						
+						FileInputStream fin = null;
+						try { fin = new FileInputStream("gameSave/"+file.getName());} 
+						catch (FileNotFoundException e) {e.printStackTrace();}
+						ObjectInputStream ois = null;
+						try { ois = new ObjectInputStream(fin); } 
+						catch (IOException e) { e.printStackTrace(); }
+						LogicWorld gameLoaded = null;
+						try {try { gameLoaded = (LogicWorld) ois.readObject();
+						} catch (IOException e) {e.printStackTrace();}}
+						catch (ClassNotFoundException e) {e.printStackTrace();} 
+						
+						mm.tc.close=false;
+						mm.game = new GameThread(mm.tc,gameLoaded);
+						Thread gameThread = new Thread(mm.game);
+						gameThread.start();
+						tc.waitThread();
+						System.out.println("gioco caricato in pausa, svegliato swing");
+						mm.setVisible(false);
+						InGameMenu gameMenu = new InGameMenu(tc,mm);
+						gameMenu.setVisible(true);
+						System.out.println("GameMenu");
+					} 
+					else
+						System.out.println("Open command cancelled by user.");
+					mm.hideCursor();
+					break;}
+			case 2:break;//todo Options
+			case 3:break;//todo Credits
+			case 4:{tc.notifyCloseGame();
+					System.out.println("exit main menu");
+					System.exit(0);break;}
+			default:break;
 		}
 	}
 }

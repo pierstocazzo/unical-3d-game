@@ -225,6 +225,9 @@ public abstract class PhysicsGame extends AbstractGame {
 	        	timer.reset();
 	        	if(threadController.close)//se swing comanda esci
 	        		finish();
+	        	else
+	        		display.recreateWindow(settings.getWidth(),settings.getHeight(),
+	        				settings.getDepth(),settings.getFrequency(),settings.isFullscreen());
         	} else {
         		finish();
         	}
