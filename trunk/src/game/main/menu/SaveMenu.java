@@ -34,9 +34,9 @@ public class SaveMenu extends JFrame {
 		this.gm = gm;
 		sfondo = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
 		
-		this.setSize(1000, 600);
+//		this.setSize(1000, 600);
 //		setDefaultLookAndFeelDecorated(true);
-//		this.setUndecorated(true); 
+		this.setUndecorated(true); 
 		
 //		this.setResizable(true);
 //		this.setAlwaysOnTop(true);
@@ -110,6 +110,10 @@ public class SaveMenu extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER)
 					panel.executeSelectedItem();
+				else if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
+					setVisible(false);
+					gm.setVisible(true);
+				}
 				else if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE){
 					try {
 						panel.text.setText(panel.text.getText(0,panel.text.getText().length()-1));

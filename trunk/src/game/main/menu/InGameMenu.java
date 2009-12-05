@@ -57,7 +57,7 @@ public class InGameMenu extends JFrame {
 		
 //		this.setSize(1000, 600);
 //		setDefaultLookAndFeelDecorated(true);
-//		this.setUndecorated(true); 
+		this.setUndecorated(true); 
 		
 //		this.setResizable(true);
 //		this.setAlwaysOnTop(true);

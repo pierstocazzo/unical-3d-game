@@ -13,6 +13,7 @@ import java.util.GregorianCalendar;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.GroupLayout.Alignment;
 
 
 public class SavePanel extends JPanel {
@@ -29,8 +30,10 @@ public class SavePanel extends JPanel {
 		this.gm = gm;
 		this.sm = sm;
 		
+		JLabel message = new JLabel("Please insert file name and press ENTER");
+		add(message);
+		
 		GregorianCalendar gc = new GregorianCalendar();
-
 		text = new JTextField("Game_"+
 								gc.get(Calendar.DAY_OF_MONTH)+"-"+
 								gc.get(Calendar.MONTH)+"-"+
@@ -55,7 +58,6 @@ public class SavePanel extends JPanel {
 		try {ois = new ObjectOutputStream(fin);} 
 		catch (IOException e) {e.printStackTrace();}
 		try {ois.writeObject(gm.mainMenu.game.logicGame);} 
-//		try {ois.writeObject(new Movement( Direction.FORWARD, 40 ));} 
 		catch (IOException e) {e.printStackTrace();System.exit(0);}
 		
 		gm.setVisible(true);

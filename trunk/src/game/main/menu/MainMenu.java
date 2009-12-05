@@ -29,12 +29,12 @@ public class MainMenu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	/** Main Panel */
-	MainPanel mainPanel;
+	MainPanel p;
 	
 	/** Thread Monitor */
-	ThreadController threadController;
+	ThreadController tc;
 	
-	/** background image */
+	/** background wallpaper */
 	Image background;
 	
 	/** Pointer to thread Game used in other classes*/
@@ -43,11 +43,11 @@ public class MainMenu extends JFrame {
 	/**
 	 * Constructor
 	 * 
-	 * @param threadController - ThreadController
+	 * @param tc - ThreadController
 	 */
-	public MainMenu( ThreadController threadController ) {
+	public MainMenu(ThreadController tc){
 		super();
-		this.threadController = threadController;
+		this.tc = tc;
 		background = Toolkit.getDefaultToolkit().getImage( "src/game/data/images/menu/background.jpg" );
 		
 //		this.setSize(1000, 600);
@@ -63,9 +63,8 @@ public class MainMenu extends JFrame {
 	    
 		hideCursor();
 		
-		this.setTitle( "Main Menu" );
-		mainPanel = new MainPanel( threadController, this );
-//		createMenu();
+		this.setTitle("Main Menu");
+		p = new MainPanel(tc, this);
 		
 		//set full screen
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -77,44 +76,45 @@ public class MainMenu extends JFrame {
 	 */
 	public void createMenu(){
 		//create main panel
-		JPanel panel = new JPanel() {
+		
+		JPanel b = new JPanel(){
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void paintComponent( Graphics g ) {
-				g.drawImage( background, 0, 0, this );
+			public void paintComponent(Graphics g){
+				g.drawImage(background, 0, 0, this);
 				super.paintComponent(g);
 			}
 		};
 		
-		panel.setLayout( new BorderLayout() );
-		panel.setOpaque(false);
-		this.setContentPane(panel);
-		panel.add( mainPanel, BorderLayout.CENTER );
+		b.setLayout(new BorderLayout());
+		b.setOpaque(false);
+		this.setContentPane(b);
+		b.add(p, BorderLayout.CENTER);
 		
 		//add left vertical empty panel
 		JPanel pVerticalEmpty1 = new JPanel();
 		pVerticalEmpty1.setOpaque(false);
-		pVerticalEmpty1.setPreferredSize( new Dimension( 350, 1 ) );
-		panel.add( pVerticalEmpty1, BorderLayout.WEST );
+		pVerticalEmpty1.setPreferredSize(new Dimension(350, 1));
+		b.add(pVerticalEmpty1,BorderLayout.WEST);
 		
 		//add right vertical empty panel
 		JPanel pVerticalEmpty2 = new JPanel();
 		pVerticalEmpty2.setOpaque(false);
-		pVerticalEmpty2.setPreferredSize( new Dimension( 350, 1 ) );
-		panel.add(pVerticalEmpty2,BorderLayout.EAST);
+		pVerticalEmpty2.setPreferredSize(new Dimension(350, 1));
+		b.add(pVerticalEmpty2,BorderLayout.EAST);
 		
 		//add lower horizontal empty panel
-		JPanel pHorizontalEmpty1 = new JPanel( new FlowLayout( FlowLayout.RIGHT ) );
+		JPanel pHorizontalEmpty1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pHorizontalEmpty1.setOpaque(false);
-		pHorizontalEmpty1.setPreferredSize( new Dimension( 1, 100 ) );
-		panel.add( pHorizontalEmpty1, BorderLayout.SOUTH );
+		pHorizontalEmpty1.setPreferredSize(new Dimension(1, 100));
+		b.add(pHorizontalEmpty1,BorderLayout.SOUTH);
 		
 		//add upper horizontal empty panel
 		JPanel pHorizontalEmpty2 = new JPanel();
 		pHorizontalEmpty2.setOpaque(false);
-		pHorizontalEmpty2.setPreferredSize( new Dimension( 1, 250 ) );
-		panel.add( pHorizontalEmpty2, BorderLayout.NORTH );
+		pHorizontalEmpty2.setPreferredSize(new Dimension(1, 250));
+		b.add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 		this.setVisible(true);
 		
@@ -123,47 +123,48 @@ public class MainMenu extends JFrame {
 		 * 
 		 * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
 		 */
-		class KeyHandler implements KeyListener {
+		class KeyHandler implements KeyListener{
 			/** Main Panel */
 			MainPanel panel;
 			/**
 			 * Constructor
-			 * @param panel - MainPanel
+			 * @param p - MainPanel
 			 */
-			public KeyHandler( MainPanel panel ){
-				this.panel = panel;
+			public KeyHandler( MainPanel p){
+				this.panel = p;
 			}
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if( e.getKeyCode() == KeyEvent.VK_UP )
+				if(e.getKeyCode()==KeyEvent.VK_UP)
 					panel.next();
-				if( e.getKeyCode() == KeyEvent.VK_DOWN )
+				if(e.getKeyCode()==KeyEvent.VK_DOWN)
 					panel.prev();
-				if( e.getKeyCode() == KeyEvent.VK_ENTER )
+				if(e.getKeyCode()==KeyEvent.VK_ENTER)
 					panel.executeSelectedItem();
 			}
 			@Override
-			public void keyReleased( KeyEvent e ) {}
+			public void keyReleased(KeyEvent e) {}
 			@Override
-			public void keyTyped( KeyEvent e ) {}
+			public void keyTyped(KeyEvent e) {}
 		}
 		
-		this.addKeyListener( new KeyHandler(mainPanel) );
+		this.addKeyListener( new KeyHandler(p));
 		this.setFocusable(true);
 	}
 	
 	/**
 	 * Hide system cursor
 	 */
-	public void hideCursor() {
-		setCursor( getToolkit().createCustomCursor(
-				new BufferedImage( 3, 3, BufferedImage.TYPE_INT_ARGB ), new Point(), "null" ) );
+	public void hideCursor(){
+		setCursor(getToolkit().createCustomCursor(
+				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
+				new Point(), "null"));
 	}
 	
 	/**
 	 * Show system cursor
 	 */
 	public void showCursor(){
-		setCursor( Cursor.getDefaultCursor() );
+		setCursor(Cursor.getDefaultCursor());
 	}
 }
