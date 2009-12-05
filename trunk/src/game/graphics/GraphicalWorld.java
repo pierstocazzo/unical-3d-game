@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import jmetest.TutorialGuide.ExplosionFactory;
 import jmetest.effects.water.TestQuadWater;
 
-import slashWork.game.test.TestNewTerrain;
+import utils.Loader;
 import utils.ModelLoader;
 
 import com.jme.image.Texture;
@@ -148,7 +148,7 @@ public class GraphicalWorld extends Game {
         as.setDestinationFunction( DestinationFunction.OneMinusSourceAlpha );
         as.setEnabled(true);
 		TextureState cross = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-		cross.setTexture( TextureManager.loadTexture( getClass().getClassLoader().getResource(
+		cross.setTexture( TextureManager.loadTexture( Loader.load(
 		                "game/data/images/crosshair.png" ), false ) );
 		cross.setEnabled(true);
 		crosshair = new Quad( "quad", 30, 30 );
@@ -165,13 +165,13 @@ public class GraphicalWorld extends Game {
     public void setupInit() {
 		try {
 			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_AUDIO,
-					new SimpleResourceLocator( getClass().getClassLoader().getResource(
+					new SimpleResourceLocator( Loader.load(
 							"game/data/sound")));
 			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_TEXTURE,
-					new SimpleResourceLocator( getClass().getClassLoader().getResource(
+					new SimpleResourceLocator( Loader.load(
 							"game/data/texture")));
 			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_SHADER,
-					new SimpleResourceLocator( getClass().getClassLoader().getResource(
+					new SimpleResourceLocator( Loader.load(
 							"game/data/images")));
 		} catch (URISyntaxException e1) {
 			finish();
@@ -216,7 +216,7 @@ public class GraphicalWorld extends Game {
 		audio.getEar().trackOrientation(cam);
 		audio.getEar().trackPosition(cam);
 
-		AudioTrack backgroundMusic = getMusic( getClass().getResource("/game/data/sound/game.ogg"));
+		AudioTrack backgroundMusic = getMusic( Loader.load("/game/data/sound/game.ogg"));
 		audio.getMusicQueue().setRepeatType(RepeatType.ALL);
 		audio.getMusicQueue().setCrossfadeinTime(2.5f);
 		audio.getMusicQueue().setCrossfadeoutTime(2.5f);
@@ -679,8 +679,7 @@ public class GraphicalWorld extends Game {
     }
 
     private void createReflectionTerrain() {
-    	RawHeightMap heightMap = new RawHeightMap(TestNewTerrain.class
-                .getClassLoader().getResource(
+    	RawHeightMap heightMap = new RawHeightMap( Loader.load(
                         "jmetest/data/texture/terrain/heights.raw"),
                 129, RawHeightMap.FORMAT_16BITLE, false);
 
@@ -693,8 +692,7 @@ public class GraphicalWorld extends Game {
 
         // create some interesting texturestates for splatting
         TextureState ts1 = display.getRenderer().createTextureState();
-        Texture t0 = TextureManager.loadTexture(TestNewTerrain.class
-                .getClassLoader().getResource(
+        Texture t0 = TextureManager.loadTexture( Loader.load(
                         "jmetest/data/texture/terrain/terrainlod.jpg"),
                 Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
@@ -724,8 +722,7 @@ public class GraphicalWorld extends Game {
     }
 
     private void addAlphaSplat(TextureState ts, String alpha) {
-        Texture t1 = TextureManager.loadTexture(TestNewTerrain.class
-                .getClassLoader().getResource(alpha),
+        Texture t1 = TextureManager.loadTexture( Loader.load( alpha ),
                 Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
         t1.setWrap(Texture.WrapMode.Repeat);
@@ -740,8 +737,7 @@ public class GraphicalWorld extends Game {
     private TextureState createSplatTextureState(String texture, String alpha) {
         TextureState ts = display.getRenderer().createTextureState();
 
-        Texture t0 = TextureManager.loadTexture(TestNewTerrain.class
-                .getClassLoader().getResource(texture),
+        Texture t0 = TextureManager.loadTexture( Loader.load( texture ),
                 Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
         t0.setWrap(Texture.WrapMode.Repeat);
@@ -759,8 +755,7 @@ public class GraphicalWorld extends Game {
     private TextureState createLightmapTextureState(String texture) {
         TextureState ts = display.getRenderer().createTextureState();
 
-        Texture t0 = TextureManager.loadTexture(TestNewTerrain.class
-                .getClassLoader().getResource(texture),
+        Texture t0 = TextureManager.loadTexture( Loader.load( texture ),
                 Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
         t0.setWrap(Texture.WrapMode.Repeat);
