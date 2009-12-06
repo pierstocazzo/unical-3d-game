@@ -280,7 +280,7 @@ public class GraphicalWorld extends Game {
      */
     public void setupPlayer() {
     	
-    	Node model = ModelLoader.loadModel("game/data/models/soldier/soldato.ms3d", 
+    	Node model = ModelLoader.loadModel("game/data/models/soldier/sold1.ms3d", 
     			"game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
         model.setLocalTranslation(0, -2f, 0);   
         

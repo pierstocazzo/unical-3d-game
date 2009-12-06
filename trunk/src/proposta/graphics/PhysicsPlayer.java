@@ -2,9 +2,12 @@ package proposta.graphics;
 
 import proposta.base.PhysicsGame;
 import proposta.graphics.CustomAnimationController.Animation;
+import utils.Loader;
+import utils.ModelLoader;
 import utils.Util;
 
 import com.jme.bounding.BoundingBox;
+import com.jme.image.Texture;
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
@@ -13,6 +16,9 @@ import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
+import com.jme.scene.state.TextureState;
+import com.jme.system.DisplaySystem;
+import com.jme.util.TextureManager;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
 import com.jmex.physics.RotationalJointAxis;
@@ -151,6 +157,14 @@ public class PhysicsPlayer extends PhysicsCharacter {
 	    characterNode.setModelBound( new BoundingBox() );
 	    characterNode.updateModelBound();
 	
+		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
+                Texture.MinificationFilter.Trilinear,
+                Texture.MagnificationFilter.Bilinear);
+        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+        ts.setEnabled(true);
+        ts.setTexture(texture);
+		model.getChild( "weapon" ).setRenderState( ts );	    
+		
 	    /** initialize the animation */ 
 		animationController = new CustomAnimationController( model.getController(0) );
 		
@@ -188,7 +202,7 @@ public class PhysicsPlayer extends PhysicsCharacter {
 		
 		    contactDetect.update(time);
 		    
-		    model.setLocalRotation( Util.Y180 );
+//		    model.setLocalRotation( Util.Y180 );
 		    body.clearDynamics();
 		    body.getWorldTranslation().set( characterNode.getWorldTranslation() );
 
