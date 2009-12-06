@@ -8,8 +8,10 @@ import proposta.graphics.CustomAnimationController.Animation;
 import java.awt.Color;
 
 import jmetest.TutorialGuide.ExplosionFactory;
+import utils.Loader;
 import utils.TextLabel2D;
 
+import com.jme.image.Texture;
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
@@ -19,6 +21,9 @@ import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.BillboardNode;
 import com.jme.scene.Node;
+import com.jme.scene.state.TextureState;
+import com.jme.system.DisplaySystem;
+import com.jme.util.TextureManager;
 import com.jmex.effects.particles.ParticleMesh;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
@@ -99,61 +104,239 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 	float previousTime;
 
     	
-    /** Function <code>createPhysics</code> <p>
+    /** PhysicsEnemy Constructor<br>
+	 * Create a new graphical enemy and start his movements
 	 * 
-	 * Create the physics geometry of a character: <br>
-	 *  - <i>feet</i> node, a Sphere used for the movements (by rotation) <br>
-	 *  - <i>body</i> node, a Capsule placed upon the feet that contains the character model <br>
-	 *  - <i>rotationalAxis</i>, the axis that permit the movement (by rotating the sphere) <br>
-	 *  <p>
-	 *  Also initialize animation controller and set the <i>"idle"</i> animation
+	 * @param id - (String) the enemy's identifier
+	 * @param world - (GraphicalWorld) the graphical world in whitch the enemy is created
+	 * @param speed - (int) the enemy's movement's speed
+	 * @param mass - (int) the enemy's mass
+	 * @param model - (Node) the model to attach to the enemy
 	 */
-	void createPhysics() {
-	    // Create the feet
-	    PhysicsSphere feetGeometry = feet.createSphere("feet geometry");
-	    feetGeometry.setLocalScale(2);
-	    
-	    feet.setMaterial(characterMaterial);
-	    feet.computeMass();
+	public PhysicsEnemy( String id, GraphicalWorld world, float speed, float mass, Node model ) {
 	
-	    // Append feet to main Character Node
-	    characterNode.attachChild(feet);
-	
-	    // Create the body
-	    PhysicsCapsule bodyGeometry = body.createCapsule("body geometry");
-	    bodyGeometry.setLocalScale(2);
-	    bodyGeometry.setLocalTranslation(0,5,0);
-	    // Set UP the orientation of the Body
-	    quaternion.fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
-	    bodyGeometry.setLocalRotation(quaternion);
-	    // Setting up the body
-	    body.setAffectedByGravity(false);
-	    body.computeMass();
-	    body.attachChild( model );
-	
-	    // Append body to main Character Node
-	    characterNode.attachChild(body);
-	
-	    // Create the joint
-//	    rotationalAxis.setDirection(moveDirection);
-	    feetToBodyJoint.attach( body, feet );
-	    rotationalAxis.setRelativeToSecondObject(true);
-	    rotationalAxis.setAvailableAcceleration(0f);
-	    rotationalAxis.setDesiredVelocity(0f);
-	
-	    // Set default mass
-	    feet.setMass(mass);
-	
-	    // Set the jump direction
-	    jumpVector = new Vector3f(0, mass*1000, 0);
-	    
-	    /** initialize the animation */ 
-		animationController = new CustomAnimationController( model.getController(0) );
+		this.id = id;
 		
-        rest();
-        setRest( false );
-        setOnGround( false );
+		this.world = world;
+	    
+	    characterNode = new Node("character node");
+	    body = world.getPhysicsSpace().createDynamicNode();
+	    feet = world.getPhysicsSpace().createDynamicNode();
+	    feetToBodyJoint = world.getPhysicsSpace().createJoint();
+	    rotationalAxis = feetToBodyJoint.createRotationalAxis();
+	
+	    this.moveDirection = new Vector3f( Vector3f.ZERO );
+	    this.speed = speed;
+	    this.mass = mass;
+	    this.model = model;
+	    
+	    characterMaterial = new Material("Character Material");
+	    characterMaterial.setDensity(100f);
+	    MutableContactInfo contactDetails = new MutableContactInfo();
+	    contactDetails.setBounce(0);
+	    contactDetails.setMu( 100 );
+	    contactDetails.setMuOrthogonal( 10 );
+	    contactDetails.setDampingCoefficient(0);
+	    characterMaterial.putContactHandlingDetails( Material.DEFAULT, contactDetails );
+	
+	    quaternion = new Quaternion();
+	    
+	    createPhysics();
+	    contactDetection();
+	    
+	    previousTime = 0;
+		
+		currentMovement = world.getCore().getEnemyNextMovement( id );
+		
+		currentPosition = new Vector3f();
+		initialPosition = new Vector3f();
+		
+		initialPosition.set( world.getCore().getCharacterPosition(id) );
+		initialPosition.setY(0);
+		
+		vectorToLookAt = new Vector3f();
+		
+		/** initial look at action */
+		vectorToLookAt.set( this.getModel().getWorldTranslation() );
+		moveDirection.set( currentMovement.getDirection().toVector() );
+		vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
+		this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+		
+		TextLabel2D label = new TextLabel2D( id );
+		label.setBackground(Color.GREEN);
+		label.setFontResolution( 100 );
+		label.setForeground(Color.GREEN);
+		BillboardNode bNode = label.getBillboard(0.5f);
+		bNode.getLocalTranslation().y += 10;
+		bNode.setLocalScale( 5 );
+		
+		model.attachChild( bNode );
 	}
+
+	/** Function <code>createPhysics</code> <p>
+		 * 
+		 * Create the physics geometry of a character: <br>
+		 *  - <i>feet</i> node, a Sphere used for the movements (by rotation) <br>
+		 *  - <i>body</i> node, a Capsule placed upon the feet that contains the character model <br>
+		 *  - <i>rotationalAxis</i>, the axis that permit the movement (by rotating the sphere) <br>
+		 *  <p>
+		 *  Also initialize animation controller and set the <i>"idle"</i> animation
+		 */
+		void createPhysics() {
+		    // Create the feet
+		    PhysicsSphere feetGeometry = feet.createSphere("feet geometry");
+		    feetGeometry.setLocalScale(2);
+		    
+		    feet.setMaterial(characterMaterial);
+		    feet.computeMass();
+		
+		    // Append feet to main Character Node
+		    characterNode.attachChild(feet);
+		
+		    // Create the body
+		    PhysicsCapsule bodyGeometry = body.createCapsule("body geometry");
+		    bodyGeometry.setLocalScale(2);
+		    bodyGeometry.setLocalTranslation(0,5,0);
+		    // Set UP the orientation of the Body
+		    quaternion.fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
+		    bodyGeometry.setLocalRotation(quaternion);
+		    // Setting up the body
+		    body.setAffectedByGravity(false);
+		    body.computeMass();
+		    body.attachChild( model );
+		    
+			Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
+	                Texture.MinificationFilter.Trilinear,
+	                Texture.MagnificationFilter.Bilinear);
+	        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+	        ts.setEnabled(true);
+	        ts.setTexture(texture);
+			model.getChild( "weapon" ).setRenderState( ts );
+		
+		    // Append body to main Character Node
+		    characterNode.attachChild(body);
+		
+		    // Create the joint
+	//	    rotationalAxis.setDirection(moveDirection);
+		    feetToBodyJoint.attach( body, feet );
+		    rotationalAxis.setRelativeToSecondObject(true);
+		    rotationalAxis.setAvailableAcceleration(0f);
+		    rotationalAxis.setDesiredVelocity(0f);
+		
+		    // Set default mass
+		    feet.setMass(mass);
+		
+		    // Set the jump direction
+		    jumpVector = new Vector3f(0, mass*1000, 0);
+		    
+		    /** initialize the animation */ 
+			animationController = new CustomAnimationController( model.getController(0) );
+			
+	        rest();
+	        setRest( false );
+	        setOnGround( false );
+		}
+
+	/** Function <code>update</code> <br>
+	 * Update the physics character 
+	 * @param time
+	 */
+	public void update( float time ) {
+	    if( world.getCore().isAlive( id ) == true ) {
+			preventFall();
+		
+		    contactDetect.update(time);
+		    
+		    body.rest();
+		    lookAtAction();
+		    
+			world.getCore().updateEnemyState(id);
+			if( world.getCore().getEnemyState(id) == State.ATTACK ) {
+				animationController.runAnimation( Animation.SHOOT );
+				shooting = true;
+				if( world.timer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
+					previousTime = world.timer.getTimeInSeconds();
+					shoot( world.getCore().getEnemyShootDirection(id) );
+				}
+			} else {
+				shooting = false;
+			}
+		    
+		    moveCharacter();
+		    
+		    // update core
+		    world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
+	    } else {
+	    	die();
+	    }
+	}
+
+	public void moveCharacter() {
+		float distance;
+		
+		/** The enemy will move only if he is in default state. When he attack or is in alert he rest
+		 */
+		if( currentMovement.getDirection() != Direction.REST 
+			&& world.getCore().getEnemyState(id) != State.ATTACK
+			&& world.getCore().getEnemyState(id) != State.ALERT ) {
+			
+			setMovingForward( true );
+			/** move the character in the direction specified in the current movement */
+			move( currentMovement.getDirection().toVector() );
+			        
+			/** update the utility vector currentPosition */
+			currentPosition.set( world.getCore().getCharacterPosition(id) );
+			currentPosition.setY(0);
+			
+			/** calculate distance between the current movement's start position and
+			 *  the current character position
+			 */
+			distance = currentPosition.distance( initialPosition );
+			
+			/** If this distance is major than the lenght specified in the movement 
+			 *  start the next movement
+			 */
+			if( distance >= currentMovement.getLength() ) {
+				clearDynamics();
+				
+				initialPosition.set( currentPosition );
+				currentMovement = world.getCore().getEnemyNextMovement( id );
+			}
+		} else {
+			if( getOnGround() )
+				clearDynamics();
+		}
+	}
+
+	void lookAtAction() {
+		Vector3f lookAtDirection = new Vector3f( world.getCore().getEnemyShootDirection(id) );
+		if( lookAtDirection.equals( Vector3f.ZERO ) ) {
+	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
+	        moveDirection.set( currentMovement.getDirection().toVector() );
+	        vectorToLookAt.addLocal( moveDirection.x, 0, moveDirection.z );
+	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+		} else {
+	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
+	        vectorToLookAt.addLocal( lookAtDirection.x, 0, lookAtDirection.z );
+	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+		}
+		
+		lookAtDirection = null;
+	}
+
+	public void shoot( Vector3f direction ) {
+			world.bulletsCounter = world.bulletsCounter + 1;
+			Vector3f bulletPosition = world.getCore().
+						getCharacterPosition(id).add( direction.mult( 5 ) );
+			bulletPosition.addLocal( 0, 2, 0 );
+			PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, 
+					world.getCore().getCharacterWeapon(id), bulletPosition );
+			world.bullets.put( bullet.id, bullet );
+			bullet.shoot(direction);
+			
+	//		world.shoot.setWorldPosition( feet.getWorldTranslation() );
+	//		world.shoot.play();
+		}
 
 	/** Function <code>move</code> <br>
 	 * Move the character in this direction (only if the character is on the ground)
@@ -170,37 +353,6 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 		} catch( Exception e ) {
 			rotationalAxis.setDesiredVelocity(0f);
 		}
-	}
-
-	/** Function <code>update</code> <br>
-	 * Update the physics character 
-	 * @param time
-	 */
-	public void update( float time ) {
-	    if( world.getCore().isAlive( id ) == true ) {
-			preventFall();
-		
-		    contactDetect.update(time);
-		    
-		    body.rest();
-		    lookAtAction();
-		    
-		    moveCharacter();
-		    
-		    // update core
-		    world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
-		    
-			world.getCore().updateEnemyState(id);
-			if( world.getCore().getEnemyState(id) == State.ATTACK ) {
-				//TODO attivare l'animazione shoot quando si spara
-				if( world.timer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
-					previousTime = world.timer.getTimeInSeconds();
-					shoot( world.getCore().getEnemyShootDirection(id) );
-				}
-			}
-	    } else {
-	    	die();
-	    }
 	}
 
 	public void hide( boolean b ) {
@@ -286,7 +438,7 @@ public class PhysicsEnemy extends PhysicsCharacter  {
         
         body.clearDynamics();
         
-    	if( animationController.getCurrentAnimation() != Animation.IDLE ) {
+    	if( animationController.getCurrentAnimation() != Animation.IDLE && !shooting ) {
     		// activate the animation "idle"
     		animationController.runAnimation( Animation.IDLE );
     	}
@@ -493,140 +645,5 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 	 */
 	public void setShooting( boolean shooting ) {
 		this.shooting = shooting;
-	}
-	
-	/** PhysicsEnemy Constructor<br>
-	 * Create a new graphical enemy and start his movements
-	 * 
-	 * @param id - (String) the enemy's identifier
-	 * @param world - (GraphicalWorld) the graphical world in whitch the enemy is created
-	 * @param speed - (int) the enemy's movement's speed
-	 * @param mass - (int) the enemy's mass
-	 * @param model - (Node) the model to attach to the enemy
-	 */
-	public PhysicsEnemy( String id, GraphicalWorld world, float speed, float mass, Node model ) {
-
-		this.id = id;
-    	
-    	this.world = world;
-        
-        characterNode = new Node("character node");
-        body = world.getPhysicsSpace().createDynamicNode();
-        feet = world.getPhysicsSpace().createDynamicNode();
-        feetToBodyJoint = world.getPhysicsSpace().createJoint();
-        rotationalAxis = feetToBodyJoint.createRotationalAxis();
-
-        this.moveDirection = new Vector3f( Vector3f.ZERO );
-        this.speed = speed;
-        this.mass = mass;
-        this.model = model;
-        
-        characterMaterial = new Material("Character Material");
-        characterMaterial.setDensity(100f);
-        MutableContactInfo contactDetails = new MutableContactInfo();
-        contactDetails.setBounce(0);
-        contactDetails.setMu( 100 );
-        contactDetails.setMuOrthogonal( 10 );
-        contactDetails.setDampingCoefficient(0);
-        characterMaterial.putContactHandlingDetails( Material.DEFAULT, contactDetails );
-
-        quaternion = new Quaternion();
-        
-        createPhysics();
-        contactDetection();
-        
-        previousTime = 0;
-		
-		currentMovement = world.getCore().getEnemyNextMovement( id );
-		
-		currentPosition = new Vector3f();
-		initialPosition = new Vector3f();
-		
-		initialPosition.set( world.getCore().getCharacterPosition(id) );
-		initialPosition.setY(0);
-		
-		vectorToLookAt = new Vector3f();
-		
-		/** initial look at action */
-		vectorToLookAt.set( this.getModel().getWorldTranslation() );
-		moveDirection.set( currentMovement.getDirection().toVector() );
-		vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
-		this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
-		
-		TextLabel2D label = new TextLabel2D( id );
-		label.setBackground(Color.GREEN);
-		label.setFontResolution( 100 );
-		label.setForeground(Color.GREEN);
-		BillboardNode bNode = label.getBillboard(0.5f);
-		bNode.getLocalTranslation().y += 10;
-		bNode.setLocalScale( 5 );
-		
-		model.attachChild( bNode );
-	}
-	
-    public void moveCharacter() {
-    	float distance;
-    	
-    	/** The enemy will move only if he is in default state. When he attack or is in alert he rest
-    	 */
-		if( currentMovement.getDirection() != Direction.REST 
-			&& world.getCore().getEnemyState(id) != State.ATTACK
-			&& world.getCore().getEnemyState(id) != State.ALERT ) {
-			
-			setMovingForward( true );
-			/** move the character in the direction specified in the current movement */
-			move( currentMovement.getDirection().toVector() );
-			        
-			/** update the utility vector currentPosition */
-			currentPosition.set( world.getCore().getCharacterPosition(id) );
-			currentPosition.setY(0);
-			
-			/** calculate distance between the current movement's start position and
-			 *  the current character position
-			 */
-			distance = currentPosition.distance( initialPosition );
-			
-			/** If this distance is major than the lenght specified in the movement 
-			 *  start the next movement
-			 */
-			if( distance >= currentMovement.getLength() ) {
-				clearDynamics();
-				
-				initialPosition.set( currentPosition );
-				currentMovement = world.getCore().getEnemyNextMovement( id );
-			}
-		} else {
-			if( getOnGround() )
-				clearDynamics();
-		}
-    }
-    
-	void lookAtAction() {
-    	Vector3f lookAtDirection = new Vector3f( world.getCore().getEnemyShootDirection(id) );
-    	if( lookAtDirection.equals( Vector3f.ZERO ) ) {
-	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-	        moveDirection.set( currentMovement.getDirection().toVector() );
-	        vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
-	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
-    	} else {
-	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-	        vectorToLookAt.addLocal( lookAtDirection.negate().x, 0, lookAtDirection.negate().z );
-	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
-    	}
-    	
-    	lookAtDirection = null;
-	}
-
-	public void shoot( Vector3f direction ) {
-		world.bulletsCounter = world.bulletsCounter + 1;
-		Vector3f bulletPosition = world.getCore().
-					getCharacterPosition(id).add( direction.mult( 5 ) );
-		bulletPosition.addLocal( 0, 2, 0 );
-		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, 
-				world.getCore().getCharacterWeapon(id), bulletPosition );
-		world.bullets.put( bullet.id, bullet );
-		bullet.shoot(direction);
-//		world.shoot.setWorldPosition( feet.getWorldTranslation() );
-//		world.shoot.play();
 	}
 }
