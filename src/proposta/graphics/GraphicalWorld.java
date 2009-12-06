@@ -264,9 +264,9 @@ public class GraphicalWorld extends Game {
      */
     public void setupEnemies() { 	    	
         for( String id : core.getEnemiesId() ) {
-            Node model = ModelLoader.loadModel("game/data/models/soldier/soldato.ms3d", 
-            		"game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
-            model.setLocalTranslation( 0, -2f, 0 );   
+        	Node model = ModelLoader.loadModel("game/data/models/soldier/sold1.ms3d", 
+        			"game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
+            model.setLocalTranslation(0, -2f, 0);  
 
             PhysicsEnemy enemy = new PhysicsEnemy( id, this, 20, 100,  model );
         	enemy.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );

@@ -63,7 +63,9 @@ public class CustomAnimationController {
 		
 		JUMP ( 103, 111 ),
 		
-		DIE ( 230, 251 );
+		DIE ( 230, 251 ),
+		
+		SHOOT ( 64, 64 );
 		
 		int startFrame; 
 		
