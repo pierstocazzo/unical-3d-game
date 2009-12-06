@@ -57,7 +57,7 @@ public class SavePanel extends JPanel {
 		ObjectOutputStream ois = null;
 		try {ois = new ObjectOutputStream(fin);} 
 		catch (IOException e) {e.printStackTrace();}
-		try {ois.writeObject(gm.mainMenu.game.logicGame);} 
+		try {ois.writeObject(gm.threadController.gameThread.logicGame);} 
 		catch (IOException e) {e.printStackTrace();System.exit(0);}
 		
 		gm.setVisible(true);

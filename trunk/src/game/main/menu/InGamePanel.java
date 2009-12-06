@@ -25,8 +25,6 @@ public class InGamePanel extends JPanel {
 	ArrayList<ImageIcon> imageContainer;
 	/** Pointer to Game Menu (owner this panel)*/
 	InGameMenu gm;
-	/** Pointer to Main Menu */
-	MainMenu mm;
 	
 	/**
 	 * Constructor
@@ -34,10 +32,9 @@ public class InGamePanel extends JPanel {
 	 * @param gm - Game Menu
 	 * @param mm - Main Menu
 	 */
-	public InGamePanel(InGameMenu gm, MainMenu mm){
+	public InGamePanel(InGameMenu gm){
 		super();
 		this.gm = gm;
-		this.mm = mm;
 		initImageFolder();
 		initItem();
 		
@@ -137,20 +134,20 @@ public class InGamePanel extends JPanel {
 	 */
 	public void executeSelectedItem(){
 		switch (current){
-			case 0:{mm.tc.waitThread();
-					//force repaint on top of this frame
-					gm.setVisible(false);
-					gm.setVisible(true);
-					break;}
-			case 1:{gm.setVisible(false);
-					SaveMenu sm = new SaveMenu(gm);
-					sm.setVisible(true);break;}
-			case 2:{gm.setVisible(false);
-					mm.tc.notifyCloseGame();
-					System.out.println("exit game menu");
-//					System.exit(0);
-					break;}
-			default:break;
+			case 0:
+				gm.threadController.WakeUpGame();
+				gm.setVisible(false);
+				break;
+			case 1:
+				gm.setVisible(false);
+				SaveMenu sm = new SaveMenu(gm);
+				sm.setVisible(true);
+				break;
+			case 2:
+				gm.setVisible(false);
+				gm.threadController.notifyCloseGame();
+				System.out.println("exit game menu");
+				break;
 		}
 	}
 }
