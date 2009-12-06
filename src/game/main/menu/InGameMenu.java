@@ -34,37 +34,22 @@ public class InGameMenu extends JFrame {
 	/** Monitor for thread management */
 	ThreadController threadController;
 	
-	/** Pointer to Main Menu ( a Frame ) */
-	MainMenu mainMenu;
-	
 	/** background wallpaper */
 	Image background;
 	
-	
 	/**
 	 * Constructor of GameMenu
+	 * @param threadController 
 	 * 
-	 * @param threadController - Thread Monitor
 	 * @param mainMenu - Main Menu
 	 */
-	public InGameMenu( ThreadController threadController, MainMenu mainMenu ){
+	public InGameMenu(ThreadController threadController ){
 		super();
 		this.threadController = threadController;
-		this.mainMenu = mainMenu;
 		
 		//get image background
 		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
-		
-//		this.setSize(1000, 600);
-//		setDefaultLookAndFeelDecorated(true);
 		this.setUndecorated(true); 
-		
-//		this.setResizable(true);
-//		this.setAlwaysOnTop(true);
-
-//		Dimension screenSize = 
-//	        Toolkit.getDefaultToolkit().getScreenSize();
-//	    setBounds(0,0,screenSize.width, screenSize.height);
 	    
 		//hide cursor
 		setCursor( getToolkit().createCustomCursor(
@@ -74,9 +59,12 @@ public class InGameMenu extends JFrame {
 		this.setTitle( "Game Menu" );
 		createMenu();
 		
-		//set full screen
-		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-	    device.setFullScreenWindow(this);
+		setVisible(true);
+		Dimension screenSize = 
+	        Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(0,0,screenSize.width, screenSize.height);
+	    setResizable(false);
+	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	/**
@@ -97,7 +85,7 @@ public class InGameMenu extends JFrame {
 		borderPanel.setLayout( new BorderLayout() );
 		borderPanel.setOpaque(false);
 		setContentPane( borderPanel );
-		gamePanel = new InGamePanel( this, mainMenu );
+		gamePanel = new InGamePanel( this);
 		borderPanel.add( gamePanel, BorderLayout.CENTER );
 		
 		//add left vertical empty panel
@@ -147,6 +135,10 @@ public class InGameMenu extends JFrame {
 					panel.prev();
 				if( e.getKeyCode() == KeyEvent.VK_ENTER )
 					panel.executeSelectedItem();
+				if( e.getKeyCode() == KeyEvent.VK_ESCAPE){
+					panel.current = 0;
+					panel.executeSelectedItem();
+				}
 			}
 			@Override
 			public void keyReleased( KeyEvent e ) {}

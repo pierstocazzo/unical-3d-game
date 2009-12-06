@@ -31,52 +31,34 @@ public class MainMenu extends JFrame {
 	/** Main Panel */
 	MainPanel p;
 	
-	/** Thread Monitor */
-	ThreadController tc;
-	
 	/** background wallpaper */
 	Image background;
 	
-	/** Pointer to thread Game used in other classes*/
-	public GameThread game;
-	
 	/**
 	 * Constructor
-	 * 
-	 * @param tc - ThreadController
 	 */
-	public MainMenu(ThreadController tc){
+	public MainMenu(){
 		super();
-		this.tc = tc;
 		background = Toolkit.getDefaultToolkit().getImage( "src/game/data/images/menu/background.jpg" );
-		
-//		this.setSize(1000, 600);
-//		setDefaultLookAndFeelDecorated(true);
-		this.setUndecorated(true); 
-		
-//		this.setResizable(true);
-//		this.setAlwaysOnTop(true);
-
-//		Dimension screenSize = 
-//	        Toolkit.getDefaultToolkit().getScreenSize();
-//	    setBounds(0,0,screenSize.width, screenSize.height);
-	    
+		setUndecorated(true); 
+		this.setAlwaysOnTop(true);
+		requestFocus();
 		hideCursor();
 		
 		this.setTitle("Main Menu");
-		p = new MainPanel(tc, this);
+		p = new MainPanel(this);
 		
-		//set full screen
-		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-	    device.setFullScreenWindow(this);
+		Dimension screenSize = 
+	        Toolkit.getDefaultToolkit().getScreenSize();
+	    setBounds(0,0,screenSize.width, screenSize.height);
+	    setResizable(false);
+	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	/**
 	 * Create Main Menu
 	 */
 	public void createMenu(){
-		//create main panel
-		
 		JPanel b = new JPanel(){
 			private static final long serialVersionUID = 1L;
 
@@ -116,8 +98,6 @@ public class MainMenu extends JFrame {
 		pHorizontalEmpty2.setPreferredSize(new Dimension(1, 250));
 		b.add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
-		this.setVisible(true);
-		
 		/**
 		 * Custom Listener
 		 * 
@@ -148,8 +128,9 @@ public class MainMenu extends JFrame {
 			public void keyTyped(KeyEvent e) {}
 		}
 		
-		this.addKeyListener( new KeyHandler(p));
-		this.setFocusable(true);
+		addKeyListener( new KeyHandler(p));
+		setFocusable(true);
+		setVisible(true);
 	}
 	
 	/**

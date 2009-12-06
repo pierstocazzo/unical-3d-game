@@ -220,7 +220,7 @@ public abstract class PhysicsGame extends AbstractGame {
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
         	if( isThread ) {
 	        	//vado in wait e passo il testimone a swing
-	        	threadController.waitThread();
+	        	threadController.gameWait();
 	        	//reset del timer per evitare problemi nel resume del gioco
 	        	timer.reset();
 	        	if(threadController.close)//se swing comanda esci

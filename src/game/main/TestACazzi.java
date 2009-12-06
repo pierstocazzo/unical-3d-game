@@ -14,7 +14,7 @@ public class TestACazzi {
     	logicGame.createEnemy( new Vector3f( 800, 50, 800 ), MovementType.REST );
     	logicGame.createEnemiesGroup( 10, new Vector3f( 800, 50, 900 ) );
 //    	logicGame.createEnemiesGroup( 4, new Vector3f( 220, 50, 220 ) );
-        GraphicalWorld game = new GraphicalWorld( logicGame, new ThreadController() );
+        GraphicalWorld game = new GraphicalWorld( logicGame, new ThreadController(null, null) );
         game.setConfigShowMode( ConfigShowMode.AlwaysShow );
         game.isThread = false;
         game.start();

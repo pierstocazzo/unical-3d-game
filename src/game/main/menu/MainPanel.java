@@ -33,20 +33,16 @@ public class MainPanel extends JPanel {
 	ArrayList<String> imageFolder;
 	/** Preloaded images */
 	ArrayList<ImageIcon> imageContainer;
-	/** Thread Monitor */
-	ThreadController tc;
 	/** MainMenu */
 	MainMenu mm;
 	
 	/**
 	 * Constructor
 	 * 
-	 * @param tc - ThreadController
 	 * @param mm - MainMenu
 	 */
-	public MainPanel(ThreadController tc, MainMenu mm){
+	public MainPanel(MainMenu mm){
 		super();
-		this.tc = tc;
 		this.mm = mm;
 		initImageFolder();
 		initItem();
@@ -152,59 +148,61 @@ public class MainPanel extends JPanel {
 
 	/**
 	 * Execute operation of selected element
+	 * @throws InterruptedException 
 	 */
 	public void executeSelectedItem(){
 		switch (current){
-			case 0:{mm.setAlwaysOnTop(false);
-					System.out.println("New Game");
-					mm.game = new GameThread(tc);
-					Thread gameThread = new Thread(mm.game);
-					gameThread.start();
-					tc.waitThread();
+			case 0:
+				mm.setAlwaysOnTop(false);
+				
+				//Loading Bar
+				LoadingFrame load = new LoadingFrame();
+				load.setVisible(true);
+				load.setAlwaysOnTop(true);
+		
+				System.out.println("New Game");
+				Thread gameThreadNew = new Thread(new GameThread(load));
+				gameThreadNew.start();
+				
+				mm.setVisible(false);
+				System.out.println("Exit from Main Menu");break;
+			case 1:
+				//Load game with fileChooser
+				mm.showCursor();
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showOpenDialog(this);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fc.getSelectedFile();
+					System.out.println("Opening: " + file.getName() + ".");
+					
+					FileInputStream fin = null;
+					try { fin = new FileInputStream("gameSave/"+file.getName());} 
+					catch (FileNotFoundException e) {e.printStackTrace();}
+					ObjectInputStream ois = null;
+					try { ois = new ObjectInputStream(fin); } 
+					catch (IOException e) { e.printStackTrace(); }
+					LogicWorld gameLoaded = null;
+					try {try { gameLoaded = (LogicWorld) ois.readObject();
+					} catch (IOException e) {e.printStackTrace();}}
+					catch (ClassNotFoundException e) {e.printStackTrace();} 
+					
+					//Loading Bar
+					LoadingFrame loadingFrame = new LoadingFrame();
+					loadingFrame.setVisible(true);
+					loadingFrame.setAlwaysOnTop(true);
+					
+					Thread gameThreadLoaded = new Thread(new GameThread(gameLoaded,loadingFrame));
+					gameThreadLoaded.start();
 					mm.setVisible(false);
-					InGameMenu gameMenu = new InGameMenu(tc,mm);
-					gameMenu.setVisible(true);
-					System.out.println("GameMenu");break;}
-			case 1:{//Load game with fileChooser
-					mm.showCursor();
-					JFileChooser fc = new JFileChooser();
-					int returnVal = fc.showOpenDialog(this);
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						File file = fc.getSelectedFile();
-						System.out.println("Opening: " + file.getName() + ".");
-						
-						FileInputStream fin = null;
-						try { fin = new FileInputStream("gameSave/"+file.getName());} 
-						catch (FileNotFoundException e) {e.printStackTrace();}
-						ObjectInputStream ois = null;
-						try { ois = new ObjectInputStream(fin); } 
-						catch (IOException e) { e.printStackTrace(); }
-						LogicWorld gameLoaded = null;
-						try {try { gameLoaded = (LogicWorld) ois.readObject();
-						} catch (IOException e) {e.printStackTrace();}}
-						catch (ClassNotFoundException e) {e.printStackTrace();} 
-						
-						mm.tc.close=false;
-						mm.game = new GameThread(mm.tc,gameLoaded);
-						Thread gameThread = new Thread(mm.game);
-						gameThread.start();
-						tc.waitThread();
-						System.out.println("gioco caricato in pausa, svegliato swing");
-						mm.setVisible(false);
-						InGameMenu gameMenu = new InGameMenu(tc,mm);
-						gameMenu.setVisible(true);
-						System.out.println("GameMenu");
-					} 
-					else
-						System.out.println("Open command cancelled by user.");
-					mm.hideCursor();
-					break;}
+					System.out.println("Exit from Main Menu");
+				} 
+				mm.hideCursor();
+				break;
 			case 2:break;//todo Options
 			case 3:break;//todo Credits
-			case 4:{tc.notifyCloseGame();
-					System.out.println("exit main menu");
-					System.exit(0);break;}
-			default:break;
+			case 4:
+				System.out.println("exit main menu");
+				System.exit(0);break;
 		}
 	}
 }
