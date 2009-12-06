@@ -30,6 +30,7 @@ import com.jme.renderer.Renderer;
 import com.jme.scene.Controller;
 import com.jme.scene.Node;
 import com.jme.scene.Skybox;
+import com.jme.scene.Spatial;
 import com.jme.scene.state.CullState;
 import com.jme.scene.state.LightState;
 import com.jme.scene.state.TextureState;
@@ -452,7 +453,7 @@ public class Game extends BaseGame {
 	 * @return AnimationController
 	 */
     public AnimationController getAnimationController() {
-        List<Bone> armatures = player.descendantMatches(Bone.class, ".+SuperBone");
+        List<Spatial> armatures = player.descendantMatches(Bone.class, ".+SuperBone");
         if (armatures.size() < 1)
             throw new IllegalStateException("Sorry.  Program assumes "
                     + "you have a node named with suffix 'SuperBone'");
