@@ -18,5 +18,5 @@ public class TestACazzi {
         game.setConfigShowMode( ConfigShowMode.AlwaysShow );
         game.isThread = false;
         game.start();
-	}
+	} //test commit
 }
