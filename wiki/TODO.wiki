@@ -8,6 +8,7 @@
   * Sistemare per bene il menù - andrea
   * Ambientazione e posizionamento gruppi di nemici - andrea/slash
   * Migliorare chase camera - joe
-  * Introdurre HUD e barra di caricamento - andrea/slash
+  * Introdurre HUD - andrea/slash
+  * Introdurre barra di caricamento - andrea (FATTO)
   * Introdurre l'audio e gli effetti visivi - joe/andrea/slash
   * Multiplayer - slash/joe/andrea
