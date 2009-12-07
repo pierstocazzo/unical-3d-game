@@ -1,14 +1,14 @@
 == Cose da fare ==
 
   * Migliorare posizionamento ammo pack - slash (FATTO)
-  * Sistemare la collisione dei bullet con i character - joe
-  * Introdurre sistema di score per i livelli - joe/andrea
-  * Migliorare i movimenti del player - slash/joe
-  * Animazioni modello e armi - slash
-  * Sistemare per bene il menù - andrea
-  * Ambientazione e posizionamento gruppi di nemici - andrea/slash
-  * Migliorare chase camera - joe
-  * Introdurre HUD - andrea/slash
+  * Sistemare la collisione dei bullet con i character - joe (URGENTE)
+  * Introdurre sistema di score per i livelli - joe/andrea/slash
+  * Migliorare i movimenti del player - slash/joe (IN WAIT PER POSSIBILI VARIAZIONI DI PROGETTO)
+  * Animazioni modello e armi - slash (WORK IN PROGRESS)
+  * Sistemare per bene il menù - andrea (WORK IN PROGRESS)
+  * Ambientazione e posizionamento gruppi di nemici - andrea/slash (WORK IN PROGRESS)
+  * Migliorare chase camera - joe (IN WAIT PER POSSIBILI VARIAZIONI DI PROGETTO)
+  * Introdurre HUD - andrea/slash 
   * Introdurre barra di caricamento - andrea (FATTO)
   * Introdurre l'audio e gli effetti visivi - joe/andrea/slash
   * Multiplayer - slash/joe/andrea
