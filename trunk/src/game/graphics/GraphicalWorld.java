@@ -5,12 +5,13 @@ import game.input.PhysicsInputHandler;
 import game.main.ThreadController;
 
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.FloatBuffer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+
+import proposta.graphics.AudioManager;
 
 import jmetest.TutorialGuide.ExplosionFactory;
 import jmetest.effects.water.TestQuadWater;
@@ -45,10 +46,6 @@ import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 import com.jme.util.resource.ResourceLocatorTool;
 import com.jme.util.resource.SimpleResourceLocator;
-import com.jmex.audio.AudioSystem;
-import com.jmex.audio.AudioTrack;
-import com.jmex.audio.AudioTrack.TrackType;
-import com.jmex.audio.MusicTrackQueue.RepeatType;
 import com.jmex.effects.water.WaterRenderPass;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
@@ -120,12 +117,10 @@ public class GraphicalWorld extends Game {
 	Text fps;
 	
 	/** audio controller */
-	AudioSystem audio;
-	
-	/** Audio tracks */
-	public AudioTrack shoot;
-	public AudioTrack explosion;
-	public AudioTrack death;
+	AudioManager audio;
+
+	/** audio controller status */
+	boolean audioEnabled;
 	
 	
 	/** GraphicalWorld constructor <br>
@@ -138,6 +133,8 @@ public class GraphicalWorld extends Game {
 	public GraphicalWorld( WorldInterface core, ThreadController tc ) {
 		this.core = core;
 		super.threadController = tc;
+		
+		audioEnabled = true;
 	}
 	
 	public void setCrosshair() {
@@ -207,47 +204,11 @@ public class GraphicalWorld extends Game {
 		
     	ExplosionFactory.warmup();
     	
+    	if( audioEnabled ) 
+    		audio = new AudioManager( cam );
+    	
 //        pause = true;
     }
-    
-    private void initSound() {
-		audio = AudioSystem.getSystem();
-
-		audio.getEar().trackOrientation(cam);
-		audio.getEar().trackPosition(cam);
-
-		AudioTrack backgroundMusic = getMusic( Loader.load("game/data/sound/game.ogg"));
-		audio.getMusicQueue().setRepeatType(RepeatType.ALL);
-		audio.getMusicQueue().setCrossfadeinTime(2.5f);
-		audio.getMusicQueue().setCrossfadeoutTime(2.5f);
-		audio.getMusicQueue().addTrack(backgroundMusic);
-		audio.getMusicQueue().play();
-
-		shoot = audio.createAudioTrack("/game/data/sound/mp5.ogg", false);
-		shoot.setRelative(true);
-		shoot.setMaxAudibleDistance(100000);
-		shoot.setVolume(.7f);
-		
-		explosion = audio.createAudioTrack("/game/data/sound/explosion.ogg", false);
-		explosion.setRelative(true);
-		explosion.setMaxAudibleDistance(100000);
-		explosion.setVolume(4.0f);
-		
-		death = audio.createAudioTrack("/game/data/sound/death.ogg", false);
-		death.setRelative(true);
-		death.setMaxAudibleDistance(100000);
-		death.setVolume(4.0f);
-    }
-    
-	private AudioTrack getMusic(URL resource) {
-		// Create a non-streaming, non-looping, relative sound clip.
-		AudioTrack sound = AudioSystem.getSystem().createAudioTrack(resource, true);
-		sound.setType(TrackType.MUSIC);
-		sound.setRelative(true);
-		sound.setTargetVolume(0.7f);
-		sound.setLooping(false);
-		return sound;
-	}
     
     /** Create graphic characters
      *  and place them in positions setted in the logic game
@@ -313,7 +274,8 @@ public class GraphicalWorld extends Game {
 		if( !enabled )
 			return;
 		
-		audio.update();
+		if( audioEnabled )
+			audio.update();
     	
 		if( core.isAlive( player.id ) == false ) {
     		life.print( "Life: 0" );
@@ -363,8 +325,10 @@ public class GraphicalWorld extends Game {
 		gameOver.setLocalTranslation(new Vector3f(display.getWidth() / 2f - gameOver.getWidth() / 2,
 				display.getHeight() / 2f - gameOver.getHeight() / 2, 0));
 		
-		death.setWorldPosition( cam.getLocation() );
-		death.play();
+		if( audioEnabled ) {
+			AudioManager.death.setWorldPosition( cam.getLocation() );
+			AudioManager.death.play();
+		}
 		
 		enabled = false;
 		pause = true;
@@ -423,7 +387,6 @@ public class GraphicalWorld extends Game {
     }
 
 	public void setupEnvironment() {
-		initSound();
 		
 	    rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
 		
@@ -560,8 +523,8 @@ public class GraphicalWorld extends Game {
 	
 	protected void cleanup() {
 		super.cleanup();
-//		TODO se si fa il cleanup dell'audiosystem non funziona..
-		audio.cleanup();
+		if( audioEnabled )
+			audio.cleanup();
 	}
 	
 	/************* METODI AGGIUNTI PER L'AMBIENTAZIONE *****************/
@@ -879,4 +842,20 @@ public class GraphicalWorld extends Game {
         spatial.updateGeometricState(0.0f, true);
         spatial.updateRenderState();
     }
+    
+	public void shoot( Vector3f position ) {
+		if( audioEnabled ) {
+	    	AudioManager.explosion.setWorldPosition( position.clone() );
+	    	AudioManager.explosion.setVolume( 0.7f );
+			AudioManager.shoot.play();
+		}
+	}
+	
+	public void explode( Vector3f position ) {
+		if( audioEnabled ) {
+	    	AudioManager.explosion.setWorldPosition( position.clone() );
+	    	AudioManager.explosion.setVolume( 5 );
+			AudioManager.explosion.play();
+		}
+	}
 }

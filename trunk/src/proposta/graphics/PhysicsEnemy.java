@@ -10,10 +10,8 @@ import game.graphics.CustomAnimationController.Animation;
 import java.awt.Color;
 
 import jmetest.TutorialGuide.ExplosionFactory;
-import utils.Loader;
 import utils.TextLabel2D;
 
-import com.jme.image.Texture;
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
@@ -23,9 +21,6 @@ import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.BillboardNode;
 import com.jme.scene.Node;
-import com.jme.scene.state.TextureState;
-import com.jme.system.DisplaySystem;
-import com.jme.util.TextureManager;
 import com.jmex.effects.particles.ParticleMesh;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
@@ -330,6 +325,8 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 			
 	//		world.shoot.setWorldPosition( feet.getWorldTranslation() );
 	//		world.shoot.play();
+			
+			world.shoot( feet.getWorldTranslation() );
 		}
 
 	/** Function <code>move</code> <br>
@@ -372,6 +369,7 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 //    	world.explosion.setWorldPosition( feet.getWorldTranslation() );
 //    	world.explosion.setVolume( 5 );
 //    	world.explosion.play();
+    	world.explode( feet.getWorldTranslation() );
 
     	body.detachAllChildren();
     	feet.detachAllChildren();

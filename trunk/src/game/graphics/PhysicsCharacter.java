@@ -270,15 +270,14 @@ public class PhysicsCharacter {
 	
 	public void die() {
     	clearDynamics();
-    	world.explosion.setWorldPosition( feet.getWorldTranslation() );
-    	world.explosion.setVolume( 5 );
-    	world.explosion.play();
 
     	body.detachAllChildren();
     	feet.detachAllChildren();
     	feet.delete();
     	body.delete();
     	world.getRootNode().detachChild( characterNode );
+    	
+    	world.explode( feet.getWorldTranslation() );
     	
     	world.characters.remove( id );
 	}
@@ -562,9 +561,8 @@ public class PhysicsCharacter {
 				world.getCam().getLocation().add( world.getCam().getDirection().mult( 6 ) ) );
 		world.bullets.put( bullet.id, bullet );
 		bullet.shoot(direction);
-		world.shoot.setWorldPosition( feet.getWorldTranslation() );
-		world.shoot.setVolume( 0.2f );
-		world.shoot.play();
+
+		world.shoot( feet.getWorldTranslation() );
 	}
 
 	public void toggleFreeCam() {
