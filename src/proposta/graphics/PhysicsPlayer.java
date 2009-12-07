@@ -3,12 +3,7 @@ package proposta.graphics;
 import game.graphics.CustomAnimationController;
 import game.graphics.CustomAnimationController.Animation;
 import proposta.base.PhysicsGame;
-import utils.Loader;
-import utils.ModelLoader;
-import utils.Util;
-
 import com.jme.bounding.BoundingBox;
-import com.jme.image.Texture;
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
@@ -17,9 +12,6 @@ import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
-import com.jme.scene.state.TextureState;
-import com.jme.system.DisplaySystem;
-import com.jme.util.TextureManager;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
 import com.jmex.physics.RotationalJointAxis;
@@ -540,7 +532,8 @@ public class PhysicsPlayer extends PhysicsCharacter {
 		bullet.shoot(direction);
 //		world.shoot.setWorldPosition( feet.getWorldTranslation() );
 //		world.shoot.setVolume( 0.2f );
-//		world.shoot.play();
+		world.shoot( world.getCam().getLocation() );
+//		AudioManager.shoot.play();
 	}
 
 	public void toggleFreeCam() {

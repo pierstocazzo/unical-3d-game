@@ -41,6 +41,7 @@ import com.jme.scene.state.BlendState;
 import com.jme.scene.state.CullState;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
+import com.jme.scene.state.ZBufferState;
 import com.jme.scene.state.BlendState.DestinationFunction;
 import com.jme.scene.state.BlendState.SourceFunction;
 import com.jme.system.DisplaySystem;
@@ -124,16 +125,13 @@ public class GraphicalWorld extends Game {
 	Text fps;
 	
 	/** audio controller */
-	AudioSystem audio;
+	AudioManager audio;
+	boolean audioEnabled;
 	
-	/** Audio tracks */
-	public AudioTrack shoot;
-	public AudioTrack explosion;
-	public AudioTrack death;
+	boolean freeCam;
 
-	private boolean freeCam;
-
-	private MouseLookHandler mouseLookHandler;
+	MouseLookHandler mouseLookHandler;
+	
 	
 	
 	/** GraphicalWorld constructor <br>
@@ -146,6 +144,8 @@ public class GraphicalWorld extends Game {
 	public GraphicalWorld( WorldInterface core, ThreadController tc ) {
 		this.core = core;
 		super.threadController = tc;
+		
+//		audioEnabled = true;
 	}
 	
 	public void setCrosshair() {
@@ -217,47 +217,13 @@ public class GraphicalWorld extends Game {
 		
     	ExplosionFactory.warmup();
     	
+		if( audioEnabled ) {
+			audio = new AudioManager( cam );
+		}
+    	
 //        pause = true;
     }
     
-//    private void initSound() {
-//		audio = AudioSystem.getSystem();
-//
-//		audio.getEar().trackOrientation(cam);
-//		audio.getEar().trackPosition(cam);
-//
-//		AudioTrack backgroundMusic = getMusic( Loader.load("game/data/sound/game.ogg"));
-//		audio.getMusicQueue().setRepeatType(RepeatType.ALL);
-//		audio.getMusicQueue().setCrossfadeinTime(2.5f);
-//		audio.getMusicQueue().setCrossfadeoutTime(2.5f);
-//		audio.getMusicQueue().addTrack(backgroundMusic);
-//		audio.getMusicQueue().play();
-//
-//		shoot = audio.createAudioTrack("/game/data/sound/mp5.ogg", false);
-//		shoot.setRelative(true);
-//		shoot.setMaxAudibleDistance(100000);
-//		shoot.setVolume(.7f);
-//		
-//		explosion = audio.createAudioTrack("/game/data/sound/explosion.ogg", false);
-//		explosion.setRelative(true);
-//		explosion.setMaxAudibleDistance(100000);
-//		explosion.setVolume(4.0f);
-//		
-//		death = audio.createAudioTrack("/game/data/sound/death.ogg", false);
-//		death.setRelative(true);
-//		death.setMaxAudibleDistance(100000);
-//		death.setVolume(4.0f);
-//    }
-    
-//	private AudioTrack getMusic(URL resource) {
-//		// Create a non-streaming, non-looping, relative sound clip.
-//		AudioTrack sound = AudioSystem.getSystem().createAudioTrack(resource, true);
-//		sound.setType(TrackType.MUSIC);
-//		sound.setRelative(true);
-//		sound.setTargetVolume(0.7f);
-//		sound.setLooping(false);
-//		return sound;
-//	}
     
     /** Create graphic characters
      *  and place them in positions setted in the logic game
@@ -339,7 +305,8 @@ public class GraphicalWorld extends Game {
 		if( !enabled )
 			return;
 		
-//		audio.update();
+		if( audioEnabled )
+			audio.update();
     	
 		if( core.isAlive( player.id ) == false ) {
     		life.print( "Life: 0" );
@@ -500,8 +467,6 @@ public class GraphicalWorld extends Game {
     }
 
 	public void setupEnvironment() {
-//		initSound();
-		
 	    rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
 		
 	    DirectionalLight dr = new DirectionalLight();
@@ -652,8 +617,8 @@ public class GraphicalWorld extends Game {
 	
 	protected void cleanup() {
 		super.cleanup();
-//		TODO se si fa il cleanup dell'audiosystem non funziona..
-//		audio.cleanup();
+		if( audioEnabled )
+			audio.cleanup();
 	}
 	
 	/************* METODI AGGIUNTI PER L'AMBIENTAZIONE *****************/
@@ -786,48 +751,48 @@ public class GraphicalWorld extends Game {
 	    ground.generatePhysicsGeometry(true);
     }
 
-//    private void createReflectionTerrain() {
-//    	RawHeightMap heightMap = new RawHeightMap( Loader.load(
-//                        "jmetest/data/texture/terrain/heights.raw"),
-//                129, RawHeightMap.FORMAT_16BITLE, false);
-//
-//        Vector3f terrainScale = new Vector3f( 20, 0.003f, 20 );
-//        heightMap.setHeightScale(0.001f);
-//        TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
-//                terrainScale, heightMap.getHeightMap());
-//        page.getLocalTranslation().set( 129*20/2, -9.5f, 129*20/2);
-//        page.setDetailTexture(1, 1);
-//
-//        // create some interesting texturestates for splatting
-//        TextureState ts1 = display.getRenderer().createTextureState();
-//        Texture t0 = TextureManager.loadTexture( Loader.load(
-//                        "jmetest/data/texture/terrain/terrainlod.jpg"),
-//                Texture.MinificationFilter.Trilinear,
-//                Texture.MagnificationFilter.Bilinear);
-//        t0.setWrap(Texture.WrapMode.Repeat);
-//        t0.setApply(Texture.ApplyMode.Modulate);
-//        t0.setScale(new Vector3f(1.0f, 1.0f, 1.0f));
-//        ts1.setTexture(t0, 0);
-//
-//        // //////////////////// PASS STUFF START
-//        // try out a passnode to use for splatting
-//        PassNode splattingPassNode = new PassNode("SplatPassNode");
-//        splattingPassNode.attachChild(page);
-//
-//        PassNodeState passNodeState = new PassNodeState();
-//        passNodeState.setPassState(ts1);
-//        splattingPassNode.addPass(passNodeState);
-//        // //////////////////// PASS STUFF END
-//
-//        // lock some things to increase the performance
-//        splattingPassNode.lockBounds();
-//        splattingPassNode.lockTransforms();
-//        splattingPassNode.lockShadows();
-//
-//        reflectionTerrain = splattingPassNode;
-//
-//        initSpatial(reflectionTerrain);
-//    }
+    private void createReflectionTerrain() {
+    	RawHeightMap heightMap = new RawHeightMap( Loader.load(
+                        "jmetest/data/texture/terrain/heights.raw"),
+                129, RawHeightMap.FORMAT_16BITLE, false);
+
+        Vector3f terrainScale = new Vector3f( 20, 0.003f, 20 );
+        heightMap.setHeightScale(0.001f);
+        TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
+                terrainScale, heightMap.getHeightMap());
+        page.getLocalTranslation().set( 129*20/2, -9.5f, 129*20/2);
+        page.setDetailTexture(1, 1);
+
+        // create some interesting texturestates for splatting
+        TextureState ts1 = display.getRenderer().createTextureState();
+        Texture t0 = TextureManager.loadTexture( Loader.load(
+                        "jmetest/data/texture/terrain/terrainlod.jpg"),
+                Texture.MinificationFilter.Trilinear,
+                Texture.MagnificationFilter.Bilinear);
+        t0.setWrap(Texture.WrapMode.Repeat);
+        t0.setApply(Texture.ApplyMode.Modulate);
+        t0.setScale(new Vector3f(1.0f, 1.0f, 1.0f));
+        ts1.setTexture(t0, 0);
+
+        // //////////////////// PASS STUFF START
+        // try out a passnode to use for splatting
+        PassNode splattingPassNode = new PassNode("SplatPassNode");
+        splattingPassNode.attachChild(page);
+
+        PassNodeState passNodeState = new PassNodeState();
+        passNodeState.setPassState(ts1);
+        splattingPassNode.addPass(passNodeState);
+        // //////////////////// PASS STUFF END
+
+        // lock some things to increase the performance
+        splattingPassNode.lockBounds();
+        splattingPassNode.lockTransforms();
+        splattingPassNode.lockShadows();
+
+        reflectionTerrain = splattingPassNode;
+
+        initSpatial(reflectionTerrain);
+    }
 
     private void addAlphaSplat(TextureState ts, String alpha) {
         Texture t1 = TextureManager.loadTexture( Loader.load( alpha ),
@@ -956,21 +921,21 @@ public class GraphicalWorld extends Game {
         texBuf.put(textureScale + x).put(textureScale + y);
     }
 
-//    private void initSpatial(Spatial spatial) {
-//        ZBufferState buf = display.getRenderer().createZBufferState();
-//        buf.setEnabled(true);
-//        buf.setFunction(ZBufferState.TestFunction.LessThanOrEqualTo);
-//        spatial.setRenderState(buf);
-//
-//        CullState cs = display.getRenderer().createCullState();
-//        cs.setCullFace(CullState.Face.Back);
-//        spatial.setRenderState(cs);
-//
-//        spatial.setCullHint(Spatial.CullHint.Never);
-//
-//        spatial.updateGeometricState(0.0f, true);
-//        spatial.updateRenderState();
-//    }
+    private void initSpatial(Spatial spatial) {
+        ZBufferState buf = display.getRenderer().createZBufferState();
+        buf.setEnabled(true);
+        buf.setFunction(ZBufferState.TestFunction.LessThanOrEqualTo);
+        spatial.setRenderState(buf);
+
+        CullState cs = display.getRenderer().createCullState();
+        cs.setCullFace(CullState.Face.Back);
+        spatial.setRenderState(cs);
+
+        spatial.setCullHint(Spatial.CullHint.Never);
+
+        spatial.updateGeometricState(0.0f, true);
+        spatial.updateRenderState();
+    }
 
     protected void setupChaseCamera() {
         Vector3f targetOffset = new Vector3f();
@@ -978,5 +943,21 @@ public class GraphicalWorld extends Game {
         chaser = new ChaseCamera(cam, player.getCharacterNode() );
         chaser.setTargetOffset(targetOffset);
     }
+
+	public void shoot( Vector3f position ) {
+		if( audioEnabled ) {
+	    	AudioManager.explosion.setWorldPosition( position.clone() );
+	    	AudioManager.explosion.setVolume( 0.7f );
+			AudioManager.shoot.play();
+		}
+	}
+	
+	public void explode( Vector3f position ) {
+		if( audioEnabled ) {
+	    	AudioManager.explosion.setWorldPosition( position.clone() );
+	    	AudioManager.explosion.setVolume( 5 );
+			AudioManager.explosion.play();
+		}
+	}
     
 }
