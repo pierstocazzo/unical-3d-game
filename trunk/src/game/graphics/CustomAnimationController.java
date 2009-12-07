@@ -59,11 +59,13 @@ public class CustomAnimationController {
 		
 		WALK ( 1, 14 ),
 		
-		IDLE ( 251, 300 ),
+		IDLE ( 251, 276 ),
 		
 		JUMP ( 103, 111 ),
 		
-		DIE ( 230, 251 );
+		DIE ( 230, 251 ),
+		
+		SHOOT ( 63, 64 );
 		
 		int startFrame; 
 		

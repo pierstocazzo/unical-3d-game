@@ -267,6 +267,14 @@ public class GraphicalWorld extends Game {
         	Node model = ModelLoader.loadModel("game/data/models/soldier/sold2.ms3d", 
         			"game/data/models/soldier/soldier.jpg", 1f, new Quaternion());
             model.setLocalTranslation(0, -2f, 0);  
+            
+			Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
+	                Texture.MinificationFilter.Trilinear,
+	                Texture.MagnificationFilter.Bilinear);
+	        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+	        ts.setEnabled(true);
+	        ts.setTexture(texture);
+			model.getChild( "weapon" ).setRenderState( ts );
 
             PhysicsEnemy enemy = new PhysicsEnemy( id, this, 20, 100,  model );
         	enemy.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
@@ -283,6 +291,14 @@ public class GraphicalWorld extends Game {
     	Node model = ModelLoader.loadModel("game/data/models/soldier/sold1.ms3d", 
     			"game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
         model.setLocalTranslation(0, -2f, 0);   
+        
+		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
+                Texture.MinificationFilter.Trilinear,
+                Texture.MagnificationFilter.Bilinear);
+        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+        ts.setEnabled(true);
+        ts.setTexture(texture);
+		model.getChild( "weapon" ).setRenderState( ts );
         
         for( String id : core.getPlayersId() ) {
         	player = new PhysicsPlayer( id, this, 20, 100, model );

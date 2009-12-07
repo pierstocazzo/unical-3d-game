@@ -288,7 +288,7 @@ public class PhysicsCharacter {
 	 */
 	void lookAtAction() {
         Vector3f v = new Vector3f( getModel().getWorldTranslation() );
-        v.addLocal( world.getCam().getDirection().negate().x, 0 ,world.getCam().getDirection().negate().z );
+        v.addLocal( world.getCam().getDirection().x, 0 ,world.getCam().getDirection().z );
         getModel().lookAt( v , Vector3f.UNIT_Y );
 	}
 
