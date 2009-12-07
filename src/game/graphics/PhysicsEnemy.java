@@ -6,6 +6,7 @@ import jmetest.TutorialGuide.ExplosionFactory;
 import game.enemyAI.Direction;
 import game.enemyAI.Movement;
 import utils.TextLabel2D;
+import game.graphics.CustomAnimationController.Animation;
 
 import com.jme.math.Vector3f;
 import com.jme.scene.BillboardNode;
@@ -67,7 +68,7 @@ public class PhysicsEnemy extends PhysicsCharacter {
 		if( world.getCore().isAlive( id ) == true ) {
 			world.getCore().updateEnemyState(id);
 			if( world.getCore().getEnemyState(id) == State.ATTACK ) {
-				//TODO attivare l'animazione shoot quando si spara
+				animationController.runAnimation( Animation.SHOOT );
 				if( world.timer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
 					previousTime = world.timer.getTimeInSeconds();
 					shoot( world.getCore().getEnemyShootDirection(id) );
@@ -120,11 +121,11 @@ public class PhysicsEnemy extends PhysicsCharacter {
     	if( lookAtDirection.equals( Vector3f.ZERO ) ) {
 	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
 	        moveDirection.set( currentMovement.getDirection().toVector() );
-	        vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
+	        vectorToLookAt.addLocal( moveDirection.x, 0, moveDirection.z );
 	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
     	} else {
 	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-	        vectorToLookAt.addLocal( lookAtDirection.negate().x, 0, lookAtDirection.negate().z );
+	        vectorToLookAt.addLocal( lookAtDirection.x, 0, lookAtDirection.z );
 	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
     	}
     	

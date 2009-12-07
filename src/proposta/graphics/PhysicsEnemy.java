@@ -3,7 +3,9 @@ package proposta.graphics;
 import proposta.core.State;
 import proposta.enemyAI.Direction;
 import proposta.enemyAI.Movement;
-import proposta.graphics.CustomAnimationController.Animation;
+
+import game.graphics.CustomAnimationController;
+import game.graphics.CustomAnimationController.Animation;
 
 import java.awt.Color;
 
@@ -205,14 +207,6 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 		    body.computeMass();
 		    body.attachChild( model );
 		    
-			Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
-	                Texture.MinificationFilter.Trilinear,
-	                Texture.MagnificationFilter.Bilinear);
-	        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-	        ts.setEnabled(true);
-	        ts.setTexture(texture);
-			model.getChild( "weapon" ).setRenderState( ts );
-		
 		    // Append body to main Character Node
 		    characterNode.attachChild(body);
 		

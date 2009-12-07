@@ -1,7 +1,8 @@
 package proposta.graphics;
 
+import game.graphics.CustomAnimationController;
+import game.graphics.CustomAnimationController.Animation;
 import proposta.base.PhysicsGame;
-import proposta.graphics.CustomAnimationController.Animation;
 import utils.Loader;
 import utils.ModelLoader;
 import utils.Util;
@@ -156,14 +157,6 @@ public class PhysicsPlayer extends PhysicsCharacter {
 	    characterNode.attachChild(model);
 	    characterNode.setModelBound( new BoundingBox() );
 	    characterNode.updateModelBound();
-	
-		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
-                Texture.MinificationFilter.Trilinear,
-                Texture.MagnificationFilter.Bilinear);
-        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        ts.setEnabled(true);
-        ts.setTexture(texture);
-		model.getChild( "weapon" ).setRenderState( ts );	    
 		
 	    /** initialize the animation */ 
 		animationController = new CustomAnimationController( model.getController(0) );
