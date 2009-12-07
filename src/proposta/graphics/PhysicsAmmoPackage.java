@@ -41,8 +41,8 @@ public class PhysicsAmmoPackage {
 		world.getRootNode().attachChild( physicsPack );
 		physicsPack.getLocalTranslation().set( position );
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
-		pack.setRandomColors();
-		pack.updateRenderState();
+//		pack.setRandomColors();
+//		pack.updateRenderState();
 		physicsPack.attachChild( pack );
 		physicsPack.generatePhysicsGeometry();
 	}
