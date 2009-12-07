@@ -41,8 +41,8 @@ public class PhysicsAmmoPackage {
 		world.getRootNode().attachChild( physicsPack );
 		physicsPack.getLocalTranslation().set( position );
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
-//		pack.setRandomColors();
-//		pack.updateRenderState();
+		pack.setRandomColors();
+		pack.updateRenderState();
 		physicsPack.attachChild( pack );
 		physicsPack.generatePhysicsGeometry();
 	}
@@ -55,8 +55,8 @@ public class PhysicsAmmoPackage {
                 ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
                 
                 for( String playerId : world.getCore().getPlayersId() ) {
-	                if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterFeet() || 
-	                	 contactInfo.getNode2() == world.characters.get(playerId).getCharacterFeet() ) {
+	                if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterBody() || 
+	                	 contactInfo.getNode2() == world.characters.get(playerId).getCharacterBody() ) {
 	                	
 	                   if( world.getCore().catchAmmoPack( playerId, id ) )
 	                	   deletePackage();
