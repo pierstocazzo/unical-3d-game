@@ -1,4 +1,4 @@
-package game.graphics;
+package game.sound;
 
 import java.net.URL;
 
@@ -24,6 +24,8 @@ public class AudioManager {
 	
 	public AudioManager( Camera cam ) {
 		this.cam = cam;
+		
+		initSound();
 	}
 	
 	public void initSound() {
