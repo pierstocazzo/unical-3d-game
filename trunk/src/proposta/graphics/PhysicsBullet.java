@@ -10,6 +10,7 @@ import com.jme.math.Vector3f;
 import com.jme.scene.shape.Sphere;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
+import com.jmex.physics.material.Material;
 
 public class PhysicsBullet {
 	
@@ -44,13 +45,12 @@ public class PhysicsBullet {
 		this.world = world;
 		this.position = new Vector3f( position );
 		this.weaponType = weaponType;
-		
-		physicsBullet = world.getPhysicsSpace().createDynamicNode();
 	}
 	
 	public void shoot( Vector3f direction ) {
-		physicsBullet.setName( "physics" + id );
 		physicsBullet = world.getPhysicsSpace().createDynamicNode();
+		physicsBullet.setName( "physics" + id );
+		physicsBullet.setMaterial( Material.GHOST );
 		world.getRootNode().attachChild( physicsBullet );
 		physicsBullet.getLocalTranslation().set( position );
 		

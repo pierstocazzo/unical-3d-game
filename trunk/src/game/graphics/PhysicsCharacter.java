@@ -162,7 +162,11 @@ public class PhysicsCharacter {
 	    // Setting up the body
 	    body.setAffectedByGravity(false);
 	    body.computeMass();
+	    
+	    body.setMaterial( Material.GHOST );
+	    
 	    body.attachChild( model );
+	    
 	
 	    // Append body to main Character Node
 	    characterNode.attachChild(body);

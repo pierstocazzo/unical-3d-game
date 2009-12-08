@@ -16,7 +16,7 @@ public class PhysicsJumpAction extends InputAction {
 
     public void performAction( InputActionEvent evt ) {
     	if( handler.getTarget().getOnGround() ) {
-    		handler.getTarget().getCharacterFeet().addForce( handler.getTarget().getJumpVector() );
+//    		handler.getTarget().getCharacterFeet().addForce( handler.getTarget().getJumpVector() );
     		handler.getTarget().setOnGround( false );
     	}
     }

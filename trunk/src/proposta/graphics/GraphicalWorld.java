@@ -3,7 +3,8 @@ package proposta.graphics;
 import proposta.base.Game;
 import proposta.main.ThreadController;
 
-import java.net.URISyntaxException;
+//import game.graphics.ExplosionFactory;
+
 import java.nio.FloatBuffer;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,7 +12,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import jmetest.TutorialGuide.ExplosionFactory;
-import jmetest.effects.water.TestQuadWater;
+
 import utils.Loader;
 import utils.ModelLoader;
 
@@ -48,8 +49,6 @@ import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 import com.jme.util.resource.ResourceLocatorTool;
 import com.jme.util.resource.SimpleResourceLocator;
-import com.jmex.audio.AudioSystem;
-import com.jmex.audio.AudioTrack;
 import com.jmex.effects.water.WaterRenderPass;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
@@ -172,19 +171,19 @@ public class GraphicalWorld extends Game {
 	
     public void setupInit() {
     	
-		try {
-			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_AUDIO,
-					new SimpleResourceLocator( Loader.load(
-							"game/data/sound")));
-			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_TEXTURE,
-					new SimpleResourceLocator( Loader.load(
-							"game/data/texture")));
-			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_SHADER,
-					new SimpleResourceLocator( Loader.load(
-							"game/data/images")));
-		} catch (URISyntaxException e1) {
-			finish();
-		}
+//		try {
+//			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_AUDIO,
+//					new SimpleResourceLocator( Loader.load(
+//							"game/data/sound")));
+//			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_TEXTURE,
+//					new SimpleResourceLocator( Loader.load(
+//							"game/data/texture")));
+//			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_SHADER,
+//					new SimpleResourceLocator( Loader.load(
+//							"game/data/images")));
+//		} catch (URISyntaxException e1) {
+//			finish();
+//		}
     	
 		hudNode = new Node( "HUD" );
 		rootNode.attachChild( hudNode );
@@ -230,7 +229,7 @@ public class GraphicalWorld extends Game {
      */
     public void setupEnemies() { 	    	
         for( String id : core.getEnemiesId() ) {
-        	Node model = ModelLoader.loadModel("game/data/models/soldier/sold2.ms3d", 
+        	Node model = ModelLoader.loadModel("game/data/models/soldier/player.ms3d", 
         			"game/data/models/soldier/soldier.jpg", 1f, new Quaternion());
             model.setLocalTranslation(0, -2f, 0);  
             
@@ -254,8 +253,8 @@ public class GraphicalWorld extends Game {
      */
     public void setupPlayer() {
     	
-    	Node model = ModelLoader.loadModel("game/data/models/soldier/sold1.ms3d", 
-    			"game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
+    	Node model = ModelLoader.loadModel("game/data/models/soldier/player.ms3d", 
+    			"game/data/models/soldier/soldato.jpg", 1, new Quaternion());
         model.setLocalTranslation(0, -2f, 0);   
         
 		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
@@ -841,28 +840,22 @@ public class GraphicalWorld extends Game {
         skybox = new Skybox("skybox", 10, 10, 10);
 
         String dir = "jmetest/data/skybox1/";
-        Texture north = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "1.jpg"),
+        Texture north = TextureManager.loadTexture( Loader.load(dir + "1.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture south = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "3.jpg"),
+        Texture south = TextureManager.loadTexture( Loader.load(dir + "3.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture east = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "2.jpg"),
+        Texture east = TextureManager.loadTexture( Loader.load(dir + "2.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture west = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "4.jpg"),
+        Texture west = TextureManager.loadTexture( Loader.load(dir + "4.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture up = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "6.jpg"),
+        Texture up = TextureManager.loadTexture( Loader.load(dir + "6.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture down = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "5.jpg"),
+        Texture down = TextureManager.loadTexture( Loader.load(dir + "5.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
 
