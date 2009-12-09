@@ -229,7 +229,7 @@ public class GraphicalWorld extends Game {
      */
     public void setupEnemies() { 	    	
         for( String id : core.getEnemiesId() ) {
-        	Node model = ModelLoader.loadModel("game/data/models/soldier/player.ms3d", 
+        	Node model = ModelLoader.loadModel("game/data/models/soldier/sold2.ms3d", 
         			"game/data/models/soldier/soldier.jpg", 1f, new Quaternion());
             model.setLocalTranslation(0, -2f, 0);  
             
@@ -254,7 +254,7 @@ public class GraphicalWorld extends Game {
     public void setupPlayer() {
     	
     	Node model = ModelLoader.loadModel("game/data/models/soldier/player.ms3d", 
-    			"game/data/models/soldier/soldato.jpg", 1, new Quaternion());
+    			"game/data/models/soldier/soldato.jpg", 1 );
         model.setLocalTranslation(0, -2f, 0);   
         
 		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
@@ -296,7 +296,7 @@ public class GraphicalWorld extends Game {
         handlerProps.put(ThirdPersonHandler.PROP_LOCKBACKWARDS, "false");
         handlerProps.put(ThirdPersonHandler.PROP_CAMERAALIGNEDMOVE, "true");
         physicsInputHandler = new ThirdPersonHandler( player.getCharacterNode(), cam, handlerProps);
-        physicsInputHandler.setActionSpeed(30f);
+        physicsInputHandler.setActionSpeed(50f);
     }
 
 	@Override

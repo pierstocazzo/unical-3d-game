@@ -23,7 +23,7 @@ public class CustomAnimationController {
 		runAnimation( Animation.IDLE );
 		controller.setActive( true );
 		controller.setRepeatType( AnimationController.RT_WRAP );
-		controller.setSpeed( 0.4f );
+		controller.setSpeed( 0.7f );
 	}
 	
 	public void runAnimation( Animation animation ) {
@@ -55,7 +55,7 @@ public class CustomAnimationController {
 	 */
 	 public enum Animation {
 		
-		RUN ( 1, 14 ), 
+		RUN ( 15, 28 ), 
 		
 		WALK ( 1, 14 ),
 		
