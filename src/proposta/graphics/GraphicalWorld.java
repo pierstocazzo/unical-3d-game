@@ -229,7 +229,7 @@ public class GraphicalWorld extends Game {
      */
     public void setupEnemies() { 	    	
         for( String id : core.getEnemiesId() ) {
-        	Node model = ModelLoader.loadModel("game/data/models/soldier/sold2.ms3d", 
+        	Node model = ModelLoader.loadModel("game/data/models/soldier/enemy.jme", 
         			"game/data/models/soldier/soldier.jpg", 1f, new Quaternion());
             model.setLocalTranslation(0, -2f, 0);  
             
@@ -253,7 +253,7 @@ public class GraphicalWorld extends Game {
      */
     public void setupPlayer() {
     	
-    	Node model = ModelLoader.loadModel("game/data/models/soldier/player.ms3d", 
+    	Node model = ModelLoader.loadModel("game/data/models/soldier/player.jme", 
     			"game/data/models/soldier/soldato.jpg", 1 );
         model.setLocalTranslation(0, -2f, 0);   
         
