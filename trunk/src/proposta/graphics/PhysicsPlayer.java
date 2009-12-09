@@ -1,7 +1,7 @@
 package proposta.graphics;
 
-import game.graphics.CustomAnimationController;
-import game.graphics.CustomAnimationController.Animation;
+import proposta.graphics.CustomAnimationController;
+import proposta.graphics.CustomAnimationController.Animation;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.input.InputHandler;
