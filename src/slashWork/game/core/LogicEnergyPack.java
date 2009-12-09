@@ -1,12 +1,15 @@
 package slashWork.game.core;
 
+import java.io.Serializable;
+
 import com.jme.math.Vector3f;
 
 /** class <code>LogicEnergyPack</code> <br>
  * Represents an energy pack the player can catch and use when
  * his energy (life) is few
  */
-public class LogicEnergyPack {
+@SuppressWarnings("serial")
+public class LogicEnergyPack implements Serializable {
 	
 	String id;
 	

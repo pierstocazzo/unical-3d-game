@@ -1,5 +1,6 @@
 package slashWork.game.core;
 
+// TODO fare sto cazzo di score manager
 public class LogicScoreManager {
 	LogicWorld world;
 	
@@ -14,7 +15,6 @@ public class LogicScoreManager {
 //			world.players.currentLevel = 1;
 //		}
 //		else {
-//			//TODO
 //		}
 //		
 //		if( world.players.currentLevel != world.players.previousLevel ){

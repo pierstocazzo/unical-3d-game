@@ -22,7 +22,7 @@ public class testGame {
 //    	logicGame.createEnemiesGroup( 20, new Vector3f( 1000, 10, 1000 ) );
     	logicGame.createEnergyPackages( 10, 640, 640 );
     	
-        GraphicalWorld game = new GraphicalWorld( logicGame, 4096, 4096 );
+        GraphicalWorld game = new GraphicalWorld( logicGame, null );
         game.setConfigShowMode( ConfigShowMode.AlwaysShow );
         game.start();
     }

@@ -1,10 +1,13 @@
 package slashWork.game.core;
 
+import java.io.Serializable;
+
 /**
  * Class <code>LogicWeapon</code><br>
  * Represent the game weapons
  */
-public class LogicWeapon {
+@SuppressWarnings("serial")
+public class LogicWeapon implements Serializable {
 	
 	/** Identifier */
 	String id;

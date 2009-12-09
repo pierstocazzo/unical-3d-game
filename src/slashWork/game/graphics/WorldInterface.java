@@ -1,13 +1,15 @@
 package slashWork.game.graphics;
 
 
-import slashWork.game.core.LogicAmmoPack;
-import slashWork.game.core.State;
-import slashWork.game.core.WeaponType;
 import slashWork.game.enemyAI.Movement;
+
 
 import java.util.HashMap;
 import java.util.Set;
+
+import slashWork.game.core.LogicAmmoPack;
+import slashWork.game.core.State;
+import slashWork.game.core.WeaponType;
 
 import com.jme.math.Vector3f;
 

@@ -1,6 +1,8 @@
 package slashWork.game.core;
 
-public enum WeaponType {
+import java.io.Serializable;
+
+public enum WeaponType implements Serializable {
 	
 	MP5 ( 1, 30000, 20, false ),
 	

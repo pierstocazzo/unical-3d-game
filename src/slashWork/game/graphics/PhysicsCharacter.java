@@ -87,6 +87,8 @@ public class PhysicsCharacter {
 
 	float previousTime;
 
+	private boolean freeCam = false;
+
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
      * 
@@ -160,7 +162,11 @@ public class PhysicsCharacter {
 	    // Setting up the body
 	    body.setAffectedByGravity(false);
 	    body.computeMass();
+	    
+	    body.setMaterial( Material.GHOST );
+	    
 	    body.attachChild( model );
+	    
 	
 	    // Append body to main Character Node
 	    characterNode.attachChild(body);
@@ -218,12 +224,20 @@ public class PhysicsCharacter {
 		    moveCharacter();
 		    
 		    if( isShooting() ) {
-		    	if( world.timer.getTimeInSeconds() - previousTime > 0.1  ) {
+		    	if( world.timer.getTimeInSeconds() - previousTime > 0.2f  ) {
 		    		previousTime = world.timer.getTimeInSeconds();
 		    		shoot( world.getCam().getDirection() );
 		    	}
 		    }
 		   
+		    if( freeCam ) {
+		    	world.physicsInputHandler.setEnabled( false );
+		    	world.freeCamInput.setEnabled( true );
+		    } else {
+		    	world.freeCamInput.setEnabled( false );
+		    	world.physicsInputHandler.setEnabled( true );
+		    }
+		    
 		    // update core
 		    world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
 	    } else {
@@ -260,15 +274,14 @@ public class PhysicsCharacter {
 	
 	public void die() {
     	clearDynamics();
-    	world.explosion.setWorldPosition( feet.getWorldTranslation() );
-    	world.explosion.play();
-//    	TODO explosion
-    	
+
     	body.detachAllChildren();
     	feet.detachAllChildren();
     	feet.delete();
     	body.delete();
     	world.getRootNode().detachChild( characterNode );
+    	
+    	world.explode( feet.getWorldTranslation() );
     	
     	world.characters.remove( id );
 	}
@@ -278,7 +291,7 @@ public class PhysicsCharacter {
 	 */
 	void lookAtAction() {
         Vector3f v = new Vector3f( getModel().getWorldTranslation() );
-        v.addLocal( world.getCam().getDirection().negate().x, 0 ,world.getCam().getDirection().negate().z );
+        v.addLocal( world.getCam().getDirection().x, 0 ,world.getCam().getDirection().z );
         getModel().lookAt( v , Vector3f.UNIT_Y );
 	}
 
@@ -547,11 +560,16 @@ public class PhysicsCharacter {
 	 */
 	public void shoot( Vector3f direction ) {
 		world.bulletsCounter = world.bulletsCounter + 1;
-		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, direction, 
+		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, 
 				world.getCore().getCharacterWeapon(id), 
 				world.getCam().getLocation().add( world.getCam().getDirection().mult( 6 ) ) );
 		world.bullets.put( bullet.id, bullet );
-		world.shoot.setWorldPosition( feet.getWorldTranslation() );
-		world.shoot.play();
+		bullet.shoot(direction);
+
+		world.shoot( feet.getWorldTranslation() );
+	}
+
+	public void toggleFreeCam() {
+		freeCam = !freeCam;
 	}
 }

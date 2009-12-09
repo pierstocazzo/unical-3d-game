@@ -3,6 +3,8 @@ package slashWork.game.base;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import slashWork.game.main.ThreadController;
+
 import com.jme.app.AbstractGame;
 
 import com.jme.input.InputSystem;
@@ -30,9 +32,9 @@ import com.jme.util.GameTaskQueueManager;
 import com.jme.util.TextureManager;
 import com.jme.util.ThrowableHandler;
 import com.jme.util.Timer;
-import com.jmex.audio.AudioSystem;
 import com.jmex.physics.PhysicsDebugger;
 import com.jmex.physics.PhysicsSpace;
+
 
 /** 
  * Implementation of a game loop for a physics based game.
@@ -82,10 +84,15 @@ public abstract class PhysicsGame extends AbstractGame {
     
 	protected ThrowableHandler throwableHandler;
 
-	/************* ADDED FOR PASS GAME */
+	/** thread controller */
+	public ThreadController threadController;
+	
+	/** pass manager for terrain splatting etc */
 	protected BasicPassManager passManager;
-    /***************************/
-    
+
+	public boolean isThread;
+	
+	
     /**  
      *  PhysicsGame constructor<br>
      *  Set up game properties
@@ -111,7 +118,7 @@ public abstract class PhysicsGame extends AbstractGame {
 
                 // main loop
                 while ( !finished && !display.isClosing() ) {
-                    // handle input events prior to updating the scene
+                    // handle freeCamInput events prior to updating the scene
                     // - some applications may want to put this into update of
                     // the game state
                     InputSystem.update();
@@ -164,7 +171,7 @@ public abstract class PhysicsGame extends AbstractGame {
 	}
 
     /**
-     * Updates the timer, sets tpf, updates the input and updates the fps
+     * Updates the timer, sets tpf, updates the freeCamInput and updates the fps
      * string. Also checks keys for toggling pause, bounds, normals, lights,
      * wire etc.
      *
@@ -176,7 +183,7 @@ public abstract class PhysicsGame extends AbstractGame {
         timer.update();
         // Update tpf to time per frame according to the Timer.
         tpf = timer.getTimePerFrame();
-        
+
         // Execute updateQueue item
         GameTaskQueueManager.getManager().getQueue(GameTaskQueue.UPDATE).execute();
 
@@ -209,7 +216,20 @@ public abstract class PhysicsGame extends AbstractGame {
             showPhysics = !showPhysics;
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
-            super.finish();
+        	if( isThread ) {
+	        	//vado in wait e passo il testimone a swing
+	        	threadController.gameWait();
+	        	//reset del timer per evitare problemi nel resume del gioco
+	        	timer.reset();
+	        	if(threadController.close)//se swing comanda esci
+	        		finish();
+	        	else
+	        		display.recreateWindow(settings.getWidth(),settings.getHeight(),
+	        				settings.getDepth(),settings.getFrequency(),settings.isFullscreen());
+        	} else {
+        		finish();
+        	}
+	        	
         }
         
         if ( !pause ) {
@@ -244,15 +264,13 @@ public abstract class PhysicsGame extends AbstractGame {
 
         /** Draw the rootNode and all its children. */
         renderer.draw(rootNode);
-
+        
         /** Have the PassManager render. */
         passManager.renderPasses(display.getRenderer());
-        
+
         /** Call simpleRender() in any derived classes. */
         simpleRender();
 
-//        display.getRenderer().draw(statNode);
-        
         doDebug(renderer);
     }
 
@@ -280,14 +298,13 @@ public abstract class PhysicsGame extends AbstractGame {
                     settings.isFullscreen()
                     );
 
-            cam = display.getRenderer().createCamera( display.getWidth(), 
-            		display.getHeight() );
+            cam = display.getRenderer().createCamera( display.getWidth(), display.getHeight() );
         } catch ( JmeException e ) {
             System.exit( 1 );
         }
 
         /** Set a black background. */
-        display.getRenderer().setBackgroundColor( ColorRGBA.black.clone() );
+        display.getRenderer().setBackgroundColor( ColorRGBA.lightGray );
 
         /** Set up how our camera sees. */
         cameraPerspective();
@@ -324,7 +341,7 @@ public abstract class PhysicsGame extends AbstractGame {
     }
 
     protected void cameraPerspective() {
-        cam.setFrustumPerspective( 45.0f, (float) display.getWidth() / (float) display.getHeight(), 1, 1000 );
+        cam.setFrustumPerspective( 45.0f, (float) display.getWidth() / (float) display.getHeight(), 1, 10000 );
         cam.setParallelProjection( false );
         cam.update();
     }
@@ -336,7 +353,8 @@ public abstract class PhysicsGame extends AbstractGame {
      * @see AbstractGame#initGame()
      */
     protected void initGame() {
-    	/************** ADDED FOR PASS */
+    	
+    	/** init pass manager */
     	passManager = new BasicPassManager();
     	
         /** Create rootNode */
@@ -364,13 +382,7 @@ public abstract class PhysicsGame extends AbstractGame {
         cs.setEnabled(true);
         cs.setCullFace(CullState.Face.Back);
         rootNode.setRenderState(cs);
-        
-        // -- STATS, text node
-        // Finally, a stand alone node (not attached to root on purpose)
-//        statNode = new Node( "Stats node" );
-//        statNode.setCullHint( Spatial.CullHint.Never );
-//        statNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
-        
+
         /** Set up a basic, default light. */
         PointLight light = new PointLight();
         light.setDiffuse( new ColorRGBA( 0.75f, 0.75f, 0.75f, 0.75f ) );
@@ -380,7 +392,7 @@ public abstract class PhysicsGame extends AbstractGame {
 
         /** Attach the light to a lightState and the lightState to rootNode. */
         lightState = display.getRenderer().createLightState();
-        lightState.setEnabled( true );
+        lightState.setEnabled( false );
         lightState.attach( light );
         rootNode.setRenderState( lightState );
 
@@ -391,10 +403,8 @@ public abstract class PhysicsGame extends AbstractGame {
 
         rootNode.updateGeometricState( 0.0f, true );
         rootNode.updateRenderState();
-//        statNode.updateGeometricState( 0.0f, true );
-//        statNode.updateRenderState();
 
-        timer.reset();
+        //timer.reset();
     }
 
     /**
@@ -432,14 +442,10 @@ public abstract class PhysicsGame extends AbstractGame {
      */
     protected void cleanup() {
         TextureManager.doTextureCleanup();
-        if (display != null && display.getRenderer() != null)
-            display.getRenderer().cleanup();
+        if (display != null && display.getRenderer() != null) display.getRenderer().cleanup();
         KeyInput.destroyIfInitalized();
         MouseInput.destroyIfInitalized();
         JoystickInput.destroyIfInitalized();
-        if (AudioSystem.isCreated()) {
-            AudioSystem.getSystem().cleanup();
-        }
     }
 
     /**
@@ -485,8 +491,7 @@ public abstract class PhysicsGame extends AbstractGame {
     }
     
     protected void doDebug(Renderer r) {
-        if ( showPhysics ) 
-        	PhysicsDebugger.drawPhysics( getPhysicsSpace(), r );
+        if ( showPhysics ) PhysicsDebugger.drawPhysics( getPhysicsSpace(), r );
     }
     
     /**
