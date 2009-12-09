@@ -1,49 +1,38 @@
 package slashWork.game.graphics;
 
-import slashWork.game.base.Game;
-import slashWork.game.input.PhysicsInputHandler;
-import slashWork.game.test.testGame;
-
-import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import javax.swing.ImageIcon;
 
-import jmetest.effects.water.TestQuadWater;
-
+import jmetest.TutorialGuide.ExplosionFactory;
+import slashWork.game.base.Game;
+import slashWork.game.input.PhysicsInputHandler;
+import slashWork.game.main.ThreadController;
+import slashWork.game.sound.AudioManager;
+import utils.Loader;
 import utils.ModelLoader;
 
-import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
 import com.jme.light.DirectionalLight;
 import com.jme.math.Quaternion;
-import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
-import com.jme.scene.SharedMesh;
 import com.jme.scene.Skybox;
-import com.jme.scene.Spatial;
 import com.jme.scene.Text;
-import com.jme.scene.Spatial.TextureCombineMode;
-import com.jme.scene.shape.Pyramid;
+import com.jme.scene.shape.Box;
+import com.jme.scene.shape.Quad;
+import com.jme.scene.state.BlendState;
 import com.jme.scene.state.CullState;
-import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
-import com.jme.scene.state.ZBufferState;
+import com.jme.scene.state.BlendState.DestinationFunction;
+import com.jme.scene.state.BlendState.SourceFunction;
+import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
-import com.jmex.audio.AudioSystem;
-import com.jmex.audio.AudioTrack;
-import com.jmex.audio.AudioTrack.TrackType;
-import com.jmex.audio.MusicTrackQueue.RepeatType;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
-import com.jmex.terrain.TerrainBlock;
-import com.jmex.terrain.util.MidPointHeightMap;
-import com.jmex.terrain.util.ProceduralTextureGenerator;
 
 /** Class GraphicalWorld <br>
  * The main graphics class which contains all the graphical objects and characters
@@ -55,14 +44,11 @@ public class GraphicalWorld extends Game {
 	/** an interface to communicate with the application core */
 	WorldInterface core;
 	
-	/** a custom input handler to control the player */
+	/** a custom freeCamInput handler to control the player */
     PhysicsInputHandler physicsInputHandler;
     
     /** the world's ground */
     StaticPhysicsNode ground;
-    
-    /** the world's terrain attached to the ground node */
-    TerrainBlock terrain;
     
     /** the game's bounds, a physics box that contains the scene */
     StaticPhysicsNode gameBounds;
@@ -87,25 +73,22 @@ public class GraphicalWorld extends Game {
 
     /** the sky */
 	Skybox skybox;
-	
-	/** x and z dimension of the world */
-	Vector2f worldDimension;
 
 	/** set to false when you don't want to do the world update */
 	boolean enabled = true;
 	
-	/** basic basic hud */
+	/** HUD node */
+	Node hudNode;
+	/** very very basic hud */
 	Text life;
-	Text crosshair;
-	Text gameOver;
+	Quad crosshair;
 	Text fps;
 	
 	/** audio controller */
-	AudioSystem audio;
-	
-	public AudioTrack shoot;
-	public AudioTrack explosion;
-	public AudioTrack death;
+	AudioManager audio;
+
+	/** audio controller status */
+	boolean audioEnabled;
 	
 	
 	/** GraphicalWorld constructor <br>
@@ -115,12 +98,43 @@ public class GraphicalWorld extends Game {
 	 * @param x - (int) the x dimension of the world
 	 * @param z - (int) the z dimension of the world
 	 */
-	public GraphicalWorld( WorldInterface core, int x, int z ) {
-		setCore( core );
-		worldDimension = new Vector2f( x, z );
+	public GraphicalWorld( WorldInterface core, ThreadController tc ) {
+		this.core = core;
+		
+		if( tc != null )
+			super.threadController = tc;
+		
+		/** set to true if you want to enable the audio system */
+//		audioEnabled = true;
 	}
-
+	
+	public void setCrosshair() {
+		BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
+        as.setBlendEnabled(true);
+        as.setTestEnabled(false);
+        as.setSourceFunction( SourceFunction.SourceAlpha );
+        as.setDestinationFunction( DestinationFunction.OneMinusSourceAlpha );
+        as.setEnabled(true);
+		TextureState cross = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+		cross.setTexture( TextureManager.loadTexture( Loader.load(
+		                "game/data/images/crosshair.png" ), false ) );
+		cross.setEnabled(true);
+		crosshair = new Quad( "quad", 30, 30 );
+		crosshair.setLocalTranslation( DisplaySystem.getDisplaySystem().getWidth() / 2,
+				DisplaySystem.getDisplaySystem().getHeight() / 2, 0 );
+		crosshair.setRenderState(as);
+		crosshair.setRenderState(cross);
+		
+		hudNode.attachChild(crosshair);
+		hudNode.updateGeometricState( 0.0f, true );
+		hudNode.updateRenderState();
+	}
+	
     public void setupInit() {
+		hudNode = new Node( "HUD" );
+		rootNode.attachChild( hudNode );
+		hudNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
+		
 		characters = new HashMap<String, PhysicsCharacter>();
 		bullets = new HashMap<String, PhysicsBullet>();
 		ammoPackages = new HashMap<String, PhysicsAmmoPackage>();
@@ -136,67 +150,36 @@ public class GraphicalWorld extends Game {
     	life.setLocalTranslation( 20, 20, 0 );
     	rootNode.attachChild( life );
     	
-		crosshair = Text.createDefaultTextLabel( "crosshair" );
-		crosshair.setLocalTranslation(new Vector3f(display.getWidth() / 2f - 8f,
-				display.getHeight() / 2f - 8f, 0));
-		rootNode.attachChild(crosshair);
-        
-		gameOver = Text.createDefaultTextLabel( "gameOver" );
-		rootNode.attachChild(gameOver);
-		
+    	setCrosshair();
+    	
 		fps = Text.createDefaultTextLabel( "life" );
     	fps.setLocalTranslation( 20, 40, 0 );
     	rootNode.attachChild( fps );
 		
-        pause = true;
+    	ExplosionFactory.warmup();
+    	
+    	if( audioEnabled ) 
+    		audio = new AudioManager( cam );
+    	
+//        pause = true;
     }
-    
-    private void initSound() {
-		audio = AudioSystem.getSystem();
-
-		audio.getEar().trackOrientation(cam);
-		audio.getEar().trackPosition(cam);
-
-		AudioTrack backgroundMusic = getMusic( getClass().getResource("/slashWork/game/data/audio/game.ogg"));
-		audio.getMusicQueue().setRepeatType(RepeatType.ALL);
-		audio.getMusicQueue().setCrossfadeinTime(2.5f);
-		audio.getMusicQueue().setCrossfadeoutTime(2.5f);
-		audio.getMusicQueue().addTrack(backgroundMusic);
-		audio.getMusicQueue().play();
-
-		shoot = audio.createAudioTrack("/slashWork/game/data/audio/mp5.ogg", false);
-		shoot.setRelative(true);
-		shoot.setMaxAudibleDistance(100000);
-		shoot.setVolume(.7f);
-		
-		explosion = audio.createAudioTrack("/slashWork/game/data/audio/explosion.ogg", false);
-		explosion.setRelative(true);
-		explosion.setMaxAudibleDistance(100000);
-		explosion.setVolume(4.0f);
-		
-		death = audio.createAudioTrack("/slashWork/game/data/audio/death.ogg", false);
-		death.setRelative(true);
-		death.setMaxAudibleDistance(100000);
-		death.setVolume(4.0f);
-    }
-    
-	private AudioTrack getMusic(URL resource) {
-		// Create a non-streaming, non-looping, relative sound clip.
-		AudioTrack sound = AudioSystem.getSystem().createAudioTrack(resource, true);
-		sound.setType(TrackType.MUSIC);
-		sound.setRelative(true);
-		sound.setTargetVolume(0.7f);
-		sound.setLooping(false);
-		return sound;
-	}
     
     /** Create graphic characters
      *  and place them in positions setted in the logic game
      */
     public void setupEnemies() { 	    	
         for( String id : core.getEnemiesId() ) {
-            Node model = ModelLoader.loadModel("data/soldato/soldato.ms3d", "data/soldato/soldato.jpg", 1f, new Quaternion());
+        	Node model = ModelLoader.loadModel("game/data/models/soldier/sold2.ms3d", 
+        			"game/data/models/soldier/soldier.jpg", 1f, new Quaternion());
             model.setLocalTranslation(0, -2f, 0);   
+            
+    		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
+                    Texture.MinificationFilter.Trilinear,
+                    Texture.MagnificationFilter.Bilinear);
+            TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+            ts.setEnabled(true);
+            ts.setTexture(texture);
+    		model.getChild( "weapon" ).setRenderState( ts );
 
             PhysicsEnemy enemy = new PhysicsEnemy( id, this, 20, 100,  model );
         	enemy.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
@@ -210,8 +193,17 @@ public class GraphicalWorld extends Game {
      */
     public void setupPlayer() {
     	
-    	Node model = ModelLoader.loadModel("data/soldato/soldato.ms3d", "data/soldato/soldato.jpg", 1f, new Quaternion());
+    	Node model = ModelLoader.loadModel("game/data/models/soldier/player.ms3d", 
+    			"game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
         model.setLocalTranslation(0, -2f, 0);   
+        
+		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
+                Texture.MinificationFilter.Trilinear,
+                Texture.MagnificationFilter.Bilinear);
+        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+        ts.setEnabled(true);
+        ts.setTexture(texture);
+		model.getChild( "weapon" ).setRenderState( ts );
         
         for( String id : core.getPlayersId() ) {
         	player = new PhysicsCharacter( id, this, 20, 100, model );
@@ -222,7 +214,7 @@ public class GraphicalWorld extends Game {
     }
     
     public void setupCamera() {
-        cam.setLocation(new Vector3f(160,30,160));
+//        cam.setLocation(new Vector3f(160,30,160));
         cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, 1000);
         cam.update();
     }
@@ -235,42 +227,54 @@ public class GraphicalWorld extends Game {
     protected void update() {
 		if( !enabled )
 			return;
-		audio.update();
-    	if( core.isAlive( player.id ) == false ) {
+		
+		if( audioEnabled )
+			audio.update();
+    	
+		if( core.isAlive( player.id ) == false ) {
     		life.print( "Life: 0" );
     		gameOver();
     	} else {
     		life.print( "Life: " + core.getCharacterLife( player.id ) );
     		
 	        physicsInputHandler.update(tpf);
+	        freeCamInput.update(tpf);
+	        
+	        skybox.getLocalTranslation().set( cam.getLocation() );
+	        skybox.updateGeometricState(0.0f, true);
+	        
 	        updateCharacters(tpf);
 	        
+	        /** print the crosshair only in first person view */
 	        if( player.isFirstPerson() ) {
-	        	crosshair.print( "+" );
+	        	if( !hudNode.hasChild( crosshair ) )
+	        		hudNode.attachChild( crosshair );
 	        } else {
-	        	crosshair.print( "" );
+	        	if( hudNode.hasChild( crosshair ) )
+	        		hudNode.detachChild( crosshair );
 	        }
 	        
 	        updateBullets(tpf);
 	        updateAmmoPackages(tpf);
 	        updateEnergyPackages(tpf);
-	        
-	        skybox.setLocalTranslation(cam.getLocation());
-	        skybox.updateGeometricState( 0, false );
     	}
     	
     	fps.print( "Frame Rate: " + (int) timer.getFrameRate() + "fps" );
     }
     
 	private void gameOver() {
+		Text gameOver = Text.createDefaultTextLabel( "gameOver" );
+		rootNode.attachChild( gameOver );
 		gameOver.print( "Game Over" );
         gameOver.setLocalScale( 3 );
         gameOver.setTextColor( ColorRGBA.red );
 		gameOver.setLocalTranslation(new Vector3f(display.getWidth() / 2f - gameOver.getWidth() / 2,
 				display.getHeight() / 2f - gameOver.getHeight() / 2, 0));
 		
-		death.setWorldPosition( cam.getLocation() );
-		death.play();
+		if( audioEnabled ) {
+			AudioManager.death.setWorldPosition( cam.getLocation() );
+			AudioManager.death.play();
+		}
 		
 		enabled = false;
 		pause = true;
@@ -329,11 +333,9 @@ public class GraphicalWorld extends Game {
     }
 
 	public void setupEnvironment() {
-		// TODO ambientazione
-		initSound();
 		
 	    rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
-	
+		
 	    DirectionalLight dr = new DirectionalLight();
 	    dr.setEnabled(true);
 	    dr.setDiffuse(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
@@ -342,105 +344,77 @@ public class GraphicalWorld extends Game {
 	
 	    lightState.detachAll();
 	    lightState.attach(dr);
-	
-	    MidPointHeightMap heightMap = new MidPointHeightMap( 32, 1 );
-	    Vector3f terrainScale = new Vector3f( worldDimension.x/32, .04f, worldDimension.y/32 );
-	    terrain = new TerrainBlock( "Terrain", heightMap.getSize(), terrainScale, 
-	    		heightMap.getHeightMap(), new Vector3f( 0, 0, 0 ) );
-	
-	    terrain.setDetailTexture(1, 16);
-	    ground.attachChild(terrain);
-	
-	    ground.generatePhysicsGeometry(true);
-	
-	    ProceduralTextureGenerator pt = new ProceduralTextureGenerator(heightMap);
-	    pt.addTexture(new ImageIcon(testGame.class.getClassLoader().getResource(
-	    		"game/data/texture/grassb.png" ) ), -128, 0, 200 );
-	    pt.addTexture(new ImageIcon(testGame.class.getClassLoader().getResource(
-	    		"game/data/texture/dirt.jpg" ) ), 50, 200, 384 );
-//	    pt.addTexture(new ImageIcon(testGame.class.getClassLoader().getResource(
-//	    		"game/data/texture/highest.jpg" ) ), 128, 255, 384 );
-	
-	    pt.createTexture(512);
-	
-	    TextureState ts = display.getRenderer().createTextureState();
-	    ts.setEnabled(true);
-	    Texture t1 = TextureManager.loadTexture( pt.getImageIcon().getImage(), 
-	    		Texture.MinificationFilter.Trilinear,
-	    		Texture.MagnificationFilter.Bilinear, true);
-	    ts.setTexture(t1, 0);
-	
-	    Texture t2 = TextureManager.loadTexture(testGame.class
-	            .getClassLoader()
-	            .getResource("game/data/texture/Detail.jpg"),
-	            Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear);
-	    ts.setTexture(t2, 1);
-	    t2.setWrap(Texture.WrapMode.Repeat);
-	
-	    t1.setApply(Texture.ApplyMode.Combine);
-	    t1.setCombineFuncRGB(Texture.CombinerFunctionRGB.Modulate);
-	    t1.setCombineSrc0RGB(Texture.CombinerSource.CurrentTexture);
-	    t1.setCombineOp0RGB(Texture.CombinerOperandRGB.SourceColor);
-	    t1.setCombineSrc1RGB(Texture.CombinerSource.PrimaryColor);
-	    t1.setCombineOp1RGB(Texture.CombinerOperandRGB.SourceColor);
-	
-	    t2.setApply(Texture.ApplyMode.Combine);
-	    t2.setCombineFuncRGB(Texture.CombinerFunctionRGB.AddSigned);
-	    t2.setCombineSrc0RGB(Texture.CombinerSource.CurrentTexture);
-	    t2.setCombineOp0RGB(Texture.CombinerOperandRGB.SourceColor);
-	    t2.setCombineSrc1RGB(Texture.CombinerSource.Previous);
-	    t2.setCombineOp1RGB(Texture.CombinerOperandRGB.SourceColor);
-	    ground.setRenderState(ts);
-	
-        TextureState treeTex = display.getRenderer().createTextureState();
-        treeTex.setEnabled(true);
-        Texture tr = TextureManager.loadTexture(
-                GraphicalWorld.class.getClassLoader().getResource(
-                        "jmetest/data/texture/grass.jpg"), Texture.MinificationFilter.Trilinear,
-                Texture.MagnificationFilter.Bilinear);
-        treeTex.setTexture(tr);
-
-//        Node p = ModelLoader.loadModel( "game/data/Tree1.3ds", "", 0.2f, 
-//        		new Quaternion().fromAngleAxis( FastMath.PI * 3/2, Vector3f.UNIT_X));
-        Pyramid p = new Pyramid("p", 10, 20);
-        p.setModelBound(new BoundingBox());
-        p.updateModelBound();
-        p.setRenderState(treeTex);
-        p.setTextureCombineMode(TextureCombineMode.Replace);
+		
+//	    CullState cs = display.getRenderer().createCullState();
+//	    cs.setCullFace(CullState.Face.Back);
+//	    rootNode.setRenderState(cs);
+//	
+//	    lightState.detachAll();
+//	    rootNode.setLightCombineMode(Spatial.LightCombineMode.Off);
+//	    
+//	    FogState fogState = display.getRenderer().createFogState();
+//	    fogState.setDensity(1.0f);
+//	    fogState.setEnabled(true);
+//	    fogState.setColor(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
+//	    fogState.setEnd(farPlane);
+//	    fogState.setStart(farPlane / 10.0f);
+//	    fogState.setDensityFunction(FogState.DensityFunction.Linear);
+//	    fogState.setQuality(FogState.Quality.PerVertex);
+//	    rootNode.setRenderState(fogState);
+	    
+	    
+		ground = getPhysicsSpace().createStaticNode();
+        rootNode.attachChild( ground );
         
-        for (int i = 0; i < 100; i++) {
-        	Spatial s1 = new SharedMesh("tree"+i, p);
-            float x = (float) Math.random() * 128 * 5;
-            float z = (float) Math.random() * 128 * 5;
-            s1.setLocalTranslation(new Vector3f(x, terrain.getHeight(x, z), z));
-            rootNode.attachChild(s1);
-        }
+        final Box floor = new Box("floor", new Vector3f( 500, 0, 500 ), 1000, 0.25f, 1000 );
+        floor.setDefaultColor( ColorRGBA.gray );
+        ground.attachChild( floor );
+        ground.generatePhysicsGeometry();
 	    
-	    
-	    FogState fs = display.getRenderer().createFogState();
-	    fs.setDensity(0.5f);
-	    fs.setEnabled(true);
-	    fs.setColor(new ColorRGBA(0.5f, 0.5f, 0.5f, 0.5f));
-	    fs.setEnd(1000);
-	    fs.setStart(500);
-	    fs.setDensityFunction(FogState.DensityFunction.Linear);
-	    fs.setQuality(FogState.Quality.PerVertex);
-	    rootNode.setRenderState(fs);
-	    
+
+        buildSkyBox();
+      
+        rootNode.attachChild(skybox);
+
+		
 	    createVegetation();
 	    createWorldBounds();
-	    buildSkyBox();
 	    setupEnergyPackages();
 	}
 	
+	// TODO creare alberi e cazzate varie
 	private void createVegetation() {
 //		appesantisce un casino...anche un solo albero...bah!
-//		Node tree = ModelLoader.loadModel( "slashWork/game/data/Tree1.jme", "", .2f, 
-//				new Quaternion().fromAngleAxis( FastMath.HALF_PI, Vector3f.UNIT_Z ) );
+//		Node tree = ModelLoader.loadModel( "game/data/models/vegetation/tree1.3ds", 
+//				"", 0.02f, Util.X270 );
 //		
-//		tree.setLocalTranslation( 130, 10, 130 );
+//		tree.setLocalTranslation( 30, terrain.getHeight( 30, 30 ), 30 );
 //		
 //		rootNode.attachChild( tree );
+		
+//     TextureState treeTex = display.getRenderer().createTextureState();
+//      treeTex.setEnabled(true);
+//      Texture tr = TextureManager.loadTexture(
+//              GraphicalWorld.class.getClassLoader().getResource(
+//                      "game/data/texture/grass.jpg"), Texture.MinificationFilter.Trilinear,
+//              Texture.MagnificationFilter.Bilinear);
+//      treeTex.setTexture(tr);
+//
+////      Node p = ModelLoader.loadModel( "game/data/Tree1.3ds", "", 0.2f, 
+////      		new Quaternion().fromAngleAxis( FastMath.PI * 3/2, Vector3f.UNIT_X));
+//      Pyramid p = new Pyramid("p", 10, 20);
+//      p.setModelBound(new BoundingBox());
+//      p.updateModelBound();
+//      p.setRenderState(treeTex);
+//      p.setTextureCombineMode(TextureCombineMode.Replace);
+//      
+//      for (int i = 0; i < 100; i++) {
+//      	Spatial s1 = new SharedMesh("tree"+i, p);
+//          float x = (float) Math.random() * 128 * 5;
+//          float z = (float) Math.random() * 128 * 5;
+//          s1.setLocalTranslation(new Vector3f(x, ( (TerrainPage) splatTerrain).getHeight(x, z), z));
+//          rootNode.attachChild(s1);
+//      }
 	}
 
 	private void setupEnergyPackages() {
@@ -450,76 +424,13 @@ public class GraphicalWorld extends Game {
 			energyPackages.put( e.id, e );
 		}
 	}
-
-	private void buildSkyBox() {
-        skybox = new Skybox("skybox", 10, 10, 10);
- 
-        skybox = new Skybox("skybox", 10, 10, 10);
-
-        String dir = "jmetest/data/skybox1/";
-        Texture north = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "1.jpg"),
-                Texture.MinificationFilter.BilinearNearestMipMap,
-                Texture.MagnificationFilter.Bilinear);
-        Texture south = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "3.jpg"),
-                Texture.MinificationFilter.BilinearNearestMipMap,
-                Texture.MagnificationFilter.Bilinear);
-        Texture east = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "2.jpg"),
-                Texture.MinificationFilter.BilinearNearestMipMap,
-                Texture.MagnificationFilter.Bilinear);
-        Texture west = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "4.jpg"),
-                Texture.MinificationFilter.BilinearNearestMipMap,
-                Texture.MagnificationFilter.Bilinear);
-        Texture up = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "6.jpg"),
-                Texture.MinificationFilter.BilinearNearestMipMap,
-                Texture.MagnificationFilter.Bilinear);
-        Texture down = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "5.jpg"),
-                Texture.MinificationFilter.BilinearNearestMipMap,
-                Texture.MagnificationFilter.Bilinear);
-
-        skybox.setTexture(Skybox.Face.North, north);
-        skybox.setTexture(Skybox.Face.West, west);
-        skybox.setTexture(Skybox.Face.South, south);
-        skybox.setTexture(Skybox.Face.East, east);
-        skybox.setTexture(Skybox.Face.Up, up);
-        skybox.setTexture(Skybox.Face.Down, down);
-        skybox.preloadTextures();
-
-        CullState cullState = display.getRenderer().createCullState();
-        cullState.setCullFace(CullState.Face.None);
-        cullState.setEnabled(true);
-        skybox.setRenderState(cullState);
-
-        ZBufferState zState = display.getRenderer().createZBufferState();
-        zState.setEnabled(false);
-        skybox.setRenderState(zState);
-
-        FogState fs = display.getRenderer().createFogState();
-        fs.setEnabled(false);
-        skybox.setRenderState(fs);
-
-        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
-        skybox.setCullHint(Spatial.CullHint.Never);
-        skybox.setTextureCombineMode(TextureCombineMode.Replace);
-        skybox.updateRenderState();
-
-        skybox.lockBounds();
-        skybox.lockMeshes();
-        
-        rootNode.attachChild(skybox);
-    }
 	
     /** Function that creates the game bounds with a physics box that contains all the world
      */
 	public void createWorldBounds() {
 
-		float x = worldDimension.x;
-		float z = worldDimension.y;
+		float x = 1000;
+		float z = 1000;
 		float y = 120;
 		
 	    PhysicsBox downBox = gameBounds.createBox("downBox");
@@ -550,10 +461,6 @@ public class GraphicalWorld extends Game {
 	public WorldInterface getCore() {
 		return core;
 	}
-
-	public void setCore( WorldInterface core ) {
-		this.core = core;
-	}
 	
 	public StaticPhysicsNode getGround() {
 		return ground;
@@ -561,8 +468,76 @@ public class GraphicalWorld extends Game {
 	
 	protected void cleanup() {
 		super.cleanup();
-		if(AudioSystem.isCreated()) {
-			AudioSystem.getSystem().cleanup();
+		if( audioEnabled )
+			audio.cleanup();
+	}
+	
+    private void buildSkyBox() {
+        skybox = new Skybox("skybox", 10, 10, 10);
+
+        String dir = "jmetest/data/skybox1/";
+        Texture north = TextureManager.loadTexture( Loader.load(dir + "1.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap,
+                Texture.MagnificationFilter.Bilinear);
+        Texture south = TextureManager.loadTexture( Loader.load(dir + "3.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap,
+                Texture.MagnificationFilter.Bilinear);
+        Texture east = TextureManager.loadTexture( Loader.load(dir + "2.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap,
+                Texture.MagnificationFilter.Bilinear);
+        Texture west = TextureManager.loadTexture( Loader.load(dir + "4.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap,
+                Texture.MagnificationFilter.Bilinear);
+        Texture up = TextureManager.loadTexture( Loader.load(dir + "6.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap,
+                Texture.MagnificationFilter.Bilinear);
+        Texture down = TextureManager.loadTexture( Loader.load(dir + "5.jpg"),
+                Texture.MinificationFilter.BilinearNearestMipMap,
+                Texture.MagnificationFilter.Bilinear);
+
+        skybox.setTexture(Skybox.Face.North, north);
+        skybox.setTexture(Skybox.Face.West, west);
+        skybox.setTexture(Skybox.Face.South, south);
+        skybox.setTexture(Skybox.Face.East, east);
+        skybox.setTexture(Skybox.Face.Up, up);
+        skybox.setTexture(Skybox.Face.Down, down);
+        skybox.preloadTextures();
+
+        CullState cullState = display.getRenderer().createCullState();
+        cullState.setCullFace(CullState.Face.None);
+        cullState.setEnabled(true);
+        skybox.setRenderState(cullState);
+        
+//		DA PROBLEMI
+//        ZBufferState zState = display.getRenderer().createZBufferState();
+//        zState.setEnabled(true);
+//        skybox.setRenderState(zState);
+//
+//        skybox.setRenderState(fs);
+//
+//        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
+//        skybox.setCullHint(Spatial.CullHint.Never);
+//        skybox.setTextureCombineMode(TextureCombineMode.Replace);
+        skybox.updateRenderState();
+
+        skybox.lockBounds();
+        skybox.lockMeshes();
+    }
+
+    
+	public void shoot( Vector3f position ) {
+		if( audioEnabled ) {
+	    	AudioManager.explosion.setWorldPosition( position.clone() );
+	    	AudioManager.explosion.setVolume( 0.7f );
+			AudioManager.shoot.play();
+		}
+	}
+	
+	public void explode( Vector3f position ) {
+		if( audioEnabled ) {
+	    	AudioManager.explosion.setWorldPosition( position.clone() );
+	    	AudioManager.explosion.setVolume( 5 );
+			AudioManager.explosion.play();
 		}
 	}
 }

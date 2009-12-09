@@ -1,11 +1,15 @@
 package slashWork.game.core;
 
+import java.io.Serializable;
+
 import com.jme.math.Vector3f;
 
 /** Class <code>LogicAmmo</code> <br>
  * Represent pack of ammunitions the player can catch and use
  */
-public class LogicAmmoPack {
+@SuppressWarnings("serial")
+public class LogicAmmoPack implements Serializable {
+	
 	/** type of the weapon which can use this ammo */
 	private WeaponType type;
 	

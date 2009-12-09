@@ -1,5 +1,7 @@
 package slashWork.game.core;
 
+import java.io.Serializable;
+
 import slashWork.game.enemyAI.Movement;
 
 import com.jme.math.Vector3f;
@@ -7,7 +9,8 @@ import com.jme.math.Vector3f;
 /**
  * Abstract Class LogicCharacter
  */
-public abstract class LogicCharacter {
+@SuppressWarnings("serial")
+public abstract class LogicCharacter implements Serializable {
 
 	/** Idenfitier */
 	String id;

@@ -4,6 +4,7 @@ import slashWork.game.enemyAI.Movement;
 import slashWork.game.enemyAI.MovementList.MovementType;
 import slashWork.game.graphics.WorldInterface;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -12,7 +13,8 @@ import java.util.regex.Pattern;
 
 import com.jme.math.Vector3f;
 
-public class LogicWorld implements WorldInterface {
+@SuppressWarnings("serial")
+public class LogicWorld implements WorldInterface, Serializable {
 	
 	/** Hashmap of the characters <br>
 	 * Contains all the characters (players and enemies) who interact in the game
@@ -141,7 +143,7 @@ public class LogicWorld implements WorldInterface {
 		for( String id : characters.keySet() ) {
 			// pattern matching on id: character id must be like "typeN" where N 
 			// is a number and type is "player" or "enemy"
-			if( Pattern.matches( "^" + type + ".", id ) ) {
+			if( Pattern.matches( "^" + type + ".+", id ) ) {
 				charactersId.add( id );
 			}
 		}
@@ -268,7 +270,8 @@ public class LogicWorld implements WorldInterface {
 
 	@Override
 	public void characterShoted( String id, int bulletDamage ) {
-		characters.get(id).isShooted( bulletDamage );
+		if( characters.containsKey( id ))
+			characters.get(id).isShooted( bulletDamage );
 	}
 
 	@Override

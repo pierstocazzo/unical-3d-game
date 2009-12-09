@@ -1,6 +1,8 @@
 package slashWork.game.core;
 
-public enum State {
+import java.io.Serializable;
+
+public enum State implements Serializable {
 	
 	/**
 	 * The character is in default state

@@ -2,6 +2,7 @@ package slashWork.game.core;
 
 import slashWork.game.enemyAI.Movement;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import com.jme.math.Vector3f;
@@ -11,7 +12,8 @@ import com.jme.math.Vector3f;
  * 
  * @author Andrea
  */
-public class LogicPlayer extends LogicCharacter {
+@SuppressWarnings("serial")
+public class LogicPlayer extends LogicCharacter implements Serializable {
 
 	/** Player's equipment */
 	HashMap< String, LogicWeapon > equipment = new HashMap<String, LogicWeapon>();
