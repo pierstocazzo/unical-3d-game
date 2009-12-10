@@ -15,21 +15,21 @@ public class CustomAnimationController {
 	
 	Animation currentAnimation;
 
-	Animation previousAntimation;
-
-	
 	public CustomAnimationController( Controller controller ) {
 		this.controller = (JointController) controller;
 		runAnimation( Animation.IDLE );
 		controller.setActive( true );
 		controller.setRepeatType( AnimationController.RT_WRAP );
-		controller.setSpeed( 0.7f );
+		controller.setSpeed( currentAnimation.speed );
 	}
 	
 	public void runAnimation( Animation animation ) {
+		if( currentAnimation == animation )
+			return;
+		
 		controller.setTimes( animation.startFrame, animation.endFrame );
-		previousAntimation = currentAnimation;
 		currentAnimation = animation;
+		controller.setSpeed( currentAnimation.speed );
 		if( currentAnimation == Animation.DIE ) {
 			controller.setRepeatType( AnimationController.RT_CLAMP );
 		}
@@ -55,25 +55,28 @@ public class CustomAnimationController {
 	 */
 	 public enum Animation {
 		
-		RUN ( 15, 28 ), 
+		RUN ( 15, 28, 0.7f ), 
 		
-		WALK ( 1, 14 ),
+		WALK ( 1, 14, 0.4f ),
 		
-		IDLE ( 251, 276 ),
+		IDLE ( 251, 276, 0.3f ),
 		
-		JUMP ( 103, 111 ),
+		JUMP ( 103, 111, 0.7f ),
 		
-		DIE ( 230, 251 ),
+		DIE ( 230, 251, 1f ),
 		
-		SHOOT ( 63, 64 );
+		SHOOT ( 63, 64, 0.4f );
 		
 		int startFrame; 
 		
 		int endFrame;
 
-		Animation( int startFrame, int endFrame ) {
+		float speed;
+
+		Animation( int startFrame, int endFrame, float speed ) {
 			this.startFrame = startFrame;
 			this.endFrame = endFrame;
+			this.speed = speed;
 		}
 	}
 }

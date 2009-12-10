@@ -1,8 +1,8 @@
 package proposta.graphics;
 
 import proposta.base.Game;
+import proposta.input.ThirdPersonHandler;
 import proposta.main.ThreadController;
-
 //import game.graphics.ExplosionFactory;
 
 import java.nio.FloatBuffer;
@@ -21,7 +21,6 @@ import com.jme.input.ChaseCamera;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
 import com.jme.input.MouseLookHandler;
-import com.jme.input.ThirdPersonHandler;
 import com.jme.light.DirectionalLight;
 import com.jme.math.FastMath;
 import com.jme.math.Plane;
@@ -47,8 +46,6 @@ import com.jme.scene.state.BlendState.DestinationFunction;
 import com.jme.scene.state.BlendState.SourceFunction;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
-import com.jme.util.resource.ResourceLocatorTool;
-import com.jme.util.resource.SimpleResourceLocator;
 import com.jmex.effects.water.WaterRenderPass;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
@@ -295,8 +292,8 @@ public class GraphicalWorld extends Game {
         handlerProps.put(ThirdPersonHandler.PROP_TURNSPEED, ""+(1.0f * FastMath.PI));
         handlerProps.put(ThirdPersonHandler.PROP_LOCKBACKWARDS, "false");
         handlerProps.put(ThirdPersonHandler.PROP_CAMERAALIGNEDMOVE, "true");
-        physicsInputHandler = new ThirdPersonHandler( player.getCharacterNode(), cam, handlerProps);
-        physicsInputHandler.setActionSpeed(50f);
+//        handlerProps.put(ThirdPersonHandler.PROP_PERMITTER, player );
+        physicsInputHandler = new ThirdPersonHandler( player, cam, handlerProps);
     }
 
 	@Override
