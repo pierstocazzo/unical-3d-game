@@ -2,6 +2,7 @@ package proposta.graphics;
 
 import proposta.graphics.CustomAnimationController;
 import proposta.graphics.CustomAnimationController.Animation;
+import proposta.input.action.MovementPermitter;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.input.InputHandler;
@@ -26,7 +27,7 @@ import com.jmex.physics.material.Material;
  * 
  * @see {@link game.input.PhysicsInputHandler}
  */
-public class PhysicsPlayer extends PhysicsCharacter {
+public class PhysicsPlayer extends PhysicsCharacter implements MovementPermitter {
 
 	/** the character identifier */
 	String id;
@@ -62,6 +63,8 @@ public class PhysicsPlayer extends PhysicsCharacter {
     boolean shooting = false;
 
 	float previousTime;
+
+	private boolean canBeMoved;
 
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
@@ -115,8 +118,8 @@ public class PhysicsPlayer extends PhysicsCharacter {
 		
 	    /** initialize the animation */ 
 		animationController = new CustomAnimationController( model.getController(0) );
-        
-        setMovingForward( true );
+		canBeMoved = true;
+//        setMovingForward( true );
 	}
 
 	/** Function <code>update</code> <br>
@@ -126,10 +129,14 @@ public class PhysicsPlayer extends PhysicsCharacter {
 	public void update( float time ) {
 	    if( world.getCore().isAlive( id ) == true ) {
 			preventFall();
-		
+			canBeMoved = true;
 		    contactDetect.update(time);
 		    
 		    body.getWorldTranslation().set( characterNode.getWorldTranslation() );
+		    
+		    if( !world.getCore().getCharacterMovingForward(id) ) {
+		    	clearDynamics();
+		    }
 
 		    if( shooting && firstPerson ) {
 		    	if( world.timer.getTimeInSeconds() - previousTime > 0.2f  ) {
@@ -185,14 +192,9 @@ public class PhysicsPlayer extends PhysicsCharacter {
         
         InputAction collisionAction = new InputAction() {
             public void performAction( InputActionEvent evt ) {
-            	
+            	canBeMoved = false;
             	body.clearDynamics();
             	body.getWorldTranslation().set( characterNode.getWorldTranslation() );
-            	
-                ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
-                if ( contactInfo.getNode1() == world.getGround() || contactInfo.getNode2() == world.getGround() ) {
-                    world.getCore().setCharacterOnGround( id, true );
-                }
             }
         };
         
@@ -296,26 +298,24 @@ public class PhysicsPlayer extends PhysicsCharacter {
 		world.getCore().setCharacterRest( id, rest );
 	}
 
-	/** Function <code>setMovingBackward</code> <p>
-	 * If the boolean parameter is true, set the character's status to moving backward and activate the right animation
-	 * @param movingBackward - (boolean)
-	 */
-	public void setMovingBackward( boolean movingBackward ) {
-		world.getCore().setCharacterMovingBackward( id, movingBackward );
+	public void setRunning(boolean running) {
+    	if( running == true ) {
+    		animationController.runAnimation( Animation.RUN );
+    	}
+		world.getCore().setCharacterMovingForward( id, running );
 	}
 
 	/** Function <code>setMovingForward</code> <p>
 	 * If the boolean parameter is true, set the character's status to moving forward and activate the right animation
-	 * @param movingForward - (boolean)
+	 * @param moving - (boolean)
 	 */
-	public void setMovingForward( boolean movingForward ) {
+	public void setMoving( boolean moving ) {
     	// activate the animation only if the previous animation was different and if the character is on the ground
-    	if( animationController.getCurrentAnimation() != Animation.RUN && movingForward == true/* && getOnGround() == true*/ ) {
-    		// activate the animation "run" 
-    		animationController.runAnimation( Animation.RUN );
-    	}
+    	if( moving == true ) {
+    		animationController.runAnimation( Animation.WALK );
+    	} 
 		
-		world.getCore().setCharacterMovingForward( id, movingForward );
+		world.getCore().setCharacterMovingForward( id, moving );
 	}
 
 	/** Function <code>setJumping</code> <p>
@@ -331,22 +331,6 @@ public class PhysicsPlayer extends PhysicsCharacter {
 		world.getCore().setCharacterJumping( id, jumping );
 	}
 
-	/** Function <code>setStrafingLeft</code> <p>
-	 * If the boolean parameter is true, set the character's status to strafing left
-	 * @param strafingLeft - (boolean)
-	 */
-	public void setStrafingLeft( boolean strafingLeft ) {
-		world.getCore().setCharacterStrafingLeft( id, strafingLeft );
-	}
-
-	/** Function <code>setStrafingRight</code> <p>
-	 * If the boolean parameter is true, set the character's status to strafing right
-	 * @param strafingRight - (boolean)
-	 */
-	public void setStrafingRight( boolean strafinRight ) {
-		world.getCore().setCharacterStrafingRight( id, strafinRight );
-	}
-	
 	/**
 	 * 
 	 * @return
@@ -392,5 +376,10 @@ public class PhysicsPlayer extends PhysicsCharacter {
 //		world.shoot.setVolume( 0.2f );
 		world.shoot( world.getCam().getLocation() );
 //		AudioManager.shoot.play();
+	}
+
+	@Override
+	public boolean canBeMoved() {
+		return canBeMoved;
 	}
 }
