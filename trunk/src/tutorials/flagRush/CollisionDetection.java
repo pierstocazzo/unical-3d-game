@@ -45,12 +45,12 @@ public class CollisionDetection{
     }
  
     public void ProcessCollisions() {
-    	if (NextMove == BounceOff){//se la collisione è a rimbalzo
+    	if (NextMove == BounceOff){//se la collisione ï¿½ a rimbalzo
                if (player.hasCollision(target, false)){
             	//se la ruota anteriore collide con l'obiettivo(uno dei nodi dell'albero fence)
         		if (player.frontwheel.hasCollision(target, false)){
-        			player.setVelocity(-Math.abs(player.getVelocity()));//inverto velocità
-        			if (player.getVelocity() > -0.5)//porto la velocità ad un minimo fissato
+        			player.setVelocity(-Math.abs(player.getVelocity()));//inverto velocitï¿½
+        			if (player.getVelocity() > -0.5)//porto la velocitï¿½ ad un minimo fissato
         				player.setVelocity(-0.5f);
         			//imposto le particelle che scaturiscono dall'impatto
             		        particleGeom.setLocalTranslation(0F,player.frontwheel.getLocalTranslation().y*0.0025f, Zextent);
@@ -64,18 +64,18 @@ public class CollisionDetection{
         		}
         	}
     	}else if (NextMove == Stop){
-               if (player.hasCollision(target, false)){
-        		if (player.frontwheel.hasCollision(target, false)){
-                                player.setMaxSpeed(0f);
-                                player.setMinSpeed(15f);
-        		} else if(player.backwheel.hasCollision(target, false)){
-                                player.setMaxSpeed(25f);
-                                player.setMinSpeed(0f);
-        		} else {
-                                player.setMaxSpeed(25f);
-                                player.setMinSpeed(15f);
-                        }
-        	}
+    		if (player.hasCollision(target, false)){
+    			if (player.frontwheel.hasCollision(target, false)){
+    				player.setMaxSpeed(0f);
+    				player.setMinSpeed(15f);
+    			} else if(player.backwheel.hasCollision(target, false)){
+    				player.setMaxSpeed(25f);
+    				player.setMinSpeed(0f);
+    			} 
+    		} else {
+    			player.setMaxSpeed(25f);
+    			player.setMinSpeed(15f);
+    		}
     	}
     }
  
