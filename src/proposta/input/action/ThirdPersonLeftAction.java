@@ -77,16 +77,23 @@ public class ThirdPersonLeftAction extends KeyInputAction {
         if (handler.getPermitter() != null
                 && !handler.getPermitter().canBeMoved())
             return;
-        handler.setTurning(true);
-        Vector3f loc = handler.getTarget().getLocalTranslation();
-        if (handler.isCameraAlignedMovement()) {
-            rot.set(handler.getCamera().getLeft());
-            rot.y = 0;
+        
+        if( event.getTriggerPressed() ) {
+	        handler.setTurningLeft(true);
         } else {
-            handler.getTarget().getLocalRotation().getRotationColumn(2, rot);
-            rot.negateLocal();
+        	handler.setTurningLeft(false);
         }
-        rot.normalizeLocal();
-        loc.addLocal(rot.multLocal((speed * event.getTime())));
+        
+//        handler.setTurning(true);
+//        Vector3f loc = handler.getTarget().getLocalTranslation();
+//        if (handler.isCameraAlignedMovement()) {
+//            rot.set(handler.getCamera().getLeft());
+//            rot.y = 0;
+//        } else {
+//            handler.getTarget().getLocalRotation().getRotationColumn(2, rot);
+//            rot.negateLocal();
+//        }
+//        rot.normalizeLocal();
+//        loc.addLocal(rot.multLocal((speed * event.getTime())));
     }
 }

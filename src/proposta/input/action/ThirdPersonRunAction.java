@@ -37,17 +37,21 @@ public class ThirdPersonRunAction extends KeyInputAction {
         if (handler.getPermitter() != null
                 && !handler.getPermitter().canBeMoved())
             return;
-        
-        handler.setRunning(true);
 
-        Vector3f loc = handler.getTarget().getLocalTranslation();
-        if (handler.isCameraAlignedMovement()) {
-            rot.set(handler.getCamera().getDirection());
-            rot.y = 0;
+        if( event.getTriggerPressed() ) {
+        	handler.setRunning(true);
         } else {
-            handler.getTarget().getLocalRotation().getRotationColumn(2, rot);
+        	handler.setRunning(false);
         }
-        rot.normalizeLocal();
-        loc.addLocal(rot.multLocal((speed * event.getTime())));
+        
+//        Vector3f loc = handler.getTarget().getLocalTranslation();
+//        if (handler.isCameraAlignedMovement()) {
+//            rot.set(handler.getCamera().getDirection());
+//            rot.y = 0;
+//        } else {
+//            handler.getTarget().getLocalRotation().getRotationColumn(2, rot);
+//        }
+//        rot.normalizeLocal();
+//        loc.addLocal(rot.multLocal((speed * event.getTime())));
     }
 }

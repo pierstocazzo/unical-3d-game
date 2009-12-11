@@ -77,16 +77,23 @@ public class ThirdPersonStrafeRightAction extends KeyInputAction {
         if (handler.getPermitter() != null
                 && !handler.getPermitter().canBeMoved())
             return;
-        handler.setStrafing(true);
-        Vector3f loc = handler.getTarget().getLocalTranslation();
-        if (!handler.isStrafeAlignTarget() && handler.isCameraAlignedMovement()) {
-            rot.set(handler.getCamera().getLeft());
-            rot.y = 0;
+        
+        if( event.getTriggerPressed() ) {
+        	handler.setStrafingRight(true);
         } else {
-            handler.getTarget().getLocalRotation().getRotationColumn(0, rot);
-            rot.negateLocal();
+        	handler.setStrafingRight(false);
         }
-        rot.normalizeLocal();
-        loc.subtractLocal(rot.multLocal((speed * event.getTime())));
+        
+//        handler.setStrafing(true);
+//        Vector3f loc = handler.getTarget().getLocalTranslation();
+//        if (!handler.isStrafeAlignTarget() && handler.isCameraAlignedMovement()) {
+//            rot.set(handler.getCamera().getLeft());
+//            rot.y = 0;
+//        } else {
+//            handler.getTarget().getLocalRotation().getRotationColumn(0, rot);
+//            rot.negateLocal();
+//        }
+//        rot.normalizeLocal();
+//        loc.subtractLocal(rot.multLocal((speed * event.getTime())));
     }
 }

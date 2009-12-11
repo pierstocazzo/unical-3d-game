@@ -14,7 +14,6 @@ import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
 import com.jmex.physics.DynamicPhysicsNode;
-import com.jmex.physics.contact.ContactInfo;
 import com.jmex.physics.geometry.PhysicsCapsule;
 import com.jmex.physics.material.Material;
 

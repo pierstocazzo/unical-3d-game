@@ -213,6 +213,13 @@ public class ThirdPersonHandler extends InputHandler {
     protected KeyInputAction actionStrafeRight;
     protected KeyInputAction actionStrafeLeft;
 	protected KeyInputAction actionForwardRun;
+	
+	private Vector3f rot;
+	
+	protected boolean turningRight;
+	protected boolean turningLeft;
+	protected boolean strafingRight;
+	protected boolean strafingLeft;
 
     /**
      * Basic constructor for the ThirdPersonHandler. Sets all non specified args
@@ -243,6 +250,7 @@ public class ThirdPersonHandler extends InputHandler {
     public ThirdPersonHandler(Spatial target, Camera cam, HashMap<String, Object> props) {
         this.targetSpatial = target;
         this.camera = cam;
+        this.rot = new Vector3f();
 
         updateProperties(props);
         setActions();
@@ -252,6 +260,7 @@ public class ThirdPersonHandler extends InputHandler {
         this.target = target;
         this.targetSpatial = target.getCharacterNode();
         this.camera = cam;
+        this.rot = new Vector3f();
 
         updateProperties(props);
         setActions();
@@ -276,7 +285,7 @@ public class ThirdPersonHandler extends InputHandler {
         updateKeyBindings(props);
     }
 
-    /**
+    /** 
      * 
      * <code>updateKeyBindings</code> allows a user to update the keys mapped to the various actions.
      * 
@@ -284,9 +293,8 @@ public class ThirdPersonHandler extends InputHandler {
      */
     public void updateKeyBindings(HashMap<String, Object> props) {
         KeyBindingManager keyboard = KeyBindingManager.getKeyBindingManager();
-        // TODO sistemare combinazione di stati shift+W 
-        int[] shiftCodes = {KeyInput.KEY_LSHIFT, KeyInput.KEY_X};
-        keyboard.set(PROP_KEY_FORWARD_RUN, shiftCodes );
+//        int[] shiftCodes = { KeyInput.KEY_LSHIFT, KeyInput.KEY_W };
+        keyboard.set(PROP_KEY_FORWARD_RUN, KeyInput.KEY_LSHIFT );
         keyboard.set(PROP_KEY_FORWARD, getIntProp(props, PROP_KEY_FORWARD, KeyInput.KEY_W));
         keyboard.set(PROP_KEY_BACKWARD, getIntProp(props, PROP_KEY_BACKWARD, KeyInput.KEY_S));
         keyboard.set(PROP_KEY_LEFT, getIntProp(props, PROP_KEY_LEFT, KeyInput.KEY_A));
@@ -295,7 +303,7 @@ public class ThirdPersonHandler extends InputHandler {
         keyboard.set(PROP_KEY_STRAFERIGHT, getIntProp(props, PROP_KEY_STRAFERIGHT, KeyInput.KEY_E));        
     }
 
-    /**
+    /** TODO sistemare la setActions() con l'hashmap
      * 
      * <code>setActions</code> sets the keyboard actions with the
      * corresponding key command.
@@ -309,13 +317,13 @@ public class ThirdPersonHandler extends InputHandler {
         actionLeft = new ThirdPersonLeftAction( this, 20 );
         actionStrafeRight = new ThirdPersonStrafeRightAction( this, 20 );
         actionStrafeLeft = new ThirdPersonStrafeLeftAction( this, 20 );
-        addAction( actionForwardRun, PROP_KEY_FORWARD_RUN, true );
-        addAction( actionForward, PROP_KEY_FORWARD, true );
-        addAction( actionBack, PROP_KEY_BACKWARD, true );
-        addAction( actionRight, PROP_KEY_RIGHT, true );
-        addAction( actionLeft, PROP_KEY_LEFT, true );
-        addAction( actionStrafeRight, PROP_KEY_STRAFERIGHT, true );
-        addAction( actionStrafeLeft, PROP_KEY_STRAFELEFT, true );
+        addAction( actionForwardRun, DEVICE_KEYBOARD, KeyInput.KEY_LSHIFT, AXIS_NONE, false );
+        addAction( actionForward, DEVICE_KEYBOARD, KeyInput.KEY_W, AXIS_NONE, false );
+        addAction( actionBack, DEVICE_KEYBOARD, KeyInput.KEY_S, AXIS_NONE, false );
+        addAction( actionRight, DEVICE_KEYBOARD, KeyInput.KEY_D, AXIS_NONE, false );
+        addAction( actionLeft, DEVICE_KEYBOARD, KeyInput.KEY_A, AXIS_NONE, false );
+        addAction( actionStrafeRight, DEVICE_KEYBOARD, KeyInput.KEY_E, AXIS_NONE, false );
+        addAction( actionStrafeLeft, DEVICE_KEYBOARD, KeyInput.KEY_Q, AXIS_NONE, false );
     }
 
     /**
@@ -328,16 +336,20 @@ public class ThirdPersonHandler extends InputHandler {
     public void update(float time) {
         if ( !isEnabled() ) return;
 
-        setRunning( false ); 
-        setGoingForward( false );
-        setGoingBackwards( false );
-        setTurning( false );
-        setStrafing( false );
+//        setRunning( false ); 
+//        setGoingForward( false );
+//        setGoingBackwards( false );
+//        setTurning( false );
+//        setStrafing( false );
 
         prevLoc.set(targetSpatial.getLocalTranslation());
         loc.set(prevLoc);
 
         doInputUpdate(time);
+
+        // TODO non permettere i movimenti se c'è una collisione con qualcosa
+        updateMovements();
+        
         if (walkingBackwards && walkingForward && !nowStrafing && !nowTurning) {
             targetSpatial.getLocalTranslation().set(prevLoc);
             return;
@@ -400,7 +412,106 @@ public class ThirdPersonHandler extends InputHandler {
         }
     }
 
-    protected void doInputUpdate(float time) {
+    /**
+     * TODO permettere il turn e lo strafe anche mentre si cammina (OPZIONALE)
+     */
+    private void updateMovements() {
+    	Vector3f targetLocation = new Vector3f();
+    	if( running && walkingForward ) {
+            target.setRunning( true );
+            targetLocation = getTarget().getLocalTranslation();
+            if ( isCameraAlignedMovement()) {
+                rot.set( getCamera().getDirection());
+                rot.y = 0;
+            } else {
+                getTarget().getLocalRotation().getRotationColumn(2, rot);
+            }
+            rot.normalizeLocal();
+            targetLocation.addLocal(rot.multLocal(( 35 * event.getTime())));
+    	} 
+    	else if( walkingForward ) {
+            target.setMoving( true );
+            targetLocation = getTarget().getLocalTranslation();
+            if ( isCameraAlignedMovement()) {
+                rot.set( getCamera().getDirection());
+                rot.y = 0;
+            } else {
+                getTarget().getLocalRotation().getRotationColumn(2, rot);
+            }
+            rot.normalizeLocal();
+            targetLocation.addLocal(rot.multLocal(( 15 * event.getTime())));
+    	} 
+    	else if( walkingBackwards ) {
+    		target.setMoving( true );
+            targetLocation = getTarget().getLocalTranslation();
+            if ( isCameraAlignedMovement()) {
+                rot.set( getCamera().getDirection());
+                rot.y = 0;
+            } else {
+                getTarget().getLocalRotation().getRotationColumn(2, rot);
+            }
+            rot.normalizeLocal();
+            targetLocation.subtractLocal(rot.multLocal(( 15 * event.getTime())));
+    	} 
+    	else if( turningRight ) {
+    		target.setMoving( true );
+            targetLocation = getTarget().getLocalTranslation();
+            if ( isCameraAlignedMovement()) {
+                rot.set( getCamera().getLeft());
+                rot.y = 0;
+            } else {
+                getTarget().getLocalRotation().getRotationColumn(2, rot);
+                rot.negateLocal();
+            }
+            rot.normalizeLocal();
+            targetLocation.subtractLocal(rot.multLocal(( 15 * event.getTime())));
+    		
+    	} 
+    	else if( turningLeft ) {
+    		target.setMoving( true );
+            targetLocation = getTarget().getLocalTranslation();
+            if ( isCameraAlignedMovement()) {
+                rot.set( getCamera().getLeft());
+                rot.y = 0;
+            } else {
+                getTarget().getLocalRotation().getRotationColumn(2, rot);
+                rot.negateLocal();
+            }
+            rot.normalizeLocal();
+            targetLocation.addLocal(rot.multLocal(( 15 * event.getTime())));
+    	} 
+    	else if( strafingRight ) {
+    		target.setMoving( true );
+            targetLocation = getTarget().getLocalTranslation();
+            if ( !isStrafeAlignTarget() && isCameraAlignedMovement()) {
+                rot.set( getCamera().getLeft());
+                rot.y = 0;
+            } else {
+                getTarget().getLocalRotation().getRotationColumn(0, rot);
+                rot.negateLocal();
+            }
+            rot.normalizeLocal();
+            targetLocation.subtractLocal(rot.multLocal(( 10 * event.getTime())));
+    	} 
+    	else if( strafingLeft ) {
+    		target.setMoving( true );
+            targetLocation = getTarget().getLocalTranslation();
+            if ( !isStrafeAlignTarget() && isCameraAlignedMovement()) {
+                rot.set( getCamera().getLeft());
+                rot.y = 0;
+            } else {
+                getTarget().getLocalRotation().getRotationColumn(0, rot);
+                rot.negateLocal();
+            }
+            rot.normalizeLocal();
+            targetLocation.addLocal(rot.multLocal(( 10 * event.getTime())));
+    	} 
+    	else {
+    		target.clearDynamics();
+    	}
+	}
+
+	protected void doInputUpdate(float time) {
         super.update(time);
         updateFromJoystick(time);
     }
@@ -572,8 +683,6 @@ public class ThirdPersonHandler extends InputHandler {
 
     public void setRunning( boolean running ) {
 		this.running = running;
-		
-		target.setRunning( running );
 	}
 
 	/**
@@ -584,8 +693,6 @@ public class ThirdPersonHandler extends InputHandler {
      */
     public void setGoingForward(boolean forward) {
         walkingForward = forward;
-
-        target.setMoving( forward );
     }
 
     /**
@@ -677,5 +784,37 @@ public class ThirdPersonHandler extends InputHandler {
 
 	public boolean isRunning() {
 		return running;
+	}
+
+	public boolean isTurningRight() {
+		return turningRight;
+	}
+
+	public void setTurningRight(boolean turningRight) {
+		this.turningRight = turningRight;
+	}
+
+	public boolean isTurningLeft() {
+		return turningLeft;
+	}
+
+	public void setTurningLeft(boolean turningLeft) {
+		this.turningLeft = turningLeft;
+	}
+
+	public boolean isStrafingRight() {
+		return strafingRight;
+	}
+
+	public void setStrafingRight(boolean strafingRight) {
+		this.strafingRight = strafingRight;
+	}
+
+	public boolean isStrafingLeft() {
+		return strafingLeft;
+	}
+
+	public void setStrafingLeft(boolean strafingLeft) {
+		this.strafingLeft = strafingLeft;
 	}
 }
