@@ -35,7 +35,6 @@ package proposta.input.action;
 import proposta.input.ThirdPersonHandler;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.KeyInputAction;
-import com.jme.math.Vector3f;
 
 /**
  * 
@@ -46,7 +45,7 @@ import com.jme.math.Vector3f;
  */
 public class ThirdPersonBackwardAction extends KeyInputAction {
 
-    private Vector3f rot;
+//    private Vector3f rot;
 
     private ThirdPersonHandler handler;
 
@@ -62,8 +61,8 @@ public class ThirdPersonBackwardAction extends KeyInputAction {
      */
     public ThirdPersonBackwardAction(ThirdPersonHandler handler, float speed) {
         this.handler = handler;
-        this.speed = speed;
-        rot = new Vector3f();
+//        this.speed = speed;
+//        rot = new Vector3f();
     }
 
     /**
@@ -77,15 +76,22 @@ public class ThirdPersonBackwardAction extends KeyInputAction {
         if (handler.getPermitter() != null
                 && !handler.getPermitter().canBeMoved())
             return;
-        handler.setGoingBackwards(true);
-        Vector3f loc = handler.getTarget().getLocalTranslation();
-        if (handler.isCameraAlignedMovement()) {
-            rot.set(handler.getCamera().getDirection());
-            rot.y = 0;
+        
+        if( event.getTriggerPressed() ) {
+	        handler.setGoingBackwards(true);
         } else {
-            handler.getTarget().getLocalRotation().getRotationColumn(2, rot);
+        	handler.setGoingBackwards(false);
         }
-        rot.normalizeLocal();
-        loc.subtractLocal(rot.multLocal((speed * event.getTime())));
+        
+//        handler.setGoingBackwards(true);
+//        Vector3f loc = handler.getTarget().getLocalTranslation();
+//        if (handler.isCameraAlignedMovement()) {
+//            rot.set(handler.getCamera().getDirection());
+//            rot.y = 0;
+//        } else {
+//            handler.getTarget().getLocalRotation().getRotationColumn(2, rot);
+//        }
+//        rot.normalizeLocal();
+//        loc.subtractLocal(rot.multLocal((speed * event.getTime())));
     }
 }

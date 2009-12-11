@@ -36,7 +36,6 @@ import proposta.input.ThirdPersonHandler;
 
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.KeyInputAction;
-import com.jme.math.Vector3f;
 
 /**
  * 
@@ -46,7 +45,7 @@ import com.jme.math.Vector3f;
  * @version $Revision: 4131 $
  */
 public class ThirdPersonForwardAction extends KeyInputAction {
-    private Vector3f rot;
+//    private Vector3f rot;
 
     private ThirdPersonHandler handler;
 
@@ -62,8 +61,8 @@ public class ThirdPersonForwardAction extends KeyInputAction {
      */
     public ThirdPersonForwardAction(ThirdPersonHandler handler, float speed) {
         this.handler = handler;
-        this.speed = speed;
-        rot = new Vector3f();
+//        this.speed = speed;
+//        rot = new Vector3f();
     }
 
     /**
@@ -77,16 +76,19 @@ public class ThirdPersonForwardAction extends KeyInputAction {
                 && !handler.getPermitter().canBeMoved())
             return;
         
-        handler.setGoingForward(true);
-
-        Vector3f loc = handler.getTarget().getLocalTranslation();
-        if (handler.isCameraAlignedMovement()) {
-            rot.set(handler.getCamera().getDirection());
-            rot.y = 0;
+        if( event.getTriggerPressed() ) {
+	        handler.setGoingForward(true);
         } else {
-            handler.getTarget().getLocalRotation().getRotationColumn(2, rot);
+        	handler.setGoingForward(false);
         }
-        rot.normalizeLocal();
-        loc.addLocal(rot.multLocal((speed * event.getTime())));
+//        Vector3f loc = handler.getTarget().getLocalTranslation();
+//        if (handler.isCameraAlignedMovement()) {
+//            rot.set(handler.getCamera().getDirection());
+//            rot.y = 0;
+//        } else {
+//            handler.getTarget().getLocalRotation().getRotationColumn(2, rot);
+//        }
+//        rot.normalizeLocal();
+//        loc.addLocal(rot.multLocal((speed * event.getTime())));
     }
 }
