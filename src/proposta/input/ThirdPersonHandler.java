@@ -413,104 +413,141 @@ public class ThirdPersonHandler extends InputHandler {
     }
 
     /**
-     * TODO permettere il turn e lo strafe anche mentre si cammina (OPZIONALE)
      */
     private void updateMovements() {
-    	Vector3f targetLocation = new Vector3f();
     	if( running && walkingForward ) {
-            target.setRunning( true );
-            targetLocation = getTarget().getLocalTranslation();
-            if ( isCameraAlignedMovement()) {
-                rot.set( getCamera().getDirection());
-                rot.y = 0;
-            } else {
-                getTarget().getLocalRotation().getRotationColumn(2, rot);
-            }
-            rot.normalizeLocal();
-            targetLocation.addLocal(rot.multLocal(( 35 * event.getTime())));
+    		run( 35 );
     	} 
     	else if( walkingForward ) {
-            target.setMoving( true );
-            targetLocation = getTarget().getLocalTranslation();
-            if ( isCameraAlignedMovement()) {
-                rot.set( getCamera().getDirection());
-                rot.y = 0;
-            } else {
-                getTarget().getLocalRotation().getRotationColumn(2, rot);
-            }
-            rot.normalizeLocal();
-            targetLocation.addLocal(rot.multLocal(( 15 * event.getTime())));
+    		moveForward( 15 );
+    		if( turningRight ) {
+    			turnRight( 15 );
+    		} 
+    		else if( turningLeft ) {
+    			turnLeft( 15 );
+    		} 
+    		else if( strafingRight ) {
+    			strafeRight( 15 );
+    		} 
+    		else if( strafingLeft ) {
+    			strafeLeft( 15 );
+    		} 
     	} 
     	else if( walkingBackwards ) {
-    		target.setMoving( true );
-            targetLocation = getTarget().getLocalTranslation();
-            if ( isCameraAlignedMovement()) {
-                rot.set( getCamera().getDirection());
-                rot.y = 0;
-            } else {
-                getTarget().getLocalRotation().getRotationColumn(2, rot);
-            }
-            rot.normalizeLocal();
-            targetLocation.subtractLocal(rot.multLocal(( 15 * event.getTime())));
+    		moveBackward( 15 );
     	} 
     	else if( turningRight ) {
-    		target.setMoving( true );
-            targetLocation = getTarget().getLocalTranslation();
-            if ( isCameraAlignedMovement()) {
-                rot.set( getCamera().getLeft());
-                rot.y = 0;
-            } else {
-                getTarget().getLocalRotation().getRotationColumn(2, rot);
-                rot.negateLocal();
-            }
-            rot.normalizeLocal();
-            targetLocation.subtractLocal(rot.multLocal(( 15 * event.getTime())));
-    		
-    	} 
-    	else if( turningLeft ) {
-    		target.setMoving( true );
-            targetLocation = getTarget().getLocalTranslation();
-            if ( isCameraAlignedMovement()) {
-                rot.set( getCamera().getLeft());
-                rot.y = 0;
-            } else {
-                getTarget().getLocalRotation().getRotationColumn(2, rot);
-                rot.negateLocal();
-            }
-            rot.normalizeLocal();
-            targetLocation.addLocal(rot.multLocal(( 15 * event.getTime())));
-    	} 
-    	else if( strafingRight ) {
-    		target.setMoving( true );
-            targetLocation = getTarget().getLocalTranslation();
-            if ( !isStrafeAlignTarget() && isCameraAlignedMovement()) {
-                rot.set( getCamera().getLeft());
-                rot.y = 0;
-            } else {
-                getTarget().getLocalRotation().getRotationColumn(0, rot);
-                rot.negateLocal();
-            }
-            rot.normalizeLocal();
-            targetLocation.subtractLocal(rot.multLocal(( 10 * event.getTime())));
-    	} 
-    	else if( strafingLeft ) {
-    		target.setMoving( true );
-            targetLocation = getTarget().getLocalTranslation();
-            if ( !isStrafeAlignTarget() && isCameraAlignedMovement()) {
-                rot.set( getCamera().getLeft());
-                rot.y = 0;
-            } else {
-                getTarget().getLocalRotation().getRotationColumn(0, rot);
-                rot.negateLocal();
-            }
-            rot.normalizeLocal();
-            targetLocation.addLocal(rot.multLocal(( 10 * event.getTime())));
-    	} 
+			turnRight( 15 );
+		} 
+		else if( turningLeft ) {
+			turnLeft( 15 );
+		} 
+		else if( strafingRight ) {
+			strafeRight( 15 );
+		} 
+		else if( strafingLeft ) {
+			strafeLeft( 15 );
+		} 
     	else {
     		target.clearDynamics();
     	}
 	}
 
+    protected void run( float speed ) {
+        target.setRunning( true );
+        Vector3f targetLocation = getTarget().getLocalTranslation();
+        if ( isCameraAlignedMovement()) {
+            rot.set( getCamera().getDirection());
+            rot.y = 0;
+        } else {
+            getTarget().getLocalRotation().getRotationColumn(2, rot);
+        }
+        rot.normalizeLocal();
+        targetLocation.addLocal(rot.multLocal(( speed * event.getTime())));
+    }
+    
+    protected void moveForward( float speed ) {
+        target.setMoving( true );
+        Vector3f targetLocation = getTarget().getLocalTranslation();
+        if ( isCameraAlignedMovement()) {
+            rot.set( getCamera().getDirection());
+            rot.y = 0;
+        } else {
+            getTarget().getLocalRotation().getRotationColumn(2, rot);
+        }
+        rot.normalizeLocal();
+        targetLocation.addLocal(rot.multLocal(( speed * event.getTime())));
+    }
+    
+    protected void moveBackward( float speed ) {
+		target.setMoving( true );
+        Vector3f targetLocation = getTarget().getLocalTranslation();
+        if ( isCameraAlignedMovement()) {
+            rot.set( getCamera().getDirection());
+            rot.y = 0;
+        } else {
+            getTarget().getLocalRotation().getRotationColumn(2, rot);
+        }
+        rot.normalizeLocal();
+        targetLocation.subtractLocal(rot.multLocal(( speed * event.getTime())));
+    }
+    
+    protected void turnLeft( float speed ) {
+		target.setMoving( true );
+        Vector3f targetLocation = getTarget().getLocalTranslation();
+        if ( isCameraAlignedMovement()) {
+            rot.set( getCamera().getLeft());
+            rot.y = 0;
+        } else {
+            getTarget().getLocalRotation().getRotationColumn(2, rot);
+            rot.negateLocal();
+        }
+        rot.normalizeLocal();
+        targetLocation.addLocal(rot.multLocal(( speed * event.getTime())));
+    }
+    
+    protected void turnRight( float speed ) {
+		target.setMoving( true );
+        Vector3f targetLocation = getTarget().getLocalTranslation();
+        if ( isCameraAlignedMovement()) {
+            rot.set( getCamera().getLeft());
+            rot.y = 0;
+        } else {
+            getTarget().getLocalRotation().getRotationColumn(2, rot);
+            rot.negateLocal();
+        }
+        rot.normalizeLocal();
+        targetLocation.subtractLocal(rot.multLocal(( speed * event.getTime())));
+    }
+    
+    protected void strafeLeft( float speed ) {
+		target.setMoving( true );
+        Vector3f targetLocation = getTarget().getLocalTranslation();
+        if ( !isStrafeAlignTarget() && isCameraAlignedMovement()) {
+            rot.set( getCamera().getLeft());
+            rot.y = 0;
+        } else {
+            getTarget().getLocalRotation().getRotationColumn(0, rot);
+            rot.negateLocal();
+        }
+        rot.normalizeLocal();
+        targetLocation.addLocal(rot.multLocal(( speed * event.getTime())));
+    }
+    
+    protected void strafeRight( float speed ) {
+		target.setMoving( true );
+        Vector3f targetLocation = getTarget().getLocalTranslation();
+        if ( !isStrafeAlignTarget() && isCameraAlignedMovement()) {
+            rot.set( getCamera().getLeft());
+            rot.y = 0;
+        } else {
+            getTarget().getLocalRotation().getRotationColumn(0, rot);
+            rot.negateLocal();
+        }
+        rot.normalizeLocal();
+        targetLocation.subtractLocal(rot.multLocal(( speed * event.getTime())));
+    }
+    
 	protected void doInputUpdate(float time) {
         super.update(time);
         updateFromJoystick(time);
