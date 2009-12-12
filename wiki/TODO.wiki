@@ -2,9 +2,10 @@
 
   * Migliorare posizionamento ammo pack - slash (FATTO)
   * Sistemare la collisione dei bullet con i character - slash (FATTO)
-  * Introdurre sistema per evitare di creare modelli troppo lontani - joe (URGENTE)
+  * Introdurre sistema per evitare di creare modelli troppo lontani - joe (URGENTE - FONDAMENTALE)
   * Introdurre sistema di score per i livelli - joe/andrea/slash (URGENTE)
-  * Migliorare i movimenti del player - slash/joe (IN WAIT PER POSSIBILI VARIAZIONI DI PROGETTO)
+  * Migliorare i movimenti del player - slash/joe (WORK IN PROGRESS)
+  * Aggiungere rilevamento collisioni player - slash/joe (DA INIZIARE)
   * Animazioni modello e armi - slash (WORK IN PROGRESS)
   * Sistemare per bene il menù - andrea (WORK IN PROGRESS)
   * Ambientazione e posizionamento gruppi di nemici - andrea/slash (WORK IN PROGRESS)
