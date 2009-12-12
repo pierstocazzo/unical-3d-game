@@ -6,6 +6,7 @@ import com.jme.math.Vector3f;
 import proposta.core.LogicWorld;
 import proposta.enemyAI.MovementList.MovementType;
 import proposta.graphics.GraphicalWorld;
+import utils.Loader;
 
 public class TestACazzi {
 	public static void main( String[] args ) {
@@ -17,7 +18,7 @@ public class TestACazzi {
 //    	logicGame.createEnemiesGroup( 10, new Vector3f( -500, 50, -500 ) );
 //    	logicGame.createEnemiesGroup( 10, new Vector3f( -400, 50, -400 ) );
         GraphicalWorld game = new GraphicalWorld( logicGame, new ThreadController() );
-        game.setConfigShowMode( ConfigShowMode.AlwaysShow );
+        game.setConfigShowMode( ConfigShowMode.AlwaysShow, Loader.load("game/data/images/splashGame.jpg") );
         game.isThread = false;
         game.start();
 	}

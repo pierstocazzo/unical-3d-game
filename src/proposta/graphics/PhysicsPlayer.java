@@ -55,9 +55,6 @@ public class PhysicsPlayer extends PhysicsCharacter implements MovementPermitter
     /** Utility quaternion */
     Quaternion quaternion;
     
-    /** character firstPerson view */
-    boolean firstPerson = false;
-    
     /** true if the character is shooting */
     boolean shooting = false;
 
@@ -137,8 +134,8 @@ public class PhysicsPlayer extends PhysicsCharacter implements MovementPermitter
 		    	clearDynamics();
 		    }
 
-		    if( shooting && firstPerson ) {
-		    	if( world.timer.getTimeInSeconds() - previousTime > 0.2f  ) {
+		    if( shooting ) {
+		    	if( world.timer.getTimeInSeconds() - previousTime > 0.1f  ) {
 		    		previousTime = world.timer.getTimeInSeconds();
 		    		shoot( world.getCam().getDirection() );
 		    	}
@@ -328,22 +325,6 @@ public class PhysicsPlayer extends PhysicsCharacter implements MovementPermitter
     		animationController.runAnimation( Animation.JUMP );
     	}
 		world.getCore().setCharacterJumping( id, jumping );
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isFirstPerson() {
-		return firstPerson;
-	}
-
-	/** 
-	 * 
-	 * @param firstPerson
-	 */
-	public void setFirstPerson( boolean firstPerson ) {
-		this.firstPerson = firstPerson;
 	}
 
 	/**

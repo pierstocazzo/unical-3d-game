@@ -35,7 +35,6 @@ package proposta.input.action;
 import proposta.input.ThirdPersonHandler;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.KeyInputAction;
-import com.jme.math.Vector3f;
 
 /**
  * 
@@ -45,8 +44,6 @@ import com.jme.math.Vector3f;
  * @version $Revision: 4131 $
  */
 public class ThirdPersonLeftAction extends KeyInputAction {
-
-    private Vector3f rot;
 
     private ThirdPersonHandler handler;
 
@@ -63,7 +60,6 @@ public class ThirdPersonLeftAction extends KeyInputAction {
     public ThirdPersonLeftAction(ThirdPersonHandler handler, float speed) {
         this.handler = handler;
         this.speed = speed;
-        rot = new Vector3f();
     }
 
     /**
@@ -80,8 +76,10 @@ public class ThirdPersonLeftAction extends KeyInputAction {
         
         if( event.getTriggerPressed() ) {
 	        handler.setTurningLeft(true);
+	        handler.setTurning(true);
         } else {
         	handler.setTurningLeft(false);
+        	handler.setTurning(false);
         }
         
 //        handler.setTurning(true);

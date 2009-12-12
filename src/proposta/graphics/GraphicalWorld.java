@@ -1,10 +1,5 @@
 package proposta.graphics;
 
-import proposta.base.Game;
-import proposta.input.ThirdPersonHandler;
-import proposta.main.ThreadController;
-//import game.graphics.ExplosionFactory;
-
 import java.nio.FloatBuffer;
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,12 +7,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import jmetest.TutorialGuide.ExplosionFactory;
-
+import proposta.base.Game;
+import proposta.input.ThirdPersonHandler;
+import proposta.main.ThreadController;
 import utils.Loader;
 import utils.ModelLoader;
 
 import com.jme.image.Texture;
-import com.jme.input.ChaseCamera;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
 import com.jme.input.MouseLookHandler;
@@ -41,7 +37,6 @@ import com.jme.scene.state.BlendState;
 import com.jme.scene.state.CullState;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
-import com.jme.scene.state.ZBufferState;
 import com.jme.scene.state.BlendState.DestinationFunction;
 import com.jme.scene.state.BlendState.SourceFunction;
 import com.jme.system.DisplaySystem;
@@ -59,7 +54,6 @@ import com.jmex.terrain.util.RawHeightMap;
  */
 public class GraphicalWorld extends Game {
 	/*************** ROBA AGGIUNTA */
-	ChaseCamera chaser;
 	Node collisionNode;
 	
 	/** environment */
@@ -80,7 +74,7 @@ public class GraphicalWorld extends Game {
 	
 	/** a custom freeCamInput handler to control the player */
 //    PhysicsInputHandler physicsInputHandler;
-	ThirdPersonHandler physicsInputHandler;
+	ThirdPersonHandler inputHandler;
     
     /** the world's ground */
     StaticPhysicsNode ground;
@@ -274,8 +268,6 @@ public class GraphicalWorld extends Game {
         cam.setLocation(new Vector3f(160,30,160));
         cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, 1000);
         cam.update();
-
-        setupChaseCamera();
     }
 
     public void setupInput() {
@@ -293,7 +285,7 @@ public class GraphicalWorld extends Game {
         handlerProps.put(ThirdPersonHandler.PROP_LOCKBACKWARDS, "false");
         handlerProps.put(ThirdPersonHandler.PROP_CAMERAALIGNEDMOVE, "true");
 //        handlerProps.put(ThirdPersonHandler.PROP_PERMITTER, player );
-        physicsInputHandler = new ThirdPersonHandler( player, cam, handlerProps);
+        inputHandler = new ThirdPersonHandler( player, cam, handlerProps);
     }
 
 	@Override
@@ -310,25 +302,8 @@ public class GraphicalWorld extends Game {
     	} else {
     		life.print( "Life: " + core.getCharacterLife( player.id ) );
     		
-	        physicsInputHandler.update(tpf);
+	        inputHandler.update(tpf);
 	        freeCamInput.update(tpf);
-	        
-	        if ( player.isFirstPerson() ) {
-	        	chaser.setEnabled(false);
-	        	physicsInputHandler.setEnabled( false );
-	        	mouseLookHandler.setEnabled(true);
-	        	mouseLookHandler.update( tpf );
-	        	cam.setLocation( player.getCharacterNode().getWorldTranslation().add( new Vector3f( 0, 5, 0 ) ) );
-	        	player.hide( true );
-	        } else { /** return to third person view */
-	        	player.hide( false );
-	        	physicsInputHandler.setEnabled( true );
-	    		chaser.update( tpf );
-	    		chaser.setEnabled(true);
-	        	mouseLookHandler.setEnabled(false);
-	        }
-	        
-        	chaser.update(tpf);
 	        float camMinHeight = terrain.getHeight(cam.getLocation()) + 2f;
 	        if (!Float.isInfinite(camMinHeight) && !Float.isNaN(camMinHeight)
 	                && cam.getLocation().y <= camMinHeight) {
@@ -355,7 +330,7 @@ public class GraphicalWorld extends Game {
 	        updateCharacters(tpf);
 	        
 	        /** print the crosshair only in first person view */
-	        if( player.isFirstPerson() ) {
+	        if( inputHandler.isFirstPerson() ) {
 	        	if( !hudNode.hasChild( crosshair ) )
 	        		hudNode.attachChild( crosshair );
 	        } else {
@@ -364,13 +339,11 @@ public class GraphicalWorld extends Game {
 	        }
 	        
 		    if( freeCam ) {
-		    	physicsInputHandler.setEnabled( false );
-		    	chaser.setEnabled( false );
+		    	inputHandler.setEnabled( false );
 		    	freeCamInput.setEnabled( true );
 		    } else {
 		    	freeCamInput.setEnabled( false );
-		    	chaser.setEnabled( true );
-		    	physicsInputHandler.setEnabled( true );
+		    	inputHandler.setEnabled( true );
 		    }
 	        
 	        updateBullets(tpf);
@@ -388,12 +361,6 @@ public class GraphicalWorld extends Game {
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("freeCamAction", false ) ) {
             freeCam = !freeCam;
         }
-        if ( KeyBindingManager.getKeyBindingManager().isValidCommand("shoot", false ) ) {
-            player.shooting = !player.shooting;
-        } 
-        if ( KeyBindingManager.getKeyBindingManager().isValidCommand("firstPerson", false ) ) {
-            player.firstPerson = !player.firstPerson;
-        }
 	}
 
 	private void gameOver() {
@@ -403,8 +370,7 @@ public class GraphicalWorld extends Game {
 		gameOver.setLocalTranslation(new Vector3f(display.getWidth() / 2f - gameOver.getWidth() / 2,
 				display.getHeight() / 2f - gameOver.getHeight() / 2, 0));
 		
-//		death.setWorldPosition( cam.getLocation() );
-//		death.play();
+		playDeathSound();
 		
 		enabled = false;
 		pause = true;
@@ -747,48 +713,48 @@ public class GraphicalWorld extends Game {
 	    ground.generatePhysicsGeometry(true);
     }
 
-    private void createReflectionTerrain() {
-    	RawHeightMap heightMap = new RawHeightMap( Loader.load(
-                        "jmetest/data/texture/terrain/heights.raw"),
-                129, RawHeightMap.FORMAT_16BITLE, false);
-
-        Vector3f terrainScale = new Vector3f( 20, 0.003f, 20 );
-        heightMap.setHeightScale(0.001f);
-        TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
-                terrainScale, heightMap.getHeightMap());
-        page.getLocalTranslation().set( 129*20/2, -9.5f, 129*20/2);
-        page.setDetailTexture(1, 1);
-
-        // create some interesting texturestates for splatting
-        TextureState ts1 = display.getRenderer().createTextureState();
-        Texture t0 = TextureManager.loadTexture( Loader.load(
-                        "jmetest/data/texture/terrain/terrainlod.jpg"),
-                Texture.MinificationFilter.Trilinear,
-                Texture.MagnificationFilter.Bilinear);
-        t0.setWrap(Texture.WrapMode.Repeat);
-        t0.setApply(Texture.ApplyMode.Modulate);
-        t0.setScale(new Vector3f(1.0f, 1.0f, 1.0f));
-        ts1.setTexture(t0, 0);
-
-        // //////////////////// PASS STUFF START
-        // try out a passnode to use for splatting
-        PassNode splattingPassNode = new PassNode("SplatPassNode");
-        splattingPassNode.attachChild(page);
-
-        PassNodeState passNodeState = new PassNodeState();
-        passNodeState.setPassState(ts1);
-        splattingPassNode.addPass(passNodeState);
-        // //////////////////// PASS STUFF END
-
-        // lock some things to increase the performance
-        splattingPassNode.lockBounds();
-        splattingPassNode.lockTransforms();
-        splattingPassNode.lockShadows();
-
-        reflectionTerrain = splattingPassNode;
-
-        initSpatial(reflectionTerrain);
-    }
+//    private void createReflectionTerrain() {
+//    	RawHeightMap heightMap = new RawHeightMap( Loader.load(
+//                        "jmetest/data/texture/terrain/heights.raw"),
+//                129, RawHeightMap.FORMAT_16BITLE, false);
+//
+//        Vector3f terrainScale = new Vector3f( 20, 0.003f, 20 );
+//        heightMap.setHeightScale(0.001f);
+//        TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
+//                terrainScale, heightMap.getHeightMap());
+//        page.getLocalTranslation().set( 129*20/2, -9.5f, 129*20/2);
+//        page.setDetailTexture(1, 1);
+//
+//        // create some interesting texturestates for splatting
+//        TextureState ts1 = display.getRenderer().createTextureState();
+//        Texture t0 = TextureManager.loadTexture( Loader.load(
+//                        "jmetest/data/texture/terrain/terrainlod.jpg"),
+//                Texture.MinificationFilter.Trilinear,
+//                Texture.MagnificationFilter.Bilinear);
+//        t0.setWrap(Texture.WrapMode.Repeat);
+//        t0.setApply(Texture.ApplyMode.Modulate);
+//        t0.setScale(new Vector3f(1.0f, 1.0f, 1.0f));
+//        ts1.setTexture(t0, 0);
+//
+//        // //////////////////// PASS STUFF START
+//        // try out a passnode to use for splatting
+//        PassNode splattingPassNode = new PassNode("SplatPassNode");
+//        splattingPassNode.attachChild(page);
+//
+//        PassNodeState passNodeState = new PassNodeState();
+//        passNodeState.setPassState(ts1);
+//        splattingPassNode.addPass(passNodeState);
+//        // //////////////////// PASS STUFF END
+//
+//        // lock some things to increase the performance
+//        splattingPassNode.lockBounds();
+//        splattingPassNode.lockTransforms();
+//        splattingPassNode.lockShadows();
+//
+//        reflectionTerrain = splattingPassNode;
+//
+//        initSpatial(reflectionTerrain);
+//    }
 
     private void addAlphaSplat(TextureState ts, String alpha) {
         Texture t1 = TextureManager.loadTexture( Loader.load( alpha ),
@@ -911,28 +877,21 @@ public class GraphicalWorld extends Game {
         texBuf.put(textureScale + x).put(textureScale + y);
     }
 
-    private void initSpatial(Spatial spatial) {
-        ZBufferState buf = display.getRenderer().createZBufferState();
-        buf.setEnabled(true);
-        buf.setFunction(ZBufferState.TestFunction.LessThanOrEqualTo);
-        spatial.setRenderState(buf);
-
-        CullState cs = display.getRenderer().createCullState();
-        cs.setCullFace(CullState.Face.Back);
-        spatial.setRenderState(cs);
-
-        spatial.setCullHint(Spatial.CullHint.Never);
-
-        spatial.updateGeometricState(0.0f, true);
-        spatial.updateRenderState();
-    }
-
-    protected void setupChaseCamera() {
-        Vector3f targetOffset = new Vector3f();
-        targetOffset.y = 5/*((BoundingBox) player.getCharacterNode().getWorldBound()).yExtent * 1.5f*/;
-        chaser = new ChaseCamera(cam, player.getCharacterNode() );
-        chaser.setTargetOffset(targetOffset);
-    }
+//    private void initSpatial(Spatial spatial) {
+//        ZBufferState buf = display.getRenderer().createZBufferState();
+//        buf.setEnabled(true);
+//        buf.setFunction(ZBufferState.TestFunction.LessThanOrEqualTo);
+//        spatial.setRenderState(buf);
+//
+//        CullState cs = display.getRenderer().createCullState();
+//        cs.setCullFace(CullState.Face.Back);
+//        spatial.setRenderState(cs);
+//
+//        spatial.setCullHint(Spatial.CullHint.Never);
+//
+//        spatial.updateGeometricState(0.0f, true);
+//        spatial.updateRenderState();
+//    }
 
 	public void shoot( Vector3f position ) {
 		if( audioEnabled ) {
@@ -950,4 +909,11 @@ public class GraphicalWorld extends Game {
 		}
 	}
     
+	private void playDeathSound() {
+		if( audioEnabled ) {
+	    	AudioManager.death.setWorldPosition( cam.getLocation().clone() );
+	    	AudioManager.death.setVolume( 5 );
+			AudioManager.death.play();
+		}
+	}
 }
