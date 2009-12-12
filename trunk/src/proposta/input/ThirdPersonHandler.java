@@ -35,7 +35,9 @@ package proposta.input;
 import java.util.HashMap;
 
 import proposta.graphics.PhysicsPlayer;
+import proposta.input.action.FirstPersonAction;
 import proposta.input.action.MovementPermitter;
+import proposta.input.action.ShootAction;
 import proposta.input.action.ThirdPersonBackwardAction;
 import proposta.input.action.ThirdPersonForwardAction;
 import proposta.input.action.ThirdPersonJoystickPlugin;
@@ -45,11 +47,14 @@ import proposta.input.action.ThirdPersonRunAction;
 import proposta.input.action.ThirdPersonStrafeLeftAction;
 import proposta.input.action.ThirdPersonStrafeRightAction;
 
+import com.jme.input.ChaseCamera;
 import com.jme.input.InputHandler;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
+import com.jme.input.MouseLookHandler;
+import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
-import com.jme.input.action.KeyInputAction;
+import com.jme.input.controls.binding.MouseButtonBinding;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
@@ -186,40 +191,42 @@ public class ThirdPersonHandler extends InputHandler {
      */
     protected boolean walkingForward;
     
+	protected boolean turningRight;
+	protected boolean turningLeft;
+	protected boolean strafingRight;
+	protected boolean strafingLeft;
+	
+	protected boolean nowStrafing;
+	
+	protected boolean nowTurning;
+	
+	MouseLookHandler mouseLookHandler;
+	
+	boolean firstPerson;
+	
+	ChaseCamera chaser;
+    
     /**
      * internally used boolean for denoting that a run action is currently
      * being performed.
      */
     protected boolean running;
     
-    /**
-     * internally used boolean for denoting that a turning action is currently
-     * being performed.
-     */
-    protected boolean nowTurning;
-    
-    /**
-     * internally used boolean for denoting that a turning action is currently
-     * being performed.
-     */
-    protected boolean nowStrafing;
-
     protected ThirdPersonJoystickPlugin plugin = null;
     
-    protected KeyInputAction actionForward;
-    protected KeyInputAction actionBack;
-    protected KeyInputAction actionRight;
-    protected KeyInputAction actionLeft;
-    protected KeyInputAction actionStrafeRight;
-    protected KeyInputAction actionStrafeLeft;
-	protected KeyInputAction actionForwardRun;
+    protected InputAction actionForward;
+    protected InputAction actionBack;
+    protected InputAction actionRight;
+    protected InputAction actionLeft;
+    protected InputAction actionStrafeRight;
+    protected InputAction actionStrafeLeft;
+	protected InputAction actionForwardRun;
+	protected InputAction actionShoot;
+	protected InputAction actionFirstPerson;
+	
 	
 	private Vector3f rot;
-	
-	protected boolean turningRight;
-	protected boolean turningLeft;
-	protected boolean strafingRight;
-	protected boolean strafingLeft;
+
 
     /**
      * Basic constructor for the ThirdPersonHandler. Sets all non specified args
@@ -247,16 +254,17 @@ public class ThirdPersonHandler extends InputHandler {
      *            a hashmap of properties used to set handler characteristics
      *            where the key is one of this class's static PROP_XXXX fields.
      */
-    public ThirdPersonHandler(Spatial target, Camera cam, HashMap<String, Object> props) {
+    public ThirdPersonHandler( Spatial target, Camera cam, HashMap<String, Object> props ) {
         this.targetSpatial = target;
         this.camera = cam;
         this.rot = new Vector3f();
 
         updateProperties(props);
         setActions();
+        setupChaseCamera();
     }
     
-    public ThirdPersonHandler( PhysicsPlayer target, Camera cam, HashMap<String, Object> props) {
+    public ThirdPersonHandler( PhysicsPlayer target, Camera cam, HashMap<String, Object> props ) {
         this.target = target;
         this.targetSpatial = target.getCharacterNode();
         this.camera = cam;
@@ -264,6 +272,7 @@ public class ThirdPersonHandler extends InputHandler {
 
         updateProperties(props);
         setActions();
+        setupChaseCamera();
     }
 
     /**
@@ -317,6 +326,9 @@ public class ThirdPersonHandler extends InputHandler {
         actionLeft = new ThirdPersonLeftAction( this, 20 );
         actionStrafeRight = new ThirdPersonStrafeRightAction( this, 20 );
         actionStrafeLeft = new ThirdPersonStrafeLeftAction( this, 20 );
+        actionShoot = new ShootAction( this );
+        actionFirstPerson = new FirstPersonAction( this );
+                
         addAction( actionForwardRun, DEVICE_KEYBOARD, KeyInput.KEY_LSHIFT, AXIS_NONE, false );
         addAction( actionForward, DEVICE_KEYBOARD, KeyInput.KEY_W, AXIS_NONE, false );
         addAction( actionBack, DEVICE_KEYBOARD, KeyInput.KEY_S, AXIS_NONE, false );
@@ -324,6 +336,11 @@ public class ThirdPersonHandler extends InputHandler {
         addAction( actionLeft, DEVICE_KEYBOARD, KeyInput.KEY_A, AXIS_NONE, false );
         addAction( actionStrafeRight, DEVICE_KEYBOARD, KeyInput.KEY_E, AXIS_NONE, false );
         addAction( actionStrafeLeft, DEVICE_KEYBOARD, KeyInput.KEY_Q, AXIS_NONE, false );
+        addAction( actionShoot, DEVICE_MOUSE, MouseButtonBinding.LEFT_BUTTON, AXIS_NONE, false );
+        addAction( actionFirstPerson, DEVICE_MOUSE, MouseButtonBinding.RIGHT_BUTTON, AXIS_NONE, false );
+        
+    	mouseLookHandler = new MouseLookHandler( camera, 1 );
+    	mouseLookHandler.setEnabled(false);
     }
 
     /**
@@ -336,16 +353,25 @@ public class ThirdPersonHandler extends InputHandler {
     public void update(float time) {
         if ( !isEnabled() ) return;
 
-//        setRunning( false ); 
-//        setGoingForward( false );
-//        setGoingBackwards( false );
-//        setTurning( false );
-//        setStrafing( false );
-
         prevLoc.set(targetSpatial.getLocalTranslation());
         loc.set(prevLoc);
 
         doInputUpdate(time);
+        
+        /** switch to first person view when the mouse right bottom is down
+         */
+        if ( isFirstPerson() ) {
+        	chaser.setEnabled(false);
+        	mouseLookHandler.setEnabled(true);
+        	mouseLookHandler.update(time);
+        	camera.setLocation( target.getCharacterNode().getWorldTranslation().add( 0,5,0 ) );
+        	target.hide( true );
+        } else { /** return to third person view */
+    		chaser.update( time );
+    		chaser.setEnabled(true);
+        	mouseLookHandler.setEnabled(false);
+        	target.hide( false );
+        }
 
         // TODO non permettere i movimenti se c'è una collisione con qualcosa
         updateMovements();
@@ -618,6 +644,13 @@ public class ThirdPersonHandler extends InputHandler {
         }
     }
 
+    protected void setupChaseCamera() {
+        Vector3f targetOffset = new Vector3f();
+        targetOffset.y = 5/*((BoundingBox) player.getCharacterNode().getWorldBound()).yExtent * 1.5f*/;
+        chaser = new ChaseCamera( camera, target.getCharacterNode() );
+        chaser.setTargetOffset(targetOffset);
+    }
+    
     /**
      * @return Returns the turnSpeed.
      */
@@ -853,5 +886,18 @@ public class ThirdPersonHandler extends InputHandler {
 
 	public void setStrafingLeft(boolean strafingLeft) {
 		this.strafingLeft = strafingLeft;
+	}
+
+	public void setFirstPerson( boolean firstPerson ) {
+		this.firstPerson = firstPerson;
+	}
+
+
+	public boolean isFirstPerson() {
+		return firstPerson;
+	}
+	
+	public void setShooting( boolean shooting ) {
+		target.setShooting( shooting );
 	}
 }

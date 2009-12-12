@@ -4,10 +4,8 @@ import proposta.input.ThirdPersonHandler;
 
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.KeyInputAction;
-import com.jme.math.Vector3f;
 
 public class ThirdPersonRunAction extends KeyInputAction {
-	private Vector3f rot;
 
     private ThirdPersonHandler handler;
 
@@ -24,7 +22,6 @@ public class ThirdPersonRunAction extends KeyInputAction {
     public ThirdPersonRunAction(ThirdPersonHandler handler, float speed) {
         this.handler = handler;
         this.speed = speed;
-        rot = new Vector3f();
     }
 
     /**

@@ -13,12 +13,10 @@ public class PhysicsCharacter {
 	}
 
 	public PhysicsNode getCharacterFeet() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public PhysicsNode getCharacterBody() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
