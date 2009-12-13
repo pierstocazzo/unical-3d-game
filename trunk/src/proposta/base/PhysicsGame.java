@@ -376,12 +376,12 @@ public abstract class PhysicsGame extends AbstractGame {
         buf.setEnabled( true );
         buf.setFunction( ZBufferState.TestFunction.LessThanOrEqualTo );
         rootNode.setRenderState( buf );
-
-        // CullState
-        CullState cs = display.getRenderer().createCullState();
-        cs.setEnabled(true);
-        cs.setCullFace(CullState.Face.Back);
-        rootNode.setRenderState(cs);
+//
+//        // CullState
+//        CullState cs = display.getRenderer().createCullState();
+//        cs.setEnabled(true);
+//        cs.setCullFace(CullState.Face.Back);
+//        rootNode.setRenderState(cs);
 
         /** Set up a basic, default light. */
         PointLight light = new PointLight();

@@ -13,11 +13,14 @@ import proposta.main.ThreadController;
 import utils.Loader;
 import utils.ModelLoader;
 
+import com.jme.bounding.BoundingBox;
+import com.jme.image.Image;
 import com.jme.image.Texture;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
 import com.jme.input.MouseLookHandler;
-import com.jme.light.DirectionalLight;
+import com.jme.light.LightNode;
+import com.jme.light.PointLight;
 import com.jme.math.FastMath;
 import com.jme.math.Plane;
 import com.jme.math.Quaternion;
@@ -31,16 +34,21 @@ import com.jme.scene.PassNodeState;
 import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
 import com.jme.scene.Text;
+import com.jme.scene.Spatial.LightCombineMode;
 import com.jme.scene.Spatial.TextureCombineMode;
+import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.CullState;
 import com.jme.scene.state.FogState;
 import com.jme.scene.state.TextureState;
+import com.jme.scene.state.ZBufferState;
 import com.jme.scene.state.BlendState.DestinationFunction;
 import com.jme.scene.state.BlendState.SourceFunction;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
+import com.jmex.effects.LensFlare;
+import com.jmex.effects.LensFlareFactory;
 import com.jmex.effects.water.WaterRenderPass;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
@@ -121,6 +129,10 @@ public class GraphicalWorld extends Game {
 	boolean freeCam;
 
 	MouseLookHandler mouseLookHandler;
+
+	LensFlare flare;
+
+	LightNode lightNode;
 	
 	
 	
@@ -319,6 +331,9 @@ public class GraphicalWorld extends Game {
 	        
 	        skybox.getLocalTranslation().set( cam.getLocation() );
 	        skybox.updateGeometricState(0.0f, true);
+	        
+//	        lightNode.getLocalTranslation().set( cam.getLocation().add( 200, 200, 200 ) );
+//	        rootNode.updateGeometricState(0, true);
 
 	        /******** Added to animate the water ********/
 	        Vector3f transVec = new Vector3f(cam.getLocation().x,
@@ -431,31 +446,33 @@ public class GraphicalWorld extends Game {
 	public void setupEnvironment() {
 	    rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
 		
-	    DirectionalLight dr = new DirectionalLight();
-	    dr.setEnabled(true);
-	    dr.setDiffuse(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
-	    dr.setAmbient(new ColorRGBA(0.5f, 0.5f, 0.5f, 1.0f));
-	    dr.setDirection(new Vector3f(0.5f, -0.5f, 0));
-	
-	    lightState.detachAll();
-	    lightState.attach(dr);
+//	    DirectionalLight dr = new DirectionalLight();
+//	    dr.setEnabled(true);
+//	    dr.setDiffuse(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
+//	    dr.setAmbient(new ColorRGBA(0.5f, 0.5f, 0.5f, 1.0f));
+//	    dr.setDirection(new Vector3f(0.5f, -0.5f, 0));
+//	
+//	    lightState.detachAll();
+//	    lightState.attach(dr);
+	    
+	    setuplight();
 		
-	    CullState cs = display.getRenderer().createCullState();
-	    cs.setCullFace(CullState.Face.Back);
-	    rootNode.setRenderState(cs);
+//	    CullState cs = display.getRenderer().createCullState();
+//	    cs.setCullFace(CullState.Face.Back);
+//	    rootNode.setRenderState(cs);
+//	
+//	    lightState.detachAll();
+//	    rootNode.setLightCombineMode(Spatial.LightCombineMode.Off);
 	
-	    lightState.detachAll();
-	    rootNode.setLightCombineMode(Spatial.LightCombineMode.Off);
-	
-	    FogState fogState = display.getRenderer().createFogState();
-	    fogState.setDensity(1.0f);
-	    fogState.setEnabled(true);
-	    fogState.setColor(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
-	    fogState.setEnd(farPlane);
-	    fogState.setStart(farPlane / 10.0f);
-	    fogState.setDensityFunction(FogState.DensityFunction.Linear);
-	    fogState.setQuality(FogState.Quality.PerVertex);
-	    rootNode.setRenderState(fogState);
+//	    FogState fogState = display.getRenderer().createFogState();
+//	    fogState.setDensity(1.0f);
+//	    fogState.setEnabled(true);
+//	    fogState.setColor(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
+//	    fogState.setEnd(farPlane);
+//	    fogState.setStart(farPlane / 10.0f);
+//	    fogState.setDensityFunction(FogState.DensityFunction.Linear);
+//	    fogState.setQuality(FogState.Quality.PerVertex);
+//	    rootNode.setRenderState(fogState);
 	    
 		createTerrain();
 //        createReflectionTerrain();
@@ -490,6 +507,72 @@ public class GraphicalWorld extends Game {
 //        rootNode.setRenderState(fs);
 //    }
 	
+	private void setuplight() {
+		lightState.detachAll();
+
+        PointLight dr = new PointLight();
+        dr.setEnabled(true);
+        dr.setDiffuse(ColorRGBA.white.clone());
+        dr.setAmbient(ColorRGBA.gray.clone());
+        dr.setLocation(new Vector3f(0f, 0f, 0f));
+
+        lightState.attach(dr);
+        lightState.setTwoSidedLighting(true);
+
+        lightNode = new LightNode("light");
+        lightNode.setLight(dr);
+
+        Vector3f min2 = new Vector3f(-0.5f, -0.5f, -0.5f);
+        Vector3f max2 = new Vector3f(0.5f, 0.5f, 0.5f);
+        Box lightBox = new Box("box", min2, max2);
+        lightBox.setModelBound(new BoundingBox());
+        lightBox.updateModelBound();
+//        lightNode.attachChild(lightBox);
+        lightNode.setLocalTranslation(new Vector3f(-500, 200,-500));
+
+        // clear the lights from this lightbox so the lightbox itself doesn't
+        // get affected by light:
+        lightBox.setLightCombineMode(LightCombineMode.Off);
+
+        // Setup the lensflare textures.
+        TextureState[] tex = new TextureState[4];
+        tex[0] = display.getRenderer().createTextureState();
+        tex[0].setTexture(TextureManager.loadTexture(LensFlare.class
+                .getClassLoader()
+                .getResource("jmetest/data/texture/flare1.png"),
+                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear, Image.Format.RGBA8,
+                0.0f, true));
+        tex[0].setEnabled(true);
+
+        tex[1] = display.getRenderer().createTextureState();
+        tex[1].setTexture(TextureManager.loadTexture(LensFlare.class
+                .getClassLoader()
+                .getResource("jmetest/data/texture/flare2.png"),
+                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear));
+        tex[1].setEnabled(true);
+
+        tex[2] = display.getRenderer().createTextureState();
+        tex[2].setTexture(TextureManager.loadTexture(LensFlare.class
+                .getClassLoader()
+                .getResource("jmetest/data/texture/flare3.png"),
+                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear));
+        tex[2].setEnabled(true);
+
+        tex[3] = display.getRenderer().createTextureState();
+        tex[3].setTexture(TextureManager.loadTexture(LensFlare.class
+                .getClassLoader()
+                .getResource("jmetest/data/texture/flare4.png"),
+                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear));
+        tex[3].setEnabled(true);
+
+        flare = LensFlareFactory.createBasicLensFlare("flare", tex);
+        flare.setRootNode(rootNode);
+        rootNode.attachChild(lightNode);
+
+        // notice that it comes at the end
+        lightNode.attachChild(flare);
+	}
+
 	// TODO creare alberi e cazzate varie
 	private void createVegetation() {
 //		appesantisce un casino...anche un solo albero...bah!
@@ -645,7 +728,7 @@ public class GraphicalWorld extends Game {
                 "jmetest/data/texture/terrain/roadalpha.png");
 
         TextureState ts6 = createLightmapTextureState(
-        		"jmetest/data/texture/terrain/lightmap.jpg");
+        		"jmetest/data/texture/terrain/lightmap1.jpg");
 
         // alpha used for blending the passnodestates together
         BlendState as = display.getRenderer().createBlendState();
@@ -834,11 +917,6 @@ public class GraphicalWorld extends Game {
         cullState.setCullFace(CullState.Face.None);
         cullState.setEnabled(true);
         skybox.setRenderState(cullState);
-        
-//		DA PROBLEMI
-//        ZBufferState zState = display.getRenderer().createZBufferState();
-//        zState.setEnabled(true);
-//        skybox.setRenderState(zState);
 
         FogState fs = display.getRenderer().createFogState();
         fs.setEnabled(false);
