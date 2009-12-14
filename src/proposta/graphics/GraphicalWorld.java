@@ -278,7 +278,7 @@ public class GraphicalWorld extends Game {
     
     public void setupCamera() {
         cam.setLocation(new Vector3f(160,30,160));
-        cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, 1000);
+        cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, farPlane);
         cam.update();
     }
 
@@ -457,25 +457,25 @@ public class GraphicalWorld extends Game {
 	    
 	    setuplight();
 		
-//	    CullState cs = display.getRenderer().createCullState();
-//	    cs.setCullFace(CullState.Face.Back);
-//	    rootNode.setRenderState(cs);
+	    CullState cs = display.getRenderer().createCullState();
+	    cs.setCullFace(CullState.Face.Back);
+	    rootNode.setRenderState(cs);
 //	
 //	    lightState.detachAll();
 //	    rootNode.setLightCombineMode(Spatial.LightCombineMode.Off);
 	
-//	    FogState fogState = display.getRenderer().createFogState();
-//	    fogState.setDensity(1.0f);
-//	    fogState.setEnabled(true);
-//	    fogState.setColor(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
-//	    fogState.setEnd(farPlane);
-//	    fogState.setStart(farPlane / 10.0f);
-//	    fogState.setDensityFunction(FogState.DensityFunction.Linear);
-//	    fogState.setQuality(FogState.Quality.PerVertex);
-//	    rootNode.setRenderState(fogState);
+	    FogState fogState = display.getRenderer().createFogState();
+	    fogState.setDensity(1.0f);
+	    fogState.setEnabled(true);
+	    fogState.setColor(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
+	    fogState.setEnd(farPlane);
+	    fogState.setStart(farPlane / 10.0f);
+	    fogState.setDensityFunction(FogState.DensityFunction.Linear);
+	    fogState.setQuality(FogState.Quality.PerVertex);
+	    rootNode.setRenderState(fogState);
 	    
 		createTerrain();
-//        createReflectionTerrain();
+        createReflectionTerrain();
 
         buildSkyBox();
         
@@ -487,7 +487,8 @@ public class GraphicalWorld extends Game {
 	    RenderPass rootPass = new RenderPass();
 	    rootPass.add(rootNode);
 	    passManager.add(rootPass);
-	
+
+	    rootNode.setCullHint(Spatial.CullHint.Never);
 	    rootNode.setCullHint(Spatial.CullHint.Never);
 		
 	    createVegetation();
@@ -528,7 +529,7 @@ public class GraphicalWorld extends Game {
         lightBox.setModelBound(new BoundingBox());
         lightBox.updateModelBound();
 //        lightNode.attachChild(lightBox);
-        lightNode.setLocalTranslation(new Vector3f(-500, 200,-500));
+        lightNode.setLocalTranslation(new Vector3f(-1200, 200,-1200));
 
         // clear the lights from this lightbox so the lightbox itself doesn't
         // get affected by light:
@@ -699,7 +700,7 @@ public class GraphicalWorld extends Game {
                         "jmetest/data/texture/terrain/heights.raw"),
                 129, RawHeightMap.FORMAT_16BITLE, false);
 		
-        Vector3f terrainScale = new Vector3f( 20, 0.003f, 20 );
+        Vector3f terrainScale = new Vector3f( 20, 0.003f, 21 );
         heightMap.setHeightScale(0.001f);
         
         terrain = new TerrainPage("Terrain", 33, heightMap.getSize(),
@@ -796,29 +797,28 @@ public class GraphicalWorld extends Game {
 	    ground.generatePhysicsGeometry(true);
     }
 
-//    private void createReflectionTerrain() {
-//    	RawHeightMap heightMap = new RawHeightMap( Loader.load(
-//                        "jmetest/data/texture/terrain/heights.raw"),
-//                129, RawHeightMap.FORMAT_16BITLE, false);
-//
-//        Vector3f terrainScale = new Vector3f( 20, 0.003f, 20 );
-//        heightMap.setHeightScale(0.001f);
-//        TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
-//                terrainScale, heightMap.getHeightMap());
-//        page.getLocalTranslation().set( 129*20/2, -9.5f, 129*20/2);
-//        page.setDetailTexture(1, 1);
-//
-//        // create some interesting texturestates for splatting
-//        TextureState ts1 = display.getRenderer().createTextureState();
-//        Texture t0 = TextureManager.loadTexture( Loader.load(
-//                        "jmetest/data/texture/terrain/terrainlod.jpg"),
-//                Texture.MinificationFilter.Trilinear,
-//                Texture.MagnificationFilter.Bilinear);
+    private void createReflectionTerrain() {
+    	RawHeightMap heightMap = new RawHeightMap( Loader.load(
+                        "jmetest/data/texture/terrain/heights.raw"),
+                129, RawHeightMap.FORMAT_16BITLE, false);
+
+        Vector3f terrainScale = new Vector3f( 20, 0.003f, 21 );
+        heightMap.setHeightScale(0.001f);
+        TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
+                terrainScale, heightMap.getHeightMap());
+        page.getLocalTranslation().set(  0, -9.5f, 0 );
+        page.setDetailTexture(1, 1);
+
+        TextureState ts1 = display.getRenderer().createTextureState();
+        Texture t0 = TextureManager.loadTexture( Loader.load(
+                        "jmetest/data/texture/terrain/terrainlod.jpg"),
+                Texture.MinificationFilter.Trilinear,
+                Texture.MagnificationFilter.Bilinear);
 //        t0.setWrap(Texture.WrapMode.Repeat);
 //        t0.setApply(Texture.ApplyMode.Modulate);
 //        t0.setScale(new Vector3f(1.0f, 1.0f, 1.0f));
-//        ts1.setTexture(t0, 0);
-//
+        ts1.setTexture(t0, 0);
+
 //        // //////////////////// PASS STUFF START
 //        // try out a passnode to use for splatting
 //        PassNode splattingPassNode = new PassNode("SplatPassNode");
@@ -835,9 +835,13 @@ public class GraphicalWorld extends Game {
 //        splattingPassNode.lockShadows();
 //
 //        reflectionTerrain = splattingPassNode;
-//
-//        initSpatial(reflectionTerrain);
-//    }
+
+        page.setRenderState( ts1 );
+        
+        reflectionTerrain = page;
+        
+        initSpatial(reflectionTerrain);
+    }
 
     private void addAlphaSplat(TextureState ts, String alpha) {
         Texture t1 = TextureManager.loadTexture( Loader.load( alpha ),
@@ -885,23 +889,23 @@ public class GraphicalWorld extends Game {
     private void buildSkyBox() {
         skybox = new Skybox("skybox", 10, 10, 10);
 
-        String dir = "jmetest/data/skybox1/";
-        Texture north = TextureManager.loadTexture( Loader.load(dir + "1.jpg"),
+        String dir = "game/data/images/skybox/";
+        Texture north = TextureManager.loadTexture( Loader.load(dir + "nord.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture south = TextureManager.loadTexture( Loader.load(dir + "3.jpg"),
+        Texture south = TextureManager.loadTexture( Loader.load(dir + "sud.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture east = TextureManager.loadTexture( Loader.load(dir + "2.jpg"),
+        Texture east = TextureManager.loadTexture( Loader.load(dir + "est.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture west = TextureManager.loadTexture( Loader.load(dir + "4.jpg"),
+        Texture west = TextureManager.loadTexture( Loader.load(dir + "ovest.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture up = TextureManager.loadTexture( Loader.load(dir + "6.jpg"),
+        Texture up = TextureManager.loadTexture( Loader.load(dir + "up.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture down = TextureManager.loadTexture( Loader.load(dir + "5.jpg"),
+        Texture down = TextureManager.loadTexture( Loader.load(dir + "down.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
 
@@ -922,7 +926,7 @@ public class GraphicalWorld extends Game {
         fs.setEnabled(false);
         skybox.setRenderState(fs);
 
-        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
+//        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
         skybox.setCullHint(Spatial.CullHint.Never);
         skybox.setTextureCombineMode(TextureCombineMode.Replace);
         skybox.updateRenderState();
@@ -955,21 +959,21 @@ public class GraphicalWorld extends Game {
         texBuf.put(textureScale + x).put(textureScale + y);
     }
 
-//    private void initSpatial(Spatial spatial) {
-//        ZBufferState buf = display.getRenderer().createZBufferState();
-//        buf.setEnabled(true);
-//        buf.setFunction(ZBufferState.TestFunction.LessThanOrEqualTo);
-//        spatial.setRenderState(buf);
-//
-//        CullState cs = display.getRenderer().createCullState();
-//        cs.setCullFace(CullState.Face.Back);
-//        spatial.setRenderState(cs);
-//
-//        spatial.setCullHint(Spatial.CullHint.Never);
-//
-//        spatial.updateGeometricState(0.0f, true);
-//        spatial.updateRenderState();
-//    }
+    private void initSpatial(Spatial spatial) {
+        ZBufferState buf = display.getRenderer().createZBufferState();
+        buf.setEnabled(true);
+        buf.setFunction(ZBufferState.TestFunction.LessThanOrEqualTo);
+        spatial.setRenderState(buf);
+
+        CullState cs = display.getRenderer().createCullState();
+        cs.setCullFace(CullState.Face.Back);
+        spatial.setRenderState(cs);
+
+        spatial.setCullHint(Spatial.CullHint.Never);
+
+        spatial.updateGeometricState(0.0f, true);
+        spatial.updateRenderState();
+    }
 
 	public void shoot( Vector3f position ) {
 		if( audioEnabled ) {
