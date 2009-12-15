@@ -228,4 +228,6 @@ public interface WorldInterface {
 	public abstract LogicAmmoPack getAmmoPack( String ammoPackId );
 
 	public abstract HashMap<String, Vector3f> getEnergyPackagesPosition();
+
+	public abstract Set<String> getCharactersId();
 }
