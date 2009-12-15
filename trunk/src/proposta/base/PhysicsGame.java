@@ -80,7 +80,7 @@ public abstract class PhysicsGame extends AbstractGame {
     private boolean firstFrame = true;
     
     /** The main logger */
-    public static final Logger logger = Logger.getLogger( PhysicsGame.class.getName() );
+    public final Logger logger = Logger.getLogger( PhysicsGame.class.getName() );
     
 	protected ThrowableHandler throwableHandler;
 
