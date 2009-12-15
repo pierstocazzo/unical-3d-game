@@ -84,7 +84,6 @@ public class PhysicsBullet {
         				contactInfo.getNode2() == world.characters.get(id).getCharacterBody() ) ||
         				( contactInfo.getNode1() == world.characters.get(id).getCharacterFeet() ||
                 		contactInfo.getNode2() == world.characters.get(id).getCharacterFeet() ) ){
-        				GraphicalWorld.logger.info( id + " e stato colpito da un proiettile");
         				world.getCore().characterShoted( id, weaponType.getDamage() );
         			}
         		}

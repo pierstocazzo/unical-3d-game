@@ -1,5 +1,7 @@
 package proposta.main;
 
+import java.util.logging.Level;
+
 import com.jme.app.AbstractGame.ConfigShowMode;
 import com.jme.math.Vector3f;
 
@@ -19,6 +21,7 @@ public class TestACazzi {
 //    	logicGame.createEnemiesGroup( 10, new Vector3f( -400, 50, -400 ) );
         GraphicalWorld game = new GraphicalWorld( logicGame, new ThreadController() );
         game.setConfigShowMode( ConfigShowMode.AlwaysShow, Loader.load("game/data/images/splashGame.jpg") );
+        game.logger.setLevel( Level.WARNING );
         game.isThread = false;
         game.start();
 	}

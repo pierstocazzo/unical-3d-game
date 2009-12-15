@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import jmetest.TutorialGuide.ExplosionFactory;
 import proposta.base.Game;
 import proposta.input.ThirdPersonHandler;
+import proposta.main.HudMap;
 import proposta.main.ThreadController;
 import utils.Loader;
 import utils.ModelLoader;
@@ -24,6 +25,7 @@ import com.jme.light.PointLight;
 import com.jme.math.FastMath;
 import com.jme.math.Plane;
 import com.jme.math.Quaternion;
+import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
@@ -115,7 +117,7 @@ public class GraphicalWorld extends Game {
 	boolean enabled = true;
 	
 	/** HUD node */
-	Node hudNode;
+	public Node hudNode;
 	/** very very basic hud */
 	Text life;
 	Quad crosshair;
@@ -133,9 +135,23 @@ public class GraphicalWorld extends Game {
 	LensFlare flare;
 
 	LightNode lightNode;
+
+	HudMap hudMap;
+	
+	float dimension;
+
+	Vector2f resolution;
+
+	int heightMapSize;
+
+	private int terrainScale;
 	
 	
 	
+	public float getDimension() {
+		return dimension;
+	}
+
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
 	 * 
@@ -222,12 +238,26 @@ public class GraphicalWorld extends Game {
 		if( audioEnabled ) {
 			audio = new AudioManager( cam );
 		}
+		
+
+		resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
+		
+		heightMapSize = 129;
+		terrainScale = 20;
+		
+		dimension = heightMapSize * terrainScale;
+		
+		hudMap = new HudMap( this );
     	
 //        pause = true;
     }
     
     
-    /** Create graphic characters
+    public Vector2f getResolution() {
+		return resolution;
+	}
+
+	/** Create graphic characters
      *  and place them in positions setted in the logic game
      */
     public void setupEnemies() { 	    	
@@ -368,6 +398,8 @@ public class GraphicalWorld extends Game {
     	}
     	
 		updateInput();
+		
+		hudMap.update();
 		
     	fps.print( "Frame Rate: " + (int) timer.getFrameRate() + "fps" );
     }
@@ -621,8 +653,8 @@ public class GraphicalWorld extends Game {
      */
 	public void createWorldBounds() {
 
-		float x = 129*20;
-		float z = 129*20;
+		float x = dimension;
+		float z = dimension;
 		float y = 120;
 		
 		gameBounds.setLocalTranslation( -x/2, 0, -z/2 );
@@ -698,10 +730,12 @@ public class GraphicalWorld extends Game {
 		RawHeightMap heightMap = new RawHeightMap( getClass()
                 .getClassLoader().getResource(
                         "jmetest/data/texture/terrain/heights.raw"),
-                129, RawHeightMap.FORMAT_16BITLE, false);
+                heightMapSize, RawHeightMap.FORMAT_16BITLE, false);
 		
-        Vector3f terrainScale = new Vector3f( 20, 0.005f, 21 );
+        Vector3f terrainScale = new Vector3f( 20, 0.005f, 20 );
         heightMap.setHeightScale(0.001f);
+        
+        dimension = heightMapSize * terrainScale.x;
         
         terrain = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
@@ -800,9 +834,9 @@ public class GraphicalWorld extends Game {
     private void createReflectionTerrain() {
     	RawHeightMap heightMap = new RawHeightMap( Loader.load(
                         "jmetest/data/texture/terrain/heights.raw"),
-                129, RawHeightMap.FORMAT_16BITLE, false);
+                heightMapSize, RawHeightMap.FORMAT_16BITLE, false);
 
-        Vector3f terrainScale = new Vector3f( 20, 0.007f, 21 );
+        Vector3f terrainScale = new Vector3f( 20, 0.007f, 20 );
         heightMap.setHeightScale(0.001f);
         TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
