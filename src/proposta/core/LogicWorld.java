@@ -334,4 +334,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 		}
 		return hash;
 	}
+
+	@Override
+	public Set<String> getCharactersId() {
+		return characters.keySet();
+	}
 }

@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import jmetest.TutorialGuide.ExplosionFactory;
 import proposta.base.Game;
 import proposta.input.ThirdPersonHandler;
-import proposta.main.HudMap;
+import proposta.main.WorldMap2D;
 import proposta.main.ThreadController;
 import utils.Loader;
 import utils.ModelLoader;
@@ -63,6 +63,10 @@ import com.jmex.terrain.util.RawHeightMap;
  * @author Giuseppe Leone, Salvatore Loria, Andrea Martire
  */
 public class GraphicalWorld extends Game {
+	public Node getHudNode() {
+		return hudNode;
+	}
+
 	/*************** ROBA AGGIUNTA */
 	Node collisionNode;
 	
@@ -136,7 +140,7 @@ public class GraphicalWorld extends Game {
 
 	LightNode lightNode;
 
-	HudMap hudMap;
+	WorldMap2D hudMap;
 	
 	float dimension;
 
@@ -247,7 +251,7 @@ public class GraphicalWorld extends Game {
 		
 		dimension = heightMapSize * terrainScale;
 		
-		hudMap = new HudMap( this );
+		hudMap = new WorldMap2D( this );
     	
 //        pause = true;
     }
