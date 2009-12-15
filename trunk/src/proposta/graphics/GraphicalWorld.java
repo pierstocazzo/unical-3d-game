@@ -700,7 +700,7 @@ public class GraphicalWorld extends Game {
                         "jmetest/data/texture/terrain/heights.raw"),
                 129, RawHeightMap.FORMAT_16BITLE, false);
 		
-        Vector3f terrainScale = new Vector3f( 20, 0.003f, 21 );
+        Vector3f terrainScale = new Vector3f( 20, 0.005f, 21 );
         heightMap.setHeightScale(0.001f);
         
         terrain = new TerrainPage("Terrain", 33, heightMap.getSize(),
@@ -802,7 +802,7 @@ public class GraphicalWorld extends Game {
                         "jmetest/data/texture/terrain/heights.raw"),
                 129, RawHeightMap.FORMAT_16BITLE, false);
 
-        Vector3f terrainScale = new Vector3f( 20, 0.003f, 21 );
+        Vector3f terrainScale = new Vector3f( 20, 0.007f, 21 );
         heightMap.setHeightScale(0.001f);
         TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
