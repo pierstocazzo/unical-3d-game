@@ -1,11 +1,17 @@
 package proposta.graphics;
 
+import utils.Loader;
+
+import com.jme.image.Texture;
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.util.SyntheticButton;
 import com.jme.math.Vector3f;
 import com.jme.scene.shape.Box;
+import com.jme.scene.state.TextureState;
+import com.jme.system.DisplaySystem;
+import com.jme.util.TextureManager;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 
@@ -41,8 +47,18 @@ public class PhysicsAmmoPackage {
 		world.getRootNode().attachChild( physicsPack );
 		physicsPack.getLocalTranslation().set( position );
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
-		pack.setRandomColors();
-		pack.updateRenderState();
+//		pack.setRandomColors();
+//		pack.updateRenderState();
+		
+        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+        ts.setEnabled(true);
+        ts.setTexture(TextureManager.loadTexture(
+                Loader.load( "jmetest/data/images/Monkey.jpg" ), Texture.MinificationFilter.Trilinear,
+                Texture.MagnificationFilter.Bilinear));
+        
+        pack.setRenderState(ts);
+        world.getRootNode().updateRenderState();
+        
 		physicsPack.attachChild( pack );
 		physicsPack.generatePhysicsGeometry();
 	}

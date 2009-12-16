@@ -659,7 +659,7 @@ public class GraphicalWorld extends Game {
 
 		float x = dimension;
 		float z = dimension;
-		float y = 120;
+		float y = 800;
 		
 		gameBounds.setLocalTranslation( -x/2, 0, -z/2 );
 		
@@ -668,23 +668,23 @@ public class GraphicalWorld extends Game {
 	    downBox.setLocalScale( new Vector3f( x, 5, z) );
 
 	    PhysicsBox upperBox = gameBounds.createBox("upperBox");
-	    upperBox.setLocalTranslation( x/2, 100, z/2 );
+	    upperBox.setLocalTranslation( x/2, y-20, z/2 );
 	    upperBox.setLocalScale( new Vector3f( x, 5, z) );
 	    
 	    PhysicsBox eastBox = gameBounds.createBox("eastBox");
-	    eastBox.setLocalTranslation( x, 40, z/2 );
+	    eastBox.setLocalTranslation( x, y/2-20, z/2 );
 	    eastBox.setLocalScale( new Vector3f( 5, y, z ) );
 	    
 	    PhysicsBox westBox = gameBounds.createBox("westBox");
-	    westBox.setLocalTranslation( 0, 40, z/2 );
+	    westBox.setLocalTranslation( 0, y/2-20, z/2 );
 	    westBox.setLocalScale( new Vector3f( 5, y, z ) );
 	    
 	    PhysicsBox southBox = gameBounds.createBox("southBox");
-	    southBox.setLocalTranslation( x/2, 40, 0 );
+	    southBox.setLocalTranslation( x/2, y/2-20, 0 );
 	    southBox.setLocalScale( new Vector3f( x, y, 5 ) );
 
 	    PhysicsBox northBox = gameBounds.createBox("northBox");
-	    northBox.setLocalTranslation( x/2, 40, z );
+	    northBox.setLocalTranslation( x/2, y/2-20, z );
 	    northBox.setLocalScale( new Vector3f( x, y, 5 ) );
 	    
 	}
@@ -925,25 +925,73 @@ public class GraphicalWorld extends Game {
     }
 
     private void buildSkyBox() {
-        skybox = new Skybox("skybox", 10, 10, 10);
+//        skybox = new Skybox("skybox", 10, 10, 10);
+//
+//        String dir = "game/data/images/skybox/";
+//        Texture north = TextureManager.loadTexture( Loader.load(dir + "nord.jpg"),
+//                Texture.MinificationFilter.BilinearNearestMipMap,
+//                Texture.MagnificationFilter.Bilinear);
+//        Texture south = TextureManager.loadTexture( Loader.load(dir + "sud.jpg"),
+//                Texture.MinificationFilter.BilinearNearestMipMap,
+//                Texture.MagnificationFilter.Bilinear);
+//        Texture east = TextureManager.loadTexture( Loader.load(dir + "est.jpg"),
+//                Texture.MinificationFilter.BilinearNearestMipMap,
+//                Texture.MagnificationFilter.Bilinear);
+//        Texture west = TextureManager.loadTexture( Loader.load(dir + "ovest.jpg"),
+//                Texture.MinificationFilter.BilinearNearestMipMap,
+//                Texture.MagnificationFilter.Bilinear);
+//        Texture up = TextureManager.loadTexture( Loader.load(dir + "up.jpg"),
+//                Texture.MinificationFilter.BilinearNearestMipMap,
+//                Texture.MagnificationFilter.Bilinear);
+//        Texture down = TextureManager.loadTexture( Loader.load(dir + "down.jpg"),
+//                Texture.MinificationFilter.BilinearNearestMipMap,
+//                Texture.MagnificationFilter.Bilinear);
+//
+//        skybox.setTexture(Skybox.Face.North, north);
+//        skybox.setTexture(Skybox.Face.West, west);
+//        skybox.setTexture(Skybox.Face.South, south);
+//        skybox.setTexture(Skybox.Face.East, east);
+//        skybox.setTexture(Skybox.Face.Up, up);
+//        skybox.setTexture(Skybox.Face.Down, down);
+//        skybox.preloadTextures();
+//
+//        CullState cullState = display.getRenderer().createCullState();
+//        cullState.setCullFace(CullState.Face.None);
+//        cullState.setEnabled(true);
+//        skybox.setRenderState(cullState);
+//
+//        FogState fs = display.getRenderer().createFogState();
+//        fs.setEnabled(false);
+//        skybox.setRenderState(fs);
+//
+////        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
+//        skybox.setCullHint(Spatial.CullHint.Never);
+//        skybox.setTextureCombineMode(TextureCombineMode.Replace);
+//        skybox.updateRenderState();
+//
+//        skybox.lockBounds();
+//        skybox.lockMeshes();
+    
+    	
+    	skybox = new Skybox("skybox", 10, 10, 10);
 
-        String dir = "game/data/images/skybox/";
-        Texture north = TextureManager.loadTexture( Loader.load(dir + "nord.jpg"),
+        String dir = "jmetest/data/skybox1/";
+        Texture north = TextureManager.loadTexture( Loader.load(dir + "1.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture south = TextureManager.loadTexture( Loader.load(dir + "sud.jpg"),
+        Texture south = TextureManager.loadTexture( Loader.load(dir + "3.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture east = TextureManager.loadTexture( Loader.load(dir + "est.jpg"),
+        Texture east = TextureManager.loadTexture( Loader.load(dir + "2.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture west = TextureManager.loadTexture( Loader.load(dir + "ovest.jpg"),
+        Texture west = TextureManager.loadTexture( Loader.load(dir + "4.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture up = TextureManager.loadTexture( Loader.load(dir + "up.jpg"),
+        Texture up = TextureManager.loadTexture( Loader.load(dir + "6.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture down = TextureManager.loadTexture( Loader.load(dir + "down.jpg"),
+        Texture down = TextureManager.loadTexture( Loader.load(dir + "5.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
 
@@ -955,19 +1003,23 @@ public class GraphicalWorld extends Game {
         skybox.setTexture(Skybox.Face.Down, down);
         skybox.preloadTextures();
 
-        CullState cullState = display.getRenderer().createCullState();
-        cullState.setCullFace(CullState.Face.None);
-        cullState.setEnabled(true);
-        skybox.setRenderState(cullState);
+//        CullState cullState = display.getRenderer().createCullState();
+//        cullState.setCullFace(CullState.Face.None);
+//        cullState.setEnabled(true);
+//        skybox.setRenderState(cullState);
 
-        FogState fs = display.getRenderer().createFogState();
-        fs.setEnabled(false);
-        skybox.setRenderState(fs);
+//        ZBufferState zState = display.getRenderer().createZBufferState();
+//        zState.setEnabled(false);
+//        skybox.setRenderState(zState);
+
+//        FogState fs = display.getRenderer().createFogState();
+//        fs.setEnabled(false);
+//        skybox.setRenderState(fs);
 
 //        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
-        skybox.setCullHint(Spatial.CullHint.Never);
-        skybox.setTextureCombineMode(TextureCombineMode.Replace);
-        skybox.updateRenderState();
+//        skybox.setCullHint(Spatial.CullHint.Never);
+//        skybox.setTextureCombineMode(TextureCombineMode.Replace);
+//        skybox.updateRenderState();
 
         skybox.lockBounds();
         skybox.lockMeshes();
