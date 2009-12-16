@@ -13,7 +13,7 @@ public class TestACazzi {
 		LogicWorld logicGame = new LogicWorld();
     	logicGame.createPlayer( 100, new Vector3f( -1000, 60, -1000 ) );
     	logicGame.createEnemy( new Vector3f( -900, 20, -900 ), MovementType.REST );
-//    	logicGame.createEnemiesGroup( 10, new Vector3f( -0, 20, -0 ) );
+    	logicGame.createEnemiesGroup( 10, new Vector3f( -850, 20, -850 ) );
 //    	logicGame.createEnemiesGroup( 10, new Vector3f( 700, 50, 700 ) );
 //    	logicGame.createEnemiesGroup( 10, new Vector3f( 500, 50, 500 ) );
 //    	logicGame.createEnemiesGroup( 10, new Vector3f( 400, 50, 400 ) );
