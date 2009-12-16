@@ -64,17 +64,14 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 * @param numberOfEnemies - (int) number of characters to create
 	 * @param area - (Vector3f) the vector that identify the area in whitch characters will be created
 	 */
-	public void createEnemiesGroup( int numberOfEnemies, Vector3f area ) {
-		float x = area.getX();
-		float z = area.getZ();
-
+	public void createEnemiesGroup( int numberOfEnemies, int x, int z ) {
 		Random r = new Random();
 
 		for( int i = 0; i < numberOfEnemies; i++ ) {		
 			float xRelative = x + r.nextInt( numberOfEnemies * 5 );
 			float zRelative = z + r.nextInt( numberOfEnemies * 5 );
 
-			Vector3f position = new Vector3f( xRelative, area.getY(), zRelative );
+			Vector3f position = new Vector3f( xRelative, 0, zRelative );
 			
 			createEnemy( position, MovementType.VERTICAL_SENTINEL );
 		}

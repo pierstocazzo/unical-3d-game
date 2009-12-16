@@ -37,7 +37,6 @@ import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
 import com.jme.scene.Text;
 import com.jme.scene.Spatial.LightCombineMode;
-import com.jme.scene.Spatial.TextureCombineMode;
 import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
@@ -279,7 +278,10 @@ public class GraphicalWorld extends Game {
 			model.getChild( "weapon" ).setRenderState( ts );
 
             PhysicsEnemy enemy = new PhysicsEnemy( id, this, 20, 100,  model );
-        	enemy.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
+            
+            Vector3f position = core.getCharacterPosition(id);
+            position.setY( terrain.getHeight( position.x, position.z ) + 1 );
+        	enemy.getCharacterNode().getLocalTranslation().set( position );
         	characters.put( id, enemy );
         	rootNode.attachChild( characters.get(id).getCharacterNode() );
         }
@@ -767,7 +769,7 @@ public class GraphicalWorld extends Game {
                 "jmetest/data/texture/terrain/roadalpha.png");
 
         TextureState ts6 = createLightmapTextureState(
-        		"jmetest/data/texture/terrain/lightmap1.jpg");
+        		"jmetest/data/texture/terrain/lightmap.jpg");
 
         // alpha used for blending the passnodestates together
         BlendState as = display.getRenderer().createBlendState();
