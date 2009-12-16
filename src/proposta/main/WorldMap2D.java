@@ -1,21 +1,17 @@
 package proposta.main;
 
-import proposta.graphics.GraphicalWorld;
-
-import java.nio.FloatBuffer;
 import java.util.HashMap;
 
+import proposta.graphics.GraphicalWorld;
 import utils.Loader;
 
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
-import com.jme.scene.TexCoords;
 import com.jme.scene.shape.Disk;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
-import com.jme.util.geom.BufferUtils;
 
 public class WorldMap2D {
 	
@@ -24,20 +20,24 @@ public class WorldMap2D {
 	
 	/** the 2d Map */
 	Quad map;
-	
-	int textureWidth;
-    int textureHeight;
     
     /** This HashMap contains the disk of each character */
     HashMap<String, Disk> characters;
     
-    /* parameters used to create the map proportionally to 
-     * the display resolution and to the world dimensions 
-     */
+    /** display's width */
     float displayWidth;
+    
+    /** the x and z dimension of the 3d world to represent */
     float worldDimension;
+    
+    /** the x and y dimension of the map (it's a square) */
     float mapDimension;
-	float scale;
+    
+    /** the extension of the map (in both x and y axis) from his center */
+    float mapExtension;
+    
+    /** the map's scale */
+	float mapScale;
 	
 	/** WorldMap2D constructor 
 	 * Create a 2d Map of the graphical world.
@@ -46,56 +46,53 @@ public class WorldMap2D {
 	public WorldMap2D( GraphicalWorld world ){
 		this.world = world;
 		
-		// init parameters
+	    /* parameters used to create the map proportionally to 
+	     * the display resolution and to the world dimensions 
+	     */
 		this.displayWidth = world.getResolution().x;
 		this.worldDimension = world.getDimension();
-		this.mapDimension = displayWidth / 5.6f;
-		this.scale = worldDimension / mapDimension;
 		
+		/* mapDimension is the dimension in pixel of the map and depends by display resolution
+		 * 5.6 is the better ratio (display width / map dimension) we have found
+		 * NB: we don't take care of the display height, cause our map must be a square whatever 
+		 * is the aspect ratio of the user display 
+		 * ( so in both 1280x1024 and 1280x800 resolutions our map is a 228x228 quad )
+		 */
+		this.mapDimension = displayWidth / 5.6f;
+		
+		this.mapExtension = mapDimension / 2;
+		this.mapScale = worldDimension / mapDimension;
+		
+		/* initialize the hashmap that will contains all the characters disks */
 		characters = new HashMap<String, Disk>();
 		
 		map = new Quad( "hudmap", mapDimension, mapDimension );
 		world.getHudNode().attachChild( map );
 		
-		Vector3f pos = new Vector3f( displayWidth - mapDimension/2, mapDimension/2, 0 );
+		/* place the map in the lower right angle of the display */
+		Vector3f pos = new Vector3f( displayWidth - mapExtension, mapExtension, 0 );
 		map.setLocalTranslation( pos );
 
-        // create the texture state to handle the texture
+        /* load the texture to set to the map */
         TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-		ts.setTexture( TextureManager.loadTexture( Loader.load(
-		   "jmetest/data/texture/terrain/terrainlod.jpg" ), false ) );
-
-        // initialize texture width
-        textureWidth = ts.getTexture().getImage().getWidth();
-        // initialize texture height
-        textureHeight = ts.getTexture().getImage().getHeight();
-
-        // activate the texture state
+		ts.setTexture( TextureManager.loadTexture( Loader.load( "game/data/texture/isola.jpg" ), true ) );
         ts.setEnabled(true);
         map.setRenderState(ts);
-
-        final FloatBuffer texCoords = BufferUtils.createVector2Buffer(4);
-        texCoords.put(getUForPixel(0)).put( getVForPixel(0) );
-        texCoords.put(getUForPixel(0)).put( getVForPixel(textureHeight) );
-        texCoords.put(getUForPixel(textureWidth)).put( getVForPixel(textureHeight) );
-        texCoords.put(getUForPixel(textureWidth)).put( getVForPixel(0) );
-        // assign texture coordinates to the quad
-        map.setTextureCoords( new TexCoords( texCoords ) );
         
-        map.updateRenderState();     
+        /* we don't need to change again the aspects of the map, so lock it */
         map.lock();
         
+        /* create a blue disk for each player... */
 		for( String id : world.getCore().getPlayersId() ) {
 			createDisk( id, ColorRGBA.blue );
 		}
-		
+		/* ...and a red one for each enemy */
 		for( String id : world.getCore().getEnemiesId() ){
 			createDisk( id, ColorRGBA.red );
 		}
 	}
 	
-	/**
-	 * Update the 2d WorldMap 
+	/** Update the 2d WorldMap 
 	 */
 	public void update() {
 		// Clean previously printed disks
@@ -128,14 +125,6 @@ public class WorldMap2D {
 	 * @return the position where to print the disk
 	 */
 	Vector3f calculatePosition( Vector3f pos ) {
-		return new Vector3f( displayWidth - mapDimension/2 + pos.x/scale, mapDimension/2 + pos.z/-scale, 0 );
+		return new Vector3f( displayWidth - mapExtension + pos.z/mapScale, mapExtension + pos.x/mapScale, 0 );
 	}
-	
-	private float getUForPixel(int xPixel) {
-        return (float) xPixel / textureWidth;
-    }
-
-    private float getVForPixel(int yPixel) {
-        return 1f - (float) yPixel / textureHeight;
-    }
 }
