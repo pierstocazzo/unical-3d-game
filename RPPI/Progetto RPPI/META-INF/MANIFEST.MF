@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Progetto RPPI
-Bundle-SymbolicName: Progetto_RPPI
-Bundle-Version: 0.1.0
-Require-Bundle: org.eclipse.emf.ecore
