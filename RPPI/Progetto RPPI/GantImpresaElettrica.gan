@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Untitled Gantt Project" company="" webLink="http://" view-date="2009-11-02" view-index="0" gantt-divider-location="362" resource-divider-location="301" version="2.0">
+    <description/>
+    <view zooming-state="default:5" id="gantt-chart"/>
+    <view id="resource-table">
+        <field id="0" name="Nome" width="54" order="0"/>
+        <field id="1" name="Ruolo predefinito" width="45" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <calendar id="1" name="default">
+                <default-week sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+                <overriden-day-types/>
+                <days/>
+            </calendar>
+        </day-types>
+    </calendars>
+    <tasks color="#8cb6ce">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="26" name="WP1 - ACQUISIZIONE DEI REQUISITI" color="#8cb6ce" meeting="false" start="2009-11-03" duration="5" complete="0" priority="1" expand="true">
+            <depend id="27" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="27" name="WP2 - ANALISI E RISTRUTTURAZIONE DEI REQUISITI" color="#8cb6ce" meeting="false" start="2009-11-10" duration="5" complete="0" priority="1" expand="true">
+            <depend id="28" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="28" name="WP3 - PIANIFICAZIONE DEL PROGETTO" color="#8cb6ce" meeting="false" start="2009-11-17" duration="15" complete="0" priority="1" expand="true">
+            <depend id="32" type="2" difference="0" hardness="Strong"/>
+            <task id="29" name="WP3.1 - ANALISI DELLE ESIGENZE" color="#8cb6ce" meeting="false" start="2009-11-17" duration="3" complete="0" priority="1" expand="true">
+                <depend id="30" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="30" name="WP3.2 - STIMA DEI TEMPI" color="#8cb6ce" meeting="false" start="2009-11-20" duration="5" complete="0" priority="1" expand="true">
+                <depend id="31" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="31" name="WP3.3 - DEFINIZIONE DELLA PROPOSTA DI PROGETTO" color="#8cb6ce" meeting="false" start="2009-11-27" duration="7" complete="0" priority="1" expand="true"/>
+        </task>
+        <task id="32" name="WP4 - PROGETTAZIONE SISTEMA INFORMATIVO" color="#8cb6ce" meeting="false" start="2009-12-08" duration="10" complete="0" priority="1" expand="true">
+            <depend id="35" type="2" difference="0" hardness="Strong"/>
+            <task id="33" name="WP4.1 - REALIZZAZIONE DEL PROGETTO PROGETTUALE" color="#8cb6ce" meeting="false" start="2009-12-08" duration="5" complete="0" priority="1" expand="true">
+                <depend id="34" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="34" name="WP4.2 - REALIZZAZIONE DEL PROGETTO REALIZZATIVO" color="#8cb6ce" meeting="false" start="2009-12-15" duration="5" complete="0" priority="1" expand="true"/>
+        </task>
+        <task id="35" name="WP5 - SVILUPPO DEL SISTEMA INFORMATIVO" color="#8cb6ce" meeting="false" start="2009-12-22" duration="30" complete="0" priority="1" expand="true">
+            <depend id="38" type="2" difference="0" hardness="Strong"/>
+            <task id="36" name="WP5.1 - SVILUPPO" color="#8cb6ce" meeting="false" start="2009-12-22" duration="25" complete="0" priority="1" expand="true">
+                <depend id="37" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="37" name="WP5.2 - TESTING" color="#8cb6ce" meeting="false" start="2010-01-26" duration="5" complete="0" priority="1" expand="true"/>
+        </task>
+        <task id="38" name="WP6 - INSTALLAZIONE E CONFIGURAZIONE" color="#8cb6ce" meeting="false" start="2010-02-02" duration="1" complete="0" priority="1" expand="true"/>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <taskdisplaycolumns>
+        <displaycolumn property-id="tpd3" order="0" width="237"/>
+        <displaycolumn property-id="tpd4" order="1" width="57"/>
+        <displaycolumn property-id="tpd5" order="2" width="55"/>
+    </taskdisplaycolumns>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles roleset-name="SoftwareDevelopment"/>
+</project>
