@@ -1,6 +1,6 @@
 package game.main.menu;
 
-import game.main.ThreadController;
+import game.base.PhysicsGame;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -31,21 +31,20 @@ public class InGameMenu extends JFrame {
 	/** Game Panel */
 	InGamePanel gamePanel;
 	
-	/** Monitor for thread management */
-	ThreadController threadController;
-	
 	/** background wallpaper */
 	Image background;
+
+	PhysicsGame game;
 	
 	/**
 	 * Constructor of GameMenu
-	 * @param threadController 
+	 * @param physicsGame 
 	 * 
 	 * @param mainMenu - Main Menu
 	 */
-	public InGameMenu(ThreadController threadController ){
+	public InGameMenu(PhysicsGame game ){
 		super();
-		this.threadController = threadController;
+		this.game = game;
 		
 		//get image background
 		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");

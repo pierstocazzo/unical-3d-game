@@ -135,7 +135,7 @@ public class InGamePanel extends JPanel {
 	public void executeSelectedItem(){
 		switch (current){
 			case 0:
-				gm.threadController.WakeUpGame();
+				gm.game.pause = false;
 				gm.setVisible(false);
 				break;
 			case 1:
@@ -145,7 +145,8 @@ public class InGamePanel extends JPanel {
 				break;
 			case 2:
 				gm.setVisible(false);
-				gm.threadController.notifyCloseGame();
+				gm.game.finish();
+				gm.game.pause = false;
 				System.out.println("exit game menu");
 				break;
 		}

@@ -4,27 +4,29 @@ import com.jme.input.FirstPersonHandler;
 import com.jme.input.InputHandler;
 
 import game.base.PhysicsGame;
+import game.main.menu.LoadingFrame;
 
 public abstract class Game extends PhysicsGame {
 	
 	public InputHandler freeCamInput;
+	public LoadingFrame loadingFrame;
 	
     @Override
     protected void setupGame() {
-    	threadController.loadingFrame.setProgress(25);
+    	loadingFrame.setProgress(25);
         setupInit();
-        threadController.loadingFrame.setProgress(50);
+        loadingFrame.setProgress(50);
         setupEnvironment();
-        threadController.loadingFrame.setProgress(75);
+        loadingFrame.setProgress(75);
         setupPlayer();
-        threadController.loadingFrame.setProgress(100);
+        loadingFrame.setProgress(100);
         setupEnemies();
         setupCamera();
         setupInput();
         
         freeCamInput = new FirstPersonHandler( cam, 50, 1 );
         freeCamInput.setEnabled( false );
-        threadController.loadingFrame.setVisible(false);
+        loadingFrame.setVisible(false);
     }
     
     public abstract void setupInit();

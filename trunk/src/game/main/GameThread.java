@@ -9,11 +9,14 @@ import com.jme.math.Vector3f;
 
 public class GameThread implements Runnable {
 
-	public ThreadController threadController;
+//	public ThreadController threadController;
 	public LogicWorld logicGame;
+	public GraphicalWorld game;
+	public LoadingFrame loadingFrame;
 	
 	public GameThread(LoadingFrame loadingFrame ) {
-		this.threadController = new ThreadController(loadingFrame,this);
+		this.loadingFrame = loadingFrame;
+//		this.threadController = new ThreadController(loadingFrame,this);
 		logicGame = new LogicWorld();
     	logicGame.createPlayer( 100, new Vector3f( 700, 60, 700 ) );
     	logicGame.createEnemy( new Vector3f( 800, 50, 800 ), MovementType.REST );
@@ -28,13 +31,14 @@ public class GameThread implements Runnable {
 	}
 	
 	public GameThread( LogicWorld logicGame, LoadingFrame loadingFrame ){
-		this.threadController = new ThreadController(loadingFrame,this);
+//		this.threadController = new ThreadController(loadingFrame,this);
+		this.loadingFrame = loadingFrame;
 		this.logicGame = logicGame;
 	}
 
 	public void run() {
-        GraphicalWorld game = new GraphicalWorld( logicGame, threadController );
-        game.isThread = true;
+//        game = new GraphicalWorld( logicGame, threadController );
+		game = new GraphicalWorld( logicGame, loadingFrame );
         game.start();
     }
 }
