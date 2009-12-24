@@ -35,6 +35,8 @@ public class MainPanel extends JPanel {
 	/** MainMenu */
 	MainMenu mm;
 	
+	GameThread gameThread;
+	
 	/**
 	 * Constructor
 	 * 
@@ -159,8 +161,10 @@ public class MainPanel extends JPanel {
 				load.setVisible(true);
 				load.setAlwaysOnTop(true);
 		
+				gameThread = new GameThread(load);
+				
 				System.out.println("New Game");
-				Thread gameThreadNew = new Thread(new GameThread(load));
+				Thread gameThreadNew = new Thread( gameThread );
 				gameThreadNew.start();
 				
 				mm.setVisible(false);
@@ -190,7 +194,9 @@ public class MainPanel extends JPanel {
 					loadingFrame.setVisible(true);
 					loadingFrame.setAlwaysOnTop(true);
 					
-					Thread gameThreadLoaded = new Thread(new GameThread(gameLoaded,loadingFrame));
+					gameThread = new GameThread(gameLoaded,loadingFrame);
+					
+					Thread gameThreadLoaded = new Thread( gameThread );
 					gameThreadLoaded.start();
 					mm.setVisible(false);
 					System.out.println("Exit from Main Menu");
@@ -201,7 +207,11 @@ public class MainPanel extends JPanel {
 			case 3:break;//todo Credits
 			case 4:
 				System.out.println("exit main menu");
-				System.exit(0);break;
+				if( gameThread != null )
+					gameThread.quit();
+				else
+					System.exit(0);
+				break;
 		}
 	}
 }
