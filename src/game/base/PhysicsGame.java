@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import game.base.PhysicsGame;
 
-import game.main.ThreadController;
+import game.main.menu.InGameMenu;
 
 import com.jme.app.AbstractGame;
 
@@ -74,7 +74,7 @@ public abstract class PhysicsGame extends AbstractGame {
     protected boolean showPhysics;
 
     // Pause the game
-    protected boolean pause;
+    public boolean pause;
 
     // Added for Physics
     private PhysicsSpace physicsSpace;
@@ -85,9 +85,6 @@ public abstract class PhysicsGame extends AbstractGame {
     public static final Logger logger = Logger.getLogger( PhysicsGame.class.getName() );
     
 	protected ThrowableHandler throwableHandler;
-
-	/** thread controller */
-	public ThreadController threadController;
 	
 	/** pass manager for terrain splatting etc */
 	protected BasicPassManager passManager;
@@ -218,20 +215,10 @@ public abstract class PhysicsGame extends AbstractGame {
             showPhysics = !showPhysics;
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
-        	if( isThread ) {
-	        	//vado in wait e passo il testimone a swing
-	        	threadController.gameWait();
-	        	//reset del timer per evitare problemi nel resume del gioco
-	        	timer.reset();
-	        	if(threadController.close)//se swing comanda esci
-	        		finish();
-	        	else
-	        		display.recreateWindow(settings.getWidth(),settings.getHeight(),
-	        				settings.getDepth(),settings.getFrequency(),settings.isFullscreen());
-        	} else {
-        		finish();
-        	}
-	        	
+        	pause = true;
+        	InGameMenu menu = new InGameMenu(this);
+    		menu.setVisible(true);
+    		menu.toFront();
         }
         
         if ( !pause ) {

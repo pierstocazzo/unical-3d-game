@@ -1,7 +1,6 @@
 package game.main.menu;
 
 import game.main.GameThread;
-import game.main.ThreadController;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;

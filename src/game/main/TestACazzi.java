@@ -6,6 +6,7 @@ import com.jme.math.Vector3f;
 import game.core.LogicWorld;
 import game.enemyAI.MovementList.MovementType;
 import game.graphics.GraphicalWorld;
+import game.main.menu.LoadingFrame;
 
 public class TestACazzi {
 	public static void main( String[] args ) {
@@ -14,7 +15,7 @@ public class TestACazzi {
     	logicGame.createEnemy( new Vector3f( 800, 50, 800 ), MovementType.REST );
     	logicGame.createEnemiesGroup( 10, new Vector3f( 800, 50, 900 ) );
 //    	logicGame.createEnemiesGroup( 4, new Vector3f( 220, 50, 220 ) );
-        GraphicalWorld game = new GraphicalWorld( logicGame, new ThreadController(null, null) );
+        GraphicalWorld game = new GraphicalWorld( logicGame, new LoadingFrame() );
         game.setConfigShowMode( ConfigShowMode.AlwaysShow );
         game.isThread = false;
         game.start();

@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 
 import game.core.LogicWorld;
 import game.main.GameThread;
-import game.main.ThreadController;
 
 /**
  * Class MainPanel

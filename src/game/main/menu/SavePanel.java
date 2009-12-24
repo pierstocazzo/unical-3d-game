@@ -1,6 +1,9 @@
 package game.main.menu;
 
 
+import game.core.LogicWorld;
+import game.graphics.GraphicalWorld;
+
 import java.awt.GridLayout;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -57,7 +60,7 @@ public class SavePanel extends JPanel {
 		ObjectOutputStream ois = null;
 		try {ois = new ObjectOutputStream(fin);} 
 		catch (IOException e) {e.printStackTrace();}
-		try {ois.writeObject(gm.threadController.gameThread.logicGame);} 
+		try {ois.writeObject((LogicWorld)((GraphicalWorld)gm.game).core);} 
 		catch (IOException e) {e.printStackTrace();System.exit(0);}
 		
 		gm.setVisible(true);

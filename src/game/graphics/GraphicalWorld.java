@@ -2,7 +2,7 @@ package game.graphics;
 
 import game.base.Game;
 import game.input.PhysicsInputHandler;
-import game.main.ThreadController;
+import game.main.menu.LoadingFrame;
 
 import java.net.URISyntaxException;
 import java.nio.FloatBuffer;
@@ -73,7 +73,7 @@ public class GraphicalWorld extends Game {
     /*************************************/
 	
 	/** an interface to communicate with the application core */
-	WorldInterface core;
+	public WorldInterface core;
 	
 	/** a custom freeCamInput handler to control the player */
     PhysicsInputHandler physicsInputHandler;
@@ -130,11 +130,11 @@ public class GraphicalWorld extends Game {
 	 * @param x - (int) the x dimension of the world
 	 * @param z - (int) the z dimension of the world
 	 */
-	public GraphicalWorld( WorldInterface core, ThreadController tc ) {
+	public GraphicalWorld( WorldInterface core, LoadingFrame loadingFrame ) {
 		this.core = core;
-		super.threadController = tc;
+		super.loadingFrame = loadingFrame;
 		
-		audioEnabled = true;
+		audioEnabled = false;
 	}
 	
 	public void setCrosshair() {
