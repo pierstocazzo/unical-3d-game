@@ -8,5 +8,5 @@ public class StartGame {
 		MainMenu menu = new MainMenu();
 		menu.createMenu();
 		menu.setVisible(true);
-	}
+	} 
 }
