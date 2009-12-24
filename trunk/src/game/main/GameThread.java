@@ -41,4 +41,8 @@ public class GameThread implements Runnable {
 		game = new GraphicalWorld( logicGame, loadingFrame );
         game.start();
     }
+	
+	public void quit() {
+		game.finish();
+	}
 }

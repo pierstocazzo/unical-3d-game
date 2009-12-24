@@ -134,7 +134,7 @@ public class GraphicalWorld extends Game {
 		this.core = core;
 		super.loadingFrame = loadingFrame;
 		
-		audioEnabled = false;
+		audioEnabled = true;
 	}
 	
 	public void setCrosshair() {
