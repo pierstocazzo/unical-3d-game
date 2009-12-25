@@ -55,7 +55,7 @@ Ora bisogna aggiungere swt:
 
   clickate su <i>"Add JARs"</i>
 
-  doppio click su jME2, poi <i>lib</i>, poi <i>swt</i>, poi <i>linux</i> e selezionare <i>swt.jar</i>
+  doppio click su jME2, poi <i>lib</i>, poi <i>swt</i>, poi <i>linux</i> (o il vostro so) e selezionare <i>swt.jar</i>
 
 <br>
 Ora bisogna impostare le native per lwjgl:
