@@ -9,4 +9,4 @@ public class StartGame {
 		menu.createMenu();
 		menu.setVisible(true);
 	} 
-}
+} 
