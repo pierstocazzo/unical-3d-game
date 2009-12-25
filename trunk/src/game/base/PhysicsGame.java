@@ -73,9 +73,6 @@ public abstract class PhysicsGame extends AbstractGame {
     protected LightState lightState;
     protected boolean showPhysics;
 
-    // Pause the game
-    public boolean pause;
-
     // Added for Physics
     private PhysicsSpace physicsSpace;
     private float physicsSpeed = 1;
@@ -200,7 +197,7 @@ public abstract class PhysicsGame extends AbstractGame {
          * Key handler
          */
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("toggle_pause", false ) ) {
-            pause = !pause;
+            enabled = !enabled;
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("step", true ) ) {
             update();
@@ -225,7 +222,7 @@ public abstract class PhysicsGame extends AbstractGame {
     		enabled = false;
         }
         
-        if ( !pause ) {
+        if ( enabled ) {
             
         	update();
         	

@@ -325,7 +325,6 @@ public class GraphicalWorld extends Game {
 		}
 		
 		enabled = false;
-		pause = true;
 	}
 
 	/** Function updateCharacters<br>
