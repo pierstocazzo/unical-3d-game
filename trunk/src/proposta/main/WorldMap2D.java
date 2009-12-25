@@ -39,6 +39,8 @@ public class WorldMap2D {
     /** the map's scale */
 	float mapScale;
 	
+	long oldTicks = 0;
+	
 	/** WorldMap2D constructor 
 	 * Create a 2d Map of the graphical world.
 	 * @param world - (GraphicalWorld) the graphical world to represent in the 2d map
@@ -95,14 +97,18 @@ public class WorldMap2D {
 	/** Update the 2d WorldMap 
 	 */
 	public void update() {
-		// Clean previously printed disks
-		for( String id : characters.keySet() )
-			world.getHudNode().detachChild( characters.get(id) );
+		if(oldTicks + 1000 <= world.timer.getTime()){
+			oldTicks = world.timer.getTime();
 		
-		// set the new position and render each disk
-		for( String id : world.getCore().getCharactersId() ) {
-			characters.get( id ).setLocalTranslation( calculatePosition( world.getCore().getCharacterPosition( id ) ) );
-			world.getHudNode().attachChild( characters.get( id ) );
+			// Clean previously printed disks
+			for( String id : characters.keySet() )
+				world.getHudNode().detachChild( characters.get(id) );
+			
+			// set the new position and render each disk
+			for( String id : world.getCore().getCharactersId() ) {
+				characters.get( id ).setLocalTranslation( calculatePosition( world.getCore().getCharacterPosition( id ) ) );
+				world.getHudNode().attachChild( characters.get( id ) );
+			}
 		}
 	}
 	
