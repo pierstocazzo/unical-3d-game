@@ -6,8 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -42,7 +40,7 @@ public class InGameMenu extends JFrame {
 	 * 
 	 * @param mainMenu - Main Menu
 	 */
-	public InGameMenu(PhysicsGame game ){
+	public InGameMenu( PhysicsGame game ){
 		super();
 		this.game = game;
 		
@@ -134,7 +132,7 @@ public class InGameMenu extends JFrame {
 					panel.prev();
 				if( e.getKeyCode() == KeyEvent.VK_ENTER )
 					panel.executeSelectedItem();
-				if( e.getKeyCode() == KeyEvent.VK_ESCAPE){
+				if( e.getKeyCode() == KeyEvent.VK_ESCAPE ){
 					panel.current = 0;
 					panel.executeSelectedItem();
 				}

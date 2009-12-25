@@ -207,10 +207,7 @@ public class MainPanel extends JPanel {
 			case 3:break;//todo Credits
 			case 4:
 				System.out.println("exit main menu");
-				if( gameThread != null )
-					gameThread.quit();
-				else
-					System.exit(0);
+				System.exit(0);
 				break;
 		}
 	}

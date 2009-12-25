@@ -105,9 +105,6 @@ public class GraphicalWorld extends Game {
     /** the sky */
 	Skybox skybox;
 
-	/** set to false when you don't want to do the world update */
-	boolean enabled = true;
-	
 	/** HUD node */
 	Node hudNode;
 	/** very very basic hud */
@@ -271,9 +268,6 @@ public class GraphicalWorld extends Game {
 
 	@Override
     protected void update() {
-		if( !enabled )
-			return;
-		
 		if( audioEnabled )
 			audio.update();
     	
@@ -417,7 +411,7 @@ public class GraphicalWorld extends Game {
 	    rootNode.setRenderState(fogState);
 	    
 		createTerrain();
-//        createReflectionTerrain();
+        createReflectionTerrain();
 
         buildSkyBox();
         

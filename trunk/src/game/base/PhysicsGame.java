@@ -89,7 +89,8 @@ public abstract class PhysicsGame extends AbstractGame {
 	/** pass manager for terrain splatting etc */
 	protected BasicPassManager passManager;
 
-	public boolean isThread;
+	/** set to false when you don't want to do the world update */
+	public boolean enabled = true;
 	
 	
     /**  
@@ -117,21 +118,23 @@ public abstract class PhysicsGame extends AbstractGame {
 
                 // main loop
                 while ( !finished && !display.isClosing() ) {
-                    // handle freeCamInput events prior to updating the scene
-                    // - some applications may want to put this into update of
-                    // the game state
-                    InputSystem.update();
-
-                    // update game state, do not use interpolation parameter
-                    update(-1.0f);
-
-                    // render, do not use interpolation parameter
-                    render(-1.0f);
-
-                    // swap buffers
-                    display.getRenderer().displayBackBuffer();
-
-                    Thread.yield();
+                	if( enabled ) {
+	                    // handle freeCamInput events prior to updating the scene
+	                    // - some applications may want to put this into update of
+	                    // the game state
+	                    InputSystem.update();
+	
+	                    // update game state, do not use interpolation parameter
+	                    update(-1.0f);
+	
+	                    // render, do not use interpolation parameter
+	                    render(-1.0f);
+	
+	                    // swap buffers
+	                    display.getRenderer().displayBackBuffer();
+	
+	                    Thread.yield();
+                	}
                 }
             }
         } catch ( Throwable t ) {
@@ -215,10 +218,10 @@ public abstract class PhysicsGame extends AbstractGame {
             showPhysics = !showPhysics;
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
-        	pause = true;
-        	InGameMenu menu = new InGameMenu(this);
-    		menu.setVisible(true);
-    		menu.toFront();
+        	enabled = false;
+        	new InGameMenu(this);
+//    		menu.setVisible(true);
+//    		menu.toFront();
         }
         
         if ( !pause ) {
