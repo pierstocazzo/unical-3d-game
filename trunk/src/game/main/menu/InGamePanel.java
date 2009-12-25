@@ -136,7 +136,9 @@ public class InGamePanel extends JPanel {
 		switch (current){
 			case 0:
 				gm.setVisible(false);
+				gm.game.timer.reset();
 				gm.game.enabled = true;
+				
 				break;
 			case 1:
 				gm.setVisible(false);
