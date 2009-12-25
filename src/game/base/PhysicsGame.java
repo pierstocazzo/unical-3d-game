@@ -218,10 +218,11 @@ public abstract class PhysicsGame extends AbstractGame {
             showPhysics = !showPhysics;
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
-        	enabled = false;
-        	new InGameMenu(this);
-//    		menu.setVisible(true);
-//    		menu.toFront();
+        	
+        	InGameMenu menu = new InGameMenu(this);
+    		menu.setVisible(true);
+    		menu.toFront();
+    		enabled = false;
         }
         
         if ( !pause ) {
