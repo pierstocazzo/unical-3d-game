@@ -8,6 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.jme.system.DisplaySystem;
+
 /**
  * Class GamePanel
  * 
@@ -138,7 +140,6 @@ public class InGamePanel extends JPanel {
 				gm.setVisible(false);
 				gm.game.timer.reset();
 				gm.game.enabled = true;
-				
 				break;
 			case 1:
 				gm.setVisible(false);
