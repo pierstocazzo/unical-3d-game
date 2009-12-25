@@ -16,7 +16,6 @@ import java.util.GregorianCalendar;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
 
 
 public class SavePanel extends JPanel {
