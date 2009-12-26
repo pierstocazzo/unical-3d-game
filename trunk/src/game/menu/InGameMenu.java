@@ -1,4 +1,4 @@
-package game.main.menu;
+package game.menu;
 
 import game.base.PhysicsGame;
 

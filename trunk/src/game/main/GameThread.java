@@ -3,7 +3,7 @@ package game.main;
 import game.core.LogicWorld;
 import game.enemyAI.MovementList.MovementType;
 import game.graphics.GraphicalWorld;
-import game.main.menu.LoadingFrame;
+import game.menu.LoadingFrame;
 
 public class GameThread implements Runnable {
 

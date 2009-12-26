@@ -1,6 +1,6 @@
 package game.main;
 
-import game.main.menu.MainMenu;
+import game.menu.MainMenu;
 
 public class StartGame {
 
