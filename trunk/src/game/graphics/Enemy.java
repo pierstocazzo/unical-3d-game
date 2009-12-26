@@ -456,7 +456,7 @@ public class Enemy extends Character  {
 	 */
 	public void setMoving( boolean moving ) {
 		if( moving )
-			animationController.runAnimation( Animation.RUN );
+			animationController.runAnimation( Animation.WALK );
 		world.getCore().setMoving( id, moving );
 	}
 

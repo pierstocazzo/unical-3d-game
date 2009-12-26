@@ -67,7 +67,9 @@ public class ScoreManager implements Serializable {
 	
 	
 	
-	public class Score {
+	public class Score implements Serializable {
+		private static final long serialVersionUID = 1L;
+		
 		int score;
 		int level;
 		

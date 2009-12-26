@@ -80,7 +80,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 			x = x + r.nextInt( numberOfEnemies * 5 );
 			z = z + r.nextInt( numberOfEnemies * 5 );
 
-			createEnemy( x, z, MovementType.VERTICAL_SENTINEL );
+			createEnemy( x, z, MovementType.LARGE_PERIMETER );
 		}
 	}
 
