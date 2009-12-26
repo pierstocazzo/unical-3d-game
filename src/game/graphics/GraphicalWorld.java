@@ -4,7 +4,7 @@ import game.HUD.WorldMap2D;
 import game.base.Game;
 import game.input.ThirdPersonHandler;
 import game.menu.LoadingFrame;
-import game.sound.AudioManager;
+import game.sound.SoundManager;
 
 import java.nio.FloatBuffer;
 import java.util.Collection;
@@ -96,22 +96,22 @@ public class GraphicalWorld extends Game {
     StaticPhysicsNode gameBounds;
     
     /** hashmap of the characters */
-    HashMap< String, PhysicsCharacter > characters; 
+    HashMap< String, Character > characters; 
     
     /** hashmap of the bullets */
-	HashMap< String, PhysicsBullet > bullets;
+	HashMap< String, Bullet > bullets;
     int bulletsCounter = 0;
     
     /** hashmap of the ammo packages */
-	HashMap< String, PhysicsAmmoPackage > ammoPackages;
+	HashMap< String, AmmoPackage > ammoPackages;
     int ammoPackagesCounter = 0;
     
     /** hashmap of the energy packages */
-	HashMap< String, PhysicsEnergyPackage > energyPackages;
+	HashMap< String, EnergyPackage > energyPackages;
     int energyPackagesCounter = 0;
     
     /** the player, in single player mode */
-    PhysicsPlayer player;
+    Player player;
 
     /** the sky */
 	Skybox skybox;
@@ -128,7 +128,7 @@ public class GraphicalWorld extends Game {
 	Text fps;
 	
 	/** audio controller */
-	AudioManager audio;
+	SoundManager audio;
 	boolean audioEnabled;
 	
 	boolean freeCam;
@@ -208,10 +208,10 @@ public class GraphicalWorld extends Game {
 		hudNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
 		collisionNode = new Node( "CollisionNode" );
 		
-		characters = new HashMap<String, PhysicsCharacter>();
-		bullets = new HashMap<String, PhysicsBullet>();
-		ammoPackages = new HashMap<String, PhysicsAmmoPackage>();
-		energyPackages = new HashMap<String, PhysicsEnergyPackage>();
+		characters = new HashMap<String, Character>();
+		bullets = new HashMap<String, Bullet>();
+		ammoPackages = new HashMap<String, AmmoPackage>();
+		energyPackages = new HashMap<String, EnergyPackage>();
 		
         ground = getPhysicsSpace().createStaticNode();
         gameBounds = getPhysicsSpace().createStaticNode();
@@ -235,7 +235,7 @@ public class GraphicalWorld extends Game {
     	ExplosionFactory.warmup();
     	
 		if( audioEnabled ) {
-			audio = new AudioManager( cam );
+			audio = new SoundManager( cam );
 		}
 		
 
@@ -271,7 +271,7 @@ public class GraphicalWorld extends Game {
 	        ts.setTexture(texture);
 			model.getChild( "weapon" ).setRenderState( ts );
 
-            PhysicsEnemy enemy = new PhysicsEnemy( id, this, 20, 100,  model );
+            Enemy enemy = new Enemy( id, this, 20, 100,  model );
             
             Vector3f position = core.getCharacterPosition(id);
             position.setY( terrain.getHeight( position.x, position.z ) + 1 );
@@ -299,7 +299,7 @@ public class GraphicalWorld extends Game {
 		model.getChild( "weapon" ).setRenderState( ts );
         
         for( String id : core.getPlayersId() ) {
-        	player = new PhysicsPlayer( id, this, 20, 100, model );
+        	player = new Player( id, this, 20, 100, model );
             player.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
             rootNode.attachChild( player.getCharacterNode() );
             characters.put( player.id, player );
@@ -426,8 +426,8 @@ public class GraphicalWorld extends Game {
 	 * Call the update method of each character contained in the characters hashMap
 	 */
 	private void updateCharacters( float time ) {
-		Collection<PhysicsCharacter> c = new LinkedList<PhysicsCharacter>( characters.values() );
-		Iterator<PhysicsCharacter> it = c.iterator();
+		Collection<Character> c = new LinkedList<Character>( characters.values() );
+		Iterator<Character> it = c.iterator();
 		while( it.hasNext() ) {
 			it.next().update(time);
 		}
@@ -439,8 +439,8 @@ public class GraphicalWorld extends Game {
 	 * Call the update method of each bullet contained in the bullets hashMap
 	 */
 	private void updateBullets( float time ) {
-		Collection<PhysicsBullet> c = new LinkedList<PhysicsBullet>( bullets.values() );
-		Iterator<PhysicsBullet> it = c.iterator();
+		Collection<Bullet> c = new LinkedList<Bullet>( bullets.values() );
+		Iterator<Bullet> it = c.iterator();
 		while( it.hasNext() ) {
 			it.next().update(time);
 		}
@@ -452,8 +452,8 @@ public class GraphicalWorld extends Game {
 	 * Call the update method of each ammo pack contained in the ammoPackages hashMap
 	 */
     public void updateAmmoPackages( float time ) {
-		Collection<PhysicsAmmoPackage> c = new LinkedList<PhysicsAmmoPackage>( ammoPackages.values() );
-		Iterator<PhysicsAmmoPackage> it = c.iterator();
+		Collection<AmmoPackage> c = new LinkedList<AmmoPackage>( ammoPackages.values() );
+		Iterator<AmmoPackage> it = c.iterator();
     	while( it.hasNext() ) {
     		it.next().update(time);
     	}
@@ -465,8 +465,8 @@ public class GraphicalWorld extends Game {
 	 * Call the update method of each energy pack contained in the energyPackages hashMap
 	 */
     public void updateEnergyPackages( float time ) {
-		Collection<PhysicsEnergyPackage> c = new LinkedList<PhysicsEnergyPackage>( energyPackages.values() );
-		Iterator<PhysicsEnergyPackage> it = c.iterator();
+		Collection<EnergyPackage> c = new LinkedList<EnergyPackage>( energyPackages.values() );
+		Iterator<EnergyPackage> it = c.iterator();
     	while( it.hasNext() ) {
     		it.next().update(time);
     	}
@@ -643,7 +643,7 @@ public class GraphicalWorld extends Game {
 	private void setupEnergyPackages() {
 		HashMap< String, Vector3f > hash = core.getEnergyPackagesPosition();
 		for( String id : hash.keySet() ) {
-			PhysicsEnergyPackage e = new PhysicsEnergyPackage( id, this, hash.get(id) );
+			EnergyPackage e = new EnergyPackage( id, this, hash.get(id) );
 			energyPackages.put( e.id, e );
 		}
 	}
@@ -1062,25 +1062,25 @@ public class GraphicalWorld extends Game {
 
 	public void shoot( Vector3f position ) {
 		if( audioEnabled ) {
-	    	AudioManager.explosion.setWorldPosition( position.clone() );
-	    	AudioManager.explosion.setVolume( 0.7f );
-			AudioManager.shoot.play();
+	    	SoundManager.explosion.setWorldPosition( position.clone() );
+	    	SoundManager.explosion.setVolume( 0.7f );
+			SoundManager.shoot.play();
 		}
 	}
 	
 	public void explode( Vector3f position ) {
 		if( audioEnabled ) {
-	    	AudioManager.explosion.setWorldPosition( position.clone() );
-	    	AudioManager.explosion.setVolume( 5 );
-			AudioManager.explosion.play();
+	    	SoundManager.explosion.setWorldPosition( position.clone() );
+	    	SoundManager.explosion.setVolume( 5 );
+			SoundManager.explosion.play();
 		}
 	}
     
 	private void playDeathSound() {
 		if( audioEnabled ) {
-	    	AudioManager.death.setWorldPosition( cam.getLocation().clone() );
-	    	AudioManager.death.setVolume( 5 );
-			AudioManager.death.play();
+	    	SoundManager.death.setWorldPosition( cam.getLocation().clone() );
+	    	SoundManager.death.setVolume( 5 );
+			SoundManager.death.play();
 		}
 	}
 }

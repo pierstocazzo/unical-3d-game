@@ -2,7 +2,7 @@ package game.graphics;
 
 import game.graphics.CustomAnimationController.Animation;
 import game.graphics.GraphicalWorld;
-import game.graphics.PhysicsBullet;
+import game.graphics.Bullet;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.input.InputHandler;
@@ -26,7 +26,7 @@ import com.jmex.physics.material.Material;
  * 
  * @see {@link game.input.PhysicsInputHandler}
  */
-public class PhysicsPlayer extends PhysicsCharacter {
+public class Player extends Character {
 
 	/** the character identifier */
 	String id;
@@ -69,7 +69,7 @@ public class PhysicsPlayer extends PhysicsCharacter {
      * @param mass - (float) the mass of the character
      * @param model - (Node) the model to apply to the character
      */
-    public PhysicsPlayer( String id, GraphicalWorld world, float speed, float mass, Node model ) {
+    public Player( String id, GraphicalWorld world, float speed, float mass, Node model ) {
         
     	this.id = id;
     	
@@ -342,7 +342,7 @@ public class PhysicsPlayer extends PhysicsCharacter {
 	 */
 	public void shoot( Vector3f direction ) {
 		world.bulletsCounter = world.bulletsCounter + 1;
-		PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, 
+		Bullet bullet = new Bullet( "bullet" + world.bulletsCounter, world, 
 				world.getCore().getCharacterWeapon(id), 
 				world.getCam().getLocation().add( world.getCam().getDirection().mult( 6 ) ) );
 		world.bullets.put( bullet.id, bullet );

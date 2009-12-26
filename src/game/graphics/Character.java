@@ -3,7 +3,7 @@ package game.graphics;
 import com.jme.scene.Node;
 import com.jmex.physics.PhysicsNode;
 
-public class PhysicsCharacter {
+public class Character {
 
 	public Node getCharacterNode() {
 		return new Node();
