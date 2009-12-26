@@ -99,8 +99,8 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	}
 	
 	@Override
-	public void die() {
+	public void die( String shooterId ) {
 		world.playerKilled(id);
-		super.die();
+		super.die( shooterId );
 	}
 }

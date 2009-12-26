@@ -45,7 +45,8 @@ public class Bullet {
 	 */
 	public Bullet( String characterId, GraphicalWorld world, WeaponType weaponType, Vector3f position ) {
 		this.characterId = characterId;
-		this.id = characterId + "bullet";
+		world.bulletsCounter = world.bulletsCounter + 1;
+		this.id = characterId + "bullet" + world.bulletsCounter;
 		this.world = world;
 		this.position = new Vector3f( position );
 		this.weaponType = weaponType;
@@ -88,8 +89,8 @@ public class Bullet {
         				contactInfo.getNode2() == world.characters.get(id).getCharacterBody() ) ||
         				( contactInfo.getNode1() == world.characters.get(id).getCharacterFeet() ||
                 		contactInfo.getNode2() == world.characters.get(id).getCharacterFeet() ) ){
-        				GraphicalWorld.logger.info( id + " e stato colpito da un proiettile");
-        				world.getCore().characterShoted( id, weaponType.getDamage() );
+
+        					world.getCore().characterShoted( id, characterId, weaponType.getDamage() );
         			}
         		}
             }

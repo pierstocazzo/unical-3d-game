@@ -22,6 +22,8 @@ public class GameThread implements Runnable {
 //    	logicGame.createEnemiesGroup( 20, 800, 800 );
     	
 //    	logicGame.createEnergyPackages( 20, 129*20, 129*20 );
+    	
+    	logicGame.initScoreManager();
 	}
 	
 	public GameThread( LogicWorld logicGame, LoadingFrame loadingFrame ){

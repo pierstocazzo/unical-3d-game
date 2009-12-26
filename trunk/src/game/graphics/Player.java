@@ -341,8 +341,7 @@ public class Player extends Character {
 	 * @param direction - (Vector3f) the direction of the shoot
 	 */
 	public void shoot( Vector3f direction ) {
-		world.bulletsCounter = world.bulletsCounter + 1;
-		Bullet bullet = new Bullet( "bullet" + world.bulletsCounter, world, 
+		Bullet bullet = new Bullet( id , world, 
 				world.getCore().getCharacterWeapon(id), 
 				world.getCam().getLocation().add( world.getCam().getDirection().mult( 6 ) ) );
 		world.bullets.put( bullet.id, bullet );

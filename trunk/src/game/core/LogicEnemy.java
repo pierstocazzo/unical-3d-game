@@ -107,11 +107,11 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	}
 
 	@Override
-	public void isShooted( int bulletDamage ) {
+	public void isShooted( int bulletDamage, String shooterId ) {
 		state = State.ATTACK;
 		
 		if( currentLife - bulletDamage <= 0 )
-			die();
+			die( shooterId );
 		else
 			currentLife = currentLife - bulletDamage;
 	}
@@ -149,8 +149,9 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.shootDirection = shootDirection;
 	}
 	
-	public void die() {
+	public void die( String shooterId ) {
 		world.createAmmoPack( id + "ammoPack", weapon.type, 20, position );
-		super.die();
+		world.enemyKilled(shooterId);
+		super.die( shooterId );
 	}
 }
