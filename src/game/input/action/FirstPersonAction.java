@@ -1,22 +1,22 @@
 package game.input.action;
 
+import game.input.ThirdPersonHandler;
+
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.MouseInputAction;
 
-import game.input.PhysicsInputHandler;
-
 public class FirstPersonAction extends MouseInputAction {
-    PhysicsInputHandler handler;
+	ThirdPersonHandler handler;
 
-    public FirstPersonAction( PhysicsInputHandler handler ) {
+    public FirstPersonAction( ThirdPersonHandler handler ) {
         this.handler = handler;
     }
 
     public void performAction(InputActionEvent evt) {
     	if( evt.getTriggerPressed() ) {
-    		handler.getTarget().setFirstPerson( true );
+    		handler.setFirstPerson( true );
     	} else {
-    		handler.getTarget().setFirstPerson( false );
+    		handler.setFirstPerson( false );
     	}
     }
 }

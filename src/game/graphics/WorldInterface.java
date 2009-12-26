@@ -233,4 +233,6 @@ public interface WorldInterface {
 	
 	public abstract void playerKilled( String id );
 
+	public abstract Set<String> getCharactersId();
+
 }

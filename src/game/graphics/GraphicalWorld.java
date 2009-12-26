@@ -1,28 +1,33 @@
 package game.graphics;
 
 import game.base.Game;
-import game.input.PhysicsInputHandler;
+import game.input.ThirdPersonHandler;
+import game.main.WorldMap2D;
 import game.main.menu.LoadingFrame;
+import game.sound.AudioManager;
 
-import java.net.URISyntaxException;
 import java.nio.FloatBuffer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import game.sound.AudioManager;
-
 import jmetest.TutorialGuide.ExplosionFactory;
-import jmetest.effects.water.TestQuadWater;
-
 import utils.Loader;
 import utils.ModelLoader;
 
+import com.jme.bounding.BoundingBox;
+import com.jme.image.Image;
 import com.jme.image.Texture;
-import com.jme.light.DirectionalLight;
+import com.jme.input.KeyBindingManager;
+import com.jme.input.KeyInput;
+import com.jme.input.MouseLookHandler;
+import com.jme.light.LightNode;
+import com.jme.light.PointLight;
+import com.jme.math.FastMath;
 import com.jme.math.Plane;
 import com.jme.math.Quaternion;
+import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
@@ -33,7 +38,8 @@ import com.jme.scene.PassNodeState;
 import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
 import com.jme.scene.Text;
-import com.jme.scene.Spatial.TextureCombineMode;
+import com.jme.scene.Spatial.LightCombineMode;
+import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.CullState;
@@ -44,8 +50,8 @@ import com.jme.scene.state.BlendState.DestinationFunction;
 import com.jme.scene.state.BlendState.SourceFunction;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
-import com.jme.util.resource.ResourceLocatorTool;
-import com.jme.util.resource.SimpleResourceLocator;
+import com.jmex.effects.LensFlare;
+import com.jmex.effects.LensFlareFactory;
 import com.jmex.effects.water.WaterRenderPass;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
@@ -59,7 +65,13 @@ import com.jmex.terrain.util.RawHeightMap;
  */
 public class GraphicalWorld extends Game {
 	
-	/** ROBA AGGIUNTA PER AMBIENTAZIONE */
+	public Node getHudNode() {
+		return hudNode;
+	}
+
+	Node collisionNode;
+	
+	/** environment */
     WaterRenderPass waterEffectRenderPass;
     Quad waterQuad;
     
@@ -70,13 +82,12 @@ public class GraphicalWorld extends Game {
     float farPlane = 10000.0f;
     float textureScale = 0.07f;
     float globalSplatScale = 90.0f;
-    /*************************************/
 	
 	/** an interface to communicate with the application core */
-	public WorldInterface core;
+	WorldInterface core;
 	
 	/** a custom freeCamInput handler to control the player */
-    PhysicsInputHandler physicsInputHandler;
+	ThirdPersonHandler inputHandler;
     
     /** the world's ground */
     StaticPhysicsNode ground;
@@ -100,13 +111,16 @@ public class GraphicalWorld extends Game {
     int energyPackagesCounter = 0;
     
     /** the player, in single player mode */
-    PhysicsCharacter player;
+    PhysicsPlayer player;
 
     /** the sky */
 	Skybox skybox;
 
+	/** set to false when you don't want to do the world update */
+	boolean enabled = true;
+	
 	/** HUD node */
-	Node hudNode;
+	public Node hudNode;
 	/** very very basic hud */
 	Text life;
 	Quad crosshair;
@@ -115,25 +129,56 @@ public class GraphicalWorld extends Game {
 	
 	/** audio controller */
 	AudioManager audio;
-
-	/** audio controller status */
 	boolean audioEnabled;
 	
+	boolean freeCam;
+
+	MouseLookHandler mouseLookHandler;
+
+	LensFlare flare;
+
+	LightNode lightNode;
+
+	WorldMap2D hudMap;
+	
+	float dimension;
+
+	Vector2f resolution;
+
+	int heightMapSize;
+
+	private int terrainScale;
+	
+	
+	
+	public float getDimension() {
+		return dimension;
+	}
+
+	/** GraphicalWorld constructor <br>
+	 * Initialize the game graphics
+	 * 
+	 * @param core - (WorldInterface) 
+	 */
+	public GraphicalWorld( WorldInterface core ) {
+		this.core = core;
+		
+//		audioEnabled = true;
+	}
 	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
 	 * 
 	 * @param core - (WorldInterface) 
-	 * @param x - (int) the x dimension of the world
-	 * @param z - (int) the z dimension of the world
 	 */
-	public GraphicalWorld( WorldInterface core, LoadingFrame loadingFrame ) {
-		this.core = core;
-		super.loadingFrame = loadingFrame;
-		
-		audioEnabled = true;
-	}
-	
+    public GraphicalWorld( WorldInterface core, LoadingFrame loadingFrame ) {
+        this.core = core;
+        super.loadingFrame = loadingFrame;
+        
+        audioEnabled = true;
+    }
+
+
 	public void setCrosshair() {
 		BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
         as.setBlendEnabled(true);
@@ -157,23 +202,11 @@ public class GraphicalWorld extends Game {
 	}
 	
     public void setupInit() {
-		try {
-			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_AUDIO,
-					new SimpleResourceLocator( Loader.load(
-							"game/data/sound")));
-			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_TEXTURE,
-					new SimpleResourceLocator( Loader.load(
-							"game/data/texture")));
-			ResourceLocatorTool.addResourceLocator(ResourceLocatorTool.TYPE_SHADER,
-					new SimpleResourceLocator( Loader.load(
-							"game/data/images")));
-		} catch (URISyntaxException e1) {
-			finish();
-		}
-    	
+   	
 		hudNode = new Node( "HUD" );
 		rootNode.attachChild( hudNode );
 		hudNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
+		collisionNode = new Node( "CollisionNode" );
 		
 		characters = new HashMap<String, PhysicsCharacter>();
 		bullets = new HashMap<String, PhysicsBullet>();
@@ -201,31 +234,48 @@ public class GraphicalWorld extends Game {
 		
     	ExplosionFactory.warmup();
     	
-    	if( audioEnabled ) 
-    		audio = new AudioManager( cam );
-    	
-//        pause = true;
+		if( audioEnabled ) {
+			audio = new AudioManager( cam );
+		}
+		
+
+		resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
+		
+		heightMapSize = 129;
+		terrainScale = 20;
+		
+		dimension = heightMapSize * terrainScale;
+		
+		hudMap = new WorldMap2D( this );
     }
     
-    /** Create graphic characters
+    
+    public Vector2f getResolution() {
+		return resolution;
+	}
+
+	/** Create graphic characters
      *  and place them in positions setted in the logic game
      */
     public void setupEnemies() { 	    	
         for( String id : core.getEnemiesId() ) {
-        	Node model = ModelLoader.loadModel("game/data/models/soldier/sold2.ms3d", 
+        	Node model = ModelLoader.loadModel("game/data/models/soldier/enemy.jme", 
         			"game/data/models/soldier/soldier.jpg", 1f, new Quaternion());
-            model.setLocalTranslation(0, -2f, 0);   
+            model.setLocalTranslation(0, -2f, 0);  
             
-    		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
-                    Texture.MinificationFilter.Trilinear,
-                    Texture.MagnificationFilter.Bilinear);
-            TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-            ts.setEnabled(true);
-            ts.setTexture(texture);
-    		model.getChild( "weapon" ).setRenderState( ts );
+			Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
+	                Texture.MinificationFilter.Trilinear,
+	                Texture.MagnificationFilter.Bilinear);
+	        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+	        ts.setEnabled(true);
+	        ts.setTexture(texture);
+			model.getChild( "weapon" ).setRenderState( ts );
 
             PhysicsEnemy enemy = new PhysicsEnemy( id, this, 20, 100,  model );
-        	enemy.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
+            
+            Vector3f position = core.getCharacterPosition(id);
+            position.setY( terrain.getHeight( position.x, position.z ) + 1 );
+        	enemy.getCharacterNode().getLocalTranslation().set( position );
         	characters.put( id, enemy );
         	rootNode.attachChild( characters.get(id).getCharacterNode() );
         }
@@ -236,8 +286,8 @@ public class GraphicalWorld extends Game {
      */
     public void setupPlayer() {
     	
-    	Node model = ModelLoader.loadModel("game/data/models/soldier/player.ms3d", 
-    			"game/data/models/soldier/soldato.jpg", 1f, new Quaternion());
+    	Node model = ModelLoader.loadModel("game/data/models/soldier/player.jme", 
+    			"game/data/models/soldier/soldato.jpg", 1 );
         model.setLocalTranslation(0, -2f, 0);   
         
 		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
@@ -249,7 +299,7 @@ public class GraphicalWorld extends Game {
 		model.getChild( "weapon" ).setRenderState( ts );
         
         for( String id : core.getPlayersId() ) {
-        	player = new PhysicsCharacter( id, this, 20, 100, model );
+        	player = new PhysicsPlayer( id, this, 20, 100, model );
             player.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
             rootNode.attachChild( player.getCharacterNode() );
             characters.put( player.id, player );
@@ -258,16 +308,33 @@ public class GraphicalWorld extends Game {
     
     public void setupCamera() {
         cam.setLocation(new Vector3f(160,30,160));
-        cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, 1000);
+        cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, farPlane);
         cam.update();
     }
 
     public void setupInput() {
-        physicsInputHandler = new PhysicsInputHandler( player, cam );
+//        physicsInputHandler = new PhysicsInputHandler( player, cam );
+    	mouseLookHandler = new MouseLookHandler( cam, 1 );
+    	mouseLookHandler.setEnabled(false);
+    	
+        KeyBindingManager.getKeyBindingManager().set( "freeCamAction", KeyInput.KEY_C );
+        KeyBindingManager.getKeyBindingManager().set( "shoot", KeyInput.KEY_F );
+        KeyBindingManager.getKeyBindingManager().set( "firstPerson", KeyInput.KEY_R );
+    	
+        HashMap<String, Object> handlerProps = new HashMap<String, Object>();
+        handlerProps.put(ThirdPersonHandler.PROP_DOGRADUAL, "true");
+        handlerProps.put(ThirdPersonHandler.PROP_TURNSPEED, ""+(1.0f * FastMath.PI));
+        handlerProps.put(ThirdPersonHandler.PROP_LOCKBACKWARDS, "false");
+        handlerProps.put(ThirdPersonHandler.PROP_CAMERAALIGNEDMOVE, "true");
+//        handlerProps.put(ThirdPersonHandler.PROP_PERMITTER, player );
+        inputHandler = new ThirdPersonHandler( player, cam, handlerProps);
     }
 
 	@Override
     protected void update() {
+		if( !enabled )
+			return;
+		
 		if( audioEnabled )
 			audio.update();
     	
@@ -277,11 +344,26 @@ public class GraphicalWorld extends Game {
     	} else {
     		life.print( "Life: " + core.getCharacterLife( player.id ) );
     		
-	        physicsInputHandler.update(tpf);
+	        inputHandler.update(tpf);
 	        freeCamInput.update(tpf);
+	        float camMinHeight = terrain.getHeight(cam.getLocation()) + 2f;
+	        if (!Float.isInfinite(camMinHeight) && !Float.isNaN(camMinHeight)
+	                && cam.getLocation().y <= camMinHeight) {
+	            cam.getLocation().y = camMinHeight;
+	            cam.update();
+	        }
+	        
+	        float characterMinHeight = terrain.getHeight(player.getCharacterNode()
+	                .getLocalTranslation()) - 7.5f ;
+	        if (!Float.isInfinite(characterMinHeight) && !Float.isNaN(characterMinHeight)) {
+	            player.getCharacterNode().getLocalTranslation().y = characterMinHeight;
+	        }
 	        
 	        skybox.getLocalTranslation().set( cam.getLocation() );
 	        skybox.updateGeometricState(0.0f, true);
+	        
+//	        lightNode.getLocalTranslation().set( cam.getLocation().add( 200, 200, 200 ) );
+//	        rootNode.updateGeometricState(0, true);
 
 	        /******** Added to animate the water ********/
 	        Vector3f transVec = new Vector3f(cam.getLocation().x,
@@ -293,7 +375,7 @@ public class GraphicalWorld extends Game {
 	        updateCharacters(tpf);
 	        
 	        /** print the crosshair only in first person view */
-	        if( player.isFirstPerson() ) {
+	        if( inputHandler.isFirstPerson() ) {
 	        	if( !hudNode.hasChild( crosshair ) )
 	        		hudNode.attachChild( crosshair );
 	        } else {
@@ -301,17 +383,33 @@ public class GraphicalWorld extends Game {
 	        		hudNode.detachChild( crosshair );
 	        }
 	        
+		    if( freeCam ) {
+		    	inputHandler.setEnabled( false );
+		    	freeCamInput.setEnabled( true );
+		    } else {
+		    	freeCamInput.setEnabled( false );
+		    	inputHandler.setEnabled( true );
+		    }
+	        
 	        updateBullets(tpf);
 	        updateAmmoPackages(tpf);
 	        updateEnergyPackages(tpf);
 	        
-	        skybox.setLocalTranslation(cam.getLocation());
-	        skybox.updateGeometricState( 0, false );
     	}
     	
+		updateInput();
+		
+		hudMap.update();
+		
     	fps.print( "Frame Rate: " + (int) timer.getFrameRate() + "fps" );
     }
     
+	private void updateInput() {
+        if ( KeyBindingManager.getKeyBindingManager().isValidCommand("freeCamAction", false ) ) {
+            freeCam = !freeCam;
+        }
+	}
+
 	private void gameOver() {
 		gameOver.print( "Game Over" );
         gameOver.setLocalScale( 3 );
@@ -319,10 +417,7 @@ public class GraphicalWorld extends Game {
 		gameOver.setLocalTranslation(new Vector3f(display.getWidth() / 2f - gameOver.getWidth() / 2,
 				display.getHeight() / 2f - gameOver.getHeight() / 2, 0));
 		
-		if( audioEnabled ) {
-			AudioManager.death.setWorldPosition( cam.getLocation() );
-			AudioManager.death.play();
-		}
+		playDeathSound();
 		
 		enabled = false;
 	}
@@ -380,24 +475,25 @@ public class GraphicalWorld extends Game {
     }
 
 	public void setupEnvironment() {
-		
 	    rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
 		
-	    DirectionalLight dr = new DirectionalLight();
-	    dr.setEnabled(true);
-	    dr.setDiffuse(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
-	    dr.setAmbient(new ColorRGBA(0.5f, 0.5f, 0.5f, 1.0f));
-	    dr.setDirection(new Vector3f(0.5f, -0.5f, 0));
-	
-	    lightState.detachAll();
-	    lightState.attach(dr);
+//	    DirectionalLight dr = new DirectionalLight();
+//	    dr.setEnabled(true);
+//	    dr.setDiffuse(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
+//	    dr.setAmbient(new ColorRGBA(0.5f, 0.5f, 0.5f, 1.0f));
+//	    dr.setDirection(new Vector3f(0.5f, -0.5f, 0));
+//	
+//	    lightState.detachAll();
+//	    lightState.attach(dr);
+	    
+	    setuplight();
 		
 	    CullState cs = display.getRenderer().createCullState();
 	    cs.setCullFace(CullState.Face.Back);
 	    rootNode.setRenderState(cs);
-	
-	    lightState.detachAll();
-	    rootNode.setLightCombineMode(Spatial.LightCombineMode.Off);
+//	
+//	    lightState.detachAll();
+//	    rootNode.setLightCombineMode(Spatial.LightCombineMode.Off);
 	
 	    FogState fogState = display.getRenderer().createFogState();
 	    fogState.setDensity(1.0f);
@@ -422,7 +518,8 @@ public class GraphicalWorld extends Game {
 	    RenderPass rootPass = new RenderPass();
 	    rootPass.add(rootNode);
 	    passManager.add(rootPass);
-	
+
+	    rootNode.setCullHint(Spatial.CullHint.Never);
 	    rootNode.setCullHint(Spatial.CullHint.Never);
 		
 	    createVegetation();
@@ -430,6 +527,84 @@ public class GraphicalWorld extends Game {
 	    setupEnergyPackages();
 	}
 	
+//	private void createFogState() {
+//        FogState fs = display.getRenderer().createFogState();
+//        fs.setDensity(0.5f);
+//        fs.setEnabled(true);
+//        fs.setColor(new ColorRGBA(0.5f, 0.5f, 0.5f, 0.5f));
+//        fs.setEnd(1000);
+//        fs.setStart(500);
+//        fs.setDensityFunction(FogState.DensityFunction.Linear);
+//        fs.setQuality(FogState.Quality.PerVertex);
+//        rootNode.setRenderState(fs);
+//    }
+	
+	private void setuplight() {
+		lightState.detachAll();
+
+        PointLight dr = new PointLight();
+        dr.setEnabled(true);
+        dr.setDiffuse(ColorRGBA.white.clone());
+        dr.setAmbient(ColorRGBA.gray.clone());
+        dr.setLocation(new Vector3f(0f, 0f, 0f));
+
+        lightState.attach(dr);
+        lightState.setTwoSidedLighting(true);
+
+        lightNode = new LightNode("light");
+        lightNode.setLight(dr);
+
+        Vector3f min2 = new Vector3f(-0.5f, -0.5f, -0.5f);
+        Vector3f max2 = new Vector3f(0.5f, 0.5f, 0.5f);
+        Box lightBox = new Box("box", min2, max2);
+        lightBox.setModelBound(new BoundingBox());
+        lightBox.updateModelBound();
+//        lightNode.attachChild(lightBox);
+        lightNode.setLocalTranslation(new Vector3f(-1200, 200,-1200));
+
+        // clear the lights from this lightbox so the lightbox itself doesn't
+        // get affected by light:
+        lightBox.setLightCombineMode(LightCombineMode.Off);
+
+        // Setup the lensflare textures.
+        TextureState[] tex = new TextureState[4];
+        tex[0] = display.getRenderer().createTextureState();
+        tex[0].setTexture(TextureManager.loadTexture(LensFlare.class
+                .getClassLoader()
+                .getResource("jmetest/data/texture/flare1.png"),
+                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear, Image.Format.RGBA8,
+                0.0f, true));
+        tex[0].setEnabled(true);
+
+        tex[1] = display.getRenderer().createTextureState();
+        tex[1].setTexture(TextureManager.loadTexture(LensFlare.class
+                .getClassLoader()
+                .getResource("jmetest/data/texture/flare2.png"),
+                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear));
+        tex[1].setEnabled(true);
+
+        tex[2] = display.getRenderer().createTextureState();
+        tex[2].setTexture(TextureManager.loadTexture(LensFlare.class
+                .getClassLoader()
+                .getResource("jmetest/data/texture/flare3.png"),
+                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear));
+        tex[2].setEnabled(true);
+
+        tex[3] = display.getRenderer().createTextureState();
+        tex[3].setTexture(TextureManager.loadTexture(LensFlare.class
+                .getClassLoader()
+                .getResource("jmetest/data/texture/flare4.png"),
+                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear));
+        tex[3].setEnabled(true);
+
+        flare = LensFlareFactory.createBasicLensFlare("flare", tex);
+        flare.setRootNode(rootNode);
+        rootNode.attachChild(lightNode);
+
+        // notice that it comes at the end
+        lightNode.attachChild(flare);
+	}
+
 	// TODO creare alberi e cazzate varie
 	private void createVegetation() {
 //		appesantisce un casino...anche un solo albero...bah!
@@ -477,33 +652,36 @@ public class GraphicalWorld extends Game {
      */
 	public void createWorldBounds() {
 
-		float x = 129*20;
-		float z = 129*20;
-		float y = 120;
+		float x = dimension;
+		float z = dimension;
+		float y = 800;
+		
+		gameBounds.setLocalTranslation( -x/2, 0, -z/2 );
 		
 	    PhysicsBox downBox = gameBounds.createBox("downBox");
 	    downBox.setLocalTranslation( x/2, -20, z/2 );
 	    downBox.setLocalScale( new Vector3f( x, 5, z) );
 
 	    PhysicsBox upperBox = gameBounds.createBox("upperBox");
-	    upperBox.setLocalTranslation( x/2, 100, z/2 );
+	    upperBox.setLocalTranslation( x/2, y-20, z/2 );
 	    upperBox.setLocalScale( new Vector3f( x, 5, z) );
 	    
 	    PhysicsBox eastBox = gameBounds.createBox("eastBox");
-	    eastBox.setLocalTranslation( x, 40, z/2 );
+	    eastBox.setLocalTranslation( x, y/2-20, z/2 );
 	    eastBox.setLocalScale( new Vector3f( 5, y, z ) );
 	    
 	    PhysicsBox westBox = gameBounds.createBox("westBox");
-	    westBox.setLocalTranslation( 0, 40, z/2 );
+	    westBox.setLocalTranslation( 0, y/2-20, z/2 );
 	    westBox.setLocalScale( new Vector3f( 5, y, z ) );
 	    
 	    PhysicsBox southBox = gameBounds.createBox("southBox");
-	    southBox.setLocalTranslation( x/2, 40, 0 );
+	    southBox.setLocalTranslation( x/2, y/2-20, 0 );
 	    southBox.setLocalScale( new Vector3f( x, y, 5 ) );
 
 	    PhysicsBox northBox = gameBounds.createBox("northBox");
-	    northBox.setLocalTranslation( x/2, 40, z );
+	    northBox.setLocalTranslation( x/2, y/2-20, z );
 	    northBox.setLocalScale( new Vector3f( x, y, 5 ) );
+	    
 	}
 	
 	public WorldInterface getCore() {
@@ -551,14 +729,16 @@ public class GraphicalWorld extends Game {
 		RawHeightMap heightMap = new RawHeightMap( getClass()
                 .getClassLoader().getResource(
                         "jmetest/data/texture/terrain/heights.raw"),
-                129, RawHeightMap.FORMAT_16BITLE, false);
+                heightMapSize, RawHeightMap.FORMAT_16BITLE, false);
 		
-        Vector3f terrainScale = new Vector3f( 20, 0.003f, 20 );
+        Vector3f terrainScale = new Vector3f( 20, 0.005f, 20 );
         heightMap.setHeightScale(0.001f);
+        
+        dimension = heightMapSize * terrainScale.x;
         
         terrain = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
-        terrain.getLocalTranslation().set( 129*20/2, -9.5f, 129*20/2);
+        terrain.getLocalTranslation().set( 0, -9.5f, 0);
         terrain.setDetailTexture(1, 1);
 
         // create some interesting texturestates for splatting
@@ -653,43 +833,46 @@ public class GraphicalWorld extends Game {
     private void createReflectionTerrain() {
     	RawHeightMap heightMap = new RawHeightMap( Loader.load(
                         "jmetest/data/texture/terrain/heights.raw"),
-                129, RawHeightMap.FORMAT_16BITLE, false);
+                heightMapSize, RawHeightMap.FORMAT_16BITLE, false);
 
-        Vector3f terrainScale = new Vector3f( 20, 0.003f, 20 );
+        Vector3f terrainScale = new Vector3f( 20, 0.007f, 20 );
         heightMap.setHeightScale(0.001f);
         TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
-        page.getLocalTranslation().set( 129*20/2, -9.5f, 129*20/2);
+        page.getLocalTranslation().set(  0, -9.5f, 0 );
         page.setDetailTexture(1, 1);
 
-        // create some interesting texturestates for splatting
         TextureState ts1 = display.getRenderer().createTextureState();
         Texture t0 = TextureManager.loadTexture( Loader.load(
                         "jmetest/data/texture/terrain/terrainlod.jpg"),
                 Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
-        t0.setWrap(Texture.WrapMode.Repeat);
-        t0.setApply(Texture.ApplyMode.Modulate);
-        t0.setScale(new Vector3f(1.0f, 1.0f, 1.0f));
+//        t0.setWrap(Texture.WrapMode.Repeat);
+//        t0.setApply(Texture.ApplyMode.Modulate);
+//        t0.setScale(new Vector3f(1.0f, 1.0f, 1.0f));
         ts1.setTexture(t0, 0);
 
-        // //////////////////// PASS STUFF START
-        // try out a passnode to use for splatting
-        PassNode splattingPassNode = new PassNode("SplatPassNode");
-        splattingPassNode.attachChild(page);
+//        // //////////////////// PASS STUFF START
+//        // try out a passnode to use for splatting
+//        PassNode splattingPassNode = new PassNode("SplatPassNode");
+//        splattingPassNode.attachChild(page);
+//
+//        PassNodeState passNodeState = new PassNodeState();
+//        passNodeState.setPassState(ts1);
+//        splattingPassNode.addPass(passNodeState);
+//        // //////////////////// PASS STUFF END
+//
+//        // lock some things to increase the performance
+//        splattingPassNode.lockBounds();
+//        splattingPassNode.lockTransforms();
+//        splattingPassNode.lockShadows();
+//
+//        reflectionTerrain = splattingPassNode;
 
-        PassNodeState passNodeState = new PassNodeState();
-        passNodeState.setPassState(ts1);
-        splattingPassNode.addPass(passNodeState);
-        // //////////////////// PASS STUFF END
-
-        // lock some things to increase the performance
-        splattingPassNode.lockBounds();
-        splattingPassNode.lockTransforms();
-        splattingPassNode.lockShadows();
-
-        reflectionTerrain = splattingPassNode;
-
+        page.setRenderState( ts1 );
+        
+        reflectionTerrain = page;
+        
         initSpatial(reflectionTerrain);
     }
 
@@ -737,31 +920,73 @@ public class GraphicalWorld extends Game {
     }
 
     private void buildSkyBox() {
-        skybox = new Skybox("skybox", 10, 10, 10);
+//        skybox = new Skybox("skybox", 10, 10, 10);
+//
+//        String dir = "game/data/images/skybox/";
+//        Texture north = TextureManager.loadTexture( Loader.load(dir + "nord.jpg"),
+//                Texture.MinificationFilter.BilinearNearestMipMap,
+//                Texture.MagnificationFilter.Bilinear);
+//        Texture south = TextureManager.loadTexture( Loader.load(dir + "sud.jpg"),
+//                Texture.MinificationFilter.BilinearNearestMipMap,
+//                Texture.MagnificationFilter.Bilinear);
+//        Texture east = TextureManager.loadTexture( Loader.load(dir + "est.jpg"),
+//                Texture.MinificationFilter.BilinearNearestMipMap,
+//                Texture.MagnificationFilter.Bilinear);
+//        Texture west = TextureManager.loadTexture( Loader.load(dir + "ovest.jpg"),
+//                Texture.MinificationFilter.BilinearNearestMipMap,
+//                Texture.MagnificationFilter.Bilinear);
+//        Texture up = TextureManager.loadTexture( Loader.load(dir + "up.jpg"),
+//                Texture.MinificationFilter.BilinearNearestMipMap,
+//                Texture.MagnificationFilter.Bilinear);
+//        Texture down = TextureManager.loadTexture( Loader.load(dir + "down.jpg"),
+//                Texture.MinificationFilter.BilinearNearestMipMap,
+//                Texture.MagnificationFilter.Bilinear);
+//
+//        skybox.setTexture(Skybox.Face.North, north);
+//        skybox.setTexture(Skybox.Face.West, west);
+//        skybox.setTexture(Skybox.Face.South, south);
+//        skybox.setTexture(Skybox.Face.East, east);
+//        skybox.setTexture(Skybox.Face.Up, up);
+//        skybox.setTexture(Skybox.Face.Down, down);
+//        skybox.preloadTextures();
+//
+//        CullState cullState = display.getRenderer().createCullState();
+//        cullState.setCullFace(CullState.Face.None);
+//        cullState.setEnabled(true);
+//        skybox.setRenderState(cullState);
+//
+//        FogState fs = display.getRenderer().createFogState();
+//        fs.setEnabled(false);
+//        skybox.setRenderState(fs);
+//
+////        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
+//        skybox.setCullHint(Spatial.CullHint.Never);
+//        skybox.setTextureCombineMode(TextureCombineMode.Replace);
+//        skybox.updateRenderState();
+//
+//        skybox.lockBounds();
+//        skybox.lockMeshes();
+    
+    	
+    	skybox = new Skybox("skybox", 10, 10, 10);
 
         String dir = "jmetest/data/skybox1/";
-        Texture north = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "1.jpg"),
+        Texture north = TextureManager.loadTexture( Loader.load(dir + "1.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture south = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "3.jpg"),
+        Texture south = TextureManager.loadTexture( Loader.load(dir + "3.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture east = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "2.jpg"),
+        Texture east = TextureManager.loadTexture( Loader.load(dir + "2.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture west = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "4.jpg"),
+        Texture west = TextureManager.loadTexture( Loader.load(dir + "4.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture up = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "6.jpg"),
+        Texture up = TextureManager.loadTexture( Loader.load(dir + "6.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture down = TextureManager.loadTexture(TestQuadWater.class
-                .getClassLoader().getResource(dir + "5.jpg"),
+        Texture down = TextureManager.loadTexture( Loader.load(dir + "5.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
 
@@ -773,24 +998,23 @@ public class GraphicalWorld extends Game {
         skybox.setTexture(Skybox.Face.Down, down);
         skybox.preloadTextures();
 
-        CullState cullState = display.getRenderer().createCullState();
-        cullState.setCullFace(CullState.Face.None);
-        cullState.setEnabled(true);
-        skybox.setRenderState(cullState);
-        
-//		DA PROBLEMI
+//        CullState cullState = display.getRenderer().createCullState();
+//        cullState.setCullFace(CullState.Face.None);
+//        cullState.setEnabled(true);
+//        skybox.setRenderState(cullState);
+
 //        ZBufferState zState = display.getRenderer().createZBufferState();
-//        zState.setEnabled(true);
+//        zState.setEnabled(false);
 //        skybox.setRenderState(zState);
 
-        FogState fs = display.getRenderer().createFogState();
-        fs.setEnabled(false);
-        skybox.setRenderState(fs);
+//        FogState fs = display.getRenderer().createFogState();
+//        fs.setEnabled(false);
+//        skybox.setRenderState(fs);
 
-        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
-        skybox.setCullHint(Spatial.CullHint.Never);
-        skybox.setTextureCombineMode(TextureCombineMode.Replace);
-        skybox.updateRenderState();
+//        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
+//        skybox.setCullHint(Spatial.CullHint.Never);
+//        skybox.setTextureCombineMode(TextureCombineMode.Replace);
+//        skybox.updateRenderState();
 
         skybox.lockBounds();
         skybox.lockMeshes();
@@ -835,7 +1059,7 @@ public class GraphicalWorld extends Game {
         spatial.updateGeometricState(0.0f, true);
         spatial.updateRenderState();
     }
-    
+
 	public void shoot( Vector3f position ) {
 		if( audioEnabled ) {
 	    	AudioManager.explosion.setWorldPosition( position.clone() );
@@ -849,6 +1073,14 @@ public class GraphicalWorld extends Game {
 	    	AudioManager.explosion.setWorldPosition( position.clone() );
 	    	AudioManager.explosion.setVolume( 5 );
 			AudioManager.explosion.play();
+		}
+	}
+    
+	private void playDeathSound() {
+		if( audioEnabled ) {
+	    	AudioManager.death.setWorldPosition( cam.getLocation().clone() );
+	    	AudioManager.death.setVolume( 5 );
+			AudioManager.death.play();
 		}
 	}
 }

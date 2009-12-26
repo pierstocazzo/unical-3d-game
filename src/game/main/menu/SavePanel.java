@@ -59,7 +59,7 @@ public class SavePanel extends JPanel {
 		ObjectOutputStream ois = null;
 		try {ois = new ObjectOutputStream(fin);} 
 		catch (IOException e) {e.printStackTrace();}
-		try {ois.writeObject((LogicWorld)((GraphicalWorld)gm.game).core);} 
+		try {ois.writeObject((LogicWorld)((GraphicalWorld)gm.game).getCore());} 
 		catch (IOException e) {e.printStackTrace();System.exit(0);}
 		
 		gm.setVisible(true);
