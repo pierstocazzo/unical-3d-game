@@ -8,8 +8,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.jme.system.DisplaySystem;
-
 /**
  * Class GamePanel
  * 
