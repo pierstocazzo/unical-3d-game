@@ -1,8 +1,8 @@
 package game.graphics;
 
+import game.HUD.WorldMap2D;
 import game.base.Game;
 import game.input.ThirdPersonHandler;
-import game.main.WorldMap2D;
 import game.main.menu.LoadingFrame;
 import game.sound.AudioManager;
 

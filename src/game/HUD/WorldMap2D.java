@@ -1,4 +1,4 @@
-package game.main;
+package game.HUD;
 
 import java.util.HashMap;
 
