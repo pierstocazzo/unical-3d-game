@@ -61,8 +61,9 @@ public interface WorldInterface {
 	
 	/** Function characterShoot()
 	 * call the isShooted method of logic character
+	 * @param characterId 
 	 */
-	public abstract void characterShoted( String id, int bulletDamage );
+	public abstract void characterShoted( String id, String characterId, int bulletDamage );
 	
 	/** 
 	 * 

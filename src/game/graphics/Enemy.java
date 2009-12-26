@@ -316,17 +316,13 @@ public class Enemy extends Character  {
 	}
 
 	public void shoot( Vector3f direction ) {
-			world.bulletsCounter = world.bulletsCounter + 1;
 			Vector3f bulletPosition = world.getCore().
 						getCharacterPosition(id).add( direction.mult( 5 ) );
 			bulletPosition.addLocal( 0, 2, 0 );
-			Bullet bullet = new Bullet( "bullet" + world.bulletsCounter, world, 
+			Bullet bullet = new Bullet( id, world, 
 					world.getCore().getCharacterWeapon(id), bulletPosition );
 			world.bullets.put( bullet.id, bullet );
 			bullet.shoot(direction);
-			
-	//		world.shoot.setWorldPosition( feet.getWorldTranslation() );
-	//		world.shoot.play();
 			
 			world.shoot( feet.getWorldTranslation() );
 		}

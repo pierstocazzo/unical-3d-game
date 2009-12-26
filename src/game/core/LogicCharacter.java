@@ -21,9 +21,6 @@ public abstract class LogicCharacter implements Serializable {
 	/** Max Life - the maximum energy the character can reach */
 	int maxLife;
 	
-	/** Current Score of the player */
-	int score;
-	
     /** Current Position Vector of the character */
 	Vector3f position;
 	
@@ -51,7 +48,6 @@ public abstract class LogicCharacter implements Serializable {
 		this.id = id;
 		this.maxLife = maxLife;
 		this.currentLife = maxLife;
-		this.score = 0;
 		this.position = new Vector3f(position);
 		this.world = world;
 	}
@@ -67,36 +63,6 @@ public abstract class LogicCharacter implements Serializable {
 		}
 		else
 			currentLife = currentLife + lifeToAdd;
-	}
-	
-	/**
-	 * Decrements the current life, leaving a consistent value
-	 * 
-	 * @param removedLife - (int) Valore vita da rimuovere
-	 */
-	void removeLife( int removedLife ){
-		currentLife = currentLife - removedLife;
-		if( currentLife < 0 ) {
-			this.die();
-		}
-	}
-	
-	/**
-	 * Set new Score
-	 * 
-	 * @param newScore - (int) New Score
-	 */
-	void setScore( int newScore ){
-		if( newScore > 0 )
-			score = newScore;
-	}
-
-	void addScore( int toAdd ) {
-		score = score + toAdd;
-	}
-	
-	void decreaseScore( int toDecrease ) {
-		score = score - toDecrease;
 	}
 	
 	/**
@@ -129,16 +95,6 @@ public abstract class LogicCharacter implements Serializable {
 				this.currentLife = maxLife;
 		}
 	}
-
-	/**
-	 * It return current score
-	 * 
-	 * @return score
-	 */
-	public int getScore() {
-		return score;
-	}
-	
 	
     /** Function 
      * 
@@ -159,10 +115,11 @@ public abstract class LogicCharacter implements Serializable {
 	/** 
 	 * 
 	 * @param bulletDamage - (int) the bullet damage power
+	 * @param shooterId 
 	 */
-	public void isShooted( int bulletDamage ) {
+	public void isShooted( int bulletDamage, String shooterId ) {
 		if( currentLife - bulletDamage <= 0 )
-			die();
+			die( shooterId );
 		else
 			currentLife = currentLife - bulletDamage;
 	}
@@ -172,7 +129,7 @@ public abstract class LogicCharacter implements Serializable {
 		// to override
 	}
 
-	public void die() {
+	public void die( String shooterId ) {
 		world.removeCharacter(id);
 	}
 	

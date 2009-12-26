@@ -31,6 +31,7 @@ public class ScoreManager implements Serializable {
 	void update(){
 		for( String id : players.keySet() ) {
 			players.get(id).update();
+			System.out.println("Lo score di " + id + " è: " + players.get(id).score);
 		}
 	}
 
@@ -39,10 +40,15 @@ public class ScoreManager implements Serializable {
 	 */
 	void playerKilled( String playerId ) {
 		players.get(playerId).decreaseScore();
+		update();
 	}
 	
+	/**
+	 * it increase score and level after the player killed an enemy
+	 */
 	void enemyKilled( String playerId ) {
 		players.get(playerId).increaseScore();
+		update();
 	}
 	
 	void reset() {
@@ -62,8 +68,13 @@ public class ScoreManager implements Serializable {
 	
 	
 	public class Score {
-		int score = 0;
-		int level = 1;
+		int score;
+		int level;
+		
+		Score() {
+			score = 0;
+			level = 1;
+		}
 		
 		public void reset() {
 			level = 1;
