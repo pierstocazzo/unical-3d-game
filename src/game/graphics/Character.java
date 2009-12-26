@@ -1,12 +1,48 @@
 package game.graphics;
 
+import com.jme.input.InputHandler;
+import com.jme.math.Quaternion;
+import com.jme.math.Vector3f;
 import com.jme.scene.Node;
+import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.PhysicsNode;
 
 public class Character {
 
+	/** the character identifier */
+	String id;
+  
+    /** the main node of the character */
+    Node characterNode;
+    
+	/** The body of the character: a Capsule that contains the model */
+    DynamicPhysicsNode body; 
+    
+    /** 3d model applied to the character */
+    Node model;
+    
+	/** animation controller */
+	CustomAnimationController animationController;
+	
+	/** the graphical world in which the character live */
+    GraphicalWorld world;
+
+    /** the force applied to the character to jump */
+    Vector3f jumpVector;
+    
+    /** an util handler that detect the contact between the character and the ground */
+    InputHandler contactDetect = new InputHandler();
+    
+    /** Utility quaternion */
+    Quaternion quaternion;
+    
+    /** true if the character is shooting */
+    boolean shooting = false;
+
+	float previousTime;
+	
 	public Node getCharacterNode() {
-		return new Node();
+		return characterNode;
 	}
 
 	public void update(float time) {
@@ -17,7 +53,7 @@ public class Character {
 	}
 
 	public PhysicsNode getCharacterBody() {
-		return null;
+		return body;
 	}
 	
 }

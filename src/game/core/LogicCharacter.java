@@ -28,13 +28,8 @@ public abstract class LogicCharacter implements Serializable {
 	LogicWorld world;
 
 	/** Control variables */
-    boolean rest;
-    boolean movingForward;
-    boolean movingBackward;
-    boolean strafingLeft;
-    boolean strafingRight;
+    boolean moving;
     boolean jumping;
-    boolean onGround;
 
 	/**
 	 * Constructor LogicCharacter
@@ -135,57 +130,16 @@ public abstract class LogicCharacter implements Serializable {
 	
 	/** reset character movements */
 	public void rest() {
-        rest = true;
-        movingForward = false;
-        movingBackward = false;
-        strafingLeft = false;
-        strafingRight = false;
+        moving = false;
         jumping = false;
-        onGround = false;
 	}
-	
-    public boolean getRest() {
-        return rest;
+
+    public boolean isMoving() {
+        return moving;
     }
 
-    public void setRest( boolean rest ) {
-        this.rest = rest;
-    }
-
-    public boolean getMovingForward() {
-        return movingForward;
-    }
-
-    public void setMovingForward( boolean movingForward ) {
-    	this.rest = !movingForward;
-        this.movingForward = movingForward;
-    }
-
-    public boolean getMovingBackward() {
-        return movingBackward;
-    }
-
-    public void setMovingBackward( boolean movingBackward ) {
-    	this.rest = !movingBackward;
-        this.movingBackward = movingBackward;
-    }
-
-    public boolean getStrafingLeft() {
-        return strafingLeft;
-    }
-
-    public void setStrafingLeft( boolean strafingLeft ) {
-    	this.rest = !strafingLeft;
-        this.strafingLeft = strafingLeft;
-    }
-
-    public boolean getStrafingRight() {
-        return strafingRight;
-    }
-
-    public void setStrafingRight( boolean strafingRight ) {
-    	this.rest = !strafingRight;
-        this.strafingRight = strafingRight;
+    public void setMoving( boolean moving ) {
+        this.moving = moving;
     }
 
     public boolean getJumping() {
@@ -193,16 +147,7 @@ public abstract class LogicCharacter implements Serializable {
     }
 
     public void setJumping( boolean jumping ) {
-    	this.rest = !jumping;
         this.jumping = jumping;
-    }
-
-    public boolean getOnGround() {
-        return onGround;
-    }
-
-    public void setOnGround( boolean onGround ) {
-        this.onGround = onGround;
     }
 
 	public abstract Movement getNextMovement();

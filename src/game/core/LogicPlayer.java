@@ -100,7 +100,7 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	
 	@Override
 	public void die( String shooterId ) {
-		world.playerKilled(id);
+		world.killed(id);
 		super.die( shooterId );
 	}
 }

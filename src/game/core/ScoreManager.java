@@ -20,7 +20,7 @@ public class ScoreManager implements Serializable {
 	}
 
 	public void initScoreManager() {
-		for( String id : world.getPlayersId() ) {
+		for( String id : world.getPlayersIds() ) {
 			players.put( id, new Score() );
 		}
 	}

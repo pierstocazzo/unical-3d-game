@@ -64,8 +64,8 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	public void updateState() {
 		float distance;
 		shootDirection.set( Vector3f.ZERO );
-		for ( String playerId : world.getPlayersId() ) {
-			distance = position.distance( world.getCharacterPosition( playerId ) );
+		for ( String playerId : world.getPlayersIds() ) {
+			distance = position.distance( world.getPosition( playerId ) );
 			
 			switch ( state ) {
 			case DEFAULT:
@@ -151,7 +151,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	
 	public void die( String shooterId ) {
 		world.createAmmoPack( id + "ammoPack", weapon.type, 20, position );
-		world.enemyKilled(shooterId);
+		world.kill(shooterId);
 		super.die( shooterId );
 	}
 }

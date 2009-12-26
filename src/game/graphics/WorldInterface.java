@@ -17,7 +17,7 @@ import com.jme.math.Vector3f;
  */
 public interface WorldInterface {
 
-	public abstract int getCharacterLife( String id );
+	public abstract int getCurrentLife( String id );
 	
 	/** Function <code>setCharacterPosition</code><br>
 	 * Update the position of the character with this id
@@ -25,7 +25,7 @@ public interface WorldInterface {
 	 * @param id - (String) character's id
 	 * @param position - (Vector3f) new position
 	 */
-	public abstract void setCharacterPosition( String id, Vector3f position );
+	public abstract void setPosition( String id, Vector3f position );
 
 	/** Function <code>getCharacterPosition</code><br>
 	 * return the position of the character with this id
@@ -33,17 +33,19 @@ public interface WorldInterface {
 	 * @param id - (String) the character's id
 	 * @return the position of the character with this id
 	 */
-	public abstract Vector3f getCharacterPosition( String id );
+	public abstract Vector3f getPosition( String id );
+
+	public abstract Set<String> getCharactersIds();
 
 	/** Function getPlayerId()
 	 *  returns the identificator of the logic player
 	 */
-	public abstract Set<String> getPlayersId();
+	public abstract Set<String> getPlayersIds();
 
 	/** Function getPlayerId()
 	 *  returns the identificators of the logic characters
 	 */
-	public abstract Set<String> getEnemiesId();
+	public abstract Set<String> getEnemiesIds();
 	
 	/**
 	 * 
@@ -57,131 +59,43 @@ public interface WorldInterface {
 	/** Function characterShoot()
 	 * call the shoot method of logic character
 	 */
-	public abstract void characterShoot( String id );
+	public abstract void shoot( String id );
 	
 	/** Function characterShoot()
 	 * call the isShooted method of logic character
 	 * @param characterId 
 	 */
-	public abstract void characterShoted( String id, String characterId, int bulletDamage );
+	public abstract void shooted( String id, String characterId, int bulletDamage );
 	
 	/** 
 	 * 
 	 * @param id
-	 * @return true if character isn't moving
+	 * @return
 	 */
-	public abstract boolean getCharacterRest( String id );
+	public abstract boolean isMoving( String id );
 
 	/**
 	 * 
 	 * @param id
 	 * @param b
 	 */
-	public abstract void setCharacterRest(String id, boolean b);
+	public abstract void setMoving(String id, boolean b);
 
 
-	/** Function playerRest()
-	 * set rest for the player
-	 */
-	public abstract void characterRest( String id );
-
-	/** 
-	 * 
-	 * @param id
-	 * @param b
-	 */
-	public abstract void setCharacterOnGround( String id, boolean b );
-
-	/** 
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public abstract boolean getCharacterOnGround( String id );
-
-	/** 
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public abstract boolean getCharacterMovingForward( String id );
-
-	/**
-	 * 
-	 * @param id
-	 * @param b
-	 */
-	public abstract void setCharacterMovingForward(String id, boolean b);
-
-	/** 
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public abstract boolean getCharacterMovingBackward( String id );
-
-	/**
-	 * 
-	 * @param id
-	 * @param b
-	 */
-	public abstract void setCharacterMovingBackward(String id, boolean b);
-
-	/** 
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public abstract boolean getCharacterStrafingLeft( String id );
-
-	/**
-	 * 
-	 * @param id
-	 * @param b
-	 */
-	public abstract void setCharacterStrafingLeft(String id, boolean b);
-
-
-	/** 
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public abstract boolean getCharacterStrafingRight( String id );
-
-	/**
-	 * 
-	 * @param id
-	 * @param b
-	 */
-	public abstract void setCharacterStrafingRight(String id, boolean b);
-
-	/** 
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public abstract boolean getCharacterJumping( String id );
-
-	/**
-	 * 
-	 * @param id
-	 * @param b
-	 */
-	public abstract void setCharacterJumping(String id, boolean b);
+	public abstract void setJumping( String id, boolean jumping );
 
 	/**
 	 *
 	 * @param id - (String) the id of the enemy
 	 */
-	public abstract Movement getEnemyNextMovement( String id );
+	public abstract Movement getNextMovement( String id );
 
 	/**
 	 *
 	 * @param id - (String) the id of the enemy
 	 * @return
 	 */
-	public abstract Movement getEnemyCurrentMovement( String id );
+	public abstract Movement getCurrentMovement( String id );
 
 	/** Function <code>printWorld</code><br>
 	 * Print the world current situation
@@ -193,7 +107,7 @@ public interface WorldInterface {
 	 * @param id - (String) the id of the enemy
 	 * @return The type of weapon of this character
 	 */
-	public abstract WeaponType getCharacterWeapon( String id );
+	public abstract WeaponType getWeapon( String id );
 
 	/**
 	 * 
@@ -206,21 +120,21 @@ public interface WorldInterface {
 	 * Update the state of this enemy
 	 * @param id - (String) the id of the enemy
 	 */
-	public abstract void updateEnemyState( String id );
+	public abstract void updateState( String id );
 
 	/**
 	 * 
 	 * @param id - (String) the id of the enemy
 	 * @return The shoot direction of this enemy
 	 */
-	public abstract Vector3f getEnemyShootDirection( String id );
+	public abstract Vector3f getShootDirection( String id );
 
 	/** 
 	 * 
 	 * @param id - (String) the id of the enemy
 	 * @return The current state of this enemy
 	 */
-	public abstract State getEnemyState( String id );
+	public abstract State getState( String id );
 
 	public abstract boolean catchAmmoPack( String playerId, String ammoPackId );
 
@@ -228,12 +142,10 @@ public interface WorldInterface {
 
 	public abstract LogicAmmoPack getAmmoPack( String ammoPackId );
 
-	public abstract HashMap<String, Vector3f> getEnergyPackagesPosition();
+	public abstract HashMap<String, Vector3f> getEnergyPackagesPositions();
 	
-	public abstract void enemyKilled( String id );
+	public abstract void kill( String id );
 	
-	public abstract void playerKilled( String id );
-
-	public abstract Set<String> getCharactersId();
+	public abstract void killed( String id );
 
 }
