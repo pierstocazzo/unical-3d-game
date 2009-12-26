@@ -8,11 +8,9 @@ import com.jme.math.Vector3f;
 import com.jme.scene.shape.Box;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
+import com.jmex.physics.material.Material;
 
-/**
-*/
-public class PhysicsAmmoPackage {
- 
+public class EnergyPackage {
 	
 	String id;
 	
@@ -26,11 +24,11 @@ public class PhysicsAmmoPackage {
 	
 	InputHandler contactDetect;
 	
-	PhysicsAmmoPackage( String id, GraphicalWorld world, Vector3f position ) {
+	EnergyPackage( String id, GraphicalWorld world, Vector3f position ) {
 		this.id = id;
 		this.world = world;
 		this.position = new Vector3f( position );
-		this.position.setY( position.getY() + 10 );
+		this.position.setY( position.getY() + 30 );
 		this.contactDetect = new InputHandler();
 		createPhysics();
 		contactDetector();
@@ -40,6 +38,7 @@ public class PhysicsAmmoPackage {
 		physicsPack = world.getPhysicsSpace().createDynamicNode();
 		world.getRootNode().attachChild( physicsPack );
 		physicsPack.getLocalTranslation().set( position );
+		physicsPack.setMaterial( Material.RUBBER );
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
 		pack.setRandomColors();
 		pack.updateRenderState();
@@ -48,7 +47,7 @@ public class PhysicsAmmoPackage {
 	}
 	
 	public void contactDetector() {
-        SyntheticButton ammoPackCollisionHandler = physicsPack.getCollisionEventHandler();
+        SyntheticButton energyPackCollisionHandler = physicsPack.getCollisionEventHandler();
         
         InputAction collisionAction = new InputAction() {
             public void performAction( InputActionEvent evt ) {
@@ -58,14 +57,14 @@ public class PhysicsAmmoPackage {
 	                if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterFeet() || 
 	                	 contactInfo.getNode2() == world.characters.get(playerId).getCharacterFeet() ) {
 	                	
-	                   if( world.getCore().catchAmmoPack( playerId, id ) )
-	                	   deletePackage();
+	                   world.getCore().catchEnergyPack( playerId, id );
+	                   deletePackage();
 	                }
                 }
             }
         };
         
-        contactDetect.addAction( collisionAction, ammoPackCollisionHandler, false );
+        contactDetect.addAction( collisionAction, energyPackCollisionHandler, false );
 	}
 
 	public void deletePackage() {
@@ -73,7 +72,7 @@ public class PhysicsAmmoPackage {
 		physicsPack.detachAllChildren();
 		physicsPack.delete();
 		
-		world.ammoPackages.remove( id );
+		world.energyPackages.remove( id );
 	}
 
 	public void update(float time) {

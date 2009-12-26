@@ -12,7 +12,7 @@ import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 import com.jmex.physics.material.Material;
 
-public class PhysicsBullet {
+public class Bullet {
 	
 	/** the bullet's identifier */
 	String id;
@@ -43,7 +43,7 @@ public class PhysicsBullet {
 	 * @param weaponType - (WeaponType) the type of the weapon witch shoot the bullet
 	 * @param position - (Vector3f) the position where to create the bullet
 	 */
-	public PhysicsBullet( String characterId, GraphicalWorld world, WeaponType weaponType, Vector3f position ) {
+	public Bullet( String characterId, GraphicalWorld world, WeaponType weaponType, Vector3f position ) {
 		this.characterId = characterId;
 		this.id = characterId + "bullet";
 		this.world = world;

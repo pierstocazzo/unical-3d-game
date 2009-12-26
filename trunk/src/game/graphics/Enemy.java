@@ -4,8 +4,8 @@ import game.core.State;
 import game.enemyAI.Direction;
 import game.enemyAI.Movement;
 import game.graphics.GraphicalWorld;
-import game.graphics.PhysicsAmmoPackage;
-import game.graphics.PhysicsBullet;
+import game.graphics.AmmoPackage;
+import game.graphics.Bullet;
 import game.graphics.CustomAnimationController.Animation;
 
 
@@ -33,7 +33,7 @@ import com.jmex.physics.geometry.PhysicsCapsule;
 import com.jmex.physics.geometry.PhysicsSphere;
 import com.jmex.physics.material.Material;
 
-public class PhysicsEnemy extends PhysicsCharacter  {
+public class Enemy extends Character  {
 	
 	Movement currentMovement;
 	
@@ -112,7 +112,7 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 	 * @param mass - (int) the enemy's mass
 	 * @param model - (Node) the model to attach to the enemy
 	 */
-	public PhysicsEnemy( String id, GraphicalWorld world, float speed, float mass, Node model ) {
+	public Enemy( String id, GraphicalWorld world, float speed, float mass, Node model ) {
 	
 		this.id = id;
 		
@@ -320,7 +320,7 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 			Vector3f bulletPosition = world.getCore().
 						getCharacterPosition(id).add( direction.mult( 5 ) );
 			bulletPosition.addLocal( 0, 2, 0 );
-			PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, 
+			Bullet bullet = new Bullet( "bullet" + world.bulletsCounter, world, 
 					world.getCore().getCharacterWeapon(id), bulletPosition );
 			world.bullets.put( bullet.id, bullet );
 			bullet.shoot(direction);
@@ -363,7 +363,7 @@ public class PhysicsEnemy extends PhysicsCharacter  {
         world.getRootNode().attachChild(exp);
         exp.forceRespawn();
 		
-		PhysicsAmmoPackage ammo = new PhysicsAmmoPackage( id + "ammoPack", 
+		AmmoPackage ammo = new AmmoPackage( id + "ammoPack", 
 				world, feet.getWorldTranslation().clone().add( new Vector3f(0,15,0) ) );
 		world.ammoPackages.put( ammo.id, ammo );
 		
