@@ -1,10 +1,10 @@
-package game.enemyAI;
+package game.common;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 
-import game.enemyAI.Direction;
-import game.enemyAI.Movement;
+import game.common.Direction;
+import game.common.Movement;
 
 public class MovementList implements Serializable{
 	private static final long serialVersionUID = 1L;

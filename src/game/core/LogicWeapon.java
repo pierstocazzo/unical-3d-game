@@ -1,5 +1,7 @@
 package game.core;
 
+import game.common.WeaponType;
+
 import java.io.Serializable;
 
 /**
@@ -37,7 +39,7 @@ public class LogicWeapon implements Serializable {
 	 * @return power
 	 */
 	public int getPower() {
-		return type.power;
+		return type.getPower();
 	}
 
 	/**
@@ -46,7 +48,7 @@ public class LogicWeapon implements Serializable {
 	 * @return damage
 	 */
 	public int getDamage() {
-		return type.damage;
+		return type.getDamage();
 	}
 
 	/**

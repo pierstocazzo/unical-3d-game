@@ -1,4 +1,4 @@
-package game.enemyAI;
+package game.common;
 
 import java.io.Serializable;
 

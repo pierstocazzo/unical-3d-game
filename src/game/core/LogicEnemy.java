@@ -2,9 +2,11 @@ package game.core;
 
 import java.io.Serializable;
 
-import game.enemyAI.MovementList;
-import game.enemyAI.Movement;
-import game.enemyAI.MovementList.MovementType;
+import game.common.Movement;
+import game.common.MovementList;
+import game.common.State;
+import game.common.WeaponType;
+import game.common.MovementList.MovementType;
 
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;

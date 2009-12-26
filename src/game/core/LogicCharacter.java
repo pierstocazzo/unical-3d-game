@@ -2,7 +2,8 @@ package game.core;
 
 import java.io.Serializable;
 
-import game.enemyAI.Movement;
+import game.common.Movement;
+import game.common.WeaponType;
 
 import com.jme.math.Vector3f;
 

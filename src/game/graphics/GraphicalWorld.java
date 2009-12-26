@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 
 import jmetest.TutorialGuide.ExplosionFactory;
 import utils.Loader;
@@ -641,9 +642,13 @@ public class GraphicalWorld extends Game {
 	}
 
 	private void setupEnergyPackages() {
-		HashMap< String, Vector3f > hash = core.getEnergyPackagesPositions();
-		for( String id : hash.keySet() ) {
-			EnergyPackage e = new EnergyPackage( id, this, hash.get(id) );
+		for( String id : core.getEnergyPackagesIds() ) {
+			Vector3f position = new Vector3f();
+			Random r = new Random();
+			position.setX( r.nextInt( (int) dimension ) );
+			position.setY( r.nextInt( 20 ) );
+			position.setZ( r.nextInt( (int) dimension ) );
+			EnergyPackage e = new EnergyPackage( id, this, position );
 			energyPackages.put( e.id, e );
 		}
 	}

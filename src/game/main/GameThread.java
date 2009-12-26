@@ -1,7 +1,7 @@
 package game.main;
 
+import game.common.MovementList.MovementType;
 import game.core.LogicWorld;
-import game.enemyAI.MovementList.MovementType;
 import game.graphics.GraphicalWorld;
 import game.menu.LoadingFrame;
 

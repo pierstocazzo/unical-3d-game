@@ -1,14 +1,14 @@
 package game.graphics;
 
-import game.core.State;
-import game.enemyAI.Direction;
-import game.enemyAI.Movement;
+import game.common.Direction;
+import game.common.Movement;
+import game.common.State;
+import game.common.TextLabel2D;
 import game.graphics.CustomAnimationController.Animation;
 
 import java.awt.Color;
 
 import jmetest.TutorialGuide.ExplosionFactory;
-import utils.TextLabel2D;
 
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
