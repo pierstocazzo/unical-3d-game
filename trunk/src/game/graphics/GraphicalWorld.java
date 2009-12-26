@@ -258,7 +258,7 @@ public class GraphicalWorld extends Game {
      *  and place them in positions setted in the logic game
      */
     public void setupEnemies() { 	    	
-        for( String id : core.getEnemiesId() ) {
+        for( String id : core.getEnemiesIds() ) {
         	Node model = ModelLoader.loadModel("game/data/models/soldier/enemy.jme", 
         			"game/data/models/soldier/soldier.jpg", 1f, new Quaternion());
             model.setLocalTranslation(0, -2f, 0);  
@@ -273,7 +273,7 @@ public class GraphicalWorld extends Game {
 
             Enemy enemy = new Enemy( id, this, 20, 100,  model );
             
-            Vector3f position = core.getCharacterPosition(id);
+            Vector3f position = core.getPosition(id);
             position.setY( terrain.getHeight( position.x, position.z ) + 1 );
         	enemy.getCharacterNode().getLocalTranslation().set( position );
         	characters.put( id, enemy );
@@ -298,9 +298,9 @@ public class GraphicalWorld extends Game {
         ts.setTexture(texture);
 		model.getChild( "weapon" ).setRenderState( ts );
         
-        for( String id : core.getPlayersId() ) {
+        for( String id : core.getPlayersIds() ) {
         	player = new Player( id, this, 20, 100, model );
-            player.getCharacterNode().getLocalTranslation().set( core.getCharacterPosition(id) );
+            player.getCharacterNode().getLocalTranslation().set( core.getPosition(id) );
             rootNode.attachChild( player.getCharacterNode() );
             characters.put( player.id, player );
         }
@@ -342,7 +342,7 @@ public class GraphicalWorld extends Game {
     		life.print( "Life: 0" );
     		gameOver();
     	} else {
-    		life.print( "Life: " + core.getCharacterLife( player.id ) );
+    		life.print( "Life: " + core.getCurrentLife( player.id ) );
     		
 	        inputHandler.update(tpf);
 	        freeCamInput.update(tpf);
@@ -641,7 +641,7 @@ public class GraphicalWorld extends Game {
 	}
 
 	private void setupEnergyPackages() {
-		HashMap< String, Vector3f > hash = core.getEnergyPackagesPosition();
+		HashMap< String, Vector3f > hash = core.getEnergyPackagesPositions();
 		for( String id : hash.keySet() ) {
 			EnergyPackage e = new EnergyPackage( id, this, hash.get(id) );
 			energyPackages.put( e.id, e );

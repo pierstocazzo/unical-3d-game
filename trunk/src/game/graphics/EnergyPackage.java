@@ -53,7 +53,7 @@ public class EnergyPackage {
             public void performAction( InputActionEvent evt ) {
                 ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
                 
-                for( String playerId : world.getCore().getPlayersId() ) {
+                for( String playerId : world.getCore().getPlayersIds() ) {
 	                if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterFeet() || 
 	                	 contactInfo.getNode2() == world.characters.get(playerId).getCharacterFeet() ) {
 	                	

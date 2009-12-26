@@ -54,9 +54,9 @@ public class AmmoPackage {
             public void performAction( InputActionEvent evt ) {
                 ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
                 
-                for( String playerId : world.getCore().getPlayersId() ) {
-	                if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterFeet() || 
-	                	 contactInfo.getNode2() == world.characters.get(playerId).getCharacterFeet() ) {
+                for( String playerId : world.getCore().getPlayersIds() ) {
+	                if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterBody() || 
+	                	 contactInfo.getNode2() == world.characters.get(playerId).getCharacterBody() ) {
 	                	
 	                   if( world.getCore().catchAmmoPack( playerId, id ) )
 	                	   deletePackage();

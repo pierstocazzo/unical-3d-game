@@ -69,7 +69,6 @@ import com.jme.scene.Spatial;
  * @author <a href="mailto:josh@renanse.com">Joshua Slack</a>
  * @version $Revision: 4666 $
  */
-
 public class ThirdPersonHandler extends InputHandler {
     public static final String PROP_TURNSPEED = "turnSpeed";
     public static final String PROP_DOGRADUAL = "doGradual";
@@ -476,7 +475,7 @@ public class ThirdPersonHandler extends InputHandler {
 			strafeLeft( 15 );
 		} 
     	else {
-    		target.clearDynamics();
+    		target.rest();
     	}
 	}
 

@@ -122,22 +122,27 @@ public class LogicWorld implements WorldInterface, Serializable {
 	}
 	
 	@Override 
-	public void setCharacterPosition( String id, Vector3f position ) {
+	public void setPosition( String id, Vector3f position ) {
 		characters.get( id ).setPosition( position );
 	}
 	
 	@Override
-	public Vector3f getCharacterPosition( String id ) {
+	public Vector3f getPosition( String id ) {
 		return characters.get(id).position;
 	}
 
 	@Override
-	public Set<String> getEnemiesId() {
+	public Set<String> getCharactersIds() {
+		return characters.keySet();
+	}
+
+	@Override
+	public Set<String> getEnemiesIds() {
 		return getCharactersId( "enemy" );
 	}
 	
 	@Override
-	public Set<String> getPlayersId() {
+	public Set<String> getPlayersIds() {
 		return getCharactersId( "player" );
 	}
 
@@ -156,100 +161,43 @@ public class LogicWorld implements WorldInterface, Serializable {
 		return charactersId;
 	}
 
-	public void characterShoot( String id ) {
+	public void shoot( String id ) {
         characters.get(id).shoot();
     }
 	
+	@Override
+	public void shooted( String id, String shooterId, int bulletDamage ) {
+		if( characters.containsKey( id ))
+			characters.get(id).isShooted( bulletDamage, shooterId );
+	}
+
 	public void removeCharacter( String id ) {
 		characters.remove( id );
 	}
 	
 	@Override
-	public Movement getEnemyNextMovement( String id ) {
+	public Movement getNextMovement( String id ) {
 		return characters.get(id).getNextMovement();
 	}
 
 	@Override
-	public Movement getEnemyCurrentMovement( String id ) {
+	public Movement getCurrentMovement( String id ) {
 		return ((LogicEnemy) characters.get(id)).getCurrentMovement();
 	}
 
 	@Override
-	/** 
-	 * stop all character's movements
-	 */
-	public void characterRest( String id ) {
-		characters.get(id).rest();
+	public boolean isMoving( String id ) {
+		return characters.get(id).isMoving();
 	}
 
 	@Override
-	public void setCharacterOnGround( String id, boolean b ) {
-		characters.get(id).setOnGround( b );
+	public void setMoving( String id, boolean b ) {
+		characters.get(id).setMoving(b);
 	}
 
 	@Override
-	public boolean getCharacterOnGround( String id ) {
-		return characters.get(id).getOnGround();
-	}
-
-	@Override
-	public boolean getCharacterRest( String id ) {
-		return characters.get(id).getRest();
-	}
-
-	@Override
-	public void setCharacterRest( String id, boolean b ) {
-		characters.get(id).setRest(b);
-	}
-
-	@Override
-	public void setCharacterMovingBackward( String id, boolean b ) {
-		characters.get(id).setMovingBackward(b);
-	}
-
-	@Override
-	public boolean getCharacterJumping( String id ) {
-		return characters.get(id).getJumping();
-	}
-
-	@Override
-	public boolean getCharacterMovingBackward( String id ) {
-		return characters.get(id).getMovingBackward();
-	}
-
-	@Override
-	public boolean getCharacterMovingForward( String id ) {
-		return characters.get(id).getMovingForward();
-	}
-
-	@Override
-	public boolean getCharacterStrafingLeft( String id ) {
-		return characters.get(id).getStrafingLeft();
-	}
-
-	@Override
-	public boolean getCharacterStrafingRight( String id ) {
-		return characters.get(id).getStrafingRight();
-	}
-
-	@Override
-	public void setCharacterJumping( String id, boolean b ) {
+	public void setJumping( String id, boolean b ) {
 		characters.get(id).setJumping(b);
-	}
-
-	@Override
-	public void setCharacterMovingForward( String id, boolean b ) {
-		characters.get(id).setMovingForward(b);
-	}
-
-	@Override
-	public void setCharacterStrafingLeft( String id, boolean b ) {
-		characters.get(id).setStrafingLeft(b);
-	}
-
-	@Override
-	public void setCharacterStrafingRight( String id, boolean b ) {
-		characters.get(id).setStrafingRight(b);
 	}
 
 	/** 
@@ -269,14 +217,8 @@ public class LogicWorld implements WorldInterface, Serializable {
 	}
 
 	@Override
-	public WeaponType getCharacterWeapon(String id) {
+	public WeaponType getWeapon(String id) {
 		return characters.get(id).getCurrentWeapon();
-	}
-
-	@Override
-	public void characterShoted( String id, String shooterId, int bulletDamage ) {
-		if( characters.containsKey( id ))
-			characters.get(id).isShooted( bulletDamage, shooterId );
 	}
 
 	@Override
@@ -288,18 +230,18 @@ public class LogicWorld implements WorldInterface, Serializable {
 	}
 
 	@Override
-	public void updateEnemyState(String id) {
+	public State getState( String id ) {
+		return ((LogicEnemy) characters.get(id)).state;
+	}
+
+	@Override
+	public void updateState(String id) {
 		((LogicEnemy) characters.get(id)).updateState();
 	}
 
 	@Override
-	public Vector3f getEnemyShootDirection( String id ) {
+	public Vector3f getShootDirection( String id ) {
 		return ((LogicEnemy) characters.get(id)).shootDirection;
-	}
-
-	@Override
-	public State getEnemyState( String id ) {
-		return ((LogicEnemy) characters.get(id)).state;
 	}
 
 	@Override
@@ -326,12 +268,12 @@ public class LogicWorld implements WorldInterface, Serializable {
 	}
 
 	@Override
-	public int getCharacterLife( String id ) {
+	public int getCurrentLife( String id ) {
 		return characters.get(id).currentLife;
 	}
 
 	@Override
-	public HashMap< String, Vector3f > getEnergyPackagesPosition() {
+	public HashMap< String, Vector3f > getEnergyPackagesPositions() {
 		HashMap< String, Vector3f > hash = new HashMap<String, Vector3f>();
 		for( LogicEnergyPack energyPack : energyPackages.values() ) {
 			hash.put( energyPack.id, energyPack.position );
@@ -340,20 +282,15 @@ public class LogicWorld implements WorldInterface, Serializable {
 	}
 
 	@Override
-	public void enemyKilled( String id ) {
+	public void kill( String id ) {
 		scoreManager.enemyKilled( id );
 	}
 
 	@Override
-	public void playerKilled( String id ) {
+	public void killed( String id ) {
 		scoreManager.playerKilled( id );
 	}
 	
-	@Override
-	public Set<String> getCharactersId() {
-		return characters.keySet();
-	}
-
 	public void initScoreManager() {
 		scoreManager.initScoreManager();
 	}

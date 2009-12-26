@@ -85,11 +85,11 @@ public class WorldMap2D {
         map.lock();
         
         /* create a blue disk for each player... */
-		for( String id : world.getCore().getPlayersId() ) {
+		for( String id : world.getCore().getPlayersIds() ) {
 			createDisk( id, ColorRGBA.blue );
 		}
 		/* ...and a red one for each enemy */
-		for( String id : world.getCore().getEnemiesId() ){
+		for( String id : world.getCore().getEnemiesIds() ){
 			createDisk( id, ColorRGBA.red );
 		}
 	}
@@ -105,8 +105,8 @@ public class WorldMap2D {
 				world.getHudNode().detachChild( characters.get(id) );
 			
 			// set the new position and render each disk
-			for( String id : world.getCore().getCharactersId() ) {
-				characters.get( id ).setLocalTranslation( calculatePosition( world.getCore().getCharacterPosition( id ) ) );
+			for( String id : world.getCore().getCharactersIds() ) {
+				characters.get( id ).setLocalTranslation( calculatePosition( world.getCore().getPosition( id ) ) );
 				world.getHudNode().attachChild( characters.get( id ) );
 			}
 		}
