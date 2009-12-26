@@ -1,7 +1,9 @@
 package game.core;
 
-import game.enemyAI.Movement;
-import game.enemyAI.MovementList.MovementType;
+import game.common.Movement;
+import game.common.State;
+import game.common.WeaponType;
+import game.common.MovementList.MovementType;
 
 import game.graphics.WorldInterface;
 
@@ -102,12 +104,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public void createEnergyPackages( int number, int xDimension, int zDimension ) {
 		for( int i = 0; i < number; i++ ) {
 			energyPackCounter = energyPackCounter + 1;
-			Vector3f position = new Vector3f();
-			Random r = new Random();
-			position.setX( r.nextInt( xDimension ) );
-			position.setY( r.nextInt( 20 ) );
-			position.setZ( r.nextInt( zDimension ) );
-			LogicEnergyPack energyPack = new LogicEnergyPack( "energyPack" + energyPackCounter, position, 10 );
+			LogicEnergyPack energyPack = new LogicEnergyPack( "energyPack" + energyPackCounter, 10 );
 			energyPackages.put( energyPack.id, energyPack );
 		}
 	}
@@ -263,22 +260,8 @@ public class LogicWorld implements WorldInterface, Serializable {
 	}
 
 	@Override
-	public LogicAmmoPack getAmmoPack( String ammoPackId ) {
-		return ammoPackages.get(ammoPackId);
-	}
-
-	@Override
 	public int getCurrentLife( String id ) {
 		return characters.get(id).currentLife;
-	}
-
-	@Override
-	public HashMap< String, Vector3f > getEnergyPackagesPositions() {
-		HashMap< String, Vector3f > hash = new HashMap<String, Vector3f>();
-		for( LogicEnergyPack energyPack : energyPackages.values() ) {
-			hash.put( energyPack.id, energyPack.position );
-		}
-		return hash;
 	}
 
 	@Override
@@ -293,5 +276,20 @@ public class LogicWorld implements WorldInterface, Serializable {
 	
 	public void initScoreManager() {
 		scoreManager.initScoreManager();
+	}
+	
+	@Override
+	public int getScore( String id ) {
+		return scoreManager.getScore(id);
+	}
+	
+	@Override
+	public int getLevel( String id ) {
+		return scoreManager.getLevel(id);
+	}
+
+	@Override
+	public Set<String> getEnergyPackagesIds() {
+		return energyPackages.keySet();
 	}
 }

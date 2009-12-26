@@ -1,6 +1,6 @@
 package game.graphics;
 
-import game.core.WeaponType;
+import game.common.WeaponType;
 
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;

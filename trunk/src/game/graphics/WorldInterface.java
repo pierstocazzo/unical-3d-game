@@ -1,13 +1,9 @@
 package game.graphics;
 
+import game.common.Movement;
+import game.common.State;
+import game.common.WeaponType;
 
-import game.enemyAI.Movement;
-
-import game.core.LogicAmmoPack;
-import game.core.State;
-import game.core.WeaponType;
-
-import java.util.HashMap;
 import java.util.Set;
 
 import com.jme.math.Vector3f;
@@ -17,6 +13,11 @@ import com.jme.math.Vector3f;
  */
 public interface WorldInterface {
 
+	/** Function <code>getCurrentLife</code><br>
+	 * 
+	 * @param id - (String) the character's id
+	 * @return current life of the character with this id
+	 */
 	public abstract int getCurrentLife( String id );
 	
 	/** Function <code>setCharacterPosition</code><br>
@@ -35,53 +36,53 @@ public interface WorldInterface {
 	 */
 	public abstract Vector3f getPosition( String id );
 
+	/** Function getPlayerId()
+	 *  @return the identifiers of the logic characters
+	 */
 	public abstract Set<String> getCharactersIds();
 
 	/** Function getPlayerId()
-	 *  returns the identificator of the logic player
+	 *  @return the identifiers of the logic players
 	 */
 	public abstract Set<String> getPlayersIds();
 
 	/** Function getPlayerId()
-	 *  returns the identificators of the logic characters
+	 *  @return the identifiers of the logic enemies
 	 */
 	public abstract Set<String> getEnemiesIds();
 	
-	/**
-	 * 
-	 * @param id
-	 * @param type
-	 * @param quantity
-	 * @param position
-	 */
-	public abstract void createAmmoPack( String id, WeaponType type, int quantity, Vector3f position );
-
-	/** Function characterShoot()
+	/** Function shoot() <br>
 	 * call the shoot method of logic character
+	 * 
+	 * @param id - (String) the character's id
 	 */
 	public abstract void shoot( String id );
 	
-	/** Function characterShoot()
+	/** Function characterShoot() <br>
 	 * call the isShooted method of logic character
 	 * @param characterId 
 	 */
 	public abstract void shooted( String id, String characterId, int bulletDamage );
 	
-	/** 
+	/** Function isMoving <br>
 	 * 
-	 * @param id
-	 * @return
+	 * @param id - (String) the character's id
+	 * @return true if the character with this id is moving
 	 */
 	public abstract boolean isMoving( String id );
 
-	/**
+	/** Function setMoving<br>
+	 * 
+	 * @param id - (String) the character's id
+	 * @param moving - (boolean) 
+	 */
+	public abstract void setMoving( String id, boolean moving );
+
+	/** Function setJumping <br>
 	 * 
 	 * @param id
-	 * @param b
+	 * @param jumping
 	 */
-	public abstract void setMoving(String id, boolean b);
-
-
 	public abstract void setJumping( String id, boolean jumping );
 
 	/**
@@ -136,16 +137,51 @@ public interface WorldInterface {
 	 */
 	public abstract State getState( String id );
 
+	/**
+	 * 
+	 * @param playerId
+	 * @param ammoPackId
+	 * @return
+	 */
 	public abstract boolean catchAmmoPack( String playerId, String ammoPackId );
 
+	/**
+	 * 
+	 * @param playerId
+	 * @param energyPackId
+	 */
 	public abstract void catchEnergyPack( String playerId, String energyPackId );
 
-	public abstract LogicAmmoPack getAmmoPack( String ammoPackId );
-
-	public abstract HashMap<String, Vector3f> getEnergyPackagesPositions();
-	
+	/** Function kill <br>
+	 * Increase the score of the player who kill an enemy
+	 * @param id - (String) the player's id
+	 */
 	public abstract void kill( String id );
 	
+	/** Function killed <br>
+	 * Decrease the score of the player who was killed
+	 * @param id - (String) the player's id
+	 */
 	public abstract void killed( String id );
+
+	/** Function getLevel
+	 * 
+	 * @param id - (String) the player's id
+	 * @return the player's level
+	 */
+	public abstract int getLevel( String id );
+
+	/** Function getScore
+	 * 
+	 * @param id - (String) the player's id
+	 * @return the player's score
+	 */
+	public abstract int getScore( String id );
+
+	/** Function getEnergyPackagesIds <br>
+	 * 
+	 * @return all energy packages ids
+	 */
+	public abstract Set<String> getEnergyPackagesIds();
 
 }

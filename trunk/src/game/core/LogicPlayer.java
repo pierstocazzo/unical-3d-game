@@ -1,6 +1,7 @@
 package game.core;
 
-import game.enemyAI.Movement;
+import game.common.Movement;
+import game.common.WeaponType;
 
 import java.io.Serializable;
 import java.util.HashMap;
