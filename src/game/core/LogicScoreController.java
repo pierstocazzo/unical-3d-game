@@ -32,16 +32,17 @@ public class LogicScoreController {
 	 * Update the current level using score value
 	 */
 	void update(){
-		if( score < 100 )
+		if( score < 10 )
 			level = 1;
-		else if ( score < 250 )
+		else if ( score < 25 )
 			level = 2;
-		else if ( score < 500 )
+		else if ( score < 50 )
 			level = 3;
-		else if ( score < 800 )
+		else if ( score < 80 )
 			level = 4;
-		else if ( score < 1100 )
+		else if ( score < 110 )
 			level = 5;
+		System.out.println("Score: "+score+" Level: "+level);
 	}
 	
 	public int getScore() {

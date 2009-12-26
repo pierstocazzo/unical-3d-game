@@ -284,6 +284,11 @@ public class PhysicsCharacter {
     	world.explode( feet.getWorldTranslation() );
     	
     	world.characters.remove( id );
+    	
+    	if(id.equals(world.getCore().getPlayersId()))
+    		world.getCore().setPlayerKilled();
+    	else
+    		world.getCore().setEnemyKilled();
 	}
 
 	/** Function <code>lookAtAction</code> <br>

@@ -21,7 +21,7 @@ public class GameThread implements Runnable {
 //    	logicGame.createEnemiesGroup( 3, new Vector3f( 50, 50, 50 ) );
 //    	logicGame.createEnemiesGroup( 4, new Vector3f( 220, 50, 220 ) );
 //    	logicGame.createEnemiesGroup( 5, new Vector3f( 250, 10, 250 ) );
-//    	logicGame.createEnemiesGroup( 20, new Vector3f( 1000, 10, 1000 ) );
+    	logicGame.createEnemiesGroup( 20, new Vector3f( 800, 50, 800 ) );
     	
 //    	logicGame.createEnergyPackages( 20, 129*20, 129*20 );
 	}

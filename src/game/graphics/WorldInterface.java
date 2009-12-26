@@ -228,4 +228,8 @@ public interface WorldInterface {
 	public abstract LogicAmmoPack getAmmoPack( String ammoPackId );
 
 	public abstract HashMap<String, Vector3f> getEnergyPackagesPosition();
+	
+	public abstract void setEnemyKilled();
+	
+	public abstract void setPlayerKilled();
 }
