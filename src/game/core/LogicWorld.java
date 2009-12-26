@@ -36,7 +36,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	int ammoPackCounter, energyPackCounter, enemyCounter, playerCounter;
 	
 	/** Score Controller */
-	LogicScoreController scoreController;
+	ScoreManager scoreController;
 	
 	/** <code>LogicWorld</code> Constructor<br>
 	 * Initialize data structures and counters
@@ -49,7 +49,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		energyPackCounter = 0;
 		enemyCounter = 0;
 		playerCounter = 0;
-		scoreController = new LogicScoreController();
+		scoreController = new ScoreManager( this );
 	}
 	
 	/** Create one player with this life in this position
@@ -340,12 +340,12 @@ public class LogicWorld implements WorldInterface, Serializable {
 	}
 
 	@Override
-	public void setEnemyKilled() {
-		scoreController.setEnemyKilled();
+	public void enemyKilled( String id ) {
+		scoreController.enemyKilled( id );
 	}
 
 	@Override
-	public void setPlayerKilled() {
-		scoreController.playerKilled();
+	public void playerKilled( String id ) {
+		scoreController.playerKilled( id );
 	}
 }

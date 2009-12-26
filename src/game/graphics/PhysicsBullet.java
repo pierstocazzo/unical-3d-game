@@ -32,16 +32,20 @@ public class PhysicsBullet {
 	/** the type of the weapon witch shoot the bullet */
 	WeaponType weaponType;
 	
+	/** the id of the character who shoot this bullet */
+	String characterId;
+	
 	/** PhysicsBullet constructor <br>
 	 * 
-	 * @param id - (String) the identifier of the bullet
+	 * @param characterId - (String) the id of the character who shoot this bullet
 	 * @param world - (GraphicalWorld) the graphical world witch contains the bullet
 	 * @param direction - (Vector3d) the direction of the shoot 
 	 * @param weaponType - (WeaponType) the type of the weapon witch shoot the bullet
 	 * @param position - (Vector3f) the position where to create the bullet
 	 */
-	public PhysicsBullet( String id, GraphicalWorld world, WeaponType weaponType, Vector3f position ) {
-		this.id = id;
+	public PhysicsBullet( String characterId, GraphicalWorld world, WeaponType weaponType, Vector3f position ) {
+		this.characterId = characterId;
+		this.id = characterId + "bullet";
 		this.world = world;
 		this.position = new Vector3f( position );
 		this.weaponType = weaponType;

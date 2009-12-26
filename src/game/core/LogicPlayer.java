@@ -97,4 +97,10 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	public WeaponType getCurrentWeapon() {
 		return currentWeapon.type;
 	}
+	
+	@Override
+	public void die() {
+		world.playerKilled(id);
+		super.die();
+	}
 }

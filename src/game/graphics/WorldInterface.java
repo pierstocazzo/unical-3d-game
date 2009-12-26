@@ -229,7 +229,8 @@ public interface WorldInterface {
 
 	public abstract HashMap<String, Vector3f> getEnergyPackagesPosition();
 	
-	public abstract void setEnemyKilled();
+	public abstract void enemyKilled( String id );
 	
-	public abstract void setPlayerKilled();
+	public abstract void playerKilled( String id );
+
 }
