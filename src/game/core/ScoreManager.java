@@ -1,5 +1,6 @@
 package game.core;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -7,7 +8,8 @@ import java.util.HashMap;
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
-public class ScoreManager {
+public class ScoreManager implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	LogicWorld world;
 	HashMap<String, Score> players;
