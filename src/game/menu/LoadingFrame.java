@@ -1,4 +1,4 @@
-package game.main.menu;
+package game.menu;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

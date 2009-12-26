@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import game.base.PhysicsGame;
 
-import game.main.menu.InGameMenu;
+import game.menu.InGameMenu;
 
 import com.jme.app.AbstractGame;
 

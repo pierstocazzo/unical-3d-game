@@ -4,7 +4,7 @@ import com.jme.input.FirstPersonHandler;
 import com.jme.input.InputHandler;
 
 import game.base.PhysicsGame;
-import game.main.menu.LoadingFrame;
+import game.menu.LoadingFrame;
 
 public abstract class Game extends PhysicsGame {
 	
