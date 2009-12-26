@@ -32,7 +32,7 @@
 
 package game.input;
 
-import game.graphics.PhysicsPlayer;
+import game.graphics.Player;
 import game.input.action.FirstPersonAction;
 import game.input.action.MovementPermitter;
 import game.input.action.ShootAction;
@@ -99,7 +99,7 @@ public class ThirdPersonHandler extends InputHandler {
     /** The Spatial we are controlling with this handler. */
     protected Spatial targetSpatial;
 
-    protected PhysicsPlayer target;
+    protected Player target;
     
     /**
      * The previous location of the target node... used to maintain where the
@@ -265,7 +265,7 @@ public class ThirdPersonHandler extends InputHandler {
         setupChaseCamera();
     }
     
-    public ThirdPersonHandler( PhysicsPlayer target, Camera cam, HashMap<String, Object> props ) {
+    public ThirdPersonHandler( Player target, Camera cam, HashMap<String, Object> props ) {
         this.target = target;
         this.targetSpatial = target.getCharacterNode();
         this.camera = cam;
