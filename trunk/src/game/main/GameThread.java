@@ -16,12 +16,12 @@ public class GameThread implements Runnable {
 	public GameThread( LoadingFrame loadingFrame ) {
 		this.loadingFrame = loadingFrame;
 		logicGame = new LogicWorld();
-    	logicGame.createPlayer( 100, new Vector3f( 700, 60, 700 ) );
-    	logicGame.createEnemy( new Vector3f( 800, 50, 800 ), MovementType.REST );
+    	logicGame.createPlayer( 100, new Vector3f( -1000, 60, -1000 ) );
+    	logicGame.createEnemy( new Vector3f( -900, 50, -900 ), MovementType.REST );
 //    	logicGame.createEnemiesGroup( 3, new Vector3f( 50, 50, 50 ) );
 //    	logicGame.createEnemiesGroup( 4, new Vector3f( 220, 50, 220 ) );
 //    	logicGame.createEnemiesGroup( 5, new Vector3f( 250, 10, 250 ) );
-    	logicGame.createEnemiesGroup( 20, new Vector3f( 800, 50, 800 ) );
+//    	logicGame.createEnemiesGroup( 20, new Vector3f( 800, 50, 800 ) );
     	
 //    	logicGame.createEnergyPackages( 20, 129*20, 129*20 );
 	}

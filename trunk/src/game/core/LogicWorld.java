@@ -348,4 +348,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public void playerKilled( String id ) {
 		scoreController.playerKilled( id );
 	}
+	
+	@Override
+	public Set<String> getCharactersId() {
+		return characters.keySet();
+	}
 }
