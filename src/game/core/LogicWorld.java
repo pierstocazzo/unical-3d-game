@@ -55,10 +55,12 @@ public class LogicWorld implements WorldInterface, Serializable {
 	/** Create one player with this life in this position
 	 * 
 	 * @param life - (int) the initial life of the player
-	 * @param position - (Vector3f) the initial position of the player
+	 * @param x - the x position of the player
+	 * @param z - the z position of the player
 	 */
-	public void createPlayer( int life, Vector3f position ) {
+	public void createPlayer( int life, int x, int z ) {
 		playerCounter = playerCounter + 1;
+		Vector3f position = new Vector3f( x, 0, z );
 		LogicPlayer player = new LogicPlayer( "player" + playerCounter, life, position, this );
 		characters.put( player.id, player );
 	}
@@ -66,31 +68,29 @@ public class LogicWorld implements WorldInterface, Serializable {
 	/** Function that create characters in the number specified in this area
 	 * 
 	 * @param numberOfEnemies - (int) number of characters to create
-	 * @param area - (Vector3f) the vector that identify the area in whitch characters will be created
+	 * @param x - the x position of the area
+	 * @param z - the z position of the area
 	 */
-	public void createEnemiesGroup( int numberOfEnemies, Vector3f area ) {
-		float x = area.getX();
-		float z = area.getZ();
-
+	public void createEnemiesGroup( int numberOfEnemies, float x, float z ) {
 		Random r = new Random();
 
 		for( int i = 0; i < numberOfEnemies; i++ ) {		
-			float xRelative = x + r.nextInt( numberOfEnemies * 5 );
-			float zRelative = z + r.nextInt( numberOfEnemies * 5 );
+			x = x + r.nextInt( numberOfEnemies * 5 );
+			z = z + r.nextInt( numberOfEnemies * 5 );
 
-			Vector3f position = new Vector3f( xRelative, area.getY(), zRelative );
-			
-			createEnemy( position, MovementType.VERTICAL_SENTINEL );
+			createEnemy( x, z, MovementType.VERTICAL_SENTINEL );
 		}
 	}
 
 	/** Function that create an enemy, with this movementList, in this position
 	 * 
-	 * @param position - (Vector3f) the position of the enemy
+	 * @param x - the x position of the enemy
+	 * @param z - the z position of the enemy
 	 * @param movementList - (MovementList) list of movements
 	 */
-	public void createEnemy( Vector3f position, MovementType movements ) {
+	public void createEnemy( float x, float z, MovementType movements ) {
 		enemyCounter = enemyCounter + 1;
+		Vector3f position = new Vector3f( x, 0, z );
 		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.MP5, State.DEFAULT, position, movements, this );
 		characters.put( enemy.id, enemy );
 	}
