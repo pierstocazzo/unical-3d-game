@@ -3,6 +3,7 @@ package game.graphics;
 import java.nio.FloatBuffer;
 
 import utils.Loader;
+import utils.ModelLoader;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Image;
@@ -13,6 +14,7 @@ import com.jme.math.Plane;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.pass.RenderPass;
+import com.jme.scene.Node;
 import com.jme.scene.PassNode;
 import com.jme.scene.PassNodeState;
 import com.jme.scene.Skybox;
@@ -227,13 +229,12 @@ public class Environment {
 	
 	// TODO creare alberi e cazzate varie
 	private void createVegetation() {
-//		appesantisce un casino...anche un solo albero...bah!
-//		Node tree = ModelLoader.loadModel( "game/data/models/vegetation/tree1.3ds", 
-//				"", 0.02f, Util.X270 );
-//		
-//		tree.setLocalTranslation( 30, environment.getTerrain().getHeight( 30, 30 ), 30 );
-//		
-//		rootNode.attachChild( tree );
+		Node tree = ModelLoader.loadModel( "game/data/models/vegetation/palm.3ds", 
+				"game/data/models/vegetation/palmt5.png", 0.06f );
+		
+		tree.setLocalTranslation( -900, terrain.getHeight( -900, -900 ) - 10, -900 );
+		
+		world.getRootNode().attachChild( tree );
 		
 //     TextureState treeTex = display.getRenderer().createTextureState();
 //      treeTex.setEnabled(true);
