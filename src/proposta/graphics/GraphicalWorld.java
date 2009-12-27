@@ -124,7 +124,6 @@ public class GraphicalWorld extends Game {
 	public Node hudNode;
 	public UserHud userHud;
 	/** very very basic hud */
-	Text life;
 	Quad crosshair;
 	Text gameOver;
 	Text fps;
@@ -224,10 +223,6 @@ public class GraphicalWorld extends Game {
         
         rootNode.attachChild(ground);
         rootNode.attachChild(gameBounds);
-        
-    	life = Text.createDefaultTextLabel( "life" );
-    	life.setLocalTranslation( 20, 20, 0 );
-    	rootNode.attachChild( life );
     	
     	setCrosshair();
     	
@@ -350,10 +345,8 @@ public class GraphicalWorld extends Game {
 			audio.update();
     	
 		if( core.isAlive( player.id ) == false ) {
-    		life.print( "Life: 0" );
     		gameOver();
     	} else {
-    		life.print( "Life: " + core.getCharacterLife( player.id ) );
     		userHud.update();
 	        inputHandler.update(tpf);
 	        freeCamInput.update(tpf);
