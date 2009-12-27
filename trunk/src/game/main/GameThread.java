@@ -1,5 +1,8 @@
 package game.main;
 
+import java.util.logging.Level;
+
+import game.base.PhysicsGame;
 import game.core.LogicWorld;
 import game.graphics.GraphicalWorld;
 import game.menu.LoadingFrame;
@@ -32,6 +35,7 @@ public class GameThread implements Runnable {
 
 	public void run() {
 		game = new GraphicalWorld( logicGame, loadingFrame );
+		PhysicsGame.logger.setLevel( Level.SEVERE );
         game.start();
     }
 	
