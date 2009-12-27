@@ -1,9 +1,13 @@
 package proposta.hud;
 
+import java.util.Random;
+
 import proposta.graphics.GraphicalWorld;
 import proposta.graphics.WorldInterface;
 
+import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
+import com.jme.scene.Text;
 
 /**
  * Class UserHud
@@ -27,6 +31,8 @@ public class UserHud {
 	/** HudLife pointer */
 	HudLife hudLife;
 	
+	Text level;
+	
 	/** variable used for controlled update */
 	int oldTicks;
 
@@ -39,9 +45,16 @@ public class UserHud {
 		this.gWorld = gWorld;
 		this.game = gWorld.getCore();
 		this.hudNode = gWorld.hudNode;
+		
 		oldTicks = 0;
 		hudScore = new HudScore(this);
 		hudLife = new HudLife(this);
+		
+		level = Text.createDefaultTextLabel( "Level" );
+    	level.setTextColor(ColorRGBA.blue);
+    	level.setLocalTranslation( hudLife.life.getLocalTranslation().x, 
+    			hudLife.life.getLocalTranslation().y + hudLife.life.getHeight(), 0 );
+    	gWorld.getRootNode().attachChild(level);
 	}
 	
 	/**
@@ -51,6 +64,8 @@ public class UserHud {
 		if(oldTicks + 500 <= (int)gWorld.timer.getTime())
 		{
 			oldTicks = (int) gWorld.timer.getTime();
+			Random r = new Random();
+			level.print("Level: "+Integer.toString(r.nextInt()));
 			hudScore.update();
 			hudLife.update();
 		}
