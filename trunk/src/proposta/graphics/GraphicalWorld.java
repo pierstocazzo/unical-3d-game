@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import jmetest.TutorialGuide.ExplosionFactory;
 import proposta.base.Game;
+import proposta.hud.UserHud;
 import proposta.input.ThirdPersonHandler;
 import proposta.main.WorldMap2D;
 import proposta.main.ThreadController;
@@ -111,7 +112,7 @@ public class GraphicalWorld extends Game {
     int energyPackagesCounter = 0;
     
     /** the player, in single player mode */
-    PhysicsPlayer player;
+    public PhysicsPlayer player;
 
     /** the sky */
 	Skybox skybox;
@@ -121,6 +122,7 @@ public class GraphicalWorld extends Game {
 	
 	/** HUD node */
 	public Node hudNode;
+	public UserHud userHud;
 	/** very very basic hud */
 	Text life;
 	Quad crosshair;
@@ -251,6 +253,9 @@ public class GraphicalWorld extends Game {
 		dimension = heightMapSize * terrainScale;
 		
 		hudMap = new WorldMap2D( this );
+		
+		userHud = new UserHud(this);
+		
     	
 //        pause = true;
     }
@@ -349,7 +354,7 @@ public class GraphicalWorld extends Game {
     		gameOver();
     	} else {
     		life.print( "Life: " + core.getCharacterLife( player.id ) );
-    		
+    		userHud.update();
 	        inputHandler.update(tpf);
 	        freeCamInput.update(tpf);
 	        float camMinHeight = terrain.getHeight(cam.getLocation()) + 2f;
