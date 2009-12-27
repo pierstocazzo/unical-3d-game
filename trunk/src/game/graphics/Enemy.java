@@ -1,6 +1,7 @@
 package game.graphics;
 
 import game.common.Direction;
+import game.common.GameTimer;
 import game.common.Movement;
 import game.common.State;
 import game.common.TextLabel2D;
@@ -203,8 +204,8 @@ public class Enemy extends Character  {
 			if( world.getCore().getState(id) == State.ATTACK ) {
 				animationController.runAnimation( Animation.SHOOT );
 				shooting = true;
-				if( world.timer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
-					previousTime = world.timer.getTimeInSeconds();
+				if( GameTimer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
+					previousTime = GameTimer.getTimeInSeconds();
 					shoot( world.getCore().getShootDirection(id) );
 				}
 			} else {

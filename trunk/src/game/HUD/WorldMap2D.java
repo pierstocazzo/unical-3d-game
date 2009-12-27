@@ -2,6 +2,7 @@ package game.HUD;
 
 import java.util.HashMap;
 
+import game.common.GameTimer;
 import game.graphics.GraphicalWorld;
 import utils.Loader;
 
@@ -97,8 +98,8 @@ public class WorldMap2D {
 	/** Update the 2d WorldMap 
 	 */
 	public void update() {
-		if(oldTicks + 1000 <= world.timer.getTime()){
-			oldTicks = world.timer.getTime();
+		if(oldTicks + 1000 <= GameTimer.getTime()){
+			oldTicks = GameTimer.getTime();
 		
 			// Clean previously printed disks
 			for( String id : characters.keySet() )

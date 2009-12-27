@@ -2,6 +2,7 @@ package game.graphics;
 
 import game.HUD.WorldMap2D;
 import game.base.Game;
+import game.common.GameTimer;
 import game.input.ThirdPersonHandler;
 import game.menu.LoadingFrame;
 import game.sound.SoundManager;
@@ -402,7 +403,7 @@ public class GraphicalWorld extends Game {
 		
 		hudMap.update();
 		
-    	fps.print( "Frame Rate: " + (int) timer.getFrameRate() + "fps" );
+    	fps.print( "Frame Rate: " + (int) GameTimer.getFrameRate() + "fps" );
     }
     
 	private void updateInput() {

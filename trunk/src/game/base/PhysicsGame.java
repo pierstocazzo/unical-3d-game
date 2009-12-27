@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import game.base.PhysicsGame;
+import game.common.GameTimer;
 
 import game.menu.InGameMenu;
 
@@ -33,7 +34,6 @@ import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
 import com.jme.util.TextureManager;
 import com.jme.util.ThrowableHandler;
-import com.jme.util.Timer;
 import com.jmex.physics.PhysicsDebugger;
 import com.jmex.physics.PhysicsSpace;
 
@@ -55,9 +55,6 @@ public abstract class PhysicsGame extends AbstractGame {
     
     /** the root node, everything visible must be attached to this */
     protected Node rootNode;
-    
-    /** main timer to calculate framerate etc */
-    public Timer timer;
     
     // Time per FrameRate
     protected float tpf;
@@ -179,9 +176,9 @@ public abstract class PhysicsGame extends AbstractGame {
      */
     protected void update( float interpolation ) {
         // Recalculate the framerate.
-        timer.update();
+        GameTimer.update();
         // Update tpf to time per frame according to the Timer.
-        tpf = timer.getTimePerFrame();
+        tpf = GameTimer.getTimePerFrame();
 
         // Execute updateQueue item
         GameTaskQueueManager.getManager().getQueue(GameTaskQueue.UPDATE).execute();
@@ -189,7 +186,7 @@ public abstract class PhysicsGame extends AbstractGame {
         if ( firstFrame ) {
             // drawing and calculating the first frame usually takes longer than the rest
             // to avoid a rushing simulation we reset the timer
-            timer.reset();
+            GameTimer.reset();
             firstFrame = false;
         }
 
@@ -310,7 +307,7 @@ public abstract class PhysicsGame extends AbstractGame {
         display.getRenderer().setCamera( cam );
 
         /** Get a high resolution timer for FPS updates. */
-        timer = Timer.getTimer();
+        GameTimer.initTimer();
 
         /** Sets the title of our display. */
         String className = getClass().getName();
@@ -389,7 +386,7 @@ public abstract class PhysicsGame extends AbstractGame {
         /** Let derived classes initialize. */
         setupGame();
 
-        timer.reset();
+        GameTimer.reset();
 
         rootNode.updateGeometricState( 0.0f, true );
         rootNode.updateRenderState();

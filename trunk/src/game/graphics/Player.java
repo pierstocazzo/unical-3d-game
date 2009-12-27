@@ -1,5 +1,6 @@
 package game.graphics;
 
+import game.common.GameTimer;
 import game.graphics.CustomAnimationController.Animation;
 
 import com.jme.bounding.BoundingBox;
@@ -94,8 +95,8 @@ public class Player extends Character {
 		    }
 
 		    if( shooting ) {
-		    	if( world.timer.getTimeInSeconds() - previousTime > 0.1f  ) {
-		    		previousTime = world.timer.getTimeInSeconds();
+		    	if( GameTimer.getTimeInSeconds() - previousTime > 0.1f  ) {
+		    		previousTime = GameTimer.getTimeInSeconds();
 		    		shoot( world.getCam().getDirection() );
 		    	}
 		    }

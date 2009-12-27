@@ -37,8 +37,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 	/** utility counter */
 	int ammoPackCounter, energyPackCounter, enemyCounter, playerCounter;
 	
-	/** Score Controller */
+	/** Score Manager */
 	ScoreManager scoreManager;
+	
 	
 	/** <code>LogicWorld</code> Constructor<br>
 	 * Initialize data structures and counters
@@ -158,6 +159,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		return charactersId;
 	}
 
+	@Override
 	public void shoot( String id ) {
         characters.get(id).shoot();
     }
@@ -195,22 +197,6 @@ public class LogicWorld implements WorldInterface, Serializable {
 	@Override
 	public void setJumping( String id, boolean b ) {
 		characters.get(id).setJumping(b);
-	}
-
-	/** 
-	 * Print the position of all characters
-	 * @return String to print
-	 */
-	public String printWorld() {
-		String s = "World status: ";
-				
-		//		s = s + "\n Player position: " + players.gposition;
-				
-		for( String id : characters.keySet() ){
-			s = s + "\n" + characters.get(id).id + " energ = " + characters.get(id).currentLife;
-		}
-
-		return s;
 	}
 
 	@Override
