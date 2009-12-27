@@ -14,6 +14,7 @@ import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
 import com.jme.math.Quaternion;
 import com.jme.scene.Node;
+import com.jme.scene.state.BlendState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
@@ -143,6 +144,17 @@ public class ModelLoader {
 		        ts.setEnabled(true);
 		        ts.setTexture(texture);
 				model.setRenderState( ts );
+				
+		        BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
+		        as.setBlendEnabled(true);
+		        as.setSourceFunction(BlendState.SourceFunction.SourceAlpha);
+		        as.setDestinationFunction(BlendState.DestinationFunction.OneMinusSourceAlpha);
+		        as.setTestEnabled(true);
+		        as.setTestFunction(BlendState.TestFunction.GreaterThan);
+		        as.setEnabled(true);
+		        
+		        model.setRenderState(as);
+				
 				logger.info( "Texture " + texturePath + " applied" );
 			}
 			else 
@@ -248,6 +260,17 @@ public class ModelLoader {
 		        ts.setEnabled(true);
 		        ts.setTexture(texture);
 				model.setRenderState( ts );
+				
+		        BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
+		        as.setBlendEnabled(true);
+		        as.setSourceFunction(BlendState.SourceFunction.SourceAlpha);
+		        as.setDestinationFunction(BlendState.DestinationFunction.OneMinusSourceAlpha);
+		        as.setTestEnabled(true);
+		        as.setTestFunction(BlendState.TestFunction.GreaterThan);
+		        as.setEnabled(true);
+		        
+		        model.setRenderState(as);
+				
 				logger.info( "Texture " + texturePath + " applied" );
 			}
 			else 
