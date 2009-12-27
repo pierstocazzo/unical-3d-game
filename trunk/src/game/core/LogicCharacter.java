@@ -121,7 +121,8 @@ public abstract class LogicCharacter implements Serializable {
 	}
 
 	// Just do nothing
-	public void shoot() {
+	public boolean shoot() {
+		return false;
 		// to override
 	}
 

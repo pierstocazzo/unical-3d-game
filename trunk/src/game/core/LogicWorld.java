@@ -94,7 +94,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public void createEnemy( float x, float z, MovementType movements ) {
 		enemyCounter = enemyCounter + 1;
 		Vector3f position = new Vector3f( x, 0, z );
-		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.MP5, State.DEFAULT, position, movements, this );
+		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.AR15, State.DEFAULT, position, movements, this );
 		characters.put( enemy.id, enemy );
 	}
 	
@@ -160,8 +160,8 @@ public class LogicWorld implements WorldInterface, Serializable {
 	}
 
 	@Override
-	public void shoot( String id ) {
-        characters.get(id).shoot();
+	public boolean shoot( String id ) {
+        return characters.get(id).shoot();
     }
 	
 	@Override

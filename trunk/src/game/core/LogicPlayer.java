@@ -19,12 +19,6 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	/** Player's equipment */
 	HashMap< String, LogicWeapon > equipment = new HashMap<String, LogicWeapon>();
 	
-	/** current level of experience */
-	int currentLevel;
-	
-	/** previous level of experience */
-	int previousLevel;
-	
 	/** number of weapons in the player's equipment */
 	int weaponCounter;
 	
@@ -43,14 +37,12 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 		
 		this.weaponCounter = 0;
 		
-		this.currentLevel = 0;
-		this.previousLevel = 0;
-		
-		/** Initially the player has just the MP5 */
-		addWeapon( new LogicWeapon( super.id + "w" + weaponCounter, 100, WeaponType.MP5 ) );
+		/** Initially the player has just the AR15 */
+		LogicWeapon ar15 = new LogicWeapon( super.id + "w", 100, WeaponType.AR15 );
+		addWeapon( ar15 );
 		
 		/** assign the mp5 as current weapon */
-		changeWeapon( "weapon" + weaponCounter );
+		changeWeapon( ar15.id );
 	}
 	
 	/** Function <code>addWeapon</code><br>
@@ -62,7 +54,8 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 		// the player can't carry more than three weapons
 		if( weaponCounter < 3 ) {
 			weaponCounter = weaponCounter + 1;
-			equipment.put( "weapon" + weaponCounter, weapon );
+			weapon.id = weapon.id + weaponCounter;
+			equipment.put( weapon.id, weapon );
 		} 
 		// advise the player he can't carry more than three weapons
 	}
@@ -84,9 +77,13 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	/** 
 	 * Just decrease ammunitions
 	 */
-        @Override
-	public void shoot() {
+    @Override
+	public boolean shoot() {
 		currentWeapon.decreaseAmmo();
+		if( currentWeapon.ammo > 0 ) 
+			return true;
+		else 
+			return false;
 	}
 
 	@Override
