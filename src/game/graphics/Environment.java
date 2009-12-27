@@ -1,6 +1,7 @@
 package game.graphics;
 
 import java.nio.FloatBuffer;
+import java.util.Random;
 
 import utils.Loader;
 import utils.ModelLoader;
@@ -17,6 +18,7 @@ import com.jme.renderer.pass.RenderPass;
 import com.jme.scene.Node;
 import com.jme.scene.PassNode;
 import com.jme.scene.PassNodeState;
+import com.jme.scene.SharedNode;
 import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
 import com.jme.scene.Spatial.LightCombineMode;
@@ -227,38 +229,69 @@ public class Environment {
         lightNode.attachChild(flare);
 	}
 	
-	// TODO creare alberi e cazzate varie
 	private void createVegetation() {
-		Node tree = ModelLoader.loadModel( "game/data/models/vegetation/palm.3ds", 
-				"game/data/models/vegetation/palmt5.png", 0.06f );
 		
-		tree.setLocalTranslation( -900, terrain.getHeight( -900, -900 ) - 10, -900 );
+		Random r = new Random();
 		
-		world.getRootNode().attachChild( tree );
+		int a = r.nextInt(5) + 1;
+		float x, z;
 		
-//     TextureState treeTex = display.getRenderer().createTextureState();
-//      treeTex.setEnabled(true);
-//      Texture tr = TextureManager.loadTexture(
-//              GraphicalWorld.class.getClassLoader().getResource(
-//                      "game/data/texture/grass.jpg"), Texture.MinificationFilter.Trilinear,
-//              Texture.MagnificationFilter.Bilinear);
-//      treeTex.setTexture(tr);
+		Node tree1 = ModelLoader.loadModel( "game/data/models/vegetation/palm" + a + ".3ds", 
+				"game/data/models/vegetation/palm" + a + ".png", 0.06f );
+
+		tree1.setLocalTranslation( -900, terrain.getHeight( -900, -900 ) - 10, -900 );
+
+		world.getRootNode().attachChild( tree1 );
+
+		for (int i = 0; i < 100; i++) {
+			SharedNode s1 = new SharedNode("tree"+i, tree1);
+			x = (float) Math.random() * world.dimension - world.dimension/2;
+			z = (float) Math.random() * world.dimension - world.dimension/2;
+			while( terrain.getHeight(x, z) <= 10 ) {
+				x = (float) Math.random() * world.dimension - world.dimension/2;
+				z = (float) Math.random() * world.dimension - world.dimension/2;
+			}
+			s1.setLocalTranslation(new Vector3f(x, terrain.getHeight(x, z) - 10, z));
+			world.getRootNode().attachChild(s1);
+		}
+//		RENDE TROPPO PESANTE
+//		a = r.nextInt(5) + 1;
+//		
+//		Node tree2 = ModelLoader.loadModel( "game/data/models/vegetation/palm" + a + ".3ds", 
+//				"game/data/models/vegetation/palm" + a + ".png", 0.06f );
 //
-////      Node p = ModelLoader.loadModel( "game/data/Tree1.3ds", "", 0.2f, 
-////      		new Quaternion().fromAngleAxis( FastMath.PI * 3/2, Vector3f.UNIT_X));
-//      Pyramid p = new Pyramid("p", 10, 20);
-//      p.setModelBound(new BoundingBox());
-//      p.updateModelBound();
-//      p.setRenderState(treeTex);
-//      p.setTextureCombineMode(TextureCombineMode.Replace);
-//      
-//      for (int i = 0; i < 100; i++) {
-//      	Spatial s1 = new SharedMesh("tree"+i, p);
-//          float x = (float) Math.random() * 128 * 5;
-//          float z = (float) Math.random() * 128 * 5;
-//          s1.setLocalTranslation(new Vector3f(x, ( (environment.getTerrain()Page) splatenvironment.getTerrain()).getHeight(x, z), z));
-//          rootNode.attachChild(s1);
-//      }
+//		world.getRootNode().attachChild( tree2 );
+//
+//		for (int i = 100; i < 200; i++) {
+//			SharedNode s1 = new SharedNode("tree"+i, tree2); 
+//			x = (float) Math.random() * world.dimension - world.dimension/2;
+//			z = (float) Math.random() * world.dimension - world.dimension/2;
+//			while( terrain.getHeight(x, z) <= 10 ) {
+//				x = (float) Math.random() * world.dimension - world.dimension/2;
+//				z = (float) Math.random() * world.dimension - world.dimension/2;
+//			}
+//			s1.setLocalTranslation(new Vector3f(x, terrain.getHeight(x, z) - 10, z));
+//			world.getRootNode().attachChild(s1);
+//		}
+//		
+//		a = r.nextInt(5) + 1;
+//		
+//		Node tree3 = ModelLoader.loadModel( "game/data/models/vegetation/palm" + a + ".3ds", 
+//				"game/data/models/vegetation/palm" + a + ".png", 0.06f );
+//
+//		world.getRootNode().attachChild( tree3 );
+//
+//		for (int i = 200; i < 300; i++) {
+//			SharedNode s1 = new SharedNode("tree"+i, tree3);
+//			x = (float) Math.random() * world.dimension - world.dimension/2;
+//			z = (float) Math.random() * world.dimension - world.dimension/2;
+//			while( terrain.getHeight(x, z) <= 10 ) {
+//				x = (float) Math.random() * world.dimension - world.dimension/2;
+//				z = (float) Math.random() * world.dimension - world.dimension/2;
+//			}
+//			s1.setLocalTranslation(new Vector3f(x, terrain.getHeight(x, z) - 10, z));
+//			world.getRootNode().attachChild(s1);
+//		}
 	}
 	
 	 /** Function that creates the game bounds with a physics box that contains all the world
