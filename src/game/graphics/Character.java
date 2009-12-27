@@ -10,7 +10,7 @@ import com.jmex.physics.PhysicsNode;
 public class Character {
 
 	/** the character identifier */
-	String id;
+	public String id;
   
     /** the main node of the character */
     Node characterNode;
