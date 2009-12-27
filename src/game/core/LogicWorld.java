@@ -278,4 +278,13 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public Set<String> getEnergyPackagesIds() {
 		return energyPackages.keySet();
 	}
+	
+	@Override
+	public int getAmmo( String playerId ) {
+		try {
+			return ((LogicPlayer) characters.get(playerId)).currentWeapon.getAmmo();
+		} catch (Exception e) {
+			return 0;
+		}
+	}
 }

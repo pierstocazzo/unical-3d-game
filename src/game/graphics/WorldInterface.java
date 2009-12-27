@@ -173,6 +173,13 @@ public interface WorldInterface {
 	 */
 	public abstract int getScore( String id );
 
+	/** 
+	 * 
+	 * @param playerId
+	 * @return player's ammo
+	 */
+	public abstract int getAmmo( String playerId );
+
 	/** Function getEnergyPackagesIds <br>
 	 * 
 	 * @return all energy packages ids
