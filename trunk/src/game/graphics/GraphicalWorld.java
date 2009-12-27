@@ -1,5 +1,6 @@
 package game.graphics;
 
+import game.HUD.UserHud;
 import game.HUD.WorldMap2D;
 import game.base.Game;
 import game.common.GameTimer;
@@ -69,7 +70,7 @@ public class GraphicalWorld extends Game {
     int energyPackagesCounter = 0;
     
     /** the player, in single player mode */
-    Player player;
+    public Player player;
 
     /** set to false when you don't want to do the world update */
 	boolean enabled = true;
@@ -77,10 +78,10 @@ public class GraphicalWorld extends Game {
 	/** HUD node */
 	public Node hudNode;
 	/** very very basic hud */
-	Text life;
 	Quad crosshair;
 	Text gameOver;
 	Text fps;
+	UserHud userHud;
 	
 	/** audio controller */
 	SoundManager audio;
@@ -125,9 +126,6 @@ public class GraphicalWorld extends Game {
 		ammoPackages = new HashMap<String, AmmoPackage>();
 		energyPackages = new HashMap<String, EnergyPackage>();
 		
-    	life = Text.createDefaultTextLabel( "life" );
-    	life.setLocalTranslation( 20, 20, 0 );
-    	rootNode.attachChild( life );
     	
     	setCrosshair();
     	
@@ -155,6 +153,7 @@ public class GraphicalWorld extends Game {
 	    setupEnergyPackages();
 	    
 	    hudMap = new WorldMap2D( this );
+	    userHud = new UserHud(this);
 	}
 
 	/** Create graphic players
@@ -240,11 +239,9 @@ public class GraphicalWorld extends Game {
 			audio.update();
     	
 		if( core.isAlive( player.id ) == false ) {
-    		life.print( "Life: 0" );
     		gameOver();
     	} else {
-    		life.print( "Life: " + core.getCurrentLife( player.id ) );
-    		
+    		userHud.update();
 	        inputHandler.update(tpf);
 	        freeCamInput.update(tpf);
 	        float camMinHeight = environment.getTerrain().getHeight(cam.getLocation()) + 2f;
