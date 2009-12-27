@@ -92,29 +92,20 @@ public class GraphicalWorld extends Game {
 
 	WorldMap2D hudMap;
 	
+	/** the world dimension (the world is a square) */
 	float dimension;
 
+	/** screen resolution */
 	Vector2f resolution;
 
+	/** the environment */
 	Environment environment;
 	
-	
-	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
 	 * 
-	 * @param core - (WorldInterface) 
-	 */
-	public GraphicalWorld( WorldInterface core ) {
-		this.core = core;
-		
-//		audioEnabled = true;
-	}
-	
-	/** GraphicalWorld constructor <br>
-	 * Initialize the game graphics
-	 * 
-	 * @param core - (WorldInterface) 
+	 * @param core - (WorldInterface) the logic world
+	 * @param loadingFrame - (LoadingFrame) the loading frame
 	 */
     public GraphicalWorld( WorldInterface core, LoadingFrame loadingFrame ) {
         this.core = core;
@@ -122,7 +113,6 @@ public class GraphicalWorld extends Game {
         
         audioEnabled = true;
     }
-
 
 	public void setupInit() {
    	
