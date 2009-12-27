@@ -2,6 +2,7 @@ package game.core;
 
 import java.io.Serializable;
 
+import game.common.GameTimer;
 import game.common.Movement;
 import game.common.MovementList;
 import game.common.State;
@@ -33,6 +34,10 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	
 	/** where to shoot */
 	Vector3f shootDirection;
+
+	/** the time the enemy remain in alert or attack state */
+	float alertTime;
+
 
 	/**
 	 * <code>LogicEnemy</code> constructor<br>
@@ -73,6 +78,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 			case DEFAULT:
 				if ( distance <= state.getActionRange() ) {
 					state = State.ALERT;
+					alertTime = GameTimer.getTimeInSeconds();
 				}
 				break;
 			
@@ -80,15 +86,19 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 				if ( distance <= state.getViewRange() ) {
 					state = State.ATTACK;
 				} else if ( distance > state.getActionRange() ) {
-					// TODO inserire un timer per lo stato di allerta
-					state = State.DEFAULT;
+					/* if the player goes away from the actionRange of this enemy, 
+					 * he remains in alert state for 40 seconds
+					 */
+					if( GameTimer.getTimeInSeconds() - alertTime > 40 ) {
+						state = State.DEFAULT;
+					}
 				}
 				break;
 			
 			case ATTACK:
 				if ( distance > state.getViewRange() ) {
-					// TODO inserire un timer per stato di attacco
-					state = State.ALERT;
+						state = State.ALERT;
+						alertTime = GameTimer.getTimeInSeconds();
 				} else {
 					calculateShootDirection( playerId );
 				}

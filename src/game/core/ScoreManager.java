@@ -33,7 +33,8 @@ public class ScoreManager implements Serializable {
 	/**
 	 * Update the current level using score value
 	 */
-	void update(){
+	void update() {
+		/* update every 0.5 seconds */
 		if( GameTimer.getTimeInSeconds() - previousTime > 0.5f ) {
 			previousTime = GameTimer.getTimeInSeconds();
 			for( String id : players.keySet() ) {
@@ -55,8 +56,12 @@ public class ScoreManager implements Serializable {
 	 * it increase score and level after the player killed an enemy
 	 */
 	void enemyKilled( String playerId ) {
+		try {
 		players.get(playerId).increaseScore();
 		update();
+		} catch ( Exception e ) {
+			// just do nothing when the bullet who kill an enemy came from an other enemy
+		}
 	}
 	
 	void reset() {
