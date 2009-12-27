@@ -56,7 +56,7 @@ public interface WorldInterface {
 	 * 
 	 * @param id - (String) the character's id
 	 */
-	public abstract void shoot( String id );
+	public abstract boolean shoot( String id );
 	
 	/** Function characterShoot() <br>
 	 * call the isShooted method of logic character

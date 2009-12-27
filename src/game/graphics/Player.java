@@ -197,7 +197,6 @@ public class Player extends Character {
 	 * @param moving - (boolean)
 	 */
 	public void setMoving( boolean moving ) {
-    	// activate the animation only if the previous animation was different and if the character is on the ground
     	if( moving == true ) {
     		animationController.runAnimation( Animation.WALK );
     	} 
@@ -210,9 +209,7 @@ public class Player extends Character {
 	 * @param jumping - (boolean)
 	 */
 	public void setJumping( boolean jumping ) {	
-		// if the character is jumping
-    	if( animationController.getCurrentAnimation() != Animation.JUMP && jumping == true ) {
-    		// activate the animation "jump"
+    	if( jumping == true ) {
     		animationController.runAnimation( Animation.JUMP );
     	}
 		world.getCore().setJumping( id, jumping );
@@ -237,14 +234,13 @@ public class Player extends Character {
 	 * @param direction - (Vector3f) the direction of the shoot
 	 */
 	public void shoot( Vector3f direction ) {
-		Bullet bullet = new Bullet( id , world, 
-				world.getCore().getWeapon(id), 
-				world.getCam().getLocation().add( world.getCam().getDirection().mult( 6 ) ) );
-		world.bullets.put( bullet.id, bullet );
-		bullet.shoot(direction);
-//		world.shoot.setWorldPosition( feet.getWorldTranslation() );
-//		world.shoot.setVolume( 0.2f );
-		world.shoot( world.getCam().getLocation() );
-//		AudioManager.shoot.play();
+		if( world.getCore().shoot(id) ) {
+			Bullet bullet = new Bullet( id , world, 
+					world.getCore().getWeapon(id), 
+					world.getCam().getLocation().add( world.getCam().getDirection().mult( 6 ) ) );
+			world.bullets.put( bullet.id, bullet );
+			bullet.shoot(direction);
+			world.shoot( world.getCam().getLocation() );
+		}
 	}
 }
