@@ -34,7 +34,6 @@ package game.input;
 
 import game.graphics.Player;
 import game.input.action.FirstPersonAction;
-import game.input.action.MovementPermitter;
 import game.input.action.ShootAction;
 import game.input.action.ThirdPersonBackwardAction;
 import game.input.action.ThirdPersonForwardAction;
@@ -42,15 +41,11 @@ import game.input.action.ThirdPersonJoystickPlugin;
 import game.input.action.ThirdPersonLeftAction;
 import game.input.action.ThirdPersonRightAction;
 import game.input.action.ThirdPersonRunAction;
-import game.input.action.ThirdPersonStrafeLeftAction;
-import game.input.action.ThirdPersonStrafeRightAction;
 
 import java.util.HashMap;
 
-
 import com.jme.input.ChaseCamera;
 import com.jme.input.InputHandler;
-import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
 import com.jme.input.MouseLookHandler;
 import com.jme.input.action.InputAction;
@@ -64,29 +59,17 @@ import com.jme.scene.Spatial;
 
 /**
  * <code>ThirdPersonHandler</code> defines an InputHandler that sets input to
- * be controlled similar to games such as Zelda Windwaker and Mario 64, etc.
+ * be controlled like a third person view game
  * 
- * @author <a href="mailto:josh@renanse.com">Joshua Slack</a>
- * @version $Revision: 4666 $
+ * @author Joshua Slack 
  */
 public class ThirdPersonHandler extends InputHandler {
     public static final String PROP_TURNSPEED = "turnSpeed";
     public static final String PROP_DOGRADUAL = "doGradual";
     public static final String PROP_ROTATEONLY = "rotateOnly";
-    public static final String PROP_PERMITTER = "permitter";
     public static final String PROP_UPVECTOR = "upVector";
     public static final String PROP_LOCKBACKWARDS = "lockBackwards";
     public static final String PROP_CAMERAALIGNEDMOVE = "cameraAlignedMovement";
-    public static final String PROP_STRAFETARGETALIGN = "targetAlignStrafe";
-
-    public static final String PROP_KEY_FORWARD = "fwdKey";
-    public static final String PROP_KEY_FORWARD_RUN = "fwdRunKey";
-    public static final String PROP_KEY_BACKWARD = "backKey";
-    public static final String PROP_KEY_LEFT = "leftKey";
-    public static final String PROP_KEY_RIGHT = "rightKey";
-    public static final String PROP_KEY_STRAFELEFT = "strfLeftKey";
-    public static final String PROP_KEY_STRAFERIGHT = "strfRightKey";
-    
     
     /** Default character turn speed is 1.5pi per sec. */
     public static final float DEFAULT_TURNSPEED = 1.5f * FastMath.PI;
@@ -139,12 +122,6 @@ public class ThirdPersonHandler extends InputHandler {
      */
     protected boolean doGradualRotation = true;
 
-    /**
-     * When not null, gives a means for denying movement to the controller. See
-     * MovementPermitter javadoc for more.
-     */
-    protected MovementPermitter permitter;
-
     /** World up vector.  Currently 0,1,0 is the only guaranteed value to work. */
     protected Vector3f upVector = new Vector3f(0, 1, 0);
 
@@ -191,39 +168,46 @@ public class ThirdPersonHandler extends InputHandler {
      */
     protected boolean walkingForward;
     
-	protected boolean turningRight;
-	protected boolean turningLeft;
-	protected boolean strafingRight;
-	protected boolean strafingLeft;
-	
-	protected boolean nowStrafing;
-	
-	protected boolean nowTurning;
-	
-	MouseLookHandler mouseLookHandler;
-	
-	boolean firstPerson;
-	
-	ChaseCamera chaser;
-    
     /**
      * internally used boolean for denoting that a run action is currently
      * being performed.
      */
     protected boolean running;
     
-    protected ThirdPersonJoystickPlugin plugin = null;
+    /**
+     * internally used boolean for denoting that a turn right action is currently
+     * being performed.
+     */
+	protected boolean turningRight;
+	
+    /**
+     * internally used boolean for denoting that a turn left action is currently
+     * being performed.
+     */
+	protected boolean turningLeft;
+	
+    /**
+     * internally used boolean for denoting that a turn action is currently
+     * being performed.
+     */
+	protected boolean nowTurning;
+	
+	MouseLookHandler mouseLookHandler;
+	
+	ChaseCamera chaser;
+	
+	boolean firstPerson;
+	
+	protected ThirdPersonJoystickPlugin plugin = null;
     
+	/** Actions */
     protected InputAction actionForward;
     protected InputAction actionBack;
     protected InputAction actionRight;
     protected InputAction actionLeft;
-    protected InputAction actionStrafeRight;
-    protected InputAction actionStrafeLeft;
 	protected InputAction actionForwardRun;
 	protected InputAction actionShoot;
 	protected InputAction actionFirstPerson;
-	
 	
 	private Vector3f rot;
 
@@ -286,33 +270,12 @@ public class ThirdPersonHandler extends InputHandler {
         turnSpeed = getFloatProp(props, PROP_TURNSPEED, DEFAULT_TURNSPEED);
         doGradualRotation = getBooleanProp(props, PROP_DOGRADUAL, true);
         lockBackwards = getBooleanProp(props, PROP_LOCKBACKWARDS, false);
-        strafeAlignTarget = getBooleanProp(props, PROP_STRAFETARGETALIGN, false);
         cameraAlignedMovement = getBooleanProp(props, PROP_CAMERAALIGNEDMOVE, true);
         rotateOnly = getBooleanProp(props, PROP_ROTATEONLY, false);
-        permitter = (MovementPermitter)getObjectProp(props, PROP_PERMITTER, null);
         upVector = (Vector3f)getObjectProp(props, PROP_UPVECTOR, Vector3f.UNIT_Y.clone());
-        updateKeyBindings(props);
     }
 
-    /** 
-     * 
-     * <code>updateKeyBindings</code> allows a user to update the keys mapped to the various actions.
-     * 
-     * @param props
-     */
-    public void updateKeyBindings(HashMap<String, Object> props) {
-        KeyBindingManager keyboard = KeyBindingManager.getKeyBindingManager();
-//        int[] shiftCodes = { KeyInput.KEY_LSHIFT, KeyInput.KEY_W };
-        keyboard.set(PROP_KEY_FORWARD_RUN, KeyInput.KEY_LSHIFT );
-        keyboard.set(PROP_KEY_FORWARD, getIntProp(props, PROP_KEY_FORWARD, KeyInput.KEY_W));
-        keyboard.set(PROP_KEY_BACKWARD, getIntProp(props, PROP_KEY_BACKWARD, KeyInput.KEY_S));
-        keyboard.set(PROP_KEY_LEFT, getIntProp(props, PROP_KEY_LEFT, KeyInput.KEY_A));
-        keyboard.set(PROP_KEY_RIGHT, getIntProp(props, PROP_KEY_RIGHT, KeyInput.KEY_D));
-        keyboard.set(PROP_KEY_STRAFELEFT, getIntProp(props, PROP_KEY_STRAFELEFT, KeyInput.KEY_Q));
-        keyboard.set(PROP_KEY_STRAFERIGHT, getIntProp(props, PROP_KEY_STRAFERIGHT, KeyInput.KEY_E));        
-    }
-
-    /** TODO sistemare la setActions() con l'hashmap
+    /** TODO parametrizzare
      * 
      * <code>setActions</code> sets the keyboard actions with the
      * corresponding key command.
@@ -324,8 +287,6 @@ public class ThirdPersonHandler extends InputHandler {
         actionBack = new ThirdPersonBackwardAction( this, 20 );
         actionRight = new ThirdPersonRightAction( this, 20 );
         actionLeft = new ThirdPersonLeftAction( this, 20 );
-        actionStrafeRight = new ThirdPersonStrafeRightAction( this, 20 );
-        actionStrafeLeft = new ThirdPersonStrafeLeftAction( this, 20 );
         actionShoot = new ShootAction( this );
         actionFirstPerson = new FirstPersonAction( this );
                 
@@ -334,8 +295,6 @@ public class ThirdPersonHandler extends InputHandler {
         addAction( actionBack, DEVICE_KEYBOARD, KeyInput.KEY_S, AXIS_NONE, false );
         addAction( actionRight, DEVICE_KEYBOARD, KeyInput.KEY_D, AXIS_NONE, false );
         addAction( actionLeft, DEVICE_KEYBOARD, KeyInput.KEY_A, AXIS_NONE, false );
-        addAction( actionStrafeRight, DEVICE_KEYBOARD, KeyInput.KEY_E, AXIS_NONE, false );
-        addAction( actionStrafeLeft, DEVICE_KEYBOARD, KeyInput.KEY_Q, AXIS_NONE, false );
         addAction( actionShoot, DEVICE_MOUSE, MouseButtonBinding.LEFT_BUTTON, AXIS_NONE, false );
         addAction( actionFirstPerson, DEVICE_MOUSE, MouseButtonBinding.RIGHT_BUTTON, AXIS_NONE, false );
         
@@ -376,7 +335,7 @@ public class ThirdPersonHandler extends InputHandler {
         // TODO non permettere i movimenti se c'è una collisione con qualcosa
         updateMovements();
         
-        if (walkingBackwards && walkingForward && !nowStrafing && !nowTurning) {
+        if ( walkingBackwards && walkingForward && !nowTurning) {
             targetSpatial.getLocalTranslation().set(prevLoc);
             return;
         }
@@ -390,46 +349,25 @@ public class ThirdPersonHandler extends InputHandler {
             targetSpatial.getLocalRotation().getRotationColumn(2, calcVector);
             if (upVector.y == 1) {
                 actAngle = FastMath.atan2(loc.z, loc.x);
-                if (!nowTurning && !nowStrafing) {
+                if ( !nowTurning ) {
                     faceAngle = FastMath.atan2(calcVector.z, calcVector.x);
                 }
             } else if (upVector.x == 1) {
                 actAngle = FastMath.atan2(loc.z, loc.y);
-                if (!nowTurning && !nowStrafing)
+                if ( !nowTurning )
                     faceAngle = FastMath.atan2(calcVector.z, calcVector.y);
             } else if (upVector.z == 1) {
                 actAngle = FastMath.atan2(loc.x, loc.y) - FastMath.HALF_PI;
-                if (!nowTurning && !nowStrafing)
+                if ( !nowTurning )
                     faceAngle = FastMath.atan2(calcVector.x, calcVector.y) - FastMath.HALF_PI;
             }
             
-            float oldFace = faceAngle;
             calcFaceAngle(actAngle, time);
-            if (nowStrafing) {
-                faceAngle = actAngle;
-                prevRot.set(targetSpatial.getLocalRotation());
-            }
             targetSpatial.getLocalRotation().fromAngleNormalAxis(-(faceAngle - FastMath.HALF_PI), upVector);
             targetSpatial.getLocalRotation().getRotationColumn(2, calcVector).multLocal(distance);
 
-            if (nowStrafing) {
-                if (!strafeAlignTarget && cameraAlignedMovement) {
-                    if (upVector.y == 1) {
-                        faceAngle = FastMath.atan2(camera.getDirection().z, camera.getDirection().x);
-                    } else if (upVector.x == 1) {
-                        faceAngle = FastMath.atan2(camera.getDirection().z, camera.getDirection().y);
-                    } else if (upVector.z == 1) {
-                        faceAngle = FastMath.atan2(camera.getDirection().x, camera.getDirection().y) - FastMath.HALF_PI;
-                    }
-                    targetSpatial.getLocalRotation().fromAngleNormalAxis(-faceAngle, upVector);
-                } else {
-                    targetSpatial.getLocalRotation().set(prevRot);
-                    faceAngle = oldFace;
-                }
-            }
-
             targetSpatial.getLocalTranslation().set(prevLoc);
-            if (lockBackwards && walkingBackwards && !nowStrafing)
+            if (lockBackwards && walkingBackwards )
                 targetSpatial.getLocalTranslation().subtractLocal(calcVector);
             else if (rotateOnly && nowTurning && !walkingBackwards && !walkingForward)
                 ; // no translation
@@ -452,12 +390,6 @@ public class ThirdPersonHandler extends InputHandler {
     		else if( turningLeft ) {
     			turnLeft( 15 );
     		} 
-    		else if( strafingRight ) {
-    			strafeRight( 15 );
-    		} 
-    		else if( strafingLeft ) {
-    			strafeLeft( 15 );
-    		} 
     	} 
     	else if( walkingBackwards ) {
     		moveBackward( 15 );
@@ -467,12 +399,6 @@ public class ThirdPersonHandler extends InputHandler {
 		} 
 		else if( turningLeft ) {
 			turnLeft( 15 );
-		} 
-		else if( strafingRight ) {
-			strafeRight( 15 );
-		} 
-		else if( strafingLeft ) {
-			strafeLeft( 15 );
 		} 
     	else {
     		target.rest();
@@ -703,10 +629,6 @@ public class ThirdPersonHandler extends InputHandler {
         this.doGradualRotation = doGradualRotation;
     }
 
-    public MovementPermitter getPermitter() {
-        return permitter;
-    }
-
     public Spatial getTarget() {
         return targetSpatial;
     }
@@ -790,18 +712,6 @@ public class ThirdPersonHandler extends InputHandler {
     }
 
     /**
-     * Internal method used to let the handler know that the target is currently
-     * strafing left/right (via use of the strafe left/right keys.)
-     * 
-     * @param strafe
-     */
-    public void setStrafing(boolean strafe) {
-        nowStrafing = strafe;
-        
-        target.setMoving( strafe );
-    }
-
-    /**
      * @return true if last update of handler included a turn left/right action.
      */
     public boolean isNowTurning() {
@@ -820,13 +730,6 @@ public class ThirdPersonHandler extends InputHandler {
      */
     public boolean isWalkingForward() {
         return walkingForward;
-    }
-
-    /**
-     * @return true if last update of handler included a walk forward action.
-     */
-    public boolean isStrafing() {
-        return nowStrafing;
     }
 
     public void setActionSpeed(float speed) {
@@ -870,22 +773,6 @@ public class ThirdPersonHandler extends InputHandler {
 
 	public void setTurningLeft(boolean turningLeft) {
 		this.turningLeft = turningLeft;
-	}
-
-	public boolean isStrafingRight() {
-		return strafingRight;
-	}
-
-	public void setStrafingRight(boolean strafingRight) {
-		this.strafingRight = strafingRight;
-	}
-
-	public boolean isStrafingLeft() {
-		return strafingLeft;
-	}
-
-	public void setStrafingLeft(boolean strafingLeft) {
-		this.strafingLeft = strafingLeft;
 	}
 
 	public void setFirstPerson( boolean firstPerson ) {
