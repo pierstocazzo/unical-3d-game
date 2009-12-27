@@ -1,5 +1,7 @@
 package game.core;
 
+import game.common.GameTimer;
+
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -14,8 +16,11 @@ public class ScoreManager implements Serializable {
 	LogicWorld world;
 	HashMap<String, Score> players;
 	
+	float previousTime;
+	
 	public ScoreManager( LogicWorld world ) {
 		this.world = world;
+		this.previousTime = 0;
 		players = new HashMap<String, Score>();
 	}
 
@@ -29,9 +34,12 @@ public class ScoreManager implements Serializable {
 	 * Update the current level using score value
 	 */
 	void update(){
-		for( String id : players.keySet() ) {
-			players.get(id).update();
-			System.out.println("Lo score di " + id + " è: " + players.get(id).score);
+		if( GameTimer.getTimeInSeconds() - previousTime > 0.5f ) {
+			previousTime = GameTimer.getTimeInSeconds();
+			for( String id : players.keySet() ) {
+				players.get(id).update();
+				System.out.println("Lo score di " + id + " è: " + players.get(id).score);
+			}
 		}
 	}
 

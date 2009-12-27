@@ -98,11 +98,6 @@ public interface WorldInterface {
 	 */
 	public abstract Movement getCurrentMovement( String id );
 
-	/** Function <code>printWorld</code><br>
-	 * Print the world current situation
-	 */
-	public abstract String printWorld();
-	
 	/**
 	 * 
 	 * @param id - (String) the id of the enemy

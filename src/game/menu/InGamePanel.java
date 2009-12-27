@@ -1,5 +1,7 @@
 package game.menu;
 
+import game.common.GameTimer;
+
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -136,7 +138,7 @@ public class InGamePanel extends JPanel {
 		switch (current){
 			case 0:
 				gm.setVisible(false);
-				gm.game.timer.reset();
+				GameTimer.reset();
 				gm.game.enabled = true;
 				break;
 			case 1:
