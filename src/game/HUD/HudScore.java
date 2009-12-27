@@ -1,7 +1,5 @@
 package game.HUD;
 
-import java.util.Random;
-
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Text;
 

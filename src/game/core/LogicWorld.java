@@ -35,7 +35,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	HashMap< String, LogicAmmoPack > ammoPackages;
 	
 	/** utility counter */
-	int ammoPackCounter, energyPackCounter, enemyCounter, playerCounter;
+	int energyPackCounter, enemyCounter, playerCounter;
 	
 	/** Score Manager */
 	ScoreManager scoreManager;
@@ -48,7 +48,6 @@ public class LogicWorld implements WorldInterface, Serializable {
 		characters = new HashMap< String, LogicCharacter >();
 		ammoPackages = new HashMap< String, LogicAmmoPack >();
 		energyPackages = new HashMap< String, LogicEnergyPack >();
-		ammoPackCounter = 0;
 		energyPackCounter = 0;
 		enemyCounter = 0;
 		playerCounter = 0;
@@ -115,7 +114,6 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 */
 	public void createAmmoPack( String id, WeaponType type, int quantity, Vector3f position ) {
 		LogicAmmoPack ammoPack = new LogicAmmoPack( type, quantity, position );
-		ammoPackCounter++;
 		ammoPackages.put( id, ammoPack );
 	}
 	
@@ -229,15 +227,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 
 	@Override
 	public boolean catchAmmoPack( String playerId, String ammoPackId ) {
-		for( LogicWeapon weapon : ((LogicPlayer) characters.get(playerId)).equipment.values() ) {
-			if( weapon.type == ammoPackages.get(ammoPackId).getType() ) {
-				weapon.addAmmo( ammoPackages.get(ammoPackId).getQuantity() );
-				ammoPackages.remove(ammoPackId);
-				return true;
-			}
-		}
-		
-		return false;
+		return characters.get(playerId).addAmmo( ammoPackages.get(ammoPackId).getType(), ammoPackages.get(ammoPackId).getQuantity() );
 	}
 
 	@Override

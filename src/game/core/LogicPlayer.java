@@ -17,7 +17,7 @@ import com.jme.math.Vector3f;
 public class LogicPlayer extends LogicCharacter implements Serializable {
 
 	/** Player's equipment */
-	HashMap< String, LogicWeapon > equipment = new HashMap<String, LogicWeapon>();
+	HashMap< String, LogicWeapon > equipment;
 	
 	/** number of weapons in the player's equipment */
 	int weaponCounter;
@@ -34,7 +34,7 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	 */
 	public LogicPlayer( String id, int maxLife , Vector3f position, LogicWorld world ) {
 		super( id, maxLife, position, world );
-		
+		equipment = new HashMap<String, LogicWeapon>();
 		this.weaponCounter = 0;
 		
 		/** Initially the player has just the AR15 */
@@ -60,10 +60,20 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 		// advise the player he can't carry more than three weapons
 	}
 	
+	public boolean addAmmo( WeaponType weaponType, int quantity ) {
+		for( String id : equipment.keySet() ) {
+			if( equipment.get(id).type == weaponType ) {
+				equipment.get(id).addAmmo( quantity );
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/** Function <code>changeWeapon</code><br>
 	 * 
 	 * Switch to another weapon.
-	 * @param weaponKey - (int) the key of the weapon to use.
+	 * @param weaponKey - (String) the key of the weapon to use.
 	 */
 	public void changeWeapon( String weaponKey ) {
 		try {

@@ -1,7 +1,5 @@
 package game.core;
 
-import game.common.GameTimer;
-
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -29,27 +27,12 @@ public class ScoreManager implements Serializable {
 			players.put( id, new Score() );
 		}
 	}
-	
-	/**
-	 * Update the current level using score value
-	 */
-	void update() {
-		/* update every 0.5 seconds */
-		if( GameTimer.getTimeInSeconds() - previousTime > 0.5f ) {
-			previousTime = GameTimer.getTimeInSeconds();
-			for( String id : players.keySet() ) {
-				players.get(id).update();
-				System.out.println("Lo score di " + id + " è: " + players.get(id).score);
-			}
-		}
-	}
 
 	/**
 	 * it decreases score and level after the player was killed
 	 */
 	void playerKilled( String playerId ) {
 		players.get(playerId).decreaseScore();
-		update();
 	}
 	
 	/**
@@ -57,8 +40,7 @@ public class ScoreManager implements Serializable {
 	 */
 	void enemyKilled( String playerId ) {
 		try {
-		players.get(playerId).increaseScore();
-		update();
+			players.get(playerId).increaseScore();
 		} catch ( Exception e ) {
 			// just do nothing when the bullet who kill an enemy came from an other enemy
 		}
@@ -95,37 +77,32 @@ public class ScoreManager implements Serializable {
 			level = 1;
 			score = 0;
 		}
-
-		public void update() {
-			if( score < 10 )
-				level = 1;
-			else if ( score < 25 ) // passo al livello 2 dopo aver ucciso 5 nemici
-				level = 2;
-			else if ( score < 125 ) // passo al livello 3 dopo aver ucciso altri 10 nemici
-				level = 3;
-			else if ( score < 350 ) // passo al livello 4 dopo aver ucciso altri 15 nemici
-				level = 4;
-			else if ( score < 750 ) // passo al livello 5 dopo aver ucciso altri 20 nemici
-				level = 5;
-		}
-		
 		
 		public void increaseScore() {
 			switch ( level ) {
 			case 1:
 				score = score + 5;
+				if( score >= 25 ) 
+					level = 2;
 				break;
 			case 2: 
 				score = score + 10;
+				if( score >= 125 )
+					level = 3;
 				break;
 			case 3:
 				score = score + 15;
+				if( score >= 350 )
+					level = 4;
 				break;
 			case 4:
 				score = score + 20;
+				if( score >= 750 )
+					level = 5;
 				break;
 			case 5: 
 				score = score + 25;
+				break;
 			}
 		}
 		
