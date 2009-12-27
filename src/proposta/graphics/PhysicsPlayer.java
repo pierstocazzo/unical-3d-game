@@ -29,7 +29,7 @@ import com.jmex.physics.material.Material;
 public class PhysicsPlayer extends PhysicsCharacter implements MovementPermitter {
 
 	/** the character identifier */
-	String id;
+	public String id;
   
     /** the main node of the character */
     Node characterNode;
