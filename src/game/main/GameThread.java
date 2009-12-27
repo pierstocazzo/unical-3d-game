@@ -23,7 +23,7 @@ public class GameThread implements Runnable {
 //    	logicGame.createEnemiesGroup( 5, 250, 250 );
 //    	logicGame.createEnemiesGroup( 20, 800, 800 );
     	
-    	logicGame.createEnergyPackages( 20, 129*20, 129*20 );
+//    	logicGame.createEnergyPackages( 20, 129*20, 129*20 );
     	
     	logicGame.initScoreManager();
 	}
