@@ -7,5 +7,6 @@
   * Sistemare per bene il menù - andrea (WORK IN PROGRESS)
   * Ambientazione e posizionamento gruppi di nemici - andrea/slash/joe (WORK IN PROGRESS)
   * Introdurre l'audio - slash/joe/andrea (INIZIATO)
+  * Parametrizzare input handler per la personalizzazione dei comandi
   * Introdurre effetti grafici - joe/andrea (?)
   * Multiplayer - slash/joe/andrea (?)
