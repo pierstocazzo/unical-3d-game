@@ -101,6 +101,8 @@ public class GraphicalWorld extends Game {
 
 	/** the environment */
 	Environment environment;
+
+	Text ammo;
 	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
@@ -128,21 +130,24 @@ public class GraphicalWorld extends Game {
 		
     	
     	setCrosshair();
+    	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
     	
 		gameOver = Text.createDefaultTextLabel( "gameOver" );
 		rootNode.attachChild(gameOver);
 		
 		fps = Text.createDefaultTextLabel( "life" );
-    	fps.setLocalTranslation( 20, 40, 0 );
+    	fps.setLocalTranslation( resolution.x - 200, resolution.y - 40, 0 );
     	rootNode.attachChild( fps );
+    	
+		ammo = Text.createDefaultTextLabel( "ammo" );
+    	ammo.setLocalTranslation( resolution.x - 200, resolution.y - 60, 0 );
+    	rootNode.attachChild( ammo );
 		
     	ExplosionFactory.warmup();
     	
 		if( audioEnabled ) {
 			audio = new SoundManager( cam );
 		}
-
-		resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
     }
     
 	public void setupEnvironment() {
@@ -281,7 +286,7 @@ public class GraphicalWorld extends Game {
 	        updateBullets(tpf);
 	        updateAmmoPackages(tpf);
 	        updateEnergyPackages(tpf);
-	        
+	        ammo.print( "Ammunitions: " + core.getAmmo( player.id ) );
     	}
     	
 		updateInput();

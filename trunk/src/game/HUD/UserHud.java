@@ -4,8 +4,6 @@ import game.common.GameTimer;
 import game.graphics.GraphicalWorld;
 import game.graphics.WorldInterface;
 
-import java.util.Random;
-
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
 import com.jme.scene.Text;

@@ -155,4 +155,9 @@ public abstract class LogicCharacter implements Serializable {
 	public abstract Movement getNextMovement();
 	
 	public abstract WeaponType getCurrentWeapon();
+
+	public boolean addAmmo( WeaponType weaponType, int quantity ) {
+		// to override
+		return false;
+	}
 }
