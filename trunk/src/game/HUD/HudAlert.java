@@ -1,6 +1,7 @@
 package game.HUD;
 
 import game.common.GameTimer;
+import game.core.LogicEnemy;
 
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Text;
@@ -73,18 +74,28 @@ public class HudAlert {
 	}
 	
 	public int getAlertLevel(){
+		final int ALERT_RANGE = LogicEnemy.ALERT_RANGE;
+		
 		//calculate max alert level
-		int max = 0;
+		int max = -1*ALERT_RANGE;
 		for( String id : userHud.game.getEnemiesIds() ){
 			System.out.println("ALERT="+userHud.game.getAlertLevel(id));
 			if(userHud.game.getAlertLevel(id) > max )
 				max = (int) userHud.game.getAlertLevel(id);
 		}
-		
+
+		//If max < 0 we are in the firth execution
+		if(max < 0)
+			return 20;//return minimal value
+		//calculate time difference
 		int diff = (int) GameTimer.getTimeInSeconds() - max;
-		if((20 - diff)*100/20 < 20)
-			return 20;
-		return (20 - diff)*100/20;
+		//check difference
+		if(diff < 0)
+			diff = 0;
+		//calculate percentage
+		if((ALERT_RANGE - diff)*100/ALERT_RANGE < 20)
+			return 20;//return minimal value
+		return (ALERT_RANGE - diff)*100/ALERT_RANGE;
 	}
 	
 	/** 

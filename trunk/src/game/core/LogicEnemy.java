@@ -20,7 +20,7 @@ import com.jme.math.Vector3f;
 @SuppressWarnings("serial")
 public class LogicEnemy extends LogicCharacter implements Serializable {
 
-	final int ALERT_RANGE = 20;
+	static public final int ALERT_RANGE = 20;
 	
 	/** Enemy's weapon */
 	LogicWeapon weapon;
@@ -78,6 +78,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 			
 			switch ( state ) {
 			case DEFAULT:
+				alertTime = GameTimer.getTimeInSeconds() - 20;
 				if ( distance <= state.getActionRange() ) {
 					state = State.ALERT;
 					alertTime = GameTimer.getTimeInSeconds();
