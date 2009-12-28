@@ -40,6 +40,8 @@ public class UserHud {
 	int oldTicks;
 	
 	Text fps;
+	
+	Text ammo;
 
 	/** 
 	 * Control
@@ -66,6 +68,10 @@ public class UserHud {
     	fps.setLocalTranslation( gWorld.getResolution().x - 200, gWorld.getResolution().y - 40, 0 );
     	gWorld.getRootNode().attachChild( fps );
     	
+    	ammo = Text.createDefaultTextLabel( "ammo" );
+    	ammo.setLocalTranslation( gWorld.getResolution().x - 200, gWorld.getResolution().y - 60, 0 );
+    	gWorld.getRootNode().attachChild( ammo );
+    	
 	}
 	
 	/**
@@ -78,6 +84,7 @@ public class UserHud {
 			int value = gWorld.getCore().getLevel(gWorld.player.id);
 			level.print("Level: "+Integer.toString(value));
 	    	fps.print( "Frame Rate: " + (int) GameTimer.getFrameRate() + "fps" );
+	    	ammo.print( "Ammunitions: " + gWorld.getCore().getAmmo( gWorld.player.id ) );
 			hudScore.update();
 			hudLife.update();
 			map.update();
