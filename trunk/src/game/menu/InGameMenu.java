@@ -109,8 +109,6 @@ public class InGameMenu extends JFrame {
 		pHorizontalEmpty2.setPreferredSize( new Dimension( 1, 250 ) );
 		borderPanel.add( pHorizontalEmpty2, BorderLayout.NORTH );
 		
-		this.setVisible(true);
-		
 		/**
 		 * Custom Listener
 		 */

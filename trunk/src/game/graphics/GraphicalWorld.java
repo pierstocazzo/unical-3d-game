@@ -96,8 +96,6 @@ public class GraphicalWorld extends Game {
 
 	/** the environment */
 	Environment environment;
-
-	Text ammo;
 	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
@@ -123,17 +121,11 @@ public class GraphicalWorld extends Game {
 		ammoPackages = new HashMap<String, AmmoPackage>();
 		energyPackages = new HashMap<String, EnergyPackage>();
 		
-    	
     	setCrosshair();
     	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
     	
 		gameOver = Text.createDefaultTextLabel( "gameOver" );
 		rootNode.attachChild(gameOver);
-		
-		
-		ammo = Text.createDefaultTextLabel( "ammo" );
-    	ammo.setLocalTranslation( resolution.x - 200, resolution.y - 60, 0 );
-    	rootNode.attachChild( ammo );
 		
     	ExplosionFactory.warmup();
     	
@@ -277,7 +269,6 @@ public class GraphicalWorld extends Game {
 	        updateBullets(tpf);
 	        updateAmmoPackages(tpf);
 	        updateEnergyPackages(tpf);
-	        ammo.print( "Ammunitions: " + core.getAmmo( player.id ) );
     	}
     	
 		updateInput();
