@@ -2,7 +2,6 @@ package game.HUD;
 
 import java.util.HashMap;
 
-import game.common.GameTimer;
 import game.graphics.GraphicalWorld;
 import utils.Loader;
 
@@ -98,18 +97,14 @@ public class WorldMap2D {
 	/** Update the 2d WorldMap 
 	 */
 	public void update() {
-		if(oldTicks + 1000 <= GameTimer.getTime()){
-			oldTicks = GameTimer.getTime();
+		// Clean previously printed disks
+		for( String id : characters.keySet() )
+			world.getHudNode().detachChild( characters.get(id) );
 		
-			// Clean previously printed disks
-			for( String id : characters.keySet() )
-				world.getHudNode().detachChild( characters.get(id) );
-			
-			// set the new position and render each disk
-			for( String id : world.getCore().getCharactersIds() ) {
-				characters.get( id ).setLocalTranslation( calculatePosition( world.getCore().getPosition( id ) ) );
-				world.getHudNode().attachChild( characters.get( id ) );
-			}
+		// set the new position and render each disk
+		for( String id : world.getCore().getCharactersIds() ) {
+			characters.get( id ).setLocalTranslation( calculatePosition( world.getCore().getPosition( id ) ) );
+			world.getHudNode().attachChild( characters.get( id ) );
 		}
 	}
 	

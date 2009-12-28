@@ -28,14 +28,14 @@ public class LoadingFrame extends JFrame {
 		super();
 		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
 		
-		this.setUndecorated(true); 
+		setUndecorated(true); 
 	    
 		//hide cursor
 		setCursor(getToolkit().createCustomCursor(
 				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
 				new Point(), "null"));
 		
-		this.setTitle("Loading Game");
+		setTitle("Loading Game");
 		
 		JPanel b = new JPanel(){
 			private static final long serialVersionUID = 1L;
@@ -49,7 +49,7 @@ public class LoadingFrame extends JFrame {
 		
 		b.setLayout(new BorderLayout());
 		b.setOpaque(false);
-		this.setContentPane(b);
+		setContentPane(b);
 		
 		pb = new JProgressBar(0, 100);
         pb.setValue(0);

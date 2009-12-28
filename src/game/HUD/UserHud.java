@@ -30,10 +30,16 @@ public class UserHud {
 	/** HudLife pointer */
 	HudLife hudLife;
 	
+	/** World Map 2d */
+	WorldMap2D map;
+	
+	/** Level Label */
 	Text level;
 	
 	/** variable used for controlled update */
 	int oldTicks;
+	
+	Text fps;
 
 	/** 
 	 * Control
@@ -48,25 +54,33 @@ public class UserHud {
 		oldTicks = 0;
 		hudScore = new HudScore(this);
 		hudLife = new HudLife(this);
+		map = new WorldMap2D(graphicalWorld);
 		
 		level = Text.createDefaultTextLabel( "Level" );
     	level.setTextColor(ColorRGBA.blue);
     	level.setLocalTranslation( hudLife.life.getLocalTranslation().x, 
     			hudLife.life.getLocalTranslation().y + hudLife.life.getHeight(), 0 );
     	graphicalWorld.getRootNode().attachChild(level);
+    	
+    	fps = Text.createDefaultTextLabel( "FPS" );
+    	fps.setLocalTranslation( gWorld.getResolution().x - 200, gWorld.getResolution().y - 40, 0 );
+    	gWorld.getRootNode().attachChild( fps );
+    	
 	}
 	
 	/**
 	 * Update user hud
 	 */
 	public void update(){
-		if(oldTicks + 500 <= (int)GameTimer.getTime())
+		if(oldTicks + 1000 <= (int)GameTimer.getTime())
 		{
 			oldTicks = (int) GameTimer.getTime();
 			int value = gWorld.getCore().getLevel(gWorld.player.id);
 			level.print("Level: "+Integer.toString(value));
+	    	fps.print( "Frame Rate: " + (int) GameTimer.getFrameRate() + "fps" );
 			hudScore.update();
 			hudLife.update();
+			map.update();
 		}
 	}
 }

@@ -12,6 +12,8 @@ import com.jme.scene.Text;
  */
 public class HudScore {
 	
+	/** User hud */
+	UserHud userHud;
 	/** Score value */
 	int value;
 	/** useful variable */
@@ -32,6 +34,7 @@ public class HudScore {
 	 */
 	public HudScore(UserHud userHud){
 		//inizializza valore score
+		this.userHud = userHud;
 		value = 0;
 		xPosition = (int) (userHud.gWorld.settings.getWidth()/2) ;
 		yPosition = userHud.gWorld.settings.getHeight();
@@ -47,8 +50,8 @@ public class HudScore {
 	 * Update Score informations
 	 */
 	public void update(){
-		Random r = new Random();
-		score.print("SCORE: "+Integer.toString(r.nextInt()));
+		value = 0;
+		score.print("SCORE: "+value);
 		score.setLocalTranslation( xPosition-(score.getWidth()/2), yPosition-100, 0 );
 		//aggiorna score
 	}
