@@ -20,6 +20,8 @@ import com.jme.math.Vector3f;
 @SuppressWarnings("serial")
 public class LogicEnemy extends LogicCharacter implements Serializable {
 
+	final int ALERT_RANGE = 20;
+	
 	/** Enemy's weapon */
 	LogicWeapon weapon;
 	
@@ -87,9 +89,9 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 					state = State.ATTACK;
 				} else if ( distance > state.getActionRange() ) {
 					/* if the player goes away from the actionRange of this enemy, 
-					 * he remains in alert state for 40 seconds
+					 * he remains in alert state for "ALERT_RANGE" seconds
 					 */
-					if( GameTimer.getTimeInSeconds() - alertTime > 40 ) {
+					if( GameTimer.getTimeInSeconds() - alertTime > ALERT_RANGE ) {
 						state = State.DEFAULT;
 					}
 				}
@@ -98,15 +100,19 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 			case ATTACK:
 				if ( distance > state.getViewRange() ) {
 						state = State.ALERT;
-						alertTime = GameTimer.getTimeInSeconds();
 				} else {
 					calculateShootDirection( playerId );
 				}
+				alertTime = GameTimer.getTimeInSeconds();
 				break;
 			}
 		}
 	}
 	
+	public float getAlertTime() {
+		return alertTime;
+	}
+
 	private void calculateShootDirection( String playerId ) {
 		// ottengo la shootdirection esatta sottraendo il vettore posizione del 
 		// nemico a quello del suo target (ovvero un player) 

@@ -185,5 +185,7 @@ public interface WorldInterface {
 	 * @return all energy packages ids
 	 */
 	public abstract Set<String> getEnergyPackagesIds();
+	
+	public abstract float getAlertLevel(String id);
 
 }

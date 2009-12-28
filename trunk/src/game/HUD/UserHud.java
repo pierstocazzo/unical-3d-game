@@ -42,6 +42,8 @@ public class UserHud {
 	Text fps;
 	
 	Text ammo;
+	
+	HudAlert hudAlert;
 
 	/** 
 	 * Control
@@ -72,6 +74,7 @@ public class UserHud {
     	ammo.setLocalTranslation( gWorld.getResolution().x - 200, gWorld.getResolution().y - 60, 0 );
     	gWorld.getRootNode().attachChild( ammo );
     	
+    	hudAlert = new HudAlert(this);
 	}
 	
 	/**
@@ -87,6 +90,7 @@ public class UserHud {
 	    	ammo.print( "Ammunitions: " + gWorld.getCore().getAmmo( gWorld.player.id ) );
 			hudScore.update();
 			hudLife.update();
+			hudAlert.update();
 			map.update();
 		}
 	}
