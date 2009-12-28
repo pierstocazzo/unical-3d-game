@@ -105,7 +105,7 @@ public class GraphicalWorld extends Game {
 			super.threadController = tc;
 		
 		/** set to true if you want to enable the audio system */
-//		audioEnabled = true;
+		audioEnabled = false;
 	}
 	
 	public void setCrosshair() {
@@ -227,7 +227,7 @@ public class GraphicalWorld extends Game {
     protected void update() {
 		if( !enabled )
 			return;
-		
+
 		if( audioEnabled )
 			audio.update();
     	
@@ -235,6 +235,9 @@ public class GraphicalWorld extends Game {
     		life.print( "Life: 0" );
     		gameOver();
     	} else {
+
+			updateRenderOptimizer();
+
     		life.print( "Life: " + core.getCharacterLife( player.id ) );
     		
 	        physicsInputHandler.update(tpf);
@@ -466,6 +469,7 @@ public class GraphicalWorld extends Game {
 		return ground;
 	}
 	
+	@Override
 	protected void cleanup() {
 		super.cleanup();
 		if( audioEnabled )
@@ -538,6 +542,43 @@ public class GraphicalWorld extends Game {
 	    	AudioManager.explosion.setWorldPosition( position.clone() );
 	    	AudioManager.explosion.setVolume( 5 );
 			AudioManager.explosion.play();
+		}
+	}
+
+	private void updateRenderOptimizer() {
+		float distance;
+		Vector3f playerPosition = new Vector3f( core.getCharacterPosition( player.id ) );
+		Vector3f characterPosition = Vector3f.ZERO;
+		
+		/** Set the Y of the player position to zero **/
+		playerPosition.setY(0);
+
+		for( String id : core.getEnemiesId() ) {
+			characterPosition = core.getCharacterPosition( id );
+			/** Set the Y of the character position to zero **/
+			characterPosition.setY(0);
+
+			distance = playerPosition.distance( characterPosition );
+			System.out.println("CHARACTER ID: " + id + " DISTANCE IS: " + distance + "!"); // DEBUG ONLY!
+			if ( distance > 100 ) { // Puramente indicativa a scopo di test!!!
+				if ( characters.get(id).isEnabled() ) {
+					characters.get(id).setEnabled(false);
+					characters.get(id).detach(true);
+					System.out.println("CHARACTER ID: " + id + " DETACHED! " + characters.get(id).isEnabled()); // DEBUG ONLY!
+				}
+			} else {
+				if ( !characters.get(id).isEnabled() ) {
+					characters.get(id).setEnabled(true);
+					characters.get(id).detach(false);
+					/**
+					 * PROBLEMONE:
+					 * Il character non ritorna nella posizione desiderata!!!
+					 */
+					core.getCharacterPosition(id).set( characters.get(id).getCharacterFeet().getLocalTranslation() );
+
+					System.out.println("CHARACTER ID: " + id + " ATTACHED! " + characters.get(id).isEnabled()); // DEBUG ONLY!
+				}
+			}
 		}
 	}
 }

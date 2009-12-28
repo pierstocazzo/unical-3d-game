@@ -65,16 +65,18 @@ public class PhysicsEnemy extends PhysicsCharacter {
     
 	public void update( float time ) {
 		super.update(time);
+		/*
 		if( world.getCore().isAlive( id ) == true ) {
 			world.getCore().updateEnemyState(id);
 			if( world.getCore().getEnemyState(id) == State.ATTACK ) {
 				animationController.runAnimation( Animation.SHOOT );
-				if( world.timer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
+				if( world.timer.getTimeInSeconds() - previousTime > 0.2f ) {
 					previousTime = world.timer.getTimeInSeconds();
 					shoot( world.getCore().getEnemyShootDirection(id) );
 				}
 			}
 		}
+		*/
 	}
 	
     @Override

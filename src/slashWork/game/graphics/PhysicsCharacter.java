@@ -89,6 +89,9 @@ public class PhysicsCharacter {
 
 	private boolean freeCam = false;
 
+	/** true if the character is enabled */
+	boolean enabled = true;
+
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
      * 
@@ -214,6 +217,9 @@ public class PhysicsCharacter {
 	 * @param time
 	 */
 	public void update( float time ) {
+		if( !isEnabled() )
+			return;
+
 	    if( world.getCore().isAlive( id ) == true ) {
 			preventFall();
 		
@@ -265,11 +271,27 @@ public class PhysicsCharacter {
 	    }
 	}
 
-	public void hide( boolean b ) {
-		if( b ) 
-			body.detachChild( model );
+	public void hide( boolean hide ) {
+		if( hide )
+			if ( body.hasChild(model) )
+				body.detachChild(model);
 		else
-			body.attachChild( model );
+			if ( !body.hasChild(model) )
+				body.attachChild(model);
+	}
+
+	/**
+	 * Detach and Attach characterNode
+	 * @param detach
+	 */
+	public void detach( boolean detach ) {
+		if( detach )
+			//characterNode.getParent().detachChild(characterNode);
+			if ( world.getRootNode().hasChild( characterNode ) )
+				world.getRootNode().detachChild( characterNode );
+		else
+			if ( !world.getRootNode().hasChild( characterNode ) )
+				world.getRootNode().attachChild( characterNode );
 	}
 	
 	public void die() {
@@ -572,4 +594,13 @@ public class PhysicsCharacter {
 	public void toggleFreeCam() {
 		freeCam = !freeCam;
 	}
+
+	public boolean isEnabled() {
+		return this.enabled;
+	}
+
+	public void setEnabled( boolean enabled ) {
+		this.enabled = enabled;
+	}
+
 }
