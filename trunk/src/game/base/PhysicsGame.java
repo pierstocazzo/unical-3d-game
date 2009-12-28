@@ -129,6 +129,11 @@ public abstract class PhysicsGame extends AbstractGame {
 	
 	                    Thread.yield();
                 	}
+                	else{
+                		while(!enabled){}
+                		display.recreateWindow(settings.getWidth(),settings.getHeight(),
+    	        				settings.getDepth(),settings.getFrequency(),settings.isFullscreen());
+                	}
                 }
             }
         } catch ( Throwable t ) {

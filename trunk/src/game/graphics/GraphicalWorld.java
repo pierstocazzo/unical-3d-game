@@ -1,9 +1,7 @@
 package game.graphics;
 
 import game.HUD.UserHud;
-import game.HUD.WorldMap2D;
 import game.base.Game;
-import game.common.GameTimer;
 import game.input.ThirdPersonHandler;
 import game.menu.LoadingFrame;
 import game.sound.SoundManager;
@@ -80,7 +78,6 @@ public class GraphicalWorld extends Game {
 	/** very very basic hud */
 	Quad crosshair;
 	Text gameOver;
-	Text fps;
 	UserHud userHud;
 	
 	/** audio controller */
@@ -90,8 +87,6 @@ public class GraphicalWorld extends Game {
 	boolean freeCam;
 
 	MouseLookHandler mouseLookHandler;
-
-	WorldMap2D hudMap;
 	
 	/** the world dimension (the world is a square) */
 	float dimension;
@@ -135,10 +130,7 @@ public class GraphicalWorld extends Game {
 		gameOver = Text.createDefaultTextLabel( "gameOver" );
 		rootNode.attachChild(gameOver);
 		
-		fps = Text.createDefaultTextLabel( "life" );
-    	fps.setLocalTranslation( resolution.x - 200, resolution.y - 40, 0 );
-    	rootNode.attachChild( fps );
-    	
+		
 		ammo = Text.createDefaultTextLabel( "ammo" );
     	ammo.setLocalTranslation( resolution.x - 200, resolution.y - 60, 0 );
     	rootNode.attachChild( ammo );
@@ -157,7 +149,6 @@ public class GraphicalWorld extends Game {
 	
 	    setupEnergyPackages();
 	    
-	    hudMap = new WorldMap2D( this );
 	    userHud = new UserHud(this);
 	}
 
@@ -290,10 +281,6 @@ public class GraphicalWorld extends Game {
     	}
     	
 		updateInput();
-		
-		hudMap.update();
-		
-    	fps.print( "Frame Rate: " + (int) GameTimer.getFrameRate() + "fps" );
     }
     
 	private void updateInput() {
