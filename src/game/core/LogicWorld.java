@@ -277,4 +277,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 			return 0;
 		}
 	}
+
+	@Override
+	public float getAlertLevel(String id) {
+		return ((LogicEnemy)characters.get(id)).getAlertTime();
+	}
 }

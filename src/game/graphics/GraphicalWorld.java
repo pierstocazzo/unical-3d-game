@@ -107,7 +107,7 @@ public class GraphicalWorld extends Game {
         this.core = core;
         super.loadingFrame = loadingFrame;
         
-        audioEnabled = true;
+        audioEnabled = false;
     }
 
 	public void setupInit() {

@@ -13,14 +13,14 @@ public enum State implements Serializable {
 	 * The character is in alert because he has 
 	 * seen something strange
 	 */
-	ALERT ( 80, 200 ),
+	ALERT ( 120, 240 ),
 	
 	/**
 	 * The character is attacking you, because he
 	 * has seen you and he have to kill
 	 * everybody unknown
 	 */
-	ATTACK ( 180, 180 );
+	ATTACK ( 180, 270 );
 	
 	/** view range */
 	int viewRange;
