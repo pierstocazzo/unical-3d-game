@@ -131,7 +131,7 @@ public abstract class PhysicsGame extends AbstractGame {
                 	}
                 	else{
                 		boolean menuActive = true;
-                		while(menuActive){
+                		while( menuActive && !finished ){
                 			if(enabled){
 		                		display.recreateWindow(settings.getWidth(),settings.getHeight(),
 		    	        								settings.getDepth(),settings.getFrequency(),
