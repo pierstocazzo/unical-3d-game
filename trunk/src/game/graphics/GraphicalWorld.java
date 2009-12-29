@@ -229,6 +229,8 @@ public class GraphicalWorld extends Game {
 		if( core.isAlive( player.id ) == false ) {
     		gameOver();
     	} else {
+    		updateRenderOptimizer();
+    		
     		userHud.update();
 	        inputHandler.update(tpf);
 	        freeCamInput.update(tpf);
@@ -421,6 +423,33 @@ public class GraphicalWorld extends Game {
 	    	SoundManager.death.setWorldPosition( cam.getLocation().clone() );
 	    	SoundManager.death.setVolume( 5 );
 			SoundManager.death.play();
+		}
+	}
+	
+	private void updateRenderOptimizer() {
+		float distance;
+		Vector3f playerPosition = new Vector3f( core.getPosition( player.id ) );
+		playerPosition.setY(0); //Set the Y of the player position to zero
+		Vector3f characterPosition = new Vector3f();
+		
+		for( String id : core.getEnemiesIds() ) {
+			characterPosition.set( core.getPosition( id ) );
+			characterPosition.setY(0); //Set the Y of the character position to zero
+
+			distance = playerPosition.distance( characterPosition );
+
+			if ( distance > 150 ) { // Puramente indicativa a scopo di test!!!
+				if ( characters.get(id).isEnabled() ) {
+					characters.get(id).hideModel();
+//					characters.get(id).clearDynamics();
+					characters.get(id).setEnabled(false);
+				}
+			} else {
+				if ( !characters.get(id).isEnabled() ) {
+					characters.get(id).showModel();
+					characters.get(id).setEnabled(true);
+				}
+			}
 		}
 	}
 	
