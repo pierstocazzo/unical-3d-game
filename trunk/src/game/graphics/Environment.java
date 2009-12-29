@@ -1,7 +1,6 @@
 package game.graphics;
 
 import java.nio.FloatBuffer;
-import java.util.Random;
 
 import utils.Loader;
 import utils.ModelLoader;
