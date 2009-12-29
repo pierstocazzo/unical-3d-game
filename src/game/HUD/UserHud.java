@@ -86,12 +86,12 @@ public class UserHud {
 			oldTicks = (int) GameTimer.getTime();
 			int value = gWorld.getCore().getLevel(gWorld.player.id);
 			level.print("Level: "+Integer.toString(value));
-	    	fps.print( "Frame Rate: " + (int) GameTimer.getFrameRate() + "fps" );
-	    	ammo.print( "Ammunitions: " + gWorld.getCore().getAmmo( gWorld.player.id ) );
 			hudScore.update();
 			hudLife.update();
 			hudAlert.update();
 			map.update();
 		}
+		fps.print( "Frame Rate: " + (int) GameTimer.getFrameRate() + "fps" );
+    	ammo.print( "Ammunitions: " + gWorld.getCore().getAmmo( gWorld.player.id ) );
 	}
 }
