@@ -155,7 +155,7 @@ public abstract class LogicCharacter implements Serializable {
 	public void setPosition( Vector3f position ) {
 		this.position.set(position);
 	}
-	
+
 	/** 
 	 * 
 	 * @param bulletDamage - (int) the bullet damage power
