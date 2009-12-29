@@ -90,6 +90,9 @@ public class GraphicalWorld extends Game {
 	/** audio controller status */
 	boolean audioEnabled;
 	
+	/** Position Vector for Rendering Optimization */
+	Vector3f playerPosition = new Vector3f();
+	Vector3f characterPosition = new Vector3f();
 	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
@@ -547,36 +550,26 @@ public class GraphicalWorld extends Game {
 
 	private void updateRenderOptimizer() {
 		float distance;
-		Vector3f playerPosition = new Vector3f( core.getCharacterPosition( player.id ) );
-		Vector3f characterPosition = Vector3f.ZERO;
 		
-		/** Set the Y of the player position to zero **/
-		playerPosition.setY(0);
+		playerPosition.set( core.getCharacterPosition( player.id ) );
+		playerPosition.setY(0); //Set the Y of the player position to zero
 
 		for( String id : core.getEnemiesId() ) {
-			characterPosition = core.getCharacterPosition( id );
-			/** Set the Y of the character position to zero **/
-			characterPosition.setY(0);
+			characterPosition.set( core.getCharacterPosition( id ) );
+			characterPosition.setY(0); //Set the Y of the character position to zero
 
 			distance = playerPosition.distance( characterPosition );
-			System.out.println("CHARACTER ID: " + id + " DISTANCE IS: " + distance + "!"); // DEBUG ONLY!
-			if ( distance > 100 ) { // Puramente indicativa a scopo di test!!!
+			
+			if ( distance > 150 ) { // Puramente indicativa a scopo di test!!!
 				if ( characters.get(id).isEnabled() ) {
+					characters.get(id).hideModel();
+					characters.get(id).clearDynamics();
 					characters.get(id).setEnabled(false);
-					characters.get(id).detach(true);
-					System.out.println("CHARACTER ID: " + id + " DETACHED! " + characters.get(id).isEnabled()); // DEBUG ONLY!
 				}
 			} else {
 				if ( !characters.get(id).isEnabled() ) {
+					characters.get(id).showModel();
 					characters.get(id).setEnabled(true);
-					characters.get(id).detach(false);
-					/**
-					 * PROBLEMONE:
-					 * Il character non ritorna nella posizione desiderata!!!
-					 */
-					core.getCharacterPosition(id).set( characters.get(id).getCharacterFeet().getLocalTranslation() );
-
-					System.out.println("CHARACTER ID: " + id + " ATTACHED! " + characters.get(id).isEnabled()); // DEBUG ONLY!
 				}
 			}
 		}

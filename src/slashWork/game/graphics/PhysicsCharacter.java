@@ -217,8 +217,10 @@ public class PhysicsCharacter {
 	 * @param time
 	 */
 	public void update( float time ) {
-		if( !isEnabled() )
+		if( !isEnabled() ) {
+			preventFall();
 			return;
+		}
 
 	    if( world.getCore().isAlive( id ) == true ) {
 			preventFall();
@@ -280,20 +282,16 @@ public class PhysicsCharacter {
 				body.attachChild(model);
 	}
 
-	/**
-	 * Detach and Attach characterNode
-	 * @param detach
-	 */
-	public void detach( boolean detach ) {
-		if( detach )
-			//characterNode.getParent().detachChild(characterNode);
-			if ( world.getRootNode().hasChild( characterNode ) )
-				world.getRootNode().detachChild( characterNode );
-		else
-			if ( !world.getRootNode().hasChild( characterNode ) )
-				world.getRootNode().attachChild( characterNode );
+	public void hideModel() {
+		if ( body.hasChild(model) )
+			body.detachChild(model);
 	}
-	
+
+	public void showModel() {
+		if ( !body.hasChild(model) )
+			body.attachChild(model);
+	}
+
 	public void die() {
     	clearDynamics();
 
