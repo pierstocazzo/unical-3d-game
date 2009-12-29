@@ -46,7 +46,7 @@ public class Bullet {
 	public Bullet( String characterId, GraphicalWorld world, WeaponType weaponType, Vector3f position ) {
 		this.characterId = characterId;
 		world.bulletsCounter = world.bulletsCounter + 1;
-		this.id = characterId + "bullet" + world.bulletsCounter;
+		this.id = "bullet" + world.bulletsCounter;
 		this.world = world;
 		this.position = new Vector3f( position );
 		this.weaponType = weaponType;

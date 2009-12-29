@@ -323,8 +323,9 @@ public class Enemy extends Character  {
 		exp.setOriginOffset( feet.getWorldTranslation().clone() );
         world.getRootNode().attachChild(exp);
         exp.forceRespawn();
-		
-		AmmoPackage ammo = new AmmoPackage( id + "ammoPack", 
+        
+        world.ammoPackagesCounter++;
+		AmmoPackage ammo = new AmmoPackage( "ammo" + world.ammoPackagesCounter, 
 				world, feet.getWorldTranslation().clone().add( new Vector3f(0,15,0) ) );
 		world.ammoPackages.put( ammo.id, ammo );
 		

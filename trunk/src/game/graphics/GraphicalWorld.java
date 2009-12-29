@@ -320,19 +320,21 @@ public class GraphicalWorld extends Game {
 //		c.clear();
 //		c = null;
 		
-		/* Prima alternativa: sfruttando gli id particolari, try catch per aggirare
-		 * l'errore quando si cerca di fare l'update di un character non più esistente
+		/* Prima alternativa: sfruttando gli id particolari, l'if per non provare a fare
+		 * l'update di un character non più esistente (darebbe una nullpointerexeption)
 		 * Metodo più performante, un po trucchettoso e brutto da vedere, ma non usa 
 		 * alcuna struttura di comodo e sfrutta l'accesso random dell'hashmap
 		 */
 		for( int i = 1; i <= playersCounter; i++ ) {
-			try { characters.get("player"+i).update(time); 
-			} catch (Exception e) {}
+			if( characters.get("player"+i) != null ) { 
+				characters.get("player"+i).update(time); 
+			}
 		}
 		
 		for( int i = 1; i <= enemiesCounter; i++ ) {
-			try { characters.get("enemy"+i).update(time); 
-			} catch (Exception e) {}
+			if( characters.get("enemy"+i) != null ) {
+				characters.get("enemy"+i).update(time); 
+			}
 		}
 		
 		/* Seconda alternativa: nell'hashmap logica i characters restano anche dopo essere morti. 
@@ -369,39 +371,54 @@ public class GraphicalWorld extends Game {
 	 * Call the update method of each bullet contained in the bullets hashMap
 	 */
 	private void updateBullets( float time ) {
-		Collection<Bullet> c = new LinkedList<Bullet>( bullets.values() );
-		Iterator<Bullet> it = c.iterator();
-		while( it.hasNext() ) {
-			it.next().update(time);
+//		Collection<Bullet> c = new LinkedList<Bullet>( bullets.values() );
+//		Iterator<Bullet> it = c.iterator();
+//		while( it.hasNext() ) {
+//			it.next().update(time);
+//		}
+//		c.clear();
+//		c = null;
+		
+		for( int i = 1; i <= bulletsCounter; i++ ) {
+			if( bullets.get("bullet"+i) != null )
+				bullets.get("bullet"+i).update(time); 
 		}
-		c.clear();
-		c = null;
 	}
 	
 	/** Function updateAmmoPackages <br>
 	 * Call the update method of each ammo pack contained in the ammoPackages hashMap
 	 */
     public void updateAmmoPackages( float time ) {
-		Collection<AmmoPackage> c = new LinkedList<AmmoPackage>( ammoPackages.values() );
-		Iterator<AmmoPackage> it = c.iterator();
-    	while( it.hasNext() ) {
-    		it.next().update(time);
-    	}
-		c.clear();
-		c = null;
+//		Collection<AmmoPackage> c = new LinkedList<AmmoPackage>( ammoPackages.values() );
+//		Iterator<AmmoPackage> it = c.iterator();
+//    	while( it.hasNext() ) {
+//    		it.next().update(time);
+//    	}
+//		c.clear();
+//		c = null;
+    	
+		for( int i = 1; i <= ammoPackagesCounter; i++ ) {
+			if( bullets.get("ammo"+i) != null )
+				bullets.get("ammo"+i).update(time); 
+		}
     }
     
 	/** Function updateEnergyPackages <br>
 	 * Call the update method of each energy pack contained in the energyPackages hashMap
 	 */
     public void updateEnergyPackages( float time ) {
-		Collection<EnergyPackage> c = new LinkedList<EnergyPackage>( energyPackages.values() );
-		Iterator<EnergyPackage> it = c.iterator();
-    	while( it.hasNext() ) {
-    		it.next().update(time);
-    	}
-		c.clear();
-		c = null;
+//		Collection<EnergyPackage> c = new LinkedList<EnergyPackage>( energyPackages.values() );
+//		Iterator<EnergyPackage> it = c.iterator();
+//    	while( it.hasNext() ) {
+//    		it.next().update(time);
+//    	}
+//		c.clear();
+//		c = null;
+    	
+		for( int i = 1; i <= energyPackagesCounter; i++ ) {
+			if( bullets.get("energyPack"+i) != null )
+				bullets.get("energyPack"+i).update(time); 
+		}
     }
 
 	private void setupEnergyPackages() {
