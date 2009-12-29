@@ -453,7 +453,7 @@ public class Game extends BaseGame {
 	 * @return AnimationController
 	 */
     public AnimationController getAnimationController() {
-        List<Spatial> armatures = player.descendantMatches(Bone.class, ".+SuperBone");
+        List<Bone> armatures = player.descendantMatches(Bone.class, ".+SuperBone");
         if (armatures.size() < 1)
             throw new IllegalStateException("Sorry.  Program assumes "
                     + "you have a node named with suffix 'SuperBone'");

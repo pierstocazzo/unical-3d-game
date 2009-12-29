@@ -503,7 +503,7 @@ public class Game extends BaseGame {
 	
 	// funzione che ritorna il controller per il nostro player
     public AnimationController getAnimationController() {
-        List<Spatial> armatures =
+        List<Bone> armatures =
                 player.descendantMatches(Bone.class, ".+SuperBone");
         if (armatures.size() < 1)
             throw new IllegalStateException("Sorry.  Program assumes "
