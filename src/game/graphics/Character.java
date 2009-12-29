@@ -40,6 +40,8 @@ public class Character {
     boolean shooting = false;
 
 	float previousTime;
+
+	private boolean enabled = true;
 	
 	public Node getCharacterNode() {
 		return characterNode;
@@ -55,5 +57,22 @@ public class Character {
 	public PhysicsNode getCharacterBody() {
 		return body;
 	}
-	
+
+	public boolean isEnabled() {
+		return this.enabled;
+	}
+
+	public void setEnabled( boolean enabled ) {
+		this.enabled = enabled;
+	}
+
+	public void hideModel() {
+		if ( body.hasChild(model) )
+			body.detachChild(model);
+	}
+
+	public void showModel() {
+		if ( !body.hasChild(model) )
+			body.attachChild(model);
+	}
 }
