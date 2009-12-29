@@ -99,6 +99,9 @@ public class GraphicalWorld extends Game {
 
 	/** the environment */
 	Environment environment;
+
+	int playersCounter = 0;
+	int enemiesCounter = 0;
 	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
@@ -166,6 +169,7 @@ public class GraphicalWorld extends Game {
 		model.getChild( "weapon" ).setRenderState( ts );
 	    
 	    for( String id : core.getPlayersIds() ) {
+	    	playersCounter++;
 	    	player = new Player( id, this, 20, 100, model );
 	        player.getCharacterNode().getLocalTranslation().set( core.getPosition(id) );
 	        rootNode.attachChild( player.getCharacterNode() );
@@ -178,6 +182,7 @@ public class GraphicalWorld extends Game {
      */
     public void setupEnemies() { 	    	
         for( String id : core.getEnemiesIds() ) {
+        	enemiesCounter++;
         	Node model = ModelLoader.loadModel("game/data/models/soldier/enemy.jme", 
         			"game/data/models/soldier/soldier.jpg", 1f, new Quaternion());
             model.setLocalTranslation(0, -2f, 0);  
@@ -302,13 +307,62 @@ public class GraphicalWorld extends Game {
 	 * Call the update method of each character contained in the characters hashMap
 	 */
 	private void updateCharacters( float time ) {
-		Collection<Character> c = new LinkedList<Character>( characters.values() );
-		Iterator<Character> it = c.iterator();
-		while( it.hasNext() ) {
-			it.next().update(time);
+		/* Vecchio sistema: creiamo una collection al volo in cui mettiamo tutti i puntatori 
+		 * dei nostri characters, e poi iteriamo su questa, così quando un character muore e 
+		 * chiama il remove dell'hashmap noi non abbiamo problemi. 
+		 * Metodo dubbio, brutto da vedere e fa uso di due collection
+		 */
+//		Collection<Character> c = new LinkedList<Character>( characters.values() );
+//		Iterator<Character> it = c.iterator();
+//		while( it.hasNext() ) {
+//			it.next().update(time);
+//		}
+//		c.clear();
+//		c = null;
+		
+		/* Prima alternativa: sfruttando gli id particolari, try catch per aggirare
+		 * l'errore quando si cerca di fare l'update di un character non più esistente
+		 * Metodo più performante, un po trucchettoso e brutto da vedere, ma non usa 
+		 * alcuna struttura di comodo e sfrutta l'accesso random dell'hashmap
+		 */
+		for( int i = 1; i <= playersCounter; i++ ) {
+			try { characters.get("player"+i).update(time); 
+			} catch (Exception e) {}
 		}
-		c.clear();
-		c = null;
+		
+		for( int i = 1; i <= enemiesCounter; i++ ) {
+			try { characters.get("enemy"+i).update(time); 
+			} catch (Exception e) {}
+		}
+		
+		/* Seconda alternativa: nell'hashmap logica i characters restano anche dopo essere morti. 
+		 * Bisogna aggiungere varibile "alive" in logicCharacter, odificare il metodo die() in modo che 
+		 * non tolga l'oggetto dall'hashmap ma metta solo la variabile alive a false, e modificare 
+		 * anche il metodo isAlive( String id ) di conseguenza. 
+		 * Metodo più elegante, ma fa uso di set e inoltre a livello logico gli oggetti restano
+		 * sempre nell'hashmap anche quando non servono a un cazzo
+		 */
+//		for( String id : core.getCharactersIds() ) {
+//			if( core.isAlive(id) ) {
+//				characters.get(id).update(time);
+//			} else {
+//				characters.remove(id);
+//			}
+//		}
+		
+		/* Terza alternativa: iteriamo direttamente nella collection values, facciamo l'update, 
+		 * se questo ritorna false, l'iteratore elimina l'elemento corrente.
+		 * Richiede che il metodo update ritorni un booleano, che indica se il character è vivo
+		 * Metodo molto pulito, ma usa una collection
+		 */
+//		Iterator<Character> it = characters.values().iterator();
+//		while( it.hasNext() ) {
+//			if( it.next().update(time) == false )
+//				it.remove();
+//		}
+		
+		
+		// NB: in nessun caso ho notato variazioni di frame al secondo significative!
 	}
 	
 	/** Function updateBullets <br>
