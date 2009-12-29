@@ -432,20 +432,18 @@ public class GraphicalWorld extends Game {
 	
 	private void updateRenderOptimizer() {
 		float distance;
-		Vector3f playerPosition = new Vector3f( core.getPosition( player.id ) );
-		playerPosition.setY(0); //Set the Y of the player position to zero
+		Vector3f camPos = new Vector3f( cam.getLocation() );
+		camPos.setY(0);
 		Vector3f pos = new Vector3f();
 		
 		for( String id : core.getEnemiesIds() ) {
-			pos.set( core.getPosition( id ) );
-			pos.setY(0); //Set the Y of the character position to zero
+			pos.set( core.getPosition( id ) ).setY(0);
 
-			distance = playerPosition.distance( pos );
+			distance = camPos.distance( pos );
 
-			if ( distance > 150 ) { // Puramente indicativa a scopo di test!!!
+			if ( distance > 500 ) {
 				if ( characters.get(id).isEnabled() ) {
 					characters.get(id).hideModel();
-//					characters.get(id).clearDynamics();
 					characters.get(id).setEnabled(false);
 				}
 			} else {
@@ -459,7 +457,7 @@ public class GraphicalWorld extends Game {
 		for( int i : trees.keySet() ) {
 			pos.set( trees.get(i).getLocalTranslation() ).setY(0);
 			
-			distance = playerPosition.distance( pos );
+			distance = camPos.distance( pos );
 			
 			if( distance > 500 ) {
 				try {
