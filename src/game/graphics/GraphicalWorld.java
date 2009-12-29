@@ -67,6 +67,9 @@ public class GraphicalWorld extends Game {
 	HashMap< String, EnergyPackage > energyPackages;
     int energyPackagesCounter = 0;
     
+    HashMap< Integer, Node > trees;
+    int treeCounter = 0;
+    
     /** the player, in single player mode */
     public Player player;
 
@@ -120,6 +123,7 @@ public class GraphicalWorld extends Game {
 		bullets = new HashMap<String, Bullet>();
 		ammoPackages = new HashMap<String, AmmoPackage>();
 		energyPackages = new HashMap<String, EnergyPackage>();
+		trees = new HashMap<Integer, Node>();
 		
     	setCrosshair();
     	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
@@ -430,13 +434,13 @@ public class GraphicalWorld extends Game {
 		float distance;
 		Vector3f playerPosition = new Vector3f( core.getPosition( player.id ) );
 		playerPosition.setY(0); //Set the Y of the player position to zero
-		Vector3f characterPosition = new Vector3f();
+		Vector3f pos = new Vector3f();
 		
 		for( String id : core.getEnemiesIds() ) {
-			characterPosition.set( core.getPosition( id ) );
-			characterPosition.setY(0); //Set the Y of the character position to zero
+			pos.set( core.getPosition( id ) );
+			pos.setY(0); //Set the Y of the character position to zero
 
-			distance = playerPosition.distance( characterPosition );
+			distance = playerPosition.distance( pos );
 
 			if ( distance > 150 ) { // Puramente indicativa a scopo di test!!!
 				if ( characters.get(id).isEnabled() ) {
@@ -449,6 +453,22 @@ public class GraphicalWorld extends Game {
 					characters.get(id).showModel();
 					characters.get(id).setEnabled(true);
 				}
+			}
+		}
+		
+		for( int i : trees.keySet() ) {
+			pos.set( trees.get(i).getLocalTranslation() ).setY(0);
+			
+			distance = playerPosition.distance( pos );
+			
+			if( distance > 500 ) {
+				try {
+					rootNode.detachChild( trees.get(i) ); 
+				} catch (Exception e) { }
+			} else {
+				try {
+					rootNode.attachChild( trees.get(i) ); 
+				} catch (Exception e) { }
 			}
 		}
 	}
