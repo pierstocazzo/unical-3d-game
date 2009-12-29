@@ -41,7 +41,7 @@ public class Character {
 
 	float previousTime;
 
-	private boolean enabled = true;
+	protected boolean enabled = true;
 	
 	public Node getCharacterNode() {
 		return characterNode;

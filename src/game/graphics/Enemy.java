@@ -193,29 +193,36 @@ public class Enemy extends Character  {
 	 */
 	public void update( float time ) {
 	    if( world.getCore().isAlive( id ) == true ) {
-			preventFall();
-		
-		    contactDetect.update(time);
-		    
-		    body.rest();
-		    lookAtAction();
-		    
-			world.getCore().updateState(id);
-			if( world.getCore().getState(id) == State.ATTACK ) {
-				animationController.runAnimation( Animation.SHOOT );
-				shooting = true;
-				if( GameTimer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
-					previousTime = GameTimer.getTimeInSeconds();
-					shoot( world.getCore().getShootDirection(id) );
+			if( enabled ) {
+				feet.setActive(true);
+				body.setActive(true);
+				
+				preventFall();
+			    contactDetect.update(time);
+			    
+			    body.rest();
+			    lookAtAction();
+			    
+				world.getCore().updateState(id);
+				if( world.getCore().getState(id) == State.ATTACK ) {
+					animationController.runAnimation( Animation.SHOOT );
+					shooting = true;
+					if( GameTimer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
+						previousTime = GameTimer.getTimeInSeconds();
+						shoot( world.getCore().getShootDirection(id) );
+					}
+				} else {
+					shooting = false;
 				}
+			    
+			    moveCharacter();
+			    
+			    // update core
+			    world.getCore().setPosition( id, feet.getWorldTranslation() );
 			} else {
-				shooting = false;
+				feet.setActive(false);
+				body.setActive(false);
 			}
-		    
-		    moveCharacter();
-		    
-		    // update core
-		    world.getCore().setPosition( id, feet.getWorldTranslation() );
 	    } else {
 	    	die();
 	    }
