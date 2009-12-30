@@ -6,10 +6,7 @@ import game.input.ThirdPersonHandler;
 import game.menu.LoadingFrame;
 import game.sound.SoundManager;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Random;
 
 import jmetest.TutorialGuide.ExplosionFactory;
