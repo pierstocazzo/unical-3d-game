@@ -36,8 +36,8 @@ public class HudScore {
 		//inizializza valore score
 		this.userHud = userHud;
 		value = 0;
-		xPosition = (int) (userHud.gWorld.settings.getWidth()/2) ;
-		yPosition = userHud.gWorld.settings.getHeight();
+		xPosition = (int) (userHud.gWorld.getSettings().getWidth()/2) ;
+		yPosition = userHud.gWorld.getSettings().getHeight();
 		
 		score = Text.createDefaultTextLabel( "Score" );
     	score.setTextColor(ColorRGBA.red);
