@@ -3,6 +3,7 @@ package game.main;
 import java.util.logging.Level;
 
 import game.base.PhysicsGame;
+import game.common.MovementList.MovementType;
 import game.core.LogicWorld;
 import game.graphics.GraphicalWorld;
 import game.menu.LoadingFrame;
@@ -17,8 +18,8 @@ public class GameThread implements Runnable {
 		this.loadingFrame = loadingFrame;
 		logicGame = new LogicWorld();
     	logicGame.createPlayer( 100, -900, -900 );
-//    	logicGame.createEnemy( -900, -900, MovementType.REST );
-    	logicGame.createEnemiesGroup( 1, -700, -700 );
+    	logicGame.createEnemy( -900, -900, MovementType.REST );
+    	logicGame.createEnemiesGroup( 5, -700, -700 );
 //    	logicGame.createEnemiesGroup( 1, 100, 100 );
 //    	logicGame.createEnemiesGroup( 20, 500, 500 );
 //    	logicGame.createEnemiesGroup( 10, 400, 400 );

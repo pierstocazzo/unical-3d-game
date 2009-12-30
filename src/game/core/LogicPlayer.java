@@ -25,6 +25,8 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	/** Weapon in use */
 	LogicWeapon currentWeapon;
 	
+	int maxAmmo;
+	
 	/**
 	 * LogicPlayer Constructor <br>
 	 * Create a new Player
@@ -43,6 +45,8 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 		
 		/** assign the mp5 as current weapon */
 		changeWeapon( ar15.id );
+		
+		maxAmmo = 100;
 	}
 	
 	/** Function <code>addWeapon</code><br>
@@ -63,8 +67,14 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	public boolean addAmmo( WeaponType weaponType, int quantity ) {
 		for( String id : equipment.keySet() ) {
 			if( equipment.get(id).type == weaponType ) {
-				equipment.get(id).addAmmo( quantity );
-				return true;
+				if( equipment.get(id).ammo >= maxAmmo ) {
+					return false;
+				} else {
+					equipment.get(id).addAmmo( quantity );
+					if( equipment.get(id).ammo > maxAmmo )
+						equipment.get(id).ammo = maxAmmo;
+					return true;
+				}
 			}
 		}
 		return false;

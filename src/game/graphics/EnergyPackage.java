@@ -54,11 +54,11 @@ public class EnergyPackage {
                 ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
                 
                 for( String playerId : world.getCore().getPlayersIds() ) {
-	                if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterFeet() || 
-	                	 contactInfo.getNode2() == world.characters.get(playerId).getCharacterFeet() ) {
+	                if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterBody() || 
+	                	 contactInfo.getNode2() == world.characters.get(playerId).getCharacterBody() ) {
 	                	
-	                   world.getCore().catchEnergyPack( playerId, id );
-	                   deletePackage();
+	                   if( world.getCore().catchEnergyPack( playerId, id ) )
+	                	   deletePackage();
 	                }
                 }
             }

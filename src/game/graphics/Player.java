@@ -53,8 +53,8 @@ public class Player extends Character {
 
 	void createPhysics() {
 	    PhysicsCapsule bodyGeometry = body.createCapsule("body geometry");
-	    bodyGeometry.setLocalScale(2.5f);
-	    bodyGeometry.setLocalTranslation(0,4,0);
+	    bodyGeometry.setLocalScale( 2.5f );
+	    bodyGeometry.setLocalTranslation(0,3,0);
 //	     Set UP the orientation of the Body
 	    quaternion = new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
 	    bodyGeometry.setLocalRotation(quaternion);
