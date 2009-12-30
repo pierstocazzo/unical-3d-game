@@ -230,10 +230,14 @@ public class LogicWorld implements WorldInterface, Serializable {
 
 	@Override
 	public boolean catchAmmoPack( String playerId, String ammoPackId ) {
-		if( characters.get(playerId).addAmmo( ammoPackages.get(ammoPackId).getType(), ammoPackages.get(ammoPackId).getQuantity() ) ) {
-			ammoPackages.remove(ammoPackId);
-			return true;
-		} else {
+		try {
+			if( characters.get(playerId).addAmmo( ammoPackages.get(ammoPackId).getType(), ammoPackages.get(ammoPackId).getQuantity() ) ) {
+				ammoPackages.remove(ammoPackId);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
 			return false;
 		}
 	}

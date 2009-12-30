@@ -97,7 +97,7 @@ public class HudAlert {
 		//calculate max alert level
 		int max = -1*ALERT_RANGE;
 		for( String id : userHud.game.getEnemiesIds() ){
-			System.out.println("ALERT="+userHud.game.getAlertLevel(id));
+//			System.out.println("ALERT="+userHud.game.getAlertLevel(id));
 			if(userHud.game.getAlertLevel(id) > max )
 				max = (int) userHud.game.getAlertLevel(id);
 		}

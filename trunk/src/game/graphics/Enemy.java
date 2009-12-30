@@ -345,13 +345,6 @@ public class Enemy extends Character  {
 			rotationalAxis.setDesiredVelocity(0f);
 		}
 	}
-
-	public void hide( boolean b ) {
-		if( b ) 
-			body.detachChild( model );
-		else
-			body.attachChild( model );
-	}
 	
 	public void die() {
         ParticleMesh exp = ExplosionFactory.getSmallExplosion(); 

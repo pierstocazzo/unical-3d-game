@@ -68,7 +68,7 @@ public class EnergyPackage {
 	}
 
 	public void deletePackage() {
-		world.getRootNode().detachChild( physicsPack );
+		physicsPack.removeFromParent();
 		physicsPack.detachAllChildren();
 		physicsPack.delete();
 		

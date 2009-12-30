@@ -529,13 +529,9 @@ public class GraphicalWorld extends Game {
 			distance = camPos.distance( pos );
 			
 			if( distance > 500 ) {
-				try {
-					rootNode.detachChild( trees.get(i) ); 
-				} catch (Exception e) { }
+				trees.get(i).removeFromParent(); 
 			} else {
-				try {
-					rootNode.attachChild( trees.get(i) ); 
-				} catch (Exception e) { }
+				rootNode.attachChild( trees.get(i) ); 
 			}
 		}
 	}
