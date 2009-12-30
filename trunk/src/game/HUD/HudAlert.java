@@ -64,7 +64,6 @@ public class HudAlert {
 	public void update(){
 
 		alertValue = getAlertLevel();
-		alert.print("Alert: "+Integer.toString(alertValue));
 		
 		frontQuad.resize(initialLenght*alertValue/100, 
 						frontQuad.getHeight());
