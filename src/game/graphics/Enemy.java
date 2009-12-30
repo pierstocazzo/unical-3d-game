@@ -210,7 +210,8 @@ public class Enemy extends Character  {
 			    lookAtAction();
 			    
 				world.getCore().updateState(id);
-				if( world.getCore().getState(id) == State.ATTACK ) {
+				if( world.getCore().getState(id) == State.ATTACK || 
+						world.getCore().getState(id) == State.FINDATTACK) {
 					animationController.runAnimation( Animation.SHOOT );
 					shooting = true;
 					if( GameTimer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
@@ -241,14 +242,12 @@ public class Enemy extends Character  {
 				findDirection = new Vector3f(world.getCore().getShootDirection(id));
 				findDirection.setY(0);
 				findDirection.set(findDirection.negate());
-				System.out.println("FIND DIRECTION="+findDirection);
 				initialPosFind = new Vector3f(world.getCore().getPosition(id));
 				firstFind = false;
 			}
 			setMoving( true );
 			float dist = world.getCore().getPosition(id).distance(initialPosFind);
 			if(dist>100f){
-				System.out.println("DISTANZA SUPERATA");
 				if(inverted == false){
 					clearDynamics();
 					setMoving(false);
@@ -272,7 +271,8 @@ public class Enemy extends Character  {
 		 */
 		if( currentMovement.getDirection() != Direction.REST 
 			&& world.getCore().getState(id) != State.ATTACK
-			&& world.getCore().getState(id) != State.ALERT ) {
+			&& world.getCore().getState(id) != State.ALERT 
+			&& world.getCore().getState(id) != State.FINDATTACK) {
 			
 			setMoving( true );
 			/** move the character in the direction specified in the current movement */
