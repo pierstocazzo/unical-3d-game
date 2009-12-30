@@ -39,6 +39,8 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 
 	/** the time the enemy remain in alert or attack state */
 	float alertTime;
+	
+	boolean firstFind = true;
 
 
 	/**
@@ -100,11 +102,25 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 			
 			case ATTACK:
 				if ( distance > state.getViewRange() ) {
-						state = State.ALERT;
+						state = State.FIND;
+						calculateShootDirection(playerId);
 				} else {
 					calculateShootDirection( playerId );
 				}
 				alertTime = GameTimer.getTimeInSeconds();
+				break;
+			case FIND:
+//				if ( distance <= state.getViewRange() ) {
+//					state = State.FINDATTACK;
+//				}
+				break;
+				
+			case FINDATTACK:
+				if ( distance > state.getViewRange() ) {
+					state = State.FIND;
+				} else {
+					calculateShootDirection( playerId );
+				}
 				break;
 			}
 		}
