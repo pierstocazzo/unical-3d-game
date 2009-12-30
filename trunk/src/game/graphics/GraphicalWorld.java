@@ -385,7 +385,7 @@ public class GraphicalWorld extends Game {
 	/** Function updateAmmoPackages <br>
 	 * Call the update method of each ammo pack contained in the ammoPackages hashMap
 	 */
-    public void updateAmmoPackages( float time ) {
+    private void updateAmmoPackages( float time ) {
 //		Collection<AmmoPackage> c = new LinkedList<AmmoPackage>( ammoPackages.values() );
 //		Iterator<AmmoPackage> it = c.iterator();
 //    	while( it.hasNext() ) {
@@ -395,15 +395,15 @@ public class GraphicalWorld extends Game {
 //		c = null;
     	
 		for( int i = 1; i <= ammoPackagesCounter; i++ ) {
-			if( bullets.get("ammo"+i) != null )
-				bullets.get("ammo"+i).update(time); 
+			if( ammoPackages.get("ammo"+i) != null )
+				ammoPackages.get("ammo"+i).update(time); 
 		}
     }
     
 	/** Function updateEnergyPackages <br>
 	 * Call the update method of each energy pack contained in the energyPackages hashMap
 	 */
-    public void updateEnergyPackages( float time ) {
+    private void updateEnergyPackages( float time ) {
 //		Collection<EnergyPackage> c = new LinkedList<EnergyPackage>( energyPackages.values() );
 //		Iterator<EnergyPackage> it = c.iterator();
 //    	while( it.hasNext() ) {
@@ -413,8 +413,9 @@ public class GraphicalWorld extends Game {
 //		c = null;
     	
 		for( int i = 1; i <= energyPackagesCounter; i++ ) {
-			if( bullets.get("energyPack"+i) != null )
-				bullets.get("energyPack"+i).update(time); 
+			if( energyPackages.get("energyPack"+i) != null )
+				energyPackages
+				.get("energyPack"+i).update(time); 
 		}
     }
 

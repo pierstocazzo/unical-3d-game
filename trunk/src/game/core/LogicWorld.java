@@ -35,10 +35,11 @@ public class LogicWorld implements WorldInterface, Serializable {
 	HashMap< String, LogicAmmoPack > ammoPackages;
 	
 	/** utility counter */
-	int energyPackCounter, enemyCounter, playerCounter;
+	int ammoPackCounter, energyPackCounter, enemyCounter, playerCounter;
 	
 	/** Score Manager */
 	ScoreManager scoreManager;
+
 	
 	
 	/** <code>LogicWorld</code> Constructor<br>
@@ -49,6 +50,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		ammoPackages = new HashMap< String, LogicAmmoPack >();
 		energyPackages = new HashMap< String, LogicEnergyPack >();
 		energyPackCounter = 0;
+		ammoPackCounter = 0;
 		enemyCounter = 0;
 		playerCounter = 0;
 		scoreManager = new ScoreManager( this );
@@ -228,12 +230,17 @@ public class LogicWorld implements WorldInterface, Serializable {
 
 	@Override
 	public boolean catchAmmoPack( String playerId, String ammoPackId ) {
-		return characters.get(playerId).addAmmo( ammoPackages.get(ammoPackId).getType(), ammoPackages.get(ammoPackId).getQuantity() );
+		if( characters.get(playerId).addAmmo( ammoPackages.get(ammoPackId).getType(), ammoPackages.get(ammoPackId).getQuantity() ) ) {
+			ammoPackages.remove(ammoPackId);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
-	public void catchEnergyPack( String playerId, String energyPackId ) {
-		characters.get(playerId).addLife( energyPackages.get(energyPackId).getValue() );
+	public boolean catchEnergyPack( String playerId, String energyPackId ) {
+		return characters.get(playerId).addLife( energyPackages.get(energyPackId).getValue() );
 	}
 
 	@Override

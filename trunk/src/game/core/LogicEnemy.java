@@ -189,7 +189,8 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	
 	@Override
 	public void die( String shooterId ) {
-		world.createAmmoPack( id + "ammoPack", weapon.type, 20, position );
+		world.ammoPackCounter++;
+		world.createAmmoPack( "ammo" + world.ammoPackCounter, weapon.type, 20, position );
 		world.kill(shooterId);
 		super.die( shooterId );
 	}

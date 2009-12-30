@@ -145,7 +145,7 @@ public interface WorldInterface {
 	 * @param playerId
 	 * @param energyPackId
 	 */
-	public abstract void catchEnergyPack( String playerId, String energyPackId );
+	public abstract boolean catchEnergyPack( String playerId, String energyPackId );
 
 	/** Function kill <br>
 	 * Increase the score of the player who kill an enemy

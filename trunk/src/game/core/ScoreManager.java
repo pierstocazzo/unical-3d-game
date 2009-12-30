@@ -33,6 +33,7 @@ public class ScoreManager implements Serializable {
 	 */
 	void playerKilled( String playerId ) {
 		players.get(playerId).decreaseScore();
+		update();
 	}
 	
 	/**
@@ -41,9 +42,31 @@ public class ScoreManager implements Serializable {
 	void enemyKilled( String playerId ) {
 		try {
 			players.get(playerId).increaseScore();
+			update();
 		} catch ( Exception e ) {
 			// just do nothing when the bullet who kill an enemy came from an other enemy
 		}
+	}
+	
+	void update() {
+		for( String id : players.keySet() )
+			switch( players.get(id).level ) {
+			case 1: 
+				((LogicPlayer) world.characters.get(id)).maxAmmo = 100;
+				break;
+			case 2: 
+				((LogicPlayer) world.characters.get(id)).maxAmmo = 120;
+				break;
+			case 3: 
+				((LogicPlayer) world.characters.get(id)).maxAmmo = 150;
+				break;
+			case 4: 
+				((LogicPlayer) world.characters.get(id)).maxAmmo = 180;
+				break;
+			case 5: 
+				((LogicPlayer) world.characters.get(id)).maxAmmo = 200;
+				break;
+			}
 	}
 	
 	void reset() {

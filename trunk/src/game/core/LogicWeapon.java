@@ -66,8 +66,7 @@ public class LogicWeapon implements Serializable {
 	 * @param ammo
 	 */
 	public void addAmmo( int addedAmmo ) {
-		if( ammo > 0 )
-			ammo = ammo + addedAmmo;
+		ammo = ammo + addedAmmo;
 	}
 	
 	public void decreaseAmmo() {

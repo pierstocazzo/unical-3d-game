@@ -13,7 +13,6 @@ import com.jmex.physics.contact.ContactInfo;
 */
 public class AmmoPackage {
  
-	
 	String id;
 	
 	DynamicPhysicsNode physicsPack;
@@ -25,6 +24,8 @@ public class AmmoPackage {
 	Vector3f position;
 	
 	InputHandler contactDetect;
+	
+	boolean contact = false;
 	
 	AmmoPackage( String id, GraphicalWorld world, Vector3f position ) {
 		this.id = id;
@@ -51,25 +52,27 @@ public class AmmoPackage {
         SyntheticButton ammoPackCollisionHandler = physicsPack.getCollisionEventHandler();
         
         InputAction collisionAction = new InputAction() {
-            public void performAction( InputActionEvent evt ) {
-                ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
-                
-                for( String playerId : world.getCore().getPlayersIds() ) {
-	                if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterBody() || 
-	                	 contactInfo.getNode2() == world.characters.get(playerId).getCharacterBody() ) {
-	                	
-	                   if( world.getCore().catchAmmoPack( playerId, id ) )
-	                	   deletePackage();
-	                }
-                }
-            }
+
+        	public void performAction( InputActionEvent evt ) {
+        		ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
+        		for( String playerId : world.getCore().getPlayersIds() ) {
+        			if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterBody() || 
+        					contactInfo.getNode2() == world.characters.get(playerId).getCharacterBody() ) {
+
+        				if( world.getCore().catchAmmoPack( playerId, id ) ) {
+        					deletePackage();
+        					return;
+        				}
+        			}
+        		}
+        	}
         };
         
         contactDetect.addAction( collisionAction, ammoPackCollisionHandler, false );
 	}
 
 	public void deletePackage() {
-		world.getRootNode().detachChild( physicsPack );
+		physicsPack.removeFromParent();
 		physicsPack.detachAllChildren();
 		physicsPack.delete();
 		

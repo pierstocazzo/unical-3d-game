@@ -53,12 +53,15 @@ public abstract class LogicCharacter implements Serializable {
 	 * 
 	 * @param lifeToAdd - (int) Valore vita da aggiungere
 	 */
-	void addLife( int lifeToAdd ) {
-		if( currentLife + lifeToAdd >= maxLife) {
-			currentLife = maxLife;
-		}
-		else
+	boolean addLife( int lifeToAdd ) {
+		if( currentLife >= maxLife ) 
+			return false;
+		else {
 			currentLife = currentLife + lifeToAdd;
+			if( currentLife > maxLife )
+				currentLife = maxLife;
+			return true;
+		}
 	}
 	
 	/**
