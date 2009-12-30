@@ -110,6 +110,8 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 				alertTime = GameTimer.getTimeInSeconds();
 				break;
 			case FIND:
+				if ( distance <= state.getViewRange() )
+					state = State.FINDATTACK;
 				break;
 				
 			case FINDATTACK:
@@ -140,7 +142,10 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 
 	@Override
 	public void isShooted( int bulletDamage, String shooterId ) {
-		state = State.ATTACK;
+		if(state == State.FIND || state == State.FINDATTACK)
+			state = State.FINDATTACK;
+		else
+			state = State.ATTACK;
 		
 		if( currentLife - bulletDamage <= 0 )
 			die( shooterId );
