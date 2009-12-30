@@ -1,7 +1,5 @@
 package proposta.hud;
 
-import java.util.Random;
-
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Text;
 
@@ -36,8 +34,8 @@ public class HudScore {
 		//inizializza valore score
 		this.userHud = userHud;
 		value = 0;
-		xPosition = (int) (userHud.gWorld.getSettings().getWidth()/2) ;
-		yPosition = userHud.gWorld.getSettings().getHeight();
+		xPosition = (int) (userHud.gWorld.getResolution().x/2) ;
+		yPosition = (int) userHud.gWorld.getResolution().y;
 		
 		score = Text.createDefaultTextLabel( "Score" );
     	score.setTextColor(ColorRGBA.red);
