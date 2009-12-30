@@ -78,6 +78,7 @@ public class HudLife {
     	backQuad.setDefaultColor(ColorRGBA.blue);
     	backQuad.setLocalTranslation(screenWidth/40+backQuad.getWidth()/2,
     								screenHeight/40+backQuad.getHeight()/2, 0);
+    	backQuad.lock();
     	userHud.gWorld.hudNode.attachChild( backQuad );
     	
     	frontQuad = new Quad("frontQuad", backQuad.getWidth() - borderWeight*2 , 
