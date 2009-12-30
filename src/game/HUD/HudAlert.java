@@ -29,10 +29,10 @@ public class HudAlert {
 	Quad frontQuad;
 	
 	/** Screen width */
-	int widthScreen;
+	float screenWidth;
 	
 	/** Screen height */
-	int heightScreen;
+	float screenHeight;
 	
 	/** Border bar parameter */
 	int borderWeight = 3;
@@ -46,8 +46,8 @@ public class HudAlert {
 	 */
 	public HudAlert(UserHud userHud){
 		this.userHud = userHud;
-		widthScreen = userHud.gWorld.getSettings().getWidth();
-    	heightScreen = userHud.gWorld.getSettings().getHeight();
+		screenWidth = userHud.gWorld.getResolution().x;
+    	screenHeight = userHud.gWorld.getResolution().y;
     	
 		createBar();
 		
@@ -67,7 +67,7 @@ public class HudAlert {
 		alert.print("Alert: "+Integer.toString(alertValue));
 		frontQuad.resize(initialLenght*alertValue/100, 
 						frontQuad.getHeight());
-		frontQuad.setLocalTranslation(widthScreen/40+frontQuad.getWidth()/2+borderWeight,
+		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										frontQuad.getLocalTranslation().y, 0);
 		checkColor();
 	}
@@ -101,10 +101,10 @@ public class HudAlert {
 	 * It creates Life Bar
 	 */
 	public void createBar(){
-		backQuad = new Quad("backQuad", widthScreen/4 , heightScreen/20);
+		backQuad = new Quad("backQuad", screenWidth/4 , screenHeight/20);
     	backQuad.setDefaultColor(ColorRGBA.blue);
-    	backQuad.setLocalTranslation(widthScreen/40+backQuad.getWidth()/2,
-    			heightScreen-heightScreen/20-backQuad.getHeight()/2, 0);
+    	backQuad.setLocalTranslation(screenWidth/40+backQuad.getWidth()/2,
+    			screenHeight-screenHeight/20-backQuad.getHeight()/2, 0);
     	userHud.gWorld.hudNode.attachChild( backQuad );
     	
     	frontQuad = new Quad("frontQuad", backQuad.getWidth() - borderWeight*2 , 
