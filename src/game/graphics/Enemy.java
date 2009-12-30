@@ -247,7 +247,6 @@ public class Enemy extends Character  {
 			}
 			setMoving( true );
 			float dist = world.getCore().getPosition(id).distance(initialPosFind);
-			System.out.println("DISTANZA="+dist);
 			if(dist>100f){
 				System.out.println("DISTANZA SUPERATA");
 				if(inverted == false){
@@ -255,10 +254,8 @@ public class Enemy extends Character  {
 					setMoving(false);
 					findDirection.set(findDirection.negate());
 					inverted = true;
-					System.out.println("Nuova direzione "+findDirection.toString());
 				}
 			}
-			System.out.println("Direzione="+findDirection.toString());
 			
 			if(inverted && dist<=5 && dist>=0){
 				clearDynamics();
