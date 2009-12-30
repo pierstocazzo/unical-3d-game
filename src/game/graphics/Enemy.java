@@ -3,10 +3,8 @@ package game.graphics;
 import game.common.Direction;
 import game.common.GameTimer;
 import game.common.Movement;
-import game.common.MovementList;
 import game.common.State;
 import game.common.TextLabel2D;
-import game.common.MovementList.MovementType;
 import game.graphics.CustomAnimationController.Animation;
 
 import java.awt.Color;
@@ -67,8 +65,6 @@ public class Enemy extends Character  {
 	boolean onGround;
 	
 	boolean firstFind = true;
-	Vector3f initialPosFind;
-	Vector3f findDirection;
 	boolean inverted = false;
     	
     /** PhysicsEnemy Constructor<br>
@@ -237,69 +233,71 @@ public class Enemy extends Character  {
 
 	public void moveCharacter() {
 		float distance;
-		if(world.getCore().getState(id) == State.FIND){
-			if(firstFind){
-				findDirection = new Vector3f(world.getCore().getShootDirection(id));
-				findDirection.setY(0);
-				findDirection.set(findDirection.negate());
-				initialPosFind = new Vector3f(world.getCore().getPosition(id));
+		
+		/** update the utility vector currentPosition */
+		currentPosition.set( world.getCore().getPosition(id) );
+		currentPosition.setY(0);
+		
+		/** calculate distance between the current movement's start position and
+		 *  the current character position
+		 */
+		distance = currentPosition.distance( initialPosition );
+		
+		if( world.getCore().getState(id) == State.FIND ) {
+			if( firstFind ) {
+				moveDirection = new Vector3f( world.getCore().getShootDirection(id) );
+				moveDirection.setY(0);
+				initialPosition.set( currentPosition );
 				firstFind = false;
 			}
-			setMoving( true );
-			float dist = world.getCore().getPosition(id).distance(initialPosFind);
-			if(dist>100f){
-				if(inverted == false){
+			
+			if( distance > 80 ) {
+				if( inverted == false ) {
 					clearDynamics();
 					setMoving(false);
-					findDirection.set(findDirection.negate());
+					moveDirection.negateLocal();
 					inverted = true;
 				}
 			}
 			
-			if(inverted && dist<=5 && dist>=0){
+			if( inverted && distance <= 5 && distance >= 0 ) {
 				clearDynamics();
+				setMoving(false);
 				inverted = false;
 				firstFind = true;
-				world.getCore().setState(id, State.DEFAULT);
-			}
-			
-			setMoving(true);
-			move(findDirection.negate());
-		}
-		else
-		/** The enemy will move only if he is in default state. When he attack or is in alert he rest
-		 */
-		if( currentMovement.getDirection() != Direction.REST 
-			&& world.getCore().getState(id) != State.ATTACK
-			&& world.getCore().getState(id) != State.ALERT 
-			&& world.getCore().getState(id) != State.FINDATTACK) {
-			
-			setMoving( true );
-			/** move the character in the direction specified in the current movement */
-			move( currentMovement.getDirection().toVector() );
-			        
-			/** update the utility vector currentPosition */
-			currentPosition.set( world.getCore().getPosition(id) );
-			currentPosition.setY(0);
-			
-			/** calculate distance between the current movement's start position and
-			 *  the current character position
-			 */
-			distance = currentPosition.distance( initialPosition );
-			
-			/** If this distance is major than the lenght specified in the movement 
-			 *  start the next movement
-			 */
-			if( distance >= currentMovement.getLength() ) {
-				clearDynamics();
-				
+				world.getCore().setState( id, State.DEFAULT );
 				initialPosition.set( currentPosition );
-				currentMovement = world.getCore().getNextMovement( id );
+			} else {
+				setMoving(true);
+				move( moveDirection );
 			}
-		} else {
-			if( getOnGround() )
-				clearDynamics();
-			setMoving( false );
+		}
+		else {
+			/** The enemy will move only if he is in default state. When he attack or is in alert he rest
+			 */
+			if( currentMovement.getDirection() != Direction.REST 
+				&& world.getCore().getState(id) != State.ATTACK
+				&& world.getCore().getState(id) != State.ALERT 
+				&& world.getCore().getState(id) != State.FINDATTACK) {
+				
+				setMoving( true );
+				/** move the character in the direction specified in the current movement */
+				move( currentMovement.getDirection().toVector() );
+				        
+				/** If this distance is major than the lenght specified in the movement 
+				 *  start the next movement
+				 */
+				if( distance >= currentMovement.getLength() ) {
+					clearDynamics();
+					
+					initialPosition.set( currentPosition );
+					currentMovement = world.getCore().getNextMovement( id );
+				}
+			} else {
+				if( getOnGround() )
+					clearDynamics();
+				setMoving( false );
+			}
 		}
 	}
 
