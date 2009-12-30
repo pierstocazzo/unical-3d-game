@@ -19,6 +19,7 @@ public class HudLife {
 	
 	/** Little text on the life bar */
 	Text life;
+	Text lifeNum;
 	
 	/** Background Quad of life Bar */
 	Quad backQuad;
@@ -49,11 +50,29 @@ public class HudLife {
     	
 		createBar();
 		
-		life = Text.createDefaultTextLabel( "Score" );
+		life = Text.createDefaultTextLabel( "life" );
     	life.setTextColor(ColorRGBA.blue);
     	life.setLocalTranslation( backQuad.getLocalTranslation().x-backQuad.getWidth()/2, 
     			backQuad.getLocalTranslation().y+backQuad.getHeight()/2, 0 );
+    	life.print("Life");
+    	life.lock();
     	userHud.gWorld.hudNode.attachChild( life );
+    	lifeNum = Text.createDefaultTextLabel( "lifeNum" );
+    	lifeNum.setTextColor(ColorRGBA.black);
+    	lifeNum.setLocalScale(2);
+    	lifeNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
+    			backQuad.getLocalTranslation().y, 0 );
+    	userHud.gWorld.hudNode.attachChild( lifeNum );
+    	//for first correct visualization
+    	lifeValue = 100;
+    	checkColor();
+		frontQuad.resize(initialLenght*lifeValue/100, 
+						frontQuad.getHeight());
+		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
+										backQuad.getLocalTranslation().y, 0);
+		lifeNum.print(Integer.toString(lifeValue));
+		lifeNum.setLocalTranslation(backQuad.getLocalTranslation().x-lifeNum.getWidth()/2,
+				backQuad.getLocalTranslation().y-lifeNum.getHeight()/2, 0);
    	}
 	
 	/**
@@ -61,13 +80,14 @@ public class HudLife {
 	 */
 	public void update(){
 		lifeValue = userHud.game.getCurrentLife(userHud.gWorld.player.id);
-		life.print("Life: "+Integer.toString(lifeValue));
-		
+		checkColor();
 		frontQuad.resize(initialLenght*lifeValue/100, 
 						frontQuad.getHeight());
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
-										frontQuad.getLocalTranslation().y, 0);
-		checkColor();
+										backQuad.getLocalTranslation().y, 0);
+		lifeNum.print(Integer.toString(lifeValue));
+		lifeNum.setLocalTranslation(backQuad.getLocalTranslation().x-lifeNum.getWidth()/2,
+				backQuad.getLocalTranslation().y-lifeNum.getHeight()/2, 0);
 	}
 	
 	/** 
@@ -85,7 +105,7 @@ public class HudLife {
     										backQuad.getHeight() - borderWeight*2);
     	initialLenght = (int) frontQuad.getWidth();
     	frontQuad.setDefaultColor(ColorRGBA.green);
-    	frontQuad.setLocalTranslation(backQuad.getLocalTranslation().x+borderWeight,
+    	frontQuad.setLocalTranslation(backQuad.getLocalTranslation().x,
     			backQuad.getLocalTranslation().y, 0);
     	userHud.gWorld.hudNode.attachChild( frontQuad );
 	}

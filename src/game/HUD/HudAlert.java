@@ -19,6 +19,7 @@ public class HudAlert {
 	
 	/** Little text on the alert bar */
 	Text alert;
+	Text alertNum;
 	
 	int alertValue;
 	
@@ -55,21 +56,39 @@ public class HudAlert {
     	alert.setTextColor(ColorRGBA.blue);
     	alert.setLocalTranslation( backQuad.getLocalTranslation().x-backQuad.getWidth()/2, 
     			backQuad.getLocalTranslation().y+backQuad.getHeight()/2, 0 );
+    	alert.print("Alert");
+    	alert.lock();
     	userHud.gWorld.hudNode.attachChild( alert );
+    	alertNum = Text.createDefaultTextLabel( "lifeNum" );
+    	alertNum.setTextColor(ColorRGBA.black);
+    	alertNum.setLocalScale(2);
+    	alertNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
+    			backQuad.getLocalTranslation().y, 0 );
+    	userHud.gWorld.hudNode.attachChild( alertNum );
+    	//for correct first visualization
+    	alertValue = 20;
+    	frontQuad.resize(initialLenght*alertValue/100, 
+				frontQuad.getHeight());
+		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
+										frontQuad.getLocalTranslation().y, 0);
+		alertNum.print(Integer.toString(alertValue));
+		alertNum.setLocalTranslation(backQuad.getLocalTranslation().x-alertNum.getWidth()/2,
+				backQuad.getLocalTranslation().y-alertNum.getHeight()/2, 0);
    	}
 	
 	/**
 	 * It updates Life bar informations
 	 */
 	public void update(){
-
 		alertValue = getAlertLevel();
-		alert.print("Alert: "+Integer.toString(alertValue));
+		checkColor();
 		frontQuad.resize(initialLenght*alertValue/100, 
 						frontQuad.getHeight());
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										frontQuad.getLocalTranslation().y, 0);
-		checkColor();
+		alertNum.print(Integer.toString(alertValue));
+		alertNum.setLocalTranslation(backQuad.getLocalTranslation().x-alertNum.getWidth()/2,
+				backQuad.getLocalTranslation().y-alertNum.getHeight()/2, 0);
 	}
 	
 	public int getAlertLevel(){
@@ -112,9 +131,10 @@ public class HudAlert {
     										backQuad.getHeight() - borderWeight*2);
     	initialLenght = (int) frontQuad.getWidth();
     	frontQuad.setDefaultColor(ColorRGBA.green);
-    	frontQuad.setLocalTranslation(backQuad.getLocalTranslation().x+borderWeight,
+    	frontQuad.setLocalTranslation(backQuad.getLocalTranslation().x,
     			backQuad.getLocalTranslation().y, 0);
     	userHud.gWorld.hudNode.attachChild( frontQuad );
+    	
 	}
 	
 	/**
