@@ -46,8 +46,8 @@ public class HudAlert {
 	 */
 	public HudAlert(UserHud userHud){
 		this.userHud = userHud;
-		widthScreen = userHud.gWorld.settings.getWidth();
-    	heightScreen = userHud.gWorld.settings.getHeight();
+		widthScreen = userHud.gWorld.getSettings().getWidth();
+    	heightScreen = userHud.gWorld.getSettings().getHeight();
     	
 		createBar();
 		

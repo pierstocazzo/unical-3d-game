@@ -534,4 +534,8 @@ public abstract class PhysicsGame extends AbstractGame {
     public Node getRootNode() {
     	return this.rootNode;
     }
+
+	public GameSettings getSettings() {
+		return this.settings;
+	}
 }
