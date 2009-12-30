@@ -77,10 +77,9 @@ public class Bullet {
         InputAction collisionAction = new InputAction() {
             public void performAction( InputActionEvent evt ) {
             	ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
-        		physicsBullet.clearDynamics();
-        		physicsBullet.detachAllChildren();
+//        		physicsBullet.detachAllChildren();
+        		physicsBullet.removeFromParent();
         		physicsBullet.delete();
-        		world.getRootNode().detachChild( physicsBullet );
         		world.bullets.remove( id );
         		
         		/** Control if the bullet hit a character */

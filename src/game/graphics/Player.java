@@ -110,7 +110,7 @@ public class Player extends Character {
 
 	public void hide( boolean b ) {
 		if( b ) 
-			characterNode.detachChild( model );
+			model.removeFromParent();
 		else
 			characterNode.attachChild( model );
 	}

@@ -67,12 +67,10 @@ public class Character {
 	}
 
 	public void hideModel() {
-		if ( body.hasChild(model) )
-			body.detachChild(model);
+		model.removeFromParent();
 	}
 
 	public void showModel() {
-		if ( !body.hasChild(model) )
-			body.attachChild(model);
+		body.attachChild(model);
 	}
 }
