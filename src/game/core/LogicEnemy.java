@@ -119,6 +119,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 					state = State.FIND;
 				} else {
 					calculateShootDirection( playerId );
+					alertTime = GameTimer.getTimeInSeconds();
 				}
 				break;
 			}

@@ -64,7 +64,7 @@ public class HudAlert {
 	public void update(){
 
 		alertValue = getAlertLevel();
-		
+		alert.print("Alert: "+Integer.toString(alertValue));
 		frontQuad.resize(initialLenght*alertValue/100, 
 						frontQuad.getHeight());
 		frontQuad.setLocalTranslation(widthScreen/40+frontQuad.getWidth()/2+borderWeight,
