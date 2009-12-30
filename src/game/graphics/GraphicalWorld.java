@@ -308,7 +308,7 @@ public class GraphicalWorld extends Game {
 	 */
 	private void updateCharacters( float time ) {
 		/* Vecchio sistema: creiamo una collection al volo in cui mettiamo tutti i puntatori 
-		 * dei nostri characters, e poi iteriamo su questa, così quando un character muore e 
+		 * dei nostri characters, e poi iteriamo su questa, cosï¿½ quando un character muore e 
 		 * chiama il remove dell'hashmap noi non abbiamo problemi. 
 		 * Metodo dubbio, brutto da vedere e fa uso di due collection
 		 */
@@ -321,8 +321,8 @@ public class GraphicalWorld extends Game {
 //		c = null;
 		
 		/* Prima alternativa: sfruttando gli id particolari, l'if per non provare a fare
-		 * l'update di un character non più esistente (darebbe una nullpointerexeption)
-		 * Metodo più performante, un po trucchettoso e brutto da vedere, ma non usa 
+		 * l'update di un character non piï¿½ esistente (darebbe una nullpointerexeption)
+		 * Metodo piï¿½ performante, un po trucchettoso e brutto da vedere, ma non usa 
 		 * alcuna struttura di comodo e sfrutta l'accesso random dell'hashmap
 		 */
 		for( int i = 1; i <= playersCounter; i++ ) {
@@ -341,7 +341,7 @@ public class GraphicalWorld extends Game {
 		 * Bisogna aggiungere varibile "alive" in logicCharacter, odificare il metodo die() in modo che 
 		 * non tolga l'oggetto dall'hashmap ma metta solo la variabile alive a false, e modificare 
 		 * anche il metodo isAlive( String id ) di conseguenza. 
-		 * Metodo più elegante, ma fa uso di set e inoltre a livello logico gli oggetti restano
+		 * Metodo piï¿½ elegante, ma fa uso di set e inoltre a livello logico gli oggetti restano
 		 * sempre nell'hashmap anche quando non servono a un cazzo
 		 */
 //		for( String id : core.getCharactersIds() ) {
@@ -354,7 +354,7 @@ public class GraphicalWorld extends Game {
 		
 		/* Terza alternativa: iteriamo direttamente nella collection values, facciamo l'update, 
 		 * se questo ritorna false, l'iteratore elimina l'elemento corrente.
-		 * Richiede che il metodo update ritorni un booleano, che indica se il character è vivo
+		 * Richiede che il metodo update ritorni un booleano, che indica se il character ï¿½ vivo
 		 * Metodo molto pulito, ma usa una collection
 		 */
 //		Iterator<Character> it = characters.values().iterator();

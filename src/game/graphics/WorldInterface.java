@@ -188,4 +188,5 @@ public interface WorldInterface {
 	
 	public abstract float getAlertLevel(String id);
 
+	public abstract void setState( String id, State state);
 }

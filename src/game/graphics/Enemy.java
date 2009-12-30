@@ -3,8 +3,10 @@ package game.graphics;
 import game.common.Direction;
 import game.common.GameTimer;
 import game.common.Movement;
+import game.common.MovementList;
 import game.common.State;
 import game.common.TextLabel2D;
+import game.common.MovementList.MovementType;
 import game.graphics.CustomAnimationController.Animation;
 
 import java.awt.Color;
@@ -63,7 +65,11 @@ public class Enemy extends Character  {
     Vector3f moveDirection;
     
 	boolean onGround;
-
+	
+	boolean firstFind = true;
+	Vector3f initialPosFind;
+	Vector3f findDirection;
+	boolean inverted = false;
     	
     /** PhysicsEnemy Constructor<br>
 	 * Create a new graphical enemy and start his movements
@@ -230,7 +236,41 @@ public class Enemy extends Character  {
 
 	public void moveCharacter() {
 		float distance;
-		
+		if(world.getCore().getState(id) == State.FIND){
+			if(firstFind){
+				findDirection = new Vector3f(world.getCore().getShootDirection(id));
+				findDirection.setY(0);
+				findDirection.set(findDirection.negate());
+				System.out.println("FIND DIRECTION="+findDirection);
+				initialPosFind = new Vector3f(world.getCore().getPosition(id));
+				firstFind = false;
+			}
+			setMoving( true );
+			float dist = world.getCore().getPosition(id).distance(initialPosFind);
+			System.out.println("DISTANZA="+dist);
+			if(dist>100f){
+				System.out.println("DISTANZA SUPERATA");
+				if(inverted == false){
+					clearDynamics();
+					setMoving(false);
+					findDirection.set(findDirection.negate());
+					inverted = true;
+					System.out.println("Nuova direzione "+findDirection.toString());
+				}
+			}
+			System.out.println("Direzione="+findDirection.toString());
+			
+			if(inverted && dist<=5 && dist>=0){
+				clearDynamics();
+				inverted = false;
+				firstFind = true;
+				world.getCore().setState(id, State.DEFAULT);
+			}
+			
+			setMoving(true);
+			move(findDirection.negate());
+		}
+		else
 		/** The enemy will move only if he is in default state. When he attack or is in alert he rest
 		 */
 		if( currentMovement.getDirection() != Direction.REST 
@@ -270,7 +310,6 @@ public class Enemy extends Character  {
 		Vector3f lookAtDirection = new Vector3f( world.getCore().getShootDirection(id) );
 		if( lookAtDirection.equals( Vector3f.ZERO ) ) {
 	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-	        moveDirection.set( currentMovement.getDirection().toVector() );
 	        vectorToLookAt.addLocal( moveDirection.x, 0, moveDirection.z );
 	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 		} else {
@@ -299,11 +338,12 @@ public class Enemy extends Character  {
 	 * 
 	 * @param direction - (Vector3f) the direction of the character's movement
 	 */
-	public void move( Vector3f direction ) {
+	public void move( Vector3f direction ) { 
 		try{
 			// the rotational axis is orthogonal to the direction and
 			// to the Y axis. It's calculated using cross product
-			rotationalAxis.setDirection( moveDirection.cross( Vector3f.UNIT_Y ) );
+			moveDirection.set(direction);
+			rotationalAxis.setDirection( moveDirection.cross( new Vector3f(0,1,0) ) );
 			rotationalAxis.setAvailableAcceleration( 30*speed );
 			rotationalAxis.setDesiredVelocity( speed );
 		} catch( Exception e ) {

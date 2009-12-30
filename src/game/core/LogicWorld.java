@@ -93,7 +93,8 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public void createEnemy( float x, float z, MovementType movements ) {
 		enemyCounter = enemyCounter + 1;
 		Vector3f position = new Vector3f( x, 0, z );
-		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.AR15, State.DEFAULT, position, movements, this );
+		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.AR15, State.DEFAULT, position, 
+				MovementType.LARGE_PERIMETER, this );
 		characters.put( enemy.id, enemy );
 	}
 	
@@ -281,5 +282,10 @@ public class LogicWorld implements WorldInterface, Serializable {
 	@Override
 	public float getAlertLevel(String id) {
 		return ((LogicEnemy)characters.get(id)).getAlertTime();
+	}
+
+	@Override
+	public void setState(String id, State state) {
+		((LogicEnemy)characters.get(id)).setState(state);
 	}
 }

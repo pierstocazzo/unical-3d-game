@@ -20,7 +20,11 @@ public enum State implements Serializable {
 	 * has seen you and he have to kill
 	 * everybody unknown
 	 */
-	ATTACK ( 240, 200 );
+	ATTACK ( 240, 200 ),
+	
+	FIND ( 120, 100 ),
+	
+	FINDATTACK( 240, 200 );
 	
 	/** view range */
 	int viewRange;
