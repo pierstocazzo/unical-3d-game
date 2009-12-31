@@ -304,4 +304,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public int getMaxLife(String id) {
 		return characters.get(id).getMaxLife();
 	}
+
+	@Override
+	public int getMaxAmmo(String id) {
+		return ((LogicPlayer)characters.get(id)).getMaxAmmo();
+	}
 }

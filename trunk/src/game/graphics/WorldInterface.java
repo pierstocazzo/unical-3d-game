@@ -191,4 +191,6 @@ public interface WorldInterface {
 	public abstract void setState( String id, State state);
 	
 	public abstract int getMaxLife( String id );
+	
+	public abstract int getMaxAmmo( String id );
 }
