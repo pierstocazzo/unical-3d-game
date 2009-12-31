@@ -118,6 +118,9 @@ public class WorldMap2D {
 		disk.clearTextureBuffers();
 		disk.setDefaultColor( color );
 		world.getHudNode().attachChild( disk );
+		disk.lockBounds();
+		disk.lockMeshes();
+		disk.lockShadows();
 		characters.put( id, disk );
 	}
 	
