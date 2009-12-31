@@ -53,7 +53,7 @@ public class HudAlert {
 		
     	alertNum = Text.createDefaultTextLabel( "lifeNum" );
     	alertNum.setTextColor(ColorRGBA.black);
-    	alertNum.setLocalScale(2);
+    	alertNum.setLocalScale(1.5f);
     	alertNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
     	userHud.gWorld.hudNode.attachChild( alertNum );
