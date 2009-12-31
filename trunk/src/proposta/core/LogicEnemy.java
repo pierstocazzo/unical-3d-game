@@ -2,9 +2,12 @@ package proposta.core;
 
 import java.io.Serializable;
 
-import proposta.enemyAI.MovementList;
-import proposta.enemyAI.Movement;
-import proposta.enemyAI.MovementList.MovementType;
+import proposta.common.*;
+//import proposta.common.Movement;
+//import proposta.common.MovementList;
+//import proposta.common.State;
+//import proposta.common.WeaponType;
+import proposta.common.MovementList.MovementType;
 
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
@@ -17,6 +20,8 @@ import com.jme.math.Vector3f;
 @SuppressWarnings("serial")
 public class LogicEnemy extends LogicCharacter implements Serializable {
 
+	static public final int ALERT_RANGE = 20;
+	
 	/** Enemy's weapon */
 	LogicWeapon weapon;
 	
@@ -31,6 +36,12 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	
 	/** where to shoot */
 	Vector3f shootDirection;
+
+	/** the time the enemy remain in alert or attack state */
+	float alertTime;
+	
+	boolean firstFind = true;
+
 
 	/**
 	 * <code>LogicEnemy</code> constructor<br>
@@ -64,13 +75,15 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	public void updateState() {
 		float distance;
 		shootDirection.set( Vector3f.ZERO );
-		for ( String playerId : world.getPlayersId() ) {
-			distance = position.distance( world.getCharacterPosition( playerId ) );
+		for ( String playerId : world.getPlayersIds() ) {
+			distance = position.distance( world.getPosition( playerId ) );
 			
 			switch ( state ) {
 			case DEFAULT:
+				alertTime = GameTimer.getTimeInSeconds() - 20;
 				if ( distance <= state.getActionRange() ) {
 					state = State.ALERT;
+					alertTime = GameTimer.getTimeInSeconds();
 				}
 				break;
 			
@@ -78,23 +91,45 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 				if ( distance <= state.getViewRange() ) {
 					state = State.ATTACK;
 				} else if ( distance > state.getActionRange() ) {
-					// TODO inserire un timer per lo stato di allerta
-					state = State.DEFAULT;
+					/* if the player goes away from the actionRange of this enemy, 
+					 * he remains in alert state for "ALERT_RANGE" seconds
+					 */
+					if( GameTimer.getTimeInSeconds() - alertTime > ALERT_RANGE ) {
+						state = State.DEFAULT;
+					}
 				}
 				break;
 			
 			case ATTACK:
 				if ( distance > state.getViewRange() ) {
-					// TODO inserire un timer per stato di attacco
-					state = State.ALERT;
+						state = State.FIND;
+						calculateShootDirection(playerId);
 				} else {
 					calculateShootDirection( playerId );
+				}
+				alertTime = GameTimer.getTimeInSeconds();
+				break;
+			case FIND:
+				if ( distance <= state.getViewRange() )
+					state = State.FINDATTACK;
+				break;
+				
+			case FINDATTACK:
+				if ( distance > state.getViewRange() ) {
+					state = State.FIND;
+				} else {
+					calculateShootDirection( playerId );
+					alertTime = GameTimer.getTimeInSeconds();
 				}
 				break;
 			}
 		}
 	}
 	
+	public float getAlertTime() {
+		return alertTime;
+	}
+
 	private void calculateShootDirection( String playerId ) {
 		// ottengo la shootdirection esatta sottraendo il vettore posizione del 
 		// nemico a quello del suo target (ovvero un player) 
@@ -107,11 +142,14 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	}
 
 	@Override
-	public void isShooted( int bulletDamage ) {
-		state = State.ATTACK;
+	public void isShooted( int bulletDamage, String shooterId ) {
+		if(state == State.FIND || state == State.FINDATTACK)
+			state = State.FINDATTACK;
+		else
+			state = State.ATTACK;
 		
 		if( currentLife - bulletDamage <= 0 )
-			die();
+			die( shooterId );
 		else
 			currentLife = currentLife - bulletDamage;
 	}
@@ -149,8 +187,11 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.shootDirection = shootDirection;
 	}
 	
-	public void die() {
-		world.createAmmoPack( id + "ammoPack", weapon.type, 20, position );
-		super.die();
+	@Override
+	public void die( String shooterId ) {
+		world.ammoPackCounter++;
+		world.createAmmoPack( "ammo" + world.ammoPackCounter, weapon.type, 20, position );
+		world.kill(shooterId);
+		super.die( shooterId );
 	}
 }

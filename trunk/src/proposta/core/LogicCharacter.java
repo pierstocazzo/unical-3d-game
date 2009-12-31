@@ -2,7 +2,8 @@ package proposta.core;
 
 import java.io.Serializable;
 
-import proposta.enemyAI.Movement;
+import proposta.common.Movement;
+import proposta.common.WeaponType;
 
 import com.jme.math.Vector3f;
 
@@ -21,9 +22,6 @@ public abstract class LogicCharacter implements Serializable {
 	/** Max Life - the maximum energy the character can reach */
 	int maxLife;
 	
-	/** Current Score of the player */
-	int score;
-	
     /** Current Position Vector of the character */
 	Vector3f position;
 	
@@ -31,13 +29,8 @@ public abstract class LogicCharacter implements Serializable {
 	LogicWorld world;
 
 	/** Control variables */
-    boolean rest;
-    boolean movingForward;
-    boolean movingBackward;
-    boolean strafingLeft;
-    boolean strafingRight;
+    boolean moving;
     boolean jumping;
-    boolean onGround;
 
 	/**
 	 * Constructor LogicCharacter
@@ -51,7 +44,6 @@ public abstract class LogicCharacter implements Serializable {
 		this.id = id;
 		this.maxLife = maxLife;
 		this.currentLife = maxLife;
-		this.score = 0;
 		this.position = new Vector3f(position);
 		this.world = world;
 	}
@@ -61,42 +53,15 @@ public abstract class LogicCharacter implements Serializable {
 	 * 
 	 * @param lifeToAdd - (int) Valore vita da aggiungere
 	 */
-	void addLife( int lifeToAdd ) {
-		if( currentLife + lifeToAdd >= maxLife) {
-			currentLife = maxLife;
-		}
-		else
+	boolean addLife( int lifeToAdd ) {
+		if( currentLife >= maxLife ) 
+			return false;
+		else {
 			currentLife = currentLife + lifeToAdd;
-	}
-	
-	/**
-	 * Decrements the current life, leaving a consistent value
-	 * 
-	 * @param removedLife - (int) Valore vita da rimuovere
-	 */
-	void removeLife( int removedLife ){
-		currentLife = currentLife - removedLife;
-		if( currentLife < 0 ) {
-			this.die();
+			if( currentLife > maxLife )
+				currentLife = maxLife;
+			return true;
 		}
-	}
-	
-	/**
-	 * Set new Score
-	 * 
-	 * @param newScore - (int) New Score
-	 */
-	void setScore( int newScore ){
-		if( newScore > 0 )
-			score = newScore;
-	}
-
-	void addScore( int toAdd ) {
-		score = score + toAdd;
-	}
-	
-	void decreaseScore( int toDecrease ) {
-		score = score - toDecrease;
 	}
 	
 	/**
@@ -129,16 +94,6 @@ public abstract class LogicCharacter implements Serializable {
 				this.currentLife = maxLife;
 		}
 	}
-
-	/**
-	 * It return current score
-	 * 
-	 * @return score
-	 */
-	public int getScore() {
-		return score;
-	}
-	
 	
     /** Function 
      * 
@@ -159,76 +114,37 @@ public abstract class LogicCharacter implements Serializable {
 	/** 
 	 * 
 	 * @param bulletDamage - (int) the bullet damage power
+	 * @param shooterId 
 	 */
-	public void isShooted( int bulletDamage ) {
+	public void isShooted( int bulletDamage, String shooterId ) {
 		if( currentLife - bulletDamage <= 0 )
-			die();
+			die( shooterId );
 		else
 			currentLife = currentLife - bulletDamage;
 	}
 
 	// Just do nothing
-	public void shoot() {
+	public boolean shoot() {
+		return false;
 		// to override
 	}
 
-	public void die() {
+	public void die( String shooterId ) {
 		world.removeCharacter(id);
 	}
 	
 	/** reset character movements */
 	public void rest() {
-        rest = true;
-        movingForward = false;
-        movingBackward = false;
-        strafingLeft = false;
-        strafingRight = false;
+        moving = false;
         jumping = false;
-        onGround = false;
 	}
-	
-    public boolean getRest() {
-        return rest;
+
+    public boolean isMoving() {
+        return moving;
     }
 
-    public void setRest( boolean rest ) {
-        this.rest = rest;
-    }
-
-    public boolean getMovingForward() {
-        return movingForward;
-    }
-
-    public void setMovingForward( boolean movingForward ) {
-    	this.rest = !movingForward;
-        this.movingForward = movingForward;
-    }
-
-    public boolean getMovingBackward() {
-        return movingBackward;
-    }
-
-    public void setMovingBackward( boolean movingBackward ) {
-    	this.rest = !movingBackward;
-        this.movingBackward = movingBackward;
-    }
-
-    public boolean getStrafingLeft() {
-        return strafingLeft;
-    }
-
-    public void setStrafingLeft( boolean strafingLeft ) {
-    	this.rest = !strafingLeft;
-        this.strafingLeft = strafingLeft;
-    }
-
-    public boolean getStrafingRight() {
-        return strafingRight;
-    }
-
-    public void setStrafingRight( boolean strafingRight ) {
-    	this.rest = !strafingRight;
-        this.strafingRight = strafingRight;
+    public void setMoving( boolean moving ) {
+        this.moving = moving;
     }
 
     public boolean getJumping() {
@@ -236,19 +152,15 @@ public abstract class LogicCharacter implements Serializable {
     }
 
     public void setJumping( boolean jumping ) {
-    	this.rest = !jumping;
         this.jumping = jumping;
-    }
-
-    public boolean getOnGround() {
-        return onGround;
-    }
-
-    public void setOnGround( boolean onGround ) {
-        this.onGround = onGround;
     }
 
 	public abstract Movement getNextMovement();
 	
 	public abstract WeaponType getCurrentWeapon();
+
+	public boolean addAmmo( WeaponType weaponType, int quantity ) {
+		// to override
+		return false;
+	}
 }

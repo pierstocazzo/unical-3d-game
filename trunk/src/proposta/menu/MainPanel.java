@@ -1,6 +1,8 @@
-package proposta.main.menu;
+package proposta.menu;
 
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,7 +18,6 @@ import javax.swing.JPanel;
 
 import proposta.core.LogicWorld;
 import proposta.main.GameThread;
-import proposta.main.ThreadController;
 
 /**
  * Class MainPanel
@@ -32,21 +33,19 @@ public class MainPanel extends JPanel {
 	/** List of image path */
 	ArrayList<String> imageFolder;
 	/** Preloaded images */
-	ArrayList<ImageIcon> imageContainer;
-	/** Thread Monitor */
-	ThreadController tc;
+	ArrayList<Image> imageContainer;
 	/** MainMenu */
 	MainMenu mm;
+	
+	GameThread gameThread;
 	
 	/**
 	 * Constructor
 	 * 
-	 * @param tc - ThreadController
 	 * @param mm - MainMenu
 	 */
-	public MainPanel(ThreadController tc, MainMenu mm){
+	public MainPanel(MainMenu mm){
 		super();
-		this.tc = tc;
 		this.mm = mm;
 		initImageFolder();
 		initItem();
@@ -88,7 +87,7 @@ public class MainPanel extends JPanel {
 	 * @return (String) path
 	 */
 	public Icon StandardImage(int i){
-		return imageContainer.get(i*2);
+		return new ImageIcon(imageContainer.get(i*2));
 	}
 	
 	/**
@@ -98,7 +97,7 @@ public class MainPanel extends JPanel {
 	 * @return (String) path
 	 */
 	public Icon SelectedImage(int i){
-		return imageContainer.get(i*2+1);
+		return new ImageIcon(imageContainer.get(i*2+1));
 	}
 	
 	/**
@@ -118,15 +117,15 @@ public class MainPanel extends JPanel {
 	 */
 	public void initItem(){
 		item = new ArrayList<JLabel>();
-		item.add( new JLabel(imageContainer.get(1)));
+		item.add( new JLabel(new ImageIcon(imageContainer.get(1))));
 		this.add(item.get(0));
-		item.add( new JLabel(imageContainer.get(2)));
+		item.add( new JLabel(new ImageIcon(imageContainer.get(2))));
 		this.add(item.get(1));
-		item.add( new JLabel(imageContainer.get(4)));
+		item.add( new JLabel(new ImageIcon(imageContainer.get(4))));
 		this.add(item.get(2));
-		item.add( new JLabel(imageContainer.get(6)));
+		item.add( new JLabel(new ImageIcon(imageContainer.get(6))));
 		this.add(item.get(3));
-		item.add( new JLabel(imageContainer.get(8)));
+		item.add( new JLabel(new ImageIcon(imageContainer.get(8))));
 		this.add(item.get(4));
 	}
 	
@@ -145,66 +144,76 @@ public class MainPanel extends JPanel {
 		imageFolder.add("src/game/data/images/menu/credits2.png");
 		imageFolder.add("src/game/data/images/menu/exit.png");
 		imageFolder.add("src/game/data/images/menu/exit2.png");
-		imageContainer = new ArrayList<ImageIcon>();
-		for(int i=0; i<imageFolder.size(); i++)
-			imageContainer.add( new ImageIcon(imageFolder.get(i)) );
+		imageContainer = new ArrayList<Image>();
+		for(int i=0; i<imageFolder.size(); i++){
+			Image img = Toolkit.getDefaultToolkit().getImage( imageFolder.get(i) );
+			img = img.getScaledInstance(mm.screenSize.width/3, mm.screenSize.height/10, Image.SCALE_DEFAULT);
+			imageContainer.add(img);
+		}
 	}
 
 	/**
 	 * Execute operation of selected element
+	 * @throws InterruptedException 
 	 */
 	public void executeSelectedItem(){
 		switch (current){
-			case 0:{mm.setAlwaysOnTop(false);
-					System.out.println("New Game");
-					mm.game = new GameThread(tc);
-					Thread gameThread = new Thread(mm.game);
-					gameThread.start();
-					tc.waitThread();
+			case 0:
+				mm.setAlwaysOnTop(false);
+				
+				//Loading Bar
+				LoadingFrame load = new LoadingFrame();
+				load.setVisible(true);
+				load.setAlwaysOnTop(true);
+		
+				gameThread = new GameThread(load);
+				
+				System.out.println("New Game");
+				Thread gameThreadNew = new Thread( gameThread );
+				gameThreadNew.start();
+				
+				mm.setVisible(false);
+				System.out.println("Exit from Main Menu");break;
+			case 1:
+				//Load game with fileChooser
+				mm.showCursor();
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showOpenDialog(this);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fc.getSelectedFile();
+					System.out.println("Opening: " + file.getName() + ".");
+					
+					FileInputStream fin = null;
+					try { fin = new FileInputStream("gameSave/"+file.getName());} 
+					catch (FileNotFoundException e) {e.printStackTrace();}
+					ObjectInputStream ois = null;
+					try { ois = new ObjectInputStream(fin); } 
+					catch (IOException e) { e.printStackTrace(); }
+					LogicWorld gameLoaded = null;
+					try {try { gameLoaded = (LogicWorld) ois.readObject();
+					} catch (IOException e) {e.printStackTrace();}}
+					catch (ClassNotFoundException e) {e.printStackTrace();} 
+					
+					//Loading Bar
+					LoadingFrame loadingFrame = new LoadingFrame();
+					loadingFrame.setVisible(true);
+					loadingFrame.setAlwaysOnTop(true);
+					
+					gameThread = new GameThread(gameLoaded,loadingFrame);
+					
+					Thread gameThreadLoaded = new Thread( gameThread );
+					gameThreadLoaded.start();
 					mm.setVisible(false);
-					InGameMenu gameMenu = new InGameMenu(tc,mm);
-					gameMenu.setVisible(true);
-					System.out.println("GameMenu");break;}
-			case 1:{//Load game with fileChooser
-					mm.showCursor();
-					JFileChooser fc = new JFileChooser();
-					int returnVal = fc.showOpenDialog(this);
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						File file = fc.getSelectedFile();
-						System.out.println("Opening: " + file.getName() + ".");
-						
-						FileInputStream fin = null;
-						try { fin = new FileInputStream("gameSave/"+file.getName());} 
-						catch (FileNotFoundException e) {e.printStackTrace();}
-						ObjectInputStream ois = null;
-						try { ois = new ObjectInputStream(fin); } 
-						catch (IOException e) { e.printStackTrace(); }
-						LogicWorld gameLoaded = null;
-						try {try { gameLoaded = (LogicWorld) ois.readObject();
-						} catch (IOException e) {e.printStackTrace();}}
-						catch (ClassNotFoundException e) {e.printStackTrace();} 
-						
-						mm.tc.close=false;
-						mm.game = new GameThread(mm.tc,gameLoaded);
-						Thread gameThread = new Thread(mm.game);
-						gameThread.start();
-						tc.waitThread();
-						System.out.println("gioco caricato in pausa, svegliato swing");
-						mm.setVisible(false);
-						InGameMenu gameMenu = new InGameMenu(tc,mm);
-						gameMenu.setVisible(true);
-						System.out.println("GameMenu");
-					} 
-					else
-						System.out.println("Open command cancelled by user.");
-					mm.hideCursor();
-					break;}
+					System.out.println("Exit from Main Menu");
+				} 
+				mm.hideCursor();
+				break;
 			case 2:break;//todo Options
 			case 3:break;//todo Credits
-			case 4:{tc.notifyCloseGame();
-					System.out.println("exit main menu");
-					System.exit(0);break;}
-			default:break;
+			case 4:
+				System.out.println("exit main menu");
+				System.exit(0);
+				break;
 		}
 	}
 }

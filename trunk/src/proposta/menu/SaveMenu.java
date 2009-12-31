@@ -1,11 +1,9 @@
-package proposta.main.menu;
+package proposta.menu;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -34,16 +32,7 @@ public class SaveMenu extends JFrame {
 		this.gm = gm;
 		sfondo = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
 		
-//		this.setSize(1000, 600);
-//		setDefaultLookAndFeelDecorated(true);
 		this.setUndecorated(true); 
-		
-//		this.setResizable(true);
-//		this.setAlwaysOnTop(true);
-
-//		Dimension screenSize = 
-//	        Toolkit.getDefaultToolkit().getScreenSize();
-//	    setBounds(0,0,screenSize.width, screenSize.height);
 	    
 		//hide cursor
 		setCursor(getToolkit().createCustomCursor(
@@ -53,8 +42,11 @@ public class SaveMenu extends JFrame {
 		this.setTitle("Save Game");
 		createMenu();
 		
-		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-	    device.setFullScreenWindow(this);
+		Dimension screenSize = 
+	        Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(0,0,screenSize.width, screenSize.height);
+	    setResizable(false);
+	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	public void createMenu(){

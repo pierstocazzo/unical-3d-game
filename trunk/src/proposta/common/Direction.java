@@ -1,4 +1,4 @@
-package proposta.enemyAI;
+package proposta.common;
 
 import com.jme.math.Vector3f;
 

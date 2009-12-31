@@ -1,4 +1,4 @@
-package proposta.hud;
+package proposta.HUD;
 
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Text;
@@ -10,7 +10,7 @@ import com.jme.scene.Text;
  */
 public class HudScore {
 	
-	/** User hud */
+	/** User Hud */
 	UserHud userHud;
 	/** Score value */
 	int value;
@@ -48,8 +48,8 @@ public class HudScore {
 	 * Update Score informations
 	 */
 	public void update(){
-		value = 0;
-		score.print("SCORE: "+value);
+		value = userHud.game.getScore(userHud.gWorld.player.id);
+		score.print("SCORE: "+Integer.toString(value));
 		score.setLocalTranslation( xPosition-(score.getWidth()/2), yPosition-100, 0 );
 		//aggiorna score
 	}

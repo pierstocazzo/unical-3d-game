@@ -1,8 +1,9 @@
 package proposta.core;
 
-import proposta.enemyAI.Movement;
-import proposta.enemyAI.MovementList.MovementType;
-
+import proposta.common.Movement;
+import proposta.common.State;
+import proposta.common.WeaponType;
+import proposta.common.MovementList.MovementType;
 import proposta.graphics.WorldInterface;
 
 import java.io.Serializable;
@@ -35,6 +36,11 @@ public class LogicWorld implements WorldInterface, Serializable {
 	/** utility counter */
 	int ammoPackCounter, energyPackCounter, enemyCounter, playerCounter;
 	
+	/** Score Manager */
+	ScoreManager scoreManager;
+
+	
+	
 	/** <code>LogicWorld</code> Constructor<br>
 	 * Initialize data structures and counters
 	 */
@@ -42,19 +48,22 @@ public class LogicWorld implements WorldInterface, Serializable {
 		characters = new HashMap< String, LogicCharacter >();
 		ammoPackages = new HashMap< String, LogicAmmoPack >();
 		energyPackages = new HashMap< String, LogicEnergyPack >();
-		ammoPackCounter = 0;
 		energyPackCounter = 0;
+		ammoPackCounter = 0;
 		enemyCounter = 0;
 		playerCounter = 0;
+		scoreManager = new ScoreManager( this );
 	}
 	
 	/** Create one player with this life in this position
 	 * 
 	 * @param life - (int) the initial life of the player
-	 * @param position - (Vector3f) the initial position of the player
+	 * @param x - the x position of the player
+	 * @param z - the z position of the player
 	 */
-	public void createPlayer( int life, Vector3f position ) {
+	public void createPlayer( int life, int x, int z ) {
 		playerCounter = playerCounter + 1;
+		Vector3f position = new Vector3f( x, 0, z );
 		LogicPlayer player = new LogicPlayer( "player" + playerCounter, life, position, this );
 		characters.put( player.id, player );
 	}
@@ -62,29 +71,31 @@ public class LogicWorld implements WorldInterface, Serializable {
 	/** Function that create characters in the number specified in this area
 	 * 
 	 * @param numberOfEnemies - (int) number of characters to create
-	 * @param area - (Vector3f) the vector that identify the area in whitch characters will be created
+	 * @param x - the x position of the area
+	 * @param z - the z position of the area
 	 */
-	public void createEnemiesGroup( int numberOfEnemies, int x, int z ) {
+	public void createEnemiesGroup( int numberOfEnemies, float x, float z ) {
 		Random r = new Random();
 
 		for( int i = 0; i < numberOfEnemies; i++ ) {		
-			float xRelative = x + r.nextInt( numberOfEnemies * 5 );
-			float zRelative = z + r.nextInt( numberOfEnemies * 5 );
+			x = x + r.nextInt( numberOfEnemies * 5 );
+			z = z + r.nextInt( numberOfEnemies * 5 );
 
-			Vector3f position = new Vector3f( xRelative, 0, zRelative );
-			
-			createEnemy( position, MovementType.VERTICAL_SENTINEL );
+			createEnemy( x, z, MovementType.LARGE_PERIMETER );
 		}
 	}
 
 	/** Function that create an enemy, with this movementList, in this position
 	 * 
-	 * @param position - (Vector3f) the position of the enemy
+	 * @param x - the x position of the enemy
+	 * @param z - the z position of the enemy
 	 * @param movementList - (MovementList) list of movements
 	 */
-	public void createEnemy( Vector3f position, MovementType movements ) {
+	public void createEnemy( float x, float z, MovementType movements ) {
 		enemyCounter = enemyCounter + 1;
-		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.MP5, State.DEFAULT, position, movements, this );
+		Vector3f position = new Vector3f( x, 0, z );
+		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.AR15, State.DEFAULT, position, 
+				MovementType.LARGE_PERIMETER, this );
 		characters.put( enemy.id, enemy );
 	}
 	
@@ -95,12 +106,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public void createEnergyPackages( int number, int xDimension, int zDimension ) {
 		for( int i = 0; i < number; i++ ) {
 			energyPackCounter = energyPackCounter + 1;
-			Vector3f position = new Vector3f();
-			Random r = new Random();
-			position.setX( r.nextInt( xDimension ) );
-			position.setY( r.nextInt( 20 ) );
-			position.setZ( r.nextInt( zDimension ) );
-			LogicEnergyPack energyPack = new LogicEnergyPack( "energyPack" + energyPackCounter, position, 10 );
+			LogicEnergyPack energyPack = new LogicEnergyPack( "energyPack" + energyPackCounter, 10 );
 			energyPackages.put( energyPack.id, energyPack );
 		}
 	}
@@ -110,27 +116,31 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 */
 	public void createAmmoPack( String id, WeaponType type, int quantity, Vector3f position ) {
 		LogicAmmoPack ammoPack = new LogicAmmoPack( type, quantity, position );
-		ammoPackCounter++;
 		ammoPackages.put( id, ammoPack );
 	}
 	
 	@Override 
-	public void setCharacterPosition( String id, Vector3f position ) {
+	public void setPosition( String id, Vector3f position ) {
 		characters.get( id ).setPosition( position );
 	}
 	
 	@Override
-	public Vector3f getCharacterPosition( String id ) {
+	public Vector3f getPosition( String id ) {
 		return characters.get(id).position;
 	}
 
 	@Override
-	public Set<String> getEnemiesId() {
+	public Set<String> getCharactersIds() {
+		return characters.keySet();
+	}
+
+	@Override
+	public Set<String> getEnemiesIds() {
 		return getCharactersId( "enemy" );
 	}
 	
 	@Override
-	public Set<String> getPlayersId() {
+	public Set<String> getPlayersIds() {
 		return getCharactersId( "player" );
 	}
 
@@ -149,127 +159,49 @@ public class LogicWorld implements WorldInterface, Serializable {
 		return charactersId;
 	}
 
-	public void characterShoot( String id ) {
-        characters.get(id).shoot();
+	@Override
+	public boolean shoot( String id ) {
+        return characters.get(id).shoot();
     }
 	
+	@Override
+	public void shooted( String id, String shooterId, int bulletDamage ) {
+		if( characters.containsKey( id ))
+			characters.get(id).isShooted( bulletDamage, shooterId );
+	}
+
 	public void removeCharacter( String id ) {
 		characters.remove( id );
 	}
 	
 	@Override
-	public Movement getEnemyNextMovement( String id ) {
+	public Movement getNextMovement( String id ) {
 		return characters.get(id).getNextMovement();
 	}
 
 	@Override
-	public Movement getEnemyCurrentMovement( String id ) {
+	public Movement getCurrentMovement( String id ) {
 		return ((LogicEnemy) characters.get(id)).getCurrentMovement();
 	}
 
 	@Override
-	/** 
-	 * stop all character's movements
-	 */
-	public void characterRest( String id ) {
-		characters.get(id).rest();
+	public boolean isMoving( String id ) {
+		return characters.get(id).isMoving();
 	}
 
 	@Override
-	public void setCharacterOnGround( String id, boolean b ) {
-		characters.get(id).setOnGround( b );
+	public void setMoving( String id, boolean b ) {
+		characters.get(id).setMoving(b);
 	}
 
 	@Override
-	public boolean getCharacterOnGround( String id ) {
-		return characters.get(id).getOnGround();
-	}
-
-	@Override
-	public boolean getCharacterRest( String id ) {
-		return characters.get(id).getRest();
-	}
-
-	@Override
-	public void setCharacterRest( String id, boolean b ) {
-		characters.get(id).setRest(b);
-	}
-
-	@Override
-	public void setCharacterMovingBackward( String id, boolean b ) {
-		characters.get(id).setMovingBackward(b);
-	}
-
-	@Override
-	public boolean getCharacterJumping( String id ) {
-		return characters.get(id).getJumping();
-	}
-
-	@Override
-	public boolean getCharacterMovingBackward( String id ) {
-		return characters.get(id).getMovingBackward();
-	}
-
-	@Override
-	public boolean getCharacterMovingForward( String id ) {
-		return characters.get(id).getMovingForward();
-	}
-
-	@Override
-	public boolean getCharacterStrafingLeft( String id ) {
-		return characters.get(id).getStrafingLeft();
-	}
-
-	@Override
-	public boolean getCharacterStrafingRight( String id ) {
-		return characters.get(id).getStrafingRight();
-	}
-
-	@Override
-	public void setCharacterJumping( String id, boolean b ) {
+	public void setJumping( String id, boolean b ) {
 		characters.get(id).setJumping(b);
 	}
 
 	@Override
-	public void setCharacterMovingForward( String id, boolean b ) {
-		characters.get(id).setMovingForward(b);
-	}
-
-	@Override
-	public void setCharacterStrafingLeft( String id, boolean b ) {
-		characters.get(id).setStrafingLeft(b);
-	}
-
-	@Override
-	public void setCharacterStrafingRight( String id, boolean b ) {
-		characters.get(id).setStrafingRight(b);
-	}
-
-	/** 
-	 * Print the position of all characters
-	 * @return String to print
-	 */
-	public String printWorld() {
-		String s = "World status: ";
-				
-		//		s = s + "\n Player position: " + players.gposition;
-				
-		for( String id : characters.keySet() ){
-			s = s + "\n" + characters.get(id).id + " energ = " + characters.get(id).currentLife;
-		}
-
-		return s;
-	}
-
-	@Override
-	public WeaponType getCharacterWeapon(String id) {
+	public WeaponType getWeapon(String id) {
 		return characters.get(id).getCurrentWeapon();
-	}
-
-	@Override
-	public void characterShoted( String id, int bulletDamage ) {
-		if( characters.containsKey( id ))
-			characters.get(id).isShooted( bulletDamage );
 	}
 
 	@Override
@@ -281,59 +213,98 @@ public class LogicWorld implements WorldInterface, Serializable {
 	}
 
 	@Override
-	public void updateEnemyState(String id) {
-		((LogicEnemy) characters.get(id)).updateState();
-	}
-
-	@Override
-	public Vector3f getEnemyShootDirection( String id ) {
-		return ((LogicEnemy) characters.get(id)).shootDirection;
-	}
-
-	@Override
-	public State getEnemyState( String id ) {
+	public State getState( String id ) {
 		return ((LogicEnemy) characters.get(id)).state;
 	}
 
 	@Override
+	public void updateState(String id) {
+		((LogicEnemy) characters.get(id)).updateState();
+	}
+
+	@Override
+	public Vector3f getShootDirection( String id ) {
+		return ((LogicEnemy) characters.get(id)).shootDirection;
+	}
+
+	@Override
 	public boolean catchAmmoPack( String playerId, String ammoPackId ) {
-		for( LogicWeapon weapon : ((LogicPlayer) characters.get(playerId)).equipment.values() ) {
-			if( weapon.type == ammoPackages.get(ammoPackId).getType() ) {
-				weapon.addAmmo( ammoPackages.get(ammoPackId).getQuantity() );
+		try {
+			if( characters.get(playerId).addAmmo( ammoPackages.get(ammoPackId).getType(), ammoPackages.get(ammoPackId).getQuantity() ) ) {
 				ammoPackages.remove(ammoPackId);
 				return true;
+			} else {
+				return false;
 			}
+		} catch (Exception e) {
+			return false;
 		}
-		
-		return false;
 	}
 
 	@Override
-	public void catchEnergyPack( String playerId, String energyPackId ) {
-		characters.get(playerId).addLife( energyPackages.get(energyPackId).getValue() );
+	public boolean catchEnergyPack( String playerId, String energyPackId ) {
+		return characters.get(playerId).addLife( energyPackages.get(energyPackId).getValue() );
 	}
 
 	@Override
-	public LogicAmmoPack getAmmoPack( String ammoPackId ) {
-		return ammoPackages.get(ammoPackId);
-	}
-
-	@Override
-	public int getCharacterLife( String id ) {
+	public int getCurrentLife( String id ) {
 		return characters.get(id).currentLife;
 	}
 
 	@Override
-	public HashMap< String, Vector3f > getEnergyPackagesPosition() {
-		HashMap< String, Vector3f > hash = new HashMap<String, Vector3f>();
-		for( LogicEnergyPack energyPack : energyPackages.values() ) {
-			hash.put( energyPack.id, energyPack.position );
-		}
-		return hash;
+	public void kill( String id ) {
+		scoreManager.enemyKilled( id );
 	}
 
 	@Override
-	public Set<String> getCharactersId() {
-		return characters.keySet();
+	public void killed( String id ) {
+		scoreManager.playerKilled( id );
+	}
+	
+	public void initScoreManager() {
+		scoreManager.initScoreManager();
+	}
+	
+	@Override
+	public int getScore( String id ) {
+		return scoreManager.getScore(id);
+	}
+	
+	@Override
+	public int getLevel( String id ) {
+		return scoreManager.getLevel(id);
+	}
+
+	@Override
+	public Set<String> getEnergyPackagesIds() {
+		return energyPackages.keySet();
+	}
+	
+	@Override
+	public int getAmmo( String playerId ) {
+		try {
+			return ((LogicPlayer) characters.get(playerId)).currentWeapon.getAmmo();
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	@Override
+	public float getAlertLevel(String id) {
+		return ((LogicEnemy)characters.get(id)).getAlertTime();
+	}
+
+	public void setState(String id, State state) {
+		((LogicEnemy)characters.get(id)).setState(state);
+	}
+
+	@Override
+	public int getMaxLife(String id) {
+		return characters.get(id).getMaxLife();
+	}
+
+	@Override
+	public int getMaxAmmo(String id) {
+		return ((LogicPlayer)characters.get(id)).getMaxAmmo();
 	}
 }

@@ -1,10 +1,10 @@
-package proposta.core;
+package proposta.common;
 
 import java.io.Serializable;
 
 public enum WeaponType implements Serializable {
 	
-	MP5 ( 1, 30000, 20, false ),
+	AR15 ( 1, 30000, 20, false ),
 	
 	GATLING ( 2, 30000, 20, true ),
 	

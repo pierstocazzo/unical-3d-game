@@ -1,6 +1,6 @@
 package proposta.graphics;
 
-import proposta.core.WeaponType;
+import proposta.common.WeaponType;
 
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
@@ -12,7 +12,7 @@ import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 import com.jmex.physics.material.Material;
 
-public class PhysicsBullet {
+public class Bullet {
 	
 	/** the bullet's identifier */
 	String id;
@@ -32,16 +32,21 @@ public class PhysicsBullet {
 	/** the type of the weapon witch shoot the bullet */
 	WeaponType weaponType;
 	
+	/** the id of the character who shoot this bullet */
+	String characterId;
+	
 	/** PhysicsBullet constructor <br>
 	 * 
-	 * @param id - (String) the identifier of the bullet
+	 * @param characterId - (String) the id of the character who shoot this bullet
 	 * @param world - (GraphicalWorld) the graphical world witch contains the bullet
 	 * @param direction - (Vector3d) the direction of the shoot 
 	 * @param weaponType - (WeaponType) the type of the weapon witch shoot the bullet
 	 * @param position - (Vector3f) the position where to create the bullet
 	 */
-	public PhysicsBullet( String id, GraphicalWorld world, WeaponType weaponType, Vector3f position ) {
-		this.id = id;
+	public Bullet( String characterId, GraphicalWorld world, WeaponType weaponType, Vector3f position ) {
+		this.characterId = characterId;
+		world.bulletsCounter = world.bulletsCounter + 1;
+		this.id = "bullet" + world.bulletsCounter;
 		this.world = world;
 		this.position = new Vector3f( position );
 		this.weaponType = weaponType;
@@ -72,10 +77,9 @@ public class PhysicsBullet {
         InputAction collisionAction = new InputAction() {
             public void performAction( InputActionEvent evt ) {
             	ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
-        		physicsBullet.clearDynamics();
-        		physicsBullet.detachAllChildren();
+//        		physicsBullet.detachAllChildren();
+        		physicsBullet.removeFromParent();
         		physicsBullet.delete();
-        		world.getRootNode().detachChild( physicsBullet );
         		world.bullets.remove( id );
         		
         		/** Control if the bullet hit a character */
@@ -84,7 +88,8 @@ public class PhysicsBullet {
         				contactInfo.getNode2() == world.characters.get(id).getCharacterBody() ) ||
         				( contactInfo.getNode1() == world.characters.get(id).getCharacterFeet() ||
                 		contactInfo.getNode2() == world.characters.get(id).getCharacterFeet() ) ){
-        				world.getCore().characterShoted( id, weaponType.getDamage() );
+
+        					world.getCore().shooted( id, characterId, weaponType.getDamage() );
         			}
         		}
             }

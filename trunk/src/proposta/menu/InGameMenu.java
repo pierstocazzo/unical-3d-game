@@ -1,13 +1,11 @@
-package proposta.main.menu;
+package proposta.menu;
 
-import proposta.main.ThreadController;
+import proposta.base.PhysicsGame;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -31,40 +29,24 @@ public class InGameMenu extends JFrame {
 	/** Game Panel */
 	InGamePanel gamePanel;
 	
-	/** Monitor for thread management */
-	ThreadController threadController;
-	
-	/** Pointer to Main Menu ( a Frame ) */
-	MainMenu mainMenu;
-	
 	/** background wallpaper */
 	Image background;
-	
+
+	PhysicsGame game;
 	
 	/**
 	 * Constructor of GameMenu
+	 * @param physicsGame 
 	 * 
-	 * @param threadController - Thread Monitor
 	 * @param mainMenu - Main Menu
 	 */
-	public InGameMenu( ThreadController threadController, MainMenu mainMenu ){
+	public InGameMenu( PhysicsGame game ){
 		super();
-		this.threadController = threadController;
-		this.mainMenu = mainMenu;
+		this.game = game;
 		
 		//get image background
 		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
-		
-//		this.setSize(1000, 600);
-//		setDefaultLookAndFeelDecorated(true);
 		this.setUndecorated(true); 
-		
-//		this.setResizable(true);
-//		this.setAlwaysOnTop(true);
-
-//		Dimension screenSize = 
-//	        Toolkit.getDefaultToolkit().getScreenSize();
-//	    setBounds(0,0,screenSize.width, screenSize.height);
 	    
 		//hide cursor
 		setCursor( getToolkit().createCustomCursor(
@@ -74,9 +56,12 @@ public class InGameMenu extends JFrame {
 		this.setTitle( "Game Menu" );
 		createMenu();
 		
-		//set full screen
-		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-	    device.setFullScreenWindow(this);
+		setVisible(true);
+		Dimension screenSize = 
+	        Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(0,0,screenSize.width, screenSize.height);
+	    setResizable(false);
+	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	/**
@@ -97,7 +82,7 @@ public class InGameMenu extends JFrame {
 		borderPanel.setLayout( new BorderLayout() );
 		borderPanel.setOpaque(false);
 		setContentPane( borderPanel );
-		gamePanel = new InGamePanel( this, mainMenu );
+		gamePanel = new InGamePanel( this);
 		borderPanel.add( gamePanel, BorderLayout.CENTER );
 		
 		//add left vertical empty panel
@@ -124,8 +109,6 @@ public class InGameMenu extends JFrame {
 		pHorizontalEmpty2.setPreferredSize( new Dimension( 1, 250 ) );
 		borderPanel.add( pHorizontalEmpty2, BorderLayout.NORTH );
 		
-		this.setVisible(true);
-		
 		/**
 		 * Custom Listener
 		 */
@@ -147,6 +130,10 @@ public class InGameMenu extends JFrame {
 					panel.prev();
 				if( e.getKeyCode() == KeyEvent.VK_ENTER )
 					panel.executeSelectedItem();
+				if( e.getKeyCode() == KeyEvent.VK_ESCAPE ){
+					panel.current = 0;
+					panel.executeSelectedItem();
+				}
 			}
 			@Override
 			public void keyReleased( KeyEvent e ) {}

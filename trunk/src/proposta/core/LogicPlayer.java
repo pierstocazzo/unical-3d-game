@@ -1,6 +1,6 @@
 package proposta.core;
 
-import proposta.enemyAI.Movement;
+import proposta.common.*;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -16,19 +16,15 @@ import com.jme.math.Vector3f;
 public class LogicPlayer extends LogicCharacter implements Serializable {
 
 	/** Player's equipment */
-	HashMap< String, LogicWeapon > equipment = new HashMap<String, LogicWeapon>();
-	
-	/** current level of experience */
-	int currentLevel;
-	
-	/** previous level of experience */
-	int previousLevel;
+	HashMap< String, LogicWeapon > equipment;
 	
 	/** number of weapons in the player's equipment */
 	int weaponCounter;
 	
 	/** Weapon in use */
 	LogicWeapon currentWeapon;
+	
+	int maxAmmo;
 	
 	/**
 	 * LogicPlayer Constructor <br>
@@ -39,17 +35,17 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	 */
 	public LogicPlayer( String id, int maxLife , Vector3f position, LogicWorld world ) {
 		super( id, maxLife, position, world );
-		
+		equipment = new HashMap<String, LogicWeapon>();
 		this.weaponCounter = 0;
 		
-		this.currentLevel = 0;
-		this.previousLevel = 0;
-		
-		/** Initially the player has just the MP5 */
-		addWeapon( new LogicWeapon( super.id + "w" + weaponCounter, 100, WeaponType.MP5 ) );
+		/** Initially the player has just the AR15 */
+		LogicWeapon ar15 = new LogicWeapon( super.id + "w", 100, WeaponType.AR15 );
+		addWeapon( ar15 );
 		
 		/** assign the mp5 as current weapon */
-		changeWeapon( "weapon" + weaponCounter );
+		changeWeapon( ar15.id );
+		
+		maxAmmo = 100;
 	}
 	
 	/** Function <code>addWeapon</code><br>
@@ -61,15 +57,32 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 		// the player can't carry more than three weapons
 		if( weaponCounter < 3 ) {
 			weaponCounter = weaponCounter + 1;
-			equipment.put( "weapon" + weaponCounter, weapon );
+			weapon.id = weapon.id + weaponCounter;
+			equipment.put( weapon.id, weapon );
 		} 
 		// advise the player he can't carry more than three weapons
+	}
+	
+	public boolean addAmmo( WeaponType weaponType, int quantity ) {
+		for( String id : equipment.keySet() ) {
+			if( equipment.get(id).type == weaponType ) {
+				if( equipment.get(id).ammo >= maxAmmo ) {
+					return false;
+				} else {
+					equipment.get(id).addAmmo( quantity );
+					if( equipment.get(id).ammo > maxAmmo )
+						equipment.get(id).ammo = maxAmmo;
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	/** Function <code>changeWeapon</code><br>
 	 * 
 	 * Switch to another weapon.
-	 * @param weaponKey - (int) the key of the weapon to use.
+	 * @param weaponKey - (String) the key of the weapon to use.
 	 */
 	public void changeWeapon( String weaponKey ) {
 		try {
@@ -83,9 +96,13 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	/** 
 	 * Just decrease ammunitions
 	 */
-        @Override
-	public void shoot() {
+    @Override
+	public boolean shoot() {
 		currentWeapon.decreaseAmmo();
+		if( currentWeapon.ammo > 0 ) 
+			return true;
+		else 
+			return false;
 	}
 
 	@Override
@@ -96,5 +113,15 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	@Override
 	public WeaponType getCurrentWeapon() {
 		return currentWeapon.type;
+	}
+	
+	@Override
+	public void die( String shooterId ) {
+		world.killed(id);
+		super.die( shooterId );
+	}
+	
+	public int getMaxAmmo() {
+		return maxAmmo;
 	}
 }

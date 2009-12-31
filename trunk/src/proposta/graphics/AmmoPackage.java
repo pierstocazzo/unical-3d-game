@@ -8,10 +8,11 @@ import com.jme.math.Vector3f;
 import com.jme.scene.shape.Box;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
-import com.jmex.physics.material.Material;
 
-public class PhysicsEnergyPackage {
-	
+/**
+*/
+public class AmmoPackage {
+ 
 	String id;
 	
 	DynamicPhysicsNode physicsPack;
@@ -24,11 +25,13 @@ public class PhysicsEnergyPackage {
 	
 	InputHandler contactDetect;
 	
-	PhysicsEnergyPackage( String id, GraphicalWorld world, Vector3f position ) {
+	boolean contact = false;
+	
+	AmmoPackage( String id, GraphicalWorld world, Vector3f position ) {
 		this.id = id;
 		this.world = world;
 		this.position = new Vector3f( position );
-		this.position.setY( position.getY() + 30 );
+		this.position.setY( position.getY() + 10 );
 		this.contactDetect = new InputHandler();
 		createPhysics();
 		contactDetector();
@@ -38,7 +41,6 @@ public class PhysicsEnergyPackage {
 		physicsPack = world.getPhysicsSpace().createDynamicNode();
 		world.getRootNode().attachChild( physicsPack );
 		physicsPack.getLocalTranslation().set( position );
-		physicsPack.setMaterial( Material.RUBBER );
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
 		pack.setRandomColors();
 		pack.updateRenderState();
@@ -47,32 +49,34 @@ public class PhysicsEnergyPackage {
 	}
 	
 	public void contactDetector() {
-        SyntheticButton energyPackCollisionHandler = physicsPack.getCollisionEventHandler();
+        SyntheticButton ammoPackCollisionHandler = physicsPack.getCollisionEventHandler();
         
         InputAction collisionAction = new InputAction() {
-            public void performAction( InputActionEvent evt ) {
-                ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
-                
-                for( String playerId : world.getCore().getPlayersId() ) {
-	                if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterFeet() || 
-	                	 contactInfo.getNode2() == world.characters.get(playerId).getCharacterFeet() ) {
-	                	
-	                   world.getCore().catchEnergyPack( playerId, id );
-	                   deletePackage();
-	                }
-                }
-            }
+
+        	public void performAction( InputActionEvent evt ) {
+        		ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
+        		for( String playerId : world.getCore().getPlayersIds() ) {
+        			if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterBody() || 
+        					contactInfo.getNode2() == world.characters.get(playerId).getCharacterBody() ) {
+
+        				if( world.getCore().catchAmmoPack( playerId, id ) ) {
+        					deletePackage();
+        					return;
+        				}
+        			}
+        		}
+        	}
         };
         
-        contactDetect.addAction( collisionAction, energyPackCollisionHandler, false );
+        contactDetect.addAction( collisionAction, ammoPackCollisionHandler, false );
 	}
 
 	public void deletePackage() {
-		world.getRootNode().detachChild( physicsPack );
+		physicsPack.removeFromParent();
 		physicsPack.detachAllChildren();
 		physicsPack.delete();
 		
-		world.energyPackages.remove( id );
+		world.ammoPackages.remove( id );
 	}
 
 	public void update(float time) {

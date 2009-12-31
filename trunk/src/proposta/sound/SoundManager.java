@@ -1,4 +1,4 @@
-package proposta.graphics;
+package proposta.sound;
 
 import java.net.URL;
 
@@ -10,7 +10,7 @@ import com.jmex.audio.AudioTrack;
 import com.jmex.audio.AudioTrack.TrackType;
 import com.jmex.audio.MusicTrackQueue.RepeatType;
 
-public class AudioManager {
+public class SoundManager {
 
 	/** audio controller */
 	public AudioSystem audio;
@@ -22,7 +22,7 @@ public class AudioManager {
 	
 	Camera cam;
 	
-	public AudioManager( Camera cam ) {
+	public SoundManager( Camera cam ) {
 		this.cam = cam;
 		
 		initSound();

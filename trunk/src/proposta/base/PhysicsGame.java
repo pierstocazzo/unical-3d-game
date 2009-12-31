@@ -3,7 +3,9 @@ package proposta.base;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import proposta.main.ThreadController;
+import proposta.common.GameTimer;
+
+import proposta.menu.InGameMenu;
 
 import com.jme.app.AbstractGame;
 
@@ -31,7 +33,6 @@ import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
 import com.jme.util.TextureManager;
 import com.jme.util.ThrowableHandler;
-import com.jme.util.Timer;
 import com.jmex.physics.PhysicsDebugger;
 import com.jmex.physics.PhysicsSpace;
 
@@ -54,9 +55,6 @@ public abstract class PhysicsGame extends AbstractGame {
     /** the root node, everything visible must be attached to this */
     protected Node rootNode;
     
-    /** main timer to calculate framerate etc */
-    public Timer timer;
-    
     // Time per FrameRate
     protected float tpf;
 
@@ -71,26 +69,21 @@ public abstract class PhysicsGame extends AbstractGame {
     protected LightState lightState;
     protected boolean showPhysics;
 
-    // Pause the game
-    protected boolean pause;
-
     // Added for Physics
     private PhysicsSpace physicsSpace;
     private float physicsSpeed = 1;
     private boolean firstFrame = true;
     
     /** The main logger */
-    public final Logger logger = Logger.getLogger( PhysicsGame.class.getName() );
+    public static final Logger logger = Logger.getLogger( PhysicsGame.class.getName() );
     
 	protected ThrowableHandler throwableHandler;
-
-	/** thread controller */
-	public ThreadController threadController;
 	
 	/** pass manager for terrain splatting etc */
 	protected BasicPassManager passManager;
 
-	public boolean isThread;
+	/** set to false when you don't want to do the world update */
+	public boolean enabled = true;
 	
 	
     /**  
@@ -118,21 +111,36 @@ public abstract class PhysicsGame extends AbstractGame {
 
                 // main loop
                 while ( !finished && !display.isClosing() ) {
-                    // handle freeCamInput events prior to updating the scene
-                    // - some applications may want to put this into update of
-                    // the game state
-                    InputSystem.update();
-
-                    // update game state, do not use interpolation parameter
-                    update(-1.0f);
-
-                    // render, do not use interpolation parameter
-                    render(-1.0f);
-
-                    // swap buffers
-                    display.getRenderer().displayBackBuffer();
-
-                    Thread.yield();
+                	if( enabled ) {
+	                    // handle freeCamInput events prior to updating the scene
+	                    // - some applications may want to put this into update of
+	                    // the game state
+	                    InputSystem.update();
+	
+	                    // update game state, do not use interpolation parameter
+	                    update(-1.0f);
+	
+	                    // render, do not use interpolation parameter
+	                    render(-1.0f);
+	
+	                    // swap buffers
+	                    display.getRenderer().displayBackBuffer();
+	
+	                    Thread.yield();
+                	}
+                	else{
+                		boolean pause = true;
+                		while( pause ){
+                			if(enabled){
+		                		display.recreateWindow(settings.getWidth(),settings.getHeight(),
+		    	        								settings.getDepth(),settings.getFrequency(),
+		    	        								settings.isFullscreen());
+		                		pause = false;
+                			}
+                			if( finished )
+                				pause = false;
+                		}
+	                }
                 }
             }
         } catch ( Throwable t ) {
@@ -180,9 +188,9 @@ public abstract class PhysicsGame extends AbstractGame {
      */
     protected void update( float interpolation ) {
         // Recalculate the framerate.
-        timer.update();
+        GameTimer.update();
         // Update tpf to time per frame according to the Timer.
-        tpf = timer.getTimePerFrame();
+        tpf = GameTimer.getTimePerFrame();
 
         // Execute updateQueue item
         GameTaskQueueManager.getManager().getQueue(GameTaskQueue.UPDATE).execute();
@@ -190,7 +198,7 @@ public abstract class PhysicsGame extends AbstractGame {
         if ( firstFrame ) {
             // drawing and calculating the first frame usually takes longer than the rest
             // to avoid a rushing simulation we reset the timer
-            timer.reset();
+            GameTimer.reset();
             firstFrame = false;
         }
 
@@ -198,7 +206,7 @@ public abstract class PhysicsGame extends AbstractGame {
          * Key handler
          */
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("toggle_pause", false ) ) {
-            pause = !pause;
+            enabled = !enabled;
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("step", true ) ) {
             update();
@@ -216,23 +224,14 @@ public abstract class PhysicsGame extends AbstractGame {
             showPhysics = !showPhysics;
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
-        	if( isThread ) {
-	        	//vado in wait e passo il testimone a swing
-	        	threadController.waitThread();
-	        	//reset del timer per evitare problemi nel resume del gioco
-	        	timer.reset();
-	        	if(threadController.close)//se swing comanda esci
-	        		finish();
-	        	else
-	        		display.recreateWindow(settings.getWidth(),settings.getHeight(),
-	        				settings.getDepth(),settings.getFrequency(),settings.isFullscreen());
-        	} else {
-        		finish();
-        	}
-	        	
+        	
+        	InGameMenu menu = new InGameMenu(this);
+    		menu.setVisible(true);
+    		menu.toFront();
+    		enabled = false;
         }
         
-        if ( !pause ) {
+        if ( enabled ) {
             
         	update();
         	
@@ -320,7 +319,7 @@ public abstract class PhysicsGame extends AbstractGame {
         display.getRenderer().setCamera( cam );
 
         /** Get a high resolution timer for FPS updates. */
-        timer = Timer.getTimer();
+        GameTimer.initTimer();
 
         /** Sets the title of our display. */
         String className = getClass().getName();
@@ -376,12 +375,12 @@ public abstract class PhysicsGame extends AbstractGame {
         buf.setEnabled( true );
         buf.setFunction( ZBufferState.TestFunction.LessThanOrEqualTo );
         rootNode.setRenderState( buf );
-//
-//        // CullState
-//        CullState cs = display.getRenderer().createCullState();
-//        cs.setEnabled(true);
-//        cs.setCullFace(CullState.Face.Back);
-//        rootNode.setRenderState(cs);
+
+        // CullState
+        CullState cs = display.getRenderer().createCullState();
+        cs.setEnabled(true);
+        cs.setCullFace(CullState.Face.Back);
+        rootNode.setRenderState(cs);
 
         /** Set up a basic, default light. */
         PointLight light = new PointLight();
@@ -399,7 +398,7 @@ public abstract class PhysicsGame extends AbstractGame {
         /** Let derived classes initialize. */
         setupGame();
 
-        timer.reset();
+        GameTimer.reset();
 
         rootNode.updateGeometricState( 0.0f, true );
         rootNode.updateRenderState();
@@ -534,8 +533,4 @@ public abstract class PhysicsGame extends AbstractGame {
     public Node getRootNode() {
     	return this.rootNode;
     }
-
-	public GameSettings getSettings() {
-		return this.settings;
-	}
 }
