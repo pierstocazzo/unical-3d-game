@@ -317,7 +317,9 @@ public class ThirdPersonHandler extends InputHandler {
      */
     public void update(float time) {
         if ( !isEnabled() ) return;
-
+        
+        target.lookAtAction( camera.getDirection() );
+        
         prevLoc.set(targetSpatial.getLocalTranslation());
         loc.set(prevLoc);
 
