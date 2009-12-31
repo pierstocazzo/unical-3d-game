@@ -189,8 +189,8 @@ public class GraphicalWorld extends Game {
 	 */
 	public void setupPlayer() {
 		
-		Node model = ModelLoader.loadModel("game/data/models/soldier/player.jme", 
-				"game/data/models/soldier/soldato.jpg", 1 );
+		Node model = ModelLoader.loadModel("game/data/models/soldier/prova.ms3d", 
+				"game/data/models/soldier/soldier.jpg", 1 );
 	    model.setLocalTranslation(0, -2f, 0);   
 	    
 		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
