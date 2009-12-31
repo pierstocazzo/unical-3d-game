@@ -11,6 +11,7 @@ import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
+import com.jme.scene.shape.Box;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.geometry.PhysicsCapsule;
 import com.jmex.physics.material.Material;
@@ -72,6 +73,14 @@ public class Player extends Character {
 	    
 	    model.setModelBound( new BoundingBox() );
 	    model.updateModelBound();
+	    
+	    /*
+	    Box front = new Box("front", new Vector3f(-2.5f,-8,-1), new Vector3f(2.5f,8,-.9f));
+	    front.setModelBound(new BoundingBox());
+		front.updateModelBound();
+		front.setLocalTranslation(0,0,5);
+		characterNode.attachChild(front);
+		*/
 	    
 //	    model.attachChild( body );
 		

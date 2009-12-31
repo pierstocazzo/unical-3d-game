@@ -49,7 +49,7 @@ public class ThirdPersonBackwardAction extends KeyInputAction {
     }
 
     public void performAction(InputActionEvent event) {
-        if( event.getTriggerPressed() ) {
+        if( event.getTriggerPressed() && handler.isCanMoveBackward() ) {
 	        handler.setGoingBackwards(true);
         } else {
         	handler.setGoingBackwards(false);
