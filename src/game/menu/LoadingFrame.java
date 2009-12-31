@@ -26,8 +26,12 @@ public class LoadingFrame extends JFrame {
 	
 	public LoadingFrame(){
 		super();
+
+		Dimension screenSize = 
+	        Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(0,0,screenSize.width, screenSize.height);
 		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
-		
+		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_DEFAULT);
 		setUndecorated(true); 
 	    
 		//hide cursor
@@ -60,30 +64,27 @@ public class LoadingFrame extends JFrame {
 		//add left vertical empty panel
 		JPanel pVerticalEmpty1 = new JPanel();
 		pVerticalEmpty1.setOpaque(false);
-		pVerticalEmpty1.setPreferredSize(new Dimension(150, 1));
+		pVerticalEmpty1.setPreferredSize(new Dimension(screenSize.width/8, 1));
 		b.add(pVerticalEmpty1,BorderLayout.WEST);
 		
 		//add right vertical empty panel
 		JPanel pVerticalEmpty2 = new JPanel();
 		pVerticalEmpty2.setOpaque(false);
-		pVerticalEmpty2.setPreferredSize(new Dimension(150, 1));
+		pVerticalEmpty2.setPreferredSize(new Dimension(screenSize.width/8, 1));
 		b.add(pVerticalEmpty2,BorderLayout.EAST);
 		
 		//add lower horizontal empty panel
 		JPanel pHorizontalEmpty1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pHorizontalEmpty1.setOpaque(false);
-		pHorizontalEmpty1.setPreferredSize(new Dimension(1, 100));
+		pHorizontalEmpty1.setPreferredSize(new Dimension(1, screenSize.height/8));
 		b.add(pHorizontalEmpty1,BorderLayout.SOUTH);
 		
 		//add upper horizontal empty panel
 		JPanel pHorizontalEmpty2 = new JPanel();
 		pHorizontalEmpty2.setOpaque(false);
-		pHorizontalEmpty2.setPreferredSize(new Dimension(1, 600));
+		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height*6/8));
 		b.add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
-		Dimension screenSize = 
-	        Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds(0,0,screenSize.width, screenSize.height);
 	    setResizable(false);
 //	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
