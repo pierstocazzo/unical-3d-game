@@ -85,6 +85,8 @@ public abstract class PhysicsGame extends AbstractGame {
 
 	/** set to false when you don't want to do the world update */
 	public boolean enabled = true;
+
+	protected boolean pause = false;
 	
 	
     /**  
@@ -207,7 +209,7 @@ public abstract class PhysicsGame extends AbstractGame {
          * Key handler
          */
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("toggle_pause", false ) ) {
-            enabled = !enabled;
+            pause = !pause;
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("step", true ) ) {
             update();
@@ -234,7 +236,8 @@ public abstract class PhysicsGame extends AbstractGame {
         
         if ( enabled ) {
             
-        	update();
+        	if ( !pause  )
+        		update();
         	
             if ( tpf > 0.2 || Float.isNaN( tpf ) ) {
                 getPhysicsSpace().update( 0.2f * physicsSpeed );
