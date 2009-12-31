@@ -53,7 +53,7 @@ public class HudAlert {
 		
     	alertNum = Text.createDefaultTextLabel( "lifeNum" );
     	alertNum.setTextColor(ColorRGBA.black);
-    	alertNum.setLocalScale(1.5f);
+    	alertNum.setLocalScale(1.2f);
     	alertNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
     	userHud.gWorld.hudNode.attachChild( alertNum );
@@ -110,7 +110,7 @@ public class HudAlert {
 	 * It creates Life Bar
 	 */
 	public void createBar(){
-		backQuad = new Quad("backQuad", screenWidth/4 , screenHeight/20);
+		backQuad = new Quad("backQuad", screenWidth/6 , screenHeight/30);
     	backQuad.setDefaultColor(ColorRGBA.blue);
     	backQuad.setLocalTranslation(screenWidth/40+backQuad.getWidth()/2,
     			screenHeight-screenHeight/20-backQuad.getHeight()/2, 0);
