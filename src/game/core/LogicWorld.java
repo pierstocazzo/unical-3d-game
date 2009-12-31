@@ -299,4 +299,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public void setState(String id, State state) {
 		((LogicEnemy)characters.get(id)).setState(state);
 	}
+
+	@Override
+	public int getMaxLife(String id) {
+		return characters.get(id).getMaxLife();
+	}
 }
