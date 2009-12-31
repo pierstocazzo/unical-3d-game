@@ -1,9 +1,12 @@
 package proposta.main;
 
+import proposta.menu.MainMenu;
+
 public class StartGame {
 
 	public static void main( String[] args ) {
-		Thread menuThread = new Thread( new MenuThread() );
-		menuThread.start();
-	}
+		MainMenu menu = new MainMenu();
+		menu.createMenu();
+		menu.setVisible(true);
+	} 
 } 

@@ -1,18 +1,16 @@
 package proposta.graphics;
 
-import proposta.core.State;
-import proposta.enemyAI.Direction;
-import proposta.enemyAI.Movement;
-
-import game.graphics.CustomAnimationController;
-import game.graphics.CustomAnimationController.Animation;
+import proposta.common.Direction;
+import proposta.common.GameTimer;
+import proposta.common.Movement;
+import proposta.common.State;
+import proposta.common.TextLabel2D;
+import proposta.graphics.CustomAnimationController.Animation;
 
 import java.awt.Color;
 
 import jmetest.TutorialGuide.ExplosionFactory;
-import utils.TextLabel2D;
 
-import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.util.SyntheticButton;
@@ -31,7 +29,7 @@ import com.jmex.physics.geometry.PhysicsCapsule;
 import com.jmex.physics.geometry.PhysicsSphere;
 import com.jmex.physics.material.Material;
 
-public class PhysicsEnemy extends PhysicsCharacter  {
+public class Enemy extends Character  {
 	
 	Movement currentMovement;
 	
@@ -42,32 +40,13 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 	/** utility Vector used for the look at action */
 	Vector3f vectorToLookAt;
 	
-	
-	/** the character identifier */
-	String id;
-	
 	/** the physics character material */
 	Material characterMaterial;
   
-    /** the main node of the character */
-    Node characterNode;
-    
     /** The feet of the character: a Sphere that permit the movements by rotating 
      * (rotation controlled by a RotationalJointAxis) */
 	DynamicPhysicsNode feet;
 
-	/** The body of the character: a Capsule, placed upon the feet, that contains the model */
-    DynamicPhysicsNode body; 
-    
-    /** 3d model applied to the character */
-    Node model;
-    
-	/** animation controller */
-	CustomAnimationController animationController;
-	
-	/** the graphical world in which the character live */
-    GraphicalWorld world;
-    
     /** the joint that connect the feet to the body */
     Joint feetToBodyJoint;
     
@@ -83,23 +62,10 @@ public class PhysicsEnemy extends PhysicsCharacter  {
     /** the current movement's direction */
     Vector3f moveDirection;
     
-    /** the force applied to the character to jump */
-    Vector3f jumpVector;
-    
-    /** an util handler that detect the contact between the character and the ground */
-    InputHandler contactDetect = new InputHandler();
-    
-    /** Utility quaternion */
-    Quaternion quaternion;
-    
-    /** character firstPerson view */
-    boolean firstPerson = false;
-    
-    /** true if the character is shooting */
-    boolean shooting = false;
-
-	float previousTime;
-
+	boolean onGround;
+	
+	boolean firstFind = true;
+	boolean inverted = false;
     	
     /** PhysicsEnemy Constructor<br>
 	 * Create a new graphical enemy and start his movements
@@ -110,7 +76,7 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 	 * @param mass - (int) the enemy's mass
 	 * @param model - (Node) the model to attach to the enemy
 	 */
-	public PhysicsEnemy( String id, GraphicalWorld world, float speed, float mass, Node model ) {
+	public Enemy( String id, GraphicalWorld world, float speed, float mass, Node model ) {
 	
 		this.id = id;
 		
@@ -143,12 +109,12 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 	    
 	    previousTime = 0;
 		
-		currentMovement = world.getCore().getEnemyNextMovement( id );
+		currentMovement = world.getCore().getNextMovement( id );
 		
 		currentPosition = new Vector3f();
 		initialPosition = new Vector3f();
 		
-		initialPosition.set( world.getCore().getCharacterPosition(id) );
+		initialPosition.set( world.getCore().getPosition(id) );
 		initialPosition.setY(0);
 		
 		vectorToLookAt = new Vector3f();
@@ -220,9 +186,6 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 		    
 		    /** initialize the animation */ 
 			animationController = new CustomAnimationController( model.getController(0) );
-			
-	        rest();
-	        setRest( false );
 	        setOnGround( false );
 		}
 
@@ -232,29 +195,37 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 	 */
 	public void update( float time ) {
 	    if( world.getCore().isAlive( id ) == true ) {
-			preventFall();
-		
-		    contactDetect.update(time);
-		    
-		    body.rest();
-		    lookAtAction();
-		    
-			world.getCore().updateEnemyState(id);
-			if( world.getCore().getEnemyState(id) == State.ATTACK ) {
-				animationController.runAnimation( Animation.SHOOT );
-				shooting = true;
-				if( world.timer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
-					previousTime = world.timer.getTimeInSeconds();
-					shoot( world.getCore().getEnemyShootDirection(id) );
+			if( enabled ) {
+				feet.setActive(true);
+				body.setActive(true);
+				
+				preventFall();
+			    contactDetect.update(time);
+			    
+			    body.rest();
+			    lookAtAction();
+			    
+				world.getCore().updateState(id);
+				if( world.getCore().getState(id) == State.ATTACK || 
+						world.getCore().getState(id) == State.FINDATTACK) {
+					animationController.runAnimation( Animation.SHOOT );
+					shooting = true;
+					if( GameTimer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
+						previousTime = GameTimer.getTimeInSeconds();
+						shoot( world.getCore().getShootDirection(id) );
+					}
+				} else {
+					shooting = false;
 				}
+			    
+			    moveCharacter();
+			    
+			    // update core
+			    world.getCore().setPosition( id, feet.getWorldTranslation() );
 			} else {
-				shooting = false;
+				feet.setActive(false);
+				body.setActive(false);
 			}
-		    
-		    moveCharacter();
-		    
-		    // update core
-		    world.getCore().setCharacterPosition( id, feet.getWorldTranslation() );
 	    } else {
 	    	die();
 	    }
@@ -263,45 +234,77 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 	public void moveCharacter() {
 		float distance;
 		
-		/** The enemy will move only if he is in default state. When he attack or is in alert he rest
+		/** update the utility vector currentPosition */
+		currentPosition.set( world.getCore().getPosition(id) );
+		currentPosition.setY(0);
+		
+		/** calculate distance between the current movement's start position and
+		 *  the current character position
 		 */
-		if( currentMovement.getDirection() != Direction.REST 
-			&& world.getCore().getEnemyState(id) != State.ATTACK
-			&& world.getCore().getEnemyState(id) != State.ALERT ) {
-			
-			setMovingForward( true );
-			/** move the character in the direction specified in the current movement */
-			move( currentMovement.getDirection().toVector() );
-			        
-			/** update the utility vector currentPosition */
-			currentPosition.set( world.getCore().getCharacterPosition(id) );
-			currentPosition.setY(0);
-			
-			/** calculate distance between the current movement's start position and
-			 *  the current character position
-			 */
-			distance = currentPosition.distance( initialPosition );
-			
-			/** If this distance is major than the lenght specified in the movement 
-			 *  start the next movement
-			 */
-			if( distance >= currentMovement.getLength() ) {
-				clearDynamics();
-				
+		distance = currentPosition.distance( initialPosition );
+		
+		if( world.getCore().getState(id) == State.FIND ) {
+			if( firstFind ) {
+				moveDirection = new Vector3f( world.getCore().getShootDirection(id) );
+				moveDirection.setY(0);
 				initialPosition.set( currentPosition );
-				currentMovement = world.getCore().getEnemyNextMovement( id );
+				firstFind = false;
 			}
-		} else {
-			if( getOnGround() )
+			
+			if( distance > 80 ) {
+				if( inverted == false ) {
+					clearDynamics();
+					setMoving(false);
+					moveDirection.negateLocal();
+					inverted = true;
+				}
+			}
+			
+			if( inverted && distance <= 5 && distance >= 0 ) {
 				clearDynamics();
+				setMoving(false);
+				inverted = false;
+				firstFind = true;
+				world.getCore().setState( id, State.DEFAULT );
+				initialPosition.set( currentPosition );
+			} else {
+				setMoving(true);
+				move( moveDirection );
+			}
+		}
+		else {
+			/** The enemy will move only if he is in default state. When he attack or is in alert he rest
+			 */
+			if( currentMovement.getDirection() != Direction.REST 
+				&& world.getCore().getState(id) != State.ATTACK
+				&& world.getCore().getState(id) != State.ALERT 
+				&& world.getCore().getState(id) != State.FINDATTACK) {
+				
+				setMoving( true );
+				/** move the character in the direction specified in the current movement */
+				move( currentMovement.getDirection().toVector() );
+				        
+				/** If this distance is major than the lenght specified in the movement 
+				 *  start the next movement
+				 */
+				if( distance >= currentMovement.getLength() ) {
+					clearDynamics();
+					
+					initialPosition.set( currentPosition );
+					currentMovement = world.getCore().getNextMovement( id );
+				}
+			} else {
+				if( getOnGround() )
+					clearDynamics();
+				setMoving( false );
+			}
 		}
 	}
 
 	void lookAtAction() {
-		Vector3f lookAtDirection = new Vector3f( world.getCore().getEnemyShootDirection(id) );
+		Vector3f lookAtDirection = new Vector3f( world.getCore().getShootDirection(id) );
 		if( lookAtDirection.equals( Vector3f.ZERO ) ) {
 	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-	        moveDirection.set( currentMovement.getDirection().toVector() );
 	        vectorToLookAt.addLocal( moveDirection.x, 0, moveDirection.z );
 	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 		} else {
@@ -314,17 +317,13 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 	}
 
 	public void shoot( Vector3f direction ) {
-			world.bulletsCounter = world.bulletsCounter + 1;
 			Vector3f bulletPosition = world.getCore().
-						getCharacterPosition(id).add( direction.mult( 5 ) );
+						getPosition(id).add( direction.mult( 5 ) );
 			bulletPosition.addLocal( 0, 2, 0 );
-			PhysicsBullet bullet = new PhysicsBullet( "bullet" + world.bulletsCounter, world, 
-					world.getCore().getCharacterWeapon(id), bulletPosition );
+			Bullet bullet = new Bullet( id, world, 
+					world.getCore().getWeapon(id), bulletPosition );
 			world.bullets.put( bullet.id, bullet );
 			bullet.shoot(direction);
-			
-	//		world.shoot.setWorldPosition( feet.getWorldTranslation() );
-	//		world.shoot.play();
 			
 			world.shoot( feet.getWorldTranslation() );
 		}
@@ -334,41 +333,32 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 	 * 
 	 * @param direction - (Vector3f) the direction of the character's movement
 	 */
-	public void move( Vector3f direction ) {
+	public void move( Vector3f direction ) { 
 		try{
 			// the rotational axis is orthogonal to the direction and
 			// to the Y axis. It's calculated using cross product
-			rotationalAxis.setDirection( moveDirection.cross( Vector3f.UNIT_Y ) );
+			moveDirection.set(direction);
+			rotationalAxis.setDirection( moveDirection.cross( new Vector3f(0,1,0) ) );
 			rotationalAxis.setAvailableAcceleration( 30*speed );
 			rotationalAxis.setDesiredVelocity( speed );
 		} catch( Exception e ) {
 			rotationalAxis.setDesiredVelocity(0f);
 		}
 	}
-
-	public void hide( boolean b ) {
-		if( b ) 
-			body.detachChild( model );
-		else
-			body.attachChild( model );
-	}
 	
 	public void die() {
         ParticleMesh exp = ExplosionFactory.getSmallExplosion(); 
 		exp.setOriginOffset( feet.getWorldTranslation().clone() );
-//		  non si sa come ma da problemi...
-//        exp.setLocalScale( 0.3f); 
         world.getRootNode().attachChild(exp);
         exp.forceRespawn();
-		
-		PhysicsAmmoPackage ammo = new PhysicsAmmoPackage( id + "ammoPack", 
+        
+        world.ammoPackagesCounter++;
+		AmmoPackage ammo = new AmmoPackage( "ammo" + world.ammoPackagesCounter, 
 				world, feet.getWorldTranslation().clone().add( new Vector3f(0,15,0) ) );
 		world.ammoPackages.put( ammo.id, ammo );
 		
     	clearDynamics();
-//    	world.explosion.setWorldPosition( feet.getWorldTranslation() );
-//    	world.explosion.setVolume( 5 );
-//    	world.explosion.play();
+    	
     	world.explode( feet.getWorldTranslation() );
 
     	body.detachAllChildren();
@@ -376,6 +366,8 @@ public class PhysicsEnemy extends PhysicsCharacter  {
     	feet.delete();
     	body.delete();
     	world.getRootNode().detachChild( characterNode );
+    	characterNode = null;
+    	model = null;
     	
     	world.characters.remove( id );
 	}
@@ -401,23 +393,16 @@ public class PhysicsEnemy extends PhysicsCharacter  {
         SyntheticButton playerCollisionEventHandler = feet.getCollisionEventHandler();
         
         InputAction collisionAction = new InputAction() {
-            public void performAction( InputActionEvent evt ) {
+			public void performAction( InputActionEvent evt ) {
                 ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
                 if ( contactInfo.getNode1() == world.getGround() || contactInfo.getNode2() == world.getGround() ) {
-                    world.getCore().setCharacterOnGround( id, true );
+                    onGround = true;
                 }
             }
         };
         
         contactDetect.addAction( collisionAction, playerCollisionEventHandler, false );
     }
-
-    /** Function <code>rest</code> <p>
-	 * Set the character to the rest status
-	 */
-	public void rest() {
-		world.getCore().characterRest(id);
-	}
 
 	/** Function <code>clearDynamics</code> <br>
      * Reset all dynamics of the physics character
@@ -430,25 +415,10 @@ public class PhysicsEnemy extends PhysicsCharacter  {
         
         body.clearDynamics();
         
-    	if( animationController.getCurrentAnimation() != Animation.IDLE && !shooting ) {
-    		// activate the animation "idle"
+    	if( !shooting ) {
     		animationController.runAnimation( Animation.IDLE );
     	}
     }
-
-    /**
-	 * @return the moveDirection
-	 */
-	public Vector3f getMoveDirection() {
-		return moveDirection;
-	}
-
-	/**
-	 * @param moveDirection the moveDirection to set
-	 */
-	public void setMoveDirection( Vector3f moveDirection ) {
-		this.moveDirection.set( moveDirection );
-	}
 
 	/** Function <code>getCharacterNode</code> <br>
      *  Return the main Node of the physics character
@@ -477,22 +447,6 @@ public class PhysicsEnemy extends PhysicsCharacter  {
         return feet;
     }
 
-	/** Function <code>getModel</code> <p>
-	 * 
-	 * @return (float) the character's movements speed
-	 */
-    public float getSpeed() {
-        return speed;
-    }
-    
-	/** Function <code>setSpeed</code> <br>
-	 * Set the character's movements speed
-	 * @param speed - (Float) the movement speed
-	 */
-    public void setSpeed( float speed ) {
-        this.speed = speed;
-    }
-
     /** Function <code>getJumpVector</code> <br>
      * 
      * @return (Vector3f) the jump vector
@@ -509,29 +463,12 @@ public class PhysicsEnemy extends PhysicsCharacter  {
         return model;
     }
 
-	/** Function <code>setModel</code> <br>
-	 * Apply this model to the character
-	 * 
-	 * @param model - (Node) the model to apply to the character
-	 */
-    public void setModel( Node model ) {
-        this.model = model;
-    }
-
-	/** Function <code>getOnGround</code> <p>
-	 * 
-	 * @return <b>true</b> if the character is in rest status
-	 */
-	public boolean getRest() {
-		return world.getCore().getCharacterRest(id);
-	}
-
 	/** Function <code>getOnGround</code> <br>
 	 * 
 	 * @return <b>true</b> if the character is on the ground
 	 */
 	public boolean getOnGround() {
-		return world.getCore().getCharacterOnGround(id);
+		return onGround;
 	}
 	
 	/** Function <code>getAnimationController</code>
@@ -547,37 +484,17 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 	 * @param onGround - (boolean)
 	 */
 	public void setOnGround( boolean onGround ) {
-		world.getCore().setCharacterOnGround( id, onGround );
-	}
-	
-	/** Function <code>setRest</code> <p>
-	 * If the boolean parameter is true, set the character's status to rest
-	 * @param rest - (boolean)
-	 */
-	public void setRest( boolean rest ) {		
-		world.getCore().setCharacterRest( id, rest );
-	}
-
-	/** Function <code>setMovingBackward</code> <p>
-	 * If the boolean parameter is true, set the character's status to moving backward and activate the right animation
-	 * @param movingBackward - (boolean)
-	 */
-	public void setMovingBackward( boolean movingBackward ) {
-		world.getCore().setCharacterMovingBackward( id, movingBackward );
+		this.onGround = onGround;
 	}
 
 	/** Function <code>setMovingForward</code> <p>
 	 * If the boolean parameter is true, set the character's status to moving forward and activate the right animation
-	 * @param movingForward - (boolean)
+	 * @param moving - (boolean)
 	 */
-	public void setMovingForward( boolean movingForward ) {
-    	// activate the animation only if the previous animation was different and if the character is on the ground
-    	if( animationController.getCurrentAnimation() != Animation.RUN && movingForward == true && getOnGround() == true ) {
-    		// activate the animation "run" 
-    		animationController.runAnimation( Animation.RUN );
-    	}
-		
-		world.getCore().setCharacterMovingForward( id, movingForward );
+	public void setMoving( boolean moving ) {
+		if( moving )
+			animationController.runAnimation( Animation.WALK );
+		world.getCore().setMoving( id, moving );
 	}
 
 	/** Function <code>setJumping</code> <p>
@@ -585,44 +502,9 @@ public class PhysicsEnemy extends PhysicsCharacter  {
 	 * @param jumping - (boolean)
 	 */
 	public void setJumping( boolean jumping ) {	
-		// if the character is jumping
-    	if( animationController.getCurrentAnimation() != Animation.JUMP && jumping == true ) {
-    		// activate the animation "jump"
-    		animationController.runAnimation( Animation.JUMP );
-    	}
-		world.getCore().setCharacterJumping( id, jumping );
-	}
-
-	/** Function <code>setStrafingLeft</code> <p>
-	 * If the boolean parameter is true, set the character's status to strafing left
-	 * @param strafingLeft - (boolean)
-	 */
-	public void setStrafingLeft( boolean strafingLeft ) {
-		world.getCore().setCharacterStrafingLeft( id, strafingLeft );
-	}
-
-	/** Function <code>setStrafingRight</code> <p>
-	 * If the boolean parameter is true, set the character's status to strafing right
-	 * @param strafingRight - (boolean)
-	 */
-	public void setStrafingRight( boolean strafinRight ) {
-		world.getCore().setCharacterStrafingRight( id, strafinRight );
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isFirstPerson() {
-		return firstPerson;
-	}
-
-	/** 
-	 * 
-	 * @param firstPerson
-	 */
-	public void setFirstPerson( boolean firstPerson ) {
-		this.firstPerson = firstPerson;
+		if( jumping )
+			animationController.runAnimation( Animation.JUMP );
+		world.getCore().setJumping( id, jumping );
 	}
 
 	/**

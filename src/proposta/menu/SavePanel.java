@@ -1,5 +1,8 @@
-package proposta.main.menu;
+package proposta.menu;
 
+
+import proposta.core.LogicWorld;
+import proposta.graphics.GraphicalWorld;
 
 import java.awt.GridLayout;
 import java.io.FileNotFoundException;
@@ -13,7 +16,6 @@ import java.util.GregorianCalendar;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
 
 
 public class SavePanel extends JPanel {
@@ -57,7 +59,7 @@ public class SavePanel extends JPanel {
 		ObjectOutputStream ois = null;
 		try {ois = new ObjectOutputStream(fin);} 
 		catch (IOException e) {e.printStackTrace();}
-		try {ois.writeObject(gm.mainMenu.game.logicGame);} 
+		try {ois.writeObject((LogicWorld)((GraphicalWorld)gm.game).getCore());} 
 		catch (IOException e) {e.printStackTrace();System.exit(0);}
 		
 		gm.setVisible(true);

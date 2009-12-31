@@ -1,10 +1,10 @@
-package proposta.enemyAI;
+package proposta.common;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 
-import proposta.enemyAI.Direction;
-import proposta.enemyAI.Movement;
+import proposta.common.Direction;
+import proposta.common.Movement;
 
 public class MovementList implements Serializable{
 	private static final long serialVersionUID = 1L;

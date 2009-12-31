@@ -34,7 +34,7 @@ package proposta.input;
 
 import java.util.HashMap;
 
-import proposta.graphics.PhysicsPlayer;
+import proposta.graphics.Player;
 import proposta.input.action.FirstPersonAction;
 import proposta.input.action.MovementPermitter;
 import proposta.input.action.ShootAction;
@@ -98,7 +98,7 @@ public class ThirdPersonHandler extends InputHandler {
     /** The Spatial we are controlling with this handler. */
     protected Spatial targetSpatial;
 
-    protected PhysicsPlayer target;
+    protected Player target;
     
     /**
      * The previous location of the target node... used to maintain where the
@@ -264,7 +264,7 @@ public class ThirdPersonHandler extends InputHandler {
         setupChaseCamera();
     }
     
-    public ThirdPersonHandler( PhysicsPlayer target, Camera cam, HashMap<String, Object> props ) {
+    public ThirdPersonHandler( Player target, Camera cam, HashMap<String, Object> props ) {
         this.target = target;
         this.targetSpatial = target.getCharacterNode();
         this.camera = cam;
@@ -373,7 +373,7 @@ public class ThirdPersonHandler extends InputHandler {
         	target.hide( false );
         }
 
-        // TODO non permettere i movimenti se c'è una collisione con qualcosa
+        // TODO non permettere i movimenti se c'ï¿½ una collisione con qualcosa
         updateMovements();
         
         if (walkingBackwards && walkingForward && !nowStrafing && !nowTurning) {
@@ -475,7 +475,7 @@ public class ThirdPersonHandler extends InputHandler {
 			strafeLeft( 15 );
 		} 
     	else {
-    		target.clearDynamics();
+    		target.rest();
     	}
 	}
 

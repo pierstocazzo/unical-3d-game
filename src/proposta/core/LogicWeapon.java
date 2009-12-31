@@ -1,5 +1,7 @@
 package proposta.core;
 
+import proposta.common.WeaponType;
+
 import java.io.Serializable;
 
 /**
@@ -37,7 +39,7 @@ public class LogicWeapon implements Serializable {
 	 * @return power
 	 */
 	public int getPower() {
-		return type.power;
+		return type.getPower();
 	}
 
 	/**
@@ -46,7 +48,7 @@ public class LogicWeapon implements Serializable {
 	 * @return damage
 	 */
 	public int getDamage() {
-		return type.damage;
+		return type.getDamage();
 	}
 
 	/**
@@ -64,11 +66,11 @@ public class LogicWeapon implements Serializable {
 	 * @param ammo
 	 */
 	public void addAmmo( int addedAmmo ) {
-		if( ammo > 0 )
-			ammo = ammo + addedAmmo;
+		ammo = ammo + addedAmmo;
 	}
 	
 	public void decreaseAmmo() {
-		ammo = ammo - 1;
+		if( ammo > 0 )
+			ammo = ammo - 1;
 	}
 }

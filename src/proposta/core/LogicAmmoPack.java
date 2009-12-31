@@ -1,5 +1,7 @@
 package proposta.core;
 
+import proposta.common.WeaponType;
+
 import java.io.Serializable;
 
 import com.jme.math.Vector3f;
