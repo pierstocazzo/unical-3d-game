@@ -274,7 +274,7 @@ public class ThirdPersonHandler extends InputHandler {
      */
     public void updateProperties(HashMap<String, Object> props) {
         turnSpeed = getFloatProp(props, PROP_TURNSPEED, DEFAULT_TURNSPEED);
-        doGradualRotation = getBooleanProp(props, PROP_DOGRADUAL, true);
+        doGradualRotation = getBooleanProp(props, PROP_DOGRADUAL, false);
         lockBackwards = getBooleanProp(props, PROP_LOCKBACKWARDS, false);
         cameraAlignedMovement = getBooleanProp(props, PROP_CAMERAALIGNEDMOVE, true);
         rotateOnly = getBooleanProp(props, PROP_ROTATEONLY, false);
