@@ -236,18 +236,19 @@ public abstract class PhysicsGame extends AbstractGame {
         
         if ( enabled ) {
             
-        	if ( !pause  )
+        	if ( !pause  ) {
         		update();
         	
-            if ( tpf > 0.2 || Float.isNaN( tpf ) ) {
-                getPhysicsSpace().update( 0.2f * physicsSpeed );
-            } else {
-                getPhysicsSpace().update( tpf * physicsSpeed );
-            }
-
-            rootNode.updateGeometricState(tpf, true);
-
-			passManager.updatePasses(tpf);
+	            if ( tpf > 0.2 || Float.isNaN( tpf ) ) {
+	                getPhysicsSpace().update( 0.2f * physicsSpeed );
+	            } else {
+	                getPhysicsSpace().update( tpf * physicsSpeed );
+	            }
+	
+	            rootNode.updateGeometricState(tpf, true);
+	
+				passManager.updatePasses(tpf);
+        	}
         }
     }
 
