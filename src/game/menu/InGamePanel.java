@@ -3,6 +3,8 @@ package game.menu;
 import game.common.GameTimer;
 
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.Icon;
@@ -24,7 +26,7 @@ public class InGamePanel extends JPanel {
 	/** images of every items */
 	ArrayList<String> imageFolder;
 	/** Preloaded images */
-	ArrayList<ImageIcon> imageContainer;
+	ArrayList<Image> imageContainer;
 	/** Pointer to Game Menu (owner this panel)*/
 	InGameMenu gm;
 	
@@ -77,7 +79,7 @@ public class InGamePanel extends JPanel {
 	 * @return (String) path
 	 */
 	public Icon StandardImage(int i){
-		return imageContainer.get(i*2);
+		return new ImageIcon(imageContainer.get(i*2));
 	}
 	
 	/**
@@ -87,7 +89,7 @@ public class InGamePanel extends JPanel {
 	 * @return (String) path
 	 */
 	public Icon SelectedImage(int i){
-		return imageContainer.get(i*2+1);
+		return new ImageIcon(imageContainer.get(i*2+1));
 	}
 	
 	/**
@@ -107,11 +109,11 @@ public class InGamePanel extends JPanel {
 	 */
 	public void initItem(){
 		item = new ArrayList<JLabel>();
-		item.add( new JLabel(imageContainer.get(1)));
+		item.add( new JLabel(new ImageIcon(imageContainer.get(1))));
 		this.add(item.get(0));
-		item.add( new JLabel(imageContainer.get(2)));
+		item.add( new JLabel(new ImageIcon(imageContainer.get(2))));
 		this.add(item.get(1));
-		item.add( new JLabel(imageContainer.get(4)));
+		item.add( new JLabel(new ImageIcon(imageContainer.get(4))));
 		this.add(item.get(2));
 	}
 	
@@ -126,9 +128,12 @@ public class InGamePanel extends JPanel {
 		imageFolder.add("src/game/data/images/menu/save2.png");
 		imageFolder.add("src/game/data/images/menu/exit.png");
 		imageFolder.add("src/game/data/images/menu/exit2.png");
-		imageContainer = new ArrayList<ImageIcon>();
-		for(int i=0; i<imageFolder.size(); i++)
-			imageContainer.add( new ImageIcon(imageFolder.get(i)) );
+		imageContainer = new ArrayList<Image>();
+		for(int i=0; i<imageFolder.size(); i++){
+			Image img = Toolkit.getDefaultToolkit().getImage( imageFolder.get(i) );
+			img = img.getScaledInstance(gm.screenSize.width/3, gm.screenSize.height/10, Image.SCALE_DEFAULT);
+			imageContainer.add( img );
+		}
 	}
 
 	/**
