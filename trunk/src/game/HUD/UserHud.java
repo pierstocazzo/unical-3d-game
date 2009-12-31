@@ -63,7 +63,7 @@ public class UserHud {
 		
 		level = Text.createDefaultTextLabel( "Level" );
     	level.setTextColor(ColorRGBA.black);
-    	level.setLocalScale(1.5f);
+    	level.setLocalScale(1.2f);
     	level.setLocalTranslation( hudAmmo.backQuad.getLocalTranslation().x - hudAmmo.backQuad.getWidth()/2, 
     			hudAmmo.backQuad.getLocalTranslation().y + hudLife.backQuad.getHeight()/2 + 3, 0 );
     	graphicalWorld.getRootNode().attachChild(level);

@@ -51,7 +51,7 @@ public class HudAmmo {
 
     	ammoNum = Text.createDefaultTextLabel( "lifeNum" );
     	ammoNum.setTextColor(ColorRGBA.black);
-    	ammoNum.setLocalScale(1.5f);
+    	ammoNum.setLocalScale(1.2f);
     	ammoNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
     	userHud.gWorld.hudNode.attachChild( ammoNum );
@@ -84,10 +84,10 @@ public class HudAmmo {
 	 * It creates Life Bar
 	 */
 	public void createBar(){
-		backQuad = new Quad("backQuad", screenWidth/4 , screenHeight/20);
+		backQuad = new Quad("backQuad", screenWidth/6 , screenHeight/30);
     	backQuad.setDefaultColor(ColorRGBA.blue);
     	backQuad.setLocalTranslation(screenWidth/40+backQuad.getWidth()/2,
-    			userHud.hudLife.backQuad.getHeight()+userHud.hudLife.backQuad.getHeight()+3, 0);
+    			userHud.hudLife.backQuad.getHeight()+userHud.hudLife.backQuad.getHeight()+10, 0);
     	backQuad.lock();
     	userHud.gWorld.hudNode.attachChild( backQuad );
     	

@@ -51,7 +51,7 @@ public class HudLife {
 
     	lifeNum = Text.createDefaultTextLabel( "lifeNum" );
     	lifeNum.setTextColor(ColorRGBA.black);
-    	lifeNum.setLocalScale(1.5f);
+    	lifeNum.setLocalScale(1.25f);
     	lifeNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
     	userHud.gWorld.hudNode.attachChild( lifeNum );
@@ -86,7 +86,7 @@ public class HudLife {
 	 * It creates Life Bar
 	 */
 	public void createBar(){
-		backQuad = new Quad("backQuad", screenWidth/4 , screenHeight/20);
+		backQuad = new Quad("backQuad", screenWidth/6 , screenHeight/30);
     	backQuad.setDefaultColor(ColorRGBA.blue);
     	backQuad.setLocalTranslation(screenWidth/40+backQuad.getWidth()/2,
     								screenHeight/40+backQuad.getHeight()/2, 0);
