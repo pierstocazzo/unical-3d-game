@@ -62,7 +62,9 @@ public class Bullet {
 		Sphere s = new Sphere( id, 10, 10, 0.05f );
 		physicsBullet.attachChild( s );
 		physicsBullet.generatePhysicsGeometry();
-		
+		s.lockBounds();
+		s.lockMeshes();
+		s.lockShadows();
 		physicsBullet.addForce( direction.mult( weaponType.getPower() ) );
 		
 		contactDetection();

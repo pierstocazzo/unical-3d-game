@@ -44,6 +44,8 @@ public class AmmoPackage {
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
 		pack.setRandomColors();
 		pack.updateRenderState();
+		pack.lockShadows();
+		pack.lockMeshes();
 		physicsPack.attachChild( pack );
 		physicsPack.generatePhysicsGeometry();
 	}

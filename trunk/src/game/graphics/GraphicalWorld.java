@@ -455,6 +455,7 @@ public class GraphicalWorld extends Game {
 				DisplaySystem.getDisplaySystem().getHeight() / 2, 0 );
 		crosshair.setRenderState(as);
 		crosshair.setRenderState(cross);
+		crosshair.lock();
 		
 		hudNode.attachChild(crosshair);
 		hudNode.updateGeometricState( 0.0f, true );
