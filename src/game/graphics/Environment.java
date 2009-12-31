@@ -237,7 +237,7 @@ public class Environment {
 			Node tree = ModelLoader.loadModel( "game/data/models/vegetation/palm" + k + ".3ds", 
 					"game/data/models/vegetation/palm" + k + ".png", 0.06f );
 			
-			for (int i = 0; i < 150; i++) {
+			for (int i = 0; i < 300; i++) {
 				SharedNode sharedTree = new SharedNode( "tree" + i, tree );
 				x = (float) Math.random() * world.dimension - world.dimension/2;
 				z = (float) Math.random() * world.dimension - world.dimension/2;
@@ -330,14 +330,14 @@ public class Environment {
 
         // create some interesting texturestates for splatting
         TextureState ts1 = createSplatTextureState(
-                "jmetest/data/texture/terrain/baserock.jpg", null);
+                "jmetest/data/texture/terrain/sand.jpg", null);
 
         TextureState ts2 = createSplatTextureState(
-                "jmetest/data/texture/terrain/darkrock.jpg",
+                "jmetest/data/texture/terrain/sand.jpg",
                 "jmetest/data/texture/terrain/darkrockalpha.png");
 
         TextureState ts3 = createSplatTextureState(
-                "jmetest/data/texture/terrain/deadgrass.jpg",
+                "jmetest/data/texture/terrain/nicegrass.jpg",
                 "jmetest/data/texture/terrain/deadalpha.png");
 
         TextureState ts4 = createSplatTextureState(
@@ -397,10 +397,10 @@ public class Environment {
         passNodeState.setPassState(ts5);
         passNodeState.setPassState(as);
         splattingPassNode.addPass(passNodeState);
-
-        passNodeState = new PassNodeState();
-        passNodeState.setPassState(ts6);
-        passNodeState.setPassState(as2);
+//
+//        passNodeState = new PassNodeState();
+////        passNodeState.setPassState(ts6);
+//        passNodeState.setPassState(as2);
         splattingPassNode.addPass(passNodeState);
         // //////////////////// PASS STUFF END
 
