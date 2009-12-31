@@ -81,7 +81,7 @@ public class HudLife {
 	public void update(){
 		lifeValue = userHud.game.getCurrentLife(userHud.gWorld.player.id);
 		checkColor();
-		frontQuad.resize(initialLenght*lifeValue/100, 
+		frontQuad.resize(initialLenght*lifeValue/userHud.game.getMaxLife(userHud.gWorld.player.id), 
 						frontQuad.getHeight());
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										backQuad.getLocalTranslation().y, 0);
