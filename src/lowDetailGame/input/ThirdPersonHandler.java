@@ -321,6 +321,8 @@ public class ThirdPersonHandler extends InputHandler {
         prevLoc.set(targetSpatial.getLocalTranslation());
         loc.set(prevLoc);
 
+        target.lookAtAction( camera.getDirection() );
+        
         doInputUpdate(time);
         
         /** switch to first person view when the mouse right bottom is down
@@ -345,41 +347,41 @@ public class ThirdPersonHandler extends InputHandler {
             targetSpatial.getLocalTranslation().set(prevLoc);
             return;
         }
-        targetSpatial.getLocalTranslation().subtract(loc, loc);
-        if (!loc.equals(Vector3f.ZERO)) {
-            float distance = loc.length();
-            if (distance != 0 && distance != 1.0f)
-                loc.divideLocal(distance); // this is same as normalizeLocal.
-            
-            float actAngle = 0;
-            targetSpatial.getLocalRotation().getRotationColumn(2, calcVector);
-            if (upVector.y == 1) {
-                actAngle = FastMath.atan2(loc.z, loc.x);
-                if ( !nowTurning ) {
-                    faceAngle = FastMath.atan2(calcVector.z, calcVector.x);
-                }
-            } else if (upVector.x == 1) {
-                actAngle = FastMath.atan2(loc.z, loc.y);
-                if ( !nowTurning )
-                    faceAngle = FastMath.atan2(calcVector.z, calcVector.y);
-            } else if (upVector.z == 1) {
-                actAngle = FastMath.atan2(loc.x, loc.y) - FastMath.HALF_PI;
-                if ( !nowTurning )
-                    faceAngle = FastMath.atan2(calcVector.x, calcVector.y) - FastMath.HALF_PI;
-            }
-            
-            calcFaceAngle(actAngle, time);
-            targetSpatial.getLocalRotation().fromAngleNormalAxis(-(faceAngle - FastMath.HALF_PI), upVector);
-            targetSpatial.getLocalRotation().getRotationColumn(2, calcVector).multLocal(distance);
-
-            targetSpatial.getLocalTranslation().set(prevLoc);
-            if (lockBackwards && walkingBackwards )
-                targetSpatial.getLocalTranslation().subtractLocal(calcVector);
-            else if (rotateOnly && nowTurning && !walkingBackwards && !walkingForward)
-                ; // no translation
-            else 
-                targetSpatial.getLocalTranslation().addLocal(calcVector);
-        }
+//        targetSpatial.getLocalTranslation().subtract(loc, loc);
+//        if (!loc.equals(Vector3f.ZERO)) {
+//            float distance = loc.length();
+//            if (distance != 0 && distance != 1.0f)
+//                loc.divideLocal(distance); // this is same as normalizeLocal.
+//            
+//            float actAngle = 0;
+//            targetSpatial.getLocalRotation().getRotationColumn(2, calcVector);
+//            if (upVector.y == 1) {
+//                actAngle = FastMath.atan2(loc.z, loc.x);
+//                if ( !nowTurning ) {
+//                    faceAngle = FastMath.atan2(calcVector.z, calcVector.x);
+//                }
+//            } else if (upVector.x == 1) {
+//                actAngle = FastMath.atan2(loc.z, loc.y);
+//                if ( !nowTurning )
+//                    faceAngle = FastMath.atan2(calcVector.z, calcVector.y);
+//            } else if (upVector.z == 1) {
+//                actAngle = FastMath.atan2(loc.x, loc.y) - FastMath.HALF_PI;
+//                if ( !nowTurning )
+//                    faceAngle = FastMath.atan2(calcVector.x, calcVector.y) - FastMath.HALF_PI;
+//            }
+//            
+//            calcFaceAngle(actAngle, time);
+//            targetSpatial.getLocalRotation().fromAngleNormalAxis(-(faceAngle - FastMath.HALF_PI), upVector);
+//            targetSpatial.getLocalRotation().getRotationColumn(2, calcVector).multLocal(distance);
+//
+//            targetSpatial.getLocalTranslation().set(prevLoc);
+//            if (lockBackwards && walkingBackwards )
+//                targetSpatial.getLocalTranslation().subtractLocal(calcVector);
+//            else if (rotateOnly && nowTurning && !walkingBackwards && !walkingForward)
+//                ; // no translation
+//            else 
+//                targetSpatial.getLocalTranslation().addLocal(calcVector);
+//        }
     }
 
     /**
