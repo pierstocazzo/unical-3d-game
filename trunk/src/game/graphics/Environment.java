@@ -317,7 +317,7 @@ public class Environment {
 	private void createTerrain() {
 		RawHeightMap heightMap = new RawHeightMap( getClass()
                 .getClassLoader().getResource(
-                        "jmetest/data/texture/terrain/heights.raw"),
+                        "game/data/texture/terrain/heights.raw"),
                 heightMapSize, RawHeightMap.FORMAT_16BITLE, false);
 		
         Vector3f terrainScale = new Vector3f( 20, 0.005f, 20 );
@@ -330,26 +330,26 @@ public class Environment {
 
         // create some interesting texturestates for splatting
         TextureState ts1 = createSplatTextureState(
-                "jmetest/data/texture/terrain/sand.jpg", null);
+                "game/data/texture/terrain/sand.jpg", null);
 
         TextureState ts2 = createSplatTextureState(
-                "jmetest/data/texture/terrain/sand.jpg",
-                "jmetest/data/texture/terrain/darkrockalpha.png");
+                "game/data/texture/terrain/sand.jpg",
+                "game/data/texture/terrain/darkrockalpha.png");
 
         TextureState ts3 = createSplatTextureState(
-                "jmetest/data/texture/terrain/nicegrass.jpg",
-                "jmetest/data/texture/terrain/deadalpha.png");
+                "game/data/texture/terrain/nicegrass.jpg",
+                "game/data/texture/terrain/deadalpha.png");
 
         TextureState ts4 = createSplatTextureState(
-                "jmetest/data/texture/terrain/nicegrass.jpg",
-                "jmetest/data/texture/terrain/grassalpha.png");
+                "game/data/texture/terrain/nicegrass.jpg",
+                "game/data/texture/terrain/grassalpha.png");
 
         TextureState ts5 = createSplatTextureState(
-                "jmetest/data/texture/terrain/road.jpg",
-                "jmetest/data/texture/terrain/roadalpha.png");
+                "game/data/texture/terrain/road.jpg",
+                "game/data/texture/terrain/roadalpha.png");
 
         TextureState ts6 = createLightmapTextureState(
-        		"jmetest/data/texture/terrain/lightmap.jpg");
+        		"game/data/texture/terrain/lightmap.jpg");
 
         // alpha used for blending the passnodestates together
         BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
@@ -419,7 +419,7 @@ public class Environment {
 
     private void createReflectionTerrain() {
     	RawHeightMap heightMap = new RawHeightMap( Loader.load(
-                        "jmetest/data/texture/terrain/heights.raw"),
+                        "game/data/texture/terrain/heights.raw"),
                 heightMapSize, RawHeightMap.FORMAT_16BITLE, false);
 
         Vector3f terrainScale = new Vector3f( 20, 0.007f, 20 );
@@ -431,7 +431,7 @@ public class Environment {
 
         TextureState ts1 = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
         Texture t0 = TextureManager.loadTexture( Loader.load(
-                        "jmetest/data/texture/terrain/terrainlod.jpg"),
+                        "game/data/texture/terrain/terrainlod.jpg"),
                 Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
 //        t0.setWrap(Texture.WrapMode.Repeat);
