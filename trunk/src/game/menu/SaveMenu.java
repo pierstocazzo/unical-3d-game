@@ -26,11 +26,15 @@ public class SaveMenu extends JFrame {
 	SavePanel p;
 	InGameMenu gm;
 	Image sfondo;
+	Dimension screenSize;
 	
 	public SaveMenu(InGameMenu gm){
 		super();
 		this.gm = gm;
+		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(0,0,screenSize.width, screenSize.height);
 		sfondo = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
+		sfondo = sfondo.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_DEFAULT);
 		
 		this.setUndecorated(true); 
 	    
@@ -42,9 +46,6 @@ public class SaveMenu extends JFrame {
 		this.setTitle("Save Game");
 		createMenu();
 		
-		Dimension screenSize = 
-	        Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds(0,0,screenSize.width, screenSize.height);
 	    setResizable(false);
 	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
@@ -70,25 +71,25 @@ public class SaveMenu extends JFrame {
 		//add left vertical empty panel
 		JPanel pVerticalEmpty1 = new JPanel();
 		pVerticalEmpty1.setOpaque(false);
-		pVerticalEmpty1.setPreferredSize(new Dimension(350, 1));
+		pVerticalEmpty1.setPreferredSize(new Dimension(screenSize.width/4, 1));
 		b.add(pVerticalEmpty1,BorderLayout.WEST);
 		
 		//add right vertical empty panel
 		JPanel pVerticalEmpty2 = new JPanel();
 		pVerticalEmpty2.setOpaque(false);
-		pVerticalEmpty2.setPreferredSize(new Dimension(350, 1));
+		pVerticalEmpty2.setPreferredSize(new Dimension(screenSize.width/4, 1));
 		b.add(pVerticalEmpty2,BorderLayout.EAST);
 		
 		//add lower horizontal empty panel
 		JPanel pHorizontalEmpty1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pHorizontalEmpty1.setOpaque(false);
-		pHorizontalEmpty1.setPreferredSize(new Dimension(1, 100));
+		pHorizontalEmpty1.setPreferredSize(new Dimension(1, screenSize.height/3));
 		b.add(pHorizontalEmpty1,BorderLayout.SOUTH);
 		
 		//add upper horizontal empty panel
 		JPanel pHorizontalEmpty2 = new JPanel();
 		pHorizontalEmpty2.setOpaque(false);
-		pHorizontalEmpty2.setPreferredSize(new Dimension(1, 250));
+		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height/4));
 		b.add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 		this.setVisible(true);
