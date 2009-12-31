@@ -41,9 +41,9 @@ public class UserHud {
 	
 	Text fps;
 	
-	Text ammo;
-	
 	HudAlert hudAlert;
+	
+	HudAmmo hudAmmo;
 
 	/** 
 	 * Control
@@ -58,22 +58,19 @@ public class UserHud {
 		oldTicks = 0;
 		hudScore = new HudScore(this);
 		hudLife = new HudLife(this);
+		hudAmmo = new HudAmmo(this);
 		map = new WorldMap2D(graphicalWorld);
 		
 		level = Text.createDefaultTextLabel( "Level" );
-    	level.setTextColor(ColorRGBA.blue);
-    	level.setLocalTranslation( hudLife.life.getLocalTranslation().x, 
-    			hudLife.life.getLocalTranslation().y + hudLife.life.getHeight(), 0 );
+    	level.setTextColor(ColorRGBA.black);
+    	level.setLocalScale(2);
+    	level.setLocalTranslation( hudAmmo.backQuad.getLocalTranslation().x - hudAmmo.backQuad.getWidth()/2, 
+    			hudAmmo.backQuad.getLocalTranslation().y + hudLife.backQuad.getHeight()/2 + 3, 0 );
     	graphicalWorld.getRootNode().attachChild(level);
     	
     	fps = Text.createDefaultTextLabel( "FPS" );
     	fps.setLocalTranslation( gWorld.getResolution().x - 200, gWorld.getResolution().y - 40, 0 );
     	gWorld.getRootNode().attachChild( fps );
-    	
-    	ammo = Text.createDefaultTextLabel( "ammo" );
-    	ammo.setLocalTranslation( gWorld.getResolution().x - 200, gWorld.getResolution().y - 60, 0 );
-    	gWorld.getRootNode().attachChild( ammo );
-    	
     	hudAlert = new HudAlert(this);
 	}
 	
@@ -92,6 +89,6 @@ public class UserHud {
 			map.update();
 		}
 		fps.print( "Frame Rate: " + (int) GameTimer.getFrameRate() + "fps" );
-    	ammo.print( "Ammunitions: " + gWorld.getCore().getAmmo( gWorld.player.id ) );
+    	hudAmmo.update();
 	}
 }

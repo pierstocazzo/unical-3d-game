@@ -9,16 +9,16 @@ import com.jme.scene.shape.Quad;
  * 
  * @author Andrea Martire, Giuseppe Leone, Salvatore Loria
  */
-public class HudLife {
+public class HudAmmo {
 
 	/** Pointer to UserHud (main node) */
 	UserHud userHud;
 	
 	/** Life Value of Player */
-	int lifeValue;
+	int ammoValue;
 	
 	/** Little text on the life bar */
-	Text lifeNum;
+	Text ammoNum;
 	
 	/** Background Quad of life Bar */
 	Quad backQuad;
@@ -42,44 +42,42 @@ public class HudLife {
 	 * 
 	 * @param userHud
 	 */
-	public HudLife(UserHud userHud){
+	public HudAmmo(UserHud userHud){
 		this.userHud = userHud;
 		screenWidth = userHud.gWorld.getResolution().x;
     	screenHeight = userHud.gWorld.getResolution().y;
     	
 		createBar();
 
-    	lifeNum = Text.createDefaultTextLabel( "lifeNum" );
-    	lifeNum.setTextColor(ColorRGBA.black);
-    	lifeNum.setLocalScale(2);
-    	lifeNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
+    	ammoNum = Text.createDefaultTextLabel( "lifeNum" );
+    	ammoNum.setTextColor(ColorRGBA.black);
+    	ammoNum.setLocalScale(2);
+    	ammoNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
-    	userHud.gWorld.hudNode.attachChild( lifeNum );
+    	userHud.gWorld.hudNode.attachChild( ammoNum );
     	//for first correct visualization
-    	lifeValue = 100;
-    	checkColor();
-		frontQuad.resize(initialLenght*lifeValue/100, 
+    	ammoValue = 0;
+		frontQuad.resize(initialLenght*ammoValue/100, 
 						frontQuad.getHeight());
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										backQuad.getLocalTranslation().y, 0);
-		lifeNum.print("Life: "+Integer.toString(lifeValue));
-		lifeNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
-				backQuad.getLocalTranslation().y-lifeNum.getHeight()/2, 0);
+		ammoNum.print("Ammo: "+Integer.toString(ammoValue));
+		ammoNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
+				backQuad.getLocalTranslation().y-ammoNum.getHeight()/2, 0);
    	}
 	
 	/**
 	 * It updates Life bar informations
 	 */
 	public void update(){
-		lifeValue = userHud.game.getCurrentLife(userHud.gWorld.player.id);
-		checkColor();
-		frontQuad.resize(initialLenght*lifeValue/userHud.game.getMaxLife(userHud.gWorld.player.id), 
+		ammoValue = userHud.game.getAmmo(userHud.gWorld.player.id);
+		frontQuad.resize(initialLenght*ammoValue/userHud.game.getMaxAmmo(userHud.gWorld.player.id), 
 						frontQuad.getHeight());
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										backQuad.getLocalTranslation().y, 0);
-		lifeNum.print("Life: "+Integer.toString(lifeValue));
-		lifeNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
-				backQuad.getLocalTranslation().y-lifeNum.getHeight()/2, 0);
+		ammoNum.print("Ammo: "+Integer.toString(ammoValue));
+		ammoNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
+				backQuad.getLocalTranslation().y-ammoNum.getHeight()/2, 0);
 	}
 	
 	/** 
@@ -89,7 +87,7 @@ public class HudLife {
 		backQuad = new Quad("backQuad", screenWidth/4 , screenHeight/20);
     	backQuad.setDefaultColor(ColorRGBA.blue);
     	backQuad.setLocalTranslation(screenWidth/40+backQuad.getWidth()/2,
-    								screenHeight/40+backQuad.getHeight()/2, 0);
+    			userHud.hudLife.backQuad.getHeight()+userHud.hudLife.backQuad.getHeight()+3, 0);
     	backQuad.lock();
     	userHud.gWorld.hudNode.attachChild( backQuad );
     	
@@ -100,17 +98,5 @@ public class HudLife {
     	frontQuad.setLocalTranslation(backQuad.getLocalTranslation().x,
     			backQuad.getLocalTranslation().y, 0);
     	userHud.gWorld.hudNode.attachChild( frontQuad );
-	}
-	
-	/**
-	 * It checks value life and change quad color
-	 */
-	public void checkColor(){
-		if(lifeValue > 60)
-			frontQuad.setDefaultColor(ColorRGBA.green);
-		else if(lifeValue > 25)
-			frontQuad.setDefaultColor(ColorRGBA.yellow);
-		else 
-			frontQuad.setDefaultColor(ColorRGBA.red);
 	}
 }

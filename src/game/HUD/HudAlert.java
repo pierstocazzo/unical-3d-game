@@ -18,7 +18,6 @@ public class HudAlert {
 	UserHud userHud;
 	
 	/** Little text on the alert bar */
-	Text alert;
 	Text alertNum;
 	
 	int alertValue;
@@ -52,13 +51,6 @@ public class HudAlert {
     	
 		createBar();
 		
-		alert = Text.createDefaultTextLabel( "alertBar" );
-    	alert.setTextColor(ColorRGBA.blue);
-    	alert.setLocalTranslation( backQuad.getLocalTranslation().x-backQuad.getWidth()/2, 
-    			backQuad.getLocalTranslation().y+backQuad.getHeight()/2, 0 );
-    	alert.print("Alert");
-    	alert.lock();
-    	userHud.gWorld.hudNode.attachChild( alert );
     	alertNum = Text.createDefaultTextLabel( "lifeNum" );
     	alertNum.setTextColor(ColorRGBA.black);
     	alertNum.setLocalScale(2);
@@ -72,7 +64,7 @@ public class HudAlert {
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										frontQuad.getLocalTranslation().y, 0);
 		alertNum.print(Integer.toString(alertValue));
-		alertNum.setLocalTranslation(backQuad.getLocalTranslation().x-alertNum.getWidth()/2,
+		alertNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
 				backQuad.getLocalTranslation().y-alertNum.getHeight()/2, 0);
    	}
 	
@@ -86,9 +78,7 @@ public class HudAlert {
 						frontQuad.getHeight());
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										frontQuad.getLocalTranslation().y, 0);
-		alertNum.print(Integer.toString(alertValue));
-		alertNum.setLocalTranslation(backQuad.getLocalTranslation().x-alertNum.getWidth()/2,
-				backQuad.getLocalTranslation().y-alertNum.getHeight()/2, 0);
+		alertNum.print("Alert: "+Integer.toString(alertValue));
 	}
 	
 	public int getAlertLevel(){

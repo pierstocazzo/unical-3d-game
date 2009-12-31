@@ -121,4 +121,8 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 		world.killed(id);
 		super.die( shooterId );
 	}
+	
+	public int getMaxAmmo() {
+		return maxAmmo;
+	}
 }
