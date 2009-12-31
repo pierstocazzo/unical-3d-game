@@ -20,12 +20,13 @@ public class CollisionHandler {
 
 	public void update() {
 		/** Check for collision here */
-		if( inputHandler.getPlayer().getModel().hasCollision( collisionNode, false ) ) {
+		if( inputHandler.getPlayer().getModel().getChild("front").hasCollision( collisionNode, false ) ) {
 			inputHandler.setCanMoveForward(false);
+			inputHandler.setGoingForward(false);
 			System.out.println("COLLISIONE AVVENUTA!!!");
 		} else {
 			inputHandler.setCanMoveForward(true);
-			//inputHandler.setCanMoveBackward(true);
+			inputHandler.setCanMoveBackward(true);
 		}
 	}
 	
