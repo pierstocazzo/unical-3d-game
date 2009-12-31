@@ -211,7 +211,12 @@ public class ThirdPersonHandler extends InputHandler {
 	protected InputAction actionFirstPerson;
 	
 	private Vector3f rot;
-
+	
+	/**
+	 * Check if the player can move forward or backward
+	 */
+	protected boolean canMoveForward;
+	protected boolean canMoveBackward;
 
     /**
      * Basic constructor for the ThirdPersonHandler. Sets all non specified args
@@ -333,7 +338,7 @@ public class ThirdPersonHandler extends InputHandler {
         	target.hide( false );
         }
 
-        // TODO non permettere i movimenti se c'� una collisione con qualcosa
+        // TODO non permettere i movimenti se c'è una collisione con qualcosa
         updateMovements();
         
         if ( walkingBackwards && walkingForward && !nowTurning) {
@@ -633,6 +638,10 @@ public class ThirdPersonHandler extends InputHandler {
     public Spatial getTarget() {
         return targetSpatial;
     }
+    
+    public Player getPlayer() {
+    	return target;
+    }
 
     public void setTarget(Spatial target) {
         this.targetSpatial = target;
@@ -787,5 +796,21 @@ public class ThirdPersonHandler extends InputHandler {
 	
 	public void setShooting( boolean shooting ) {
 		target.setShooting( shooting );
+	}
+	
+	public boolean isCanMoveForward() {
+		return canMoveForward;
+	}
+
+	public void setCanMoveForward(boolean canMoveForward) {
+		this.canMoveForward = canMoveForward;
+	}
+
+	public boolean isCanMoveBackward() {
+		return canMoveBackward;
+	}
+
+	public void setCanMoveBackward(boolean canMoveBackward) {
+		this.canMoveBackward = canMoveBackward;
 	}
 }

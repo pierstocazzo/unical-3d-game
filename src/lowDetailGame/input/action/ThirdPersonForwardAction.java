@@ -48,7 +48,7 @@ public class ThirdPersonForwardAction extends KeyInputAction {
     }
 
     public void performAction(InputActionEvent event) {
-        if( event.getTriggerPressed() ) {
+        if( event.getTriggerPressed() && handler.isCanMoveForward() ) {
 	        handler.setGoingForward(true);
         } else {
         	handler.setGoingForward(false);

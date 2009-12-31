@@ -34,6 +34,7 @@ import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
 import com.jme.util.TextureManager;
 import com.jme.util.ThrowableHandler;
+import com.jme.util.geom.Debugger;
 import com.jmex.physics.PhysicsDebugger;
 import com.jmex.physics.PhysicsSpace;
 
@@ -69,6 +70,7 @@ public abstract class PhysicsGame extends AbstractGame {
     protected WireframeState wireState;
     protected LightState lightState;
     protected boolean showPhysics;
+    protected boolean showBounds;
 
     // Added for Physics
     private PhysicsSpace physicsSpace;
@@ -224,6 +226,9 @@ public abstract class PhysicsGame extends AbstractGame {
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("toggle_physics", false ) ) {
             showPhysics = !showPhysics;
         }
+        if ( KeyBindingManager.getKeyBindingManager().isValidCommand("toggle_bounds", false ) ) {
+            showBounds = !showBounds;
+        }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
         	
         	InGameMenu menu = new InGameMenu(this);
@@ -335,6 +340,7 @@ public abstract class PhysicsGame extends AbstractGame {
         KeyBindingManager.getKeyBindingManager().set( "toggle_wire", KeyInput.KEY_T );
         KeyBindingManager.getKeyBindingManager().set( "toggle_lights", KeyInput.KEY_L );
         KeyBindingManager.getKeyBindingManager().set( "toggle_physics", KeyInput.KEY_V );
+        KeyBindingManager.getKeyBindingManager().set( "toggle_bounds", KeyInput.KEY_B );
         KeyBindingManager.getKeyBindingManager().set( "exit", KeyInput.KEY_ESCAPE );
 
         setPhysicsSpace( PhysicsSpace.create() );
@@ -492,6 +498,8 @@ public abstract class PhysicsGame extends AbstractGame {
     
     protected void doDebug(Renderer r) {
         if ( showPhysics ) PhysicsDebugger.drawPhysics( getPhysicsSpace(), r );
+        
+        if ( showBounds ) Debugger.drawBounds( rootNode, r, true );
     }
     
     /**

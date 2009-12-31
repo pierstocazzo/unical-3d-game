@@ -26,6 +26,7 @@ public abstract class Game extends PhysicsGame {
 	        loadingFrame.setProgress(100);
 	        setupCamera();
 	        setupInput();
+	        setupCollisionHandler();
 	        loadingFrame.setVisible(false);
     	} else {
 	        setupInit();
@@ -34,14 +35,15 @@ public abstract class Game extends PhysicsGame {
 	        setupEnemies();
 	        setupCamera();
 	        setupInput();
+	        setupCollisionHandler();
     	}
         
         freeCamInput = new FirstPersonHandler( cam, 100, 1 );
         freeCamInput.setEnabled( false );
         
     }
-    
-    public abstract void setupInit();
+
+	public abstract void setupInit();
     
     public abstract void setupEnvironment();
     
@@ -52,4 +54,6 @@ public abstract class Game extends PhysicsGame {
     public abstract void setupCamera();
     
     public abstract void setupInput();
+    
+    public abstract void setupCollisionHandler();
 }

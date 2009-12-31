@@ -1,0 +1,32 @@
+package lowDetailGame.graphics;
+
+import lowDetailGame.input.ThirdPersonHandler;
+
+import com.jme.bounding.CollisionTree;
+import com.jme.bounding.CollisionTreeManager;
+import com.jme.intersection.BoundingCollisionResults;
+import com.jme.intersection.CollisionResults;
+import com.jme.scene.Node;
+
+public class CollisionHandler {
+	
+	protected Node collisionNode;
+	protected ThirdPersonHandler inputHandler;
+	
+	public CollisionHandler( ThirdPersonHandler inputHandler, Node collisionNode ) {
+		this.inputHandler = inputHandler;
+		this.collisionNode = collisionNode;
+	}
+
+	public void update() {
+		/** Check for collision here */
+		if( inputHandler.getPlayer().getModel().hasCollision( collisionNode, false ) ) {
+			inputHandler.setCanMoveForward(false);
+			System.out.println("COLLISIONE AVVENUTA!!!");
+		} else {
+			inputHandler.setCanMoveForward(true);
+			//inputHandler.setCanMoveBackward(true);
+		}
+	}
+	
+}
