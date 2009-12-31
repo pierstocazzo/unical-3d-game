@@ -21,6 +21,7 @@ import com.jme.scene.SharedNode;
 import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
 import com.jme.scene.Spatial.LightCombineMode;
+import com.jme.scene.Spatial.TextureCombineMode;
 import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
@@ -246,6 +247,7 @@ public class Environment {
 				}
 				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 10, z ));
 				world.getRootNode().attachChild( sharedTree );
+				sharedTree.lock();
 				world.trees.put( world.treeCounter++, sharedTree );
 			}
 		}
@@ -583,23 +585,23 @@ public class Environment {
         skybox.setTexture(Skybox.Face.Down, down);
         skybox.preloadTextures();
 
-//        CullState cullState = display.getRenderer().createCullState();
-//        cullState.setCullFace(CullState.Face.None);
-//        cullState.setEnabled(true);
-//        skybox.setRenderState(cullState);
+        CullState cullState = DisplaySystem.getDisplaySystem().getRenderer().createCullState();
+        cullState.setCullFace(CullState.Face.None);
+        cullState.setEnabled(true);
+        skybox.setRenderState(cullState);
 
 //        ZBufferState zState = display.getRenderer().createZBufferState();
 //        zState.setEnabled(false);
 //        skybox.setRenderState(zState);
 
-//        FogState fs = display.getRenderer().createFogState();
-//        fs.setEnabled(false);
-//        skybox.setRenderState(fs);
+        FogState fs = DisplaySystem.getDisplaySystem().getRenderer().createFogState();
+        fs.setEnabled(false);
+        skybox.setRenderState(fs);
 
-//        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
-//        skybox.setCullHint(Spatial.CullHint.Never);
-//        skybox.setTextureCombineMode(TextureCombineMode.Replace);
-//        skybox.updateRenderState();
+        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
+        skybox.setCullHint(Spatial.CullHint.Never);
+        skybox.setTextureCombineMode(TextureCombineMode.Replace);
+        skybox.updateRenderState();
 
         skybox.lockBounds();
         skybox.lockMeshes();
@@ -639,7 +641,7 @@ public class Environment {
         cs.setCullFace(CullState.Face.Back);
         spatial.setRenderState(cs);
 
-        spatial.setCullHint(Spatial.CullHint.Never);
+        spatial.setCullHint(Spatial.CullHint.Dynamic);
 
         spatial.updateGeometricState(0.0f, true);
         spatial.updateRenderState();
