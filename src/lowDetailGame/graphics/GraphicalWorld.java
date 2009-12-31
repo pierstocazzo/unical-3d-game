@@ -253,7 +253,7 @@ public class GraphicalWorld extends Game {
         KeyBindingManager.getKeyBindingManager().set( "firstPerson", KeyInput.KEY_R );
     	
         HashMap<String, Object> handlerProps = new HashMap<String, Object>();
-        handlerProps.put(ThirdPersonHandler.PROP_DOGRADUAL, "true");
+        handlerProps.put(ThirdPersonHandler.PROP_DOGRADUAL, "false");
         handlerProps.put(ThirdPersonHandler.PROP_TURNSPEED, ""+(1.0f * FastMath.PI));
         handlerProps.put(ThirdPersonHandler.PROP_LOCKBACKWARDS, "false");
         handlerProps.put(ThirdPersonHandler.PROP_CAMERAALIGNEDMOVE, "true");

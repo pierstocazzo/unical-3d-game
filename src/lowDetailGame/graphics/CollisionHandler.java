@@ -26,6 +26,13 @@ public class CollisionHandler {
 			System.out.println("COLLISIONE AVVENUTA!!!");
 		} else {
 			inputHandler.setCanMoveForward(true);
+		}
+		
+		if( inputHandler.getPlayer().getModel().getChild("back").hasCollision( collisionNode, false ) ) {
+			inputHandler.setCanMoveBackward(false);
+			inputHandler.setGoingBackwards(false);
+			System.out.println("COLLISIONE AVVENUTA!!!");
+		} else {
 			inputHandler.setCanMoveBackward(true);
 		}
 	}
