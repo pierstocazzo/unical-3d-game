@@ -81,7 +81,7 @@ public class UserHud {
 	 * Update user hud
 	 */
 	public void update(){
-		if(oldTicks + 1000 <= (int)GameTimer.getTime())
+		if(oldTicks + 500 <= (int)GameTimer.getTime())
 		{
 			oldTicks = (int) GameTimer.getTime();
 			int value = gWorld.getCore().getLevel(gWorld.player.id);
