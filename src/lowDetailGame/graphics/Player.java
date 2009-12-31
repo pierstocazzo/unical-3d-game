@@ -26,9 +26,6 @@ import com.jmex.physics.material.Material;
  */
 public class Player extends Character {
 	
-	/** utility Vector used for the look at action */
-	Vector3f vectorToLookAt;
-	
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
      * 
@@ -48,7 +45,6 @@ public class Player extends Character {
         body = world.getPhysicsSpace().createDynamicNode();
 
         this.model = model;
-        this.vectorToLookAt = new Vector3f();
         
         createPhysics();
         contactDetection();
@@ -153,12 +149,6 @@ public class Player extends Character {
      */
     public void rest() {
     	animationController.runAnimation( Animation.IDLE );
-    }
-    
-    public void lookAtAction( Vector3f direction ) {
-    	vectorToLookAt.set( this.getModel().getWorldTranslation() );
-        vectorToLookAt.addLocal( direction.x, 0, direction.z );
-    	this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
     }
     
 	/** Function <code>getCharacterNode</code> <br>
