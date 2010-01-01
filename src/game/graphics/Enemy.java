@@ -260,7 +260,7 @@ public class Enemy extends Character  {
 				}
 			}
 			
-			if( inverted && distance <= 5 && distance >= 0 ) {
+			if( inverted && distance <= 7 && distance >= 0 ) {
 				clearDynamics();
 				setMoving(false);
 				inverted = false;
