@@ -13,6 +13,7 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
+import com.jme.scene.Spatial.LightCombineMode;
 import com.jme.scene.shape.Box;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.MaterialState;
@@ -66,11 +67,11 @@ public class Player extends Character {
 		 * Create the transparent material
 		 */
 		materialState = DisplaySystem.getDisplaySystem().getRenderer().createMaterialState();
-        materialState.setAmbient(new ColorRGBA(0, 0, 0, 1));
-        materialState.setDiffuse(new ColorRGBA(0, 0, 0, 1));
-        materialState.setSpecular(new ColorRGBA(0, 0, 0, 1));
+        materialState.setAmbient(new ColorRGBA(1, 1, 1, 0));
+        materialState.setDiffuse(new ColorRGBA(1, 1, 1, 0));
+        materialState.setSpecular(new ColorRGBA(1, 1, 1, 0));
         materialState.setShininess(0); // 128.0f
-        materialState.setEmissive(new ColorRGBA(0, 0, 0, 1));
+        materialState.setEmissive(new ColorRGBA(1, 1, 1, 0));
         materialState.setEnabled(true);
         materialState.setMaterialFace(MaterialState.MaterialFace.FrontAndBack);
 		
@@ -103,16 +104,24 @@ public class Player extends Character {
 	    model.setModelBound( new BoundingBox() );
 	    model.updateModelBound();
 	    
-	    Box frontal = new Box("frontal", new Vector3f(-1f,4,-1), new Vector3f(1f,6,-.9f));
+	    Box frontal = new Box("frontal", new Vector3f(-1f,0,-1), new Vector3f(1f,10,-.9f));
+	    frontal.clearTextureBuffers();
 	    frontal.setModelBound(new BoundingBox());
 		frontal.updateModelBound();
 		frontal.setLocalTranslation(0,0,5);
-		frontal.setRenderState(alphaState);
+		frontal.setRenderState(materialState);
         frontal.updateRenderState();
-        frontal.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
 		model.attachChild(frontal);
 		
-		Box backy = new Box("backy", new Vector3f(-1f,4,-1), new Vector3f(1f,6,-.9f));
+		frontal.setRenderState(alphaState);
+        frontal.updateRenderState();
+        
+        frontal.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
+		
+        frontal.setLightCombineMode(LightCombineMode.Off);
+        
+		Box backy = new Box("backy", new Vector3f(-1f,0,-1), new Vector3f(1f,10,-.9f));
+		backy.clearTextureBuffers();
 		backy.setModelBound(new BoundingBox());
 		backy.updateModelBound();
 		backy.setLocalTranslation(0,0,-5);
