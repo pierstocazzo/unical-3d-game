@@ -15,17 +15,14 @@ public class CollisionHandler {
 
 	public void update() {
 		/** Check for collision here */
-		if( inputHandler.getPlayer().getModel().getChild("front").hasCollision( collisionNode, false ) ) {
+		if( inputHandler.getPlayer().getModel().getChild("frontal").hasCollision( collisionNode, true ) ) {
 			inputHandler.setCanMoveForward(false);
 			inputHandler.setGoingForward(false);
-		} else {
-			inputHandler.setCanMoveForward(true);
-		}
-		
-		if( inputHandler.getPlayer().getModel().getChild("back").hasCollision( collisionNode, false ) ) {
+		} else if( inputHandler.getPlayer().getModel().getChild("backy").hasCollision( collisionNode, true )) {
 			inputHandler.setCanMoveBackward(false);
 			inputHandler.setGoingBackwards(false);
 		} else {
+			inputHandler.setCanMoveForward(true);
 			inputHandler.setCanMoveBackward(true);
 		}
 	}

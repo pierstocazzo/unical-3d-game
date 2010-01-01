@@ -10,8 +10,13 @@ import com.jme.input.util.SyntheticButton;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
+import com.jme.renderer.ColorRGBA;
+import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.shape.Box;
+import com.jme.scene.state.BlendState;
+import com.jme.scene.state.MaterialState;
+import com.jme.system.DisplaySystem;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.geometry.PhysicsCapsule;
 import com.jmex.physics.material.Material;
@@ -27,7 +32,9 @@ import com.jmex.physics.material.Material;
 public class Player extends Character {
 	
 	Vector3f vectorToLookAt = new Vector3f();
-
+	
+	private MaterialState materialState;
+	
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
      * 
@@ -55,6 +62,26 @@ public class Player extends Character {
     }
 
 	void createPhysics() {
+		/**
+		 * Create the transparent material
+		 */
+		materialState = DisplaySystem.getDisplaySystem().getRenderer().createMaterialState();
+        materialState.setAmbient(new ColorRGBA(0, 0, 0, 1));
+        materialState.setDiffuse(new ColorRGBA(0, 0, 0, 1));
+        materialState.setSpecular(new ColorRGBA(0, 0, 0, 1));
+        materialState.setShininess(0); // 128.0f
+        materialState.setEmissive(new ColorRGBA(0, 0, 0, 1));
+        materialState.setEnabled(true);
+        materialState.setMaterialFace(MaterialState.MaterialFace.FrontAndBack);
+		
+        final BlendState alphaState = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
+        alphaState.setBlendEnabled(true);
+        alphaState.setSourceFunction(BlendState.SourceFunction.SourceAlpha);
+        alphaState.setDestinationFunction(BlendState.DestinationFunction.OneMinusSourceAlpha);
+        alphaState.setTestEnabled(true);
+        alphaState.setTestFunction(BlendState.TestFunction.GreaterThan);
+        alphaState.setEnabled(true);
+        
 	    PhysicsCapsule bodyGeometry = body.createCapsule("body geometry");
 	    bodyGeometry.setLocalScale( 2.5f );
 	    bodyGeometry.setLocalTranslation(0,3,0);
@@ -76,13 +103,20 @@ public class Player extends Character {
 	    model.setModelBound( new BoundingBox() );
 	    model.updateModelBound();
 	    
-	    /*
-	    Box front = new Box("front", new Vector3f(-2.5f,-8,-1), new Vector3f(2.5f,8,-.9f));
-	    front.setModelBound(new BoundingBox());
-		front.updateModelBound();
-		front.setLocalTranslation(0,0,5);
-		characterNode.attachChild(front);
-		*/
+	    Box frontal = new Box("frontal", new Vector3f(-1f,4,-1), new Vector3f(1f,6,-.9f));
+	    frontal.setModelBound(new BoundingBox());
+		frontal.updateModelBound();
+		frontal.setLocalTranslation(0,0,5);
+		frontal.setRenderState(alphaState);
+        frontal.updateRenderState();
+        frontal.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
+		model.attachChild(frontal);
+		
+		Box backy = new Box("backy", new Vector3f(-1f,4,-1), new Vector3f(1f,6,-.9f));
+		backy.setModelBound(new BoundingBox());
+		backy.updateModelBound();
+		backy.setLocalTranslation(0,0,-5);
+		model.attachChild(backy);
 	    
 //	    model.attachChild( body );
 		
@@ -91,6 +125,12 @@ public class Player extends Character {
 //        setMovingForward( true );
 	}
 
+	public void lookAtAction( Vector3f direction ) {
+    	vectorToLookAt.set( this.getModel().getWorldTranslation() );
+        vectorToLookAt.addLocal( direction.x, 0, direction.z );
+    	this.getCharacterNode().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+    }
+	
 	/** Function <code>update</code> <br>
 	 * Update the physics character 
 	 * @param time
@@ -151,12 +191,6 @@ public class Player extends Character {
      */
     public void rest() {
     	animationController.runAnimation( Animation.IDLE );
-    }
-    
-    public void lookAtAction( Vector3f direction ) {
-    	vectorToLookAt.set( this.getModel().getWorldTranslation() );
-        vectorToLookAt.addLocal( direction.x, 0, direction.z );
-    	this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
     }
     
 	/** Function <code>getCharacterNode</code> <br>
