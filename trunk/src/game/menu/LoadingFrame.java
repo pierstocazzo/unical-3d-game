@@ -82,7 +82,7 @@ public class LoadingFrame extends JFrame {
 		//add upper horizontal empty panel
 		JPanel pHorizontalEmpty2 = new JPanel();
 		pHorizontalEmpty2.setOpaque(false);
-		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height*6/8));
+		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height*13/16));
 		b.add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 	    setResizable(false);
