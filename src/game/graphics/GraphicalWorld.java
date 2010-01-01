@@ -124,13 +124,13 @@ public class GraphicalWorld extends Game {
 		ammoPackages = new HashMap<String, AmmoPackage>();
 		energyPackages = new HashMap<String, EnergyPackage>();
 		trees = new HashMap<Integer, Node>();
-		
+		loadingFrame.setProgress(10);
     	setCrosshair();
     	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
     	
 		gameOver = Text.createDefaultTextLabel( "gameOver" );
 		rootNode.attachChild(gameOver);
-		
+		loadingFrame.setProgress(15);
     	ExplosionFactory.warmup();
     	
 		if( audioEnabled ) {
@@ -156,7 +156,7 @@ public class GraphicalWorld extends Game {
 		Node model = ModelLoader.loadModel("game/data/models/soldier/player.jme", 
 				"game/data/models/soldier/soldato.jpg", 1 );
 	    model.setLocalTranslation(0, -2f, 0);   
-	    
+	    loadingFrame.setProgress(65);
 		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
 	            Texture.MinificationFilter.Trilinear,
 	            Texture.MagnificationFilter.Bilinear);
@@ -164,6 +164,7 @@ public class GraphicalWorld extends Game {
 	    ts.setEnabled(true);
 	    ts.setTexture(texture);
 		model.getChild( "weapon" ).setRenderState( ts );
+		loadingFrame.setProgress(70);
 	    
 	    for( String id : core.getPlayersIds() ) {
 	    	playersCounter++;
@@ -177,13 +178,13 @@ public class GraphicalWorld extends Game {
 	/** Create graphic characters
      *  and place them in positions setted in the logic game
      */
-    public void setupEnemies() { 	    	
+    public void setupEnemies() { 
+    	int difference = 20/core.getEnemiesIds().size();
         for( String id : core.getEnemiesIds() ) {
         	enemiesCounter++;
         	Node model = ModelLoader.loadModel("game/data/models/soldier/enemy.jme", 
         			"game/data/models/soldier/soldier.jpg", 1f, new Quaternion());
             model.setLocalTranslation(0, -2f, 0);  
-            
 			Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
 	                Texture.MinificationFilter.Trilinear,
 	                Texture.MagnificationFilter.Bilinear);
@@ -191,6 +192,7 @@ public class GraphicalWorld extends Game {
 	        ts.setEnabled(true);
 	        ts.setTexture(texture);
 			model.getChild( "weapon" ).setRenderState( ts );
+			loadingFrame.setProgress(80+difference);
 
             Enemy enemy = new Enemy( id, this, 20, 100,  model );
             
@@ -199,6 +201,7 @@ public class GraphicalWorld extends Game {
         	enemy.getCharacterNode().getLocalTranslation().set( position );
         	characters.put( id, enemy );
         	rootNode.attachChild( characters.get(id).getCharacterNode() );
+        	difference = difference + 20/core.getEnemiesIds().size();
         }
     }
     

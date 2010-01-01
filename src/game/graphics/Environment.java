@@ -108,7 +108,7 @@ public class Environment {
         gameBounds = world.getPhysicsSpace().createStaticNode();
         world.getRootNode().attachChild(ground);
         world.getRootNode().attachChild(gameBounds);
-		
+		world.loadingFrame.setProgress(25);
 	    setuplight();
 		
 	    CullState cs = DisplaySystem.getDisplaySystem().getRenderer().createCullState();
@@ -117,7 +117,7 @@ public class Environment {
 
 //	    lightState.detachAll();
 //	    world.getRootNode().setLightCombineMode(Spatial.LightCombineMode.Off);
-	
+	    world.loadingFrame.setProgress(30);
 	    FogState fogState = DisplaySystem.getDisplaySystem().getRenderer().createFogState();
 	    fogState.setDensity(1.0f);
 	    fogState.setEnabled(true);
@@ -127,17 +127,18 @@ public class Environment {
 	    fogState.setDensityFunction(FogState.DensityFunction.Linear);
 	    fogState.setQuality(FogState.Quality.PerVertex);
 	    world.getRootNode().setRenderState(fogState);
-	    
+	    world.loadingFrame.setProgress(35);
 		createTerrain();
+		world.loadingFrame.setProgress(40);
         createReflectionTerrain();
 
         buildSkyBox();
-        
+        world.loadingFrame.setProgress(45);
         world.getRootNode().attachChild( skybox );
         world.getRootNode().attachChild( splatTerrain );
         
         createWater();
-	    
+        world.loadingFrame.setProgress(50);
 	    RenderPass rootPass = new RenderPass();
 	    rootPass.add(world.getRootNode());
 	    world.getPass().add(rootPass);
@@ -146,6 +147,7 @@ public class Environment {
 	    world.getRootNode().setCullHint(Spatial.CullHint.Never);
 		
 	    createVegetation();
+	    world.loadingFrame.setProgress(55);
 	    createWorldBounds();
 	}
 	

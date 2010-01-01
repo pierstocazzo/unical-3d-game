@@ -13,9 +13,9 @@ public abstract class Game extends PhysicsGame {
 	
     @Override
     protected void setupGame() {
-    	loadingFrame.setProgress(20);
+    	loadingFrame.setProgress(5);
         setupInit();
-        loadingFrame.setProgress(40);
+        loadingFrame.setProgress(20);
         setupEnvironment();
         loadingFrame.setProgress(60);
         setupPlayer();
