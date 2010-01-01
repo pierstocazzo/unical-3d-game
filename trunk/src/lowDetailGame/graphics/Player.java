@@ -128,7 +128,7 @@ public class Player extends Character {
 	public void lookAtAction( Vector3f direction ) {
     	vectorToLookAt.set( this.getModel().getWorldTranslation() );
         vectorToLookAt.addLocal( direction.x, 0, direction.z );
-    	this.getCharacterNode().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+    	this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
     }
 	
 	/** Function <code>update</code> <br>
