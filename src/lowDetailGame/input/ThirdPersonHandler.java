@@ -324,7 +324,7 @@ public class ThirdPersonHandler extends InputHandler {
         prevLoc.set(targetSpatial.getLocalTranslation());
         loc.set(prevLoc);
 
-        target.lookAtAction( camera.getDirection() );
+        //target.lookAtAction( camera.getDirection() );
         
         doInputUpdate(time);
         
