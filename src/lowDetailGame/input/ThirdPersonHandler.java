@@ -213,10 +213,13 @@ public class ThirdPersonHandler extends InputHandler {
 	private Vector3f rot;
 	
 	/**
-	 * Check if the player can move forward or backward
+	 * Check if the player can do movements
 	 */
 	protected boolean canMoveForward;
 	protected boolean canMoveBackward;
+	protected boolean canStrafeLeft;
+	protected boolean canStrafeRight;
+	
 
     /**
      * Basic constructor for the ThirdPersonHandler. Sets all non specified args
@@ -340,48 +343,48 @@ public class ThirdPersonHandler extends InputHandler {
         	target.hide( false );
         }
 
-        // TODO non permettere i movimenti se c'è una collisione con qualcosa
         updateMovements();
         
         if ( walkingBackwards && walkingForward && !nowTurning) {
             targetSpatial.getLocalTranslation().set(prevLoc);
             return;
         }
-//        targetSpatial.getLocalTranslation().subtract(loc, loc);
-//        if (!loc.equals(Vector3f.ZERO)) {
-//            float distance = loc.length();
-//            if (distance != 0 && distance != 1.0f)
-//                loc.divideLocal(distance); // this is same as normalizeLocal.
-//            
-//            float actAngle = 0;
-//            targetSpatial.getLocalRotation().getRotationColumn(2, calcVector);
-//            if (upVector.y == 1) {
-//                actAngle = FastMath.atan2(loc.z, loc.x);
-//                if ( !nowTurning ) {
-//                    faceAngle = FastMath.atan2(calcVector.z, calcVector.x);
-//                }
-//            } else if (upVector.x == 1) {
-//                actAngle = FastMath.atan2(loc.z, loc.y);
-//                if ( !nowTurning )
-//                    faceAngle = FastMath.atan2(calcVector.z, calcVector.y);
-//            } else if (upVector.z == 1) {
-//                actAngle = FastMath.atan2(loc.x, loc.y) - FastMath.HALF_PI;
-//                if ( !nowTurning )
-//                    faceAngle = FastMath.atan2(calcVector.x, calcVector.y) - FastMath.HALF_PI;
-//            }
-//            
-//            calcFaceAngle(actAngle, time);
-//            targetSpatial.getLocalRotation().fromAngleNormalAxis(-(faceAngle - FastMath.HALF_PI), upVector);
-//            targetSpatial.getLocalRotation().getRotationColumn(2, calcVector).multLocal(distance);
-//
-//            targetSpatial.getLocalTranslation().set(prevLoc);
-//            if (lockBackwards && walkingBackwards )
-//                targetSpatial.getLocalTranslation().subtractLocal(calcVector);
-//            else if (rotateOnly && nowTurning && !walkingBackwards && !walkingForward)
-//                ; // no translation
-//            else 
-//                targetSpatial.getLocalTranslation().addLocal(calcVector);
-//        }
+        
+        targetSpatial.getLocalTranslation().subtract(loc, loc);
+        if (!loc.equals(Vector3f.ZERO)) {
+            float distance = loc.length();
+            if (distance != 0 && distance != 1.0f)
+                loc.divideLocal(distance); // this is same as normalizeLocal.
+            
+            float actAngle = 0;
+            targetSpatial.getLocalRotation().getRotationColumn(2, calcVector);
+            if (upVector.y == 1) {
+                actAngle = FastMath.atan2(loc.z, loc.x);
+                if ( !nowTurning ) {
+                    faceAngle = FastMath.atan2(calcVector.z, calcVector.x);
+                }
+            } else if (upVector.x == 1) {
+                actAngle = FastMath.atan2(loc.z, loc.y);
+                if ( !nowTurning )
+                    faceAngle = FastMath.atan2(calcVector.z, calcVector.y);
+            } else if (upVector.z == 1) {
+                actAngle = FastMath.atan2(loc.x, loc.y) - FastMath.HALF_PI;
+                if ( !nowTurning )
+                    faceAngle = FastMath.atan2(calcVector.x, calcVector.y) - FastMath.HALF_PI;
+            }
+            
+            calcFaceAngle(actAngle, time);
+            targetSpatial.getLocalRotation().fromAngleNormalAxis(-(faceAngle - FastMath.HALF_PI), upVector);
+            targetSpatial.getLocalRotation().getRotationColumn(2, calcVector).multLocal(distance);
+
+            targetSpatial.getLocalTranslation().set(prevLoc);
+            if (lockBackwards && walkingBackwards )
+                targetSpatial.getLocalTranslation().subtractLocal(calcVector);
+            else if (rotateOnly && nowTurning && !walkingBackwards && !walkingForward)
+                ; // no translation
+            else 
+                targetSpatial.getLocalTranslation().addLocal(calcVector);
+        }
     }
 
     /**
@@ -815,4 +818,22 @@ public class ThirdPersonHandler extends InputHandler {
 	public void setCanMoveBackward(boolean canMoveBackward) {
 		this.canMoveBackward = canMoveBackward;
 	}
+
+	public boolean isCanStrafeLeft() {
+		return canStrafeLeft;
+	}
+
+	public void setCanStrafeLeft(boolean canStrafeLeft) {
+		this.canStrafeLeft = canStrafeLeft;
+	}
+
+	public boolean isCanStrafeRight() {
+		return canStrafeRight;
+	}
+
+	public void setCanStrafeRight(boolean canStrafeRight) {
+		this.canStrafeRight = canStrafeRight;
+	}
+	
+	
 }

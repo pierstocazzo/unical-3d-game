@@ -29,6 +29,11 @@ public class Player extends Character {
 	
 	Vector3f vectorToLookAt = new Vector3f();
 	
+	/**
+	 * Character Collision node
+	 */
+	Node collision;
+	
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
      * 
@@ -39,7 +44,6 @@ public class Player extends Character {
      * @param model - (Node) the model to apply to the character
      */
     public Player( String id, GraphicalWorld world, float speed, float mass, Node model ) {
-        
     	this.id = id;
     	
     	this.world = world;
@@ -59,12 +63,12 @@ public class Player extends Character {
 	    PhysicsCapsule bodyGeometry = body.createCapsule("body geometry");
 	    bodyGeometry.setLocalScale( 2.5f );
 	    bodyGeometry.setLocalTranslation(0,3,0);
-//	     Set UP the orientation of the Body
+	    
+	    // Set UP the orientation of the Body
 	    quaternion = new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
 	    bodyGeometry.setLocalRotation(quaternion);
 	    
 	    body.setAffectedByGravity(false);
-	    
 	    body.setMaterial( Material.GHOST );
 	
 	    characterNode.attachChild(body);
@@ -73,24 +77,52 @@ public class Player extends Character {
 	    model.setModelBound( new BoundingBox() );
 	    model.updateModelBound();
 	    
-	    Box frontal = new Box("frontal", new Vector3f(-1f,0,-1), new Vector3f(1f,10,-.9f));
+	    /**
+	     * Setting up character collision node
+	     */
+	    collision = new Node("collision");
+	    characterNode.attachChild(collision);
+	    
+	    Box frontal = new Box("frontal", new Vector3f(-1,0,-1), new Vector3f(1,10,-.9f));
 	    frontal.clearTextureBuffers();
 	    frontal.setModelBound(new BoundingBox());
 		frontal.updateModelBound();
 		frontal.setLocalTranslation(0,0,5);
-		model.attachChild(frontal);
+		collision.attachChild(frontal);
 		
-        frontal.setCullHint(CullHint.Always);
+//      frontal.setCullHint(CullHint.Always);
 		
-		Box backy = new Box("backy", new Vector3f(-1f,0,-1), new Vector3f(1f,10,-.9f));
+		Box backy = new Box("backy", new Vector3f(-1,0,-1), new Vector3f(1,10,-.9f));
 		backy.clearTextureBuffers();
 		backy.setModelBound(new BoundingBox());
 		backy.updateModelBound();
-		backy.setLocalTranslation(0,0,-5);
-		model.attachChild(backy);
+		backy.setLocalTranslation(0,0,-2.5f);
+		collision.attachChild(backy);
 		
-		backy.setCullHint(CullHint.Always);
+//		backy.setCullHint(CullHint.Always);
+		
+		Box left = new Box("left", new Vector3f(-1,0,-1.5f), new Vector3f(-.9f,10,1.5f));
+	    left.clearTextureBuffers();
+	    left.setModelBound(new BoundingBox());
+		left.updateModelBound();
+		left.setLocalTranslation(3,0,0);
+		collision.attachChild(left);
 	    
+//		left.setCullHint(CullHint.Always);
+		
+		Box right = new Box("right", new Vector3f(-1,0,-1.5f), new Vector3f(-.9f,10,1.5f));
+	    right.clearTextureBuffers();
+	    right.setModelBound(new BoundingBox());
+		right.updateModelBound();
+		right.setLocalTranslation(-1.5f,0,0);
+		collision.attachChild(right);
+	    
+//		right.setCullHint(CullHint.Always);
+		
+		/**
+		 * end collision node
+		 */
+		
 //	    model.attachChild( body );
 		
 	    /** initialize the animation */ 
@@ -99,9 +131,9 @@ public class Player extends Character {
 	}
 
 	public void lookAtAction( Vector3f direction ) {
-    	vectorToLookAt.set( this.getModel().getWorldTranslation() );
+    	vectorToLookAt.set( this.getCollision().getWorldTranslation() );
         vectorToLookAt.addLocal( direction.x, 0, direction.z );
-    	this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+    	this.getCollision().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
     }
 	
 	/** Function <code>update</code> <br>
@@ -199,7 +231,15 @@ public class Player extends Character {
     public Node getModel() {
         return model;
     }
-
+    
+    /** Function <code>getCollision</code> <br>
+	 * 
+	 * @return (Node) the collision node of the character
+	 */
+    public Node getCollision() {
+        return collision;
+    }
+    
 	/** Function <code>setModel</code> <br>
 	 * Apply this model to the character
 	 * 
