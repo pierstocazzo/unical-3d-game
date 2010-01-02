@@ -40,7 +40,6 @@ public class HudMessageHandler {
 	 * @param userHud - (UserHud)
 	 */
 	public HudMessageHandler(UserHud userHud){
-		//inizializza valore score
 		this.userHud = userHud;
 		weight = (int) userHud.gWorld.getResolution().x ;
 		height = (int) userHud.gWorld.getResolution().y;
@@ -53,6 +52,13 @@ public class HudMessageHandler {
 		addMessage("Remember: If you die, you lose... Bye bye", 9, ColorRGBA.randomColor());
 	}
 	
+	/**
+	 * Add a new message
+	 * 
+	 * @param text (String)
+	 * @param seconds (int)
+	 * @param color (ColorRGBA)
+	 */
 	public void addMessage(String text, int seconds, ColorRGBA color){
 		HudMessage msg = new HudMessage(text, seconds, color, userHud);
 		messageList.add(msg);
