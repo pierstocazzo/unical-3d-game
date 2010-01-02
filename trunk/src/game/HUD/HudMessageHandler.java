@@ -11,6 +11,10 @@ import com.jme.renderer.ColorRGBA;
  */
 public class HudMessageHandler {
 	
+	static ColorRGBA MESSAGE = ColorRGBA.blue;
+	static ColorRGBA DANGER = ColorRGBA.red;
+	static ColorRGBA BONUS = ColorRGBA.orange;
+	
 	/** User Hud */
 	UserHud userHud;
 	/** useful variable */
