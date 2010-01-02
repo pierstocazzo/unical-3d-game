@@ -1,20 +1,8 @@
 package game.HUD;
 
-import java.awt.Font;
 import java.util.ArrayList;
 
-import utils.Loader;
-
 import com.jme.renderer.ColorRGBA;
-import com.jme.scene.Text;
-import com.jme.scene.shape.Quad;
-import com.jme.scene.state.BlendState;
-import com.jme.scene.state.TextureState;
-import com.jme.system.DisplaySystem;
-import com.jme.util.TextureManager;
-import com.jmex.font2d.Text2D;
-import com.jmex.font3d.Font3D;
-import com.jmex.font3d.Text3D;
 
 /**
  * Class HudScore
