@@ -48,7 +48,7 @@ public class HudMessageHandler {
 		messageList = new ArrayList<HudMessage>();
 		
 		addMessage("Welcome to Game!", 3, ColorRGBA.randomColor());
-		addMessage("An enemy say: I splat you!", 5, ColorRGBA.randomColor());
+		addMessage("An enemy says: I splat you!", 5, ColorRGBA.randomColor());
 		addMessage("For survive, we have to kill all enemy...", 7, ColorRGBA.randomColor());
 		addMessage("Remember: If you die, you lose... Bye bye", 9, ColorRGBA.randomColor());
 	}
