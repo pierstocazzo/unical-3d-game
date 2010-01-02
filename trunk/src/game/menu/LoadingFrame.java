@@ -86,7 +86,7 @@ public class LoadingFrame extends JFrame {
 		b.add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 	    setResizable(false);
-//	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	public void setProgress(int num){
