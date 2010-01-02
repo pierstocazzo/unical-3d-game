@@ -44,6 +44,8 @@ public class UserHud {
 	HudAlert hudAlert;
 	
 	HudAmmo hudAmmo;
+	
+	HudMessageHandler hudMsg;
 
 	/** 
 	 * Control
@@ -72,6 +74,7 @@ public class UserHud {
     	fps.setLocalTranslation( gWorld.getResolution().x - 200, gWorld.getResolution().y - 40, 0 );
     	gWorld.getRootNode().attachChild( fps );
     	hudAlert = new HudAlert(this);
+    	hudMsg = new HudMessageHandler(this);
 	}
 	
 	/**
@@ -90,5 +93,6 @@ public class UserHud {
 		}
 		fps.print( "Frame Rate: " + (int) GameTimer.getFrameRate() + "fps" );
     	hudAmmo.update();
+    	hudMsg.update();
 	}
 }
