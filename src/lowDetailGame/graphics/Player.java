@@ -81,7 +81,7 @@ public class Player extends Character {
 	     * Setting up character collision node
 	     */
 	    collision = new Node("collision");
-	    characterNode.attachChild(collision);
+	    world.getRootNode().attachChild(collision);
 	    
 	    Box frontal = new Box("frontal", new Vector3f(-1,0,-1), new Vector3f(1,10,-.9f));
 	    frontal.clearTextureBuffers();
@@ -144,6 +144,7 @@ public class Player extends Character {
 	    if( world.getCore().isAlive( id ) == true ) {
 //		    contactDetect.update(time);
 		    
+	    	collision.getLocalTranslation().set( characterNode.getWorldTranslation() );
 		    body.getWorldTranslation().set( characterNode.getWorldTranslation() );
 		    
 		    if( !world.getCore().isMoving(id) ) {
