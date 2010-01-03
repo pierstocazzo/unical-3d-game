@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.jme.scene.Text;
 
 /**
- * Class HudTextBox
+ * Class HudTextBox (DEPRECATED)
  * 
  * Used for print intrusive message on screen
  * 
