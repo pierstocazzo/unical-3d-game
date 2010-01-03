@@ -77,7 +77,7 @@ public class WorldMap2D {
 
         /* load the texture to set to the map */
         TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-		ts.setTexture( TextureManager.loadTexture( Loader.load( "game/data/texture/isola.jpg" ), true ) );
+		ts.setTexture( TextureManager.loadTexture( Loader.load( "game/data/images/map.jpg" ), true ) );
         ts.setEnabled(true);
         map.setRenderState(ts);
         
