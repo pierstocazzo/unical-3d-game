@@ -86,7 +86,7 @@ public abstract class PhysicsGame extends AbstractGame {
 	/** set to false when you don't want to do the world update */
 	public boolean enabled = true;
 
-	protected boolean pause = false;
+	public boolean pause = false;
 	
 	
     /**  

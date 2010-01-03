@@ -46,9 +46,9 @@ public class UserHud {
 	HudAmmo hudAmmo;
 	
 	HudMessageHandler hudMsg;
-	
-	HudTextBox hudText;
 
+	HudMessageBox hudMsgBox;
+	
 	/** 
 	 * Control
 	 * 
@@ -77,8 +77,8 @@ public class UserHud {
     	gWorld.getRootNode().attachChild( fps );
     	hudAlert = new HudAlert(this);
     	hudMsg = new HudMessageHandler(this);
-    	hudText = new HudTextBox(this);
-	}
+    	hudMsgBox = new HudMessageBox(HudMessageBox.WELCOME, this);
+    }
 	
 	/**
 	 * Update user hud
@@ -97,6 +97,6 @@ public class UserHud {
 		fps.print( "Frame Rate: " + (int) GameTimer.getFrameRate() + "fps" );
     	hudAmmo.update();
     	hudMsg.update();
-    	hudText.update();
+    	hudMsgBox.update();
 	}
 }
