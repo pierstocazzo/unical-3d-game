@@ -358,19 +358,19 @@ public class Environment {
 
         TextureState ts2 = createSplatTextureState(
                 "game/data/texture/terrain2/grass.jpg",
-                "game/data/texture/terrain2/grass.bmp");
+                "game/data/texture/terrain2/grass.png");
 
         TextureState ts3 = createSplatTextureState(
                 "game/data/texture/terrain2/brightgrass.jpg",
-                "game/data/texture/terrain2/brightgrass.bmp");
+                "game/data/texture/terrain2/brightgrass.png");
         
         TextureState ts4 = createSplatTextureState(
                 "game/data/texture/terrain2/rock.jpg",
-                "game/data/texture/terrain2/rock.bmp");
+                "game/data/texture/terrain2/rock.png");
 
         TextureState ts5 = createSplatTextureState(
         		"game/data/texture/terrain2/road.jpg",
-        		"game/data/texture/terrain2/road.bmp");
+        		"game/data/texture/terrain2/road.png");
         
         // alpha used for blending the passnodestates together
         BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
