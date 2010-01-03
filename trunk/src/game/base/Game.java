@@ -25,7 +25,7 @@ public abstract class Game extends PhysicsGame {
         setupCamera();
         setupInput();
         
-        freeCamInput = new FirstPersonHandler( cam, 100, 1 );
+        freeCamInput = new FirstPersonHandler( cam, 200, 1 );
         freeCamInput.setEnabled( false );
         loadingFrame.setVisible(false);
     }

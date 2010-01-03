@@ -239,11 +239,30 @@ public class Environment {
 			Node tree = ModelLoader.loadModel( "game/data/models/vegetation/palm" + k + ".3ds", 
 					"game/data/models/vegetation/palm" + k + ".png", 0.06f );
 			
-			for (int i = 0; i < 300; i++) {
+			for (int i = 0; i < 400; i++) {
 				SharedNode sharedTree = new SharedNode( "tree" + i, tree );
 				x = (float) Math.random() * world.dimension - world.dimension/2;
 				z = (float) Math.random() * world.dimension - world.dimension/2;
-				while( terrain.getHeight(x, z) <= 10 || terrain.getHeight(x, z) >= 150 ) {
+				while( terrain.getHeight(x, z) <= 10 || terrain.getHeight(x, z) >= 50 ) {
+					x = (float) Math.random() * world.dimension - world.dimension/2;
+					z = (float) Math.random() * world.dimension - world.dimension/2;
+				}
+				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 10, z ));
+				world.getRootNode().attachChild( sharedTree );
+				sharedTree.lock();
+				world.trees.put( world.treeCounter++, sharedTree );
+			}
+		}
+		
+		for( int k = 1; k < 3; k++ ) {
+			Node tree = ModelLoader.loadModel( "game/data/models/vegetation/tree" + k + ".3ds", 
+					"game/data/models/vegetation/tree" + k + ".png", 0.8f );
+			
+			for (int i = 0; i < 400; i++) {
+				SharedNode sharedTree = new SharedNode( "tree" + i, tree );
+				x = (float) Math.random() * world.dimension - world.dimension/2;
+				z = (float) Math.random() * world.dimension - world.dimension/2;
+				while( terrain.getHeight(x, z) <= 50 || terrain.getHeight(x, z) >= 150 ) {
 					x = (float) Math.random() * world.dimension - world.dimension/2;
 					z = (float) Math.random() * world.dimension - world.dimension/2;
 				}
@@ -319,11 +338,11 @@ public class Environment {
 	private void createTerrain() {
 		RawHeightMap heightMap = new RawHeightMap( getClass()
                 .getClassLoader().getResource(
-                        "game/data/texture/terrain/heights.raw"),
+                        "game/data/texture/terrain1/height.raw"),
                 heightMapSize, RawHeightMap.FORMAT_16BITLE, false);
 		
-        Vector3f terrainScale = new Vector3f( 20, 0.005f, 20 );
-        heightMap.setHeightScale(0.001f);
+        Vector3f terrainScale = new Vector3f( this.terrainScale, 0.004f, this.terrainScale );
+//        heightMap.setHeightScale(0.001f);
         
         terrain = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
@@ -332,26 +351,26 @@ public class Environment {
 
         // create some interesting texturestates for splatting
         TextureState ts1 = createSplatTextureState(
-                "game/data/texture/terrain/sand.jpg", null);
+                "game/data/texture/terrain1/sand.jpg", null);
 
         TextureState ts2 = createSplatTextureState(
-                "game/data/texture/terrain/sand.jpg",
-                "game/data/texture/terrain/darkrockalpha.png");
+                "game/data/texture/terrain1/grass.jpg",
+                "game/data/texture/terrain1/grass.png");
 
         TextureState ts3 = createSplatTextureState(
-                "game/data/texture/terrain/nicegrass.jpg",
-                "game/data/texture/terrain/deadalpha.png");
+                "game/data/texture/terrain1/brightgrass.jpg",
+                "game/data/texture/terrain1/brightgrass.png");
 
         TextureState ts4 = createSplatTextureState(
-                "game/data/texture/terrain/nicegrass.jpg",
-                "game/data/texture/terrain/grassalpha.png");
-
-        TextureState ts5 = createSplatTextureState(
-                "game/data/texture/terrain/road.jpg",
-                "game/data/texture/terrain/roadalpha.png");
+                "game/data/texture/terrain1/rock.jpg",
+                "game/data/texture/terrain1/rock.png");
+//
+//        TextureState ts5 = createSplatTextureState(
+//                "game/data/texture/terrain/road.jpg",
+//                "game/data/texture/terrain/roadalpha.png");
 
         TextureState ts6 = createLightmapTextureState(
-        		"game/data/texture/terrain/lightmap.jpg");
+        		"game/data/texture/terrain1/lightmap.png");
 
         // alpha used for blending the passnodestates together
         BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
@@ -395,14 +414,14 @@ public class Environment {
         passNodeState.setPassState(as);
         splattingPassNode.addPass(passNodeState);
 
-        passNodeState = new PassNodeState();
-        passNodeState.setPassState(ts5);
-        passNodeState.setPassState(as);
-        splattingPassNode.addPass(passNodeState);
-//
 //        passNodeState = new PassNodeState();
-////        passNodeState.setPassState(ts6);
-//        passNodeState.setPassState(as2);
+//        passNodeState.setPassState(ts5);
+//        passNodeState.setPassState(as);
+//        splattingPassNode.addPass(passNodeState);
+//
+        passNodeState = new PassNodeState();
+        passNodeState.setPassState(ts6);
+        passNodeState.setPassState(as2);
         splattingPassNode.addPass(passNodeState);
         // //////////////////// PASS STUFF END
 
@@ -414,6 +433,8 @@ public class Environment {
         splatTerrain = splattingPassNode;
         splatTerrain.setCullHint(Spatial.CullHint.Dynamic);
         
+        
+        
 	    ground.attachChild( splatTerrain );
     	
 	    ground.generatePhysicsGeometry();
@@ -421,7 +442,7 @@ public class Environment {
 
     private void createReflectionTerrain() {
     	RawHeightMap heightMap = new RawHeightMap( Loader.load(
-                        "game/data/texture/terrain/heights.raw"),
+                        "game/data/texture/terrain1/height.raw"),
                 heightMapSize, RawHeightMap.FORMAT_16BITLE, false);
 
         Vector3f terrainScale = new Vector3f( 20, 0.007f, 20 );
@@ -559,23 +580,23 @@ public class Environment {
     	
     	skybox = new Skybox("skybox", 10, 10, 10);
 
-        String dir = "jmetest/data/skybox1/";
-        Texture north = TextureManager.loadTexture( Loader.load(dir + "1.jpg"),
+        String dir = "game/data/images/skybox/";
+        Texture north = TextureManager.loadTexture( Loader.load(dir + "north.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture south = TextureManager.loadTexture( Loader.load(dir + "3.jpg"),
+        Texture south = TextureManager.loadTexture( Loader.load(dir + "south.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture east = TextureManager.loadTexture( Loader.load(dir + "2.jpg"),
+        Texture east = TextureManager.loadTexture( Loader.load(dir + "east.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture west = TextureManager.loadTexture( Loader.load(dir + "4.jpg"),
+        Texture west = TextureManager.loadTexture( Loader.load(dir + "west.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture up = TextureManager.loadTexture( Loader.load(dir + "6.jpg"),
+        Texture up = TextureManager.loadTexture( Loader.load(dir + "up.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture down = TextureManager.loadTexture( Loader.load(dir + "5.jpg"),
+        Texture down = TextureManager.loadTexture( Loader.load(dir + "down.jpg"),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
 
