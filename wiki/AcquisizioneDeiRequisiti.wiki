@@ -2,44 +2,41 @@
 
 === *Tipo di gioco* ===
 
-_Il gioco è uno sparatutto (genere splatter) 3D in terza persona con supporto fisico._ 
+_Il gioco è uno sparatutto 3D in terza persona._ 
 
 === *Trama* ===
 
-_Si svolge in un'ambientazione esotica, nel mondo reale, ma non si escludono gradevoli effetti speciali.
-Il protagonista del gioco si trova su un'isola sperduta; è un soldato delle forze speciali inviato in missione per recuperare documenti segreti sui vari sviluppi delle forze ribelli che stanno occupando l'isola, probabilmente come base per la progettazione di armi di distruzione di massa, e ne tengono in ostaggio gli abitanti._
-
-_L'obiettivo principale del gioco è quello di eliminare le forze ribelli, liberare più ostaggi possibili e recuperare i documenti riguardanti la costruzione delle armi._
+_Il protagonista del gioco è un ex soldato delle forze speciali, ormai in carcere da diversi anni, condannato per la sua inottemperanza agli ordini. 
+Gli è stata offerta un'unica opportunità per cancellare completamente il suo fascicolo e farlo tornare libero: andare su un'isola sperduta nel pacifico, senza alcun supporto, ed eliminare tutti i soldati nemici che l'hanno occupata per usarla come avanposto di guerra._
 
 === *Come si sviluppa* ===
 
-_Il gioco si sviluppa in un'unica grande scena e il protagonista sarà totalmente libero di esplorarla in lungo e largo e di scegliere la sua strategia di gioco.
+_Il gioco si sviluppa in un'unica grande scena (un isola in mezzo all'oceano) e il giocatore sarà totalmente libero di esplorarla in lungo e largo e di scegliere la sua strategia di gioco.
 In particolare, in varie posizioni dell'isola, ci saranno delle postazioni nemiche di diversa dimensione ed entità, e sarà libera scelta del giocatore stabilire il momento in cui attaccare._
 
-_Sparsi nella scena ci saranno kit medici che il protagonista potrà recuperare e utilizzare nel momento di bisogno.
-L'equipaggiamento del giocatore prevede diversi tipi di armi. All'inizio del gioco il protagonista avrà a disposizione solo un'arma.
-Nuove armi verranno ritrovate durante la fase di gioco, in particolare nelle postazioni nemiche dopo aver ucciso tutti i soldati di guardia._
+_Sparsi sull'isola ci saranno kit medici che il giocatore potrà utilizzare per aumentare la sua energia.
+Le munizioni potranno invece essere raccolte nelle postazioni nemiche dopo aver ucciso tutti i soldati di guardia._
 
-=== *Sistema di eperienza (da studiare)* ===
+=== *Sistema di eperienza* ===
 
-_Si prevede un sistema di esperienza in base al quale viene aumentato il livello di difficoltà del gioco in modo del tutto automatico.
-L'esperienza del giocatore sarà aumentata ad ogni uccisione dei nemici e sarà diminuita ogni qualvolta il giocatore muore oppure uccide civili._
-
-_L'energia massima del giocatore aumenta proporzionalmente all'aumentare dello score, ma allo stesso tempo aumenterà anche l'energia dei nemici. Aumentando di conseguenza la difficoltà di gioco._
+_Il gioco prevede un sistema di esperienza in base al quale vengono aumentati alcuni parametri di gioco, come massima energia del giocatore e dei nemici, massimo numero di munizioni, precisione dei nemici ecc, in modo del tutto automatico.
+L'esperienza del giocatore sarà aumentata ad ogni uccisione dei nemici e sarà diminuita ogni qualvolta la sua energia scende a 0._
 
 === *Sistema di puntamento* ===
 
-_Il sistema di puntamento "sarà" in prima persona._
+_Per attivare la modalità "mirino" bisogna tener premuto il tasto destro del muose, a questo punto si passerà ad un vista in prima persona con il mirino al centro e sarà possibile sparare premendo il tasto sinistro del muose._
 
 === *Intelligenza Artificiale dei Nemici* ===
 
-_Generalmente i nemici non sapranno della nostra presenza e ciascuna postazione nemica presente sull'isola è indipendete dalle altre.
-Ciascun nemico possiede degli stati di attività (Es: Sentinella, Allerta, Attacco, etc...). Si passa da uno stato di attività all'altro in base agli avvenimenti che accadono durante il gioco.
-Normalmente i nemici saranno sempre in stato di "Sentinella" o "Riposo" con uno scarso raggio visivo poichè non si aspettano di essere attaccati (dopotutto non sospettano della nostra presenza)._
+_I nemici non sospettano della presenza di una minaccia e ciascuna postazione nemica presente sull'isola è indipendete dalle altre.
+Ciascun nemico possiede degli stati di attività (Es: Default, Allerta, Attacco, etc...). Si passa da uno stato di attività all'altro in base agli avvenimenti che accadono durante il gioco.
+Normalmente i nemici sono in stato "Default", come sentinelle o piantoni, con uno scarso raggio visivo poichè non si aspettano di essere attaccati._
 
-_Se un nemico ci vede vede (entriamo nel suo raggio visivo) passa in stato di attacco, e tenterà di ucciderci.
-Se invece non ci vede (ad esempio siamo nascosti dietro un ostacolo) ma siamo comunque nel suo raggio visivo, il nemico avverte la nostra presenza, e passerà nello stato di allerta, aumentando il suo raggio visivo in quanto si aspetta un attacco.
-Se un altro soldato si accorge che un suo compagno è in stato di attacco, anche se non ci vede, passa in stato di allerta, aumentando il suo raggio visivo. 
-Se un nemico resta in stato di allerta a lungo, ma non viene attaccato, torna al suo stato di riposo o sentinella._
+_Se il giocatore entra nel raggio visivo di un nemico, questo passa in stato di attacco, e inzia sparare. 
+Se a questo punto il giocatore scappa, il nemico passerà in uno stato di ricerca, ed inizierà a muoversi nell'ultima direzione in cui lo ha visto:
+in questo stato se ad un certo punto vede nuovamente il giocatore, torna in stato di attacco e spara, altrimenti, dopo aver coperto una certa distanza senza essere riuscito a scovare il giocatore, tornerà indietro alla sua posizione iniziale, tornando in stato default.
 
-_I soldati nemici hanno l'ordine di difendere a tutti i costi la propria postazione, quindi non la lascieranno nemmeno in stato di attacco._
+Se il giocatore entra nel raggio di percezione di un nemico (più ampio del raggio visivo), questo passerà in stato di allerta e aumenterà il suo raggio visivo in quanto si aspetta un attacco. Dopo che il giocatore esce dal raggio di percezione del nemico, questo continua a restare in stato di allerta per alcuni secondi, prima di tornare in stato default.
+
+Se un soldato si accorge che un suo compagno è in stato di attacco, passa in stato di allerta, aumentando il suo raggio visivo per riuscire a vedere il giocatore e sparare.
+_
