@@ -243,7 +243,7 @@ public class GraphicalWorld extends Game {
     		userHud.update();
 	        inputHandler.update(tpf);
 	        freeCamInput.update(tpf);
-	        float camMinHeight = environment.getTerrain().getHeight(cam.getLocation()) + 2f;
+	        float camMinHeight = environment.getTerrain().getHeight(cam.getLocation()) + 0.5f;
 	        if (!Float.isInfinite(camMinHeight) && !Float.isNaN(camMinHeight)
 	                && cam.getLocation().y <= camMinHeight) {
 	            cam.getLocation().y = camMinHeight;
@@ -253,7 +253,7 @@ public class GraphicalWorld extends Game {
 	        environment.update();
 	        
 	        float characterMinHeight = environment.getTerrain().getHeight(player.getCharacterNode()
-	                .getLocalTranslation()) - 7.5f ;
+	                .getLocalTranslation()) - 18f ;
 	        if (!Float.isInfinite(characterMinHeight) && !Float.isNaN(characterMinHeight)) {
 	            player.getCharacterNode().getLocalTranslation().y = characterMinHeight;
 	        }

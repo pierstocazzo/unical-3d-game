@@ -1,9 +1,15 @@
 package game.graphics;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.nio.FloatBuffer;
+
+import javax.imageio.ImageIO;
 
 import utils.Loader;
 import utils.ModelLoader;
+import utils.Util;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.image.Image;
@@ -55,9 +61,9 @@ public class Environment {
     /** environment parameters */
     float farPlane = 10000.0f;
     float textureScale = 0.07f;
-    float globalSplatScale = 90.0f;
-	int heightMapSize;
-	int terrainScale;
+    float globalSplatScale = 10.0f;
+	int heightMapSize = 129;
+	int terrainScale = 32;
 	
 	/** the sun effect */
 	LensFlare flare;
@@ -89,10 +95,6 @@ public class Environment {
 	}
 	
 	private void init() {
-		
-		heightMapSize = 129;
-		terrainScale = 20;
-		
 		world.dimension = heightMapSize * terrainScale;
 		
 //	    DirectionalLight dr = new DirectionalLight();
@@ -185,8 +187,8 @@ public class Environment {
         Box lightBox = new Box("box", min2, max2);
         lightBox.setModelBound(new BoundingBox());
         lightBox.updateModelBound();
-//        lightNode.attachChild(lightBox);
-        lightNode.setLocalTranslation(new Vector3f(-1200, 200,-1200));
+        lightNode.attachChild(lightBox);
+        lightNode.setLocalTranslation(new Vector3f(-2048, 200,-2048));
 
         // clear the lights from this lightbox so the lightbox itself doesn't
         // get affected by light:
@@ -237,17 +239,17 @@ public class Environment {
 
 		for( int k = 1; k < 6; k++ ) {
 			Node tree = ModelLoader.loadModel( "game/data/models/vegetation/palm" + k + ".3ds", 
-					"game/data/models/vegetation/palm" + k + ".png", 0.06f );
+					"game/data/models/vegetation/palm" + k + ".png", 0.08f );
 			
-			for (int i = 0; i < 400; i++) {
+			for (int i = 0; i < 200; i++) {
 				SharedNode sharedTree = new SharedNode( "tree" + i, tree );
 				x = (float) Math.random() * world.dimension - world.dimension/2;
 				z = (float) Math.random() * world.dimension - world.dimension/2;
-				while( terrain.getHeight(x, z) <= 10 || terrain.getHeight(x, z) >= 50 ) {
+				while( terrain.getHeight(x, z) <= 25 || terrain.getHeight(x, z) >= 50 ) {
 					x = (float) Math.random() * world.dimension - world.dimension/2;
 					z = (float) Math.random() * world.dimension - world.dimension/2;
 				}
-				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 10, z ));
+				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 20, z ));
 				world.getRootNode().attachChild( sharedTree );
 				sharedTree.lock();
 				world.trees.put( world.treeCounter++, sharedTree );
@@ -256,17 +258,17 @@ public class Environment {
 		
 		for( int k = 1; k < 3; k++ ) {
 			Node tree = ModelLoader.loadModel( "game/data/models/vegetation/tree" + k + ".3ds", 
-					"game/data/models/vegetation/tree" + k + ".png", 0.8f );
+					"game/data/models/vegetation/tree" + k + ".png", 0.6f );
 			
 			for (int i = 0; i < 400; i++) {
 				SharedNode sharedTree = new SharedNode( "tree" + i, tree );
 				x = (float) Math.random() * world.dimension - world.dimension/2;
 				z = (float) Math.random() * world.dimension - world.dimension/2;
-				while( terrain.getHeight(x, z) <= 50 || terrain.getHeight(x, z) >= 150 ) {
+				while( terrain.getHeight(x, z) <= 60 || terrain.getHeight(x, z) >= 200 ) {
 					x = (float) Math.random() * world.dimension - world.dimension/2;
 					z = (float) Math.random() * world.dimension - world.dimension/2;
 				}
-				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 10, z ));
+				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 20, z ));
 				world.getRootNode().attachChild( sharedTree );
 				sharedTree.lock();
 				world.trees.put( world.treeCounter++, sharedTree );
@@ -338,40 +340,38 @@ public class Environment {
 	private void createTerrain() {
 		RawHeightMap heightMap = new RawHeightMap( getClass()
                 .getClassLoader().getResource(
-                        "game/data/texture/terrain1/height.raw"),
+                        "game/data/texture/terrain2/height.raw"),
                 heightMapSize, RawHeightMap.FORMAT_16BITLE, false);
 		
-        Vector3f terrainScale = new Vector3f( this.terrainScale, 0.004f, this.terrainScale );
+        Vector3f terrainScale = new Vector3f( this.terrainScale, 0.008f, this.terrainScale );
 //        heightMap.setHeightScale(0.001f);
         
         terrain = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
-        terrain.getLocalTranslation().set( 0, -9.5f, 0);
+        terrain.getLocalTranslation().set( 0, -20f, 0);
         terrain.setDetailTexture(1, 1);
 
-        // create some interesting texturestates for splatting
+     // create some interesting texturestates for splatting
         TextureState ts1 = createSplatTextureState(
-                "game/data/texture/terrain1/sand.jpg", null);
+                "game/data/texture/terrain2/base.jpg", 
+                null);
 
         TextureState ts2 = createSplatTextureState(
-                "game/data/texture/terrain1/grass.jpg",
-                "game/data/texture/terrain1/grass.png");
+                "game/data/texture/terrain2/grass.jpg",
+                "game/data/texture/terrain2/grass.bmp");
 
         TextureState ts3 = createSplatTextureState(
-                "game/data/texture/terrain1/brightgrass.jpg",
-                "game/data/texture/terrain1/brightgrass.png");
-
+                "game/data/texture/terrain2/brightgrass.jpg",
+                "game/data/texture/terrain2/brightgrass.bmp");
+        
         TextureState ts4 = createSplatTextureState(
-                "game/data/texture/terrain1/rock.jpg",
-                "game/data/texture/terrain1/rock.png");
-//
-//        TextureState ts5 = createSplatTextureState(
-//                "game/data/texture/terrain/road.jpg",
-//                "game/data/texture/terrain/roadalpha.png");
+                "game/data/texture/terrain2/rock.jpg",
+                "game/data/texture/terrain2/rock.bmp");
 
-        TextureState ts6 = createLightmapTextureState(
-        		"game/data/texture/terrain1/lightmap.png");
-
+        TextureState ts5 = createSplatTextureState(
+        		"game/data/texture/terrain2/road.jpg",
+        		"game/data/texture/terrain2/road.bmp");
+        
         // alpha used for blending the passnodestates together
         BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
         as.setBlendEnabled(true);
@@ -394,16 +394,19 @@ public class Environment {
         // try out a passnode to use for splatting
         PassNode splattingPassNode = new PassNode("SplatPassNode");
         splattingPassNode.attachChild(terrain);
-
+        
         PassNodeState passNodeState = new PassNodeState();
+        
+        passNodeState = new PassNodeState();
         passNodeState.setPassState(ts1);
+        passNodeState.setPassState(as);
         splattingPassNode.addPass(passNodeState);
 
         passNodeState = new PassNodeState();
         passNodeState.setPassState(ts2);
         passNodeState.setPassState(as);
         splattingPassNode.addPass(passNodeState);
-
+        
         passNodeState = new PassNodeState();
         passNodeState.setPassState(ts3);
         passNodeState.setPassState(as);
@@ -414,15 +417,11 @@ public class Environment {
         passNodeState.setPassState(as);
         splattingPassNode.addPass(passNodeState);
 
-//        passNodeState = new PassNodeState();
-//        passNodeState.setPassState(ts5);
-//        passNodeState.setPassState(as);
-//        splattingPassNode.addPass(passNodeState);
-//
         passNodeState = new PassNodeState();
-        passNodeState.setPassState(ts6);
-        passNodeState.setPassState(as2);
+        passNodeState.setPassState(ts5);
+        passNodeState.setPassState(as);
         splattingPassNode.addPass(passNodeState);
+
         // //////////////////// PASS STUFF END
 
         // lock some things to increase the performance
@@ -433,8 +432,6 @@ public class Environment {
         splatTerrain = splattingPassNode;
         splatTerrain.setCullHint(Spatial.CullHint.Dynamic);
         
-        
-        
 	    ground.attachChild( splatTerrain );
     	
 	    ground.generatePhysicsGeometry();
@@ -442,42 +439,21 @@ public class Environment {
 
     private void createReflectionTerrain() {
     	RawHeightMap heightMap = new RawHeightMap( Loader.load(
-                        "game/data/texture/terrain1/height.raw"),
+                        "game/data/texture/terrain2/height.raw"),
                 heightMapSize, RawHeightMap.FORMAT_16BITLE, false);
 
-        Vector3f terrainScale = new Vector3f( 20, 0.007f, 20 );
-        heightMap.setHeightScale(0.001f);
+        Vector3f terrainScale = new Vector3f( this.terrainScale, 0.008f, this.terrainScale );
         TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
-        page.getLocalTranslation().set(  0, -9.5f, 0 );
+        page.getLocalTranslation().set(  0, -20, 0 );
         page.setDetailTexture(1, 1);
 
         TextureState ts1 = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
         Texture t0 = TextureManager.loadTexture( Loader.load(
-                        "game/data/texture/terrain/terrainlod.jpg"),
+                        "game/data/texture/terrain2/terrainLod.jpg"),
                 Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
-//        t0.setWrap(Texture.WrapMode.Repeat);
-//        t0.setApply(Texture.ApplyMode.Modulate);
-//        t0.setScale(new Vector3f(1.0f, 1.0f, 1.0f));
         ts1.setTexture(t0, 0);
-
-//        // //////////////////// PASS STUFF START
-//        // try out a passnode to use for splatting
-//        PassNode splattingPassNode = new PassNode("SplatPassNode");
-//        splattingPassNode.attachChild(page);
-//
-//        PassNodeState passNodeState = new PassNodeState();
-//        passNodeState.setPassState(ts1);
-//        splattingPassNode.addPass(passNodeState);
-//        // //////////////////// PASS STUFF END
-//
-//        // lock some things to increase the performance
-//        splattingPassNode.lockBounds();
-//        splattingPassNode.lockTransforms();
-//        splattingPassNode.lockShadows();
-//
-//        reflectionTerrain = splattingPassNode;
 
         page.setRenderState( ts1 );
         
@@ -487,9 +463,20 @@ public class Environment {
     }
 
     private void addAlphaSplat(TextureState ts, String alpha) {
-        Texture t1 = TextureManager.loadTexture( Loader.load( alpha ),
+    	
+    	URL alphaURL = Loader.load( alpha );
+    	
+    	BufferedImage tex = null;
+		try {
+			tex = Util.grayScaleToAlpha( ImageIO.read( alphaURL ) );
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+        Texture t1 = TextureManager.loadTexture( tex,
                 Texture.MinificationFilter.Trilinear,
-                Texture.MagnificationFilter.Bilinear);
+                Texture.MagnificationFilter.Bilinear, false );
+        
         t1.setWrap(Texture.WrapMode.Repeat);
         t1.setApply(Texture.ApplyMode.Combine);
         t1.setCombineFuncRGB(Texture.CombinerFunctionRGB.Replace);
@@ -517,67 +504,19 @@ public class Environment {
         return ts;
     }
 
-    private TextureState createLightmapTextureState(String texture) {
-        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-
-        Texture t0 = TextureManager.loadTexture( Loader.load( texture ),
-                Texture.MinificationFilter.Trilinear,
-                Texture.MagnificationFilter.Bilinear);
-        t0.setWrap(Texture.WrapMode.Repeat);
-        ts.setTexture(t0, 0);
-
-        return ts;
-    }
+//    private TextureState createLightmapTextureState(String texture) {
+//        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+//
+//        Texture t0 = TextureManager.loadTexture( Loader.load( texture ),
+//                Texture.MinificationFilter.Trilinear,
+//                Texture.MagnificationFilter.Bilinear);
+//        t0.setWrap(Texture.WrapMode.Repeat);
+//        ts.setTexture(t0, 0);
+//
+//        return ts;
+//    }
 
     private void buildSkyBox() {
-//        skybox = new Skybox("skybox", 10, 10, 10);
-//
-//        String dir = "game/data/images/skybox/";
-//        Texture north = TextureManager.loadTexture( Loader.load(dir + "nord.jpg"),
-//                Texture.MinificationFilter.BilinearNearestMipMap,
-//                Texture.MagnificationFilter.Bilinear);
-//        Texture south = TextureManager.loadTexture( Loader.load(dir + "sud.jpg"),
-//                Texture.MinificationFilter.BilinearNearestMipMap,
-//                Texture.MagnificationFilter.Bilinear);
-//        Texture east = TextureManager.loadTexture( Loader.load(dir + "est.jpg"),
-//                Texture.MinificationFilter.BilinearNearestMipMap,
-//                Texture.MagnificationFilter.Bilinear);
-//        Texture west = TextureManager.loadTexture( Loader.load(dir + "ovest.jpg"),
-//                Texture.MinificationFilter.BilinearNearestMipMap,
-//                Texture.MagnificationFilter.Bilinear);
-//        Texture up = TextureManager.loadTexture( Loader.load(dir + "up.jpg"),
-//                Texture.MinificationFilter.BilinearNearestMipMap,
-//                Texture.MagnificationFilter.Bilinear);
-//        Texture down = TextureManager.loadTexture( Loader.load(dir + "down.jpg"),
-//                Texture.MinificationFilter.BilinearNearestMipMap,
-//                Texture.MagnificationFilter.Bilinear);
-//
-//        skybox.setTexture(Skybox.Face.North, north);
-//        skybox.setTexture(Skybox.Face.West, west);
-//        skybox.setTexture(Skybox.Face.South, south);
-//        skybox.setTexture(Skybox.Face.East, east);
-//        skybox.setTexture(Skybox.Face.Up, up);
-//        skybox.setTexture(Skybox.Face.Down, down);
-//        skybox.preloadTextures();
-//
-//        CullState cullState = display.getRenderer().createCullState();
-//        cullState.setCullFace(CullState.Face.None);
-//        cullState.setEnabled(true);
-//        skybox.setRenderState(cullState);
-//
-//        FogState fs = display.getRenderer().createFogState();
-//        fs.setEnabled(false);
-//        skybox.setRenderState(fs);
-//
-////        skybox.setLightCombineMode(Spatial.LightCombineMode.Off);
-//        skybox.setCullHint(Spatial.CullHint.Never);
-//        skybox.setTextureCombineMode(TextureCombineMode.Replace);
-//        skybox.updateRenderState();
-//
-//        skybox.lockBounds();
-//        skybox.lockMeshes();
-    
-    	
     	skybox = new Skybox("skybox", 10, 10, 10);
 
         String dir = "game/data/images/skybox/";
@@ -612,10 +551,6 @@ public class Environment {
         cullState.setCullFace(CullState.Face.None);
         cullState.setEnabled(true);
         skybox.setRenderState(cullState);
-
-//        ZBufferState zState = display.getRenderer().createZBufferState();
-//        zState.setEnabled(false);
-//        skybox.setRenderState(zState);
 
         FogState fs = DisplaySystem.getDisplaySystem().getRenderer().createFogState();
         fs.setEnabled(false);
