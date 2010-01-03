@@ -209,7 +209,7 @@ public abstract class PhysicsGame extends AbstractGame {
          * Key handler
          */
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("toggle_pause", false ) ) {
-            pause = !pause;
+            setPause(!isPause());
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("step", true ) ) {
             update();
@@ -236,7 +236,7 @@ public abstract class PhysicsGame extends AbstractGame {
         
         if ( enabled ) {
             
-        	if ( !pause  ) {
+        	if ( !isPause()  ) {
         		update();
         	
 	            if ( tpf > 0.2 || Float.isNaN( tpf ) ) {
@@ -538,4 +538,12 @@ public abstract class PhysicsGame extends AbstractGame {
     public Node getRootNode() {
     	return this.rootNode;
     }
+
+	public void setPause(boolean pause) {
+		this.pause = pause;
+	}
+
+	public boolean isPause() {
+		return pause;
+	}
 }
