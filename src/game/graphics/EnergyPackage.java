@@ -50,18 +50,20 @@ public class EnergyPackage {
         SyntheticButton energyPackCollisionHandler = physicsPack.getCollisionEventHandler();
         
         InputAction collisionAction = new InputAction() {
-            public void performAction( InputActionEvent evt ) {
-                ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
-                
-                for( String playerId : world.getCore().getPlayersIds() ) {
-	                if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterBody() || 
-	                	 contactInfo.getNode2() == world.characters.get(playerId).getCharacterBody() ) {
-	                	
-	                   if( world.getCore().catchEnergyPack( playerId, id ) )
-	                	   deletePackage();
-	                }
-                }
-            }
+        	public void performAction( InputActionEvent evt ) {
+        		ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
+
+        		for( int i = 1; i <= world.playersCounter; i++ ) {
+        			if( world.characters.get("player"+i) != null ) { 
+        				if ( contactInfo.getNode1() == world.characters.get("player"+i).getCharacterBody() || 
+        						contactInfo.getNode2() == world.characters.get("player"+i).getCharacterBody() ) {
+
+        					if( world.getCore().catchEnergyPack( "player"+i, id ) )
+        						deletePackage();
+        				}
+        			}
+        		}
+        	}
         };
         
         contactDetect.addAction( collisionAction, energyPackCollisionHandler, false );
