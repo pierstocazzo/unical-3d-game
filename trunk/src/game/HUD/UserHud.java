@@ -45,9 +45,9 @@ public class UserHud {
 	
 	HudAmmo hudAmmo;
 	
-	HudMessageHandler hudMsg;
+	public HudMessageHandler hudMsg;
 
-	HudMessageBox hudMsgBox;
+	public HudMessageBox hudMsgBox;
 	
 	/** 
 	 * Control

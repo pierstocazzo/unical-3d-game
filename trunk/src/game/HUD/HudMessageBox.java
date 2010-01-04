@@ -16,12 +16,9 @@ public class HudMessageBox {
 	public static final int NOTHING = 4;
 	
 	int type;
-	Quad quadWelcome;
-	Quad quadMap;
-	Quad quadDie;
-	Quad quadGameOver;
+	Quad quad;
 	UserHud userHud;
-	boolean used = false;
+	boolean pauseUsed = false;
 	boolean changed = false;
 	float time = 0;
 	
@@ -34,99 +31,76 @@ public class HudMessageBox {
 	public HudMessageBox( int type, UserHud userHud ) {
 		this.userHud = userHud;
 		this.type = type;
-		
-		TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        ts.setEnabled(true);
-		quadWelcome = new Quad("messageBox", userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y/3);
-		quadWelcome.setLocalTranslation(userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y*3/5, 0);
-		ts.setTexture( TextureManager.loadTexture( Loader.load( "game/data/message/sfondo.jpg" ), true ) );
-		quadWelcome.setRenderState(ts);
-		
-		TextureState ts1 = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        ts1.setEnabled(true);
-		quadMap = new Quad("messageBox", userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y/3);
-		quadMap.setLocalTranslation(userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y*3/5, 0);
-		ts1.setTexture( TextureManager.loadTexture( Loader.load( "game/data/images/map.jpg" ), true ) );
-		quadMap.setRenderState(ts1);
-		
-		quadDie = new Quad("messageBox", userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y/3);
-		quadDie.setLocalTranslation(userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y*3/5, 0);
-		
-		
-		quadGameOver = new Quad("messageBox", userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y/3);
-		quadGameOver.setLocalTranslation(userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y*3/5, 0);
-		
-		switchTo(type);
-	}
-	
-	/**
-	 * Create a new message box
-	 * 
-	 * @param type (Int) Type of Message
-	 */
-	public void switchTo( int newtype ) {
-		this.type = newtype;
-		
-		switch (type) {
-		
-		case WELCOME:
-			time = GameTimer.getTimeInSeconds();
-			userHud.gWorld.hudNode.attachChild(quadWelcome);
-			quadWelcome.updateRenderState();
-			break;
-			
-		case COMMAND:
-			time = GameTimer.getTimeInSeconds();
-			userHud.gWorld.hudNode.attachChild(quadMap);
-			quadMap.updateRenderState();
-			break;
-			
-		case DIE:
-			break;
-			
-		case GAMEOVER:
-			break;
-			
-		case NOTHING:
-			break;
-		}
+		createMessageBox(WELCOME);
 	}
 	
 	/** Update current message */
 	public void update() {
-		switch (type) {
-		
-		case WELCOME:
-			if( time + 1 <= GameTimer.getTimeInSeconds() ) {
-				quadWelcome.removeFromParent();
-				switchTo(COMMAND);
+		if(type != NOTHING){
+			switch (type) {
+				case WELCOME:
+					if( time + 1 <= GameTimer.getTimeInSeconds() ) {
+						quad.removeFromParent();
+						createMessageBox(COMMAND);
+					}
+					break;
+					
+				case COMMAND:
+					checkPause();
+					if(!changed){
+						userHud.gWorld.pause = true;
+						changed = true;
+					}
+					break;
+					
+				case DIE:
+					break;
+					
+				case GAMEOVER:
+					if( time + 3 <= GameTimer.getTimeInSeconds() )
+						userHud.gWorld.finish();
+					break;
 			}
-			break;
-			
-		case COMMAND:
-			if( time + 1 <= GameTimer.getTimeInSeconds() && !changed ) {
-				quadMap.removeFromParent();
-				switchTo(WELCOME);
-			}
-			break;
-			
-		case DIE:
-			break;
-			
-		case GAMEOVER:
-			break;
-			
-		case NOTHING:
-			break;
 		}
 	}
+
+    /**
+     * Create a new message box
+     * 
+     * @param type (int) Type of Message
+     */
+    public void createMessageBox(int type){
+            this.type = type;
+            quad = new Quad("messageBox", userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y/3);
+            quad.setLocalTranslation(userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y*3/5, 0);
+            userHud.gWorld.hudNode.attachChild(quad);
+            String path = "game/data/message/sfondo.jpg";
+            switch (type) {
+                case WELCOME:path = "game/data/message/sfondo.jpg";break;//WELCOME
+                case COMMAND:path = "game/data/images/map.jpg";break;//COMMAND
+				case DIE:path = "game/data/message/sfondo.jpg";break;//DIE
+				case GAMEOVER:path = "game/data/message/sfondo.jpg";break;//GAMEOVER
+            }
+            time = GameTimer.getTimeInSeconds();
+            /** add a texture */
+            TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+            ts.setTexture( TextureManager.loadTexture( Loader.load( path ) , true ) );
+		    ts.setEnabled(true);
+		    quad.setRenderState(ts);
+		    quad.updateRenderState();
+		    if(type == GAMEOVER)
+		    	System.out.println("CREATO MSG GAMEOVER");
+    }
 	
+    /**
+     * Check and Set pause
+     */
 	public void checkPause(){
-		if(!used){
+		if(!pauseUsed){
 			userHud.gWorld.pause = true;
-			used = true;
+			pauseUsed = true;
 		}
-		if(used && !userHud.gWorld.pause)
-			userHud.gWorld.hudNode.detachChild(quadWelcome);
+		if(pauseUsed && !userHud.gWorld.pause)
+			userHud.gWorld.hudNode.detachChild(quad);
 	}
 }
