@@ -236,17 +236,12 @@ public class GraphicalWorld extends Game {
 		if( !enabled )
 			return;
 		
-		//Va fatto qui l'upload altrimenti non esce a seguito di game over
-		userHud.hudMsgBox.update();
-		
 		if( audioEnabled )
 			audio.update();
     	
 		if( core.isAlive( player.id ) == false ) {
-			if(!endGame){
-				gameOver();
-				endGame = true;
-			}
+			userHud.hudMsgBox.update();
+			gameOver();
     	} else {
     		updateRenderOptimizer();
     		
@@ -302,15 +297,11 @@ public class GraphicalWorld extends Game {
 	}
 
 	private void gameOver() {
-//		gameOver.print( "Game Over" );
-//        gameOver.setLocalScale( 3 );
-//        gameOver.setTextColor( ColorRGBA.red );
-//		gameOver.setLocalTranslation(new Vector3f(display.getWidth() / 2f - gameOver.getWidth() / 2,
-//				display.getHeight() / 2f - gameOver.getHeight() / 2, 0));
-		
-		playDeathSound();
-		userHud.hudMsgBox.createMessageBox(HudMessageBox.GAMEOVER);
-//		enabled = false;
+		if(!endGame){
+			endGame = true;
+			playDeathSound();
+			userHud.hudMsgBox.createMessageBox(HudMessageBox.GAMEOVER);
+		}
 	}
 
 	/** Function updateCharacters<br>
