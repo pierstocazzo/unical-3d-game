@@ -1,5 +1,7 @@
 package game.graphics;
 
+import game.HUD.HudMessageBox;
+import game.HUD.HudMessage;
 import game.HUD.UserHud;
 import game.base.Game;
 import game.input.ThirdPersonHandler;
@@ -99,6 +101,8 @@ public class GraphicalWorld extends Game {
 
 	int playersCounter = 0;
 	int enemiesCounter = 0;
+	
+	boolean endGame = false;
 	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
@@ -232,11 +236,17 @@ public class GraphicalWorld extends Game {
 		if( !enabled )
 			return;
 		
+		//Va fatto qui l'upload altrimenti non esce a seguito di game over
+		userHud.hudMsgBox.update();
+		
 		if( audioEnabled )
 			audio.update();
     	
 		if( core.isAlive( player.id ) == false ) {
-    		gameOver();
+			if(!endGame){
+				gameOver();
+				endGame = true;
+			}
     	} else {
     		updateRenderOptimizer();
     		
@@ -292,15 +302,15 @@ public class GraphicalWorld extends Game {
 	}
 
 	private void gameOver() {
-		gameOver.print( "Game Over" );
-        gameOver.setLocalScale( 3 );
-        gameOver.setTextColor( ColorRGBA.red );
-		gameOver.setLocalTranslation(new Vector3f(display.getWidth() / 2f - gameOver.getWidth() / 2,
-				display.getHeight() / 2f - gameOver.getHeight() / 2, 0));
+//		gameOver.print( "Game Over" );
+//        gameOver.setLocalScale( 3 );
+//        gameOver.setTextColor( ColorRGBA.red );
+//		gameOver.setLocalTranslation(new Vector3f(display.getWidth() / 2f - gameOver.getWidth() / 2,
+//				display.getHeight() / 2f - gameOver.getHeight() / 2, 0));
 		
 		playDeathSound();
-		
-		enabled = false;
+		userHud.hudMsgBox.createMessageBox(HudMessageBox.GAMEOVER);
+//		enabled = false;
 	}
 
 	/** Function updateCharacters<br>

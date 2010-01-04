@@ -147,7 +147,7 @@ public abstract class PhysicsGame extends AbstractGame {
                 }
             }
         } catch ( Throwable t ) {
-            logger.logp( Level.SEVERE, this.getClass().toString(), "start()", "Exception in game loop", t );
+            logger.logp( Level.OFF, this.getClass().toString(), "start()", "Exception in game loop", t );
             if ( throwableHandler != null ) {
 				throwableHandler.handle(t);
 			}
