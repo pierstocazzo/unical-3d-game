@@ -57,13 +57,15 @@ public class AmmoPackage {
 
         	public void performAction( InputActionEvent evt ) {
         		ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
-        		for( String playerId : world.getCore().getPlayersIds() ) {
-        			if ( contactInfo.getNode1() == world.characters.get(playerId).getCharacterBody() || 
-        					contactInfo.getNode2() == world.characters.get(playerId).getCharacterBody() ) {
+        		for( int i = 1; i <= world.playersCounter; i++ ) {
+        			if( world.characters.get("player"+i) != null ) { 
+        				if ( contactInfo.getNode1() == world.characters.get("player"+i).getCharacterBody() || 
+        					 contactInfo.getNode2() == world.characters.get("player"+i).getCharacterBody() ) {
 
-        				if( world.getCore().catchAmmoPack( playerId, id ) ) {
-        					deletePackage();
-        					return;
+        					if( world.getCore().catchAmmoPack( "player"+i, id ) ) {
+        						deletePackage();
+        						return;
+        					}
         				}
         			}
         		}

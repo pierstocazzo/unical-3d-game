@@ -77,24 +77,39 @@ public class Bullet {
         SyntheticButton collisionHandler = physicsBullet.getCollisionEventHandler();
         
         InputAction collisionAction = new InputAction() {
-            public void performAction( InputActionEvent evt ) {
-            	ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
-//        		physicsBullet.detachAllChildren();
+        	public void performAction( InputActionEvent evt ) {
+        		ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
         		physicsBullet.removeFromParent();
         		physicsBullet.delete();
         		world.bullets.remove( id );
-        		
+
         		/** Control if the bullet hit a character */
-        		for( String id : world.characters.keySet() ) {
-        			if( ( contactInfo.getNode1() == world.characters.get(id).getCharacterBody() ||
-        				contactInfo.getNode2() == world.characters.get(id).getCharacterBody() ) ||
-        				( contactInfo.getNode1() == world.characters.get(id).getCharacterFeet() ||
-                		contactInfo.getNode2() == world.characters.get(id).getCharacterFeet() ) ){
+        		for( int i = 1; i <= world.playersCounter; i++ ) {
+        			String id = "player"+i;
+        			if( world.characters.get(id) != null ) { 
+        				if( ( contactInfo.getNode1() == world.characters.get(id).getCharacterBody() ||
+        					  contactInfo.getNode2() == world.characters.get(id).getCharacterBody() ) ||
+        					( contactInfo.getNode1() == world.characters.get(id).getCharacterFeet() ||
+        					  contactInfo.getNode2() == world.characters.get(id).getCharacterFeet() ) ){
 
         					world.getCore().shooted( id, characterId, weaponType.getDamage() );
+        				}
         			}
         		}
-            }
+        		
+        		for( int i = 1; i <= world.enemiesCounter; i++ ) {
+        			String id = "enemy"+i;
+        			if( world.characters.get(id) != null ) { 
+        				if( ( contactInfo.getNode1() == world.characters.get(id).getCharacterBody() ||
+        					  contactInfo.getNode2() == world.characters.get(id).getCharacterBody() ) ||
+        					( contactInfo.getNode1() == world.characters.get(id).getCharacterFeet() ||
+        					  contactInfo.getNode2() == world.characters.get(id).getCharacterFeet() ) ){
+
+        					world.getCore().shooted( id, characterId, weaponType.getDamage() );
+        				}
+        			}
+        		}
+        	}
         };
         
         /** the action to do when a collision is detected */

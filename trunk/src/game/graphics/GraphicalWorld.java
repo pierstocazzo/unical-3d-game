@@ -1,7 +1,6 @@
 package game.graphics;
 
 import game.HUD.HudMessageBox;
-import game.HUD.HudMessage;
 import game.HUD.UserHud;
 import game.base.Game;
 import game.input.ThirdPersonHandler;
@@ -23,7 +22,6 @@ import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
-import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.renderer.pass.BasicPassManager;
 import com.jme.scene.Node;
