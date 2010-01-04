@@ -7,24 +7,24 @@ public enum State implements Serializable {
 	/**
 	 * The character is in default state
 	 */
-	DEFAULT ( 0, 100 ),
+	DEFAULT ( 150, 100 ),
 	
 	/**
 	 * The character is in alert because he has 
 	 * seen something strange
 	 */
-	ALERT ( 120, 100 ),
+	ALERT ( 200, 140 ),
 	
 	/**
 	 * The character is attacking you, because he
 	 * has seen you and he have to kill
 	 * everybody unknown
 	 */
-	ATTACK ( 240, 200 ),
+	ATTACK ( 200, 180 ),
 	
-	FIND ( 120, 100 ),
+	FIND ( 200, 180 ),
 	
-	FINDATTACK( 240, 200 );
+	FINDATTACK( 200, 180 );
 	
 	/** view range */
 	int viewRange;

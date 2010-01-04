@@ -52,23 +52,37 @@ public class ScoreManager implements Serializable {
 		for( String id : players.keySet() )
 			switch( players.get(id).level ) {
 			case 1: 
-				((LogicPlayer) world.characters.get(id)).maxAmmo = 100;
+				changeParameters( id, 100, 20, 100, 10 );
 				break;
 			case 2: 
-				((LogicPlayer) world.characters.get(id)).maxAmmo = 120;
+				changeParameters( id, 125, 25, 125, 8 );
 				break;
 			case 3: 
-				((LogicPlayer) world.characters.get(id)).maxAmmo = 150;
+				changeParameters( id, 150, 30, 150, 6 );
 				break;
 			case 4: 
-				((LogicPlayer) world.characters.get(id)).maxAmmo = 180;
+				changeParameters( id, 175, 35, 175, 4 );
 				break;
 			case 5: 
-				((LogicPlayer) world.characters.get(id)).maxAmmo = 200;
+				changeParameters( id, 200, 40, 200, 2 );
 				break;
 			}
 	}
 	
+	private void changeParameters( String playerId, int playerLife, int enemyLife, int maxAmmo, int enemyErrorAngle ) {
+		((LogicPlayer) world.characters.get(playerId)).maxAmmo = maxAmmo;
+		world.characters.get(playerId).maxLife = playerLife;
+		
+		for( int i = 1; i <= world.enemyCounter; i++ ) {
+			String enemyID = "enemy"+i;
+			if( world.characters.get(enemyID) != null ) {
+				world.characters.get(enemyID).currentLife = enemyLife;
+				world.characters.get(enemyID).maxLife = enemyLife;
+				((LogicEnemy) world.characters.get(enemyID)).errorAngle = enemyErrorAngle;
+			}
+		}
+	}
+
 	void reset() {
 		for( String id : players.keySet() ) {
 			players.get(id).reset();

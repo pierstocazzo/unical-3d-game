@@ -61,7 +61,7 @@ public class Environment {
     /** environment parameters */
     float farPlane = 10000.0f;
     float textureScale = 0.07f;
-    float globalSplatScale = 10.0f;
+    float globalSplatScale = 30.0f;
 	int heightMapSize = 129;
 	int terrainScale = 32;
 	

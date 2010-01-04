@@ -40,7 +40,11 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	/** the time the enemy remain in alert or attack state */
 	float alertTime;
 	
+	/** false when the enemy is in find status */
 	boolean firstFind = true;
+	
+	/** the max error of the shot */
+	int errorAngle;
 
 
 	/**
@@ -61,6 +65,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.state = state;
 		this.movements = new MovementList( movements );
 		this.shootDirection = new Vector3f();
+		this.errorAngle = 10;
 	}
 	
 	public Movement getNextMovement() {
@@ -81,16 +86,16 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 			switch ( state ) {
 			case DEFAULT:
 				alertTime = GameTimer.getTimeInSeconds() - 20;
-				if ( distance <= state.getActionRange() ) {
+				if ( distance <= state.getViewRange() ) {
 					state = State.ALERT;
 					alertTime = GameTimer.getTimeInSeconds();
 				}
 				break;
 			
 			case ALERT:
-				if ( distance <= state.getViewRange() ) {
+				if ( distance <= state.getActionRange() ) {
 					state = State.ATTACK;
-				} else if ( distance > state.getActionRange() ) {
+				} else if ( distance > state.getViewRange() ) {
 					/* if the player goes away from the actionRange of this enemy, 
 					 * he remains in alert state for "ALERT_RANGE" seconds
 					 */
@@ -103,14 +108,15 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 			case ATTACK:
 				if ( distance > state.getViewRange() ) {
 						state = State.FIND;
-						calculateShootDirection(playerId);
+						calculateShootDirection( playerId );
 				} else {
 					calculateShootDirection( playerId );
 				}
 				alertTime = GameTimer.getTimeInSeconds();
 				break;
+				
 			case FIND:
-				if ( distance <= state.getViewRange() )
+				if ( distance <= state.getActionRange() )
 					state = State.FINDATTACK;
 				break;
 				
@@ -135,8 +141,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		// nemico a quello del suo target (ovvero un player) 
 		shootDirection.set( world.characters.get(playerId).position.subtract( position ).normalize() );
 		// aggiungo un certo errore ruotando il vettore di un angolo random tra 0 e 10 gradi 
-		// TODO gestire l'errore della shootdirection in base al livello
-		float angle = FastMath.DEG_TO_RAD * ( FastMath.rand.nextFloat() % 10 );
+		float angle = FastMath.DEG_TO_RAD * ( FastMath.rand.nextFloat() % errorAngle );
 		Quaternion q = new Quaternion().fromAngleAxis( angle, Vector3f.UNIT_Y );
 		q.mult( shootDirection, shootDirection );
 	}

@@ -41,7 +41,6 @@ public class LogicWorld implements WorldInterface, Serializable {
 	ScoreManager scoreManager;
 
 	
-	
 	/** <code>LogicWorld</code> Constructor<br>
 	 * Initialize data structures and counters
 	 */
