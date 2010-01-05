@@ -186,13 +186,21 @@ public interface WorldInterface {
 	 */
 	public abstract Set<String> getEnergyPackagesIds();
 	
-	public abstract float getAlertLevel(String id);
+	public abstract float getAlertLevel( String id );
 
-	public abstract void setState( String id, State state);
+	public abstract void setState( String id, State state );
 	
 	public abstract int getMaxLife( String id );
 	
 	public abstract int getMaxAmmo( String id );
+
+	public abstract boolean firstFind( String id );
+	
+	public abstract void setFirstFind( String id, boolean firstFind );
+
+	public abstract boolean comeBack( String id );
+
+	public abstract void setComeBack( String id, boolean comeBack );
 	
 	public abstract boolean isReborn( String id );
 	

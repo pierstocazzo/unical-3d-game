@@ -62,10 +62,8 @@ public class Enemy extends Character  {
     /** the current movement's direction */
     Vector3f moveDirection;
     
+    /** true if the character is on the ground */
 	boolean onGround;
-	
-	boolean firstFind = true;
-	boolean inverted = false;
     	
     /** PhysicsEnemy Constructor<br>
 	 * Create a new graphical enemy and start his movements
@@ -244,27 +242,27 @@ public class Enemy extends Character  {
 		distance = currentPosition.distance( initialPosition );
 		
 		if( world.getCore().getState(id) == State.FIND ) {
-			if( firstFind ) {
+			if( world.getCore().firstFind(id) ) {
 				moveDirection = new Vector3f( world.getCore().getShootDirection(id) );
 				moveDirection.setY(0);
 				initialPosition.set( currentPosition );
-				firstFind = false;
+				world.getCore().setFirstFind( id, false );
 			}
 			
 			if( distance > 80 ) {
-				if( inverted == false ) {
+				if( world.getCore().comeBack(id) == false ) {
 					clearDynamics();
 					setMoving(false);
 					moveDirection.negateLocal();
-					inverted = true;
+					world.getCore().setComeBack( id, true );
 				}
 			}
 			
-			if( inverted && distance <= 7 && distance >= 0 ) {
+			if( world.getCore().comeBack(id) == true && distance <= 7 && distance >= 0 ) {
 				clearDynamics();
 				setMoving(false);
-				inverted = false;
-				firstFind = true;
+				world.getCore().setComeBack( id, false );
+				world.getCore().setFirstFind( id, true );
 				world.getCore().setState( id, State.DEFAULT );
 				initialPosition.set( currentPosition );
 			} else {
