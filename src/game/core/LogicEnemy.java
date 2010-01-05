@@ -127,6 +127,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 				break;
 				
 			case FIND:
+				alertTime = GameTimer.getTimeInSeconds();
 				if ( distance <= state.getActionRange() )
 					state = State.FINDATTACK;
 				break;
