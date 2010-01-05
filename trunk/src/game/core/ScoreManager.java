@@ -106,7 +106,7 @@ public class ScoreManager implements Serializable {
 		int level;
 		
 		Score() {
-			score = 0;
+			score = 2000;
 			level = 1;
 		}
 		
@@ -145,6 +145,9 @@ public class ScoreManager implements Serializable {
 		
 		public void decreaseScore() {
 			score = score -  (int)(score*0.8f);
+			System.out.println("SCORE -80% = "+score);
+			score = score - score % 5;
+			System.out.println("SCORE ROUND = "+score);
 		}
 	}
 }
