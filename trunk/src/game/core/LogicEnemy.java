@@ -116,6 +116,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 			case ATTACK:
 				if ( distance > state.getViewRange() ) {
 						state = State.FIND;
+						alertTime = GameTimer.getTimeInSeconds();
 						calculateShootDirection( playerId );
 				} else {
 					calculateShootDirection( playerId );
