@@ -19,11 +19,11 @@ public class GameThread implements Runnable {
 		logicGame = new LogicWorld();
     	logicGame.createPlayer( 100, -1000, -1000 );
     	logicGame.createEnemy( -900, -900, MovementType.REST );
-    	logicGame.createEnemiesGroup( 5, -800, -800 );
-//    	logicGame.createEnemiesGroup( 5, -400, -400 );
-//    	logicGame.createEnemiesGroup( 5, -200, -200 );
-//    	logicGame.createEnemiesGroup( 10, 400, 400 );
-//    	logicGame.createEnemiesGroup( 10, 300, 300 );
+//    	logicGame.createEnemiesGroup( 7, 1142, -452 );
+//    	logicGame.createEnemiesGroup( 7, 1216, 749 );
+//    	logicGame.createEnemiesGroup( 7, 142, 1207 );
+//    	logicGame.createEnemiesGroup( 10, -1078, 1771 );
+//    	logicGame.createEnemiesGroup( 10, -1645, 306 );
 //    	logicGame.createEnemiesGroup( 100, 0, 0 );
     	
 //    	logicGame.createEnergyPackages( 20, 129*20, 129*20 );
