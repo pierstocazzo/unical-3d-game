@@ -60,7 +60,7 @@ public class Environment {
     
     /** environment parameters */
     float farPlane = 10000.0f;
-    float textureScale = 0.07f;
+    float textureScale = 0.008f;
     float globalSplatScale = 30.0f;
 	int heightMapSize = 129;
 	int terrainScale = 32;
@@ -162,8 +162,8 @@ public class Environment {
 
         /******** Added to animate the water ********/
         Vector3f transVec = new Vector3f( world.getCam().getLocation().x,
-                waterEffectRenderPass.getWaterHeight(), world.getCam().getLocation().z);
-        setTextureCoords(0, transVec.x, -transVec.z, 0.07f);
+                /*waterEffectRenderPass.getWaterHeight()*/1, world.getCam().getLocation().z);
+        setTextureCoords(0, transVec.x, -transVec.z, textureScale);
         setVertexCoords(transVec.x, transVec.y, transVec.z);
 	}
 	
@@ -313,14 +313,13 @@ public class Environment {
 	}
 	
 	private void createWater() {
-		waterEffectRenderPass = new WaterRenderPass( world.getCam(), 6, false, true);
-	    waterEffectRenderPass.setWaterPlane(new Plane(new Vector3f(0.0f, 1.0f,
-	            0.0f), 0.0f));
+		waterEffectRenderPass = new WaterRenderPass( world.getCam(), 6, true, true);
+	    waterEffectRenderPass.setWaterPlane( new Plane( Vector3f.UNIT_Y, 0 ) );
 	    waterEffectRenderPass.setClipBias(-1.0f);
 	    waterEffectRenderPass.setReflectionThrottle(0.0f);
 	    waterEffectRenderPass.setRefractionThrottle(0.0f);
 	
-	    waterQuad = new Quad("waterQuad", 1, 1);
+	    waterQuad = new Quad("waterQuad", 10, 10);
 	    FloatBuffer normBuf = waterQuad.getNormalBuffer();
 	    normBuf.clear();
 	    normBuf.put(0).put(1).put(0);
@@ -458,6 +457,7 @@ public class Environment {
         page.setRenderState( ts1 );
         
         reflectionTerrain = page;
+        reflectionTerrain.lock();
         
         initSpatial(reflectionTerrain);
     }
