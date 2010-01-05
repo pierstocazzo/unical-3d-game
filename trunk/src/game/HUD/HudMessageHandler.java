@@ -11,9 +11,10 @@ import com.jme.renderer.ColorRGBA;
  */
 public class HudMessageHandler {
 	
-	static ColorRGBA MESSAGE = ColorRGBA.blue;
-	static ColorRGBA DANGER = ColorRGBA.red;
-	static ColorRGBA BONUS = ColorRGBA.orange;
+	public static final int MAX_AMMO = 0;
+	public static final int MAX_ENERGY = 1;
+	public static final int AMMO_FINISHED = 2;
+	public static final int NEW_LEVEL = 3;
 	
 	/** User Hud */
 	UserHud userHud;
@@ -37,11 +38,6 @@ public class HudMessageHandler {
 		height = (int) userHud.gWorld.getResolution().y;
 		
 		messageList = new ArrayList<HudMessage>();
-		
-//		addMessage("Welcome to Game!", 3, ColorRGBA.randomColor());
-//		addMessage("An enemy says: I splat you!", 5, ColorRGBA.randomColor());
-//		addMessage("For survive, we have to kill all enemy...", 7, ColorRGBA.randomColor());
-//		addMessage("Remember: If you die, you lose... Bye bye", 9, ColorRGBA.randomColor());
 	}
 	
 	/**
@@ -51,7 +47,20 @@ public class HudMessageHandler {
 	 * @param seconds (int)
 	 * @param color (ColorRGBA)
 	 */
-	public void addMessage(String text, int seconds, ColorRGBA color){
+	public void addMessage(int type, int seconds, ColorRGBA color){
+		String text = "Missing Message";
+		switch (type) {
+			case MAX_AMMO:text="Non puoi prendere ulteriori munizioni.";break;
+			case MAX_ENERGY:text="Non puoi acquisire ulteriore energia.";break;
+			case AMMO_FINISHED:text="Hai finito tutte le munizioni, cercane negli avanposti nemici che hai ripulito.";break;
+			case NEW_LEVEL:
+				int level = userHud.gWorld.getCore().getLevel(userHud.gWorld.player.id);
+				int maxEnergy = userHud.gWorld.getCore().getMaxLife(userHud.gWorld.player.id);
+				int maxAmmo = userHud.gWorld.getCore().getMaxAmmo(userHud.gWorld.player.id);
+				text="Sei passato al livello "+level+", la tua energia massima è "+
+					maxEnergy+" e potrai portare fino a "+maxAmmo+" munizioni.";
+				break;
+		}
 		HudMessage msg = new HudMessage(text, seconds, color, userHud);
 		messageList.add(msg);
 	}
