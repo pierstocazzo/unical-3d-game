@@ -32,6 +32,9 @@
 
 package game.input;
 
+
+import java.util.HashMap;
+
 import game.graphics.Player;
 import game.input.action.FirstPersonAction;
 import game.input.action.ShootAction;
@@ -41,8 +44,6 @@ import game.input.action.ThirdPersonJoystickPlugin;
 import game.input.action.ThirdPersonLeftAction;
 import game.input.action.ThirdPersonRightAction;
 import game.input.action.ThirdPersonRunAction;
-
-import java.util.HashMap;
 
 import com.jme.input.ChaseCamera;
 import com.jme.input.InputHandler;
@@ -210,7 +211,15 @@ public class ThirdPersonHandler extends InputHandler {
 	protected InputAction actionFirstPerson;
 	
 	private Vector3f rot;
-
+	
+	/**
+	 * Check if the player can do movements
+	 */
+	protected boolean canMoveForward;
+	protected boolean canMoveBackward;
+	protected boolean canStrafeLeft;
+	protected boolean canStrafeRight;
+	
 
     /**
      * Basic constructor for the ThirdPersonHandler. Sets all non specified args
@@ -268,7 +277,7 @@ public class ThirdPersonHandler extends InputHandler {
      */
     public void updateProperties(HashMap<String, Object> props) {
         turnSpeed = getFloatProp(props, PROP_TURNSPEED, DEFAULT_TURNSPEED);
-        doGradualRotation = getBooleanProp(props, PROP_DOGRADUAL, true);
+        doGradualRotation = getBooleanProp(props, PROP_DOGRADUAL, false);
         lockBackwards = getBooleanProp(props, PROP_LOCKBACKWARDS, false);
         cameraAlignedMovement = getBooleanProp(props, PROP_CAMERAALIGNEDMOVE, true);
         rotateOnly = getBooleanProp(props, PROP_ROTATEONLY, false);
@@ -311,10 +320,12 @@ public class ThirdPersonHandler extends InputHandler {
      */
     public void update(float time) {
         if ( !isEnabled() ) return;
-
+        
         prevLoc.set(targetSpatial.getLocalTranslation());
         loc.set(prevLoc);
 
+        target.lookAtAction( camera.getDirection() );
+        
         doInputUpdate(time);
         
         /** switch to first person view when the mouse right bottom is down
@@ -332,13 +343,13 @@ public class ThirdPersonHandler extends InputHandler {
         	target.hide( false );
         }
 
-        // TODO non permettere i movimenti se c'è una collisione con qualcosa
         updateMovements();
         
         if ( walkingBackwards && walkingForward && !nowTurning) {
             targetSpatial.getLocalTranslation().set(prevLoc);
             return;
         }
+        
         targetSpatial.getLocalTranslation().subtract(loc, loc);
         if (!loc.equals(Vector3f.ZERO)) {
             float distance = loc.length();
@@ -632,6 +643,10 @@ public class ThirdPersonHandler extends InputHandler {
     public Spatial getTarget() {
         return targetSpatial;
     }
+    
+    public Player getPlayer() {
+    	return target;
+    }
 
     public void setTarget(Spatial target) {
         this.targetSpatial = target;
@@ -787,4 +802,38 @@ public class ThirdPersonHandler extends InputHandler {
 	public void setShooting( boolean shooting ) {
 		target.setShooting( shooting );
 	}
+	
+	public boolean isCanMoveForward() {
+		return canMoveForward;
+	}
+
+	public void setCanMoveForward(boolean canMoveForward) {
+		this.canMoveForward = canMoveForward;
+	}
+
+	public boolean isCanMoveBackward() {
+		return canMoveBackward;
+	}
+
+	public void setCanMoveBackward(boolean canMoveBackward) {
+		this.canMoveBackward = canMoveBackward;
+	}
+
+	public boolean isCanStrafeLeft() {
+		return canStrafeLeft;
+	}
+
+	public void setCanStrafeLeft(boolean canStrafeLeft) {
+		this.canStrafeLeft = canStrafeLeft;
+	}
+
+	public boolean isCanStrafeRight() {
+		return canStrafeRight;
+	}
+
+	public void setCanStrafeRight(boolean canStrafeRight) {
+		this.canStrafeRight = canStrafeRight;
+	}
+	
+	
 }
