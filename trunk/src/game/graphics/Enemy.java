@@ -263,7 +263,7 @@ public class Enemy extends Character  {
 				setMoving(false);
 				world.getCore().setComeBack( id, false );
 				world.getCore().setFirstFind( id, true );
-				world.getCore().setState( id, State.DEFAULT );
+				world.getCore().setState( id, State.ALERT );
 				initialPosition.set( currentPosition );
 			} else {
 				setMoving(true);

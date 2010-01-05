@@ -104,10 +104,11 @@ public class HudAlert {
 			if(userHud.game.getAlertLevel(id) > max )
 				max = (int) userHud.game.getAlertLevel(id);
 			//check if current enemy is in attack
-			if(userHud.game.getState(id) == State.ATTACK)
+			if(userHud.game.getState(id) == State.ATTACK || userHud.game.getState(id) == State.FINDATTACK)
 				stateColor = State.ATTACK;
 			//check if current enemy is in alert e nobody is in attack
-			if(userHud.game.getState(id) == State.ALERT && stateColor != State.ATTACK)
+			if((userHud.game.getState(id) == State.ALERT || userHud.game.getState(id) == State.FIND)
+					&& stateColor != State.ATTACK)
 				stateColor = State.ALERT;
 		}
 
