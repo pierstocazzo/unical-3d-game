@@ -46,8 +46,8 @@ public class HudScore {
 		yPosition = (int) userHud.gWorld.getResolution().y;
 		
 		scoreQuad = new Quad("scoreQuad", userHud.gWorld.getResolution().x/8, userHud.gWorld.getResolution().y/15);
-		scoreQuad.setLocalTranslation(userHud.gWorld.getResolution().x/2, 
-					userHud.gWorld.getResolution().y - scoreQuad.getHeight(), 0);
+		float xScoreQuad = xPosition - scoreQuad.getWidth()/4;
+		scoreQuad.setLocalTranslation(xScoreQuad, userHud.gWorld.getResolution().y - scoreQuad.getHeight(), 0);
 		
 		/* load the texture to set to the map */
         TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
@@ -64,16 +64,14 @@ public class HudScore {
         as.setEnabled(true);
         
         scoreQuad.setRenderState(as);
-        
-        /* we don't need to change again the aspects of the score text, so lock it */
-        scoreQuad.lock();
 		
 		userHud.gWorld.hudNode.attachChild(scoreQuad);
 		
 		score = Text.createDefaultTextLabel( "Score" );
     	score.setTextColor(ColorRGBA.red);
     	score.setLocalScale(3);
-    	score.setLocalTranslation( xPosition-(score.getWidth()/2)-5, yPosition-score.getHeight()*2.5f, 0 );
+    	score.setLocalTranslation( scoreQuad.getLocalTranslation().x+scoreQuad.getWidth()/2, 
+				scoreQuad.getLocalTranslation().y-scoreQuad.getHeight()/2, 0 );
     	userHud.gWorld.hudNode.attachChild( score );
 	}
 	
@@ -83,7 +81,11 @@ public class HudScore {
 	public void update(){
 		value = userHud.game.getScore(userHud.gWorld.player.id);
 		score.print(Integer.toString(value));
-		score.setLocalTranslation( xPosition-(score.getWidth()/2)-5, yPosition-score.getHeight()*2.5f, 0 );
+		float xScoreQuad = xPosition - (scoreQuad.getWidth() + score.getWidth())/8;
+		scoreQuad.setLocalTranslation(xScoreQuad, scoreQuad.getLocalTranslation().y, 0);
+		
+		score.setLocalTranslation( xPosition + (scoreQuad.getWidth() + score.getWidth())/8, 
+								scoreQuad.getLocalTranslation().y-scoreQuad.getHeight()/2, 0 );
 		//aggiorna score
 	}
 }
