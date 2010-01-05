@@ -111,6 +111,8 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 						state = State.DEFAULT;
 					}
 				}
+				if ( distance <= state.getViewRange() ) 
+					alertTime = GameTimer.getTimeInSeconds();
 				break;
 			
 			case ATTACK:
