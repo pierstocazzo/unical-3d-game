@@ -100,6 +100,7 @@ public class GraphicalWorld extends Game {
 	int enemiesCounter = 0;
 	
 	boolean endGame = false;
+	boolean victory = false;
 	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
@@ -241,6 +242,8 @@ public class GraphicalWorld extends Game {
 			userHud.hudMsgBox.update();
 			gameOver();
     	} else {
+    		checkVictory();
+    		
     		updateRenderOptimizer();
     		
     		userHud.update();
@@ -288,6 +291,20 @@ public class GraphicalWorld extends Game {
 		updateInput();
     }
     
+	private void checkVictory() {
+		if(!victory){
+			int tot = 0;
+			for( int i = 1; i <= enemiesCounter; i++ ) {
+				if( characters.get("enemy"+i) != null ) 
+					tot = tot + 1;
+			}
+			if( tot == 0 ){
+				userHud.hudMsgBox.createMessageBox(HudMessageBox.VICTORY);
+				victory = true;
+			}
+		}
+	}
+
 	private void updateInput() {
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("freeCamAction", false ) ) {
             freeCam = !freeCam;

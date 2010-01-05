@@ -22,8 +22,6 @@ public class HudMessageBox {
 	int type;
 	Quad quad;
 	UserHud userHud;
-	boolean pauseUsed = false;
-	boolean changed = false;
 	float time = 0;
 	
 	/**
@@ -135,16 +133,4 @@ public class HudMessageBox {
     		case LEVEL2: type = NOTHING;break;
     	}
     }
-    
-    /**
-     * Check and Set pause
-     */
-	public void checkPause(){
-		if(!pauseUsed){
-			userHud.gWorld.pause = true;
-			pauseUsed = true;
-		}
-		if(pauseUsed && !userHud.gWorld.pause)
-			userHud.gWorld.hudNode.detachChild(quad);
-	}
 }
