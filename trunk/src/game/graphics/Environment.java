@@ -11,6 +11,7 @@ import utils.Loader;
 import utils.ModelLoader;
 import utils.Util;
 
+import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
@@ -248,8 +249,10 @@ public class Environment {
 					x = (float) Math.random() * world.dimension - world.dimension/2;
 					z = (float) Math.random() * world.dimension - world.dimension/2;
 				}
+				sharedTree.setModelBound( new BoundingBox() );
+				sharedTree.updateModelBound();
+				world.getCollisionNode().attachChild( sharedTree );
 				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 20, z ));
-				world.getRootNode().attachChild( sharedTree );
 				sharedTree.lock();
 				world.trees.put( world.treeCounter++, sharedTree );
 			}

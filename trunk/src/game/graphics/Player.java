@@ -12,6 +12,8 @@ import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
+import com.jme.scene.Spatial.CullHint;
+import com.jme.scene.shape.Box;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.geometry.PhysicsCapsule;
 import com.jmex.physics.material.Material;
@@ -26,6 +28,13 @@ import com.jmex.physics.material.Material;
  */
 public class Player extends Character {
 
+	Vector3f vectorToLookAt = new Vector3f();
+	
+	/**
+	 * Character Collision node
+	 */
+	Node collision;
+	
 	/** PhysicsCharacter constructor <br>
      * Create a new character affected by physics. 
      * 
@@ -63,22 +72,69 @@ public class Player extends Character {
 	    body.setAffectedByGravity(false);
 	    
 	    body.setMaterial( Material.GHOST );
-//	    body.computeMass();
-//	    body.attachChild( model );
 	
 	    characterNode.attachChild(body);
 	    characterNode.attachChild(model);
-//	    characterNode.setModelBound( new BoundingBox() );
-//	    characterNode.updateModelBound();
-	    
-	    model.setModelBound( new BoundingBox() );
-	    model.updateModelBound();
-	    
-//	    model.attachChild( body );
 		
+	    /**
+	     * Setting up character collision node
+	     */
+	    collision = new Node("collision");
+	    world.getRootNode().attachChild(collision);
+	    
+	    Box frontal = new Box("frontal", new Vector3f(-1,0,-1), new Vector3f(1,10,-.9f));
+	    frontal.clearTextureBuffers();
+	    frontal.setModelBound(new BoundingBox());
+		frontal.updateModelBound();
+		frontal.setLocalTranslation(0,0,5);
+		collision.attachChild(frontal);
+		
+		frontal.setCullHint(CullHint.Always);
+		
+		Box backy = new Box("backy", new Vector3f(-1,0,-1), new Vector3f(1,10,-.9f));
+		backy.clearTextureBuffers();
+		backy.setModelBound(new BoundingBox());
+		backy.updateModelBound();
+		backy.setLocalTranslation(0,0,-2.5f);
+		collision.attachChild(backy);
+		
+		backy.setCullHint(CullHint.Always);
+		
+		Box left = new Box("left", new Vector3f(-1,0,-1.5f), new Vector3f(-.9f,10,1.5f));
+	    left.clearTextureBuffers();
+	    left.setModelBound(new BoundingBox());
+		left.updateModelBound();
+		left.setLocalTranslation(3,0,0);
+		collision.attachChild(left);
+	    
+		left.setCullHint(CullHint.Always);
+		
+		Box right = new Box("right", new Vector3f(-1,0,-1.5f), new Vector3f(-.9f,10,1.5f));
+	    right.clearTextureBuffers();
+	    right.setModelBound(new BoundingBox());
+		right.updateModelBound();
+		right.setLocalTranslation(-1.5f,0,0);
+		collision.attachChild(right);
+	    
+		right.setCullHint(CullHint.Always);
+		
+		/**
+		 * end collision node
+		 */	    
+	    
 	    /** initialize the animation */ 
 		animationController = new CustomAnimationController( model.getController(0) );
 //        setMovingForward( true );
+	}
+
+	public void lookAtAction( Vector3f direction ) {
+    	vectorToLookAt.set( this.getCollision().getWorldTranslation() );
+        vectorToLookAt.addLocal( direction.x, 0, direction.z );
+    	this.getCollision().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+    }
+	
+	public Node getCollision() {
+		return collision;
 	}
 
 	/** Function <code>update</code> <br>
@@ -87,8 +143,8 @@ public class Player extends Character {
 	 */
 	public void update( float time ) {
 	    if( world.getCore().isAlive( id ) == true ) {
-//		    contactDetect.update(time);
-		    
+
+	    	collision.getLocalTranslation().set( characterNode.getWorldTranslation() );
 		    body.getWorldTranslation().set( characterNode.getWorldTranslation() );
 		    
 		    if( !world.getCore().isMoving(id) ) {

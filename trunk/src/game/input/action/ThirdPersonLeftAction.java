@@ -50,7 +50,7 @@ public class ThirdPersonLeftAction extends KeyInputAction {
     }
 
     public void performAction(InputActionEvent event) {
-        if( event.getTriggerPressed() ) {
+        if( event.getTriggerPressed() && handler.isCanStrafeLeft() ) {
 	        handler.setTurningLeft(true);
 	        handler.setTurning(true);
         } else {

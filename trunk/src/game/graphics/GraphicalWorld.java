@@ -14,6 +14,7 @@ import jmetest.TutorialGuide.ExplosionFactory;
 import utils.Loader;
 import utils.ModelLoader;
 
+import com.jme.bounding.OrientedBoundingBox;
 import com.jme.image.Texture;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
@@ -25,6 +26,7 @@ import com.jme.renderer.Renderer;
 import com.jme.renderer.pass.BasicPassManager;
 import com.jme.scene.Node;
 import com.jme.scene.Text;
+import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.LightState;
@@ -101,6 +103,10 @@ public class GraphicalWorld extends Game {
 	
 	boolean endGame = false;
 	boolean victory = false;
+
+	Node collisionNode;
+
+	CollisionHandler collisionHandler;
 	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
@@ -117,6 +123,10 @@ public class GraphicalWorld extends Game {
 
 	public void setupInit() {
    	
+		/** Setting up collision node */
+		collisionNode = new Node( "Collision" );
+		rootNode.attachChild(collisionNode);
+		
 		hudNode = new Node( "HUD" );
 		rootNode.attachChild( hudNode );
 		hudNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
@@ -148,6 +158,29 @@ public class GraphicalWorld extends Game {
 	    setupEnergyPackages();
 	    
 	    userHud = new UserHud(this);
+	    
+	    /** Start collision test */
+	    Vector3f max = new Vector3f(5, 5, 5);
+		Vector3f min = new Vector3f(-5, -5, -5);
+		Box t1 = new Box("Box 1", min, max);
+		t1.setModelBound(new OrientedBoundingBox());
+		t1.updateModelBound();
+		t1.setLocalTranslation(new Vector3f(-1100, environment.getTerrain().getHeight(-1100,-1100)-10, -1100));
+        t1.setLocalScale(new Vector3f(1,2,3));
+        t1.lock();
+        
+        Box t2 = new Box("Box 2", min, max);
+		t2.setModelBound(new OrientedBoundingBox());
+		t2.updateModelBound();
+		t2.setLocalTranslation(new Vector3f(-1000, environment.getTerrain().getHeight(-1000,-1100)-10, -1100));
+        t2.setLocalScale(new Vector3f(1,2,3));
+        t2.lock();
+        
+        
+        
+        collisionNode.attachChild(t1);
+        collisionNode.attachChild(t2);
+		/** End collision test */
 	}
 
 	/** Create graphic players
@@ -223,11 +256,14 @@ public class GraphicalWorld extends Game {
         KeyBindingManager.getKeyBindingManager().set( "firstPerson", KeyInput.KEY_R );
     	
         HashMap<String, Object> handlerProps = new HashMap<String, Object>();
-        handlerProps.put(ThirdPersonHandler.PROP_DOGRADUAL, "true");
+        handlerProps.put(ThirdPersonHandler.PROP_DOGRADUAL, "false");
         handlerProps.put(ThirdPersonHandler.PROP_TURNSPEED, ""+(1.0f * FastMath.PI));
         handlerProps.put(ThirdPersonHandler.PROP_LOCKBACKWARDS, "false");
         handlerProps.put(ThirdPersonHandler.PROP_CAMERAALIGNEDMOVE, "true");
         inputHandler = new ThirdPersonHandler( player, cam, handlerProps);
+        
+        // setup CollisionHandler
+        collisionHandler = new CollisionHandler( inputHandler, collisionNode );
     }
 
 	@Override
@@ -247,6 +283,7 @@ public class GraphicalWorld extends Game {
     		updateRenderOptimizer();
     		
     		userHud.update();
+    		collisionHandler.update();
 	        inputHandler.update(tpf);
 	        freeCamInput.update(tpf);
 	        float camMinHeight = environment.getTerrain().getHeight(cam.getLocation()) + 0.5f;
@@ -551,7 +588,7 @@ public class GraphicalWorld extends Game {
 			if( distance > 500 ) {
 				trees.get(i).removeFromParent(); 
 			} else {
-				rootNode.attachChild( trees.get(i) ); 
+				collisionNode.attachChild( trees.get(i) ); 
 			}
 		}
 	}
@@ -566,5 +603,9 @@ public class GraphicalWorld extends Game {
 
 	public LightState getLight() {
 		return lightState;
+	}
+
+	public Node getCollisionNode() {
+		return collisionNode;
 	}
 }
