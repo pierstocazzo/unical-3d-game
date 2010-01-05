@@ -26,6 +26,7 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.Renderer;
 import com.jme.renderer.pass.BasicPassManager;
 import com.jme.scene.Node;
+import com.jme.scene.SharedNode;
 import com.jme.scene.Text;
 import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
@@ -161,25 +162,23 @@ public class GraphicalWorld extends Game {
 	    userHud = new UserHud(this);
 	    
 	    /** Start collision test */
-	    Vector3f max = new Vector3f(5, 5, 5);
-		Vector3f min = new Vector3f(-5, -5, -5);
-		Box t1 = new Box("Box 1", min, max);
-		t1.setModelBound(new OrientedBoundingBox());
-		t1.updateModelBound();
-		t1.setLocalTranslation(new Vector3f(-1100, environment.getTerrain().getHeight(-1100,-1100)-10, -1100));
-        t1.setLocalScale(new Vector3f(1,2,3));
-        t1.lock();
-        
-        /** con un albero caricato in un nodo normale ovviametne la collisione funziona */
         Node tree = ModelLoader.loadModel( "game/data/models/vegetation/tree1.3ds", 
 				"game/data/models/vegetation/tree1.png", 2f );
-        tree.setModelBound( new BoundingBox() );
-        tree.updateModelBound();
-        tree.setLocalTranslation(new Vector3f(-1000, environment.getTerrain().getHeight(-1000,-1100)-20, -1100));
-        tree.lock();
         
-        collisionNode.attachChild(t1);
-        collisionNode.attachChild(tree);
+        SharedNode tree1 = new SharedNode( "tree1", tree );
+        tree1.setModelBound( new BoundingBox() );
+        tree1.updateModelBound();
+        tree1.setLocalTranslation(new Vector3f(-1000, environment.getTerrain().getHeight(-1000,-1100)-20, -1100));
+        tree1.lock();
+        
+        SharedNode tree2 = new SharedNode( "tree2", tree );
+        tree2.setModelBound( new BoundingBox() );
+        tree2.updateModelBound();
+        tree2.setLocalTranslation(new Vector3f(-1050, environment.getTerrain().getHeight(-1050,-1100)-20, -1100));
+        tree2.lock();
+        
+        collisionNode.attachChild(tree1);
+        collisionNode.attachChild(tree2);
 		/** End collision test */
 	}
 
