@@ -9,11 +9,14 @@ import com.jme.util.TextureManager;
 
 public class HudMessageBox {
 
-	public static final int WELCOME = 0;
-	public static final int COMMAND = 1;
-	public static final int DIE = 2;
-	public static final int GAMEOVER = 3;
-	public static final int NOTHING = 4;
+	public static final int WELCOME1 = 0;
+	public static final int WELCOME2 = 1;
+	public static final int WELCOME3 = 2;
+	public static final int WELCOME4 = 3;
+	public static final int LEVEL2 = 4;	
+	public static final int DIE = 5;
+	public static final int GAMEOVER = 6;
+	public static final int NOTHING = 7;
 	
 	int type;
 	Quad quad;
@@ -30,29 +33,36 @@ public class HudMessageBox {
 	 */
 	public HudMessageBox( int type, UserHud userHud ) {
 		this.userHud = userHud;
-		this.type = type;
-		createMessageBox(WELCOME);
+		createMessageBox(type);
 	}
 	
 	/** Update current message */
 	public void update() {
 		if(type != NOTHING){
 			switch (type) {
-				case WELCOME:
-					if( time + 1 <= GameTimer.getTimeInSeconds() ) {
+				case WELCOME1:
+					if( time + 3 <= GameTimer.getTimeInSeconds() ) {
 						quad.removeFromParent();
-						createMessageBox(COMMAND);
+						createMessageBox(WELCOME2);
 					}
 					break;
 					
-				case COMMAND:
-					checkPause();
-					if(!changed){
-						userHud.gWorld.pause = true;
-						changed = true;
+				case WELCOME2:
+					if( time + 5 <= GameTimer.getTimeInSeconds() ){
+						quad.removeFromParent();
+						createMessageBox(WELCOME3);
 					}
 					break;
-					
+				case WELCOME3:
+					if( time + 5 <= GameTimer.getTimeInSeconds() ) {
+						quad.removeFromParent();
+						createMessageBox(WELCOME4);
+					}
+					break;
+				case WELCOME4:
+					if( time + 5 <= GameTimer.getTimeInSeconds() )
+						quad.removeFromParent();
+					break;
 				case DIE:
 					break;
 					
@@ -76,10 +86,13 @@ public class HudMessageBox {
             userHud.gWorld.hudNode.attachChild(quad);
             String path = "game/data/message/sfondo.jpg";
             switch (type) {
-                case WELCOME:path = "game/data/message/sfondo.jpg";break;//WELCOME
-                case COMMAND:path = "game/data/images/map.jpg";break;//COMMAND
-				case DIE:path = "game/data/message/sfondo.jpg";break;//DIE
-				case GAMEOVER:path = "game/data/message/sfondo.jpg";break;//GAMEOVER
+                case WELCOME1:path = "game/data/message/welcome1.jpg";break;//WELCOME
+                case WELCOME2:path = "game/data/message/welcome2.jpg";break;//WELCOME
+                case WELCOME3:path = "game/data/message/welcome3.jpg";break;//WELCOME
+                case WELCOME4:path = "game/data/message/welcome4.jpg";break;//WELCOME
+                case LEVEL2:path = "game/data/message/level2.jpg";break;//WELCOME
+				case DIE:path = "game/data/message/energy0.jpg";break;//DIE
+				case GAMEOVER:path = "game/data/message/gameOver.jpg";break;//GAMEOVER
             }
             time = GameTimer.getTimeInSeconds();
             /** add a texture */
@@ -88,8 +101,6 @@ public class HudMessageBox {
 		    ts.setEnabled(true);
 		    quad.setRenderState(ts);
 		    quad.updateRenderState();
-		    if(type == GAMEOVER)
-		    	System.out.println("CREATO MSG GAMEOVER");
     }
 	
     /**
