@@ -16,7 +16,8 @@ public class HudMessageBox {
 	public static final int LEVEL2 = 4;	
 	public static final int DIE = 5;
 	public static final int GAMEOVER = 6;
-	public static final int NOTHING = 7;
+	public static final int VICTORY = 7;
+	public static final int NOTHING = 8;
 	
 	int type;
 	Quad quad;
@@ -71,6 +72,10 @@ public class HudMessageBox {
 					if( time + 5 <= GameTimer.getTimeInSeconds() )
 						quad.removeFromParent();
 					break;
+				case VICTORY:
+					if( time + 5 <= GameTimer.getTimeInSeconds() )
+						userHud.gWorld.finish();
+					break;
 				case GAMEOVER:
 					if( time + 3 <= GameTimer.getTimeInSeconds() )
 						userHud.gWorld.finish();
@@ -106,6 +111,7 @@ public class HudMessageBox {
                 case WELCOME4:path = "game/data/message/welcome4.jpg";break;//WELCOME4
                 case LEVEL2:path = "game/data/message/Level2.jpg";break;//WELCOME
 				case DIE:path = "game/data/message/energy0.jpg";break;//DIE
+				case VICTORY:path = "game/data/message/end.jpg";break;//DIE
 				case GAMEOVER:path = "game/data/message/gameOver.jpg";break;//GAMEOVER
             }
             time = GameTimer.getTimeInSeconds();
@@ -118,7 +124,7 @@ public class HudMessageBox {
     }
 	
     public void switchToNext(){
-    	if(type!=NOTHING && type!=GAMEOVER)
+    	if(type!=NOTHING && type!=GAMEOVER && type!=VICTORY)
     		quad.removeFromParent();
     	switch (type) {
     		case WELCOME1: createMessageBox(WELCOME2);break;
