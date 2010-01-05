@@ -1,5 +1,6 @@
 package game.graphics;
 
+import game.HUD.UserHud;
 import game.common.GameTimer;
 import game.graphics.CustomAnimationController.Animation;
 
@@ -241,6 +242,8 @@ public class Player extends Character {
 			world.bullets.put( bullet.id, bullet );
 			bullet.shoot(direction);
 			world.shoot( world.getCam().getLocation() );
+		} else {
+			UserHud.addMessage(2);
 		}
 	}
 }

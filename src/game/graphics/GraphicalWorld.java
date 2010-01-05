@@ -19,7 +19,6 @@ import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
 import com.jme.input.MouseLookHandler;
 import com.jme.math.FastMath;
-import com.jme.math.Quaternion;
 import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Renderer;
@@ -209,8 +208,8 @@ public class GraphicalWorld extends Game {
     }
     
     public void setupCamera() {
-        cam.setLocation(new Vector3f(160,30,160));
-        cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, 10000.0f);
+        cam.setLocation( player.getCharacterNode().getLocalTranslation().clone() );
+        cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, environment.farPlane);
         cam.update();
     }
 

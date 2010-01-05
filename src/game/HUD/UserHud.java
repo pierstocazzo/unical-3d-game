@@ -45,7 +45,7 @@ public class UserHud {
 	
 	HudAmmo hudAmmo;
 	
-	public HudMessageHandler hudMsg;
+	public static HudMessageHandler hudMsg;
 
 	public HudMessageBox hudMsgBox;
 	
@@ -98,5 +98,9 @@ public class UserHud {
     	hudAmmo.update();
     	hudMsg.update();
     	hudMsgBox.update();
+	}
+	
+	public static void addMessage( int type ) {
+		hudMsg.addMessage( type, 5, ColorRGBA.blue );
 	}
 }

@@ -1,5 +1,7 @@
 package game.graphics;
 
+import game.HUD.UserHud;
+
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
@@ -60,6 +62,8 @@ public class EnergyPackage {
 
         					if( world.getCore().catchEnergyPack( "player"+i, id ) )
         						deletePackage();
+        					else
+        						UserHud.addMessage( 1 );
         				}
         			}
         		}

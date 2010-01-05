@@ -1,5 +1,7 @@
 package game.core;
 
+import game.HUD.UserHud;
+
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -52,19 +54,19 @@ public class ScoreManager implements Serializable {
 		for( String id : players.keySet() )
 			switch( players.get(id).level ) {
 			case 1: 
-				changeParameters( id, 100, 20, 100, 10 );
+				changeParameters( id, 100, 15, 100, 16 );
 				break;
 			case 2: 
-				changeParameters( id, 125, 25, 125, 8 );
+				changeParameters( id, 125, 20, 125, 12 );
 				break;
 			case 3: 
-				changeParameters( id, 150, 30, 150, 6 );
+				changeParameters( id, 150, 25, 150, 8 );
 				break;
 			case 4: 
-				changeParameters( id, 175, 35, 175, 4 );
+				changeParameters( id, 175, 30, 175, 4 );
 				break;
 			case 5: 
-				changeParameters( id, 200, 40, 200, 2 );
+				changeParameters( id, 200, 35, 200, 0 );
 				break;
 			}
 	}
@@ -123,22 +125,29 @@ public class ScoreManager implements Serializable {
 				if( score >= 25 ){
 					level = 2;
 					showLevel2 = true;
+					UserHud.addMessage(3);
 				}
 				break;
 			case 2: 
 				score = score + 10;
-				if( score >= 125 )
+				if( score >= 125 ) {
 					level = 3;
+					UserHud.addMessage(3);
+				}
 				break;
 			case 3:
 				score = score + 15;
-				if( score >= 350 )
+				if( score >= 350 ) {
 					level = 4;
+					UserHud.addMessage(3);
+				}
 				break;
 			case 4:
 				score = score + 20;
-				if( score >= 750 )
+				if( score >= 750 ) {
 					level = 5;
+					UserHud.addMessage(3);
+				}
 				break;
 			case 5: 
 				score = score + 25;
