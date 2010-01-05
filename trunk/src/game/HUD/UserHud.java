@@ -77,7 +77,7 @@ public class UserHud {
     	gWorld.getRootNode().attachChild( fps );
     	hudAlert = new HudAlert(this);
     	hudMsg = new HudMessageHandler(this);
-    	hudMsgBox = new HudMessageBox(HudMessageBox.WELCOME, this);
+    	hudMsgBox = new HudMessageBox(HudMessageBox.WELCOME1, this);
     }
 	
 	/**
