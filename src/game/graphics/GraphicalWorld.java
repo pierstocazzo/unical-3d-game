@@ -78,7 +78,7 @@ public class GraphicalWorld extends Game {
 	/** very very basic hud */
 	Quad crosshair;
 	Text gameOver;
-	UserHud userHud;
+	public UserHud userHud;
 	
 	/** audio controller */
 	SoundManager audio;

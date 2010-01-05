@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import game.base.PhysicsGame;
 import game.common.GameTimer;
+import game.graphics.GraphicalWorld;
 
 import game.menu.InGameMenu;
 
@@ -226,6 +227,9 @@ public abstract class PhysicsGame extends AbstractGame {
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("toggle_physics", false ) ) {
             showPhysics = !showPhysics;
         }
+        if ( KeyBindingManager.getKeyBindingManager().isValidCommand("switch_message", false ) ) {
+            ((GraphicalWorld)(this)).userHud.hudMsgBox.switchToNext();
+        }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
         	
         	InGameMenu menu = new InGameMenu(this);
@@ -339,6 +343,7 @@ public abstract class PhysicsGame extends AbstractGame {
         KeyBindingManager.getKeyBindingManager().set( "toggle_wire", KeyInput.KEY_T );
         KeyBindingManager.getKeyBindingManager().set( "toggle_lights", KeyInput.KEY_L );
         KeyBindingManager.getKeyBindingManager().set( "toggle_physics", KeyInput.KEY_V );
+        KeyBindingManager.getKeyBindingManager().set( "switch_message", KeyInput.KEY_RETURN);
         KeyBindingManager.getKeyBindingManager().set( "exit", KeyInput.KEY_ESCAPE );
 
         setPhysicsSpace( PhysicsSpace.create() );

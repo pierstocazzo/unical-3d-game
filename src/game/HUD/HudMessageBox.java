@@ -118,6 +118,20 @@ public class HudMessageBox {
 		    quad.updateRenderState();
     }
 	
+    public void switchToNext(){
+    	if(type!=NOTHING && type!=GAMEOVER)
+    		quad.removeFromParent();
+    	switch (type) {
+    		case WELCOME1: createMessageBox(WELCOME2);break;
+    		case WELCOME2: createMessageBox(WELCOME3);break;
+    		case WELCOME3: createMessageBox(WELCOME4);break;
+    		case WELCOME4: type = NOTHING;break;
+    		case DIE: type = NOTHING;break;
+    		case LEVEL2: type = NOTHING;break;
+    	}
+    	System.out.println("SWITCH AVVENUTO");
+    }
+    
     /**
      * Check and Set pause
      */
