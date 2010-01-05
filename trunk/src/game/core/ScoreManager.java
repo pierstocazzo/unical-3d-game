@@ -104,6 +104,7 @@ public class ScoreManager implements Serializable {
 		
 		int score;
 		int level;
+		boolean showLevel2 = false;
 		
 		Score() {
 			score = 0;
@@ -119,8 +120,10 @@ public class ScoreManager implements Serializable {
 			switch ( level ) {
 			case 1:
 				score = score + 5;
-				if( score >= 25 ) 
+				if( score >= 25 ){
 					level = 2;
+					showLevel2 = true;
+				}
 				break;
 			case 2: 
 				score = score + 10;
@@ -144,8 +147,12 @@ public class ScoreManager implements Serializable {
 		}
 		
 		public void decreaseScore() {
-			score = score -  (int)(score*0.8f);
+			score = score - (int)(score*0.8f);
 			score = score - score % 5;
 		}
+	}
+
+	public boolean getShowLevel2(String id) {
+		return players.get(id).showLevel2;
 	}
 }

@@ -1,6 +1,7 @@
 package game.HUD;
 
 import game.common.GameTimer;
+import game.core.LogicWorld;
 import utils.Loader;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.TextureState;
@@ -64,13 +65,27 @@ public class HudMessageBox {
 						quad.removeFromParent();
 					break;
 				case DIE:
+					if( time + 5 <= GameTimer.getTimeInSeconds() )
+						quad.removeFromParent();
 					break;
-					
+				case LEVEL2:
+					if( time + 5 <= GameTimer.getTimeInSeconds() )
+						quad.removeFromParent();
+					break;
 				case GAMEOVER:
 					if( time + 3 <= GameTimer.getTimeInSeconds() )
 						userHud.gWorld.finish();
 					break;
 			}
+		}
+		
+		if(userHud.gWorld.getCore().isReborn(userHud.gWorld.player.id)){
+			userHud.gWorld.getCore().setReborn(userHud.gWorld.player.id, false);
+			createMessageBox(DIE);
+		}
+		else if(userHud.gWorld.getCore().showLevel2Message(userHud.gWorld.player.id)){
+			userHud.gWorld.getCore().setShowLevel2Message(userHud.gWorld.player.id,false);
+			createMessageBox(LEVEL2);
 		}
 	}
 
@@ -86,11 +101,11 @@ public class HudMessageBox {
             userHud.gWorld.hudNode.attachChild(quad);
             String path = "game/data/message/sfondo.jpg";
             switch (type) {
-                case WELCOME1:path = "game/data/message/welcome1.jpg";break;//WELCOME
-                case WELCOME2:path = "game/data/message/welcome2.jpg";break;//WELCOME
-                case WELCOME3:path = "game/data/message/welcome3.jpg";break;//WELCOME
-                case WELCOME4:path = "game/data/message/welcome4.jpg";break;//WELCOME
-                case LEVEL2:path = "game/data/message/level2.jpg";break;//WELCOME
+                case WELCOME1:path = "game/data/message/welcome1.jpg";break;//WELCOME1
+                case WELCOME2:path = "game/data/message/welcome2.jpg";break;//WELCOME2
+                case WELCOME3:path = "game/data/message/welcome3.jpg";break;//WELCOME3
+                case WELCOME4:path = "game/data/message/welcome4.jpg";break;//WELCOME4
+                case LEVEL2:path = "game/data/message/Level2.jpg";break;//WELCOME
 				case DIE:path = "game/data/message/energy0.jpg";break;//DIE
 				case GAMEOVER:path = "game/data/message/gameOver.jpg";break;//GAMEOVER
             }
