@@ -129,7 +129,6 @@ public class HudMessageBox {
     		case DIE: type = NOTHING;break;
     		case LEVEL2: type = NOTHING;break;
     	}
-    	System.out.println("SWITCH AVVENUTO");
     }
     
     /**
