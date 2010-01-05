@@ -118,9 +118,7 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	
 	@Override
 	public void die( String shooterId ) {
-		System.out.println("PLAYER MORTO");
 		world.scoreManager.playerKilled(id);
-		System.out.println("SCORE AGGIORNATO "+world.scoreManager.getScore(id));
 		if(world.scoreManager.getScore(id)<=10){
 			world.killed(id);
 			super.die( shooterId );
