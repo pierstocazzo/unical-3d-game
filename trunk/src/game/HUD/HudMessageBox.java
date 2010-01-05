@@ -1,7 +1,6 @@
 package game.HUD;
 
 import game.common.GameTimer;
-import game.core.LogicWorld;
 import utils.Loader;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.TextureState;
