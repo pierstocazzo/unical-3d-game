@@ -317,7 +317,7 @@ public class Enemy extends Character  {
 	public void shoot( Vector3f direction ) {
 			Vector3f bulletPosition = world.getCore().
 						getPosition(id).add( direction.mult( 5 ) );
-			bulletPosition.addLocal( 0, 2, 0 );
+			bulletPosition.addLocal( 0, 4, 0 );
 			Bullet bullet = new Bullet( id, world, 
 					world.getCore().getWeapon(id), bulletPosition );
 			world.bullets.put( bullet.id, bullet );
