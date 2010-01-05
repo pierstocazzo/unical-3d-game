@@ -14,6 +14,7 @@ import jmetest.TutorialGuide.ExplosionFactory;
 import utils.Loader;
 import utils.ModelLoader;
 
+import com.jme.bounding.BoundingBox;
 import com.jme.bounding.OrientedBoundingBox;
 import com.jme.image.Texture;
 import com.jme.input.KeyBindingManager;
@@ -169,17 +170,16 @@ public class GraphicalWorld extends Game {
         t1.setLocalScale(new Vector3f(1,2,3));
         t1.lock();
         
-        Box t2 = new Box("Box 2", min, max);
-		t2.setModelBound(new OrientedBoundingBox());
-		t2.updateModelBound();
-		t2.setLocalTranslation(new Vector3f(-1000, environment.getTerrain().getHeight(-1000,-1100)-10, -1100));
-        t2.setLocalScale(new Vector3f(1,2,3));
-        t2.lock();
-        
-        
+        /** con un albero caricato in un nodo normale ovviametne la collisione funziona */
+        Node tree = ModelLoader.loadModel( "game/data/models/vegetation/tree1.3ds", 
+				"game/data/models/vegetation/tree1.png", 2f );
+        tree.setModelBound( new BoundingBox() );
+        tree.updateModelBound();
+        tree.setLocalTranslation(new Vector3f(-1000, environment.getTerrain().getHeight(-1000,-1100)-20, -1100));
+        tree.lock();
         
         collisionNode.attachChild(t1);
-        collisionNode.attachChild(t2);
+        collisionNode.attachChild(tree);
 		/** End collision test */
 	}
 
