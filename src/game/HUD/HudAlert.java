@@ -1,6 +1,7 @@
 package game.HUD;
 
 import game.common.GameTimer;
+import game.common.State;
 import game.core.LogicEnemy;
 
 import com.jme.renderer.ColorRGBA;
@@ -40,6 +41,8 @@ public class HudAlert {
 	/** Bar standard Lenght in pixel */
 	int initialLenght;
 	
+	State stateColor;
+	
 	/** Constructor
 	 * 
 	 * @param userHud
@@ -58,7 +61,7 @@ public class HudAlert {
     			backQuad.getLocalTranslation().y, 0 );
     	userHud.gWorld.hudNode.attachChild( alertNum );
     	//for correct first visualization
-    	alertValue = 20;
+    	alertValue = 0;
     	frontQuad.resize(initialLenght*alertValue/100, 
 				frontQuad.getHeight());
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
@@ -72,8 +75,18 @@ public class HudAlert {
 	 * It updates Life bar informations
 	 */
 	public void update(){
+		//initialize
+		stateColor = State.DEFAULT;
 		alertValue = getAlertLevel();
-		checkColor();
+		//if an enemy is in alert state
+		if(stateColor == State.ALERT)
+			frontQuad.setDefaultColor(ColorRGBA.yellow);
+		//if an enemy is in attack state
+		if(stateColor == State.ATTACK)
+			frontQuad.setDefaultColor(ColorRGBA.red);
+		//if all enemy are in default state
+		if(stateColor == State.DEFAULT)
+			checkColor();
 		frontQuad.resize(initialLenght*alertValue/100, 
 						frontQuad.getHeight());
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
@@ -83,26 +96,30 @@ public class HudAlert {
 	
 	public int getAlertLevel(){
 		final int ALERT_RANGE = LogicEnemy.ALERT_RANGE;
-		
+		stateColor = State.DEFAULT;
 		//calculate max alert level
 		int max = -1*ALERT_RANGE;
 		for( String id : userHud.game.getEnemiesIds() ){
 //			System.out.println("ALERT="+userHud.game.getAlertLevel(id));
 			if(userHud.game.getAlertLevel(id) > max )
 				max = (int) userHud.game.getAlertLevel(id);
+			//check if current enemy is in attack
+			if(userHud.game.getState(id) == State.ATTACK)
+				stateColor = State.ATTACK;
+			//check if current enemy is in alert e nobody is in attack
+			if(userHud.game.getState(id) == State.ALERT && stateColor != State.ATTACK)
+				stateColor = State.ALERT;
 		}
 
-		//If max < 0 we are in the firth execution
+		//If max < 0 we are in the first execution
 		if(max < 0)
-			return 20;//return minimal value
+			return 0;//return minimal value
 		//calculate time difference
 		int diff = (int) GameTimer.getTimeInSeconds() - max;
 		//check difference
 		if(diff < 0)
 			diff = 0;
 		//calculate percentage
-		if((ALERT_RANGE - diff)*100/ALERT_RANGE < 20)
-			return 20;//return minimal value
 		return (ALERT_RANGE - diff)*100/ALERT_RANGE;
 	}
 	
