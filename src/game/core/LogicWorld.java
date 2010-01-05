@@ -308,4 +308,26 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public int getMaxAmmo(String id) {
 		return ((LogicPlayer)characters.get(id)).getMaxAmmo();
 	}
+	
+	@Override
+	public boolean isReborn( String id ){
+		if(characters.containsKey(id))
+			return ((LogicPlayer)characters.get(id)).reborn;
+		return false;
+	}
+
+	@Override
+	public void setReborn(String id, boolean value) {
+		((LogicPlayer)characters.get(id)).reborn = value;
+	}
+
+	@Override
+	public boolean showLevel2Message(String id) {
+		return scoreManager.getShowLevel2( id );
+	}
+
+	@Override
+	public void setShowLevel2Message(String id, boolean b) {
+		scoreManager.players.get(id).showLevel2 = b;
+	}
 }

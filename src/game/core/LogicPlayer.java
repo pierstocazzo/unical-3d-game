@@ -27,6 +27,8 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	
 	int maxAmmo;
 	
+	boolean reborn = false;
+	
 	/**
 	 * LogicPlayer Constructor <br>
 	 * Create a new Player
@@ -123,8 +125,10 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 			world.killed(id);
 			super.die( shooterId );
 		}
-		else
+		else{
+			reborn = true;
 			reborn();
+		}
 	}
 	
 	public void reborn(){

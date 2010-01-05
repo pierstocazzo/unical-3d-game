@@ -193,4 +193,12 @@ public interface WorldInterface {
 	public abstract int getMaxLife( String id );
 	
 	public abstract int getMaxAmmo( String id );
+	
+	public abstract boolean isReborn( String id );
+	
+	public abstract void setReborn( String id , boolean value );
+	
+	public abstract boolean showLevel2Message( String id );
+
+	public abstract void setShowLevel2Message( String id, boolean b);
 }
