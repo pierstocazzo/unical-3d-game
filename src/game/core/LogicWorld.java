@@ -1,8 +1,6 @@
 package game.core;
 
-import game.common.Movement;
-import game.common.State;
-import game.common.WeaponType;
+import game.common.*;
 import game.common.MovementList.MovementType;
 
 import game.graphics.WorldInterface;
@@ -166,7 +164,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	
 	@Override
 	public void shooted( String id, String shooterId, int bulletDamage ) {
-		if( characters.containsKey( id ))
+		if( characters.get( id ) != null )
 			characters.get(id).isShooted( bulletDamage, shooterId );
 	}
 
@@ -181,7 +179,11 @@ public class LogicWorld implements WorldInterface, Serializable {
 
 	@Override
 	public Movement getCurrentMovement( String id ) {
-		return ((LogicEnemy) characters.get(id)).getCurrentMovement();
+		try { 
+			return ((LogicEnemy) characters.get(id)).getCurrentMovement();
+		} catch (Exception e) {
+			return new Movement( Direction.REST, 0 );
+		}
 	}
 
 	@Override
@@ -214,17 +216,28 @@ public class LogicWorld implements WorldInterface, Serializable {
 
 	@Override
 	public State getState( String id ) {
-		return ((LogicEnemy) characters.get(id)).state;
+		try {
+			return ((LogicEnemy) characters.get(id)).state;
+		} catch (Exception e) {
+			return State.DEFAULT;
+		}
 	}
 
 	@Override
 	public void updateState(String id) {
-		((LogicEnemy) characters.get(id)).updateState();
+		try {
+			((LogicEnemy) characters.get(id)).updateState();
+		} catch (Exception e) {
+		}
 	}
 
 	@Override
 	public Vector3f getShootDirection( String id ) {
-		return ((LogicEnemy) characters.get(id)).shootDirection;
+		try {
+			return ((LogicEnemy) characters.get(id)).shootDirection;
+		} catch (Exception e) {
+			return Vector3f.ZERO;
+		}
 	}
 
 	@Override
@@ -291,12 +304,20 @@ public class LogicWorld implements WorldInterface, Serializable {
 
 	@Override
 	public float getAlertLevel(String id) {
-		return ((LogicEnemy)characters.get(id)).getAlertTime();
+		try {
+			return ((LogicEnemy) characters.get(id)).getAlertTime();
+		} catch (Exception e) {
+			return 20;
+		}
 	}
 
 	@Override
 	public void setState(String id, State state) {
-		((LogicEnemy)characters.get(id)).setState(state);
+		try {
+			((LogicEnemy)characters.get(id)).setState(state);
+		} catch (Exception e) {
+			// do nothing 
+		}
 	}
 
 	@Override
@@ -306,9 +327,47 @@ public class LogicWorld implements WorldInterface, Serializable {
 
 	@Override
 	public int getMaxAmmo(String id) {
-		return ((LogicPlayer)characters.get(id)).getMaxAmmo();
+		try {
+			return ((LogicPlayer) characters.get(id)).getMaxAmmo();
+		} catch (Exception e) {
+			return 100;
+		}
+	}
+
+	@Override
+	public boolean firstFind( String id ) {
+		try {
+			return ((LogicEnemy) characters.get(id)).firstFind;
+		} catch ( Exception e ) {
+			return false;
+		}
+	}
+
+	@Override
+	public void setFirstFind( String id, boolean firstFind ) {
+		try {
+			((LogicEnemy) characters.get(id)).firstFind = firstFind;
+		} catch ( Exception e ) {
+		}
 	}
 	
+	@Override
+	public boolean comeBack( String id ) {
+		try {
+			return ((LogicEnemy) characters.get(id)).comeBack;
+		} catch ( Exception e ) {
+			return false;
+		}
+	}
+	
+	@Override
+	public void setComeBack( String id, boolean comeBack ) {
+		try {
+			((LogicEnemy) characters.get(id)).comeBack = comeBack;
+		} catch ( Exception e ) {
+		}
+	}
+
 	@Override
 	public boolean isReborn( String id ){
 		if(characters.containsKey(id))

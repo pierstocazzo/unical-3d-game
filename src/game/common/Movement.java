@@ -8,7 +8,7 @@ public class Movement implements Serializable {
 	Direction direction;
 	float length;
 	
-	Movement( Direction direction, float length ){
+	public Movement( Direction direction, float length ){
 		this.direction = direction;
 		this.length = length;
 	}
