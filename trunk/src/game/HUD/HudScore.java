@@ -69,7 +69,7 @@ public class HudScore {
 		
 		score = Text.createDefaultTextLabel( "Score" );
     	score.setTextColor(ColorRGBA.red);
-    	score.setLocalScale(3);
+    	score.setLocalScale(userHud.gWorld.getResolution().x/400);
     	score.setLocalTranslation( scoreQuad.getLocalTranslation().x+scoreQuad.getWidth()/2, 
 				scoreQuad.getLocalTranslation().y-scoreQuad.getHeight()/2, 0 );
     	userHud.gWorld.hudNode.attachChild( score );
