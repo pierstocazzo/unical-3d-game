@@ -11,11 +11,10 @@ import utils.Loader;
 import utils.ModelLoader;
 import utils.Util;
 
-import com.jme.bounding.BoundingBox;
-import com.jme.image.Image;
 import com.jme.image.Texture;
+import com.jme.input.KeyBindingManager;
+import com.jme.input.KeyInput;
 import com.jme.light.LightNode;
-import com.jme.light.PointLight;
 import com.jme.math.Plane;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
@@ -26,9 +25,7 @@ import com.jme.scene.PassNodeState;
 import com.jme.scene.SharedNode;
 import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
-import com.jme.scene.Spatial.LightCombineMode;
 import com.jme.scene.Spatial.TextureCombineMode;
-import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.CullState;
@@ -38,7 +35,6 @@ import com.jme.scene.state.ZBufferState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 import com.jmex.effects.LensFlare;
-import com.jmex.effects.LensFlareFactory;
 import com.jmex.effects.water.WaterRenderPass;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
@@ -111,7 +107,7 @@ public class Environment {
         world.getRootNode().attachChild(ground);
         world.getRootNode().attachChild(gameBounds);
 		world.loadingFrame.setProgress(25);
-	    setuplight();
+//	    setuplight();
 		
 	    CullState cs = DisplaySystem.getDisplaySystem().getRenderer().createCullState();
 	    cs.setCullFace(CullState.Face.Back);
@@ -124,8 +120,8 @@ public class Environment {
 	    fogState.setDensity(1.0f);
 	    fogState.setEnabled(true);
 	    fogState.setColor(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
-	    fogState.setEnd(farPlane);
-	    fogState.setStart(farPlane / 10.0f);
+	    fogState.setEnd(farPlane/2);
+	    fogState.setStart(farPlane / 20.0f);
 	    fogState.setDensityFunction(FogState.DensityFunction.Linear);
 	    fogState.setQuality(FogState.Quality.PerVertex);
 	    world.getRootNode().setRenderState(fogState);
@@ -151,23 +147,26 @@ public class Environment {
 	    createVegetation();
 	    world.loadingFrame.setProgress(55);
 	    createWorldBounds();
+	    
+	    KeyBindingManager.getKeyBindingManager().set( "take_position", KeyInput.KEY_END );
 	}
 	
 	public void update() {
 		skybox.getLocalTranslation().set( world.getCam().getLocation() );
         skybox.updateGeometricState(0.0f, true);
-        
-//        lightNode.getLocalTranslation().set( cam.getLocation().add( 200, 200, 200 ) );
-//        world.getRootNode().updateGeometricState(0, true);
 
         /******** Added to animate the water ********/
         Vector3f transVec = new Vector3f( world.getCam().getLocation().x,
-                /*waterEffectRenderPass.getWaterHeight()*/1, world.getCam().getLocation().z);
+                waterEffectRenderPass.getWaterHeight(), world.getCam().getLocation().z);
         setTextureCoords(0, transVec.x, -transVec.z, textureScale);
         setVertexCoords(transVec.x, transVec.y, transVec.z);
+        
+        if ( KeyBindingManager.getKeyBindingManager().isValidCommand("take_position", false ) ) {
+        	System.out.println( world.getCam().getLocation() );
+        }
 	}
 	
-	private void setuplight() {
+	/*private void setuplight() {
 		world.getLight().detachAll();
 
         PointLight dr = new PointLight();
@@ -188,7 +187,7 @@ public class Environment {
         lightBox.setModelBound(new BoundingBox());
         lightBox.updateModelBound();
         lightNode.attachChild(lightBox);
-        lightNode.setLocalTranslation(new Vector3f(-2048, 200,-2048));
+        lightNode.setLocalTranslation(new Vector3f(-2048, 500,-1800));
 
         // clear the lights from this lightbox so the lightbox itself doesn't
         // get affected by light:
@@ -231,7 +230,7 @@ public class Environment {
 
         // notice that it comes at the end
         lightNode.attachChild(flare);
-	}
+	}*/
 	
 	private void createVegetation() {
 		
@@ -309,7 +308,6 @@ public class Environment {
 	    PhysicsBox northBox = gameBounds.createBox("northBox");
 	    northBox.setLocalTranslation( x/2, y/2-20, z );
 	    northBox.setLocalScale( new Vector3f( x, y, 5 ) );
-	    
 	}
 	
 	private void createWater() {
