@@ -1,5 +1,7 @@
 package game.graphics;
 
+import game.HUD.UserHud;
+
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
@@ -65,6 +67,8 @@ public class AmmoPackage {
         					if( world.getCore().catchAmmoPack( "player"+i, id ) ) {
         						deletePackage();
         						return;
+        					} else {
+        						UserHud.addMessage( 0 );
         					}
         				}
         			}
