@@ -41,6 +41,9 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	float alertTime;
 	
 	/** false when the enemy is in find status */
+	/** integrare informazioni dello stato find anche nella logica
+	 * perchè altrimenti in caso di caricamento ricomincia da capo in find
+	 */
 	boolean firstFind = true;
 	
 	/** the max error of the shot */
