@@ -209,7 +209,11 @@ public class MainPanel extends JPanel {
 				mm.hideCursor();
 				break;
 			case 2:break;//todo Options
-			case 3:break;//todo Credits
+			case 3:
+				CreditsFrame cm = new CreditsFrame(mm);
+				cm.setVisible(true);
+				mm.setVisible(false);
+				break;
 			case 4:
 				System.out.println("exit main menu");
 				System.exit(0);
