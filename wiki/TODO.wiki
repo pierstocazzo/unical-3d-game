@@ -1,8 +1,5 @@
 == Cose da fare ==
 
-  * Completare HUD - andrea (WORK IN PROGRESS)
-  * Risolvere Bug switch camera da terza persona a prima
-  * Aggiungere rilevamento collisioni player - slash/joe (WORK IN PROGRESS)
   * Animazioni modello e armi - slash (WORK IN PROGRESS)
   * Sistemare per bene il menù - andrea (WORK IN PROGRESS)
   * Ambientazione e posizionamento gruppi di nemici - andrea/slash/joe (WORK IN PROGRESS)
@@ -10,4 +7,3 @@
   * Sistema per la personalizzazione dei comandi e delle proprietà grafiche - joe 
   * Introdurre effetti grafici - joe/andrea (?)
   * Multiplayer - slash/joe/andrea (?)
-  * Enemy IA, aggiungere controllo sullo stato dei nemici vicini - andrea/slash/joe
