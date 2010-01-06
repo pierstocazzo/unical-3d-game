@@ -14,8 +14,6 @@ import jmetest.TutorialGuide.ExplosionFactory;
 import utils.Loader;
 import utils.ModelLoader;
 
-import com.jme.bounding.BoundingBox;
-import com.jme.bounding.OrientedBoundingBox;
 import com.jme.image.Texture;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
@@ -26,10 +24,7 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.Renderer;
 import com.jme.renderer.pass.BasicPassManager;
 import com.jme.scene.Node;
-import com.jme.scene.SharedNode;
-import com.jme.scene.Spatial;
 import com.jme.scene.Text;
-import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.LightState;
@@ -161,30 +156,6 @@ public class GraphicalWorld extends Game {
 	    setupEnergyPackages();
 	    
 	    userHud = new UserHud(this);
-	    
-//	    /** Start collision test */
-//        Node tree = ModelLoader.loadModel( "game/data/models/vegetation/tree1.3ds", 
-//				"game/data/models/vegetation/tree1.png", 2f );
-//        
-//        SharedNode tree1 = new SharedNode( "tree1", tree );
-//        tree1.setModelBound( new BoundingBox() );
-//        tree1.updateModelBound();
-//        tree1.setLocalTranslation(new Vector3f(-1000, environment.getTerrain().getHeight(-1000,-1100)-20, -1100));
-//        
-//        SharedNode tree2 = new SharedNode( "tree2", tree );
-//        tree2.setModelBound( new BoundingBox() );
-//        tree2.updateModelBound();
-//        tree2.setLocalTranslation(new Vector3f(-1050, environment.getTerrain().getHeight(-1050,-1100)-20, -1100));
-//        
-//        collisionNode.attachChild(tree1);
-//        collisionNode.attachChild(tree2);
-//        collisionNode.updateGeometricState(0,true);
-//        tree1.lock();
-//        tree2.lock();
-        
-//        collisionNode.attachChild(tree1);
-//        collisionNode.attachChild(tree2);
-		/** End collision test */
 	}
 
 	/** Create graphic players
