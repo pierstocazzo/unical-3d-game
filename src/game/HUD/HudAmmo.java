@@ -51,7 +51,7 @@ public class HudAmmo {
 
     	ammoNum = Text.createDefaultTextLabel( "lifeNum" );
     	ammoNum.setTextColor(ColorRGBA.black);
-    	ammoNum.setLocalScale(1.2f);
+    	ammoNum.setLocalScale(screenWidth/1100);
     	ammoNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
     	userHud.gWorld.hudNode.attachChild( ammoNum );

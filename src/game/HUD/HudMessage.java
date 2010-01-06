@@ -18,6 +18,7 @@ public class HudMessage {
 	public HudMessage(String messageString, int seconds, ColorRGBA color, UserHud userHud){
 		message = Text.createDefaultTextLabel(messageString);
 		message.setTextColor(color);
+		message.setLocalScale(userHud.gWorld.getResolution().x/1200);
 		message.lock();
 		
 		time = GameTimer.getTimeInSeconds();
