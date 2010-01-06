@@ -21,8 +21,8 @@ public class GameThread implements Runnable {
 		this.loadingFrame = loadingFrame;
 		logicGame = new LogicWorld();
     	logicGame.createPlayer( 100, -1000, -1000 );
-    	logicGame.createEnemy( -1200, -1200, MovementType.REST );
-    	logicGame.createEnemy( -1205, -1215, MovementType.REST );
+    	logicGame.createEnemy( -1150, -1150, MovementType.REST );
+    	logicGame.createEnemy( -1155, -1165, MovementType.REST );
     	logicGame.createEnemiesGroup( 2, 1142, -452 );
 //    	logicGame.createEnemiesGroup( 7, 1216, 749 );
 //    	logicGame.createEnemiesGroup( 7, 142, 1207 );
