@@ -2,7 +2,10 @@ package game.main;
 
 import java.util.logging.Level;
 
+import com.jme.math.Vector3f;
+
 import game.base.PhysicsGame;
+import game.common.WeaponType;
 import game.common.MovementList.MovementType;
 import game.core.LogicWorld;
 import game.graphics.GraphicalWorld;
@@ -18,16 +21,17 @@ public class GameThread implements Runnable {
 		this.loadingFrame = loadingFrame;
 		logicGame = new LogicWorld();
     	logicGame.createPlayer( 100, -1000, -1000 );
-    	logicGame.createEnemy( -900, -900, MovementType.REST );
-//    	logicGame.createEnemiesGroup( 7, 1142, -452 );
+    	logicGame.createEnemy( -1200, -1200, MovementType.REST );
+    	logicGame.createEnemy( -1205, -1215, MovementType.REST );
+    	logicGame.createEnemiesGroup( 2, 1142, -452 );
 //    	logicGame.createEnemiesGroup( 7, 1216, 749 );
 //    	logicGame.createEnemiesGroup( 7, 142, 1207 );
 //    	logicGame.createEnemiesGroup( 10, -1078, 1771 );
 //    	logicGame.createEnemiesGroup( 10, -1645, 306 );
 //    	logicGame.createEnemiesGroup( 100, 0, 0 );
+//    	logicGame.createEnergyPackages( 200, 129*20, 129*20 );
     	
-//    	logicGame.createEnergyPackages( 20, 129*20, 129*20 );
-    	
+    	logicGame.createAmmoPack("aaa", WeaponType.AR15, 20, new Vector3f(-1000, 10, -1000));
     	logicGame.initScoreManager();
 	}
 	

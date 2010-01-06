@@ -121,6 +121,8 @@ public class HudAlert {
 		if(diff < 0)
 			diff = 0;
 		//calculate percentage
+		if(((ALERT_RANGE - diff)*100/ALERT_RANGE)<0)
+			return 0;
 		return (ALERT_RANGE - diff)*100/ALERT_RANGE;
 	}
 	

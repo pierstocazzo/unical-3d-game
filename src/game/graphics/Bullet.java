@@ -105,7 +105,7 @@ public class Bullet {
         					( contactInfo.getNode1() == world.characters.get(id).getCharacterFeet() ||
         					  contactInfo.getNode2() == world.characters.get(id).getCharacterFeet() ) ){
 
-        					world.getCore().shooted( id, characterId, weaponType.getDamage() );
+        					world.getCore().shooted( id, characterId, 100 );
         				}
         			}
         		}
