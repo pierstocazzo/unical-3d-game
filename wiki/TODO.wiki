@@ -2,6 +2,7 @@
 
   * Completare HUD - andrea (WORK IN PROGRESS)
   * Risolvere Bug switch camera da terza persona a prima
+  * Delle volte capita che i nemici scoppiano da soli quando ti avvicini (da risolvere)
   * Cambiare sistema scroll nemici - slash 
   * Aggiungere rilevamento collisioni player - slash/joe (WORK IN PROGRESS)
   * Animazioni modello e armi - slash (WORK IN PROGRESS)
