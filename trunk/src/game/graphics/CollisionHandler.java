@@ -43,26 +43,28 @@ public class CollisionHandler {
 			inputHandler.setCanStrafeRight(true);
 		}
 	}
-	public boolean hasTriangleCollision( Node n1, Node nodeWithSharedNodes )
-	{
-		List<TriMesh> geosN1 = n1.descendantMatches( TriMesh.class );
-		for (TriMesh triN1 : geosN1)
-		{
-			if (hasTriangleCollision(triN1, nodeWithSharedNodes))
+	
+	public boolean hasTriangleCollision( Node node1, Node node2 ) {
+		List<TriMesh> node1Geometries = node1.descendantMatches( TriMesh.class );
+		
+		for ( TriMesh node1Geometry : node1Geometries ) {
+			if ( hasTriangleCollision( node1Geometry, node2 ) )
 				return true;
 		}
 		return false;
 	}
 	
-	public boolean hasTriangleCollision(TriMesh sp,Node nodeWithSharedNodes)
-	{
-		List<TriMesh> geosN2 = nodeWithSharedNodes.descendantMatches(TriMesh.class);
+	public boolean hasTriangleCollision( TriMesh node1Geometry, Node node2 ) {
+		// list all mesh children of the given node
+		List<TriMesh> node2Geometries = node2.descendantMatches( TriMesh.class );
 		
-		for (TriMesh triN2 : geosN2)
-		{
-			if (triN2.hasTriangleCollision(sp))
+		// ceck for collision of each of this meshes with the given mesh
+		// return true as soon as it finds a mesh child of the given node colliding with the given mesh
+		for ( TriMesh node2Geometry : node2Geometries ) {
+			if ( node2Geometry.hasTriangleCollision( node1Geometry ) )
 				return true;
 		}
+		// if no mesh child of node2 collide with the given geometry return false
 		return false;
 	}
 }
