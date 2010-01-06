@@ -1,7 +1,5 @@
 = Regole di scrittura codice =
 
-*Regole fondamentali:*
- 
   * Non risparmiare nei nomi delle variabili:  
   `fVariab` NO<br>
   `firstVariable` SI 
@@ -18,7 +16,7 @@
   `function(Type firstParam,Type secondParam)` NO<br>
   `function( Type firstParam, Type secondParam )` SI
 
-  * Usare sempre *this* e *super* quando ci si riferisce, rispettivamente, ad un campo della classe e della superclasse:
+  * Usare *this* e *super* quando ci si riferisce, rispettivamente, ad un campo della classe e della superclasse, se si è in un contesto dove bisogna sottolienarne la differenza:
   `classField = firstParam;`<br>
   `superClassField = secondParam;`  NO<br>
                  ____
