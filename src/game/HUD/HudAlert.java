@@ -56,7 +56,7 @@ public class HudAlert {
 		
     	alertNum = Text.createDefaultTextLabel( "lifeNum" );
     	alertNum.setTextColor(ColorRGBA.black);
-    	alertNum.setLocalScale(1.2f);
+    	alertNum.setLocalScale(screenWidth/1200);
     	alertNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
     	userHud.gWorld.hudNode.attachChild( alertNum );
@@ -68,7 +68,8 @@ public class HudAlert {
 										frontQuad.getLocalTranslation().y, 0);
 		alertNum.print(Integer.toString(alertValue));
 		alertNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
-				backQuad.getLocalTranslation().y-alertNum.getHeight()/2, 0);
+				backQuad.getLocalTranslation().y+backQuad.getHeight()/2, 0);
+		alertNum.print("Alert Level");
    	}
 	
 	/**
@@ -91,28 +92,29 @@ public class HudAlert {
 						frontQuad.getHeight());
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										frontQuad.getLocalTranslation().y, 0);
-		alertNum.print("Alert: "+Integer.toString(alertValue));
 	}
 	
 	public int getAlertLevel(){
 		final int ALERT_RANGE = LogicEnemy.ALERT_RANGE;
 		stateColor = State.DEFAULT;
 		//calculate max alert level
-		int max = -1*ALERT_RANGE;
+		int max = -99999;
 		for( String id : userHud.game.getEnemiesIds() ){
 //			System.out.println("ALERT="+userHud.game.getAlertLevel(id));
-			if(userHud.game.getAlertLevel(id) > max )
-				max = (int) userHud.game.getAlertLevel(id);
+			State currState = userHud.game.getState(id);
+			if(currState == State.ATTACK || currState == State.FINDATTACK ||
+					currState == State.ALERT || currState == State.FIND)
+				if(userHud.game.getAlertLevel(id) > max )
+					max = (int) userHud.game.getAlertLevel(id);
 			//check if current enemy is in attack
-			if(userHud.game.getState(id) == State.ATTACK || userHud.game.getState(id) == State.FINDATTACK)
+			if(currState == State.ATTACK || currState == State.FINDATTACK)
 				stateColor = State.ATTACK;
 			//check if current enemy is in alert e nobody is in attack
-			if((userHud.game.getState(id) == State.ALERT || userHud.game.getState(id) == State.FIND)
+			if((currState == State.ALERT || currState == State.FIND)
 					&& stateColor != State.ATTACK)
 				stateColor = State.ALERT;
 		}
-
-		//If max < 0 we are in the first execution
+		//If max < 0
 		if(max < 0)
 			return 0;//return minimal value
 		//calculate time difference
