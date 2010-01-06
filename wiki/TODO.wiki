@@ -1,9 +1,9 @@
 == Cose da fare ==
 
   * Animazioni modello e armi - slash (WORK IN PROGRESS)
-  * Sistemare per bene il menù - andrea (WORK IN PROGRESS)
-  * Ambientazione e posizionamento gruppi di nemici - andrea/slash/joe (WORK IN PROGRESS)
-  * Introdurre l'audio - slash/joe/andrea (INIZIATO)
-  * Sistema per la personalizzazione dei comandi e delle proprietà grafiche - joe 
+  * Completare menù opzioni e credits - andrea (WORK IN PROGRESS)
+  * Ambientazione e posizionamento gruppi di nemici - slash (WORK IN PROGRESS)
+  * Sound Manager - slash/joe/andrea (INIZIATO)
+  * Sistema per la gestione delle opzioni di gioco - joe (DA INIZIARE)
   * Introdurre effetti grafici - joe/andrea (?)
   * Multiplayer - slash/joe/andrea (?)
