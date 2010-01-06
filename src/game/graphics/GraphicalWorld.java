@@ -116,7 +116,7 @@ public class GraphicalWorld extends Game {
         this.core = core;
         super.loadingFrame = loadingFrame;
         
-        audioEnabled = false;
+        audioEnabled = true;
     }
 
 	public void setupInit() {
@@ -267,11 +267,14 @@ public class GraphicalWorld extends Game {
     		collisionHandler.update();
 	        inputHandler.update(tpf);
 	        freeCamInput.update(tpf);
-	        float camMinHeight = environment.getTerrain().getHeight(cam.getLocation()) + 0.5f;
-	        if (!Float.isInfinite(camMinHeight) && !Float.isNaN(camMinHeight)
-	                && cam.getLocation().y <= camMinHeight) {
-	            cam.getLocation().y = camMinHeight;
-	            cam.update();
+	        
+	        if( !inputHandler.isFirstPerson() ) {
+		        float camMinHeight = environment.getTerrain().getHeight(cam.getLocation()) + 0.5f;
+		        if (!Float.isInfinite(camMinHeight) && !Float.isNaN(camMinHeight)
+		                && cam.getLocation().y <= camMinHeight) {
+		            cam.getLocation().y = camMinHeight;
+		            cam.update();
+		        }
 	        }
 	        
 	        environment.update();
