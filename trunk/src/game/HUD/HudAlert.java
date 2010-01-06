@@ -38,7 +38,7 @@ public class HudAlert {
 	/** Border bar parameter */
 	int borderWeight = 3;
 	
-	/** Bar standard Lenght in pixel */
+	/** Bar standard Length in pixel */
 	int initialLenght;
 	
 	State stateColor;
