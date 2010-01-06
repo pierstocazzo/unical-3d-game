@@ -238,13 +238,11 @@ public class Environment {
 		float x, z;
 
 		for( int k = 1; k < 6; k++ ) {
-			
+			Node tree = ModelLoader.loadModel( "game/data/models/vegetation/palm" + k + ".3ds", 
+					"game/data/models/vegetation/palm" + k + ".png", 0.08f );
 			
 			for (int i = 0; i < 200; i++) {
-				
-				
-				Node sharedTree = ModelLoader.loadModel( "game/data/models/vegetation/palm" + k + ".3ds", 
-						"game/data/models/vegetation/palm" + k + ".png", 0.08f );
+				SharedNode sharedTree = new SharedNode( "tree"+i, tree );
 				x = (float) Math.random() * world.dimension - world.dimension/2;
 				z = (float) Math.random() * world.dimension - world.dimension/2;
 				while( terrain.getHeight(x, z) <= 25 || terrain.getHeight(x, z) >= 50 ) {
@@ -261,11 +259,11 @@ public class Environment {
 		}
 		
 		for( int k = 1; k < 3; k++ ) {
-			
+			Node tree = ModelLoader.loadModel( "game/data/models/vegetation/tree" + k + ".3ds", 
+					"game/data/models/vegetation/tree" + k + ".png", 0.8f );
 			
 			for (int i = 0; i < 400; i++) {
-				Node sharedTree = ModelLoader.loadModel( "game/data/models/vegetation/tree" + k + ".3ds", 
-						"game/data/models/vegetation/tree" + k + ".png", 0.08f );
+				SharedNode sharedTree = new SharedNode( "tree"+i, tree );
 				x = (float) Math.random() * world.dimension - world.dimension/2;
 				z = (float) Math.random() * world.dimension - world.dimension/2;
 				while( terrain.getHeight(x, z) <= 60 || terrain.getHeight(x, z) >= 200 ) {
