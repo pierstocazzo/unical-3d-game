@@ -1,25 +1,29 @@
 = How To use google code and SVN =
 
-First of all you must set up your eclipse o netbeans ide to build jme2! <br>
-If you use eclipse follow this guide: http://code.google.com/p/unical-3d-game/wiki/jmeSetup<br>
-For other IDE or more tutorial, follow one of this guides: http://jmonkeyengine.com/wiki/doku.php?id=downloading_and_installing_jme_2
+First of all you must set up your IDE to build jme2 and jme2physics! <br>
+If your IDE is eclipse, follow this guide: http://code.google.com/p/unical-3d-game/wiki/jmeSetup<br>
+Click here for other IDE's tutorials: http://jmonkeyengine.com/wiki/doku.php?id=downloading_and_installing_jme_2
 
-Then you have to sync your IDE with our project svn.
-For example in eclipse you have to:
+Now you have to add a new SVN Ceckout Project from this URL: http://unical-3d-game.googlecode.com/svn/trunk/
+
+For example in eclipse (with subclipse) you have to:
   # add a new project
   # in the new project wizard expand SVN and select Checkout Projects from SVN
   # Create a new repository location
-  # type in https://unical-3d-game.googlecode.com/svn/trunk/
-  # select the head and next two times
+  # type in http://unical-3d-game.googlecode.com/svn/trunk/
+  # select the head and click next two times
   # click finish
+  # Wait for the ceckout...
 
-If it asks you a username and a password type in yours! 
-Wait for the ceckout...
+A new jave project named unical-3d-game will be loaded, here is our code!
 
-Now you can work on the project and do all the changes you want!
 
-Everytime you start your eclipse, first sync with the svn: right click on the project and: project -> team -> update version
+=== Just for committers: ===
 
-When you finished and you want to upload your changes just right click on your project and: project -> team -> commit
+Ceckout https://unical-3d-game.googlecode.com/svn/trunk/
 
-Have fun!!
+It will ask you a username and a password, type in your googlecode ones.
+
+Everytime you start your IDE, first ceck for updates: right click on the project and: project -> team -> update (to HEAD)
+
+When you finished and you want to upload your changes just right click on your project and: project -> team -> commit, and type in a short description of your work.
