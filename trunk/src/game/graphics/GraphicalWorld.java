@@ -27,6 +27,7 @@ import com.jme.renderer.Renderer;
 import com.jme.renderer.pass.BasicPassManager;
 import com.jme.scene.Node;
 import com.jme.scene.SharedNode;
+import com.jme.scene.Spatial;
 import com.jme.scene.Text;
 import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
@@ -161,24 +162,28 @@ public class GraphicalWorld extends Game {
 	    
 	    userHud = new UserHud(this);
 	    
-	    /** Start collision test */
-        Node tree = ModelLoader.loadModel( "game/data/models/vegetation/tree1.3ds", 
-				"game/data/models/vegetation/tree1.png", 2f );
+//	    /** Start collision test */
+//        Node tree = ModelLoader.loadModel( "game/data/models/vegetation/tree1.3ds", 
+//				"game/data/models/vegetation/tree1.png", 2f );
+//        
+//        SharedNode tree1 = new SharedNode( "tree1", tree );
+//        tree1.setModelBound( new BoundingBox() );
+//        tree1.updateModelBound();
+//        tree1.setLocalTranslation(new Vector3f(-1000, environment.getTerrain().getHeight(-1000,-1100)-20, -1100));
+//        
+//        SharedNode tree2 = new SharedNode( "tree2", tree );
+//        tree2.setModelBound( new BoundingBox() );
+//        tree2.updateModelBound();
+//        tree2.setLocalTranslation(new Vector3f(-1050, environment.getTerrain().getHeight(-1050,-1100)-20, -1100));
+//        
+//        collisionNode.attachChild(tree1);
+//        collisionNode.attachChild(tree2);
+//        collisionNode.updateGeometricState(0,true);
+//        tree1.lock();
+//        tree2.lock();
         
-        SharedNode tree1 = new SharedNode( "tree1", tree );
-        tree1.setModelBound( new BoundingBox() );
-        tree1.updateModelBound();
-        tree1.setLocalTranslation(new Vector3f(-1000, environment.getTerrain().getHeight(-1000,-1100)-20, -1100));
-        tree1.lock();
-        
-        SharedNode tree2 = new SharedNode( "tree2", tree );
-        tree2.setModelBound( new BoundingBox() );
-        tree2.updateModelBound();
-        tree2.setLocalTranslation(new Vector3f(-1050, environment.getTerrain().getHeight(-1050,-1100)-20, -1100));
-        tree2.lock();
-        
-        collisionNode.attachChild(tree1);
-        collisionNode.attachChild(tree2);
+//        collisionNode.attachChild(tree1);
+//        collisionNode.attachChild(tree2);
 		/** End collision test */
 	}
 
@@ -281,6 +286,12 @@ public class GraphicalWorld extends Game {
     		
     		updateRenderOptimizer();
     		
+    		player.getCollision().updateWorldBound();
+    		player.getCollision().updateGeometricState(0, true);
+    		
+    		collisionNode.updateWorldBound();
+    		collisionNode.updateGeometricState(0, true);
+			
     		userHud.update();
     		collisionHandler.update();
 	        inputHandler.update(tpf);
@@ -323,7 +334,12 @@ public class GraphicalWorld extends Game {
 	        updateAmmoPackages(tpf);
 	        updateEnergyPackages(tpf);
     	}
-    	
+		
+		player.getCollision().updateWorldBound();
+		player.getCollision().updateGeometricState(0, true);
+		
+		collisionNode.updateWorldBound();
+		collisionNode.updateGeometricState(0, true);
 		updateInput();
     }
     
