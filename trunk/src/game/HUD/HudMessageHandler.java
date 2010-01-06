@@ -1,5 +1,7 @@
 package game.HUD;
 
+import game.common.GameTimer;
+
 import java.util.ArrayList;
 
 import com.jme.renderer.ColorRGBA;
@@ -12,9 +14,13 @@ import com.jme.renderer.ColorRGBA;
 public class HudMessageHandler {
 	
 	public static final int MAX_AMMO = 0;
+	float time_max_ammo = 0;
 	public static final int MAX_ENERGY = 1;
+	float time_max_energy = 0;
 	public static final int AMMO_FINISHED = 2;
+	float time_ammo_finished = 0;
 	public static final int NEW_LEVEL = 3;
+	float time_new_level = 0;
 	
 	/** User Hud */
 	UserHud userHud;
@@ -48,6 +54,25 @@ public class HudMessageHandler {
 	 * @param color (ColorRGBA)
 	 */
 	public void addMessage(int type, int seconds, ColorRGBA color){
+		//check time
+		switch (type) {
+			case MAX_AMMO:
+				if(time_max_ammo + 2 >= GameTimer.getTimeInSeconds())
+					return;
+				time_max_ammo = GameTimer.getTimeInSeconds();
+				break;
+			case MAX_ENERGY:
+				if(time_max_energy + 2 >= GameTimer.getTimeInSeconds())
+					return;
+				time_max_energy = GameTimer.getTimeInSeconds();
+				break;
+			case AMMO_FINISHED:
+				if(time_ammo_finished + 2 >= GameTimer.getTimeInSeconds())
+					return;
+				time_ammo_finished = GameTimer.getTimeInSeconds();
+				break;
+			case NEW_LEVEL:break;
+		}
 		String text = "Missing Message";
 		switch (type) {
 			case MAX_AMMO:text="Non puoi prendere ulteriori munizioni.";break;
