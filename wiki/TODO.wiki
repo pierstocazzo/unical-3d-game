@@ -1,6 +1,7 @@
 == Cose da fare ==
 
   * Completare HUD - andrea (WORK IN PROGRESS)
+  * Risolvere Bug switch camera da terza persona a prima
   * Cambiare sistema scroll nemici - slash 
   * Aggiungere rilevamento collisioni player - slash/joe (WORK IN PROGRESS)
   * Animazioni modello e armi - slash (WORK IN PROGRESS)
