@@ -334,7 +334,9 @@ public class ThirdPersonHandler extends InputHandler {
         	chaser.setEnabled(false);
         	mouseLookHandler.setEnabled(true);
         	mouseLookHandler.update(time);
-        	camera.setLocation( target.getCharacterNode().getWorldTranslation().add( 0,5,0 ) );
+        	Vector3f camPos = target.getCharacterNode().getLocalTranslation().clone().addLocal( 0, 6, 0 );
+        	camera.setLocation( camPos );
+        	camera.update();
         	target.hide( true );
         } else { /** return to third person view */
     		chaser.update( time );
