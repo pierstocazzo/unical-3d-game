@@ -253,10 +253,8 @@ public abstract class PhysicsGame extends AbstractGame {
 	            } else {
 	                getPhysicsSpace().update( tpf * physicsSpeed );
 	            }
-	
+	            passManager.updatePasses(tpf);
 	            rootNode.updateGeometricState(tpf, true);
-	
-				passManager.updatePasses(tpf);
         	}
         }
     }

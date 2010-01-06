@@ -40,5 +40,4 @@ public class CollisionHandler {
 			inputHandler.setCanStrafeRight(true);
 		}
 	}
-	
 }
