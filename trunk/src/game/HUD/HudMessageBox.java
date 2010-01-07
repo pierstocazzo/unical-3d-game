@@ -40,26 +40,26 @@ public class HudMessageBox {
 		if(type != NOTHING){
 			switch (type) {
 				case WELCOME1:
-					if( time + 3 <= GameTimer.getTimeInSeconds() ) {
+					if( time + 10 <= GameTimer.getTimeInSeconds() ) {
 						quad.removeFromParent();
 						createMessageBox(WELCOME2);
 					}
 					break;
 					
 				case WELCOME2:
-					if( time + 5 <= GameTimer.getTimeInSeconds() ){
+					if( time + 10 <= GameTimer.getTimeInSeconds() ){
 						quad.removeFromParent();
 						createMessageBox(WELCOME3);
 					}
 					break;
 				case WELCOME3:
-					if( time + 5 <= GameTimer.getTimeInSeconds() ) {
+					if( time + 10 <= GameTimer.getTimeInSeconds() ) {
 						quad.removeFromParent();
 						createMessageBox(WELCOME4);
 					}
 					break;
 				case WELCOME4:
-					if( time + 5 <= GameTimer.getTimeInSeconds() )
+					if( time + 10 <= GameTimer.getTimeInSeconds() )
 						quad.removeFromParent();
 					break;
 				case DIE:
@@ -71,7 +71,7 @@ public class HudMessageBox {
 						quad.removeFromParent();
 					break;
 				case VICTORY:
-					if( time + 5 <= GameTimer.getTimeInSeconds() )
+					if( time + 10 <= GameTimer.getTimeInSeconds() )
 						userHud.gWorld.finish();
 					break;
 				case GAMEOVER:
