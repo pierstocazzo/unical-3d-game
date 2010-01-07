@@ -102,7 +102,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 			
 			case ALERT:
 				if ( distance <= state.getActionRange() ) {
-					state = State.ATTACK;
+					state = State.ALERT;
 					updateState();
 				} else if ( distance > state.getViewRange() ) {
 					/* if the player goes away from the actionRange of this enemy, 
