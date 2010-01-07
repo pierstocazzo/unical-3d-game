@@ -41,8 +41,8 @@ Ogni elemento base del gioco è composto da due classi, una logica e una grafica
 es LogicCharacter contiene tutta la parte logica del personaggio, energia, munizioni, ecc mentre GraphicalCharacter ne contiene tutta la parte grafica, modello 3d ecc
 
 Per identificare ogni elemento viene usato un campo stringa id.<br>
-es. LogicPlayer LP1         GraphicalPlayer GP1
-    LP1.id = player1        GP1.id = LP1.id = player1
+es. LogicPlayer LP1   -   GraphicalPlayer GP1
+  LP1.id = player1   -   GP1.id = LP1.id = player1
 
 Il mondo grafico viene inizializzato in base al contenuto del mondo logico (per questo motivo basta salvare soltanto la parte logica).
 Mentre durante la fase di gioco il mondo logico verrà aggiornato dal mondo grafico.
