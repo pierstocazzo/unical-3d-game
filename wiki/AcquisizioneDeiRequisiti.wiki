@@ -34,9 +34,8 @@ Normalmente i nemici sono in stato "Default", come sentinelle o piantoni, con un
 
 _Se il giocatore entra nel raggio visivo di un nemico, questo passa in stato di attacco, e inzia sparare. 
 Se a questo punto il giocatore scappa, il nemico passerà in uno stato di ricerca, ed inizierà a muoversi nell'ultima direzione in cui lo ha visto:
-in questo stato se ad un certo punto vede nuovamente il giocatore, torna in stato di attacco e spara, altrimenti, dopo aver coperto una certa distanza senza essere riuscito a scovare il giocatore, tornerà indietro alla sua posizione iniziale, tornando in stato default.
+in questo stato se ad un certo punto vede nuovamente il giocatore, torna in stato di attacco e spara, altrimenti, dopo aver coperto una certa distanza senza essere riuscito a scovare il giocatore, tornerà indietro alla sua posizione iniziale, restando per un certo tempo in stato di allerta._
 
-Se il giocatore entra nel raggio di percezione di un nemico (più ampio del raggio visivo), questo passerà in stato di allerta e aumenterà il suo raggio visivo in quanto si aspetta un attacco. Dopo che il giocatore esce dal raggio di percezione del nemico, questo continua a restare in stato di allerta per alcuni secondi, prima di tornare in stato default.
+_Se il giocatore entra nel raggio di percezione di un nemico (più ampio del raggio visivo), questo passerà in stato di allerta e aumenterà il suo raggio visivo in quanto si aspetta un attacco. Dopo che il giocatore esce dal raggio di percezione del nemico, questo continua a restare in stato di allerta per alcuni secondi, prima di tornare in stato default._
 
-Se un soldato si accorge che un suo compagno è in stato di attacco, passa in stato di allerta, aumentando il suo raggio visivo per riuscire a vedere il giocatore e sparare.
-_
+_Se un soldato si accorge che un suo compagno è in stato di attacco, passa in stato di allerta, aumentando il suo raggio visivo per riuscire a vedere il giocatore e sparare._
