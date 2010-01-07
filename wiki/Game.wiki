@@ -34,13 +34,13 @@ Abbiamo comunque cercato di massimizzare l'indipendenza della logica dalla grafi
 
 Abbiamo infine scelto di avere una rappresentazione doppia del mondo del gioco: un mondo logico (classe LogicWorld), e uno grafico (classe GraphicalWorld).
 
-Ognuno dei due "mondi" contiene la relativa parte degli elementi base del gioco
+Ognuno dei due "mondi" contiene la relativa parte degli elementi base del gioco.<br>
 es. LogicWorld conterrà tutti i personaggi logici mentre GraphicalWorld conterrà tutti i personaggi grafici.
 
 Ogni elemento base del gioco è composto da due classi, una logica e una grafica.
 es LogicCharacter contiene tutta la parte logica del personaggio, energia, munizioni, ecc mentre GraphicalCharacter ne contiene tutta la parte grafica, modello 3d ecc
 
-Per identificare ogni elemento viene usato un campo stringa id.
+Per identificare ogni elemento viene usato un campo stringa id.<br>
 es. LogicPlayer LP1         GraphicalPlayer GP1
     LP1.id = player1        GP1.id = LP1.id = player1
 
