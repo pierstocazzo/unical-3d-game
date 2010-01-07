@@ -83,7 +83,7 @@ public class CreditsFrame extends JFrame {
 		
 		flow.add(photo);
 		
-		JLabel label = new JLabel("Andrea Martire, Giuseppe Leone, Salvatore Loria");
+		JLabel label = new JLabel("Giuseppe Leone, Salvatore Loria, Andrea Martire");
 		label.setFont(new Font("arial", Font.BOLD, 18));
 		label.setSize(screenSize.width*6/8, screenSize.height/16);
         flow.add(label);
