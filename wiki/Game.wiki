@@ -81,10 +81,10 @@ Vi è inoltre un menu "inGame" che consente di salvare la partita attualmente in
 
 === Gestione input ===
 
-La gestione dell'input nel gioco è affidata alla classe ThirdPersonInputHandler che estende InputHandler di jME e ad una seria di azioni (classi `*`Action che estendono InputAction) 
-Abbiamo sviluppato queste classe basandoci sull'omonima classe presente nella libreria jME, ma semplificandola e modificandola in base alle nostre esigenze.
-In fine tutte le azioni (andare avanti indietro sparare ecc) non fanno altro che modificare delle variabili booleane, l'esecuzione effettiva dell'azione corrispondente ad un certo comando viene poi effettuata nella classe relativa in base al valore di tali variabili.
-es. la classe ForwardAction si occupa di impostare il valore della variabile movingForward del player.
+La gestione dell'input nel gioco è affidata alla classe ThirdPersonInputHandler che estende InputHandler di jME e ad una seria di azioni (classi `*`Action che estendono InputAction).
+Abbiamo sviluppato questa classe basandoci sull'omonima classe presente nella libreria jME, semplificandola e modificandola in base alle nostre esigenze.
+In fine tutte le azioni (andare avanti indietro sparare ecc) non fanno altro che modificare delle variabili booleane, l'esecuzione effettiva dell'azione corrispondente ad un certo comando viene poi effettuata nella classe relativa in base al valore di tali variabili.<br>
+es. la classe ForwardAction si occupa di impostare il valore della variabile movingForward del player.<br>
 Il movimento vero e proprio verrà effettuato dalla classe GraphicalPlayer se la sua variabile movingForward ha valore true.
-Questo sistema è stato ideato per la predisposizione alla modalità multiplayer:
+Questo sistema è stato ideato per la predisposizione alla modalità multiplayer:<br>
 ad esempio se il player con id "player1" viene mosso, per far si che si muova anche negli altri computer, basta che l'echoserver mandi un messaggio a tutti (es. "player1 movingForward") in modo che questi impostino la relativa variabile booleana dell'oggetto con id "player1" a true.
