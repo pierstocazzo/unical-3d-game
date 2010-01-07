@@ -81,7 +81,7 @@ Vi è inoltre un menu "inGame" che consente di salvare la partita attualmente in
 
 === Gestione input ===
 
-La gestione dell'input nel gioco è affidata alla classe ThirdPersonInputHandler che estende InputHandler di jME e ad una seria di azioni (classi *Action che estendono InputAction) 
+La gestione dell'input nel gioco è affidata alla classe ThirdPersonInputHandler che estende InputHandler di jME e ad una seria di azioni (classi `*`Action che estendono InputAction) 
 Abbiamo sviluppato queste classe basandoci sull'omonima classe presente nella libreria jME, ma semplificandola e modificandola in base alle nostre esigenze.
 In fine tutte le azioni (andare avanti indietro sparare ecc) non fanno altro che modificare delle variabili booleane, l'esecuzione effettiva dell'azione corrispondente ad un certo comando viene poi effettuata nella classe relativa in base al valore di tali variabili.
 es. la classe ForwardAction si occupa di impostare il valore della variabile movingForward del player.
