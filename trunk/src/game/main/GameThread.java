@@ -1,15 +1,12 @@
 package game.main;
 
-import java.util.logging.Level;
-
-import com.jme.math.Vector3f;
-
 import game.base.PhysicsGame;
-import game.common.WeaponType;
 import game.common.MovementList.MovementType;
 import game.core.LogicWorld;
 import game.graphics.GraphicalWorld;
 import game.menu.LoadingFrame;
+
+import java.util.logging.Level;
 
 public class GameThread implements Runnable {
 
@@ -31,7 +28,6 @@ public class GameThread implements Runnable {
 //    	logicGame.createEnemiesGroup( 100, 0, 0 );
 //    	logicGame.createEnergyPackages( 200, 129*20, 129*20 );
     	
-    	logicGame.createAmmoPack("aaa", WeaponType.AR15, 20, new Vector3f(-1000, 10, -1000));
     	logicGame.initScoreManager();
 	}
 	
