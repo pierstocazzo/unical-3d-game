@@ -87,7 +87,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 			distance = position.distance( world.getPosition( playerId ) );
 			
 			if ( enemyNextInAttack() && state != State.ALERT ){
-				state = State.ATTACK;
+				state = State.ALERT;
 				alertTime = GameTimer.getTimeInSeconds();
 			}
 			
@@ -150,7 +150,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		for( int i = 1; i <= world.enemyCounter; i++ ) {
 			if( world.characters.get( "enemy"+i ) != null )
 				if(world.getState( "enemy"+i ) == State.ATTACK && !id.equals( "enemy"+i ) &&
-						position.distance( world.getPosition("enemy"+i)) <=  30 )
+						position.distance( world.getPosition("enemy"+i)) <=  50 )
 					return true;
 		}
 		return inAttack;
