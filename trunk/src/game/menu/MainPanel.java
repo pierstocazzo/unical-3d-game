@@ -208,7 +208,11 @@ public class MainPanel extends JPanel {
 				} 
 				mm.hideCursor();
 				break;
-			case 2:break;//todo Options
+			case 2:
+				OptionsMenu om = new OptionsMenu(mm);
+				om.setVisible(true);
+				mm.setVisible(false);
+				break;
 			case 3:
 				CreditsFrame cm = new CreditsFrame(mm);
 				cm.setVisible(true);
