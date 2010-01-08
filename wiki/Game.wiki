@@ -20,6 +20,10 @@ Comunica con il livello Core tramite un'interfaccia (WorldInterface), che permet
 Il livello Input contiene le classi relative all'interazione con l'utente, quindi l'InputHandler e tutte le azioni disponibili.
 Comunica con la grafica di gioco in modo diretto.
 
+=== Diagramma delle principali classi del gioco ===
+
+[http://unical-3d-game.googlecode.com/files/Game%20Classes.jpg http://unical-3d-game.googlecode.com/files/Game%20Classes.jpg]
+
 === Difficoltà principali riscontrate ===
 
 L'uso della fisica nel gioco ha comportato diverse complicazioni in quanto non esisteva una classe base delle librerie che supportasse a pieno sia la libreria grafica che la sua estensione fisica, perciò abbiamo scritto la classe PhysicsGame, estensione di AbstractGame, che riunisce in se sia la gestione della fisica offerta da jME Physics sia la gestione di tutti gli effetti grafici offerti da jME. 
