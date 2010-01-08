@@ -7,6 +7,8 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
+import com.jme.math.Vector3f;
+
 /** Classe di test per la lettura del file xml generato da FreeWorld3D<br>
  * In questo test leggo e stampo a video la posizione di ogni mesh caricata in FW3D.
  * Come potete immaginare è la base del sistema di caricamento della scena da file xml.
@@ -39,10 +41,27 @@ public class XmlReader {
 			Iterator<Element> it = children.iterator();
 			
 			while( it.hasNext() ) {
-				/* per ogni modello 3d ne stampo la posizione */
+				/* salvo l'elemento corrente */
 				Element curr = it.next();
-				System.out.println( "name = " + curr.getAttributeValue("Name") +
-									"\nposition = " + curr.getAttributeValue("Position") );
+				System.out.println( "filename = " + curr.getAttributeValue("Name") );
+				
+				/* salvo la sua posizione prendendo il valore dell'attributo Position */
+				String positionString = curr.getAttributeValue("Position");
+				
+				/* la posizione salvata nell'xml è una stringa dal formato (x,y,z) 
+				 * quindi la "splitto" per virgole ottendo un array di 3 elementi
+				 */
+				String[] positionArray = positionString.split(",");
+				
+				Vector3f position = new Vector3f();
+				
+				/* ottengo i 3 float da mettere nel mio vector3f convertendo le sottostringhe ottenute dallo split */
+				position.x = Float.valueOf( positionArray[0] );
+				position.y = Float.valueOf( positionArray[1] );
+				position.z = Float.valueOf( positionArray[2] );
+				
+				/* stampo felicemente la posizione */
+				System.out.println( "position = " + position.toString() );
 			}
 			
 		} catch (Exception e) {
