@@ -8,6 +8,7 @@ import game.menu.LoadingFrame;
 import game.sound.SoundManager;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Random;
 
 import jmetest.TutorialGuide.ExplosionFactory;
@@ -63,7 +64,7 @@ public class GraphicalWorld extends Game {
 	HashMap< String, EnergyPackage > energyPackages;
     int energyPackagesCounter = 0;
     
-    HashMap< Integer, Node > items;
+    LinkedList< Node > items;
     int itemsCounter = 0;
     
     /** the player, in single player mode */
@@ -133,7 +134,7 @@ public class GraphicalWorld extends Game {
 		bullets = new HashMap<String, Bullet>();
 		ammoPackages = new HashMap<String, AmmoPackage>();
 		energyPackages = new HashMap<String, EnergyPackage>();
-		items = new HashMap<Integer, Node>();
+		items = new LinkedList<Node>();
 		loadingFrame.setProgress(10);
     	setCrosshair();
     	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
@@ -569,15 +570,15 @@ public class GraphicalWorld extends Game {
 			}
 		}
 		
-		for( int i : items.keySet() ) {
-			pos.set( items.get(i).getLocalTranslation() ).setY(0);
+		for( Node item : items ) {
+			pos.set( item.getLocalTranslation() ).setY(0);
 			
 			distance = camPos.distance( pos );
 			
 			if( distance > 500 ) {
-				items.get(i).removeFromParent(); 
+				item.removeFromParent(); 
 			} else {
-				collisionNode.attachChild( items.get(i) ); 
+				collisionNode.attachChild( item ); 
 			}
 		}
 	}
