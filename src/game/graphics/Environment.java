@@ -261,7 +261,7 @@ public class Environment {
 				world.getCollisionNode().attachChild( sharedTree );
 				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 20, z ));
 				sharedTree.lock();
-				world.trees.put( world.treeCounter++, sharedTree );
+				world.items.put( world.itemsCounter++, sharedTree );
 			}
 		}
 		
@@ -282,7 +282,7 @@ public class Environment {
 				world.getCollisionNode().attachChild( sharedTree );
 				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 20, z ));
 				sharedTree.lock();
-				world.trees.put( world.treeCounter++, sharedTree );
+				world.items.put( world.itemsCounter++, sharedTree );
 			}
 		}
 		String dir = "game/data/models/environment/";
@@ -297,6 +297,8 @@ public class Environment {
 			world.collisionNode.attachChild( model );
 			Vector3f position = item.getPosition().subtract( 2048, 20, 2048 );
 			model.setLocalTranslation( position );
+			model.lock();
+			world.items.put( world.itemsCounter++, model );
 		}
 	}
 	
