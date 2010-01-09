@@ -26,6 +26,20 @@ public class Util {
     public static final Quaternion X270 = new Quaternion().fromAngleAxis( FastMath.PI*3/2, Vector3f.UNIT_X );
     public static final Quaternion INVY = new Quaternion().fromAngleAxis(-FastMath.HALF_PI, Vector3f.UNIT_X );
     
+    
+    public static String extensionOf( String file ) {
+        String fileName = file.toUpperCase();
+        int lastDot = fileName.lastIndexOf( '.' );
+        String extension;
+        if ( lastDot >= 0 ) {
+            extension = fileName.substring( lastDot + 1 );
+        } else {
+            extension = "";
+        }
+        return extension;
+    }
+    
+    
     public static BufferedImage grayScaleToAlpha(BufferedImage src) {
     	// Create a pure grayscale image
     	BufferedImage temp = ImageConverter.toBufferedImage(src,BufferedImage.TYPE_BYTE_GRAY);

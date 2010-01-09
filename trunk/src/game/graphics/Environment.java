@@ -1,14 +1,20 @@
 package game.graphics;
 
+import game.common.Item;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.FloatBuffer;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import utils.Loader;
 import utils.ModelLoader;
+import utils.SceneXmlReader;
 import utils.Util;
 
 import com.jme.bounding.BoundingBox;
@@ -233,13 +239,14 @@ public class Environment {
         lightNode.attachChild(flare);
 	}*/
 	
+	@SuppressWarnings("unchecked")
 	private void createVegetation() {
 		
 		float x, z;
 
 		for( int k = 1; k < 6; k++ ) {
-			Node tree = ModelLoader.loadModel( "game/data/models/vegetation/palm" + k + ".3ds", 
-					"game/data/models/vegetation/palm" + k + ".png", 0.08f );
+			Node tree = ModelLoader.loadModel( "game/data/models/environment/palm" + k + ".3ds", 
+					"game/data/models/environment/palm" + k + ".png", 0.08f );
 			
 			for (int i = 0; i < 200; i++) {
 				SharedNode sharedTree = new SharedNode( "tree"+i, tree );
@@ -259,8 +266,8 @@ public class Environment {
 		}
 		
 		for( int k = 1; k < 3; k++ ) {
-			Node tree = ModelLoader.loadModel( "game/data/models/vegetation/tree" + k + ".3ds", 
-					"game/data/models/vegetation/tree" + k + ".png", 0.8f );
+			Node tree = ModelLoader.loadModel( "game/data/models/environment/tree" + k + ".3ds", 
+					"game/data/models/environment/tree" + k + ".png", 0.8f );
 			
 			for (int i = 0; i < 400; i++) {
 				SharedNode sharedTree = new SharedNode( "tree"+i, tree );
@@ -277,6 +284,19 @@ public class Environment {
 				sharedTree.lock();
 				world.trees.put( world.treeCounter++, sharedTree );
 			}
+		}
+		String dir = "game/data/models/environment/";
+		
+		List items = SceneXmlReader.getItems( SceneXmlReader.DEFAULT_SCENE_FILE );
+		Iterator it = items.iterator();
+		while( it.hasNext() ) {
+			Item item = (Item) it.next();
+			String fileName = item.getFileName();
+			String texturePath = fileName.replaceFirst( "3[dD][sS]", "jpg" );
+			Node model = ModelLoader.loadModel( dir + fileName, dir + texturePath, item.getScale(), item.getRotation() );
+			world.collisionNode.attachChild( model );
+			Vector3f position = item.getPosition().subtract( 2048, 20, 2048 );
+			model.setLocalTranslation( position );
 		}
 	}
 	
