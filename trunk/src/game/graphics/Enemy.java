@@ -31,12 +31,6 @@ import com.jmex.physics.material.Material;
 
 public class Enemy extends Character  {
 	
-	Movement currentMovement;
-	
-	/** Helper movement vectors */
-	private Vector3f currentPosition;
-	private Vector3f initialPosition;
-	
 	/** utility Vector used for the look at action */
 	Vector3f vectorToLookAt;
 	
@@ -59,11 +53,10 @@ public class Enemy extends Character  {
     /** physics character mass */
     float mass;
 
-    /** the current movement's direction */
-    Vector3f moveDirection;
-    
     /** true if the character is on the ground */
 	boolean onGround;
+
+	Vector3f previousMoveDirection;
     	
     /** PhysicsEnemy Constructor<br>
 	 * Create a new graphical enemy and start his movements
@@ -86,7 +79,7 @@ public class Enemy extends Character  {
 	    feetToBodyJoint = world.getPhysicsSpace().createJoint();
 	    rotationalAxis = feetToBodyJoint.createRotationalAxis();
 	
-	    this.moveDirection = new Vector3f( Vector3f.ZERO );
+//	    this.moveDirection = new Vector3f( Vector3f.ZERO );
 	    this.speed = speed;
 	    this.mass = mass;
 	    this.model = model;
@@ -107,21 +100,15 @@ public class Enemy extends Character  {
 	    
 	    previousTime = 0;
 		
-		currentMovement = world.getCore().getNextMovement( id );
-		
-		currentPosition = new Vector3f();
-		initialPosition = new Vector3f();
-		
-		initialPosition.set( world.getCore().getPosition(id) );
-		initialPosition.setY(0);
-		
 		vectorToLookAt = new Vector3f();
 		
+		previousMoveDirection = world.getCore().getMoveDirection(id);
+		
 		/** initial look at action */
-		vectorToLookAt.set( this.getModel().getWorldTranslation() );
-		moveDirection.set( currentMovement.getDirection().toVector() );
-		vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
-		this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+//		vectorToLookAt.set( this.getModel().getWorldTranslation() );
+//		moveDirection.set( currentMovement.getDirection().toVector() );
+//		vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
+//		this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 		
 		TextLabel2D label = new TextLabel2D( id );
 		label.setBackground(Color.GREEN);
@@ -198,10 +185,11 @@ public class Enemy extends Character  {
 				body.setActive(true);
 				
 				preventFall();
+				onGround = false;
 			    contactDetect.update(time);
 			    
 			    body.rest();
-			    lookAtAction();
+//			    lookAtAction();
 			    
 				world.getCore().updateState(id);
 				if( world.getCore().getState(id) == State.ATTACK || 
@@ -216,6 +204,7 @@ public class Enemy extends Character  {
 					shooting = false;
 				}
 			    
+				world.getCore().setPosition( id, feet.getWorldTranslation() );
 			    moveCharacter();
 			    
 			    // update core
@@ -230,80 +219,31 @@ public class Enemy extends Character  {
 	}
 
 	public void moveCharacter() {
-		float distance;
+		Vector3f moveDirection = world.getCore().getMoveDirection( id );
 		
-		/** update the utility vector currentPosition */
-		currentPosition.set( world.getCore().getPosition(id) );
-		currentPosition.setY(0);
-		
-		/** calculate distance between the current movement's start position and
-		 *  the current character position
-		 */
-		distance = currentPosition.distance( initialPosition );
-		
-		if( world.getCore().getState(id) == State.FIND ) {
-			if( world.getCore().firstFind(id) ) {
-				moveDirection = new Vector3f( world.getCore().getShootDirection(id) );
-				moveDirection.setY(0);
-				initialPosition.set( currentPosition );
-				world.getCore().setFirstFind( id, false );
-			}
-			
-			if( distance > 80 ) {
-				if( world.getCore().comeBack(id) == false ) {
-					clearDynamics();
-					setMoving(false);
-					moveDirection.negateLocal();
-					world.getCore().setComeBack( id, true );
-				}
-			}
-			
-			if( world.getCore().comeBack(id) == true && distance <= 7 && distance >= 0 ) {
+		if( !moveDirection.equals( Vector3f.ZERO ) ) {
+			if( moveDirection.angleBetween( previousMoveDirection ) >= 3.14/2 ) {
 				clearDynamics();
+				previousMoveDirection.set( moveDirection );
 				setMoving(false);
-				world.getCore().setComeBack( id, false );
-				world.getCore().setFirstFind( id, true );
-				world.getCore().setState( id, State.ALERT );
-				initialPosition.set( currentPosition );
 			} else {
-				setMoving(true);
 				move( moveDirection );
-			}
-		}
-		else {
-			/** The enemy will move only if he is in default state. When he attack or is in alert he rest
-			 */
-			if( currentMovement.getDirection() != Direction.REST 
-				&& world.getCore().getState(id) != State.ATTACK
-				&& world.getCore().getState(id) != State.ALERT 
-				&& world.getCore().getState(id) != State.FINDATTACK) {
-				
 				setMoving( true );
-				/** move the character in the direction specified in the current movement */
-				move( currentMovement.getDirection().toVector() );
-				        
-				/** If this distance is major than the lenght specified in the movement 
-				 *  start the next movement
-				 */
-				if( distance >= currentMovement.getLength() ) {
-					clearDynamics();
-					
-					initialPosition.set( currentPosition );
-					currentMovement = world.getCore().getNextMovement( id );
-				}
-			} else {
-				if( getOnGround() )
-					clearDynamics();
-				setMoving( false );
 			}
+		} else {
+			if( getOnGround() ) 
+				clearDynamics();
+			setMoving( false );
 		}
+		
+		lookAtAction( moveDirection );
 	}
 
-	void lookAtAction() {
+	void lookAtAction( Vector3f direction ) {
 		Vector3f lookAtDirection = new Vector3f( world.getCore().getShootDirection(id) );
 		if( lookAtDirection.equals( Vector3f.ZERO ) ) {
 	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-	        vectorToLookAt.addLocal( moveDirection.x, 0, moveDirection.z );
+	        vectorToLookAt.addLocal( direction.x, 0, direction.z );
 	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 		} else {
 	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
@@ -335,8 +275,8 @@ public class Enemy extends Character  {
 		try{
 			// the rotational axis is orthogonal to the direction and
 			// to the Y axis. It's calculated using cross product
-			moveDirection.set(direction);
-			rotationalAxis.setDirection( moveDirection.cross( new Vector3f(0,1,0) ) );
+//			moveDirection.set(direction);
+			rotationalAxis.setDirection( direction.cross( new Vector3f(0,1,0) ) );
 			rotationalAxis.setAvailableAcceleration( 30*speed );
 			rotationalAxis.setDesiredVelocity( speed );
 		} catch( Exception e ) {

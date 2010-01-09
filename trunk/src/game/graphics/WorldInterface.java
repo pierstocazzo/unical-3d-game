@@ -209,4 +209,6 @@ public interface WorldInterface {
 	public abstract boolean showLevel2Message( String id );
 
 	public abstract void setShowLevel2Message( String id, boolean b);
+
+	public abstract Vector3f getMoveDirection( String id );
 }
