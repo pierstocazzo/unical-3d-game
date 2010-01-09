@@ -79,7 +79,7 @@ Inoltre se un nemico si accorge che un suo compagno è sotto attacco, passa in s
 
 Diagramma di stato:
 
-http://unical-3d-game.googlecode.com/files/enemy_state_diagram.jpg
+http://unical-3d-game.googlecode.com/files/enemy_statediagram.jpg
 
 === Menu di gioco ===
 
