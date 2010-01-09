@@ -63,8 +63,8 @@ public class GraphicalWorld extends Game {
 	HashMap< String, EnergyPackage > energyPackages;
     int energyPackagesCounter = 0;
     
-    HashMap< Integer, Node > trees;
-    int treeCounter = 0;
+    HashMap< Integer, Node > items;
+    int itemsCounter = 0;
     
     /** the player, in single player mode */
     public Player player;
@@ -133,7 +133,7 @@ public class GraphicalWorld extends Game {
 		bullets = new HashMap<String, Bullet>();
 		ammoPackages = new HashMap<String, AmmoPackage>();
 		energyPackages = new HashMap<String, EnergyPackage>();
-		trees = new HashMap<Integer, Node>();
+		items = new HashMap<Integer, Node>();
 		loadingFrame.setProgress(10);
     	setCrosshair();
     	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
@@ -569,15 +569,15 @@ public class GraphicalWorld extends Game {
 			}
 		}
 		
-		for( int i : trees.keySet() ) {
-			pos.set( trees.get(i).getLocalTranslation() ).setY(0);
+		for( int i : items.keySet() ) {
+			pos.set( items.get(i).getLocalTranslation() ).setY(0);
 			
 			distance = camPos.distance( pos );
 			
 			if( distance > 500 ) {
-				trees.get(i).removeFromParent(); 
+				items.get(i).removeFromParent(); 
 			} else {
-				collisionNode.attachChild( trees.get(i) ); 
+				collisionNode.attachChild( items.get(i) ); 
 			}
 		}
 	}
