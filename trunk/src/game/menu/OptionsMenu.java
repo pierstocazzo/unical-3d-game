@@ -120,33 +120,32 @@ public class OptionsMenu extends JFrame {
 		layout.setConstraints(fullscreenCombo, lim);
 		grid.add(fullscreenCombo);
 		
-		//etichetta file xml
-		JLabel xmlLabel = new JLabel("XML file per l'ambientazione");
-		lim.gridx = 0;
-		lim.gridy = 2;
-		lim.weightx = 0.5;
-		lim.weighty = 0.5;
-		layout.setConstraints(xmlLabel, lim);
-		grid.add(xmlLabel);
-		
 		//Pannello di utilità per inserire componenti relativi all'xml
 		JPanel xmlPanel = new JPanel();
 		xmlPanel.setLayout(new FlowLayout());
-		lim.gridx = 1;
+		lim.gridx = 0;
 		lim.gridy = 2;
 		lim.weightx = 0.5;
 		lim.weighty = 0.5;
 		layout.setConstraints(xmlPanel, lim);
 		grid.add(xmlPanel);
 		
+		//etichetta file xml
+		JLabel xmlLabel = new JLabel("XML file per l'ambientazione: ");
+		xmlPanel.add(xmlLabel);
+	
 		//JTextBox che contiene il path del file xml
 		xmlTextPath = new JTextArea("world.xml");
 		xmlPanel.add(xmlTextPath);
 		
-		
 		//bottone che permette di sfogliare le cartelle
 		JButton browsButton = new JButton("Sfoglia");
-		xmlPanel.add(browsButton);
+		lim.gridx = 1;
+		lim.gridy = 2;
+		lim.weightx = 0.5;
+		lim.weighty = 0.5;
+		layout.setConstraints(browsButton, lim);
+		grid.add(browsButton);
 		
 		browsButton.addActionListener(new ActionListener() {
 			@Override
@@ -155,7 +154,7 @@ public class OptionsMenu extends JFrame {
 				int returnVal = fc.showOpenDialog(om);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = fc.getSelectedFile();
-					xmlTextPath.setText(file.getPath());
+					xmlTextPath.setText(file.getName());
 				}
 			}
 		});
