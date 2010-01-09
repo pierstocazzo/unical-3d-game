@@ -28,7 +28,7 @@ public class Util {
     
     
     public static String extensionOf( String file ) {
-        String fileName = file.toUpperCase();
+        String fileName = new String( file );
         int lastDot = fileName.lastIndexOf( '.' );
         String extension;
         if ( lastDot >= 0 ) {
