@@ -77,6 +77,10 @@ Se il giocatore entra nel raggio di percezione di un nemico (più ampio del ragg
 
 Inoltre se un nemico si accorge che un suo compagno è sotto attacco, passa in stato di attacco, aumentando il suo raggio visivo per riuscire a vedere il giocatore e sparare.
 
+Diagramma di stato:
+
+[http://unical-3d-game.googlecode.com/files/Enemy%20State%20Diagram.jpg http://unical-3d-game.googlecode.com/files/Enemy%20State%20Diagram.jpg]
+
 === Menu di gioco ===
 
 Il menu del gioco è stato implementato usando Swing. Questa scelta deriva più che altro dalla nostra volontà di studiare anche questo utile framework per java.
