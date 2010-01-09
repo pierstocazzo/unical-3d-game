@@ -1,4 +1,4 @@
-== Cose da fare
+== Cose da fare == 
 
   * File di configurazione xml da cui leggere opzioni e parametri di gioco - joe (DA INIZIARE)
   * Menù opzioni e credits - andrea (PREDISPOSTO)
@@ -9,3 +9,9 @@
   * Organizzazione inputhandler e supporto joystick - joe
   * Animazioni modello e armi - slash (WORK IN PROGRESS)
   * Multiplayer - slash/joe/andrea (?)
+
+== Bug da sistemare ==
+
+  * Chiusura errata con audio attivo
+  * Problema avvio caricando energyPack
+  * Loading gamesave scorretto se il salvataggio è stato fatto con nemici in stato find
