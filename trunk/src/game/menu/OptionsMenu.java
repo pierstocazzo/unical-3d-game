@@ -178,12 +178,12 @@ public class OptionsMenu extends JFrame {
 		final String corri_default = "SHIFT";
 		final String pausa_default = "P";
 		
-		items.add(sinistra_default);items.add("B");items.add("C");items.add(destra_default);items.add("E");
+		items.add("A");items.add("B");items.add("C");items.add("D");items.add("E");
 		items.add("F");items.add("G");items.add("H");items.add("I");items.add("J");
 		items.add("K");items.add("L");items.add("M");items.add("N");items.add("O");
-		items.add(pausa_default);items.add("Q");items.add("R");items.add(indietro_default);items.add("T");
-		items.add("U");items.add("V");items.add("X");items.add("Y");items.add(avanti_default);
-		items.add("Z");items.add(corri_default);items.add("SPACE");items.add("CTRL");items.add("ENTER");
+		items.add("P");items.add("Q");items.add("R");items.add("S");items.add("T");
+		items.add("U");items.add("V");items.add("X");items.add("Y");items.add("W");
+		items.add("Z");items.add("SHIFT");items.add("SPACE");items.add("CTRL");items.add("ENTER");
 		
 		JLabel combo1Label = new JLabel("Cammina Avanti");
 		lim.gridx = 0;
@@ -318,6 +318,7 @@ public class OptionsMenu extends JFrame {
 			    }
 			);
 		
+		// Annulla ritorna semplicemente al menu principale
 		buttonCancel.addActionListener(
 		    new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
@@ -327,6 +328,7 @@ public class OptionsMenu extends JFrame {
 		    }
 		);
 		
+		//applico tutte le modifiche alle impostazioni
 		buttonOk.addActionListener(
 			    new ActionListener() {
 			        public void actionPerformed(ActionEvent e) {
@@ -362,7 +364,7 @@ public class OptionsMenu extends JFrame {
 		mainPanel.add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 	    setResizable(false);
-//	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		this.setFocusable(true);
 	}
