@@ -1,9 +1,11 @@
 == Cose da fare
 
-  * File di configurazione di gioco xml, da cui leggere tutte le opzioni e i parametri - joe (DA INIZIARE)
-  * Completare menù opzioni e credits - andrea (PREDISPOSTO)
+  * File di configurazione xml da cui leggere opzioni e parametri di gioco - joe (DA INIZIARE)
+  * Menù opzioni e credits - andrea (PREDISPOSTO)
+  * Riorganizzazione codice e commenti - andrea/joe
   * Scena importata completamente da file xml - slash (WORK IN PROGRESS)
-  * Animazioni modello e armi - slash (WORK IN PROGRESS)
   * Sound Manager - slash/andrea (INIZIATO)
-  * Introdurre effetti grafici - joe/andrea (?)
+  * Ulteriori path per i nemici - andrea 
+  * Organizzazione inputhandler e supporto joystick - joe
+  * Animazioni modello e armi - slash (WORK IN PROGRESS)
   * Multiplayer - slash/joe/andrea (?)
