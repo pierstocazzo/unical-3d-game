@@ -117,7 +117,7 @@ public class GraphicalWorld extends Game {
         this.core = core;
         super.loadingFrame = loadingFrame;
         
-        audioEnabled = true;
+//        audioEnabled = true;
     }
 
 	public void setupInit() {
@@ -518,8 +518,9 @@ public class GraphicalWorld extends Game {
 	
 	protected void cleanup() {
 		super.cleanup();
-		if( audioEnabled )
+		if( audioEnabled ) {
 			audio.cleanup();
+		}
 	}
 	
 	public void shoot( Vector3f position ) {

@@ -37,6 +37,8 @@ public class LogicWorld implements WorldInterface, Serializable {
 	
 	/** Score Manager */
 	ScoreManager scoreManager;
+	
+	AI enemyAi;
 
 	
 	/** <code>LogicWorld</code> Constructor<br>
@@ -51,6 +53,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		enemyCounter = 0;
 		playerCounter = 0;
 		scoreManager = new ScoreManager( this );
+		enemyAi = new AI( this );
 	}
 	
 	/** Create one player with this life in this position
@@ -226,7 +229,8 @@ public class LogicWorld implements WorldInterface, Serializable {
 	@Override
 	public void updateState(String id) {
 		try {
-			((LogicEnemy) characters.get(id)).updateState();
+//			((LogicEnemy) characters.get(id)).updateState();
+			enemyAi.updateState(id);
 		} catch (Exception e) {
 		}
 	}
@@ -354,7 +358,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	@Override
 	public boolean comeBack( String id ) {
 		try {
-			return ((LogicEnemy) characters.get(id)).comeBack;
+			return ((LogicEnemy) characters.get(id)).comingBack;
 		} catch ( Exception e ) {
 			return false;
 		}
@@ -363,7 +367,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	@Override
 	public void setComeBack( String id, boolean comeBack ) {
 		try {
-			((LogicEnemy) characters.get(id)).comeBack = comeBack;
+			((LogicEnemy) characters.get(id)).comingBack = comeBack;
 		} catch ( Exception e ) {
 		}
 	}
@@ -388,5 +392,10 @@ public class LogicWorld implements WorldInterface, Serializable {
 	@Override
 	public void setShowLevel2Message(String id, boolean b) {
 		scoreManager.players.get(id).showLevel2 = b;
+	}
+
+	@Override
+	public Vector3f getMoveDirection(String id) {
+		return enemyAi.getMoveDirection(id);
 	}
 }
