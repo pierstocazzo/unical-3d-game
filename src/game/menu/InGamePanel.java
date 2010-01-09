@@ -153,7 +153,7 @@ public class InGamePanel extends JPanel {
 				break;
 			case 2:
 				gm.setVisible(false);
-				gm.game.finish();
+				System.exit(0);
 				System.out.println("exit game menu");
 				break;
 		}
