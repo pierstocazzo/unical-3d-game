@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.FloatBuffer;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -292,7 +291,7 @@ public class Environment {
 		while( it.hasNext() ) {
 			Item item = (Item) it.next();
 			String fileName = item.getFileName();
-			String texturePath = fileName.replaceFirst( "3[dD][sS]", "jpg" );
+			String texturePath = fileName.replaceFirst( Util.extensionOf( fileName ), "jpg" );
 			Node model = ModelLoader.loadModel( dir + fileName, dir + texturePath, item.getScale(), item.getRotation() );
 			world.collisionNode.attachChild( model );
 			Vector3f position = item.getPosition().subtract( 2048, 20, 2048 );
