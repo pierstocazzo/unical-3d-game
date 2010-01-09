@@ -4,13 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
@@ -23,6 +26,7 @@ public class LoadingFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	Image background;
 	JProgressBar pb;
+	JLabel textLoading;
 	
 	public LoadingFrame(){
 		super();
@@ -55,11 +59,27 @@ public class LoadingFrame extends JFrame {
 		b.setOpaque(false);
 		setContentPane(b);
 		
+		JPanel flow = new JPanel();
+		flow.setPreferredSize(new Dimension(screenSize.width*6/8, screenSize.height/8));
+		flow.setOpaque(false);
+		//elimino spaziatura tra componenti del flow layout
+		flow.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		b.add(flow,BorderLayout.CENTER);
+		
+		//creo jlabel per esprimere ciò che si sta caricando
+		textLoading = new JLabel("Loading...");
+		textLoading.setFont(new Font("Times New Roman", Font.BOLD, 32));
+		textLoading.setForeground(Color.red);
+		textLoading.setHorizontalAlignment(JLabel.CENTER);
+		textLoading.setPreferredSize(new Dimension(screenSize.width*6/8, screenSize.height/16));
+		flow.add(textLoading);
+		
 		pb = new JProgressBar(0, 100);
+		pb.setPreferredSize(new Dimension(screenSize.width*6/8, screenSize.height/16));
         pb.setValue(0);
         pb.setOpaque(false);
         pb.setForeground(Color.red);
-        b.add(pb, BorderLayout.CENTER);
+        flow.add(pb);
 		
 		//add left vertical empty panel
 		JPanel pVerticalEmpty1 = new JPanel();
@@ -82,7 +102,7 @@ public class LoadingFrame extends JFrame {
 		//add upper horizontal empty panel
 		JPanel pHorizontalEmpty2 = new JPanel();
 		pHorizontalEmpty2.setOpaque(false);
-		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height*13/16));
+		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height*12/16));
 		b.add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 	    setResizable(false);
@@ -93,4 +113,7 @@ public class LoadingFrame extends JFrame {
 		pb.setValue(num);
 	}
 	
+	public void setLoadingText(String text){
+		textLoading.setText(text);
+	}
 }
