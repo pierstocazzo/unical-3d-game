@@ -1,6 +1,7 @@
 package game.menu;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -10,13 +11,17 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -28,10 +33,13 @@ public class OptionsMenu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	Image background;
 	MainMenu mm;
+	JTextArea xmlTextPath;
+	OptionsMenu om;
 	
 	public OptionsMenu( final MainMenu mm ){
 		super();
 		this.mm = mm;
+		om = this;
 
 		Dimension screenSize = 
 	        Toolkit.getDefaultToolkit().getScreenSize();
@@ -67,12 +75,13 @@ public class OptionsMenu extends JFrame {
 		grid.setLayout(layout);
 		grid.setOpaque(true);
 		grid.setPreferredSize(new Dimension(screenSize.width*6/8, screenSize.height/4));
-		TitledBorder titleBorder = new TitledBorder("Impostazioni del Monitor");
+		TitledBorder titleBorder = new TitledBorder("Impostazioni Generali");
 		grid.setBorder(titleBorder);
 		dividePanel.add(grid, BorderLayout.NORTH);
 		
 		GridBagConstraints lim = new GridBagConstraints();
 		
+		//etichetta risoluzione dello schermo
 		JLabel resolutionLabel = new JLabel("Risoluzione dello schermo");
 		lim.gridx = 0;
 		lim.gridy = 0;
@@ -91,6 +100,7 @@ public class OptionsMenu extends JFrame {
 		layout.setConstraints(resolutionCombo, lim);
 		grid.add(resolutionCombo);
 		
+		//etichetta fullscreen
 		JLabel fullscreenLabel = new JLabel("Fullscreen");
 		lim.gridx = 0;
 		lim.gridy = 1;
@@ -109,6 +119,46 @@ public class OptionsMenu extends JFrame {
 		lim.weighty = 0.5;
 		layout.setConstraints(fullscreenCombo, lim);
 		grid.add(fullscreenCombo);
+		
+		//etichetta file xml
+		JLabel xmlLabel = new JLabel("XML file per l'ambientazione");
+		lim.gridx = 0;
+		lim.gridy = 2;
+		lim.weightx = 0.5;
+		lim.weighty = 0.5;
+		layout.setConstraints(xmlLabel, lim);
+		grid.add(xmlLabel);
+		
+		//Pannello di utilità per inserire componenti relativi all'xml
+		JPanel xmlPanel = new JPanel();
+		xmlPanel.setLayout(new FlowLayout());
+		lim.gridx = 1;
+		lim.gridy = 2;
+		lim.weightx = 0.5;
+		lim.weighty = 0.5;
+		layout.setConstraints(xmlPanel, lim);
+		grid.add(xmlPanel);
+		
+		//JTextBox che contiene il path del file xml
+		xmlTextPath = new JTextArea("world.xml");
+		xmlPanel.add(xmlTextPath);
+		
+		
+		//bottone che permette di sfogliare le cartelle
+		JButton browsButton = new JButton("Sfoglia");
+		xmlPanel.add(browsButton);
+		
+		browsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showOpenDialog(om);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fc.getSelectedFile();
+					xmlTextPath.setText(file.getPath());
+				}
+			}
+		});
 		
 		//Pannello per la gestione dei comandi utente
 		JPanel grid2 = new JPanel();
