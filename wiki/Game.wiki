@@ -22,7 +22,7 @@ Comunica con la grafica di gioco in modo diretto.
 
 === Diagramma delle principali classi del gioco ===
 
-[http://unical-3d-game.googlecode.com/files/Game%20Classes.jpg http://unical-3d-game.googlecode.com/files/Game%20Classes.jpg]
+http://unical-3d-game.googlecode.com/files/Game%20Classes.jpg
 
 === Difficoltà principali riscontrate ===
 
@@ -79,7 +79,7 @@ Inoltre se un nemico si accorge che un suo compagno è sotto attacco, passa in s
 
 Diagramma di stato:
 
-[img=http://unical-3d-game.googlecode.com/files/enemy_state_diagram.jpg]
+http://unical-3d-game.googlecode.com/files/enemy_state_diagram.jpg
 
 === Menu di gioco ===
 
