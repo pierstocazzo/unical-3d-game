@@ -80,6 +80,17 @@ public class MovementList implements Serializable{
 			movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
 			movements.add( new Movement( Direction.RIGHT, 40 ) );
 			break;
+		
+		case ELLIPTICAL_PERIMETER_HORIZONTAL:
+			movements.add( new Movement( Direction.RIGHT_BACKWARD, 40 ) );
+			movements.add( new Movement( Direction.BACKWARD, 40 ) );
+			movements.add( new Movement( Direction.LEFT_BACKWARD, 40 ) );
+			movements.add( new Movement( Direction.LEFT, 120 ) );
+			movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
+			movements.add( new Movement( Direction.FORWARD, 40 ) );
+			movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
+			movements.add( new Movement( Direction.RIGHT, 120 ) );
+			break;
 			
 		case REST:
 			movements.add( new Movement( Direction.REST, 0 ) );
@@ -114,6 +125,8 @@ public class MovementList implements Serializable{
 		DIAGONAL_SENTINEL_MAIN,
 		
 		DIAGONAL_SENTINEL_SECONDARY,
+		
+		ELLIPTICAL_PERIMETER_HORIZONTAL,
 		
 		REST;
 	}
