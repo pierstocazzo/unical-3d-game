@@ -49,6 +49,8 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	/** the max error of the shot */
 	int errorAngle;
 
+	public Vector3f initialFindPosition;
+
 
 	/**
 	 * <code>LogicEnemy</code> constructor<br>
@@ -72,6 +74,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.movementStartPosition.setY(0);
 		this.errorAngle = 10;
 		this.currentMovement = this.movements.getNextMovement();
+		this.initialFindPosition = new Vector3f();
 	}
 	
 	public Movement getNextMovement() {

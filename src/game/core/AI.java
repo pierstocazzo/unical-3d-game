@@ -114,11 +114,11 @@ public class AI implements Serializable {
 			if( enemy.firstFind ) {
 				findDirection.set( enemy.shootDirection );
 				findDirection.setY(0);
-				enemy.movementStartPosition.set( currentPosition );
+				enemy.initialFindPosition.set( currentPosition );
 				enemy.firstFind = false;
 			}
 			
-			distance = Math.abs( currentPosition.distance( enemy.movementStartPosition ) );
+			distance = Math.abs( currentPosition.distance( enemy.initialFindPosition ) );
 			if( distance > 80 ) {
 				if( enemy.comingBack == false ) {
 					findDirection.negateLocal();
@@ -130,7 +130,7 @@ public class AI implements Serializable {
 				enemy.comingBack = false;
 				enemy.firstFind = true;
 				enemy.state = State.ALERT;
-				enemy.movementStartPosition.set( currentPosition );
+				enemy.initialFindPosition.set( currentPosition );
 			}
 			
 			return findDirection;
