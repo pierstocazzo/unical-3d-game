@@ -5,7 +5,7 @@
   * Riorganizzazione codice e commenti - andrea/joe
   * Scena importata completamente da file xml - slash (WORK IN PROGRESS)
   * Sound Manager - slash/andrea (INIZIATO)
-  * Ulteriori path per i nemici - andrea 
+  * Ulteriori path per i nemici - andrea (INIZIATO)
   * Organizzazione inputhandler e supporto joystick - joe
   * Animazioni modello e armi - slash (WORK IN PROGRESS)
   * Multiplayer - slash/joe/andrea (?)
