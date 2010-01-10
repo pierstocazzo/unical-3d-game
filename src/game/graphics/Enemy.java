@@ -193,7 +193,8 @@ public class Enemy extends Character  {
 			    
 				world.getCore().updateState(id);
 				if( world.getCore().getState(id) == State.ATTACK || 
-						world.getCore().getState(id) == State.FINDATTACK) {
+						world.getCore().getState(id) == State.FINDATTACK || 
+						world.getCore().getState(id) == State.GUARDATTACK) {
 					animationController.runAnimation( Animation.SHOOT );
 					shooting = true;
 					if( GameTimer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {

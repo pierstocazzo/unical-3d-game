@@ -82,7 +82,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 			x = x + r.nextInt( numberOfEnemies * 5 );
 			z = z + r.nextInt( numberOfEnemies * 5 );
 
-			createEnemy( x, z, MovementType.LARGE_PERIMETER );
+			createEnemy( x, z, State.DEFAULT, MovementType.LARGE_PERIMETER );
 		}
 	}
 
@@ -92,10 +92,10 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 * @param z - the z position of the enemy
 	 * @param movementList - (MovementList) list of movements
 	 */
-	public void createEnemy( float x, float z, MovementType movements ) {
+	public void createEnemy( float x, float z, State state, MovementType movements ) {
 		enemyCounter = enemyCounter + 1;
 		Vector3f position = new Vector3f( x, 0, z );
-		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.AR15, State.DEFAULT, position, 
+		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.AR15, state, position, 
 				movements, this );
 		characters.put( enemy.id, enemy );
 	}

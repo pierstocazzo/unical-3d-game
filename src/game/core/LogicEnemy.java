@@ -105,6 +105,8 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	public void isShooted( int bulletDamage, String shooterId ) {
 		if(state == State.FIND || state == State.FINDATTACK)
 			state = State.FINDATTACK;
+		else if(state == State.GUARD || state == State.GUARDATTACK)
+			state = State.GUARDATTACK;
 		else
 			state = State.ATTACK;
 		

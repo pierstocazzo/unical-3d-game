@@ -24,7 +24,11 @@ public enum State implements Serializable {
 	
 	FIND ( 200, 180 ),
 	
-	FINDATTACK( 200, 180 );
+	FINDATTACK( 200, 180 ), 
+	
+	GUARD ( 200, 140 ),
+	
+	GUARDATTACK( 200, 180 );
 	
 	/** view range */
 	int viewRange;
