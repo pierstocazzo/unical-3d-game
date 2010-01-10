@@ -12,7 +12,15 @@ public enum Direction {
 	
 	LEFT ( Vector3f.UNIT_X ), 
 	
-	REST (Vector3f.UNIT_X );
+	REST (Vector3f.UNIT_X ),
+	
+	LEFT_FORWARD ( Vector3f.UNIT_X.add(Vector3f.UNIT_Z) ),
+	
+	LEFT_BACKWARD ( Vector3f.UNIT_X.add( Vector3f.UNIT_Z.negate() ) ),
+	
+	RIGHT_FORWARD ( Vector3f.UNIT_X.negate().add( Vector3f.UNIT_Z ) ),
+	
+	RIGHT_BACKWARD (  Vector3f.UNIT_X.negate().add( Vector3f.UNIT_Z.negate() ) );
 	
 	Vector3f direction;
 	
