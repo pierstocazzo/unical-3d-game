@@ -14,4 +14,4 @@
 
   * Chiusura errata con audio attivo
   * Problema avvio caricando energyPack
-  * Loading gamesave scorretto se il salvataggio è stato fatto con nemici in stato find
+  * Quando entra e ritorna allo stato find si nota come il modellino nei movimenti è leggermente sfasato
