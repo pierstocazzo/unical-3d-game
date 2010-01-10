@@ -136,11 +136,13 @@ public class GraphicalWorld extends Game {
 		energyPackages = new HashMap<String, EnergyPackage>();
 		items = new LinkedList<Node>();
 		loadingFrame.setProgress(10);
+		loadingFrame.setLoadingText("Impostazioni Prima Persona");
     	setCrosshair();
     	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
     	
 		gameOver = Text.createDefaultTextLabel( "gameOver" );
 		rootNode.attachChild(gameOver);
+		loadingFrame.setLoadingText("Caricamento Audio ed Effetti Grafici");
 		loadingFrame.setProgress(15);
     	ExplosionFactory.warmup();
     	
@@ -167,6 +169,7 @@ public class GraphicalWorld extends Game {
 		Node model = ModelLoader.loadModel("game/data/models/soldier/player.jme", 
 				"game/data/models/soldier/soldato.jpg", 1 );
 	    model.setLocalTranslation(0, -2f, 0);   
+	    loadingFrame.setLoadingText("Caricamento Modello Giocatore e Arma");
 	    loadingFrame.setProgress(65);
 		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
 	            Texture.MinificationFilter.Trilinear,
