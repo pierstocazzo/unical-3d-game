@@ -89,10 +89,12 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	boolean enemyNextInAttack() {
 		boolean inAttack = false;
 		for( int i = 1; i <= world.enemyCounter; i++ ) {
-			if( world.characters.get( "enemy"+i ) != null )
-				if(world.getState( "enemy"+i ) == State.ATTACK && !id.equals( "enemy"+i ) &&
-						position.distance( world.getPosition("enemy"+i)) <=  50 )
+			if( world.characters.get( "enemy"+i ) != null ){
+				State currState = world.getState( "enemy"+i );
+				if((currState == State.ATTACK || currState == State.FINDATTACK || currState == State.GUARDATTACK)
+						&& !id.equals( "enemy"+i ) && position.distance( world.getPosition("enemy"+i)) <=  50 )
 					return true;
+			}
 		}
 		return inAttack;
 	}

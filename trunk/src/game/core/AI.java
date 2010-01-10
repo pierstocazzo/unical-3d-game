@@ -35,7 +35,12 @@ public class AI implements Serializable {
 			distance = enemy.position.distance( world.getPosition( playerId ) );
 
 			if ( enemy.enemyNextInAttack() && enemy.state != State.ALERT ){
-				enemy.state = State.ATTACK;
+				if(enemy.state == State.GUARD || enemy.state == State.GUARDATTACK)
+					enemy.state = State.GUARDATTACK;
+				else if(enemy.state == State.FIND || enemy.state == State.FINDATTACK)
+					enemy.state = State.FINDATTACK;
+				else
+					enemy.state = State.ATTACK;
 				enemy.alertTime = GameTimer.getTimeInSeconds();
 			}
 
