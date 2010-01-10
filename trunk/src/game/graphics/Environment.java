@@ -122,6 +122,7 @@ public class Environment {
 
 //	    lightState.detachAll();
 //	    world.getRootNode().setLightCombineMode(Spatial.LightCombineMode.Off);
+	    world.loadingFrame.setLoadingText("Impostazione Effetto Nebbia");
 	    world.loadingFrame.setProgress(30);
 	    FogState fogState = DisplaySystem.getDisplaySystem().getRenderer().createFogState();
 	    fogState.setDensity(1.0f);
@@ -132,17 +133,21 @@ public class Environment {
 	    fogState.setDensityFunction(FogState.DensityFunction.Linear);
 	    fogState.setQuality(FogState.Quality.PerVertex);
 	    world.getRootNode().setRenderState(fogState);
+	    world.loadingFrame.setLoadingText("Creazione Terreno");
 	    world.loadingFrame.setProgress(35);
 		createTerrain();
+		world.loadingFrame.setLoadingText("Caricamento SkyBox e Riflesso del Terreno");
 		world.loadingFrame.setProgress(40);
         createReflectionTerrain();
 
         buildSkyBox();
+        world.loadingFrame.setLoadingText("Caricamento Mare");
         world.loadingFrame.setProgress(45);
         world.getRootNode().attachChild( skybox );
         world.getRootNode().attachChild( splatTerrain );
         
         createWater();
+        world.loadingFrame.setLoadingText("Creazione Vegetazione");
         world.loadingFrame.setProgress(50);
 	    RenderPass rootPass = new RenderPass();
 	    rootPass.add(world.getRootNode());
