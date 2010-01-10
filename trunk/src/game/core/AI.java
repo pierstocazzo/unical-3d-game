@@ -87,6 +87,21 @@ public class AI implements Serializable {
 					enemy.alertTime = GameTimer.getTimeInSeconds();
 				}
 				break;
+				
+			case GUARD:
+				if ( distance <= enemy.state.getActionRange() )
+					enemy.state = State.GUARDATTACK;
+				break;
+				
+			case GUARDATTACK:
+				if ( distance > enemy.state.getViewRange() ) {
+					enemy.alertTime = 0;
+					enemy.state = State.GUARD;
+				} else {
+					calculateShootDirection( id, playerId );
+					enemy.alertTime = GameTimer.getTimeInSeconds();
+				}
+				break;
 			}
 		}
 	}

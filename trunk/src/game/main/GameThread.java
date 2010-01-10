@@ -2,10 +2,10 @@ package game.main;
 
 import game.base.PhysicsGame;
 import game.common.MovementList.MovementType;
+import game.common.State;
 import game.core.LogicWorld;
 import game.graphics.GraphicalWorld;
 import game.menu.LoadingFrame;
-
 import java.util.logging.Level;
 
 public class GameThread implements Runnable {
@@ -18,7 +18,7 @@ public class GameThread implements Runnable {
 		this.loadingFrame = loadingFrame;
 		logicGame = new LogicWorld();
     	logicGame.createPlayer( 100, -1000, -1000 );
-    	logicGame.createEnemy( -1150, -1150, MovementType.EIGHT_PATH_SMALL);
+    	logicGame.createEnemy( -1150, -1150, State.GUARD, MovementType.REST);
 //    	logicGame.createEnemy( -1155, -1165, MovementType.REST );
 //    	logicGame.createEnemiesGroup( 2, 1142, -452 );
 //    	logicGame.createEnemiesGroup( 7, 1216, 749 );
