@@ -134,7 +134,9 @@ public class AI implements Serializable {
 			}
 			
 			return findDirection;
-		} else {
+		} 
+		else if( enemy.state == State.DEFAULT)
+		{
 			/** The enemy will move only if he is in default state. When he attack or is in alert he rests
 			 */
 			if( enemy.currentMovement.getDirection() != Direction.REST 
@@ -155,5 +157,7 @@ public class AI implements Serializable {
 			}
 			return moveDirection;
 		}
+		else
+			return Vector3f.ZERO;
 	}
 }
