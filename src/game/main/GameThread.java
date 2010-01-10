@@ -20,7 +20,7 @@ public class GameThread implements Runnable {
     	logicGame.createPlayer( 100, -1000, -1000 );
     	logicGame.createEnemy( -1150, -1150, State.GUARD, MovementType.REST);
 //    	logicGame.createEnemy( -1155, -1165, MovementType.REST );
-//    	logicGame.createEnemiesGroup( 2, 1142, -452 );
+    	logicGame.createEnemiesGroup( 2, -1160, -1155 );
 //    	logicGame.createEnemiesGroup( 7, 1216, 749 );
 //    	logicGame.createEnemiesGroup( 7, 142, 1207 );
 //    	logicGame.createEnemiesGroup( 10, -1078, 1771 );
