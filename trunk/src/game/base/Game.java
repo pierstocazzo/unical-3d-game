@@ -13,14 +13,19 @@ public abstract class Game extends PhysicsGame {
 	
     @Override
     protected void setupGame() {
+    	loadingFrame.setLoadingText("Inizializzazione Sistema");
     	loadingFrame.setProgress(5);
         setupInit();
+        loadingFrame.setLoadingText("Caricamento Ambiente");
         loadingFrame.setProgress(20);
         setupEnvironment();
+        loadingFrame.setLoadingText("Impostazioni Giocatore");
         loadingFrame.setProgress(60);
         setupPlayer();
+        loadingFrame.setLoadingText("Caricamento Nemici");
         loadingFrame.setProgress(80);
         setupEnemies();
+        loadingFrame.setLoadingText("Impostazioni Camera e Input");
         loadingFrame.setProgress(100);
         setupCamera();
         setupInput();
