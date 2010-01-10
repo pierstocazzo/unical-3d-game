@@ -49,6 +49,16 @@ public class MovementList implements Serializable{
 			movements.add( new Movement( Direction.LEFT, 40 ) );
 			break;
 			
+		case DIAGONAL_SENTINEL_MAIN:
+			movements.add( new Movement( Direction.RIGHT_BACKWARD, 40 ) );
+			movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
+			break;
+			
+		case DIAGONAL_SENTINEL_SECONDARY:
+			movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
+			movements.add( new Movement( Direction.LEFT_BACKWARD, 40 ) );
+			break;
+			
 		case CIRCLE_SENTINEL_SMALL:
 			movements.add( new Movement( Direction.RIGHT_BACKWARD, 20 ) );
 			movements.add( new Movement( Direction.BACKWARD, 20 ) );
@@ -100,6 +110,10 @@ public class MovementList implements Serializable{
 		CIRCLE_SENTINEL_SMALL,
 		
 		CIRCLE_SENTINEL_LARGE,
+		
+		DIAGONAL_SENTINEL_MAIN,
+		
+		DIAGONAL_SENTINEL_SECONDARY,
 		
 		REST;
 	}

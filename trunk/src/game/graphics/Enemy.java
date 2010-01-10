@@ -102,7 +102,7 @@ public class Enemy extends Character  {
 		
 		vectorToLookAt = new Vector3f();
 		
-		previousMoveDirection = world.getCore().getMoveDirection(id);
+		previousMoveDirection = world.getCore().getMoveDirection(id).clone();
 		
 		/** initial look at action */
 //		vectorToLookAt.set( this.getModel().getWorldTranslation() );
@@ -220,13 +220,16 @@ public class Enemy extends Character  {
 
 	public void moveCharacter() {
 		Vector3f moveDirection = world.getCore().getMoveDirection( id );
-		
+		System.out.println("MOVE DIRECTION = "+moveDirection.toString());
+		System.out.println("PREVIOUS DIRECTION = "+previousMoveDirection.toString());
 		if( !moveDirection.equals( Vector3f.ZERO ) ) {
-			if( moveDirection.angleBetween( previousMoveDirection ) >= 3.14/2 ) {
+			if( Math.abs(moveDirection.angleBetween( previousMoveDirection )) >= 3.14/4 ) {
+				System.out.println("CAMBIO DIREZIONE");
 				clearDynamics();
 				previousMoveDirection.set( moveDirection );
 				setMoving(false);
 			} else {
+				System.out.println("MUOVO");
 				move( moveDirection );
 				setMoving( true );
 			}
