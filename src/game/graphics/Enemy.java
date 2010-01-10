@@ -1,8 +1,6 @@
 package game.graphics;
 
-import game.common.Direction;
 import game.common.GameTimer;
-import game.common.Movement;
 import game.common.State;
 import game.common.TextLabel2D;
 import game.graphics.CustomAnimationController.Animation;
