@@ -96,7 +96,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		enemyCounter = enemyCounter + 1;
 		Vector3f position = new Vector3f( x, 0, z );
 		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.AR15, State.DEFAULT, position, 
-				MovementType.LARGE_PERIMETER, this );
+				movements, this );
 		characters.put( enemy.id, enemy );
 	}
 	
