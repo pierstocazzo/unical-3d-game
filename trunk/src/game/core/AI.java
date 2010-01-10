@@ -147,13 +147,10 @@ public class AI implements Serializable {
 				 *  start the next movement
 				 */
 				if( distance >= enemy.currentMovement.getLength() ) {
-					System.out.println("NUOVO MOVIMENTO---------------------------");
 					enemy.movementStartPosition.set( currentPosition );
 					enemy.getNextMovement();
 				}
-				System.out.println("PRIMA DI MODIFICARE movedirection = "+moveDirection.toString());
 				moveDirection.set( enemy.currentMovement.getDirection().toVector() );
-				System.out.println("DOPO AVER MODIFICATO movedirection = "+moveDirection.toString());
 				
 			}
 			return moveDirection;
