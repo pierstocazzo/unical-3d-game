@@ -21,6 +21,7 @@ public class AI implements Serializable {
 		this.world = world;
 		this.findDirection = new Vector3f();
 		this.moveDirection = new Vector3f();
+		moveDirection.set( Vector3f.ZERO );
 	}
 	
 	public void updateState( String id ) {
@@ -103,8 +104,6 @@ public class AI implements Serializable {
 		
 		LogicEnemy enemy = (LogicEnemy) world.characters.get(id);
 		
-		moveDirection.set( Vector3f.ZERO );
-		
 		float distance;
 		
 		/** utility vectors */
@@ -148,13 +147,13 @@ public class AI implements Serializable {
 				 *  start the next movement
 				 */
 				if( distance >= enemy.currentMovement.getLength() ) {
-					System.out.println("fuck");
+					System.out.println("NUOVO MOVIMENTO---------------------------");
 					enemy.movementStartPosition.set( currentPosition );
 					enemy.getNextMovement();
 				}
-				
+				System.out.println("PRIMA DI MODIFICARE movedirection = "+moveDirection.toString());
 				moveDirection.set( enemy.currentMovement.getDirection().toVector() );
-				
+				System.out.println("DOPO AVER MODIFICATO movedirection = "+moveDirection.toString());
 				
 			}
 			return moveDirection;
