@@ -95,6 +95,36 @@ public class MovementList implements Serializable{
 		case REST:
 			movements.add( new Movement( Direction.REST, 0 ) );
 			break;
+		
+		case EIGHT_PATH_SMALL:
+			movements.add( new Movement( Direction.RIGHT_BACKWARD, 70 ) );
+			movements.add( new Movement( Direction.RIGHT, 20 ) );
+			movements.add( new Movement( Direction.RIGHT_FORWARD, 20 ) );
+			movements.add( new Movement( Direction.FORWARD, 20 ) );
+			movements.add( new Movement( Direction.LEFT_FORWARD, 20 ) );
+			movements.add( new Movement( Direction.LEFT, 20 ) );
+			movements.add( new Movement( Direction.LEFT_BACKWARD, 70 ) );
+			movements.add( new Movement( Direction.LEFT, 20 ) );
+			movements.add( new Movement( Direction.LEFT_FORWARD, 20 ) );
+			movements.add( new Movement( Direction.FORWARD, 20 ) );
+			movements.add( new Movement( Direction.RIGHT_FORWARD, 20 ) );
+			movements.add( new Movement( Direction.RIGHT, 20 ) );
+			break;
+			
+		case EIGHT_PATH_LARGE:
+			movements.add( new Movement( Direction.RIGHT_BACKWARD, 140 ) );
+			movements.add( new Movement( Direction.RIGHT, 40 ) );
+			movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
+			movements.add( new Movement( Direction.FORWARD, 40 ) );
+			movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
+			movements.add( new Movement( Direction.LEFT, 40 ) );
+			movements.add( new Movement( Direction.LEFT_BACKWARD, 140 ) );
+			movements.add( new Movement( Direction.LEFT, 40 ) );
+			movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
+			movements.add( new Movement( Direction.FORWARD, 40 ) );
+			movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
+			movements.add( new Movement( Direction.RIGHT, 40 ) );
+			break;
 		}
 		
 		curr = movements.indexOf(movements.getFirst());
@@ -127,6 +157,10 @@ public class MovementList implements Serializable{
 		DIAGONAL_SENTINEL_SECONDARY,
 		
 		ELLIPTICAL_PERIMETER_HORIZONTAL,
+		
+		EIGHT_PATH_SMALL,
+		
+		EIGHT_PATH_LARGE,
 		
 		REST;
 	}
