@@ -273,7 +273,6 @@ public class Enemy extends Character  {
 		try{
 			// the rotational axis is orthogonal to the direction and
 			// to the Y axis. It's calculated using cross product
-//			moveDirection.set(direction);
 			rotationalAxis.setDirection( direction.cross( new Vector3f(0,1,0) ) );
 			rotationalAxis.setAvailableAcceleration( 30*speed );
 			rotationalAxis.setDesiredVelocity( speed );
