@@ -21,7 +21,7 @@ public class HudAlert {
 	/** Little text on the alert bar */
 	Text alertNum;
 	
-	int alertValue;
+	float alertValue;
 	
 	/** Background Quad of life Bar */
 	Quad backQuad;
@@ -66,7 +66,7 @@ public class HudAlert {
 				frontQuad.getHeight());
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										frontQuad.getLocalTranslation().y, 0);
-		alertNum.print(Integer.toString(alertValue));
+		alertNum.print(Float.toString(alertValue));
 		alertNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
 				backQuad.getLocalTranslation().y+backQuad.getHeight()/2, 0);
 		alertNum.print("Alert Level");
@@ -94,18 +94,18 @@ public class HudAlert {
 										frontQuad.getLocalTranslation().y, 0);
 	}
 	
-	public int getAlertLevel(){
+	public float getAlertLevel(){
 		final int ALERT_RANGE = LogicEnemy.ALERT_RANGE;
 		stateColor = State.DEFAULT;
 		//calculate max alert level
-		int max = -99999;
+		float max = -99999;
 		for( String id : userHud.game.getEnemiesIds() ){
 //			System.out.println("ALERT="+userHud.game.getAlertLevel(id));
 			State currState = userHud.game.getState(id);
 			if(currState == State.ATTACK || currState == State.FINDATTACK ||
 					currState == State.ALERT || currState == State.FIND || currState == State.GUARDATTACK)
 				if(userHud.game.getAlertLevel(id) > max )
-					max = (int) userHud.game.getAlertLevel(id);
+					max = userHud.game.getAlertLevel(id);
 			//check if current enemy is in attack
 			if(currState == State.ATTACK || currState == State.FINDATTACK || currState == State.GUARDATTACK)
 				stateColor = State.ATTACK;
@@ -118,7 +118,7 @@ public class HudAlert {
 		if(max < 0)
 			return 0;//return minimal value
 		//calculate time difference
-		int diff = (int) GameTimer.getTimeInSeconds() - max;
+		float diff = GameTimer.getTimeInSeconds() - max;
 		//check difference
 		if(diff < 0)
 			diff = 0;

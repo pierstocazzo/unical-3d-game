@@ -91,11 +91,11 @@ public class UserHud {
 			level.print("Level: "+Integer.toString(value));
 			hudScore.update();
 			hudLife.update();
-			hudAlert.update();
 			map.update();
 		}
 		fps.print( "Frame Rate: " + (int) GameTimer.getFrameRate() + "fps" );
     	hudAmmo.update();
+    	hudAlert.update();
     	hudMsg.update();
     	hudMsgBox.update();
 	}
