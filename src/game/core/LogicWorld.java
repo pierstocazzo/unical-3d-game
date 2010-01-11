@@ -6,10 +6,13 @@ import game.common.MovementList.MovementType;
 import game.graphics.WorldInterface;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import com.jme.math.Vector3f;
@@ -77,12 +80,13 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 */
 	public void createEnemiesGroup( int numberOfEnemies, float x, float z ) {
 		Random r = new Random();
+		
+		for( int i = 0; i < numberOfEnemies; i++ ) {	
+			float xLocal, zLocal;
+			xLocal = x + r.nextInt( numberOfEnemies * 15 );
+			zLocal = z + r.nextInt( numberOfEnemies * 15 );
 
-		for( int i = 0; i < numberOfEnemies; i++ ) {		
-			x = x + r.nextInt( numberOfEnemies * 5 );
-			z = z + r.nextInt( numberOfEnemies * 5 );
-
-			createEnemy( x, z, State.DEFAULT, MovementType.LARGE_PERIMETER );
+			createEnemy( xLocal, zLocal, State.DEFAULT, MovementType.getRandom() );
 		}
 	}
 
