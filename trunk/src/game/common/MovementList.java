@@ -2,6 +2,7 @@ package game.common;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.Random;
 
 import game.common.Direction;
 import game.common.Movement;
@@ -137,7 +138,6 @@ public class MovementList implements Serializable{
 			curr = curr + 1;
 		return movements.get(curr);
 	}
- 
 	
 	public enum MovementType implements Serializable{
 		SMALL_PERIMETER,
@@ -163,5 +163,26 @@ public class MovementList implements Serializable{
 		EIGHT_PATH_LARGE,
 		
 		REST;
+
+		public static MovementType getRandom() {
+			Random r = new Random();
+			int num = r.nextInt() % 12;
+			MovementType moveType = MovementType.REST;
+			switch (num) {
+				case 0:moveType = MovementType.CIRCLE_SENTINEL_LARGE;break;
+				case 1:moveType = MovementType.CIRCLE_SENTINEL_SMALL;break;
+				case 2:moveType = MovementType.DIAGONAL_SENTINEL_MAIN;break;
+				case 3:moveType = MovementType.DIAGONAL_SENTINEL_SECONDARY;break;
+				case 4:moveType = MovementType.EIGHT_PATH_LARGE;break;
+				case 5:moveType = MovementType.EIGHT_PATH_SMALL;break;
+				case 6:moveType = MovementType.ELLIPTICAL_PERIMETER_HORIZONTAL;break;
+				case 7:moveType = MovementType.HORIZONTAL_SENTINEL;break;
+				case 8:moveType = MovementType.LARGE_PERIMETER;break;
+				case 9:moveType = MovementType.REST;break;
+				case 10:moveType = MovementType.SMALL_PERIMETER;break;
+				case 11:moveType = MovementType.VERTICAL_SENTINEL;break;
+			}
+			return moveType;
+		}
 	}
 }
