@@ -116,6 +116,10 @@ public class AI implements Serializable {
 		enemy.shootDirection.set( world.characters.get(playerId).position.subtract( enemy.position ).normalize() );
 		// aggiungo un certo errore ruotando il vettore di un angolo random tra 0 e 10 gradi 
 		float angle = FastMath.DEG_TO_RAD * ( FastMath.rand.nextFloat() % enemy.errorAngle );
+		// genero casualmente se l'angolo è positivo o negativo
+		int tmpValue = FastMath.rand.nextInt() % 2;
+		if ( tmpValue == 0 )
+			angle = angle * (-1);
 		Quaternion q = new Quaternion().fromAngleAxis( angle, Vector3f.UNIT_Y );
 		q.mult( enemy.shootDirection, enemy.shootDirection );
 	}
