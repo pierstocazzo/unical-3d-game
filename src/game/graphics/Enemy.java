@@ -238,18 +238,16 @@ public class Enemy extends Character  {
 	}
 
 	void lookAtAction( Vector3f direction ) {
-		Vector3f lookAtDirection = new Vector3f( world.getCore().getShootDirection(id) );
-		if( lookAtDirection.equals( Vector3f.ZERO ) ) {
-	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-	        vectorToLookAt.addLocal( direction.x, 0, direction.z );
-	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+		if( world.getCore().getState(id) != State.ATTACK ) {
+			vectorToLookAt.set( model.getWorldTranslation() );
+			vectorToLookAt.addLocal( direction.x, 0, direction.z );
+			this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 		} else {
-	        vectorToLookAt.set( this.getModel().getWorldTranslation() );
-	        vectorToLookAt.addLocal( lookAtDirection.x, 0, lookAtDirection.z );
-	        this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+			Vector3f lookAtDirection = new Vector3f( world.getCore().getShootDirection(id) );
+			vectorToLookAt.set( model.getWorldTranslation() );
+			vectorToLookAt.addLocal( lookAtDirection.x, 0, lookAtDirection.z );
+			this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 		}
-		
-		lookAtDirection = null;
 	}
 
 	public void shoot( Vector3f direction ) {

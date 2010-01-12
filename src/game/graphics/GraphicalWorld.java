@@ -201,7 +201,7 @@ public class GraphicalWorld extends Game {
     				"game/data/models/soldier/soldier.jpg", 1 );
     	    model.setLocalTranslation(0, -2f, 0);   
     	    
-    		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/ar15.jpg" ),
+    		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/AR15.jpg" ),
     	            Texture.MinificationFilter.Trilinear,
     	            Texture.MagnificationFilter.Bilinear);
     	    TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
