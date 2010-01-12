@@ -64,7 +64,6 @@ public class Environment {
     float textureScale = 0.008f;
     float globalSplatScale = 30.0f;
 	int heightMapSize;
-	float terrainScale;
 	
 	/** the sun effect */
 	LensFlare flare;
@@ -85,6 +84,8 @@ public class Environment {
     StaticPhysicsNode gameBounds;
     
     Scene scene;
+	
+    Vector3f terrainScale;
     
     /** Class Environment constructor <br>
      * Create the environment for the game
@@ -102,7 +103,7 @@ public class Environment {
 		heightMapSize = scene.getHeightmapSize();
 		terrainScale = scene.getScale();
 		
-		world.dimension = heightMapSize * terrainScale;
+		world.dimension = heightMapSize * terrainScale.x;
 		
 //	    DirectionalLight dr = new DirectionalLight();
 //	    dr.setEnabled(true);
@@ -388,9 +389,6 @@ public class Environment {
 	private void createTerrain() {
 		RawHeightMap heightMap = scene.getHeightmap();
 		
-        Vector3f terrainScale = new Vector3f( this.terrainScale, 0.008f, this.terrainScale );
-//        heightMap.setHeightScale(0.001f);
-        
         terrain = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
         terrain.getLocalTranslation().set( 0, -20f, 0);
@@ -485,7 +483,6 @@ public class Environment {
     private void createReflectionTerrain() {
     	RawHeightMap heightMap = scene.getHeightmap();
 
-        Vector3f terrainScale = new Vector3f( this.terrainScale, 0.008f, this.terrainScale );
         TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
         page.getLocalTranslation().set(  0, -20, 0 );
