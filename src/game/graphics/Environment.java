@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 
 import utils.Loader;
 import utils.ModelLoader;
-import utils.SceneXmlReader;
+import utils.Scene;
 import utils.Util;
 
 import com.jme.bounding.BoundingBox;
@@ -65,8 +65,8 @@ public class Environment {
     float farPlane = 10000.0f;
     float textureScale = 0.008f;
     float globalSplatScale = 30.0f;
-	int heightMapSize = 129;
-	int terrainScale = 32;
+	int heightMapSize;
+	float terrainScale;
 	
 	/** the sun effect */
 	LensFlare flare;
@@ -86,6 +86,7 @@ public class Environment {
     /** the game's bounds, a physics box that contains the scene */
     StaticPhysicsNode gameBounds;
     
+    Scene scene;
     
     /** Class Environment constructor <br>
      * Create the environment for the game
@@ -98,6 +99,11 @@ public class Environment {
 	}
 	
 	private void init() {
+		scene = new Scene( Scene.DEFAULT_SCENE_FILE );
+		
+		heightMapSize = scene.getHeightmapSize();
+		terrainScale = scene.getScale();
+		
 		world.dimension = heightMapSize * terrainScale;
 		
 //	    DirectionalLight dr = new DirectionalLight();
@@ -247,52 +253,52 @@ public class Environment {
 	@SuppressWarnings("unchecked")
 	private void createVegetation() {
 		
-		float x, z;
-
-		for( int k = 1; k < 6; k++ ) {
-			Node tree = ModelLoader.loadModel( "game/data/models/environment/palm" + k + ".3ds", 
-					"game/data/models/environment/palm" + k + ".png", 0.08f );
-			
-			for (int i = 0; i < 200; i++) {
-				SharedNode sharedTree = new SharedNode( "tree"+i, tree );
-				x = (float) Math.random() * world.dimension - world.dimension/2;
-				z = (float) Math.random() * world.dimension - world.dimension/2;
-				while( terrain.getHeight(x, z) <= 25 || terrain.getHeight(x, z) >= 50 ) {
-					x = (float) Math.random() * world.dimension - world.dimension/2;
-					z = (float) Math.random() * world.dimension - world.dimension/2;
-				}
-				sharedTree.setModelBound( new BoundingBox() );
-				sharedTree.updateModelBound();
-				world.getCollisionNode().attachChild( sharedTree );
-				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 20, z ));
-				sharedTree.lock();
-				world.items.add( sharedTree );
-			}
-		}
-		
-		for( int k = 1; k < 3; k++ ) {
-			Node tree = ModelLoader.loadModel( "game/data/models/environment/tree" + k + ".3ds", 
-					"game/data/models/environment/tree" + k + ".png", 0.8f );
-			
-			for (int i = 0; i < 400; i++) {
-				SharedNode sharedTree = new SharedNode( "tree"+i, tree );
-				x = (float) Math.random() * world.dimension - world.dimension/2;
-				z = (float) Math.random() * world.dimension - world.dimension/2;
-				while( terrain.getHeight(x, z) <= 60 || terrain.getHeight(x, z) >= 200 ) {
-					x = (float) Math.random() * world.dimension - world.dimension/2;
-					z = (float) Math.random() * world.dimension - world.dimension/2;
-				}
-				sharedTree.setModelBound( new BoundingBox() );
-				sharedTree.updateModelBound();
-				world.getCollisionNode().attachChild( sharedTree );
-				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 20, z ));
-				sharedTree.lock();
-				world.items.add( sharedTree );
-			}
-		}
+//		float x, z;
+//
+//		for( int k = 1; k < 6; k++ ) {
+//			Node tree = ModelLoader.loadModel( "game/data/models/environment/palm" + k + ".3ds", 
+//					"game/data/models/environment/palm" + k + ".png", 0.08f );
+//			
+//			for (int i = 0; i < 200; i++) {
+//				SharedNode sharedTree = new SharedNode( "tree"+i, tree );
+//				x = (float) Math.random() * world.dimension - world.dimension/2;
+//				z = (float) Math.random() * world.dimension - world.dimension/2;
+//				while( terrain.getHeight(x, z) <= 25 || terrain.getHeight(x, z) >= 50 ) {
+//					x = (float) Math.random() * world.dimension - world.dimension/2;
+//					z = (float) Math.random() * world.dimension - world.dimension/2;
+//				}
+//				sharedTree.setModelBound( new BoundingBox() );
+//				sharedTree.updateModelBound();
+//				world.getCollisionNode().attachChild( sharedTree );
+//				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 20, z ));
+//				sharedTree.lock();
+//				world.items.add( sharedTree );
+//			}
+//		}
+//		
+//		for( int k = 1; k < 3; k++ ) {
+//			Node tree = ModelLoader.loadModel( "game/data/models/environment/tree" + k + ".3ds", 
+//					"game/data/models/environment/tree" + k + ".png", 0.8f );
+//			
+//			for (int i = 0; i < 400; i++) {
+//				SharedNode sharedTree = new SharedNode( "tree"+i, tree );
+//				x = (float) Math.random() * world.dimension - world.dimension/2;
+//				z = (float) Math.random() * world.dimension - world.dimension/2;
+//				while( terrain.getHeight(x, z) <= 60 || terrain.getHeight(x, z) >= 200 ) {
+//					x = (float) Math.random() * world.dimension - world.dimension/2;
+//					z = (float) Math.random() * world.dimension - world.dimension/2;
+//				}
+//				sharedTree.setModelBound( new BoundingBox() );
+//				sharedTree.updateModelBound();
+//				world.getCollisionNode().attachChild( sharedTree );
+//				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 20, z ));
+//				sharedTree.lock();
+//				world.items.add( sharedTree );
+//			}
+//		}
 		String dir = "game/data/models/environment/";
 		
-		List items = SceneXmlReader.getItems( SceneXmlReader.DEFAULT_SCENE_FILE );
+		List items = scene.getItems();
 		LinkedList<Item> loaded = new LinkedList<Item>();
 		Iterator it = items.iterator();
 		while( it.hasNext() ) {
@@ -387,10 +393,7 @@ public class Environment {
 	}
 
 	private void createTerrain() {
-		RawHeightMap heightMap = new RawHeightMap( getClass()
-                .getClassLoader().getResource(
-                        "game/data/texture/terrain2/height.raw"),
-                heightMapSize, RawHeightMap.FORMAT_16BITLE, false);
+		RawHeightMap heightMap = scene.getHeightmap();
 		
         Vector3f terrainScale = new Vector3f( this.terrainScale, 0.008f, this.terrainScale );
 //        heightMap.setHeightScale(0.001f);
@@ -402,24 +405,24 @@ public class Environment {
 
      // create some interesting texturestates for splatting
         TextureState ts1 = createSplatTextureState(
-                "game/data/texture/terrain2/base.jpg", 
+                "game/data/terrain/base.jpg", 
                 null);
 
         TextureState ts2 = createSplatTextureState(
-                "game/data/texture/terrain2/grass.jpg",
-                "game/data/texture/terrain2/grass.png");
+                "game/data/terrain/grass.jpg",
+                "game/data/terrain/grass.png");
 
         TextureState ts3 = createSplatTextureState(
-                "game/data/texture/terrain2/brightgrass.jpg",
-                "game/data/texture/terrain2/brightgrass.png");
+                "game/data/terrain/brightgrass.jpg",
+                "game/data/terrain/brightgrass.png");
         
         TextureState ts4 = createSplatTextureState(
-                "game/data/texture/terrain2/rock.jpg",
-                "game/data/texture/terrain2/rock.png");
+                "game/data/terrain/rock.jpg",
+                "game/data/terrain/rock.png");
 
         TextureState ts5 = createSplatTextureState(
-        		"game/data/texture/terrain2/road.jpg",
-        		"game/data/texture/terrain2/road.png");
+        		"game/data/terrain/road.jpg",
+        		"game/data/terrain/road.png");
         
         // alpha used for blending the passnodestates together
         BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
@@ -487,9 +490,7 @@ public class Environment {
     }
 
     private void createReflectionTerrain() {
-    	RawHeightMap heightMap = new RawHeightMap( Loader.load(
-                        "game/data/texture/terrain2/height.raw"),
-                heightMapSize, RawHeightMap.FORMAT_16BITLE, false);
+    	RawHeightMap heightMap = scene.getHeightmap();
 
         Vector3f terrainScale = new Vector3f( this.terrainScale, 0.008f, this.terrainScale );
         TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),

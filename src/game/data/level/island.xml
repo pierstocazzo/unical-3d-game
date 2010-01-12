@@ -6,6 +6,9 @@
 -->
 
 <Freeworld3D Version="2.0">
+<Terrain Size="129" Step="32.000000">
+	<Heightmap File="/terrain/height.raw" Format="16bit RAW" Scale="0.008000"/>
+</Terrain>
 <CachedMeshGroups Count="1">
 	<CachedMeshGroup Name="unsorted" Count="7">
 		<Mesh Name="building.3ds" Id="1" Filename="F:/Documents and Settings/slash17/Desktop//meshes/unsorted/building.3ds"/>
