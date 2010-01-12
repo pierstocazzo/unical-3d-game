@@ -1,18 +1,17 @@
 package game.core;
 
-import game.common.*;
+import game.common.Direction;
+import game.common.Movement;
+import game.common.State;
+import game.common.WeaponType;
 import game.common.MovementList.MovementType;
-
 import game.graphics.WorldInterface;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import com.jme.math.Vector3f;
