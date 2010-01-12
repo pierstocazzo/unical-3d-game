@@ -6,6 +6,7 @@ import game.base.Game;
 import game.input.ThirdPersonHandler;
 import game.menu.LoadingFrame;
 import game.sound.SoundManager;
+import game.sound.SoundManager.SoundType;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -117,7 +118,7 @@ public class GraphicalWorld extends Game {
         this.core = core;
         super.loadingFrame = loadingFrame;
         
-//        audioEnabled = true;
+        audioEnabled = true;
     }
 
 	public void setupInit() {
@@ -527,27 +528,18 @@ public class GraphicalWorld extends Game {
 	}
 	
 	public void shoot( Vector3f position ) {
-		if( audioEnabled ) {
-	    	SoundManager.explosion.setWorldPosition( position.clone() );
-	    	SoundManager.explosion.setVolume( 0.7f );
-			SoundManager.shoot.play();
-		}
+		if( audioEnabled )
+	    	SoundManager.playSound( SoundType.SHOOT, position.clone() );
 	}
 	
 	public void explode( Vector3f position ) {
-		if( audioEnabled ) {
-	    	SoundManager.explosion.setWorldPosition( position.clone() );
-	    	SoundManager.explosion.setVolume( 5 );
-			SoundManager.explosion.play();
-		}
+		if( audioEnabled ) 
+			SoundManager.playSound( SoundType.EXPLOTION, position.clone() );
 	}
     
 	public void playDeathSound() {
-		if( audioEnabled ) {
-	    	SoundManager.death.setWorldPosition( cam.getLocation().clone() );
-	    	SoundManager.death.setVolume( 5 );
-			SoundManager.death.play();
-		}
+		if( audioEnabled ) 
+			SoundManager.playSound( SoundType.DEATH, cam.getLocation().clone() );
 	}
 	
 	private void updateRenderOptimizer() {

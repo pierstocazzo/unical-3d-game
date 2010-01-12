@@ -4,6 +4,7 @@ import java.net.URL;
 
 import utils.Loader;
 
+import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
 import com.jmex.audio.AudioSystem;
 import com.jmex.audio.AudioTrack;
@@ -11,14 +12,21 @@ import com.jmex.audio.AudioTrack.TrackType;
 import com.jmex.audio.MusicTrackQueue.RepeatType;
 
 public class SoundManager {
+	
+	public static enum SoundType {
+		DEATH,
+		GAME,
+		SHOOT,
+		EXPLOTION;
+	}
 
 	/** audio controller */
 	public AudioSystem audio;
 	
 	/** Audio tracks */
-	public static AudioTrack shoot;
-	public static AudioTrack explosion;
-	public static AudioTrack death;
+	private static AudioTrack shoot;
+	private static AudioTrack explosion;
+	private static AudioTrack death;
 	
 	Camera cam;
 	
@@ -67,11 +75,32 @@ public class SoundManager {
 		return sound;
 	}
 	
+	public static void playSound( SoundType soundType, Vector3f position){
+		switch (soundType) {
+			case DEATH:
+					death.setWorldPosition( position );
+					death.play();
+				break;
+			case SHOOT:
+					shoot.setWorldPosition( position );
+					shoot.play();
+				break;
+			case EXPLOTION:
+					explosion.setWorldPosition( position );
+					explosion.play();
+				break;
+		}
+	}
+	
 	public void update() {
 		audio.update();
 	}
 
 	public void cleanup() {
+		shoot.clearTrackStateListeners();
+		explosion.clearTrackStateListeners();
+		death.clearTrackStateListeners();
 		audio.cleanup();
+		
 	}
 }
