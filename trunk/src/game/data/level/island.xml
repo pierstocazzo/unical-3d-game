@@ -17,7 +17,6 @@
 		<Mesh Name="sacchi.3ds" Id="4" Filename="F:/Documents and Settings/slash17/Desktop//meshes/unsorted/sacchi.3ds"/>
 		<Mesh Name="tenda.3ds" Id="5" Filename="F:/Documents and Settings/slash17/Desktop//meshes/unsorted/tenda.3ds"/>
 		<Mesh Name="fence.3ds" Id="6" Filename="F:/Documents and Settings/slash17/Desktop//meshes/unsorted/fence.3ds"/>
-		<Mesh Name="ton3_low.3ds" Id="8" Filename="F:/Documents and Settings/slash17/Desktop//meshes/unsorted/ton3_low.3ds"/>
 	</CachedMeshGroup>
 </CachedMeshGroups>
 <SceneLayers Count="1">
