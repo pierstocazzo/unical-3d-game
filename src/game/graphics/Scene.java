@@ -170,7 +170,6 @@ public class Scene {
 			
 			item.meshId = curr.getAttributeValue("CachedMeshId");
 			
-			/* creo un nuovo item e lo aggiungo alla mia lista */
 			items.add( item );
 		}
 	}
