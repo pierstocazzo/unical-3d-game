@@ -42,7 +42,7 @@ public class Scene {
 	int heightmapSize;
 	
 	/** the terrain scale factor */
-	float scale;
+	Vector3f scale;
 	
 	/** list of all items of the scene with their position, rotation and scale */
 	List<Item> items;
@@ -88,7 +88,10 @@ public class Scene {
 	private void buildScene() {
 		Element terrain = xmlRoot.getChild( "Terrain" );
 		heightmapSize = Integer.valueOf( terrain.getAttributeValue( "Size" ) );
-		scale = Float.valueOf( terrain.getAttributeValue( "Step" ) );
+		scale = new Vector3f();
+		scale.x = Float.valueOf( terrain.getAttributeValue( "Step" ) );
+		scale.y = Float.valueOf( terrain.getChild( "Heightmap" ).getAttributeValue( "Scale" ) );
+		scale.z = scale.x;
 		URL heightmapURL = Loader.load( dataDirectory + 
 				terrain.getChild( "Heightmap" ).getAttributeValue( "File" ) );
 		heightmap = new RawHeightMap( heightmapURL, heightmapSize, RawHeightMap.FORMAT_16BITLE, false );
@@ -112,7 +115,7 @@ public class Scene {
 	private void loadItems() {
 		items = new LinkedList<Item>();
 		
-		/* Il file generato da FW3D contiene diversi elementi, quello che ci interessa è
+		/* Il file generato da FW3D contiene diversi elementi, quello che ci interessa ï¿½
 		 * l'elemento SceneLayer figlio di SceneLayers, a sua volta figlio di root
 		 * SceneLayer contiene tutte le informazioni sui modelli 3d, posizione, rotazione, scala
 		 */
@@ -172,9 +175,7 @@ public class Scene {
 		}
 	}
 	
-	/** Function getCashedMesh() <p>
-	 * 
-	 * @return an hashmap with all models to load 
+	/** Function loadCashedMeshes() <p>
 	 */
 	@SuppressWarnings("unchecked")
 	private void loadCashedMeshes() {
@@ -203,7 +204,7 @@ public class Scene {
 		return heightmapSize;
 	}
 
-	public float getScale() {
+	public Vector3f getScale() {
 		return scale;
 	}
 	
