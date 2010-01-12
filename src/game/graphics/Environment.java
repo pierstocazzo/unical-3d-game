@@ -1,20 +1,18 @@
 package game.graphics;
 
-import game.common.Item;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.FloatBuffer;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import utils.Loader;
 import utils.ModelLoader;
-import utils.Scene;
 import utils.Util;
 
 import com.jme.bounding.BoundingBox;
@@ -296,41 +294,36 @@ public class Environment {
 //				world.items.add( sharedTree );
 //			}
 //		}
-		String dir = "game/data/models/environment/";
+		HashMap< String, Node > cachedModels = new HashMap<String, Node>();
+		
+		for( String id : scene.getCachedMeshes().keySet() ) {
+			String filePath = scene.getCachedMeshes().get(id);
+			String texturePath = filePath.replaceFirst( Util.extensionOf( filePath ), "jpg" );
+			Node model = ModelLoader.loadModel( filePath, texturePath, 1 );
+			cachedModels.put( id, model );
+		}
 		
 		List items = scene.getItems();
-		LinkedList<Item> loaded = new LinkedList<Item>();
 		Iterator it = items.iterator();
+		
 		while( it.hasNext() ) {
 			Item item = (Item) it.next();
-			String fileName = item.getFileName();
-			Node model = containsItem( fileName, loaded );
+			String meshId = item.meshId;
 			
-			if( model == null ) {
-				String texturePath = fileName.replaceFirst( Util.extensionOf( fileName ), "jpg" );
-				model = ModelLoader.loadModel( dir + fileName, dir + texturePath, item.getScale() );
-				item.setModel( model );
-				loaded.add( item );
-			}
-			
-			SharedNode sharedModel = new SharedNode( fileName, model );
+			SharedNode sharedModel = new SharedNode( cachedModels.get(meshId) );
 			world.collisionNode.attachChild( sharedModel );
+			
 			Vector3f position = item.getPosition().subtract( 2048, 20, 2048 );
 			sharedModel.setLocalTranslation( position );
+			
 			sharedModel.setLocalRotation( item.getRotation() );
+			
 			sharedModel.setModelBound( new BoundingBox() );
 			sharedModel.updateModelBound();
 			sharedModel.lock();
+			
 			world.items.add( sharedModel );
 		}
-	}
-	
-	private Node containsItem( String fileName, LinkedList<Item> list ) {
-		for( Item item : list ) {
-			if( item.getFileName().equals( fileName ) )
-				return item.getModel();
-		}
-		return null;
 	}
 	
 	 /** Function that creates the game bounds with a physics box that contains all the world
@@ -500,7 +493,7 @@ public class Environment {
 
         TextureState ts1 = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
         Texture t0 = TextureManager.loadTexture( Loader.load(
-                        "game/data/texture/terrain2/terrainLod.jpg"),
+                        "game/data/terrain/terrainLod.jpg"),
                 Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
         ts1.setTexture(t0, 0);
