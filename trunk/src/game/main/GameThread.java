@@ -1,11 +1,10 @@
 package game.main;
 
 import game.base.PhysicsGame;
-import game.common.MovementList.MovementType;
-import game.common.State;
 import game.core.LogicWorld;
 import game.graphics.GraphicalWorld;
 import game.menu.LoadingFrame;
+
 import java.util.logging.Level;
 
 public class GameThread implements Runnable {
