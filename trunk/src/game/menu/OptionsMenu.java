@@ -157,6 +157,24 @@ public class OptionsMenu extends JFrame {
 			}
 		});
 		
+		//etichetta sound
+		JLabel soundLabel = new JLabel("Suono");
+		lim.gridx = 0;
+		lim.gridy = 3;
+		lim.weightx = 0.5;
+		lim.weighty = 0.5;
+		layout.setConstraints(soundLabel, lim);
+		grid.add(soundLabel);
+		
+		// JComboBox - Sound SI o NO
+		JComboBox soundCombo = new JComboBox(list);
+		lim.gridx = 1;
+		lim.gridy = 3;
+		lim.weightx = 0.5;
+		lim.weighty = 0.5;
+		layout.setConstraints(soundCombo, lim);
+		grid.add(soundCombo);
+		
 		//Pannello per la gestione dei comandi utente
 		JPanel grid2 = new JPanel();
 		GridBagLayout layout2 = new GridBagLayout();
