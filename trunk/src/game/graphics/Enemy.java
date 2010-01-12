@@ -77,7 +77,6 @@ public class Enemy extends Character  {
 	    feetToBodyJoint = world.getPhysicsSpace().createJoint();
 	    rotationalAxis = feetToBodyJoint.createRotationalAxis();
 	
-//	    this.moveDirection = new Vector3f( Vector3f.ZERO );
 	    this.speed = speed;
 	    this.mass = mass;
 	    this.model = model;
@@ -101,12 +100,6 @@ public class Enemy extends Character  {
 		vectorToLookAt = new Vector3f();
 		
 		previousMoveDirection = world.getCore().getMoveDirection(id).clone();
-		
-		/** initial look at action */
-//		vectorToLookAt.set( this.getModel().getWorldTranslation() );
-//		moveDirection.set( currentMovement.getDirection().toVector() );
-//		vectorToLookAt.addLocal( moveDirection.negate().x, 0, moveDirection.negate().z );
-//		this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 		
 		TextLabel2D label = new TextLabel2D( id );
 		label.setBackground(Color.GREEN);
@@ -155,7 +148,6 @@ public class Enemy extends Character  {
 		    characterNode.attachChild(body);
 		
 		    // Create the joint
-	//	    rotationalAxis.setDirection(moveDirection);
 		    feetToBodyJoint.attach( body, feet );
 		    rotationalAxis.setRelativeToSecondObject(true);
 		    rotationalAxis.setAvailableAcceleration(0f);
@@ -163,9 +155,6 @@ public class Enemy extends Character  {
 		
 		    // Set default mass
 		    feet.setMass(mass);
-		
-		    // Set the jump direction
-		    jumpVector = new Vector3f(0, mass*1000, 0);
 		    
 		    /** initialize the animation */ 
 			animationController = new CustomAnimationController( model.getController(0) );
@@ -186,9 +175,6 @@ public class Enemy extends Character  {
 				onGround = false;
 			    contactDetect.update(time);
 			    
-			    body.rest();
-//			    lookAtAction();
-			    
 				world.getCore().updateState(id);
 				if( world.getCore().getState(id) == State.ATTACK || 
 						world.getCore().getState(id) == State.FINDATTACK || 
@@ -203,7 +189,6 @@ public class Enemy extends Character  {
 					shooting = false;
 				}
 			    
-				world.getCore().setPosition( id, feet.getWorldTranslation() );
 			    moveCharacter();
 			    
 			    // update core
@@ -380,14 +365,6 @@ public class Enemy extends Character  {
         return feet;
     }
 
-    /** Function <code>getJumpVector</code> <br>
-     * 
-     * @return (Vector3f) the jump vector
-     */
-    public Vector3f getJumpVector() {
-        return jumpVector;
-    }
-
 	/** Function <code>getModel</code> <br>
 	 * 
 	 * @return (Node) the character 3d model
@@ -428,29 +405,5 @@ public class Enemy extends Character  {
 		if( moving )
 			animationController.runAnimation( Animation.WALK );
 		world.getCore().setMoving( id, moving );
-	}
-
-	/** Function <code>setJumping</code> <p>
-	 * If the boolean parameter is true, set the character's status to jumping and activate the right animation
-	 * @param jumping - (boolean)
-	 */
-	public void setJumping( boolean jumping ) {	
-		if( jumping )
-			animationController.runAnimation( Animation.JUMP );
-		world.getCore().setJumping( id, jumping );
-	}
-
-	/**
-	 * @return true if the character is shooting
-	 */
-	public boolean isShooting() {
-		return shooting;
-	}
-
-	/**
-	 * @param shooting 
-	 */
-	public void setShooting( boolean shooting ) {
-		this.shooting = shooting;
 	}
 }
