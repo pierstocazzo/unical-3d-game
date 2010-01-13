@@ -1,5 +1,8 @@
 package game.graphics;
 
+import game.HUD.HudMessage;
+import game.HUD.HudMessageBox;
+import game.HUD.HudMessageHandler;
 import game.HUD.UserHud;
 
 import com.jme.input.InputHandler;
@@ -68,7 +71,7 @@ public class AmmoPackage {
         						deletePackage();
         						return;
         					} else {
-        						UserHud.addMessage( 0 );
+        						UserHud.addMessage( HudMessageHandler.MAX_AMMO );
         					}
         				}
         			}

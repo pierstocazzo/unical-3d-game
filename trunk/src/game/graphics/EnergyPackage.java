@@ -1,5 +1,6 @@
 package game.graphics;
 
+import game.HUD.HudMessageHandler;
 import game.HUD.UserHud;
 
 import com.jme.input.InputHandler;
@@ -63,7 +64,7 @@ public class EnergyPackage {
         					if( world.getCore().catchEnergyPack( "player"+i, id ) )
         						deletePackage();
         					else
-        						UserHud.addMessage( 1 );
+        						UserHud.addMessage( HudMessageHandler.MAX_ENERGY );
         				}
         			}
         		}
