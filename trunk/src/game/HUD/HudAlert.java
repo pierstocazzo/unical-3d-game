@@ -6,7 +6,6 @@ import game.core.LogicEnemy;
 import game.sound.SoundManager;
 import game.sound.SoundManager.SoundType;
 
-import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Text;
 import com.jme.scene.shape.Quad;
