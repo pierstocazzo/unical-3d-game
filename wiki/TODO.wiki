@@ -13,4 +13,3 @@
 
   * Chiusura errata con audio attivo
   * Problema avvio caricando energyPack
-  * Se inizio a sparare in prima persona e vado in terza persona, continuo a sparare e tutti i proiettili vanno addosso al player
