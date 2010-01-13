@@ -11,5 +11,5 @@
 
 == Bug da sistemare ==
 
-  * Chiusura errata con audio attivo
+  * Chiusura errata con audio attivo (su windows)
   * Problema avvio caricando energyPack
