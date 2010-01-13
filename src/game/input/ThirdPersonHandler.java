@@ -35,6 +35,7 @@ package game.input;
 
 import java.util.HashMap;
 
+import game.common.GameTimer;
 import game.graphics.Player;
 import game.input.action.FirstPersonAction;
 import game.input.action.ShootAction;
@@ -343,6 +344,7 @@ public class ThirdPersonHandler extends InputHandler {
     		chaser.setEnabled(true);
         	mouseLookHandler.setEnabled(false);
         	target.hide( false );
+        	target.setShooting( false );
         }
 
         updateMovements();
@@ -428,7 +430,7 @@ public class ThirdPersonHandler extends InputHandler {
             getTarget().getLocalRotation().getRotationColumn(2, rot);
         }
         rot.normalizeLocal();
-        targetLocation.addLocal(rot.multLocal(( speed * event.getTime())));
+        targetLocation.addLocal(rot.multLocal(( speed * GameTimer.getTimePerFrame())));
     }
     
     protected void moveForward( float speed ) {

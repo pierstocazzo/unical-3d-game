@@ -1,7 +1,5 @@
 package game.graphics;
 
-import game.HUD.HudMessage;
-import game.HUD.HudMessageBox;
 import game.HUD.HudMessageHandler;
 import game.HUD.UserHud;
 
