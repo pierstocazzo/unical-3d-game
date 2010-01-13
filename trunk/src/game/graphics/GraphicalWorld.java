@@ -83,7 +83,7 @@ public class GraphicalWorld extends Game {
 	
 	/** audio controller */
 	SoundManager audio;
-	boolean audioEnabled;
+	public boolean audioEnabled;
 	
 	boolean freeCam;
 
@@ -320,6 +320,12 @@ public class GraphicalWorld extends Game {
 		collisionNode.updateWorldBound();
 		collisionNode.updateGeometricState(0, true);
 		updateInput();
+		
+		if(inputHandler.isWalkingBackwards() || inputHandler.isWalkingForward())
+			if(audioEnabled)
+				SoundManager.playSound(SoundType.WALK, cam.getLocation().clone());
+		if(inputHandler.isRunning() && audioEnabled)
+				SoundManager.playSound(SoundType.RUN, cam.getLocation().clone());
     }
     
 	private void checkVictory() {
@@ -331,6 +337,8 @@ public class GraphicalWorld extends Game {
 			}
 			if( tot == 0 ){
 				userHud.hudMsgBox.createMessageBox(HudMessageBox.VICTORY);
+				if(audioEnabled)
+					SoundManager.playSound(SoundType.VICTORY, cam.getLocation().clone());
 				victory = true;
 			}
 		}

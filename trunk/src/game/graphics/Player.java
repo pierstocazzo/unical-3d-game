@@ -3,6 +3,8 @@ package game.graphics;
 import game.HUD.UserHud;
 import game.common.GameTimer;
 import game.graphics.CustomAnimationController.Animation;
+import game.sound.SoundManager;
+import game.sound.SoundManager.SoundType;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.input.action.InputAction;
@@ -300,6 +302,8 @@ public class Player extends Character {
 			world.shoot( world.getCam().getLocation() );
 		} else {
 			UserHud.addMessage(2);
+			if(world.audioEnabled)
+				SoundManager.playSound(SoundType.NOAMMO, world.getCam().getLocation());
 		}
 	}
 }
