@@ -131,24 +131,18 @@ public class ScoreManager implements Serializable {
 				break;
 			case 2: 
 				score = score + 10;
-				if( score >= 125 ) {
+				if( score >= 125 )
 					level = 3;
-					UserHud.addMessage(HudMessageHandler.NEW_LEVEL);
-				}
 				break;
 			case 3:
 				score = score + 15;
-				if( score >= 350 ) {
+				if( score >= 350 )
 					level = 4;
-					UserHud.addMessage(HudMessageHandler.NEW_LEVEL);
-				}
 				break;
 			case 4:
 				score = score + 20;
-				if( score >= 750 ) {
+				if( score >= 750 )
 					level = 5;
-					UserHud.addMessage(HudMessageHandler.NEW_LEVEL);
-				}
 				break;
 			case 5: 
 				score = score + 25;
