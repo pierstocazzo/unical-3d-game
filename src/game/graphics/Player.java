@@ -1,5 +1,6 @@
 package game.graphics;
 
+import game.HUD.HudMessageHandler;
 import game.HUD.UserHud;
 import game.common.GameTimer;
 import game.graphics.CustomAnimationController.Animation;
@@ -301,7 +302,7 @@ public class Player extends Character {
 			bullet.shoot(direction);
 			world.shoot( world.getCam().getLocation() );
 		} else {
-			UserHud.addMessage(2);
+			UserHud.addMessage(HudMessageHandler.AMMO_FINISHED);
 			if(world.audioEnabled)
 				SoundManager.playSound(SoundType.NOAMMO, world.getCam().getLocation());
 		}
