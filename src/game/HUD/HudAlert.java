@@ -3,7 +3,10 @@ package game.HUD;
 import game.common.GameTimer;
 import game.common.State;
 import game.core.LogicEnemy;
+import game.sound.SoundManager;
+import game.sound.SoundManager.SoundType;
 
+import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Text;
 import com.jme.scene.shape.Quad;
@@ -80,11 +83,17 @@ public class HudAlert {
 		stateColor = State.DEFAULT;
 		alertValue = getAlertLevel();
 		//if an enemy is in alert state
-		if(stateColor == State.ALERT)
+		if(stateColor == State.ALERT){
 			frontQuad.setDefaultColor(ColorRGBA.yellow);
+			if(userHud.gWorld.audioEnabled)
+				SoundManager.playSound(SoundType.ALERTMUSIC, null );
+		}
 		//if an enemy is in attack state
-		if(stateColor == State.ATTACK)
+		if(stateColor == State.ATTACK){
 			frontQuad.setDefaultColor(ColorRGBA.red);
+			if(userHud.gWorld.audioEnabled)
+				SoundManager.playSound(SoundType.ATTACKMUSIC, null );
+		}
 		//if all enemy are in default state
 		if(stateColor == State.DEFAULT)
 			checkColor();
