@@ -352,54 +352,6 @@ public class GraphicalWorld extends Game {
 	 * Call the update method of each character contained in the characters hashMap
 	 */
 	private void updateCharacters( float time ) {
-		/* Vecchio sistema: creiamo una collection al volo in cui mettiamo tutti i puntatori 
-		 * dei nostri characters, e poi iteriamo su questa, cosi' quando un character muore e 
-		 * chiama il remove dell'hashmap noi non abbiamo problemi. 
-		 * Metodo dubbio, brutto da vedere e fa uso di due collection
-		 */
-//		Collection<Character> c = new LinkedList<Character>( characters.values() );
-//		Iterator<Character> it = c.iterator();
-//		while( it.hasNext() ) {
-//			it.next().update(time);
-//		}
-//		c.clear();
-//		c = null;
-		
-		/* Prima alternativa: sfruttando gli id particolari, l'if per non provare a fare
-		 * l'update di un character non piu' esistente (darebbe una nullpointerexeption)
-		 * Metodo un po trucchettoso e brutto da vedere, ma non usa 
-		 * alcuna struttura di comodo e sfrutta l'accesso random dell'hashmap
-		 */
-//		for( int i = 1; i <= playersCounter; i++ ) {
-//			if( characters.get("player"+i) != null ) { 
-//				characters.get("player"+i).update(time); 
-//			}
-//		}
-//		
-//		for( int i = 1; i <= enemiesCounter; i++ ) {
-//			if( characters.get("enemy"+i) != null ) {
-//				characters.get("enemy"+i).update(time); 
-//			}
-//		}
-		
-		/* Seconda alternativa: nell'hashmap logica i characters restano anche dopo essere morti. 
-		 * Bisogna aggiungere varibile "alive" in logicCharacter, odificare il metodo die() in modo che 
-		 * non tolga l'oggetto dall'hashmap ma metta solo la variabile alive a false, e modificare 
-		 * anche il metodo isAlive( String id ) di conseguenza. 
-		 * Metodo piu' elegante, ma fa uso di set e inoltre a livello logico gli oggetti restano
-		 * sempre nell'hashmap anche quando non servono piu'
-		 */
-//		for( String id : core.getCharactersIds() ) {
-//			if( core.isAlive(id) ) {
-//				characters.get(id).update(time);
-//			} else {
-//				characters.remove(id);
-//			}
-//		}
-		
-		/* Terza alternativa: iteriamo direttamente nella collection values, facciamo l'update, 
-		 * se dopo l'update il character risulta morto, l'iteratore elimina l'elemento corrente.
-		 */
 		Iterator<GraphicalCharacter> it = characters.iterator();
 		while( it.hasNext() ) {
 			GraphicalCharacter character = it.next();

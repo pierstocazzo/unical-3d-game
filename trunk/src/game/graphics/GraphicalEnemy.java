@@ -113,53 +113,53 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 	}
 
 	/** Function <code>createPhysics</code> <p>
-		 * 
-		 * Create the physics geometry of a character: <br>
-		 *  - <i>feet</i> node, a Sphere used for the movements (by rotation) <br>
-		 *  - <i>body</i> node, a Capsule placed upon the feet that contains the character model <br>
-		 *  - <i>rotationalAxis</i>, the axis that permit the movement (by rotating the sphere) <br>
-		 *  <p>
-		 *  Also initialize animation controller and set the <i>"idle"</i> animation
-		 */
-		void createPhysics() {
-		    // Create the feet
-		    PhysicsSphere feetGeometry = feet.createSphere("feet geometry");
-		    feetGeometry.setLocalScale(2);
-		    
-		    feet.setMaterial(characterMaterial);
-		    feet.computeMass();
-		
-		    // Append feet to main Character Node
-		    characterNode.attachChild(feet);
-		
-		    // Create the body
-		    PhysicsCapsule bodyGeometry = body.createCapsule("body geometry");
-		    bodyGeometry.setLocalScale(2);
-		    bodyGeometry.setLocalTranslation(0,5,0);
-		    // Set UP the orientation of the Body
-		    Quaternion quaternion = new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
-		    bodyGeometry.setLocalRotation(quaternion);
-		    // Setting up the body
-		    body.setAffectedByGravity(false);
-		    body.computeMass();
-		    body.attachChild( model );
-		    
-		    // Append body to main Character Node
-		    characterNode.attachChild(body);
-		
-		    // Create the joint
-		    feetToBodyJoint.attach( body, feet );
-		    rotationalAxis.setRelativeToSecondObject(true);
-		    rotationalAxis.setAvailableAcceleration(0f);
-		    rotationalAxis.setDesiredVelocity(0f);
-		
-		    // Set default mass
-		    feet.setMass(mass);
-		    
-		    /** initialize the animation */ 
-			animationController = new GameAnimationController( model.getController(0) );
-	        setOnGround( false );
-		}
+	 * 
+	 * Create the physics geometry of a character: <br>
+	 *  - <i>feet</i> node, a Sphere used for the movements (by rotation) <br>
+	 *  - <i>body</i> node, a Capsule placed upon the feet that contains the character model <br>
+	 *  - <i>rotationalAxis</i>, the axis that permit the movement (by rotating the sphere) <br>
+	 *  <p>
+	 *  Also initialize animation controller and set the <i>"idle"</i> animation
+	 */
+	void createPhysics() {
+		// Create the feet
+		PhysicsSphere feetGeometry = feet.createSphere("feet geometry");
+		feetGeometry.setLocalScale(2);
+
+		feet.setMaterial(characterMaterial);
+		feet.computeMass();
+
+		// Append feet to main Character Node
+		characterNode.attachChild(feet);
+
+		// Create the body
+		PhysicsCapsule bodyGeometry = body.createCapsule("body geometry");
+		bodyGeometry.setLocalScale(2);
+		bodyGeometry.setLocalTranslation(0,5,0);
+		// Set UP the orientation of the Body
+		Quaternion quaternion = new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
+		bodyGeometry.setLocalRotation(quaternion);
+		// Setting up the body
+		body.setAffectedByGravity(false);
+		body.computeMass();
+		body.attachChild( model );
+
+		// Append body to main Character Node
+		characterNode.attachChild(body);
+
+		// Create the joint
+		feetToBodyJoint.attach( body, feet );
+		rotationalAxis.setRelativeToSecondObject(true);
+		rotationalAxis.setAvailableAcceleration(0f);
+		rotationalAxis.setDesiredVelocity(0f);
+
+		// Set default mass
+		feet.setMass(mass);
+
+		/** initialize the animation */ 
+		animationController = new GameAnimationController( model.getController(0) );
+		setOnGround( false );
+	}
 
 	/** Function <code>update</code> <br>
 	 * Update the physics character 
@@ -223,15 +223,15 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 	}
 
 	void lookAtAction( Vector3f direction ) {
-		if( world.getCore().getState(id) != State.ATTACK ) {
-			vectorToLookAt.set( model.getWorldTranslation() );
-			vectorToLookAt.addLocal( direction.x, 0, direction.z );
-			this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
-		} else {
+		if( world.getCore().getState(id) == State.ATTACK || world.getCore().getState(id) == State.FINDATTACK ) {
 			Vector3f lookAtDirection = new Vector3f( world.getCore().getShootDirection(id) );
 			vectorToLookAt.set( model.getWorldTranslation() );
 			vectorToLookAt.addLocal( lookAtDirection.x, 0, lookAtDirection.z );
-			this.getModel().lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+			model.lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+		} else {
+			vectorToLookAt.set( model.getWorldTranslation() );
+			vectorToLookAt.addLocal( direction.x, 0, direction.z );
+			model.lookAt( vectorToLookAt, Vector3f.UNIT_Y );
 		}
 	}
 
