@@ -3,7 +3,7 @@ package game.graphics;
 import game.common.GameTimer;
 import game.common.State;
 import game.common.TextLabel2D;
-import game.graphics.CustomAnimationController.Animation;
+import game.graphics.GameAnimationController.Animation;
 
 import java.awt.Color;
 
@@ -27,7 +27,7 @@ import com.jmex.physics.geometry.PhysicsCapsule;
 import com.jmex.physics.geometry.PhysicsSphere;
 import com.jmex.physics.material.Material;
 
-public class Enemy extends Character  {
+public class GraphicalEnemy extends GraphicalCharacter  {
 	
 	/** utility Vector used for the look at action */
 	Vector3f vectorToLookAt;
@@ -65,7 +65,7 @@ public class Enemy extends Character  {
 	 * @param mass - (int) the enemy's mass
 	 * @param model - (Node) the model to attach to the enemy
 	 */
-	public Enemy( String id, GraphicalWorld world, float speed, float mass, Node model ) {
+	public GraphicalEnemy( String id, GraphicalWorld world, float speed, float mass, Node model ) {
 	
 		this.id = id;
 		
@@ -95,7 +95,7 @@ public class Enemy extends Character  {
 	    createPhysics();
 	    contactDetection();
 	    
-	    previousTime = 0;
+	    previousShootTime = 0;
 		
 		vectorToLookAt = new Vector3f();
 		
@@ -157,7 +157,7 @@ public class Enemy extends Character  {
 		    feet.setMass(mass);
 		    
 		    /** initialize the animation */ 
-			animationController = new CustomAnimationController( model.getController(0) );
+			animationController = new GameAnimationController( model.getController(0) );
 	        setOnGround( false );
 		}
 
@@ -181,8 +181,8 @@ public class Enemy extends Character  {
 						world.getCore().getState(id) == State.GUARDATTACK) {
 					animationController.runAnimation( Animation.SHOOT );
 					shooting = true;
-					if( GameTimer.getTimeInSeconds() - previousTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
-						previousTime = GameTimer.getTimeInSeconds();
+					if( GameTimer.getTimeInSeconds() - previousShootTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
+						previousShootTime = GameTimer.getTimeInSeconds();
 						shoot( world.getCore().getShootDirection(id) );
 					}
 				} else {
@@ -271,7 +271,7 @@ public class Enemy extends Character  {
         exp.forceRespawn();
         
         world.ammoPackagesCounter++;
-		AmmoPackage ammo = new AmmoPackage( "ammo" + world.ammoPackagesCounter, 
+		GraphicalAmmoPackage ammo = new GraphicalAmmoPackage( "ammo" + world.ammoPackagesCounter, 
 				world, feet.getWorldTranslation().clone().add( new Vector3f(0,15,0) ) );
 		world.ammoPackages.put( ammo.id, ammo );
 		
@@ -385,7 +385,7 @@ public class Enemy extends Character  {
 	 * 
 	 * @return the animation controller
 	 */
-    public CustomAnimationController getAnimationController() {
+    public GameAnimationController getAnimationController() {
 		return animationController;
 	}
 	

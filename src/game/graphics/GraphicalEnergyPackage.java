@@ -13,7 +13,7 @@ import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 import com.jmex.physics.material.Material;
 
-public class EnergyPackage {
+public class GraphicalEnergyPackage {
 	
 	String id;
 	
@@ -27,7 +27,7 @@ public class EnergyPackage {
 	
 	InputHandler contactDetect;
 	
-	EnergyPackage( String id, GraphicalWorld world, Vector3f position ) {
+	GraphicalEnergyPackage( String id, GraphicalWorld world, Vector3f position ) {
 		this.id = id;
 		this.world = world;
 		this.position = new Vector3f( position );

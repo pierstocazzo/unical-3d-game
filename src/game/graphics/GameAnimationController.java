@@ -9,13 +9,13 @@ import com.jmex.model.animation.JointController;
  * An custom animation controller to easily run animations
  * with a JointController
  */
-public class CustomAnimationController {
+public class GameAnimationController {
 
 	JointController controller;
 	
 	Animation currentAnimation;
 
-	public CustomAnimationController( Controller controller ) {
+	public GameAnimationController( Controller controller ) {
 		this.controller = (JointController) controller;
 		runAnimation( Animation.IDLE );
 		controller.setActive( true );

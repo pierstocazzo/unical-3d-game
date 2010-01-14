@@ -7,7 +7,7 @@ import com.jme.scene.Node;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.PhysicsNode;
 
-public class Character {
+public class GraphicalCharacter {
 
 	/** the character identifier */
 	public String id;
@@ -22,7 +22,7 @@ public class Character {
     Node model;
     
 	/** animation controller */
-	CustomAnimationController animationController;
+	GameAnimationController animationController;
 	
 	/** the graphical world in which the character live */
     GraphicalWorld world;
@@ -39,18 +39,23 @@ public class Character {
     /** true if the character is shooting */
     boolean shooting = false;
 
-	float previousTime;
+    /** when was shooted the last bullet */
+	float previousShootTime;
 
-	protected boolean enabled = true;
+	/** set if the character will update or not */
+	boolean enabled = true;
+	
 	
 	public Node getCharacterNode() {
 		return characterNode;
 	}
 
 	public void update(float time) {
+		// overridden 
 	}
 
 	public PhysicsNode getCharacterFeet() {
+		// used just for GraphicalEnemy witch override it
 		return null;
 	}
 
@@ -59,7 +64,7 @@ public class Character {
 	}
 
 	public boolean isEnabled() {
-		return this.enabled;
+		return enabled;
 	}
 
 	public void setEnabled( boolean enabled ) {

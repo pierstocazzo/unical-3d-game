@@ -52,10 +52,8 @@ public class ThirdPersonRightAction extends KeyInputAction {
     public void performAction(InputActionEvent event) {
         if( event.getTriggerPressed() && handler.isCanStrafeRight() ) {
         	handler.setTurningRight(true);
-        	handler.setTurning(true);
         } else {
         	handler.setTurningRight(false);
-        	handler.setTurning(false);
         }
     }
 }
