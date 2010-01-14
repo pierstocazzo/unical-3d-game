@@ -14,7 +14,7 @@ import com.jmex.physics.contact.ContactInfo;
 
 /**
 */
-public class AmmoPackage {
+public class GraphicalAmmoPackage {
  
 	String id;
 	
@@ -30,7 +30,7 @@ public class AmmoPackage {
 	
 	boolean contact = false;
 	
-	AmmoPackage( String id, GraphicalWorld world, Vector3f position ) {
+	GraphicalAmmoPackage( String id, GraphicalWorld world, Vector3f position ) {
 		this.id = id;
 		this.world = world;
 		this.position = new Vector3f( position );

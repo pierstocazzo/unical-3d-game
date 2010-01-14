@@ -20,7 +20,6 @@ import com.jme.image.Texture;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
 import com.jme.input.MouseLookHandler;
-import com.jme.math.FastMath;
 import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Renderer;
@@ -51,25 +50,25 @@ public class GraphicalWorld extends Game {
 	ThirdPersonHandler inputHandler;
     
     /** hashmap of the characters */
-    HashMap< String, Character > characters; 
+    HashMap< String, GraphicalCharacter > characters; 
     
     /** hashmap of the bullets */
 	HashMap< String, Bullet > bullets;
     int bulletsCounter = 0;
     
     /** hashmap of the ammo packages */
-	HashMap< String, AmmoPackage > ammoPackages;
+	HashMap< String, GraphicalAmmoPackage > ammoPackages;
     int ammoPackagesCounter = 0;
     
     /** hashmap of the energy packages */
-	HashMap< String, EnergyPackage > energyPackages;
+	HashMap< String, GraphicalEnergyPackage > energyPackages;
     int energyPackagesCounter = 0;
     
     LinkedList< Node > items;
     int itemsCounter = 0;
     
     /** the player, in single player mode */
-    public Player player;
+    public GraphicalPlayer player;
 
     /** set to false when you don't want to do the world update */
 	boolean enabled = true;
@@ -131,10 +130,10 @@ public class GraphicalWorld extends Game {
 		rootNode.attachChild( hudNode );
 		hudNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
 		
-		characters = new HashMap<String, Character>();
+		characters = new HashMap<String, GraphicalCharacter>();
 		bullets = new HashMap<String, Bullet>();
-		ammoPackages = new HashMap<String, AmmoPackage>();
-		energyPackages = new HashMap<String, EnergyPackage>();
+		ammoPackages = new HashMap<String, GraphicalAmmoPackage>();
+		energyPackages = new HashMap<String, GraphicalEnergyPackage>();
 		items = new LinkedList<Node>();
 		loadingFrame.setProgress(10);
 		loadingFrame.setLoadingText("Impostazioni Prima Persona");
@@ -183,7 +182,7 @@ public class GraphicalWorld extends Game {
 	    
 	    for( String id : core.getPlayersIds() ) {
 	    	playersCounter++;
-	    	player = new Player( id, this, 20, 100, model );
+	    	player = new GraphicalPlayer( id, this, model );
 	        player.getCharacterNode().getLocalTranslation().set( core.getPosition(id) );
 	        rootNode.attachChild( player.getCharacterNode() );
 	        characters.put( player.id, player );
@@ -210,7 +209,7 @@ public class GraphicalWorld extends Game {
     		model.getChild( "weapon" ).setRenderState( ts );
 			loadingFrame.setProgress(80+difference);
 
-            Enemy enemy = new Enemy( id, this, 20, 100,  model );
+            GraphicalEnemy enemy = new GraphicalEnemy( id, this, 20, 100,  model );
             
             Vector3f position = core.getPosition(id);
             position.setY( environment.getTerrain().getHeight( position.x, position.z ) + 1 );
@@ -235,12 +234,7 @@ public class GraphicalWorld extends Game {
         KeyBindingManager.getKeyBindingManager().set( "shoot", KeyInput.KEY_F );
         KeyBindingManager.getKeyBindingManager().set( "firstPerson", KeyInput.KEY_R );
     	
-        HashMap<String, Object> handlerProps = new HashMap<String, Object>();
-        handlerProps.put(ThirdPersonHandler.PROP_DOGRADUAL, "false");
-        handlerProps.put(ThirdPersonHandler.PROP_TURNSPEED, ""+(1.0f * FastMath.PI));
-        handlerProps.put(ThirdPersonHandler.PROP_LOCKBACKWARDS, "false");
-        handlerProps.put(ThirdPersonHandler.PROP_CAMERAALIGNEDMOVE, "true");
-        inputHandler = new ThirdPersonHandler( player, cam, handlerProps);
+        inputHandler = new ThirdPersonHandler( player, cam );
         
         // setup CollisionHandler
         collisionHandler = new CollisionHandler( inputHandler, collisionNode );
@@ -321,10 +315,10 @@ public class GraphicalWorld extends Game {
 		collisionNode.updateGeometricState(0, true);
 		updateInput();
 		
-		if(inputHandler.isWalkingBackwards() || inputHandler.isWalkingForward())
+		if( player.walkingBackwards || player.walkingForward )
 			if(audioEnabled)
 				SoundManager.playSound(SoundType.WALK, cam.getLocation().clone());
-		if(inputHandler.isRunning() && audioEnabled)
+		if( player.running && audioEnabled)
 				SoundManager.playSound(SoundType.RUN, cam.getLocation().clone());
     }
     
@@ -484,7 +478,7 @@ public class GraphicalWorld extends Game {
 			position.setX( r.nextInt( (int) dimension ) );
 			position.setZ( r.nextInt( (int) dimension ) );
 			position.setY( environment.getTerrain().getHeight(position.x, position.z) +10 );
-			EnergyPackage e = new EnergyPackage( id, this, position );
+			GraphicalEnergyPackage e = new GraphicalEnergyPackage( id, this, position );
 			energyPackages.put( e.id, e );
 		}
 	}
