@@ -2,12 +2,14 @@
 
   * File di configurazione xml da cui leggere opzioni e parametri di gioco - joe (DA INIZIARE)
   * Menù opzioni e credits - andrea (PREDISPOSTO)
-  * Riorganizzazione codice e commenti - andrea/joe
+  * Riorganizzazione codice e commenti - andrea/joe (WORK IN PROGRESS)
   * Scena importata completamente da file xml - slash (WORK IN PROGRESS)
-  * Sound Manager - slash/andrea (INIZIATO)
+  * Sound Manager - slash/andrea (PREDISPOSTO)
   * Organizzazione inputhandler e supporto joystick - joe
   * Animazioni modello e armi - slash (WORK IN PROGRESS)
   * Multiplayer - slash/joe/andrea (?)
+  * Audio - trovare file da associare al soundmanage
+  * Immagini Menu - Servono le immagini per lo sfondo del menu e per i credits
 
 == Bug da sistemare ==
 
