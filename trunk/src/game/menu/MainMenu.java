@@ -17,49 +17,67 @@ import javax.swing.JPanel;
 
 /**
  * Class Main Menu
+ * It's the main frame. From this class we can launch or load a game match.
+ * It's possible to know info about development team, to modify game option and exit.
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class MainMenu extends JFrame {
+	
+	/** Class ID */
 	private static final long serialVersionUID = 1L;
 	
 	/** Main Panel */
-	MainPanel p;
+	MainPanel centerPanel;
 	
-	/** background wallpaper */
+	/** background image */
 	Image background;
 	
+	/** Screen size informations */
 	Dimension screenSize;
 	
 	/**
-	 * Constructor
+	 * Constructor of MainMenu Class
 	 */
 	public MainMenu(){
 		super();
+		// get screen size informations
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		// apply screen size value to current frame
 	    setBounds(0,0,screenSize.width, screenSize.height);
+	    // get background image
 		background = Toolkit.getDefaultToolkit().getImage( "src/game/data/images/menu/background.jpg" );
+		// scale background image respect screen size
 		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_DEFAULT);
+		// hide frame border
 		setUndecorated(true); 
 		this.setAlwaysOnTop(true);
 		requestFocus();
 		hideCursor();
 		
 		this.setTitle("Main Menu");
-		p = new MainPanel(this);
-		
+		centerPanel = new MainPanel(this);
 		
 	    setResizable(false);
 	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	/**
-	 * Create Main Menu
+	 * Create a panel. This panel is displayed with its components at frame center
 	 */
 	public void createMenu(){
-		JPanel b = new JPanel(){
+		
+		/**
+		 * Create a panel for mapping frame components
+		 */
+		JPanel mainPanel = new JPanel(){
+			
+			/** panel ID */
 			private static final long serialVersionUID = 1L;
 
+			/** 
+			 * Override this method for paint background image before frame components
+			 */
 			@Override
 			public void paintComponent(Graphics g){
 				g.drawImage(background, 0, 0, this);
@@ -67,43 +85,48 @@ public class MainMenu extends JFrame {
 			}
 		};
 		
-		b.setLayout(new BorderLayout());
-		b.setOpaque(false);
-		this.setContentPane(b);
-		b.add(p, BorderLayout.CENTER);
+		// set a layout to main panel
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.setOpaque(false);
+		this.setContentPane(mainPanel);
+		// at main panel center add centerPanel
+		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		
-		//add left vertical empty panel
+		//add left vertical empty panel for spacing
 		JPanel pVerticalEmpty1 = new JPanel();
 		pVerticalEmpty1.setOpaque(false);
 		pVerticalEmpty1.setPreferredSize(new Dimension(screenSize.width/4, 1));
-		b.add(pVerticalEmpty1,BorderLayout.WEST);
+		mainPanel.add(pVerticalEmpty1,BorderLayout.WEST);
 		
-		//add right vertical empty panel
+		//add right vertical empty panel for spacing
 		JPanel pVerticalEmpty2 = new JPanel();
 		pVerticalEmpty2.setOpaque(false);
 		pVerticalEmpty2.setPreferredSize(new Dimension(screenSize.width/4, 1));
-		b.add(pVerticalEmpty2,BorderLayout.EAST);
+		mainPanel.add(pVerticalEmpty2,BorderLayout.EAST);
 		
-		//add lower horizontal empty panel
+		//add lower horizontal empty panel for spacing
 		JPanel pHorizontalEmpty1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pHorizontalEmpty1.setOpaque(false);
 		pHorizontalEmpty1.setPreferredSize(new Dimension(1, screenSize.height/4));
-		b.add(pHorizontalEmpty1,BorderLayout.SOUTH);
+		mainPanel.add(pHorizontalEmpty1,BorderLayout.SOUTH);
 		
-		//add upper horizontal empty panel
+		//add upper horizontal empty panel for spacing
 		JPanel pHorizontalEmpty2 = new JPanel();
 		pHorizontalEmpty2.setOpaque(false);
 		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height/4));
-		b.add(pHorizontalEmpty2,BorderLayout.NORTH);
+		mainPanel.add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 		/**
-		 * Custom Listener
+		 * Custom Listener.
+		 * It intercepts key pressed and refresh center panel
 		 * 
 		 * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
 		 */
 		class KeyHandler implements KeyListener{
+			
 			/** Main Panel */
 			MainPanel panel;
+			
 			/**
 			 * Constructor
 			 * @param p - MainPanel
@@ -126,7 +149,7 @@ public class MainMenu extends JFrame {
 			public void keyTyped(KeyEvent e) {}
 		}
 		
-		addKeyListener( new KeyHandler(p));
+		addKeyListener( new KeyHandler(centerPanel));
 		setFocusable(true);
 		setVisible(true);
 	}
