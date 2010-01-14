@@ -1,7 +1,8 @@
 == Cose da fare == 
 
   * File di configurazione xml da cui leggere opzioni e parametri di gioco - joe (WORK IN PROGRESS)
-  * Menù opzioni e credits - andrea (PREDISPOSTO)
+  * Menù opzioni - andrea (PREDISPOSTO)
+  * Immagine Credits - slash
   * Riorganizzazione codice e commenti - andrea/joe (WORK IN PROGRESS)
   * Sound Manager - slash/andrea (WORK IN PROGRESS)
   * Supporto joystick - joe
