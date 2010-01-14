@@ -212,7 +212,7 @@ public class GraphicalWorld extends Game {
             GraphicalEnemy enemy = new GraphicalEnemy( id, this, 20, 100,  model );
             
             Vector3f position = core.getPosition(id);
-            position.setY( environment.getTerrain().getHeight( position.x, position.z ) + 1 );
+            position.setY( environment.getTerrain().getHeight( position.x, position.z ) - 19 );
         	enemy.getCharacterNode().getLocalTranslation().set( position );
         	characters.add( enemy );
         	rootNode.attachChild( enemy.getCharacterNode() );
