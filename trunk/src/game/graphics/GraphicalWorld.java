@@ -254,8 +254,6 @@ public class GraphicalWorld extends Game {
     	} else {
     		checkVictory();
     		
-    		updateRenderOptimizer();
-    		
     		player.getCollision().updateWorldBound();
     		player.getCollision().updateGeometricState(0, true);
     		
@@ -285,6 +283,7 @@ public class GraphicalWorld extends Game {
 	        }
 	        
 	        updateCharacters(tpf);
+	        updateRenderOptimizer();
 	        
 	        /** print the crosshair only in first person view */
 	        if( inputHandler.isFirstPerson() ) {
