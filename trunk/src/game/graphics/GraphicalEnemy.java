@@ -218,15 +218,20 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 			if( getOnGround() ) 
 				clearDynamics();
 			setMoving( false );
+			lookAtAction( null );
 		}
 	}
 
 	void lookAtAction( Vector3f direction ) {
-		if( world.getCore().getState(id) == State.ATTACK || world.getCore().getState(id) == State.FINDATTACK ) {
-			Vector3f lookAtDirection = new Vector3f( world.getCore().getShootDirection(id) );
-			vectorToLookAt.set( model.getWorldTranslation() );
-			vectorToLookAt.addLocal( lookAtDirection.x, 0, lookAtDirection.z );
-			model.lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+		if( direction == null ) {
+			if( world.getCore().getState(id) == State.ATTACK || 
+				world.getCore().getState(id) == State.FINDATTACK ||
+				world.getCore().getState(id) == State.GUARDATTACK ) {
+				Vector3f lookAtDirection = new Vector3f( world.getCore().getShootDirection(id) );
+				vectorToLookAt.set( model.getWorldTranslation() );
+				vectorToLookAt.addLocal( lookAtDirection.x, 0, lookAtDirection.z );
+				model.lookAt( vectorToLookAt, Vector3f.UNIT_Y );
+			}
 		} else {
 			vectorToLookAt.set( model.getWorldTranslation() );
 			vectorToLookAt.addLocal( direction.x, 0, direction.z );
