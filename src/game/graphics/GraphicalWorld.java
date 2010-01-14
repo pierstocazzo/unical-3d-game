@@ -8,7 +8,6 @@ import game.menu.LoadingFrame;
 import game.sound.SoundManager;
 import game.sound.SoundManager.SoundType;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,17 +50,17 @@ public class GraphicalWorld extends Game {
 	/** a custom freeCamInput handler to control the player */
 	ThirdPersonHandler inputHandler;
     
-    /** hashmap of the characters */
-    HashMap< String, GraphicalCharacter > characters; 
+    /** list of the characters */
+    List<GraphicalCharacter> characters; 
     
     /** list of the bullets */
 	List<Bullet> bullets;
     
-    /** hashmap of the ammo packages */
+    /** list of the ammo packages */
 	List<GraphicalAmmoPackage> ammoPackages;
     int ammoPackagesCounter = 0;
     
-    /** hashmap of the energy packages */
+    /** list of the energy packages */
 	List<GraphicalEnergyPackage> energyPackages;
     int energyPackagesCounter = 0;
     
@@ -131,7 +130,7 @@ public class GraphicalWorld extends Game {
 		rootNode.attachChild( hudNode );
 		hudNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
 		
-		characters = new HashMap<String, GraphicalCharacter>();
+		characters = new LinkedList<GraphicalCharacter>();
 		bullets = new LinkedList<Bullet>();
 		ammoPackages = new LinkedList<GraphicalAmmoPackage>();
 		energyPackages = new LinkedList<GraphicalEnergyPackage>();
@@ -186,7 +185,7 @@ public class GraphicalWorld extends Game {
 	    	player = new GraphicalPlayer( id, this, model );
 	        player.getCharacterNode().getLocalTranslation().set( core.getPosition(id) );
 	        rootNode.attachChild( player.getCharacterNode() );
-	        characters.put( player.id, player );
+	        characters.add( player );
 	    }
 	}
 
@@ -215,8 +214,8 @@ public class GraphicalWorld extends Game {
             Vector3f position = core.getPosition(id);
             position.setY( environment.getTerrain().getHeight( position.x, position.z ) + 1 );
         	enemy.getCharacterNode().getLocalTranslation().set( position );
-        	characters.put( id, enemy );
-        	rootNode.attachChild( characters.get(id).getCharacterNode() );
+        	characters.add( enemy );
+        	rootNode.attachChild( enemy.getCharacterNode() );
         	difference = difference + 20/core.getEnemiesIds().size();
         }
     }
@@ -324,19 +323,19 @@ public class GraphicalWorld extends Game {
     }
     
 	private void checkVictory() {
-		if(!victory){
-			int tot = 0;
-			for( int i = 1; i <= enemiesCounter; i++ ) {
-				if( characters.get("enemy"+i) != null ) 
-					tot = tot + 1;
-			}
-			if( tot == 0 ){
-				userHud.hudMsgBox.createMessageBox(HudMessageBox.VICTORY);
-				if(audioEnabled)
-					SoundManager.playSound(SoundType.VICTORY, cam.getLocation().clone());
-				victory = true;
-			}
-		}
+//		if(!victory){
+//			int tot = 0;
+//			for( int i = 1; i <= enemiesCounter; i++ ) {
+//				if( characters.get("enemy"+i) != null ) 
+//					tot = tot + 1;
+//			}
+//			if( tot == 0 ){
+//				userHud.hudMsgBox.createMessageBox(HudMessageBox.VICTORY);
+//				if(audioEnabled)
+//					SoundManager.playSound(SoundType.VICTORY, cam.getLocation().clone());
+//				victory = true;
+//			}
+//		}
 	}
 
 	private void updateInput() {
@@ -405,7 +404,7 @@ public class GraphicalWorld extends Game {
 		/* Terza alternativa: iteriamo direttamente nella collection values, facciamo l'update, 
 		 * se dopo l'update il character risulta morto, l'iteratore elimina l'elemento corrente.
 		 */
-		Iterator<GraphicalCharacter> it = characters.values().iterator();
+		Iterator<GraphicalCharacter> it = characters.iterator();
 		while( it.hasNext() ) {
 			GraphicalCharacter character = it.next();
 			character.update(time);
@@ -531,21 +530,23 @@ public class GraphicalWorld extends Game {
 		Vector3f camPos = new Vector3f( cam.getLocation() );
 		camPos.setY(0);
 		Vector3f pos = new Vector3f();
-		
-		for( String id : core.getEnemiesIds() ) {
-			pos.set( core.getPosition( id ) ).setY(0);
+		Iterator<GraphicalCharacter> it = characters.iterator();
+		while( it.hasNext() ) {
+			GraphicalCharacter character = it.next();
+			
+			pos.set( core.getPosition( character.id ) ).setY(0);
 
 			distance = camPos.distance( pos );
 
 			if ( distance > 500 ) {
-				if ( characters.get(id).isEnabled() ) {
-					characters.get(id).hideModel();
-					characters.get(id).setEnabled(false);
+				if ( character.isEnabled() ) {
+					character.hideModel();
+					character.setEnabled(false);
 				}
 			} else {
-				if ( !characters.get(id).isEnabled() ) {
-					characters.get(id).showModel();
-					characters.get(id).setEnabled(true);
+				if ( !character.isEnabled() ) {
+					character.showModel();
+					character.setEnabled(true);
 				}
 			}
 		}

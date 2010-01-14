@@ -1,5 +1,7 @@
 package game.graphics;
 
+import java.util.Iterator;
+
 import game.HUD.HudMessageHandler;
 import game.HUD.UserHud;
 
@@ -59,17 +61,17 @@ public class GraphicalEnergyPackage {
         	public void performAction( InputActionEvent evt ) {
         		ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
 
-        		for( int i = 1; i <= world.playersCounter; i++ ) {
-        			if( world.characters.get("player"+i) != null ) { 
-        				if ( contactInfo.getNode1() == world.characters.get("player"+i).getCharacterBody() || 
-        						contactInfo.getNode2() == world.characters.get("player"+i).getCharacterBody() ) {
+        		Iterator<GraphicalCharacter> it = world.characters.iterator();
+        		while( it.hasNext() ) {
+        			GraphicalCharacter character = it.next();
+    				if ( contactInfo.getNode1() == character.getCharacterBody() || 
+    					 contactInfo.getNode2() == character.getCharacterBody() ) {
 
-        					if( world.getCore().catchEnergyPack( "player"+i, id ) )
-        						deletePackage();
-        					else
-        						UserHud.addMessage( HudMessageHandler.MAX_ENERGY );
-        				}
-        			}
+    					if( world.getCore().catchEnergyPack( character.id, id ) )
+    						deletePackage();
+    					else
+    						UserHud.addMessage( HudMessageHandler.MAX_ENERGY );
+    				}
         		}
         	}
         };
