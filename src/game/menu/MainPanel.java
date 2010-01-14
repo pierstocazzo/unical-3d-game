@@ -21,32 +21,41 @@ import game.main.GameThread;
 
 /**
  * Class MainPanel
+ * Center Panel displayed in main frame
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class MainPanel extends JPanel {
+	
+	/** Class ID */
 	private static final long serialVersionUID = 1L;
+	
 	/** List of menu items */
 	ArrayList<JLabel> item;
+	
 	/** Number of current element */
 	public int current = 0;
+	
 	/** List of image path */
 	ArrayList<String> imageFolder;
+	
 	/** Preloaded images */
 	ArrayList<Image> imageContainer;
-	/** MainMenu */
-	MainMenu mm;
 	
+	/** MainMenu */
+	MainMenu mainMenu;
+	
+	/** Pointer to current thread game */
 	GameThread gameThread;
 	
 	/**
-	 * Constructor
+	 * Constructor of MainPanel
 	 * 
-	 * @param mm - MainMenu
+	 * @param mainMenu - MainMenu
 	 */
-	public MainPanel(MainMenu mm){
+	public MainPanel(MainMenu mainMenu){
 		super();
-		this.mm = mm;
+		this.mainMenu = mainMenu;
 		initImageFolder();
 		initItem();
 		
@@ -69,8 +78,6 @@ public class MainPanel extends JPanel {
 	
 	/**
 	 * Get next element number
-	 * 
-	 * @return (int) current
 	 */
 	public int next(){
 		this.current = this.current - 1;
@@ -83,7 +90,7 @@ public class MainPanel extends JPanel {
 	/**
 	 * Get Path String of unselected image of element i
 	 * 
-	 * @param i
+	 * @param (int) i
 	 * @return (String) path
 	 */
 	public Icon StandardImage(int i){
@@ -93,7 +100,7 @@ public class MainPanel extends JPanel {
 	/**
 	 * Get Path String of selected image of element i
 	 * 
-	 * @param i
+	 * @param (int) i
 	 * @return (String) path
 	 */
 	public Icon SelectedImage(int i){
@@ -145,9 +152,10 @@ public class MainPanel extends JPanel {
 		imageFolder.add("src/game/data/images/menu/exit.png");
 		imageFolder.add("src/game/data/images/menu/exit2.png");
 		imageContainer = new ArrayList<Image>();
+		// scale all image respect screen size
 		for(int i=0; i<imageFolder.size(); i++){
 			Image img = Toolkit.getDefaultToolkit().getImage( imageFolder.get(i) );
-			img = img.getScaledInstance(mm.screenSize.width/3, mm.screenSize.height/10, Image.SCALE_DEFAULT);
+			img = img.getScaledInstance(mainMenu.screenSize.width/3, mainMenu.screenSize.height/10, Image.SCALE_DEFAULT);
 			imageContainer.add(img);
 		}
 	}
@@ -159,24 +167,20 @@ public class MainPanel extends JPanel {
 	public void executeSelectedItem(){
 		switch (current){
 			case 0:
-				mm.setAlwaysOnTop(false);
+				mainMenu.setAlwaysOnTop(false);
 				
-				//Loading Bar
+				// Create a Loading Bar
 				LoadingFrame load = new LoadingFrame();
-				load.setVisible(true);
-				load.setAlwaysOnTop(true);
 		
+				// Create a new game thread and launch it
 				gameThread = new GameThread(load);
-				
-				System.out.println("New Game");
 				Thread gameThreadNew = new Thread( gameThread );
 				gameThreadNew.start();
 				
-				mm.setVisible(false);
-				System.out.println("Exit from Main Menu");break;
+				mainMenu.setVisible(false);break;
 			case 1:
 				//Load game with fileChooser
-				mm.showCursor();
+				mainMenu.showCursor();
 				JFileChooser fc = new JFileChooser();
 				int returnVal = fc.showOpenDialog(this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -184,42 +188,60 @@ public class MainPanel extends JPanel {
 					System.out.println("Opening: " + file.getName() + ".");
 					
 					FileInputStream fin = null;
-					try { fin = new FileInputStream("gameSave/"+file.getName());} 
-					catch (FileNotFoundException e) {e.printStackTrace();}
+					try {
+							fin = new FileInputStream("gameSave/"+file.getName());
+						}
+					catch (FileNotFoundException e) {
+							e.printStackTrace();
+						}
+					
 					ObjectInputStream ois = null;
-					try { ois = new ObjectInputStream(fin); } 
-					catch (IOException e) { e.printStackTrace(); }
+					try { 
+							ois = new ObjectInputStream(fin); 
+						} 
+					catch (IOException e) { 
+							e.printStackTrace(); 
+						}
+					
 					LogicWorld gameLoaded = null;
-					try {try { gameLoaded = (LogicWorld) ois.readObject();
-					} catch (IOException e) {e.printStackTrace();}}
-					catch (ClassNotFoundException e) {e.printStackTrace();} 
+					try {
+							try { 
+									gameLoaded = (LogicWorld) ois.readObject();
+								} 
+							catch (IOException e) {
+									e.printStackTrace();
+								}
+						}
+					catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						} 
 					
-					//Loading Bar
+					//Create a Loading Bar
 					LoadingFrame loadingFrame = new LoadingFrame();
-					loadingFrame.setVisible(true);
-					loadingFrame.setAlwaysOnTop(true);
 					
+					// create a new game thread and launch it
 					gameThread = new GameThread(gameLoaded,loadingFrame);
-					
 					Thread gameThreadLoaded = new Thread( gameThread );
 					gameThreadLoaded.start();
-					mm.setVisible(false);
-					System.out.println("Exit from Main Menu");
+					
+					mainMenu.setVisible(false);
 				} 
-				mm.hideCursor();
+				mainMenu.hideCursor();
 				break;
 			case 2:
-				OptionsMenu om = new OptionsMenu(mm);
+				// create a optionsMenu
+				OptionsMenu om = new OptionsMenu(mainMenu);
 				om.setVisible(true);
-				mm.setVisible(false);
+				mainMenu.setVisible(false);
 				break;
 			case 3:
-				CreditsFrame cm = new CreditsFrame(mm);
+				// create a CreditsFrame
+				CreditsFrame cm = new CreditsFrame(mainMenu);
 				cm.setVisible(true);
-				mm.setVisible(false);
+				mainMenu.setVisible(false);
 				break;
 			case 4:
-				System.out.println("exit main menu");
+				// close all
 				System.exit(0);
 				break;
 		}

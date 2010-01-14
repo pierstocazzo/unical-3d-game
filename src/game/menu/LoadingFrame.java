@@ -128,6 +128,9 @@ public class LoadingFrame extends JFrame {
 		
 	    setResizable(false);
 	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+	    
+	    setVisible(true);
+		setAlwaysOnTop(true);
 	}
 	
 	/**

@@ -30,7 +30,7 @@ public class InGameMenu extends JFrame {
 	/** Game Panel */
 	InGamePanel gamePanel;
 	
-	/** background wallpaper */
+	/** background image */
 	Image background;
 
 	/** Pointer to Game Class */
