@@ -22,19 +22,38 @@ import javax.swing.text.BadLocationException;
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class SaveMenu extends JFrame {
+	
+	/** Class ID */
 	private static final long serialVersionUID = 1L;
-	SavePanel p;
-	InGameMenu gm;
-	Image sfondo;
+	
+	/** Save Panel Pointer */
+	SavePanel savePanel;
+	
+	/** Useful pointer */
+	InGameMenu gameMenu;
+	
+	/** Background image */
+	Image background;
+	
+	/** Screen informations */
 	Dimension screenSize;
 	
-	public SaveMenu(InGameMenu gm){
+	/**
+	 * Constructor of class SaveMenu
+	 * 
+	 * @param (InGameMenu) - gameMenu
+	 */
+	public SaveMenu(InGameMenu gameMenu){
 		super();
-		this.gm = gm;
+		this.gameMenu = gameMenu;
+		// get screen informations
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		// apply screen size to frame
 		setBounds(0,0,screenSize.width, screenSize.height);
-		sfondo = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
-		sfondo = sfondo.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_DEFAULT);
+		// get background image
+		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
+		// scale background image
+		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_DEFAULT);
 		
 		this.setUndecorated(true); 
 	    
@@ -50,54 +69,61 @@ public class SaveMenu extends JFrame {
 	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
+	/**
+	 * Create a menu that allow to save game
+	 */
 	public void createMenu(){
 		//create main panel
-		JPanel b = new JPanel(){
+		JPanel mainMenu = new JPanel(){
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void paintComponent(Graphics g){
-				g.drawImage(sfondo, 0, 0, this);
+			public void paintComponent( Graphics g ){
+				g.drawImage( background, 0, 0, this );
 				super.paintComponent(g);
 			}
 		};
 		
-		b.setLayout(new BorderLayout());
-		b.setOpaque(false);
-		this.setContentPane(b);
-		p = new SavePanel(this,gm);
-		b.add(p, BorderLayout.CENTER);
+		mainMenu.setLayout( new BorderLayout() );
+		mainMenu.setOpaque(false);
+		this.setContentPane(mainMenu);
+		savePanel = new SavePanel( this, gameMenu );
+		mainMenu.add( savePanel, BorderLayout.CENTER );
 		
 		//add left vertical empty panel
 		JPanel pVerticalEmpty1 = new JPanel();
 		pVerticalEmpty1.setOpaque(false);
 		pVerticalEmpty1.setPreferredSize(new Dimension(screenSize.width/4, 1));
-		b.add(pVerticalEmpty1,BorderLayout.WEST);
+		mainMenu.add(pVerticalEmpty1,BorderLayout.WEST);
 		
 		//add right vertical empty panel
 		JPanel pVerticalEmpty2 = new JPanel();
 		pVerticalEmpty2.setOpaque(false);
 		pVerticalEmpty2.setPreferredSize(new Dimension(screenSize.width/4, 1));
-		b.add(pVerticalEmpty2,BorderLayout.EAST);
+		mainMenu.add(pVerticalEmpty2,BorderLayout.EAST);
 		
 		//add lower horizontal empty panel
 		JPanel pHorizontalEmpty1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pHorizontalEmpty1.setOpaque(false);
 		pHorizontalEmpty1.setPreferredSize(new Dimension(1, screenSize.height/3));
-		b.add(pHorizontalEmpty1,BorderLayout.SOUTH);
+		mainMenu.add(pHorizontalEmpty1,BorderLayout.SOUTH);
 		
 		//add upper horizontal empty panel
 		JPanel pHorizontalEmpty2 = new JPanel();
 		pHorizontalEmpty2.setOpaque(false);
 		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height/4));
-		b.add(pHorizontalEmpty2,BorderLayout.NORTH);
+		mainMenu.add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 		this.setVisible(true);
 		
-		class KeyHandler implements KeyListener{
+		/**
+		 * Class KeyHandler define a new listener
+		 * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+		 */
+		class KeyHandler implements KeyListener {
 			SavePanel panel;
-			public KeyHandler( SavePanel p){
-				this.panel = p;
+			public KeyHandler( SavePanel savePanel ){
+				this.panel = savePanel;
 			}
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -105,7 +131,7 @@ public class SaveMenu extends JFrame {
 					panel.executeSelectedItem();
 				else if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
 					setVisible(false);
-					gm.setVisible(true);
+					gameMenu.setVisible(true);
 				}
 				else if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE){
 					try {
@@ -114,7 +140,7 @@ public class SaveMenu extends JFrame {
 						panel.text.setText("");
 					}
 				}
-				//to improve TODO
+				//to improve for check file name
 				else if(Pattern.matches( "^[a-zA-Z_0-9]$", KeyEvent.getKeyText(e.getKeyCode())) ||
 						e.getKeyChar()=='-' || e.getKeyChar()=='_' || e.getKeyChar()==' '){
 							panel.text.setText(panel.text.getText()+e.getKeyChar());
@@ -126,7 +152,7 @@ public class SaveMenu extends JFrame {
 			public void keyTyped(KeyEvent e) {}
 		}
 		
-		this.addKeyListener( new KeyHandler(p));
+		this.addKeyListener( new KeyHandler(savePanel));
 		this.setFocusable(true);
 	}
 }

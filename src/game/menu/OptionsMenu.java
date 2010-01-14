@@ -23,31 +23,53 @@ import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 /**
- * Class SaveMenu
+ * Class OptionsMenu
+ * A frame that contains game settings and allow to modify them
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class OptionsMenu extends JFrame {
-	private static final long serialVersionUID = 1L;
-	Image background;
-	MainMenu mm;
-	JTextArea xmlTextPath;
-	OptionsMenu om;
 	
-	public OptionsMenu( final MainMenu mm ){
+	/** Class ID */
+	private static final long serialVersionUID = 1L;
+	
+	/** background image */
+	Image background;
+	
+	/** MainMenu Pointer */
+	MainMenu mainMenu;
+	
+	/** JTextPath that contains a xml file path */
+	JTextArea xmlTextPath;
+	
+	/** His Pointer used in a subClass */
+	OptionsMenu optionsMenu;
+	
+	Vector<String> itemsYesNo;
+	
+	final Vector<String> itemsKeyCommands;
+	
+	public OptionsMenu( final MainMenu mainMenu ){
 		super();
-		this.mm = mm;
-		om = this;
+		this.mainMenu = mainMenu;
+		optionsMenu = this;
 
+		// Get screen size informations
 		Dimension screenSize = 
 	        Toolkit.getDefaultToolkit().getScreenSize();
+		// apply screen size informations
 		setBounds(0,0,screenSize.width, screenSize.height);
+		// get image file
 		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
+		// scale image respect screen size 
 		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_DEFAULT);
 		setUndecorated(true); 
 		
 		setTitle("Credits Game");
 		
+		/**
+		 * Create a panel that allow to show background image
+		 */
 		JPanel mainPanel = new JPanel(){
 			private static final long serialVersionUID = 1L;
 
@@ -58,28 +80,30 @@ public class OptionsMenu extends JFrame {
 			}
 		};
 		
+		// apply layout to main panel
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.setOpaque(false);
 		setContentPane(mainPanel);
 		
-		//Pannello di suddivisione in 3 parti
+		//Create a new sub panel that divide frame
 		JPanel dividePanel = new JPanel();
 		dividePanel.setLayout(new BorderLayout());
 		mainPanel.add(dividePanel,BorderLayout.CENTER);
 		
-		//Pannello per la gestione del monitor
+		//Create first visible panel ( Monitor Settings )
 		JPanel grid = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		grid.setLayout(layout);
 		grid.setOpaque(true);
 		grid.setPreferredSize(new Dimension(screenSize.width*6/8, screenSize.height/4));
+		//add a label to panel
 		TitledBorder titleBorder = new TitledBorder("Impostazioni Generali");
 		grid.setBorder(titleBorder);
 		dividePanel.add(grid, BorderLayout.NORTH);
 		
 		GridBagConstraints lim = new GridBagConstraints();
 		
-		//etichetta risoluzione dello schermo
+		//Create a label that show text
 		JLabel resolutionLabel = new JLabel("Risoluzione dello schermo");
 		lim.gridx = 0;
 		lim.gridy = 0;
@@ -88,6 +112,7 @@ public class OptionsMenu extends JFrame {
 		layout.setConstraints(resolutionLabel, lim);
 		grid.add(resolutionLabel);
 		
+		// Create comboBox about screen resolution settings
 		Vector<String> resolutions = new Vector<String>();
 		resolutions.add("1280x800");resolutions.add("1024x768");resolutions.add("800x600");
 		JComboBox resolutionCombo = new JComboBox(resolutions);
@@ -98,7 +123,7 @@ public class OptionsMenu extends JFrame {
 		layout.setConstraints(resolutionCombo, lim);
 		grid.add(resolutionCombo);
 		
-		//etichetta fullscreen
+		//Create a Label that show text
 		JLabel fullscreenLabel = new JLabel("Fullscreen");
 		lim.gridx = 0;
 		lim.gridy = 1;
@@ -107,10 +132,10 @@ public class OptionsMenu extends JFrame {
 		layout.setConstraints(fullscreenLabel, lim);
 		grid.add(fullscreenLabel);
 		
-		// JComboBox - Fullscreen SI o NO
-		Vector<String> list = new Vector<String>();
-		list.add("SI");list.add("NO");
-		JComboBox fullscreenCombo = new JComboBox(list);
+		// Create a comboBox that allow to choose fullscreen yes or no
+		itemsYesNo = new Vector<String>();
+		itemsYesNo.add("SI");itemsYesNo.add("NO");
+		JComboBox fullscreenCombo = new JComboBox(itemsYesNo);
 		lim.gridx = 1;
 		lim.gridy = 1;
 		lim.weightx = 0.5;
@@ -118,7 +143,7 @@ public class OptionsMenu extends JFrame {
 		layout.setConstraints(fullscreenCombo, lim);
 		grid.add(fullscreenCombo);
 		
-		//Pannello di utilità per inserire componenti relativi all'xml
+		//Useful subPanel that allow to insert different components in a particular position
 		JPanel xmlPanel = new JPanel();
 		xmlPanel.setLayout(new FlowLayout());
 		lim.gridx = 0;
@@ -128,15 +153,15 @@ public class OptionsMenu extends JFrame {
 		layout.setConstraints(xmlPanel, lim);
 		grid.add(xmlPanel);
 		
-		//etichetta file xml
+		// Create a label
 		JLabel xmlLabel = new JLabel("XML file per l'ambientazione: ");
 		xmlPanel.add(xmlLabel);
 	
-		//JTextBox che contiene il path del file xml
+		//JTextBox that contains a file path
 		xmlTextPath = new JTextArea("world.xml");
 		xmlPanel.add(xmlTextPath);
 		
-		//bottone che permette di sfogliare le cartelle
+		//Button Browses for choose files
 		JButton browsButton = new JButton("Sfoglia");
 		lim.gridx = 1;
 		lim.gridy = 2;
@@ -145,11 +170,13 @@ public class OptionsMenu extends JFrame {
 		layout.setConstraints(browsButton, lim);
 		grid.add(browsButton);
 		
+		//Add a listener to last button for allow to choose a file
 		browsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				// create a object for file choosing
 				JFileChooser fc = new JFileChooser();
-				int returnVal = fc.showOpenDialog(om);
+				int returnVal = fc.showOpenDialog(optionsMenu);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = fc.getSelectedFile();
 					xmlTextPath.setText(file.getName());
@@ -157,7 +184,7 @@ public class OptionsMenu extends JFrame {
 			}
 		});
 		
-		//etichetta sound
+		//Create a label
 		JLabel soundLabel = new JLabel("Suono");
 		lim.gridx = 0;
 		lim.gridy = 3;
@@ -166,8 +193,8 @@ public class OptionsMenu extends JFrame {
 		layout.setConstraints(soundLabel, lim);
 		grid.add(soundLabel);
 		
-		// JComboBox - Sound SI o NO
-		JComboBox soundCombo = new JComboBox(list);
+		// create a JComboBox - Sound SI or NO
+		JComboBox soundCombo = new JComboBox(itemsYesNo);
 		lim.gridx = 1;
 		lim.gridy = 3;
 		lim.weightx = 0.5;
@@ -175,7 +202,7 @@ public class OptionsMenu extends JFrame {
 		layout.setConstraints(soundCombo, lim);
 		grid.add(soundCombo);
 		
-		//Pannello per la gestione dei comandi utente
+		//Create second visible panel
 		JPanel grid2 = new JPanel();
 		GridBagLayout layout2 = new GridBagLayout();
 		grid2.setLayout(layout2);
@@ -185,8 +212,8 @@ public class OptionsMenu extends JFrame {
 		grid2.setBorder(titleBorder2);
 		dividePanel.add(grid2, BorderLayout.CENTER);
 		
-		//Inizializzo lista possibili comandi
-		final Vector<String> items = new Vector<String>();
+		//initialize commands list
+		itemsKeyCommands = new Vector<String>();
 		final String avanti_default = "W";
 		final String indietro_default = "S";
 		final String destra_default = "D";
@@ -194,13 +221,20 @@ public class OptionsMenu extends JFrame {
 		final String corri_default = "SHIFT";
 		final String pausa_default = "P";
 		
-		items.add("A");items.add("B");items.add("C");items.add("D");items.add("E");
-		items.add("F");items.add("G");items.add("H");items.add("I");items.add("J");
-		items.add("K");items.add("L");items.add("M");items.add("N");items.add("O");
-		items.add("P");items.add("Q");items.add("R");items.add("S");items.add("T");
-		items.add("U");items.add("V");items.add("X");items.add("Y");items.add("W");
-		items.add("Z");items.add("SHIFT");items.add("SPACE");items.add("CTRL");items.add("ENTER");
+		itemsKeyCommands.add("A");itemsKeyCommands.add("B");itemsKeyCommands.add("C");
+		itemsKeyCommands.add("D");itemsKeyCommands.add("E");
+		itemsKeyCommands.add("F");itemsKeyCommands.add("G");itemsKeyCommands.add("H");
+		itemsKeyCommands.add("I");itemsKeyCommands.add("J");
+		itemsKeyCommands.add("K");itemsKeyCommands.add("L");itemsKeyCommands.add("M");
+		itemsKeyCommands.add("N");itemsKeyCommands.add("O");
+		itemsKeyCommands.add("P");itemsKeyCommands.add("Q");itemsKeyCommands.add("R");
+		itemsKeyCommands.add("S");itemsKeyCommands.add("T");
+		itemsKeyCommands.add("U");itemsKeyCommands.add("V");itemsKeyCommands.add("X");
+		itemsKeyCommands.add("Y");itemsKeyCommands.add("W");
+		itemsKeyCommands.add("Z");itemsKeyCommands.add("SHIFT");itemsKeyCommands.add("SPACE");
+		itemsKeyCommands.add("CTRL");itemsKeyCommands.add("ENTER");
 		
+		//create a label
 		JLabel combo1Label = new JLabel("Cammina Avanti");
 		lim.gridx = 0;
 		lim.gridy = 0;
@@ -209,9 +243,9 @@ public class OptionsMenu extends JFrame {
 		layout2.setConstraints(combo1Label, lim);
 		grid2.add(combo1Label);
 		
-		// JComboBox - Cammina Avanti
-		final JComboBox combo1 = new JComboBox(items);
-		combo1.setSelectedIndex(items.indexOf(avanti_default));
+		// JComboBox - walk forward
+		final JComboBox combo1 = new JComboBox(itemsKeyCommands);
+		combo1.setSelectedIndex(itemsKeyCommands.indexOf(avanti_default));
 		lim.gridx = 1;
 		lim.gridy = 0;
 		lim.weightx = 0.5;
@@ -219,6 +253,7 @@ public class OptionsMenu extends JFrame {
 		layout2.setConstraints(combo1, lim);
 		grid2.add(combo1);
 		
+		//create a label
 		JLabel combo2Label = new JLabel("Cammina Indietro");
 		lim.gridx = 0;
 		lim.gridy = 1;
@@ -227,9 +262,9 @@ public class OptionsMenu extends JFrame {
 		layout2.setConstraints(combo2Label, lim);
 		grid2.add(combo2Label);
 		
-		// JComboBox - Cammina indietro
-		final JComboBox combo2 = new JComboBox(items);
-		combo2.setSelectedIndex(items.indexOf(indietro_default));
+		// JComboBox - walk backward
+		final JComboBox combo2 = new JComboBox(itemsKeyCommands);
+		combo2.setSelectedIndex(itemsKeyCommands.indexOf(indietro_default));
 		lim.gridx = 1;
 		lim.gridy = 1;
 		lim.weightx = 0.5;
@@ -237,6 +272,7 @@ public class OptionsMenu extends JFrame {
 		layout2.setConstraints(combo2, lim);
 		grid2.add(combo2);
 		
+		//create a label
 		JLabel combo3Label = new JLabel("Cammina a Destra");
 		lim.gridx = 0;
 		lim.gridy = 2;
@@ -245,9 +281,9 @@ public class OptionsMenu extends JFrame {
 		layout2.setConstraints(combo3Label, lim);
 		grid2.add(combo3Label);
 		
-		// JComboBox - Cammina a Destra
-		final JComboBox combo3 = new JComboBox(items);
-		combo3.setSelectedIndex(items.indexOf(destra_default));
+		// JComboBox - walk to right
+		final JComboBox combo3 = new JComboBox(itemsKeyCommands);
+		combo3.setSelectedIndex(itemsKeyCommands.indexOf(destra_default));
 		lim.gridx = 1;
 		lim.gridy = 2;
 		lim.weightx = 0.5;
@@ -255,6 +291,7 @@ public class OptionsMenu extends JFrame {
 		layout2.setConstraints(combo3, lim);
 		grid2.add(combo3);
 		
+		//create a label
 		JLabel combo4Label = new JLabel("Cammina a Sinistra");
 		lim.gridx = 0;
 		lim.gridy = 3;
@@ -263,9 +300,9 @@ public class OptionsMenu extends JFrame {
 		layout2.setConstraints(combo4Label, lim);
 		grid2.add(combo4Label);
 		
-		// JComboBox - Cammina a Sinistra
-		final JComboBox combo4 = new JComboBox(items);
-		combo4.setSelectedIndex(items.indexOf(sinistra_default));
+		// JComboBox - walk to left
+		final JComboBox combo4 = new JComboBox(itemsKeyCommands);
+		combo4.setSelectedIndex(itemsKeyCommands.indexOf(sinistra_default));
 		lim.gridx = 1;
 		lim.gridy = 3;
 		lim.weightx = 0.5;
@@ -273,6 +310,7 @@ public class OptionsMenu extends JFrame {
 		layout2.setConstraints(combo4, lim);
 		grid2.add(combo4);
 		
+		//create a label
 		JLabel combo5Label = new JLabel("Corri");
 		lim.gridx = 0;
 		lim.gridy = 4;
@@ -281,9 +319,9 @@ public class OptionsMenu extends JFrame {
 		layout2.setConstraints(combo5Label, lim);
 		grid2.add(combo5Label);
 		
-		// JComboBox - Corri
-		final JComboBox combo5 = new JComboBox(items);
-		combo5.setSelectedIndex(items.indexOf(corri_default));
+		// JComboBox - run
+		final JComboBox combo5 = new JComboBox(itemsKeyCommands);
+		combo5.setSelectedIndex(itemsKeyCommands.indexOf(corri_default));
 		lim.gridx = 1;
 		lim.gridy = 4;
 		lim.weightx = 0.5;
@@ -291,6 +329,7 @@ public class OptionsMenu extends JFrame {
 		layout2.setConstraints(combo5, lim);
 		grid2.add(combo5);
 		
+		//create a label
 		JLabel combo6Label = new JLabel("Pausa");
 		lim.gridx = 0;
 		lim.gridy = 5;
@@ -299,9 +338,9 @@ public class OptionsMenu extends JFrame {
 		layout2.setConstraints(combo6Label, lim);
 		grid2.add(combo6Label);
 		
-		// JComboBox - Pausa
-		final JComboBox combo6 = new JComboBox(items);
-		combo6.setSelectedIndex(items.indexOf(pausa_default));
+		// JComboBox - pause
+		final JComboBox combo6 = new JComboBox(itemsKeyCommands);
+		combo6.setSelectedIndex(itemsKeyCommands.indexOf(pausa_default));
 		lim.gridx = 1;
 		lim.gridy = 5;
 		lim.weightx = 0.5;
@@ -309,7 +348,7 @@ public class OptionsMenu extends JFrame {
 		layout2.setConstraints(combo6, lim);
 		grid2.add(combo6);
 		
-		//Bottoni di utilità
+		//useful buttons in the third visible panel
 		JPanel flow = new JPanel();
 		flow.setLayout(new FlowLayout());
 		dividePanel.add(flow,BorderLayout.SOUTH);
@@ -321,36 +360,36 @@ public class OptionsMenu extends JFrame {
 		JButton buttonOk = new JButton("OK");
 		flow.add(buttonOk);
 		
+		//add reset action
 		buttonReset.addActionListener(
 			    new ActionListener() {
 			        public void actionPerformed(ActionEvent e) {
-			        	combo1.setSelectedIndex(items.indexOf(avanti_default));
-			        	combo2.setSelectedIndex(items.indexOf(indietro_default));
-			        	combo3.setSelectedIndex(items.indexOf(destra_default));
-			        	combo4.setSelectedIndex(items.indexOf(sinistra_default));
-			        	combo5.setSelectedIndex(items.indexOf(corri_default));
-			        	combo6.setSelectedIndex(items.indexOf(pausa_default));
+			        	combo1.setSelectedIndex(itemsKeyCommands.indexOf(avanti_default));
+			        	combo2.setSelectedIndex(itemsKeyCommands.indexOf(indietro_default));
+			        	combo3.setSelectedIndex(itemsKeyCommands.indexOf(destra_default));
+			        	combo4.setSelectedIndex(itemsKeyCommands.indexOf(sinistra_default));
+			        	combo5.setSelectedIndex(itemsKeyCommands.indexOf(corri_default));
+			        	combo6.setSelectedIndex(itemsKeyCommands.indexOf(pausa_default));
 			        }
 			    }
 			);
 		
-		// Annulla ritorna semplicemente al menu principale
+		// cancel return to main panel
 		buttonCancel.addActionListener(
 		    new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
 		            setVisible(false);
-		            mm.setVisible(true);
+		            mainMenu.setVisible(true);
 		        }
 		    }
 		);
 		
-		//applico tutte le modifiche alle impostazioni
+		// apply options
 		buttonOk.addActionListener(
 			    new ActionListener() {
 			        public void actionPerformed(ActionEvent e) {
-			        	//applica modifiche
 			            setVisible(false);
-			            mm.setVisible(true);
+			            mainMenu.setVisible(true);
 			        }
 			    }
 			);

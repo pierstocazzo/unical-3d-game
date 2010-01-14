@@ -1,6 +1,5 @@
 package game.menu;
 
-
 import game.core.LogicWorld;
 import game.graphics.GraphicalWorld;
 
@@ -17,20 +16,38 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
+/**
+ * Class SavePanel
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class SavePanel extends JPanel {
+	
+	/** Class ID */
 	private static final long serialVersionUID = 1L;
+	
+	/** Value of selected item */
 	public int current = 0;
-	ArrayList<JLabel> item;
+	
+	/** Labels container */
+	ArrayList<JLabel> itemLabel;
+	
+	/** Images container */
 	ArrayList<String> imageFolder;
-	InGameMenu gm;
-	SaveMenu sm;
+	
+	/** InGameMenu Pointer */
+	InGameMenu gameMenu;
+	
+	/** SaveMenu Pointer */
+	SaveMenu saveMenu;
+	
+	/** It contains file name */
 	JTextField text;
 	
-	public SavePanel(SaveMenu sm, InGameMenu gm){
+	public SavePanel(SaveMenu saveMenu, InGameMenu gameMenu){
 		super();
-		this.gm = gm;
-		this.sm = sm;
+		this.gameMenu = gameMenu;
+		this.saveMenu = saveMenu;
 		
 		JLabel message = new JLabel("Please insert file name and press ENTER");
 		add(message);
@@ -50,18 +67,35 @@ public class SavePanel extends JPanel {
 		this.setOpaque(false);
 	}
 	
+	/**
+	 * Execute code associated to selected item
+	 */
 	public void executeSelectedItem(){
-		sm.setVisible(false);
+		saveMenu.setVisible(false);
 		
 		FileOutputStream fin = null;
-		try {fin = new FileOutputStream("gameSave/"+text.getText());} 
-		catch (FileNotFoundException e) {e.printStackTrace();}
-		ObjectOutputStream ois = null;
-		try {ois = new ObjectOutputStream(fin);} 
-		catch (IOException e) {e.printStackTrace();}
-		try {ois.writeObject((LogicWorld)((GraphicalWorld)gm.game).getCore());} 
-		catch (IOException e) {e.printStackTrace();System.exit(0);}
+		try {
+				fin = new FileOutputStream("gameSave/"+text.getText());
+			} 
+		catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 		
-		gm.setVisible(true);
+		ObjectOutputStream ois = null;
+		try {
+				ois = new ObjectOutputStream(fin);
+			} 
+		catch (IOException e) {
+				e.printStackTrace();
+			}
+		
+		try {
+				ois.writeObject((LogicWorld)((GraphicalWorld)gameMenu.game).getCore());
+			} 
+		catch (IOException e) {
+				e.printStackTrace();
+			}
+		
+		gameMenu.setVisible(true);
 	}
 }
