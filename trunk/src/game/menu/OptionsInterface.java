@@ -1,5 +1,10 @@
 package game.menu;
 
+/**
+ * Interface used for define useful method that communicate with other class
+ * 
+ * @author Andrea Martire, Giuseppe Leone, Salvatore Loria
+ */
 public interface OptionsInterface {
 
 	public abstract String getDefaultResolution();
