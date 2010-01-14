@@ -1,6 +1,9 @@
 package game.graphics;
 
 
+import game.graphics.Scene.Item;
+import game.graphics.Scene.TerrainLayer;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -393,27 +396,6 @@ public class Environment {
                 terrainScale, heightMap.getHeightMap());
         terrain.getLocalTranslation().set( 0, -20f, 0);
         terrain.setDetailTexture(1, 1);
-
-     // create some interesting texturestates for splatting
-        TextureState ts1 = createSplatTextureState(
-                "game/data/terrain/base.jpg", 
-                null);
-
-        TextureState ts2 = createSplatTextureState(
-                "game/data/terrain/grass.jpg",
-                "game/data/terrain/grass.png");
-
-        TextureState ts3 = createSplatTextureState(
-                "game/data/terrain/brightgrass.jpg",
-                "game/data/terrain/brightgrass.png");
-        
-        TextureState ts4 = createSplatTextureState(
-                "game/data/terrain/rock.jpg",
-                "game/data/terrain/rock.png");
-
-        TextureState ts5 = createSplatTextureState(
-        		"game/data/terrain/road.jpg",
-        		"game/data/terrain/road.png");
         
         // alpha used for blending the passnodestates together
         BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
@@ -424,48 +406,40 @@ public class Environment {
         as.setTestFunction(BlendState.TestFunction.GreaterThan);
         as.setEnabled(true);
 
-        // alpha used for blending the lightmap
-        BlendState as2 = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
-        as2.setBlendEnabled(true);
-        as2.setSourceFunction(BlendState.SourceFunction.DestinationColor);
-        as2.setDestinationFunction(BlendState.DestinationFunction.SourceColor);
-        as2.setTestEnabled(true);
-        as2.setTestFunction(BlendState.TestFunction.GreaterThan);
-        as2.setEnabled(true);
+//        // alpha used for blending the lightmap
+//        BlendState as2 = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
+//        as2.setBlendEnabled(true);
+//        as2.setSourceFunction(BlendState.SourceFunction.DestinationColor);
+//        as2.setDestinationFunction(BlendState.DestinationFunction.SourceColor);
+//        as2.setTestEnabled(true);
+//        as2.setTestFunction(BlendState.TestFunction.GreaterThan);
+//        as2.setEnabled(true);
 
-        // //////////////////// PASS STUFF START
-        // try out a passnode to use for splatting
         PassNode splattingPassNode = new PassNode("SplatPassNode");
         splattingPassNode.attachChild(terrain);
         
         PassNodeState passNodeState = new PassNodeState();
         
-        passNodeState = new PassNodeState();
-        passNodeState.setPassState(ts1);
-        passNodeState.setPassState(as);
-        splattingPassNode.addPass(passNodeState);
-
-        passNodeState = new PassNodeState();
-        passNodeState.setPassState(ts2);
-        passNodeState.setPassState(as);
-        splattingPassNode.addPass(passNodeState);
-        
-        passNodeState = new PassNodeState();
-        passNodeState.setPassState(ts3);
-        passNodeState.setPassState(as);
-        splattingPassNode.addPass(passNodeState);
-
-        passNodeState = new PassNodeState();
-        passNodeState.setPassState(ts4);
-        passNodeState.setPassState(as);
-        splattingPassNode.addPass(passNodeState);
-
-        passNodeState = new PassNodeState();
-        passNodeState.setPassState(ts5);
-        passNodeState.setPassState(as);
-        splattingPassNode.addPass(passNodeState);
-
-        // //////////////////// PASS STUFF END
+        String dir = "game/data";
+        Iterator<TerrainLayer> it = scene.getTerrainLayers().iterator();
+        while( it.hasNext() ) {
+        	TerrainLayer layer = it.next();
+        	TextureState ts;
+        	if( layer.alpha != null ) {
+	            ts = createSplatTextureState(
+	            		dir + layer.texture,
+	            		dir + layer.alpha );
+        	} else {
+                ts = createSplatTextureState(
+                		dir + layer.texture,
+                		null );
+        	}
+            
+            passNodeState = new PassNodeState();
+            passNodeState.setPassState(ts);
+            passNodeState.setPassState(as);
+            splattingPassNode.addPass(passNodeState);
+        }
 
         // lock some things to increase the performance
         splattingPassNode.lockBounds();

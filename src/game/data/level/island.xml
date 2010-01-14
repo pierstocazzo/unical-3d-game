@@ -9,6 +9,27 @@
 <Terrain Size="129" Step="32.000000">
 	<Heightmap File="/terrain/height.raw" Format="16bit RAW" Scale="0.008000"/>
 </Terrain>
+<TerrainLayers Count="5">
+	<TerrainLayer Name="base" Type="Base Layer">
+		<Texture File="/terrain/base.jpg" ScaleU="20.000000" ScaleV="20.000000"/>
+	</TerrainLayer>
+	<TerrainLayer Name="grass" Type="Alpha Layer" Detail="False">
+		<Texture File="/terrain/grass.jpg" ScaleU="20.000000" ScaleV="20.000000"/>
+		<AlphaMap File="/terrain/grass.png" Width="512" Height="512"/>
+	</TerrainLayer>
+	<TerrainLayer Name="brightgrass" Type="Alpha Layer" Detail="False">
+		<Texture File="/terrain/brightgrass.jpg" ScaleU="20.000000" ScaleV="20.000000"/>
+		<AlphaMap File="/terrain/brightgrass.png" Width="512" Height="512"/>
+	</TerrainLayer>
+	<TerrainLayer Name="rock" Type="Alpha Layer" Detail="False">
+		<Texture File="/terrain/rock.jpg" ScaleU="30.000000" ScaleV="30.000000"/>
+		<AlphaMap File="/terrain/rock.png" Width="512" Height="512"/>
+	</TerrainLayer>
+	<TerrainLayer Name="road" Type="Alpha Layer" Detail="False">
+		<Texture File="/terrain/road.jpg" ScaleU="50.000000" ScaleV="50.000000"/>
+		<AlphaMap File="/terrain/road.png" Width="512" Height="512"/>
+	</TerrainLayer>
+</TerrainLayers>
 <CachedMeshGroups Count="1">
 	<CachedMeshGroup Name="unsorted" Count="7">
 		<Mesh Name="building.3ds" Id="1" Filename="F:/Documents and Settings/slash17/Desktop//meshes/unsorted/building.3ds"/>

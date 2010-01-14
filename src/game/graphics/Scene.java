@@ -53,6 +53,9 @@ public class Scene {
 	/** hashmap containing the id and the model's path of each cashed mesh */
 	HashMap<String, String> cachedMeshes;
 	
+	/** list containing the terrain layers to apply */
+	List<TerrainLayer> terrainLayers;
+	
 	/** Class <code>Scene</code> constructor <p>
 	 * Create a scene from witch you can get the heightmap for the terrain,
 	 * the terrain layers and a list of all items of the scene with their position,
@@ -104,8 +107,22 @@ public class Scene {
 	/** 
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	private void loadTerrainLayers() {
-		// TODO load terrain layers
+		terrainLayers = new LinkedList<TerrainLayer>();
+		
+		Element terrainLayer = xmlRoot.getChild("TerrainLayers");
+		Iterator<Element> it = terrainLayer.getChildren().iterator();
+		while( it.hasNext() ) {
+			Element layer = it.next();
+			String texture = layer.getChild("Texture").getAttributeValue("File");
+			if( layer.getAttributeValue("Type").equals( "Base Layer" ) ) {
+				terrainLayers.add( new TerrainLayer( texture, null ) );
+			} else {
+				String alpha = layer.getChild("AlphaMap").getAttributeValue("File");
+				terrainLayers.add( new TerrainLayer( texture, alpha ) );
+			}
+		}
 	}
 	
 	/**
@@ -209,5 +226,55 @@ public class Scene {
 	
 	public List<Item> getItems() {
 		return items;
+	}
+	
+	public List<TerrainLayer> getTerrainLayers() {
+		return terrainLayers;
+	}
+	
+	public class TerrainLayer {
+		String texture;
+		String alpha;
+		
+		TerrainLayer( String texture, String alpha ) {
+			this.texture = texture;
+			this.alpha = alpha;
+		}
+	}
+	
+	public class CachedMesh {
+		String id;
+		String modelPath;
+		
+		CachedMesh( String id, String modelPath ) {
+			this.id = id;
+			this.modelPath = modelPath;
+		}
+	}
+	
+	public class Item {
+
+		Vector3f position;
+		Quaternion rotation;
+		Vector3f scale;
+		String meshId;
+		
+		public Item() {
+			this.position = new Vector3f();
+			this.rotation = new Quaternion();
+			this.scale = new Vector3f();
+		}
+
+		public Vector3f getPosition() {
+			return position;
+		}
+
+		public Quaternion getRotation() {
+			return rotation;
+		}
+
+		public Vector3f getScale() {
+			return scale;
+		}
 	}
 }
