@@ -253,7 +253,6 @@ public class Scene {
 	}
 	
 	public class Item {
-
 		Vector3f position;
 		Quaternion rotation;
 		Vector3f scale;
@@ -263,18 +262,6 @@ public class Scene {
 			this.position = new Vector3f();
 			this.rotation = new Quaternion();
 			this.scale = new Vector3f();
-		}
-
-		public Vector3f getPosition() {
-			return position;
-		}
-
-		public Quaternion getRotation() {
-			return rotation;
-		}
-
-		public Vector3f getScale() {
-			return scale;
 		}
 	}
 }

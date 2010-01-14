@@ -317,10 +317,10 @@ public class Environment {
 			SharedNode sharedModel = new SharedNode( cachedModels.get(meshId) );
 			world.collisionNode.attachChild( sharedModel );
 			
-			Vector3f position = item.getPosition().subtract( 2048, 20, 2048 );
+			Vector3f position = item.position.subtract( 2048, 20, 2048 );
 			sharedModel.setLocalTranslation( position );
 			
-			sharedModel.setLocalRotation( item.getRotation() );
+			sharedModel.setLocalRotation( item.rotation );
 			
 			sharedModel.setModelBound( new BoundingBox() );
 			sharedModel.updateModelBound();
