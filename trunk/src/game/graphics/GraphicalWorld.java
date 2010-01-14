@@ -322,19 +322,16 @@ public class GraphicalWorld extends Game {
     }
     
 	private void checkVictory() {
-//		if(!victory){
-//			int tot = 0;
-//			for( int i = 1; i <= enemiesCounter; i++ ) {
-//				if( characters.get("enemy"+i) != null ) 
-//					tot = tot + 1;
-//			}
-//			if( tot == 0 ){
-//				userHud.hudMsgBox.createMessageBox(HudMessageBox.VICTORY);
-//				if(audioEnabled)
-//					SoundManager.playSound(SoundType.VICTORY, cam.getLocation().clone());
-//				victory = true;
-//			}
-//		}
+		if(!victory){
+			// Just for single player 
+			int tot = characters.size() - 1;
+			if( tot == 0 ) {
+				userHud.hudMsgBox.createMessageBox(HudMessageBox.VICTORY);
+				if(audioEnabled)
+					SoundManager.playSound(SoundType.VICTORY, cam.getLocation().clone());
+				victory = true;
+			}
+		}
 	}
 
 	private void updateInput() {
