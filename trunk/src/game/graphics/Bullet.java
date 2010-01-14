@@ -82,7 +82,7 @@ public class Bullet {
         		physicsBullet.delete();
         		enabled = false;
         		/** Control if the bullet hit a character */
-        		Iterator<GraphicalCharacter> it = world.characters.values().iterator();
+        		Iterator<GraphicalCharacter> it = world.characters.iterator();
         		while( it.hasNext() ) {
         			GraphicalCharacter character = it.next();
     				if( ( contactInfo.getNode1() == character.getCharacterBody() ||
