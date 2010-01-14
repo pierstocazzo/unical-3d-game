@@ -40,41 +40,44 @@ public class HudAmmo {
 	
 	/** Constructor
 	 * 
-	 * @param userHud
+	 * @param (UserHud) - userHud
 	 */
 	public HudAmmo(UserHud userHud){
 		this.userHud = userHud;
+		// get screen informations
 		screenWidth = userHud.gWorld.getResolution().x;
     	screenHeight = userHud.gWorld.getResolution().y;
     	
 		createBar();
 
-    	ammoNum = Text.createDefaultTextLabel( "lifeNum" );
+    	ammoNum = Text.createDefaultTextLabel( "ammoNum" );
     	ammoNum.setTextColor(ColorRGBA.black);
     	ammoNum.setLocalScale(screenWidth/1100);
     	ammoNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
     	userHud.gWorld.hudNode.attachChild( ammoNum );
-    	//for first correct visualization
+    	//initialize for first correct visualization
     	ammoValue = 0;
-		frontQuad.resize(initialLenght*ammoValue/100, 
-						frontQuad.getHeight());
-		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
-										backQuad.getLocalTranslation().y, 0);
-		ammoNum.print("Ammo: "+Integer.toString(ammoValue));
-		ammoNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
-				backQuad.getLocalTranslation().y-ammoNum.getHeight()/2, 0);
+		frontQuad.resize( initialLenght*ammoValue/100, frontQuad.getHeight() );
+		frontQuad.setLocalTranslation( screenWidth/40 + frontQuad.getWidth()/2 + borderWeight,
+										backQuad.getLocalTranslation().y, 0 );
+		ammoNum.print( "Ammo: " + Integer.toString(ammoValue) );
+		ammoNum.setLocalTranslation(backQuad.getLocalTranslation().x - backQuad.getWidth()/2,
+				backQuad.getLocalTranslation().y - ammoNum.getHeight()/2, 0 );
    	}
 	
 	/**
 	 * It updates Life bar informations
 	 */
 	public void update(){
+		// get ammo value
 		ammoValue = userHud.game.getAmmo(userHud.gWorld.player.id);
+		// resize front quad respect ammo value and max ammo value
 		frontQuad.resize(initialLenght*ammoValue/userHud.game.getMaxAmmo(userHud.gWorld.player.id), 
 						frontQuad.getHeight());
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										backQuad.getLocalTranslation().y, 0);
+		// print current ammo value
 		ammoNum.print("Ammo: "+Integer.toString(ammoValue));
 		ammoNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
 				backQuad.getLocalTranslation().y-ammoNum.getHeight()/2, 0);
@@ -84,6 +87,7 @@ public class HudAmmo {
 	 * It creates Life Bar
 	 */
 	public void createBar(){
+		// create a back quad
 		backQuad = new Quad("backQuad", screenWidth/6 , screenHeight/30);
     	backQuad.setDefaultColor(ColorRGBA.blue);
     	backQuad.setLocalTranslation(screenWidth/40+backQuad.getWidth()/2,
@@ -91,6 +95,7 @@ public class HudAmmo {
     	backQuad.lock();
     	userHud.gWorld.hudNode.attachChild( backQuad );
     	
+    	// create a front quad
     	frontQuad = new Quad("frontQuad", backQuad.getWidth() - borderWeight*2 , 
     										backQuad.getHeight() - borderWeight*2);
     	initialLenght = (int) frontQuad.getWidth();

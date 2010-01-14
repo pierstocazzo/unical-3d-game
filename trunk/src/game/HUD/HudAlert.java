@@ -21,8 +21,9 @@ public class HudAlert {
 	UserHud userHud;
 	
 	/** Little text on the alert bar */
-	Text alertNum;
+	Text alertLabel;
 	
+	/** Max current alert value */
 	float alertValue;
 	
 	/** Background Quad of life Bar */
@@ -43,61 +44,65 @@ public class HudAlert {
 	/** Bar standard Length in pixel */
 	int initialLenght;
 	
+	/** Useful variable */
 	State stateColor;
 	
 	/** Constructor
 	 * 
-	 * @param userHud
+	 * @param (UserHud) - userHud
 	 */
 	public HudAlert(UserHud userHud){
 		this.userHud = userHud;
+		// get screen informations
 		screenWidth = userHud.gWorld.getResolution().x;
     	screenHeight = userHud.gWorld.getResolution().y;
     	
 		createBar();
 		
-    	alertNum = Text.createDefaultTextLabel( "lifeNum" );
-    	alertNum.setTextColor(ColorRGBA.black);
-    	alertNum.setLocalScale(screenWidth/1200);
-    	alertNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
+		// create a new label
+    	alertLabel = Text.createDefaultTextLabel( "alertLabel" );
+    	alertLabel.setTextColor(ColorRGBA.black);
+    	alertLabel.setLocalScale(screenWidth/1200);
+    	alertLabel.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
-    	userHud.gWorld.hudNode.attachChild( alertNum );
-    	//for correct first visualization
+    	userHud.gWorld.hudNode.attachChild( alertLabel );
+    	
+    	//initialize for correct first visualization
     	alertValue = 0;
-    	frontQuad.resize(initialLenght*alertValue/100, 
-				frontQuad.getHeight());
-		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
-										frontQuad.getLocalTranslation().y, 0);
-		alertNum.print(Float.toString(alertValue));
-		alertNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
-				backQuad.getLocalTranslation().y+backQuad.getHeight()/2, 0);
-		alertNum.print("Alert Level");
+    	frontQuad.resize( 0, frontQuad.getHeight() );
+		frontQuad.setLocalTranslation( screenWidth/40 + frontQuad.getWidth()/2 + borderWeight,
+										frontQuad.getLocalTranslation().y, 0 );
+		alertLabel.setLocalTranslation( backQuad.getLocalTranslation().x - backQuad.getWidth()/2,
+				backQuad.getLocalTranslation().y + backQuad.getHeight()/2, 0);
+		alertLabel.print("Alert Level");
    	}
 	
 	/**
-	 * It updates Life bar informations
+	 * It updates Life bar informations.
+	 * Alert bar color is variable: 
+	 * 		YELLOW if an enemy is in ALERT or FIND state
+	 * 		RED if an enemy is in ATTACK, FINDATTACK or GUARDATTACK state
 	 */
 	public void update(){
-		//initialize
+		//initialize variable for color management
 		stateColor = State.DEFAULT;
 		alertValue = getAlertLevel();
 		//if an enemy is in alert state
-		if(stateColor == State.ALERT){
+		if( stateColor == State.ALERT ){
 			frontQuad.setDefaultColor(ColorRGBA.yellow);
 			if(userHud.gWorld.audioEnabled)
-				SoundManager.playSound(SoundType.ALERTMUSIC, null );
+				SoundManager.playSound( SoundType.ALERTMUSIC, null );
 		}
 		//if an enemy is in attack state
-		if(stateColor == State.ATTACK){
+		if( stateColor == State.ATTACK ){
 			frontQuad.setDefaultColor(ColorRGBA.red);
 			if(userHud.gWorld.audioEnabled)
-				SoundManager.playSound(SoundType.ATTACKMUSIC, null );
+				SoundManager.playSound( SoundType.ATTACKMUSIC, null );
 		}
 		//if all enemy are in default state
-		if(stateColor == State.DEFAULT)
+		if( stateColor == State.DEFAULT )
 			checkColor();
-		frontQuad.resize(initialLenght*alertValue/100, 
-						frontQuad.getHeight());
+		frontQuad.resize( initialLenght*alertValue/100, frontQuad.getHeight() );
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										frontQuad.getLocalTranslation().y, 0);
 	}
@@ -108,7 +113,6 @@ public class HudAlert {
 		//calculate max alert level
 		float max = -99999;
 		for( String id : userHud.game.getEnemiesIds() ){
-//			System.out.println("ALERT="+userHud.game.getAlertLevel(id));
 			State currState = userHud.game.getState(id);
 			if(currState == State.ATTACK || currState == State.FINDATTACK ||
 					currState == State.ALERT || currState == State.FIND || currState == State.GUARDATTACK)
@@ -140,6 +144,7 @@ public class HudAlert {
 	 * It creates Life Bar
 	 */
 	public void createBar(){
+		//create back quad
 		backQuad = new Quad("backQuad", screenWidth/6 , screenHeight/30);
     	backQuad.setDefaultColor(ColorRGBA.blue);
     	backQuad.setLocalTranslation(screenWidth/40+backQuad.getWidth()/2,
@@ -147,12 +152,13 @@ public class HudAlert {
     	backQuad.lock();
     	userHud.gWorld.hudNode.attachChild( backQuad );
     	
+    	//create front quad
     	frontQuad = new Quad("frontQuad", backQuad.getWidth() - borderWeight*2 , 
-    										backQuad.getHeight() - borderWeight*2);
+    										backQuad.getHeight() - borderWeight*2 );
     	initialLenght = (int) frontQuad.getWidth();
-    	frontQuad.setDefaultColor(ColorRGBA.green);
-    	frontQuad.setLocalTranslation(backQuad.getLocalTranslation().x,
-    			backQuad.getLocalTranslation().y, 0);
+    	frontQuad.setDefaultColor( ColorRGBA.green );
+    	frontQuad.setLocalTranslation( backQuad.getLocalTranslation().x,
+    			backQuad.getLocalTranslation().y, 0 );
     	userHud.gWorld.hudNode.attachChild( frontQuad );
     	
 	}
@@ -161,9 +167,9 @@ public class HudAlert {
 	 * It checks value life and change quad color
 	 */
 	public void checkColor(){
-		if(alertValue > 80)
+		if( alertValue > 80 )
 			frontQuad.setDefaultColor(ColorRGBA.red);
-		else if(alertValue > 20)
+		else if( alertValue > 20 )
 			frontQuad.setDefaultColor(ColorRGBA.yellow);
 		else 
 			frontQuad.setDefaultColor(ColorRGBA.green);

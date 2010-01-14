@@ -40,59 +40,65 @@ public class HudLife {
 	
 	/** Constructor
 	 * 
-	 * @param userHud
+	 * @param (UserHud) - userHud
 	 */
 	public HudLife(UserHud userHud){
 		this.userHud = userHud;
+		// get screen informations
 		screenWidth = userHud.gWorld.getResolution().x;
     	screenHeight = userHud.gWorld.getResolution().y;
     	
 		createBar();
 
+		// create a text label
     	lifeNum = Text.createDefaultTextLabel( "lifeNum" );
     	lifeNum.setTextColor(ColorRGBA.black);
     	lifeNum.setLocalScale(screenWidth/1100);
     	lifeNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
     	userHud.gWorld.hudNode.attachChild( lifeNum );
+    	
     	//for first correct visualization
     	lifeValue = 100;
     	checkColor();
-		frontQuad.resize(initialLenght*lifeValue/100, 
-						frontQuad.getHeight());
-		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
-										backQuad.getLocalTranslation().y, 0);
-		lifeNum.print("Life: "+Integer.toString(lifeValue));
-		lifeNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
-				backQuad.getLocalTranslation().y-lifeNum.getHeight()/2, 0);
+		frontQuad.resize( initialLenght, frontQuad.getHeight() );
+		frontQuad.setLocalTranslation( screenWidth/40 + frontQuad.getWidth()/2 + borderWeight,
+										backQuad.getLocalTranslation().y, 0 );
+		lifeNum.print( "Life: " + Integer.toString(lifeValue) );
+		lifeNum.setLocalTranslation( backQuad.getLocalTranslation().x - backQuad.getWidth()/2,
+				backQuad.getLocalTranslation().y - lifeNum.getHeight()/2, 0);
    	}
 	
 	/**
 	 * It updates Life bar informations
 	 */
 	public void update(){
+		// get current life value
 		lifeValue = userHud.game.getCurrentLife(userHud.gWorld.player.id);
 		checkColor();
-		frontQuad.resize(initialLenght*lifeValue/userHud.game.getMaxLife(userHud.gWorld.player.id), 
-						frontQuad.getHeight());
-		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
-										backQuad.getLocalTranslation().y, 0);
-		lifeNum.print("Life: "+Integer.toString(lifeValue));
-		lifeNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
-				backQuad.getLocalTranslation().y-lifeNum.getHeight()/2, 0);
+		// resize frontQuad respect life value
+		frontQuad.resize( initialLenght*lifeValue/userHud.game.getMaxLife(userHud.gWorld.player.id), 
+						frontQuad.getHeight() );
+		frontQuad.setLocalTranslation( screenWidth/40 + frontQuad.getWidth()/2 + borderWeight,
+										backQuad.getLocalTranslation().y, 0 );
+		lifeNum.print( "Life: " + Integer.toString(lifeValue) );
+		lifeNum.setLocalTranslation( backQuad.getLocalTranslation().x - backQuad.getWidth()/2,
+				backQuad.getLocalTranslation().y - lifeNum.getHeight()/2, 0);
 	}
 	
 	/** 
 	 * It creates Life Bar
 	 */
 	public void createBar(){
-		backQuad = new Quad("backQuad", screenWidth/6 , screenHeight/30);
+		// create back quad
+		backQuad = new Quad( "backQuad", screenWidth/6 , screenHeight/30);
     	backQuad.setDefaultColor(ColorRGBA.blue);
     	backQuad.setLocalTranslation(screenWidth/40+backQuad.getWidth()/2,
     								screenHeight/40+backQuad.getHeight()/2, 0);
     	backQuad.lock();
     	userHud.gWorld.hudNode.attachChild( backQuad );
     	
+    	// create front quad
     	frontQuad = new Quad("frontQuad", backQuad.getWidth() - borderWeight*2 , 
     										backQuad.getHeight() - borderWeight*2);
     	initialLenght = (int) frontQuad.getWidth();
