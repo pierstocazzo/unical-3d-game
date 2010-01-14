@@ -9,7 +9,9 @@ import game.sound.SoundManager;
 import game.sound.SoundManager.SoundType;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import jmetest.TutorialGuide.ExplosionFactory;
@@ -52,19 +54,18 @@ public class GraphicalWorld extends Game {
     /** hashmap of the characters */
     HashMap< String, GraphicalCharacter > characters; 
     
-    /** hashmap of the bullets */
-	HashMap< String, Bullet > bullets;
-    int bulletsCounter = 0;
+    /** list of the bullets */
+	List<Bullet> bullets;
     
     /** hashmap of the ammo packages */
-	HashMap< String, GraphicalAmmoPackage > ammoPackages;
+	List<GraphicalAmmoPackage> ammoPackages;
     int ammoPackagesCounter = 0;
     
     /** hashmap of the energy packages */
-	HashMap< String, GraphicalEnergyPackage > energyPackages;
+	List<GraphicalEnergyPackage> energyPackages;
     int energyPackagesCounter = 0;
     
-    LinkedList< Node > items;
+    List< Node > items;
     int itemsCounter = 0;
     
     /** the player, in single player mode */
@@ -131,9 +132,9 @@ public class GraphicalWorld extends Game {
 		hudNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
 		
 		characters = new HashMap<String, GraphicalCharacter>();
-		bullets = new HashMap<String, Bullet>();
-		ammoPackages = new HashMap<String, GraphicalAmmoPackage>();
-		energyPackages = new HashMap<String, GraphicalEnergyPackage>();
+		bullets = new LinkedList<Bullet>();
+		ammoPackages = new LinkedList<GraphicalAmmoPackage>();
+		energyPackages = new LinkedList<GraphicalEnergyPackage>();
 		items = new LinkedList<Node>();
 		loadingFrame.setProgress(10);
 		loadingFrame.setLoadingText("Impostazioni Prima Persona");
@@ -357,7 +358,7 @@ public class GraphicalWorld extends Game {
 	 */
 	private void updateCharacters( float time ) {
 		/* Vecchio sistema: creiamo una collection al volo in cui mettiamo tutti i puntatori 
-		 * dei nostri characters, e poi iteriamo su questa, cos� quando un character muore e 
+		 * dei nostri characters, e poi iteriamo su questa, cosi' quando un character muore e 
 		 * chiama il remove dell'hashmap noi non abbiamo problemi. 
 		 * Metodo dubbio, brutto da vedere e fa uso di due collection
 		 */
@@ -370,28 +371,28 @@ public class GraphicalWorld extends Game {
 //		c = null;
 		
 		/* Prima alternativa: sfruttando gli id particolari, l'if per non provare a fare
-		 * l'update di un character non pi� esistente (darebbe una nullpointerexeption)
-		 * Metodo pi� performante, un po trucchettoso e brutto da vedere, ma non usa 
+		 * l'update di un character non piu' esistente (darebbe una nullpointerexeption)
+		 * Metodo un po trucchettoso e brutto da vedere, ma non usa 
 		 * alcuna struttura di comodo e sfrutta l'accesso random dell'hashmap
 		 */
-		for( int i = 1; i <= playersCounter; i++ ) {
-			if( characters.get("player"+i) != null ) { 
-				characters.get("player"+i).update(time); 
-			}
-		}
-		
-		for( int i = 1; i <= enemiesCounter; i++ ) {
-			if( characters.get("enemy"+i) != null ) {
-				characters.get("enemy"+i).update(time); 
-			}
-		}
+//		for( int i = 1; i <= playersCounter; i++ ) {
+//			if( characters.get("player"+i) != null ) { 
+//				characters.get("player"+i).update(time); 
+//			}
+//		}
+//		
+//		for( int i = 1; i <= enemiesCounter; i++ ) {
+//			if( characters.get("enemy"+i) != null ) {
+//				characters.get("enemy"+i).update(time); 
+//			}
+//		}
 		
 		/* Seconda alternativa: nell'hashmap logica i characters restano anche dopo essere morti. 
 		 * Bisogna aggiungere varibile "alive" in logicCharacter, odificare il metodo die() in modo che 
 		 * non tolga l'oggetto dall'hashmap ma metta solo la variabile alive a false, e modificare 
 		 * anche il metodo isAlive( String id ) di conseguenza. 
-		 * Metodo pi� elegante, ma fa uso di set e inoltre a livello logico gli oggetti restano
-		 * sempre nell'hashmap anche quando non servono a un cazzo
+		 * Metodo piu' elegante, ma fa uso di set e inoltre a livello logico gli oggetti restano
+		 * sempre nell'hashmap anche quando non servono piu'
 		 */
 //		for( String id : core.getCharactersIds() ) {
 //			if( core.isAlive(id) ) {
@@ -402,35 +403,27 @@ public class GraphicalWorld extends Game {
 //		}
 		
 		/* Terza alternativa: iteriamo direttamente nella collection values, facciamo l'update, 
-		 * se questo ritorna false, l'iteratore elimina l'elemento corrente.
-		 * Richiede che il metodo update ritorni un booleano, che indica se il character � vivo
-		 * Metodo molto pulito, ma usa una collection
+		 * se dopo l'update il character risulta morto, l'iteratore elimina l'elemento corrente.
 		 */
-//		Iterator<Character> it = characters.values().iterator();
-//		while( it.hasNext() ) {
-//			if( it.next().update(time) == false )
-//				it.remove();
-//		}
-		
-		
-		// NB: in nessun caso ho notato variazioni di frame al secondo significative!
+		Iterator<GraphicalCharacter> it = characters.values().iterator();
+		while( it.hasNext() ) {
+			GraphicalCharacter character = it.next();
+			character.update(time);
+			if( core.isAlive( character.id ) == false )
+				it.remove();
+		}
 	}
 	
 	/** Function updateBullets <br>
 	 * Call the update method of each bullet contained in the bullets hashMap
 	 */
 	private void updateBullets( float time ) {
-//		Collection<Bullet> c = new LinkedList<Bullet>( bullets.values() );
-//		Iterator<Bullet> it = c.iterator();
-//		while( it.hasNext() ) {
-//			it.next().update(time);
-//		}
-//		c.clear();
-//		c = null;
-		
-		for( int i = 1; i <= bulletsCounter; i++ ) {
-			if( bullets.get("bullet"+i) != null )
-				bullets.get("bullet"+i).update(time); 
+		Iterator<Bullet> it = bullets.iterator();
+		while( it.hasNext() ) {
+			Bullet bullet = it.next();
+			bullet.update(time);
+			if( bullet.enabled == false ) 
+				it.remove();
 		}
 	}
 	
@@ -438,37 +431,26 @@ public class GraphicalWorld extends Game {
 	 * Call the update method of each ammo pack contained in the ammoPackages hashMap
 	 */
     private void updateAmmoPackages( float time ) {
-//		Collection<AmmoPackage> c = new LinkedList<AmmoPackage>( ammoPackages.values() );
-//		Iterator<AmmoPackage> it = c.iterator();
-//    	while( it.hasNext() ) {
-//    		it.next().update(time);
-//    	}
-//		c.clear();
-//		c = null;
-    	
-		for( int i = 1; i <= ammoPackagesCounter; i++ ) {
-			if( ammoPackages.get("ammo"+i) != null )
-				ammoPackages.get("ammo"+i).update(time); 
-		}
+		Iterator<GraphicalAmmoPackage> it = ammoPackages.iterator();
+    	while( it.hasNext() ) {
+    		GraphicalAmmoPackage ammoPack = it.next();
+    		ammoPack.update(time);
+    		if( ammoPack.enabled == false )
+    			it.remove();
+    	}
     }
     
 	/** Function updateEnergyPackages <br>
 	 * Call the update method of each energy pack contained in the energyPackages hashMap
 	 */
     private void updateEnergyPackages( float time ) {
-//		Collection<EnergyPackage> c = new LinkedList<EnergyPackage>( energyPackages.values() );
-//		Iterator<EnergyPackage> it = c.iterator();
-//    	while( it.hasNext() ) {
-//    		it.next().update(time);
-//    	}
-//		c.clear();
-//		c = null;
-    	
-		for( int i = 1; i <= energyPackagesCounter; i++ ) {
-			if( energyPackages.get("energyPack"+i) != null )
-				energyPackages
-				.get("energyPack"+i).update(time); 
-		}
+		Iterator<GraphicalEnergyPackage> it = energyPackages.iterator();
+    	while( it.hasNext() ) {
+    		GraphicalEnergyPackage energyPack = it.next();
+    		energyPack.update(time);
+    		if( energyPack.enabled == false )
+    			it.remove();
+    	}
     }
 
 	private void setupEnergyPackages() {
@@ -478,8 +460,8 @@ public class GraphicalWorld extends Game {
 			position.setX( r.nextInt( (int) dimension ) );
 			position.setZ( r.nextInt( (int) dimension ) );
 			position.setY( environment.getTerrain().getHeight(position.x, position.z) +10 );
-			GraphicalEnergyPackage e = new GraphicalEnergyPackage( id, this, position );
-			energyPackages.put( e.id, e );
+			GraphicalEnergyPackage energyPack = new GraphicalEnergyPackage( id, this, position );
+			energyPackages.add( energyPack );
 		}
 	}
 	

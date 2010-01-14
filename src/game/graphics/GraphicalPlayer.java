@@ -65,7 +65,7 @@ public class GraphicalPlayer extends GraphicalCharacter {
 	    bodyGeometry.setLocalTranslation(0,3,0);
 	    
 //	     Set UP the orientation of the Body
-	    quaternion = new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
+	    Quaternion quaternion = new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
 	    bodyGeometry.setLocalRotation(quaternion);
 	    
 	    body.setAffectedByGravity(false);
@@ -133,7 +133,7 @@ public class GraphicalPlayer extends GraphicalCharacter {
 			Bullet bullet = new Bullet( id , world, 
 					world.getCore().getWeapon(id), 
 					world.getCam().getLocation().add( world.getCam().getDirection().mult( 6 ) ) );
-			world.bullets.put( bullet.id, bullet );
+			world.bullets.add( bullet );
 			bullet.shoot(direction);
 			world.shoot( world.getCam().getLocation() );
 		} else {
@@ -287,8 +287,6 @@ public class GraphicalPlayer extends GraphicalCharacter {
     	body.detachAllChildren();
     	body.delete();
     	world.getRootNode().detachChild( characterNode );
-    	
-    	world.characters.remove( id );
 	}
 
 	/** Function <code>rest()</code> <br>

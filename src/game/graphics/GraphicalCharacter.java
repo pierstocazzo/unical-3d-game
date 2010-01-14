@@ -1,8 +1,6 @@
 package game.graphics;
 
 import com.jme.input.InputHandler;
-import com.jme.math.Quaternion;
-import com.jme.math.Vector3f;
 import com.jme.scene.Node;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.PhysicsNode;
@@ -26,15 +24,9 @@ public class GraphicalCharacter {
 	
 	/** the graphical world in which the character live */
     GraphicalWorld world;
-
-    /** the force applied to the character to jump */
-    Vector3f jumpVector;
     
     /** an util handler that detect the contact between the character and the ground */
     InputHandler contactDetect = new InputHandler();
-    
-    /** Utility quaternion */
-    Quaternion quaternion;
     
     /** true if the character is shooting */
     boolean shooting = false;
@@ -45,7 +37,9 @@ public class GraphicalCharacter {
 	/** set if the character will update or not */
 	boolean enabled = true;
 	
-	
+	/**
+	 * @return the main character Node
+	 */
 	public Node getCharacterNode() {
 		return characterNode;
 	}
@@ -54,19 +48,23 @@ public class GraphicalCharacter {
 		// overridden 
 	}
 
-	public PhysicsNode getCharacterFeet() {
-		// used just for GraphicalEnemy witch override it
-		return null;
-	}
-
+	/** 
+	 * @return the physics body node
+	 */
 	public PhysicsNode getCharacterBody() {
 		return body;
 	}
 
+	/** 
+	 * @return enabled
+	 */
 	public boolean isEnabled() {
 		return enabled;
 	}
 
+	/**
+	 * @param enabled 
+	 */
 	public void setEnabled( boolean enabled ) {
 		this.enabled = enabled;
 	}
@@ -77,5 +75,10 @@ public class GraphicalCharacter {
 
 	public void showModel() {
 		body.attachChild(model);
+	}
+
+	public PhysicsNode getCharacterFeet() {
+		// used just for GraphicalEnemy
+		return null;
 	}
 }

@@ -26,6 +26,8 @@ public class GraphicalEnergyPackage {
 	Vector3f position;
 	
 	InputHandler contactDetect;
+
+	boolean enabled;
 	
 	GraphicalEnergyPackage( String id, GraphicalWorld world, Vector3f position ) {
 		this.id = id;
@@ -35,6 +37,7 @@ public class GraphicalEnergyPackage {
 		this.contactDetect = new InputHandler();
 		createPhysics();
 		contactDetector();
+		enabled = true;
 	}
 	
 	public void createPhysics() {
@@ -78,8 +81,7 @@ public class GraphicalEnergyPackage {
 		physicsPack.removeFromParent();
 		physicsPack.detachAllChildren();
 		physicsPack.delete();
-		
-		world.energyPackages.remove( id );
+		enabled = false;
 	}
 
 	public void update(float time) {

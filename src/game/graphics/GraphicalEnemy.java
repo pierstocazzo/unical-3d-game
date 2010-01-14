@@ -54,8 +54,10 @@ public class GraphicalEnemy extends GraphicalCharacter  {
     /** true if the character is on the ground */
 	boolean onGround;
 
+	/** the previous movement's direction */
 	Vector3f previousMoveDirection;
     	
+	
     /** PhysicsEnemy Constructor<br>
 	 * Create a new graphical enemy and start his movements
 	 * 
@@ -90,8 +92,6 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 	    contactDetails.setDampingCoefficient(0);
 	    characterMaterial.putContactHandlingDetails( Material.DEFAULT, contactDetails );
 	
-	    quaternion = new Quaternion();
-	    
 	    createPhysics();
 	    contactDetection();
 	    
@@ -137,7 +137,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 		    bodyGeometry.setLocalScale(2);
 		    bodyGeometry.setLocalTranslation(0,5,0);
 		    // Set UP the orientation of the Body
-		    quaternion.fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
+		    Quaternion quaternion = new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
 		    bodyGeometry.setLocalRotation(quaternion);
 		    // Setting up the body
 		    body.setAffectedByGravity(false);
@@ -241,7 +241,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 			bulletPosition.addLocal( 0, 4, 0 );
 			Bullet bullet = new Bullet( id, world, 
 					world.getCore().getWeapon(id), bulletPosition );
-			world.bullets.put( bullet.id, bullet );
+			world.bullets.add( bullet );
 			bullet.shoot(direction);
 			
 			world.shoot( feet.getWorldTranslation() );
@@ -271,9 +271,9 @@ public class GraphicalEnemy extends GraphicalCharacter  {
         exp.forceRespawn();
         
         world.ammoPackagesCounter++;
-		GraphicalAmmoPackage ammo = new GraphicalAmmoPackage( "ammo" + world.ammoPackagesCounter, 
+		GraphicalAmmoPackage ammoPack = new GraphicalAmmoPackage( "ammo" + world.ammoPackagesCounter, 
 				world, feet.getWorldTranslation().clone().add( new Vector3f(0,15,0) ) );
-		world.ammoPackages.put( ammo.id, ammo );
+		world.ammoPackages.add( ammoPack );
 		
     	clearDynamics();
     	
@@ -286,15 +286,13 @@ public class GraphicalEnemy extends GraphicalCharacter  {
     	world.getRootNode().detachChild( characterNode );
     	characterNode = null;
     	model = null;
-    	
-    	world.characters.remove( id );
 	}
 
 	/** Function <code>preventFall</code> <br>
 	 *  prevent the falling of the character body due to physics
 	 */
 	public void preventFall() {
-	    quaternion = body.getLocalRotation();
+	    Quaternion quaternion = body.getLocalRotation();
 	    Vector3f[] axes = new Vector3f[3];
 	    quaternion.toAxes(axes);
 	
