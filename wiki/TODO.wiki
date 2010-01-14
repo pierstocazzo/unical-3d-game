@@ -16,8 +16,8 @@
   * Passi ( dev'essere semplice e corta senza suoni di disturbo )
   * Corsa ( Idem come i passi )
   * Vittoria ( Musichetta corta tipo uno squillo di trombe )
-  * AlertMusic ( Musichetta ripetitiva che trasmette l'ansia da stato di allerta )
-  * AttackMusic ( Musichetta ripetitiva che trasmette la paura dello stato di attacco )
+  * Alert Music ( Musichetta ripetitiva che trasmette l'ansia da stato di allerta )
+  * Attack Music ( Musichetta ripetitiva che trasmette la paura dello stato di attacco )
 
 == Bug da sistemare ==
 
