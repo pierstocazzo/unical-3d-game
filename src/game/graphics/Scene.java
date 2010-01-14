@@ -18,14 +18,15 @@ import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jmex.terrain.util.RawHeightMap;
 
-/** Classe per la lettura del file xml generato dall'editor di scena FreeWorld3D<br>
+/** Class Scene used to read the xml file exported from FreeWorld3d<br>
  * 
- * Libreria necessaria: <a href="http://www.jdom.org">JDOM</a>
+ * Needed library: <a href="http://www.jdom.org">JDOM</a>
  * 
- * @author slash17
+ * @author Salvatore Loria 
  */
 public class Scene {
 
+	/** put here the default scene file path, it will be loaded by default */
 	public static String DEFAULT_SCENE_FILE = "src/game/data/level/island.xml";
 	
 	/** the xml document */
@@ -104,7 +105,7 @@ public class Scene {
 	}
 
 	/** 
-	 * 
+	 * Create a list of the terrain layers to apply
 	 */
 	@SuppressWarnings("unchecked")
 	private void loadTerrainLayers() {
@@ -131,23 +132,20 @@ public class Scene {
 	private void loadItems() {
 		items = new LinkedList<Item>();
 		
-		/* Il file generato da FW3D contiene diversi elementi, quello che ci interessa �
-		 * l'elemento SceneLayer figlio di SceneLayers, a sua volta figlio di root
-		 * SceneLayer contiene tutte le informazioni sui modelli 3d, posizione, rotazione, scala
+		/* The xml file exported from FW3D contains lot of things.
+		 * here we just want to list all the items in the scene, with their
+		 * position, scale and rotation
+		 * so we need to look at the SceneLayers
 		 */
 		Element sceneLayer = xmlRoot.getChild("SceneLayers").getChild("SceneLayer");
 		
-		/* prendo tutti gli elementi figli di SceneLayer (ovvero le info sui modelli 3d) */
+		/* catch all children of the sceneLayer (they are the models to load */
 		List<Element> children = sceneLayer.getChildren();
-		Iterator<Element> it = children.iterator();
 		
-		/* scorro gli elementi */
-		while( it.hasNext() ) {
-			Element curr = it.next();
-			
+		for( Element curr : children ) {
 			Item item = new Item();
 			
-			/* estrazione del vettore posizione dell'oggetto */
+			/* extract the position of the object */
 			
 			String positionString = curr.getAttributeValue("Position");
 			String[] positionArray = positionString.split(",");
@@ -159,7 +157,7 @@ public class Scene {
 			
 			item.position = position;
 			
-			/* estrazione del quaternione che rappresenta la rotazione dell'oggetto */
+			/* extract its rotation */
 			
 			String rotationString = curr.getAttributeValue("Quat");
 			String[] rotationArray = rotationString.split(",");
@@ -172,7 +170,7 @@ public class Scene {
 			
 			item.rotation = rotation;
 			
-			/* estrazione del vettore di ridimensionamento dell'oggetto */
+			/* extract its scale */
 			
 			String scaleString = curr.getAttributeValue("Scale");
 			String[] scaleArray = scaleString.split(",");
@@ -184,6 +182,7 @@ public class Scene {
 			
 			item.scale = scale;
 			
+			/* extract the mesh id */
 			item.meshId = curr.getAttributeValue("CachedMeshId");
 			
 			items.add( item );

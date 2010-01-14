@@ -1,6 +1,5 @@
 package game.graphics;
 
-
 import game.graphics.Scene.CachedMesh;
 import game.graphics.Scene.Item;
 import game.graphics.Scene.TerrainLayer;
@@ -11,7 +10,6 @@ import java.net.URL;
 import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -253,7 +251,6 @@ public class Environment {
         lightNode.attachChild(flare);
 	}*/
 	
-	@SuppressWarnings("unchecked")
 	private void createVegetation() {
 		
 //		float x, z;
@@ -299,6 +296,8 @@ public class Environment {
 //				world.items.add( sharedTree );
 //			}
 //		}
+		
+		/* load all 3d models needed in the scene */
 		HashMap< String, Node > cachedModels = new HashMap<String, Node>();
 		
 		for( CachedMesh cachedMesh : scene.getCachedMeshes() ) {
@@ -308,11 +307,8 @@ public class Environment {
 			cachedModels.put( cachedMesh.id, model );
 		}
 		
-		List items = scene.getItems();
-		Iterator it = items.iterator();
-		
-		while( it.hasNext() ) {
-			Item item = (Item) it.next();
+		/* create a sharedNode for each item of the scene, using the models previously loaded */
+		for( Item item : scene.getItems() ) {
 			String meshId = item.meshId;
 			
 			SharedNode sharedModel = new SharedNode( cachedModels.get(meshId) );
