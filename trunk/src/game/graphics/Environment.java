@@ -1,6 +1,7 @@
 package game.graphics;
 
 
+import game.graphics.Scene.CachedMesh;
 import game.graphics.Scene.Item;
 import game.graphics.Scene.TerrainLayer;
 
@@ -300,11 +301,11 @@ public class Environment {
 //		}
 		HashMap< String, Node > cachedModels = new HashMap<String, Node>();
 		
-		for( String id : scene.getCachedMeshes().keySet() ) {
-			String filePath = scene.getCachedMeshes().get(id);
-			String texturePath = filePath.replaceFirst( Util.extensionOf( filePath ), "jpg" );
-			Node model = ModelLoader.loadModel( filePath, texturePath, 1 );
-			cachedModels.put( id, model );
+		for( CachedMesh cachedMesh : scene.getCachedMeshes() ) {
+			String modelPath = cachedMesh.modelPath;
+			String texturePath = modelPath.replaceFirst( Util.extensionOf( modelPath ), "jpg" );
+			Node model = ModelLoader.loadModel( modelPath, texturePath, 1 );
+			cachedModels.put( cachedMesh.id, model );
 		}
 		
 		List items = scene.getItems();

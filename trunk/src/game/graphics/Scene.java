@@ -2,7 +2,6 @@ package game.graphics;
 
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,8 +49,8 @@ public class Scene {
 	/** path to the data directory of the game */
 	String dataDirectory = "game/data";
 	
-	/** hashmap containing the id and the model's path of each cashed mesh */
-	HashMap<String, String> cachedMeshes;
+	/** list containing the id and the model's path of each cashed mesh */
+	List<CachedMesh> cachedMeshes;
 	
 	/** list containing the terrain layers to apply */
 	List<TerrainLayer> terrainLayers;
@@ -195,7 +194,7 @@ public class Scene {
 	 */
 	@SuppressWarnings("unchecked")
 	private void loadCashedMeshes() {
-		cachedMeshes = new HashMap<String, String>();
+		cachedMeshes = new LinkedList<CachedMesh>();
 		
 		Element meshGroup = xmlRoot.getChild("CachedMeshGroups").getChild("CachedMeshGroup");
 		Iterator<Element> it = meshGroup.getChildren().iterator();
@@ -204,11 +203,11 @@ public class Scene {
 			Element mesh = it.next();
 			String id = mesh.getAttributeValue("Id");
 			String filePath = dataDirectory + "/models/environment/" + mesh.getAttributeValue("Name");
-			cachedMeshes.put( id, filePath );
+			cachedMeshes.add( new CachedMesh( id, filePath ) );
 		}
 	}
 	
-	public HashMap<String, String> getCachedMeshes() {
+	public List<CachedMesh> getCachedMeshes() {
 		return cachedMeshes;
 	}
 	
