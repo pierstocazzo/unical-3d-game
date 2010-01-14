@@ -7,9 +7,17 @@
   * Sound Manager - slash/andrea (PREDISPOSTO)
   * Organizzazione inputhandler e supporto joystick - joe
   * Animazioni modello e armi - slash (WORK IN PROGRESS)
-  * Multiplayer - slash/joe/andrea (?)
-  * Audio - trovare file da associare al soundmanage
+  * Multiplayer - slash/joe/andrea (?)nage
   * Immagini Menu - Servono le immagini per lo sfondo del menu e per i credits
+
+== Audio - File che servono ==
+
+  * Mancanza di ammo ( click senza sparo )
+  * Passi ( dev'essere semplice e corta senza suoni di disturbo )
+  * Corsa ( Idem come i passi )
+  * Vittoria ( Musichetta corta tipo uno squillo di trombe )
+  * AlertMusic ( Musichetta ripetitiva che trasmette l'ansia da stato di allerta )
+  * AttackMusic ( Musichetta ripetitiva che trasmette la paura dello stato di attacco )
 
 == Bug da sistemare ==
 
