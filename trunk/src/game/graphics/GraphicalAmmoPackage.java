@@ -29,6 +29,8 @@ public class GraphicalAmmoPackage {
 	InputHandler contactDetect;
 	
 	boolean contact = false;
+
+	boolean enabled;
 	
 	GraphicalAmmoPackage( String id, GraphicalWorld world, Vector3f position ) {
 		this.id = id;
@@ -38,6 +40,7 @@ public class GraphicalAmmoPackage {
 		this.contactDetect = new InputHandler();
 		createPhysics();
 		contactDetector();
+		enabled = true;
 	}
 	
 	public void createPhysics() {
@@ -84,8 +87,7 @@ public class GraphicalAmmoPackage {
 		physicsPack.removeFromParent();
 		physicsPack.detachAllChildren();
 		physicsPack.delete();
-		
-		world.ammoPackages.remove( id );
+		enabled = false;
 	}
 
 	public void update(float time) {

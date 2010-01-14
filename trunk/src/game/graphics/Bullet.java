@@ -1,5 +1,7 @@
 package game.graphics;
 
+import java.util.Iterator;
+
 import game.common.WeaponType;
 
 import com.jme.input.InputHandler;
@@ -13,10 +15,6 @@ import com.jmex.physics.contact.ContactInfo;
 import com.jmex.physics.material.Material;
 
 public class Bullet {
-	
-	/** the bullet's identifier */
-	String id;
-	
 	/** the bullet physicsNode */
 	DynamicPhysicsNode physicsBullet;
 	
@@ -33,33 +31,33 @@ public class Bullet {
 	WeaponType weaponType;
 	
 	/** the id of the character who shoot this bullet */
-	String characterId;
+	String shooterId;
+	
+	boolean enabled;
 	
 	/** PhysicsBullet constructor <br>
 	 * 
-	 * @param characterId - (String) the id of the character who shoot this bullet
+	 * @param shooterId - (String) the id of the character who shoot this bullet
 	 * @param world - (GraphicalWorld) the graphical world witch contains the bullet
 	 * @param direction - (Vector3d) the direction of the shoot 
 	 * @param weaponType - (WeaponType) the type of the weapon witch shoot the bullet
 	 * @param position - (Vector3f) the position where to create the bullet
 	 */
-	public Bullet( String characterId, GraphicalWorld world, WeaponType weaponType, Vector3f position ) {
-		this.characterId = characterId;
-		world.bulletsCounter = world.bulletsCounter + 1;
-		this.id = "bullet" + world.bulletsCounter;
+	public Bullet( String shooterId, GraphicalWorld world, WeaponType weaponType, Vector3f position ) {
+		this.shooterId = shooterId;
 		this.world = world;
 		this.position = new Vector3f( position );
 		this.weaponType = weaponType;
+		this.enabled = true;
 	}
 	
 	public void shoot( Vector3f direction ) {
 		physicsBullet = world.getPhysicsSpace().createDynamicNode();
-		physicsBullet.setName( "physics" + id );
 		physicsBullet.setMaterial( Material.GHOST );
 		world.getRootNode().attachChild( physicsBullet );
 		physicsBullet.getLocalTranslation().set( position );
 		
-		Sphere s = new Sphere( id, 10, 10, 0.05f );
+		Sphere s = new Sphere( "bullet", 10, 10, 0.05f );
 		physicsBullet.attachChild( s );
 		physicsBullet.generatePhysicsGeometry();
 		s.lockBounds();
@@ -77,37 +75,23 @@ public class Bullet {
         SyntheticButton collisionHandler = physicsBullet.getCollisionEventHandler();
         
         InputAction collisionAction = new InputAction() {
-        	public void performAction( InputActionEvent evt ) {
+
+			public void performAction( InputActionEvent evt ) {
         		ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
         		physicsBullet.removeFromParent();
         		physicsBullet.delete();
-        		world.bullets.remove( id );
-
+        		enabled = false;
         		/** Control if the bullet hit a character */
-        		for( int i = 1; i <= world.playersCounter; i++ ) {
-        			String id = "player"+i;
-        			if( world.characters.get(id) != null ) { 
-        				if( ( contactInfo.getNode1() == world.characters.get(id).getCharacterBody() ||
-        					  contactInfo.getNode2() == world.characters.get(id).getCharacterBody() ) ||
-        					( contactInfo.getNode1() == world.characters.get(id).getCharacterFeet() ||
-        					  contactInfo.getNode2() == world.characters.get(id).getCharacterFeet() ) ){
+        		Iterator<GraphicalCharacter> it = world.characters.values().iterator();
+        		while( it.hasNext() ) {
+        			GraphicalCharacter character = it.next();
+    				if( ( contactInfo.getNode1() == character.getCharacterBody() ||
+    					  contactInfo.getNode2() == character.getCharacterBody() ) ||
+    					( contactInfo.getNode1() == character.getCharacterFeet() ||
+    					  contactInfo.getNode2() == character.getCharacterFeet() ) ){
 
-        					world.getCore().shooted( id, characterId, weaponType.getDamage() );
-        				}
-        			}
-        		}
-        		
-        		for( int i = 1; i <= world.enemiesCounter; i++ ) {
-        			String id = "enemy"+i;
-        			if( world.characters.get(id) != null ) { 
-        				if( ( contactInfo.getNode1() == world.characters.get(id).getCharacterBody() ||
-        					  contactInfo.getNode2() == world.characters.get(id).getCharacterBody() ) ||
-        					( contactInfo.getNode1() == world.characters.get(id).getCharacterFeet() ||
-        					  contactInfo.getNode2() == world.characters.get(id).getCharacterFeet() ) ){
-
-        					world.getCore().shooted( id, characterId, weaponType.getDamage() );
-        				}
-        			}
+    					world.getCore().shooted( character.id, shooterId, weaponType.getDamage() );
+    				}
         		}
         	}
         };
