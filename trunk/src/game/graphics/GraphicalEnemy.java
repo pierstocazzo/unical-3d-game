@@ -213,13 +213,12 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 				move( moveDirection );
 				setMoving( true );
 			}
+			lookAtAction( moveDirection );
 		} else {
 			if( getOnGround() ) 
 				clearDynamics();
 			setMoving( false );
 		}
-		
-		lookAtAction( moveDirection );
 	}
 
 	void lookAtAction( Vector3f direction ) {
