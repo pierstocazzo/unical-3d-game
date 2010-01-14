@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 /**
  * Class GamePanel
+ * It create a panel used in InGameMenu class
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
@@ -28,17 +29,16 @@ public class InGamePanel extends JPanel {
 	/** Preloaded images */
 	ArrayList<Image> imageContainer;
 	/** Pointer to Game Menu (owner this panel)*/
-	InGameMenu gm;
+	InGameMenu gameMenu;
 	
 	/**
-	 * Constructor
+	 * Constructor of InGamePanel Class
 	 * 
-	 * @param gm - Game Menu
-	 * @param mm - Main Menu
+	 * @param gameMenu - Game Menu
 	 */
-	public InGamePanel(InGameMenu gm){
+	public InGamePanel(InGameMenu gameMenu){
 		super();
-		this.gm = gm;
+		this.gameMenu = gameMenu;
 		initImageFolder();
 		initItem();
 		
@@ -105,7 +105,7 @@ public class InGamePanel extends JPanel {
 	}
 	
 	/**
-	 * Initialize item images
+	 * It initializes images used in panel components
 	 */
 	public void initItem(){
 		item = new ArrayList<JLabel>();
@@ -129,9 +129,10 @@ public class InGamePanel extends JPanel {
 		imageFolder.add("src/game/data/images/menu/exit.png");
 		imageFolder.add("src/game/data/images/menu/exit2.png");
 		imageContainer = new ArrayList<Image>();
+		// Scale every image respect screen size
 		for(int i=0; i<imageFolder.size(); i++){
 			Image img = Toolkit.getDefaultToolkit().getImage( imageFolder.get(i) );
-			img = img.getScaledInstance(gm.screenSize.width/3, gm.screenSize.height/10, Image.SCALE_DEFAULT);
+			img = img.getScaledInstance(gameMenu.screenSize.width/3, gameMenu.screenSize.height/10, Image.SCALE_DEFAULT);
 			imageContainer.add( img );
 		}
 	}
@@ -142,19 +143,23 @@ public class InGamePanel extends JPanel {
 	public void executeSelectedItem(){
 		switch (current){
 			case 0:
-				gm.setVisible(false);
+				// return to game
+				gameMenu.setVisible(false);
+				// reset timer for avoid game problems
 				GameTimer.reset();
-				gm.game.enabled = true;
+				// active a game main loop
+				gameMenu.game.enabled = true;
 				break;
 			case 1:
-				gm.setVisible(false);
-				SaveMenu sm = new SaveMenu(gm);
+				gameMenu.setVisible(false);
+				// create a new frame
+				SaveMenu sm = new SaveMenu(gameMenu);
 				sm.setVisible(true);
 				break;
 			case 2:
-				gm.setVisible(false);
+				// close all (game and frames)
+				gameMenu.setVisible(false);
 				System.exit(0);
-				System.out.println("exit game menu");
 				break;
 		}
 	}

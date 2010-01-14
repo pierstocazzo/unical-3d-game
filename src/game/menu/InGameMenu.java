@@ -17,9 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * Class GameMenu
+ * Class InGameMenu
  *  
- * Frame of game menu
+ * Frame of game menu; in this frame user can choose three different actions
+ * Resume ( return to game ), Save ( Save current game), Exit ( Kill current game without saving )
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
@@ -32,7 +33,10 @@ public class InGameMenu extends JFrame {
 	/** background wallpaper */
 	Image background;
 
+	/** Pointer to Game Class */
 	PhysicsGame game;
+	
+	/** Screen information */
 	Dimension screenSize;
 	
 	/**
@@ -44,6 +48,7 @@ public class InGameMenu extends JFrame {
 	public InGameMenu( PhysicsGame game ){
 		super();
 		this.game = game;
+		// get screen size and apply it to current frame
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(0,0,screenSize.width, screenSize.height);
 		
@@ -68,6 +73,7 @@ public class InGameMenu extends JFrame {
 	
 	/**
 	 * Create Game Menu
+	 * It creates a panel that contains three component used in user choosing
 	 */
 	public void createMenu(){
 		//create main panel
@@ -113,26 +119,29 @@ public class InGameMenu extends JFrame {
 		
 		/**
 		 * Custom Listener
+		 * Used for intercept pressed keys
 		 */
 		class KeyHandler implements KeyListener{
 			InGamePanel panel;
 			/**
 			 * Constructor
 			 * 
-			 * @param p - Game Panel
+			 * @param panel - Game Panel
 			 */
-			public KeyHandler( InGamePanel p ){
-				this.panel = p;
+			public KeyHandler( InGamePanel panel ){
+				this.panel = panel;
 			}
 			@Override
 			public void keyPressed( KeyEvent e ) {
 				if( e.getKeyCode() == KeyEvent.VK_UP )
-					panel.next();
+					panel.next();// go to next element
 				if( e.getKeyCode() == KeyEvent.VK_DOWN )
-					panel.prev();
+					panel.prev();// go to previous element
 				if( e.getKeyCode() == KeyEvent.VK_ENTER )
+					// execute current element
 					panel.executeSelectedItem();
 				if( e.getKeyCode() == KeyEvent.VK_ESCAPE ){
+					// return to game
 					panel.current = 0;
 					panel.executeSelectedItem();
 				}

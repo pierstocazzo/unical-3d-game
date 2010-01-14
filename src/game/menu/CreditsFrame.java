@@ -18,23 +18,37 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Class SaveMenu
+ * Class CreditsFrame
+ * Used for displaying game credits 
+ * (Development Team, reference libraries, copied code, projects reference)
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class CreditsFrame extends JFrame {
+	/** Class ID */
 	private static final long serialVersionUID = 1L;
+	/** Pointer to background image */
 	Image background;
-	MainMenu mm;
+	/** Useful pointer to MainMenu frame */
+	MainMenu mainMenu;
 	
-	public CreditsFrame( MainMenu mm ){
+	/** 
+	 * Constructor Class CreditsFrame
+	 * 
+	 * @param mainMenu (MainMenu)
+	 */
+	public CreditsFrame( MainMenu mainMenu ){
 		super();
-		this.mm = mm;
+		this.mainMenu = mainMenu;
 
+		/** Get screen size */
 		Dimension screenSize = 
 	        Toolkit.getDefaultToolkit().getScreenSize();
+		// applied screen size to frame
 		setBounds(0,0,screenSize.width, screenSize.height);
+		// get image
 		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
+		//image scaled
 		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_DEFAULT);
 		setUndecorated(true); 
 	    
@@ -45,9 +59,12 @@ public class CreditsFrame extends JFrame {
 		
 		setTitle("Credits Game");
 		
-		JPanel b = new JPanel(){
+		// Create a main panel that contains background image
+		JPanel creditsFramePanel = new JPanel(){
 			private static final long serialVersionUID = 1L;
 
+			// Override the method  for obtains the painted background image
+			// before main panel and its components
 			@Override
 			public void paintComponent(Graphics g){
 				g.drawImage(background, 0, 0, this);
@@ -55,10 +72,12 @@ public class CreditsFrame extends JFrame {
 			}
 		};
 		
-		b.setLayout(new BorderLayout());
-		b.setOpaque(false);
-		setContentPane(b);
+		// Applied a borderLayout
+		creditsFramePanel.setLayout(new BorderLayout());
+		creditsFramePanel.setOpaque(false);
+		setContentPane(creditsFramePanel);
 		
+		// create a new sub panel
 		JPanel flow = new JPanel();
 		flow.setLayout(new FlowLayout(FlowLayout.CENTER));
 		flow.setOpaque(false);
@@ -88,48 +107,59 @@ public class CreditsFrame extends JFrame {
 		label.setSize(screenSize.width*6/8, screenSize.height/16);
         flow.add(label);
         
-        b.add(flow,BorderLayout.CENTER);
+        creditsFramePanel.add(flow,BorderLayout.CENTER);
 		
 		//add left vertical empty panel
 		JPanel pVerticalEmpty1 = new JPanel();
 		pVerticalEmpty1.setOpaque(false);
 		pVerticalEmpty1.setPreferredSize(new Dimension(screenSize.width/8, 1));
-		b.add(pVerticalEmpty1,BorderLayout.WEST);
+		creditsFramePanel.add(pVerticalEmpty1,BorderLayout.WEST);
 		
 		//add right vertical empty panel
 		JPanel pVerticalEmpty2 = new JPanel();
 		pVerticalEmpty2.setOpaque(false);
 		pVerticalEmpty2.setPreferredSize(new Dimension(screenSize.width/8, 1));
-		b.add(pVerticalEmpty2,BorderLayout.EAST);
+		creditsFramePanel.add(pVerticalEmpty2,BorderLayout.EAST);
 		
 		//add lower horizontal empty panel
 		JPanel pHorizontalEmpty1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pHorizontalEmpty1.setOpaque(false);
 		pHorizontalEmpty1.setPreferredSize(new Dimension(1, screenSize.height/8));
-		b.add(pHorizontalEmpty1,BorderLayout.SOUTH);
+		creditsFramePanel.add(pHorizontalEmpty1,BorderLayout.SOUTH);
 		
 		//add upper horizontal empty panel
 		JPanel pHorizontalEmpty2 = new JPanel();
 		pHorizontalEmpty2.setOpaque(false);
 		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height/8));
-		b.add(pHorizontalEmpty2,BorderLayout.NORTH);
+		creditsFramePanel.add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 	    setResizable(false);
-//	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	    
 	    /**
-		 * Custom Listener
+		 * Custom Listener for intercept pressed keys
 		 */
 		class KeyHandler implements KeyListener{
-			CreditsFrame cm;
-			public KeyHandler( CreditsFrame cm ){
-				this.cm = cm;
+			/** Useful pointer to CreditsFrame object */
+			CreditsFrame creditsFrame;
+			/**
+			 * Constructor KeyHandler
+			 * 
+			 * @param creditsFrame (CreditsFrame)
+			 */
+			public KeyHandler( CreditsFrame creditsFrame ){
+				this.creditsFrame = creditsFrame;
 			}
+			
+			/**
+			 * Redefine keyPressed method for close current frame
+			 * and reopen mainFrame
+			 */
 			@Override
 			public void keyPressed( KeyEvent e ) {
 				if( e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_ESCAPE ){
 					setVisible(false);
-					cm.mm.setVisible(true);
+					creditsFrame.mainMenu.setVisible(true);
 				}
 			}
 			@Override
