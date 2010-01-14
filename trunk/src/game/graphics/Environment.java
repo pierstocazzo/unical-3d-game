@@ -106,20 +106,12 @@ public class Environment {
 		terrainScale = scene.getScale();
 		
 		world.dimension = heightMapSize * terrainScale.x;
-		
-//	    DirectionalLight dr = new DirectionalLight();
-//	    dr.setEnabled(true);
-//	    dr.setDiffuse(new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f));
-//	    dr.setAmbient(new ColorRGBA(0.5f, 0.5f, 0.5f, 1.0f));
-//	    dr.setDirection(new Vector3f(0.5f, -0.5f, 0));
-//	
-//	    lightState.detachAll();
-//	    lightState.attach(dr);
 	    
         ground = world.getPhysicsSpace().createStaticNode();
         gameBounds = world.getPhysicsSpace().createStaticNode();
         world.getRootNode().attachChild(ground);
         world.getRootNode().attachChild(gameBounds);
+        
 		world.loadingFrame.setProgress(25);
 //	    setuplight();
 		
@@ -127,10 +119,9 @@ public class Environment {
 	    cs.setCullFace(CullState.Face.Back);
 	    world.getRootNode().setRenderState(cs);
 
-//	    lightState.detachAll();
-//	    world.getRootNode().setLightCombineMode(Spatial.LightCombineMode.Off);
 	    world.loadingFrame.setLoadingText("Impostazione Effetto Nebbia");
 	    world.loadingFrame.setProgress(30);
+	    
 	    FogState fogState = DisplaySystem.getDisplaySystem().getRenderer().createFogState();
 	    fogState.setDensity(1.0f);
 	    fogState.setEnabled(true);
@@ -140,22 +131,23 @@ public class Environment {
 	    fogState.setDensityFunction(FogState.DensityFunction.Linear);
 	    fogState.setQuality(FogState.Quality.PerVertex);
 	    world.getRootNode().setRenderState(fogState);
+	    
 	    world.loadingFrame.setLoadingText("Creazione Terreno");
 	    world.loadingFrame.setProgress(35);
 		createTerrain();
+		
 		world.loadingFrame.setLoadingText("Caricamento SkyBox e Riflesso del Terreno");
 		world.loadingFrame.setProgress(40);
         createReflectionTerrain();
 
         buildSkyBox();
-        world.loadingFrame.setLoadingText("Caricamento Mare");
-        world.loadingFrame.setProgress(45);
         world.getRootNode().attachChild( skybox );
         world.getRootNode().attachChild( splatTerrain );
         
+        world.loadingFrame.setLoadingText("Caricamento Mare");
+        world.loadingFrame.setProgress(45);
         createWater();
-        world.loadingFrame.setLoadingText("Creazione Vegetazione");
-        world.loadingFrame.setProgress(50);
+        
 	    RenderPass rootPass = new RenderPass();
 	    rootPass.add(world.getRootNode());
 	    world.getPass().add(rootPass);
@@ -163,8 +155,14 @@ public class Environment {
 	    world.getRootNode().setCullHint(Spatial.CullHint.Never);
 	    world.getRootNode().setCullHint(Spatial.CullHint.Never);
 		
+        world.loadingFrame.setLoadingText("Creazione Vegetazione");
+        world.loadingFrame.setProgress(50);
 	    createVegetation();
-	    world.loadingFrame.setProgress(55);
+	    
+	    world.loadingFrame.setLoadingText("Caricamento ambientazione");
+        world.loadingFrame.setProgress(55);
+	    loadItems();
+	    
 	    createWorldBounds();
 	    
 	    KeyBindingManager.getKeyBindingManager().set( "take_position", KeyInput.KEY_END );
@@ -252,7 +250,6 @@ public class Environment {
 	}*/
 	
 	private void createVegetation() {
-		
 //		float x, z;
 //
 //		for( int k = 1; k < 6; k++ ) {
@@ -296,7 +293,9 @@ public class Environment {
 //				world.items.add( sharedTree );
 //			}
 //		}
-		
+	}
+	
+	public void loadItems() {
 		/* load all 3d models needed in the scene */
 		HashMap< String, Node > cachedModels = new HashMap<String, Node>();
 		
