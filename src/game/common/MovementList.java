@@ -14,6 +14,8 @@ import game.common.Movement;
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class MovementList implements Serializable{
+	
+	/** Class ID */
 	private static final long serialVersionUID = 1L;
 	
 	/** Movements list */
@@ -32,7 +34,7 @@ public class MovementList implements Serializable{
 		/** initialize movements list */
 		movements = new LinkedList<Movement>();
 		
-		/** For each movements type add correspondents movements*/
+		/** For each movement type add correspondent movements*/
 		switch ( movementType ) {
 		
 			case LARGE_PERIMETER:

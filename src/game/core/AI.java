@@ -163,7 +163,7 @@ public class AI implements Serializable {
 		{
 			/** The enemy will move only if he is in default state. When he attack or is in alert he rests
 			 */
-			if( enemy.currentMovement.getDirection() != Direction.REST 
+			if( enemy.currentMovement.getDirection() != Vector3f.ZERO 
 					&& enemy.state == State.DEFAULT ) {
 				/** calculate distance between the current movement's start position and
 				 *  the current character position
@@ -176,7 +176,7 @@ public class AI implements Serializable {
 					enemy.movementStartPosition.set( currentPosition );
 					enemy.getNextMovement();
 				}
-				moveDirection.set( enemy.currentMovement.getDirection().toVector() );
+				moveDirection.set( enemy.currentMovement.getDirection() );
 				return moveDirection;
 			} else {
 				return Vector3f.ZERO;

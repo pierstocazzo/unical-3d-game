@@ -188,7 +188,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		try { 
 			return ((LogicEnemy) characters.get(id)).getCurrentMovement();
 		} catch (Exception e) {
-			return new Movement( Direction.REST, 0 );
+			return new Movement( Vector3f.ZERO, 0 );
 		}
 	}
 
