@@ -2,6 +2,8 @@ package game.common;
 
 import java.io.Serializable;
 
+import com.jme.math.Vector3f;
+
 /**
  * Class Movement
  * a single movement in a path
@@ -12,7 +14,7 @@ import java.io.Serializable;
 public class Movement implements Serializable {
 	
 	/** directionr of current movement */
-	Direction direction;
+	Vector3f direction;
 	
 	/** length of current movement */
 	float length;
@@ -23,17 +25,17 @@ public class Movement implements Serializable {
 	 * @param (Vector3f) direction
 	 * @param (float) length
 	 */
-	public Movement( Direction direction, float length ){
+	public Movement( Vector3f direction, float length ){
 		this.direction = direction;
 		this.length = length;
 	}
-	
+
 	/**
 	 * Get direction of current movement
 	 * 
 	 * @return (Vector3f)
 	 */
-	public Direction getDirection() {
+	public Vector3f getDirection() {
 		return direction;
 	}
 
