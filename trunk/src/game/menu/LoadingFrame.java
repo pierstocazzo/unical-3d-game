@@ -49,7 +49,7 @@ public class LoadingFrame extends JFrame {
 		// get image file
 		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
 		// scaled background image respect screen size
-		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_DEFAULT);
+		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_SMOOTH);
 		//hide frame border
 		setUndecorated(true); 
 	    

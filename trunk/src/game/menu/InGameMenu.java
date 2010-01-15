@@ -54,7 +54,7 @@ public class InGameMenu extends JFrame {
 		
 		//get image background
 		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
-		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_DEFAULT);
+		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_SMOOTH);
 		this.setUndecorated(true); 
 	    
 		//hide cursor

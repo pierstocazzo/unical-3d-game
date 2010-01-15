@@ -62,7 +62,7 @@ public class OptionsMenu extends JFrame {
 		// get image file
 		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
 		// scale image respect screen size 
-		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_DEFAULT);
+		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_SMOOTH);
 		setUndecorated(true); 
 		
 		setTitle("Credits Game");
