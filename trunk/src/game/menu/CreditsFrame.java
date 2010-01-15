@@ -79,7 +79,6 @@ public class CreditsFrame extends JFrame {
         
 		JLabel photo = new JLabel();
 		Image img = Toolkit.getDefaultToolkit().getImage( "src/game/data/images/menu/credits16_9.jpg" );
-//		img = img.getScaledInstance(screenSize.width*6/8, screenSize.height*6/8, Image.SCALE_DEFAULT);
 		img = img.getScaledInstance(screenSize.width, screenSize.height, Image.SCALE_SMOOTH);
 		photo.setIcon(new ImageIcon(img));
         
