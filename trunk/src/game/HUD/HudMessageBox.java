@@ -7,8 +7,15 @@ import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 
+/**
+ * Class HudMessageBox
+ * This class is used for manage and show big message on screen
+ * 
+ * @author Andrea Martire, Giuseppe Leone, Salvatore Loria
+ */
 public class HudMessageBox {
 
+	/** Standard messages */
 	public static final int WELCOME1 = 0;
 	public static final int WELCOME2 = 1;
 	public static final int WELCOME3 = 2;
@@ -19,9 +26,16 @@ public class HudMessageBox {
 	public static final int VICTORY = 7;
 	public static final int NOTHING = 8;
 	
+	/** Type of current message */
 	int type;
+	
+	/** A quad that contains a message */
 	Quad quad;
+	
+	/** Ponter used for get info */
 	UserHud userHud;
+	
+	/** life time of current message */
 	float time = 0;
 	
 	/**
@@ -37,44 +51,64 @@ public class HudMessageBox {
 	
 	/** Update current message */
 	public void update() {
+		// if current type isn't nothing
 		if(type != NOTHING){
 			switch (type) {
+			
 				case WELCOME1:
+					// first tutorial message
 					if( time + 10 <= GameTimer.getTimeInSeconds() ) {
 						quad.removeFromParent();
+						// switch to other message
 						createMessageBox(WELCOME2);
 					}
 					break;
 					
 				case WELCOME2:
+					// second tutorial message
 					if( time + 10 <= GameTimer.getTimeInSeconds() ){
 						quad.removeFromParent();
+						// switch to other message
 						createMessageBox(WELCOME3);
 					}
 					break;
+					
 				case WELCOME3:
+					// third tutorial message
 					if( time + 10 <= GameTimer.getTimeInSeconds() ) {
 						quad.removeFromParent();
+						// switch to other message
 						createMessageBox(WELCOME4);
 					}
 					break;
+					
 				case WELCOME4:
+					// fourth tutorial message
 					if( time + 10 <= GameTimer.getTimeInSeconds() )
 						quad.removeFromParent();
+						// tutorial messages finished
 					break;
+					
 				case DIE:
+					// die message - the player reborn
 					if( time + 5 <= GameTimer.getTimeInSeconds() )
 						quad.removeFromParent();
 					break;
+					
 				case LEVEL2:
+					// switch to second level for the first time
 					if( time + 5 <= GameTimer.getTimeInSeconds() )
 						quad.removeFromParent();
 					break;
+					
 				case VICTORY:
+					// victory message
 					if( time + 10 <= GameTimer.getTimeInSeconds() )
 						userHud.gWorld.finish();
 					break;
+					
 				case GAMEOVER:
+					// game over message
 					if( time + 3 <= GameTimer.getTimeInSeconds() )
 						userHud.gWorld.finish();
 					break;
@@ -98,9 +132,12 @@ public class HudMessageBox {
      */
     public void createMessageBox(int type){
             this.type = type;
+            // create a quad that contains request message
             quad = new Quad("messageBox", userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y/3);
+            // quad moved
             quad.setLocalTranslation(userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y*3/5, 0);
             userHud.gWorld.hudNode.attachChild(quad);
+            // select file image of request message
             String path = "game/data/message/sfondo.jpg";
             switch (type) {
                 case WELCOME1:path = "game/data/message/welcome1.jpg";break;//WELCOME1
@@ -112,6 +149,7 @@ public class HudMessageBox {
 				case VICTORY:path = "game/data/message/end.jpg";break;//DIE
 				case GAMEOVER:path = "game/data/message/gameOver.jpg";break;//GAMEOVER
             }
+            // get current time
             time = GameTimer.getTimeInSeconds();
             /** add a texture */
             TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
@@ -121,6 +159,9 @@ public class HudMessageBox {
 		    quad.updateRenderState();
     }
 	
+    /**
+     * Switch the current message to next (Used only for initial tutorial)
+     */
     public void switchToNext(){
     	if(type!=NOTHING && type!=GAMEOVER && type!=VICTORY)
     		quad.removeFromParent();

@@ -88,20 +88,20 @@ public class HudAmmo {
 	 */
 	public void createBar(){
 		// create a back quad
-		backQuad = new Quad("backQuad", screenWidth/6 , screenHeight/30);
+		backQuad = new Quad( "backQuad", screenWidth/6 , screenHeight/30 );
     	backQuad.setDefaultColor(ColorRGBA.blue);
-    	backQuad.setLocalTranslation(screenWidth/40+backQuad.getWidth()/2,
+    	backQuad.setLocalTranslation( screenWidth/40 + backQuad.getWidth()/2,
     			userHud.hudLife.backQuad.getHeight()+userHud.hudLife.backQuad.getHeight()+10, 0);
     	backQuad.lock();
     	userHud.gWorld.hudNode.attachChild( backQuad );
     	
     	// create a front quad
-    	frontQuad = new Quad("frontQuad", backQuad.getWidth() - borderWeight*2 , 
-    										backQuad.getHeight() - borderWeight*2);
+    	frontQuad = new Quad( "frontQuad", backQuad.getWidth() - borderWeight*2 , 
+    										backQuad.getHeight() - borderWeight*2 );
     	initialLenght = (int) frontQuad.getWidth();
     	frontQuad.setDefaultColor(ColorRGBA.green);
-    	frontQuad.setLocalTranslation(backQuad.getLocalTranslation().x,
-    			backQuad.getLocalTranslation().y, 0);
+    	frontQuad.setLocalTranslation( backQuad.getLocalTranslation().x,
+    			backQuad.getLocalTranslation().y, 0 );
     	userHud.gWorld.hudNode.attachChild( frontQuad );
 	}
 }
