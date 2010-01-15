@@ -2,16 +2,26 @@ package game.common;
 
 import java.io.Serializable;
 
+/**
+ * Class WeaponType
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public enum WeaponType implements Serializable {
 	
+	/** mp5 weapon */
 	AR15 ( 1, 30000, 20, false ),
 	
+	/** not used */
 	GATLING ( 2, 30000, 20, true ),
 	
+	/** not used */
 	BAZOOKA ( 30, 10000, 1000, true );
 	
 	/** <code>WeaponType</code> field */
 	int damage, power, loadTime;
+	
+	/** not used */
 	boolean isHeavy;
 	
 	/**
@@ -28,14 +38,29 @@ public enum WeaponType implements Serializable {
 		this.loadTime = loadTime;
 	}
 	
+	/**
+	 * Return current weapon power
+	 * 
+	 * @return (int)
+	 */
 	public int getPower() {
 		return this.power;
 	}
 	
+	/**
+	 * Return current weapon damage
+	 * 
+	 * @return (int)
+	 */
 	public int getDamage() {
 		return this.damage;
 	}
 
+	/**
+	 * Return current weapon load time
+	 * 
+	 * @return (long)
+	 */
 	public long getLoadTime() {
 		return this.loadTime;
 	}
