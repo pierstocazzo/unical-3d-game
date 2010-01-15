@@ -89,6 +89,7 @@ public abstract class PhysicsGame extends AbstractGame {
 	/** set to false when you don't want to do the world update */
 	public boolean enabled = true;
 
+	/** useful variable */
 	public boolean pause = false;
 	
 	
@@ -134,6 +135,7 @@ public abstract class PhysicsGame extends AbstractGame {
 	
 	                    Thread.yield();
                 	}
+                	// else manage inGameMenu frame and check pause game
                 	else{
                 		boolean pause = true;
                 		while( pause ){
@@ -279,9 +281,6 @@ public abstract class PhysicsGame extends AbstractGame {
         /** Have the PassManager render. */
         passManager.renderPasses(display.getRenderer());
 
-        /** Call simpleRender() in any derived classes. */
-        simpleRender();
-
         doDebug(renderer);
     }
 
@@ -416,8 +415,6 @@ public abstract class PhysicsGame extends AbstractGame {
 
         rootNode.updateGeometricState( 0.0f, true );
         rootNode.updateRenderState();
-
-        //timer.reset();
     }
 
     /**
@@ -431,13 +428,6 @@ public abstract class PhysicsGame extends AbstractGame {
      */
     protected abstract void update();
 
-    /**
-     * Can be defined in derived classes for custom rendering.
-     * Called every frame in render.
-     */
-    protected void simpleRender() {
-        //do nothing
-    }
 
     /**
      * unused
