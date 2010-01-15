@@ -7,130 +7,152 @@ import java.util.Random;
 import game.common.Direction;
 import game.common.Movement;
 
+/**
+ * Class {@link MovementList}
+ * a closed path, a list of movements
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class MovementList implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	/** Movements list */
 	LinkedList<Movement> movements;
+	
+	/** index of current movement */
 	int curr = 0;
-	 
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param (MovementType) movementType
+	 */
 	public MovementList( MovementType movementType ) {
 		
+		/** initialize movements list */
 		movements = new LinkedList<Movement>();
-				
+		
+		/** For each movements type add correspondents movements*/
 		switch ( movementType ) {
-		case LARGE_PERIMETER:
-			movements.add( new Movement( Direction.FORWARD, 35 ) );
-			movements.add( new Movement( Direction.RIGHT_FORWARD, 10 ) );
-			movements.add( new Movement( Direction.RIGHT, 35 ) );
-			movements.add( new Movement( Direction.RIGHT_BACKWARD, 10 ) );
-			movements.add( new Movement( Direction.BACKWARD, 35 ) );
-			movements.add( new Movement( Direction.LEFT_BACKWARD, 10 ) );
-			movements.add( new Movement( Direction.LEFT, 35 ) );
-			movements.add( new Movement( Direction.LEFT_FORWARD, 10 ) );
-			break;
-			
-		case SMALL_PERIMETER:
-			movements.add( new Movement( Direction.FORWARD, 17 ) );
-			movements.add( new Movement( Direction.RIGHT_FORWARD, 5 ) );
-			movements.add( new Movement( Direction.RIGHT, 17 ) );
-			movements.add( new Movement( Direction.RIGHT_BACKWARD, 5 ) );
-			movements.add( new Movement( Direction.BACKWARD, 17 ) );
-			movements.add( new Movement( Direction.LEFT_BACKWARD, 5 ) );
-			movements.add( new Movement( Direction.LEFT, 17 ) );
-			movements.add( new Movement( Direction.LEFT_FORWARD, 5 ) );
-			break;
-			
-		case HORIZONTAL_SENTINEL:
-			movements.add( new Movement( Direction.FORWARD, 40 ) );
-			movements.add( new Movement( Direction.BACKWARD, 40 ) );
-			break;
-			
-		case VERTICAL_SENTINEL:
-			movements.add( new Movement( Direction.RIGHT, 40 ) );
-			movements.add( new Movement( Direction.LEFT, 40 ) );
-			break;
-			
-		case DIAGONAL_SENTINEL_MAIN:
-			movements.add( new Movement( Direction.RIGHT_BACKWARD, 40 ) );
-			movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
-			break;
-			
-		case DIAGONAL_SENTINEL_SECONDARY:
-			movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
-			movements.add( new Movement( Direction.LEFT_BACKWARD, 40 ) );
-			break;
-			
-		case CIRCLE_SENTINEL_SMALL:
-			movements.add( new Movement( Direction.RIGHT_BACKWARD, 20 ) );
-			movements.add( new Movement( Direction.BACKWARD, 20 ) );
-			movements.add( new Movement( Direction.LEFT_BACKWARD, 20 ) );
-			movements.add( new Movement( Direction.LEFT, 20 ) );
-			movements.add( new Movement( Direction.LEFT_FORWARD, 20 ) );
-			movements.add( new Movement( Direction.FORWARD, 20 ) );
-			movements.add( new Movement( Direction.RIGHT_FORWARD, 20 ) );
-			movements.add( new Movement( Direction.RIGHT, 20 ) );
-			break;
-			
-		case CIRCLE_SENTINEL_LARGE:
-			movements.add( new Movement( Direction.RIGHT_BACKWARD, 40 ) );
-			movements.add( new Movement( Direction.BACKWARD, 40 ) );
-			movements.add( new Movement( Direction.LEFT_BACKWARD, 40 ) );
-			movements.add( new Movement( Direction.LEFT, 40 ) );
-			movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
-			movements.add( new Movement( Direction.FORWARD, 40 ) );
-			movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
-			movements.add( new Movement( Direction.RIGHT, 40 ) );
-			break;
 		
-		case ELLIPTICAL_PERIMETER_HORIZONTAL:
-			movements.add( new Movement( Direction.RIGHT_BACKWARD, 40 ) );
-			movements.add( new Movement( Direction.BACKWARD, 40 ) );
-			movements.add( new Movement( Direction.LEFT_BACKWARD, 40 ) );
-			movements.add( new Movement( Direction.LEFT, 120 ) );
-			movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
-			movements.add( new Movement( Direction.FORWARD, 40 ) );
-			movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
-			movements.add( new Movement( Direction.RIGHT, 120 ) );
-			break;
+			case LARGE_PERIMETER:
+				movements.add( new Movement( Direction.FORWARD, 35 ) );
+				movements.add( new Movement( Direction.RIGHT_FORWARD, 10 ) );
+				movements.add( new Movement( Direction.RIGHT, 35 ) );
+				movements.add( new Movement( Direction.RIGHT_BACKWARD, 10 ) );
+				movements.add( new Movement( Direction.BACKWARD, 35 ) );
+				movements.add( new Movement( Direction.LEFT_BACKWARD, 10 ) );
+				movements.add( new Movement( Direction.LEFT, 35 ) );
+				movements.add( new Movement( Direction.LEFT_FORWARD, 10 ) );
+				break;
+				
+			case SMALL_PERIMETER:
+				movements.add( new Movement( Direction.FORWARD, 17 ) );
+				movements.add( new Movement( Direction.RIGHT_FORWARD, 5 ) );
+				movements.add( new Movement( Direction.RIGHT, 17 ) );
+				movements.add( new Movement( Direction.RIGHT_BACKWARD, 5 ) );
+				movements.add( new Movement( Direction.BACKWARD, 17 ) );
+				movements.add( new Movement( Direction.LEFT_BACKWARD, 5 ) );
+				movements.add( new Movement( Direction.LEFT, 17 ) );
+				movements.add( new Movement( Direction.LEFT_FORWARD, 5 ) );
+				break;
+				
+			case HORIZONTAL_SENTINEL:
+				movements.add( new Movement( Direction.FORWARD, 40 ) );
+				movements.add( new Movement( Direction.BACKWARD, 40 ) );
+				break;
+				
+			case VERTICAL_SENTINEL:
+				movements.add( new Movement( Direction.RIGHT, 40 ) );
+				movements.add( new Movement( Direction.LEFT, 40 ) );
+				break;
+				
+			case DIAGONAL_SENTINEL_MAIN:
+				movements.add( new Movement( Direction.RIGHT_BACKWARD, 40 ) );
+				movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
+				break;
+				
+			case DIAGONAL_SENTINEL_SECONDARY:
+				movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
+				movements.add( new Movement( Direction.LEFT_BACKWARD, 40 ) );
+				break;
+				
+			case CIRCLE_SENTINEL_SMALL:
+				movements.add( new Movement( Direction.RIGHT_BACKWARD, 20 ) );
+				movements.add( new Movement( Direction.BACKWARD, 20 ) );
+				movements.add( new Movement( Direction.LEFT_BACKWARD, 20 ) );
+				movements.add( new Movement( Direction.LEFT, 20 ) );
+				movements.add( new Movement( Direction.LEFT_FORWARD, 20 ) );
+				movements.add( new Movement( Direction.FORWARD, 20 ) );
+				movements.add( new Movement( Direction.RIGHT_FORWARD, 20 ) );
+				movements.add( new Movement( Direction.RIGHT, 20 ) );
+				break;
+				
+			case CIRCLE_SENTINEL_LARGE:
+				movements.add( new Movement( Direction.RIGHT_BACKWARD, 40 ) );
+				movements.add( new Movement( Direction.BACKWARD, 40 ) );
+				movements.add( new Movement( Direction.LEFT_BACKWARD, 40 ) );
+				movements.add( new Movement( Direction.LEFT, 40 ) );
+				movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
+				movements.add( new Movement( Direction.FORWARD, 40 ) );
+				movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
+				movements.add( new Movement( Direction.RIGHT, 40 ) );
+				break;
 			
-		case REST:
-			movements.add( new Movement( Direction.REST, 0 ) );
-			break;
-		
-		case EIGHT_PATH_SMALL:
-			movements.add( new Movement( Direction.RIGHT_BACKWARD, 70 ) );
-			movements.add( new Movement( Direction.RIGHT, 20 ) );
-			movements.add( new Movement( Direction.RIGHT_FORWARD, 20 ) );
-			movements.add( new Movement( Direction.FORWARD, 20 ) );
-			movements.add( new Movement( Direction.LEFT_FORWARD, 20 ) );
-			movements.add( new Movement( Direction.LEFT, 20 ) );
-			movements.add( new Movement( Direction.LEFT_BACKWARD, 70 ) );
-			movements.add( new Movement( Direction.LEFT, 20 ) );
-			movements.add( new Movement( Direction.LEFT_FORWARD, 20 ) );
-			movements.add( new Movement( Direction.FORWARD, 20 ) );
-			movements.add( new Movement( Direction.RIGHT_FORWARD, 20 ) );
-			movements.add( new Movement( Direction.RIGHT, 20 ) );
-			break;
+			case ELLIPTICAL_PERIMETER_HORIZONTAL:
+				movements.add( new Movement( Direction.RIGHT_BACKWARD, 40 ) );
+				movements.add( new Movement( Direction.BACKWARD, 40 ) );
+				movements.add( new Movement( Direction.LEFT_BACKWARD, 40 ) );
+				movements.add( new Movement( Direction.LEFT, 120 ) );
+				movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
+				movements.add( new Movement( Direction.FORWARD, 40 ) );
+				movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
+				movements.add( new Movement( Direction.RIGHT, 120 ) );
+				break;
+				
+			case REST:
+				movements.add( new Movement( Direction.REST, 0 ) );
+				break;
 			
-		case EIGHT_PATH_LARGE:
-			movements.add( new Movement( Direction.RIGHT_BACKWARD, 140 ) );
-			movements.add( new Movement( Direction.RIGHT, 40 ) );
-			movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
-			movements.add( new Movement( Direction.FORWARD, 40 ) );
-			movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
-			movements.add( new Movement( Direction.LEFT, 40 ) );
-			movements.add( new Movement( Direction.LEFT_BACKWARD, 140 ) );
-			movements.add( new Movement( Direction.LEFT, 40 ) );
-			movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
-			movements.add( new Movement( Direction.FORWARD, 40 ) );
-			movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
-			movements.add( new Movement( Direction.RIGHT, 40 ) );
-			break;
+			case EIGHT_PATH_SMALL:
+				movements.add( new Movement( Direction.RIGHT_BACKWARD, 70 ) );
+				movements.add( new Movement( Direction.RIGHT, 20 ) );
+				movements.add( new Movement( Direction.RIGHT_FORWARD, 20 ) );
+				movements.add( new Movement( Direction.FORWARD, 20 ) );
+				movements.add( new Movement( Direction.LEFT_FORWARD, 20 ) );
+				movements.add( new Movement( Direction.LEFT, 20 ) );
+				movements.add( new Movement( Direction.LEFT_BACKWARD, 70 ) );
+				movements.add( new Movement( Direction.LEFT, 20 ) );
+				movements.add( new Movement( Direction.LEFT_FORWARD, 20 ) );
+				movements.add( new Movement( Direction.FORWARD, 20 ) );
+				movements.add( new Movement( Direction.RIGHT_FORWARD, 20 ) );
+				movements.add( new Movement( Direction.RIGHT, 20 ) );
+				break;
+				
+			case EIGHT_PATH_LARGE:
+				movements.add( new Movement( Direction.RIGHT_BACKWARD, 140 ) );
+				movements.add( new Movement( Direction.RIGHT, 40 ) );
+				movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
+				movements.add( new Movement( Direction.FORWARD, 40 ) );
+				movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
+				movements.add( new Movement( Direction.LEFT, 40 ) );
+				movements.add( new Movement( Direction.LEFT_BACKWARD, 140 ) );
+				movements.add( new Movement( Direction.LEFT, 40 ) );
+				movements.add( new Movement( Direction.LEFT_FORWARD, 40 ) );
+				movements.add( new Movement( Direction.FORWARD, 40 ) );
+				movements.add( new Movement( Direction.RIGHT_FORWARD, 40 ) );
+				movements.add( new Movement( Direction.RIGHT, 40 ) );
+				break;
 		}
-		
+		// set current at first element
 		curr = movements.indexOf(movements.getFirst());
 	}
 	
+	/**
+	 * Get next movement
+	 * 
+	 * @return {@link Movement}
+	 */
 	public Movement getNextMovement() {
 		if( curr + 1 >= movements.size())
 			curr = movements.indexOf(movements.getFirst());
@@ -139,7 +161,15 @@ public class MovementList implements Serializable{
 		return movements.get(curr);
 	}
 	
+	/**
+	 * Enum {@link MovementType}
+	 * 
+	 * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+	 */
 	public enum MovementType implements Serializable{
+		
+		// standard movement type
+		
 		SMALL_PERIMETER,
 		
 		LARGE_PERIMETER,
@@ -164,6 +194,11 @@ public class MovementList implements Serializable{
 		
 		REST;
 
+		/**
+		 * Get a random movement type
+		 * 
+		 * @return {@link MovementType}
+		 */
 		public static MovementType getRandom() {
 			Random r = new Random();
 			int num = r.nextInt() % 12;

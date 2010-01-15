@@ -25,6 +25,12 @@ import com.jme.scene.state.BlendState.TestFunction;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
  
+/**
+ * Class TextLabel2D
+ * display enemy id
+ * 
+ * @author not defined
+ */
 public class TextLabel2D {
     private String text;
     private float blurIntensity = 0.1f;
