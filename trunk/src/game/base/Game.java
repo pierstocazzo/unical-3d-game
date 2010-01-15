@@ -6,9 +6,19 @@ import com.jme.input.InputHandler;
 import game.base.PhysicsGame;
 import game.menu.LoadingFrame;
 
+/**
+ * Class Game
+ * 
+ * Useful class that allow to divide initialization
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public abstract class Game extends PhysicsGame {
 	
+	/** Used for debug mode */
 	public InputHandler freeCamInput;
+	
+	/** Frame that displays loading info */
 	public LoadingFrame loadingFrame;
 	
     @Override
@@ -35,15 +45,21 @@ public abstract class Game extends PhysicsGame {
         loadingFrame.setVisible(false);
     }
     
+    /** initialize system */
     public abstract void setupInit();
     
+    /** initialize environment */
     public abstract void setupEnvironment();
     
+    /** initialize player */
     public abstract void setupPlayer();
     
+    /** initialize enemies */
     public abstract void setupEnemies();
     
+    /** initialize camera */
     public abstract void setupCamera();
     
+    /** initialize input handler */
     public abstract void setupInput();
 }
