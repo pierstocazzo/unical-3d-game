@@ -68,7 +68,7 @@ public class HudTextBox {
 		int lastSpace = 0;
 		/** Loop on the text */
 		for(int i = 0; i < text.length(); i++){
-			/** Check if there a space and save it */
+			/** Check if there is a space and save it */
 			if (text.charAt(i)==' ')
 				lastSpace = i;
 			/** Check if has been exceeded char limit */
@@ -91,7 +91,7 @@ public class HudTextBox {
 				i = lastSpace + 1;
 			}
 			counter++;
-			/** It checks if there are other character non used */
+			/** It checks if there are other chars non used */
 			if( i + 1 == text.length()){
 				Text tmp = Text.createDefaultTextLabel("line"+numberLine);
 				String subString = text.substring(min, i + 1);
