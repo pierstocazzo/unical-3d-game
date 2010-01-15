@@ -13,24 +13,34 @@ import com.jme.util.TextureManager;
 /**
  * Class HudScore
  * 
+ * It displays score info
+ * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class HudScore {
 	
 	/** User Hud */
 	UserHud userHud;
+	
 	/** Score value */
 	int value;
+	
 	/** useful variable */
 	int xPosition;
+	
 	/** useful variable */
 	int yPosition;
+	
 	/** X position of text */
 	int xScore;
+	
 	/** Y position of text */
 	int yScore;
+	
 	/** Score Text */
 	Text score;
+	
+	/** contains score image */
 	Quad scoreQuad;
 	
 	/**
@@ -39,12 +49,14 @@ public class HudScore {
 	 * @param userHud - (UserHud)
 	 */
 	public HudScore(UserHud userHud){
-		//inizializza valore score
+		//initializa score value
 		this.userHud = userHud;
 		value = 0;
+		// get score info
 		xPosition = (int) (userHud.gWorld.getResolution().x/2) ;
 		yPosition = (int) userHud.gWorld.getResolution().y;
 		
+		// create a score quad
 		scoreQuad = new Quad("scoreQuad", userHud.gWorld.getResolution().x/8, userHud.gWorld.getResolution().y/15);
 		float xScoreQuad = xPosition - scoreQuad.getWidth()/4;
 		scoreQuad.setLocalTranslation(xScoreQuad, userHud.gWorld.getResolution().y - scoreQuad.getHeight(), 0);
@@ -67,6 +79,7 @@ public class HudScore {
 		
 		userHud.gWorld.hudNode.attachChild(scoreQuad);
 		
+		// create score text
 		score = Text.createDefaultTextLabel( "Score" );
     	score.setTextColor(ColorRGBA.red);
     	score.setLocalScale(userHud.gWorld.getResolution().x/400);
@@ -86,6 +99,5 @@ public class HudScore {
 		
 		score.setLocalTranslation( xPosition + (scoreQuad.getWidth() + score.getWidth())/8, 
 								scoreQuad.getLocalTranslation().y-scoreQuad.getHeight()/2, 0 );
-		//aggiorna score
 	}
 }
