@@ -13,6 +13,13 @@ import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 
+/**
+ * Class WorldMap2D
+ * 
+ * It displays a map at screen right
+ * 
+ * @author andrea
+ */
 public class WorldMap2D {
 	
 	/** the graphical world to represent in the 2d map */
@@ -39,10 +46,14 @@ public class WorldMap2D {
     /** the map's scale */
 	float mapScale;
 	
+	/** time variable */
 	long oldTicks = 0;
 	
-	/** WorldMap2D constructor 
+	/** 
+	 * WorldMap2D constructor 
+	 * 
 	 * Create a 2d Map of the graphical world.
+	 * 
 	 * @param world - (GraphicalWorld) the graphical world to represent in the 2d map
 	 */
 	public WorldMap2D( GraphicalWorld world ){
@@ -110,6 +121,7 @@ public class WorldMap2D {
 	
 	/** Function that create a new disk with this color, and add it into the hashmap
 	 * with the id: characterId + "disk" (es: player1disk)
+	 * 
 	 * @param id - (String) the character's id
 	 * @param color - (ColorRGBA) the color to set to the disk
 	 */

@@ -15,16 +15,22 @@ public class HudTextBox {
 
 	/** Text printed */
 	String text;
+	
 	/** Useful pointer */
 	UserHud userHud;
+	
 	/** screen weight */
 	float weight;
+	
 	/** screen height */
 	float height;
+	
 	/** max char number for every text line */
 	int maxCharLine = 35;
+	
 	/** text label container */
 	ArrayList<Text> textList;
+	
 	/** substring container */
 	ArrayList<String> stringList;
 	
@@ -49,11 +55,21 @@ public class HudTextBox {
 		
 	}
 	
+	/** 
+	 * Set new text
+	 * 
+	 * @param (string) - text
+	 */
 	public void setText(String text){
 		this.text = text;
 		checkText();
 	}
 	
+	/**
+	 * Get current text
+	 * 
+	 * @return (String) text
+	 */
 	public String getText(){
 		return new String(text);
 	}
@@ -111,10 +127,5 @@ public class HudTextBox {
 			tmp.setLocalTranslation(tmp.getLocalTranslation().x, 
 					tmp.getLocalTranslation().y + (textList.size()/2)*tmp.getHeight(), 0);
 		}
-	}
-	
-	/** Update text group */
-	public void update(){
-		
 	}
 }
