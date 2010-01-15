@@ -38,6 +38,9 @@ public class HudMessageBox {
 	/** life time of current message */
 	float time = 0;
 	
+	/** useful variable */
+	boolean usedLevel2 = false;
+	
 	/**
 	 * Constructor 
 	 * 
@@ -131,32 +134,38 @@ public class HudMessageBox {
      * @param type (int) Type of Message
      */
     public void createMessageBox(int type){
-            this.type = type;
-            // create a quad that contains request message
-            quad = new Quad("messageBox", userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y/3);
-            // quad moved
-            quad.setLocalTranslation(userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y*3/5, 0);
-            userHud.gWorld.hudNode.attachChild(quad);
-            // select file image of request message
-            String path = "game/data/message/sfondo.jpg";
-            switch (type) {
-                case WELCOME1:path = "game/data/message/welcome1.jpg";break;//WELCOME1
-                case WELCOME2:path = "game/data/message/welcome2.jpg";break;//WELCOME2
-                case WELCOME3:path = "game/data/message/welcome3.jpg";break;//WELCOME3
-                case WELCOME4:path = "game/data/message/welcome4.jpg";break;//WELCOME4
-                case LEVEL2:path = "game/data/message/Level2.jpg";break;//WELCOME
-				case DIE:path = "game/data/message/energy0.jpg";break;//DIE
-				case VICTORY:path = "game/data/message/end.jpg";break;//DIE
-				case GAMEOVER:path = "game/data/message/gameOver.jpg";break;//GAMEOVER
-            }
-            // get current time
-            time = GameTimer.getTimeInSeconds();
-            /** add a texture */
-            TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-            ts.setTexture( TextureManager.loadTexture( Loader.load( path ) , true ) );
-		    ts.setEnabled(true);
-		    quad.setRenderState(ts);
-		    quad.updateRenderState();
+		// check if level2 message was used
+		if( type == LEVEL2 && usedLevel2 )
+			return;
+		// check if it would create a level2 message
+		if( type == LEVEL2 )
+			usedLevel2 = true;
+        this.type = type;
+        // create a quad that contains request message
+        quad = new Quad("messageBox", userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y/3);
+        // quad moved
+        quad.setLocalTranslation(userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y*3/5, 0);
+        userHud.gWorld.hudNode.attachChild(quad);
+        // select file image of request message
+        String path = "game/data/message/sfondo.jpg";
+        switch (type) {
+            case WELCOME1:path = "game/data/message/welcome1.jpg";break;//WELCOME1
+            case WELCOME2:path = "game/data/message/welcome2.jpg";break;//WELCOME2
+            case WELCOME3:path = "game/data/message/welcome3.jpg";break;//WELCOME3
+            case WELCOME4:path = "game/data/message/welcome4.jpg";break;//WELCOME4
+            case LEVEL2:path = "game/data/message/Level2.jpg";break;//WELCOME
+			case DIE:path = "game/data/message/energy0.jpg";break;//DIE
+			case VICTORY:path = "game/data/message/end.jpg";break;//DIE
+			case GAMEOVER:path = "game/data/message/gameOver.jpg";break;//GAMEOVER
+        }
+        // get current time
+        time = GameTimer.getTimeInSeconds();
+        /** add a texture */
+        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+        ts.setTexture( TextureManager.loadTexture( Loader.load( path ) , true ) );
+	    ts.setEnabled(true);
+	    quad.setRenderState(ts);
+	    quad.updateRenderState();
     }
 	
     /**
