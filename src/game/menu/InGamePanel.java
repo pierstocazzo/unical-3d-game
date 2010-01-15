@@ -132,7 +132,7 @@ public class InGamePanel extends JPanel {
 		// Scale every image respect screen size
 		for(int i=0; i<imageFolder.size(); i++){
 			Image img = Toolkit.getDefaultToolkit().getImage( imageFolder.get(i) );
-			img = img.getScaledInstance(gameMenu.screenSize.width/3, gameMenu.screenSize.height/10, Image.SCALE_DEFAULT);
+			img = img.getScaledInstance(gameMenu.screenSize.width/3, gameMenu.screenSize.height/10, Image.SCALE_SMOOTH);
 			imageContainer.add( img );
 		}
 	}

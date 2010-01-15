@@ -155,7 +155,7 @@ public class MainPanel extends JPanel {
 		// scale all image respect screen size
 		for(int i=0; i<imageFolder.size(); i++){
 			Image img = Toolkit.getDefaultToolkit().getImage( imageFolder.get(i) );
-			img = img.getScaledInstance(mainMenu.screenSize.width/3, mainMenu.screenSize.height/10, Image.SCALE_DEFAULT);
+			img = img.getScaledInstance(mainMenu.screenSize.width/3, mainMenu.screenSize.height/10, Image.SCALE_SMOOTH);
 			imageContainer.add(img);
 		}
 	}

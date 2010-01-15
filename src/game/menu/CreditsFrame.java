@@ -76,62 +76,14 @@ public class CreditsFrame extends JFrame {
 		creditsFramePanel.setLayout(new BorderLayout());
 		creditsFramePanel.setOpaque(false);
 		setContentPane(creditsFramePanel);
-		
-		// create a new sub panel
-		JPanel flow = new JPanel();
-		flow.setLayout(new FlowLayout(FlowLayout.CENTER));
-		flow.setOpaque(false);
-		
-		JLabel title = new JLabel("Development Team");
-		title.setFont(new Font("arial", Font.BOLD, 24));
-		title.setAlignmentX(CENTER_ALIGNMENT);
-        flow.add(title);
-        
-        JLabel space = new JLabel();
-        space.setPreferredSize(new Dimension(screenSize.width*6/8, 1));
-        flow.add(space);
-        
-        JLabel title2 = new JLabel("07/01/2009 - Università della Calabria");
-		title2.setSize(screenSize.width*6/8, screenSize.height/16);
-        flow.add(title2);
         
 		JLabel photo = new JLabel();
-		Image img = Toolkit.getDefaultToolkit().getImage( "src/game/data/images/menu/team.jpg" );
-		img = img.getScaledInstance(screenSize.width*5/8, screenSize.height*5/8, Image.SCALE_DEFAULT);
+		Image img = Toolkit.getDefaultToolkit().getImage( "src/game/data/images/menu/credits16_9.jpg" );
+//		img = img.getScaledInstance(screenSize.width*6/8, screenSize.height*6/8, Image.SCALE_DEFAULT);
+		img = img.getScaledInstance(screenSize.width, screenSize.height, Image.SCALE_SMOOTH);
 		photo.setIcon(new ImageIcon(img));
-		
-		flow.add(photo);
-		
-		JLabel label = new JLabel("Giuseppe Leone, Salvatore Loria, Andrea Martire");
-		label.setFont(new Font("arial", Font.BOLD, 18));
-		label.setSize(screenSize.width*6/8, screenSize.height/16);
-        flow.add(label);
         
-        creditsFramePanel.add(flow,BorderLayout.CENTER);
-		
-		//add left vertical empty panel
-		JPanel pVerticalEmpty1 = new JPanel();
-		pVerticalEmpty1.setOpaque(false);
-		pVerticalEmpty1.setPreferredSize(new Dimension(screenSize.width/8, 1));
-		creditsFramePanel.add(pVerticalEmpty1,BorderLayout.WEST);
-		
-		//add right vertical empty panel
-		JPanel pVerticalEmpty2 = new JPanel();
-		pVerticalEmpty2.setOpaque(false);
-		pVerticalEmpty2.setPreferredSize(new Dimension(screenSize.width/8, 1));
-		creditsFramePanel.add(pVerticalEmpty2,BorderLayout.EAST);
-		
-		//add lower horizontal empty panel
-		JPanel pHorizontalEmpty1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		pHorizontalEmpty1.setOpaque(false);
-		pHorizontalEmpty1.setPreferredSize(new Dimension(1, screenSize.height/8));
-		creditsFramePanel.add(pHorizontalEmpty1,BorderLayout.SOUTH);
-		
-		//add upper horizontal empty panel
-		JPanel pHorizontalEmpty2 = new JPanel();
-		pHorizontalEmpty2.setOpaque(false);
-		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height/8));
-		creditsFramePanel.add(pHorizontalEmpty2,BorderLayout.NORTH);
+        creditsFramePanel.add(photo,BorderLayout.CENTER);
 		
 	    setResizable(false);
 	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
