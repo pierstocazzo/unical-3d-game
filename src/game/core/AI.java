@@ -1,6 +1,8 @@
 package game.core;
 
 import game.common.GameTimer;
+import game.common.Movement;
+import game.common.MovementList;
 import game.common.State;
 
 import java.io.Serializable;
@@ -163,8 +165,7 @@ public class AI implements Serializable {
 		{
 			/** The enemy will move only if he is in default state. When he attack or is in alert he rests
 			 */
-			if( enemy.currentMovement.getDirection() != Vector3f.ZERO 
-					&& enemy.state == State.DEFAULT ) {
+			if( !enemy.currentMovement.getDirection().equals(Vector3f.ZERO) ) {
 				/** calculate distance between the current movement's start position and
 				 *  the current character position
 				 */
@@ -178,11 +179,8 @@ public class AI implements Serializable {
 				}
 				moveDirection.set( enemy.currentMovement.getDirection() );
 				return moveDirection;
-			} else {
-				return Vector3f.ZERO;
-			}
-		} else {
-			return Vector3f.ZERO;
-		}
+			} 
+		} 
+		return Vector3f.ZERO;
 	}
 }

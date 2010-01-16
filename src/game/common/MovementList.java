@@ -22,7 +22,7 @@ public class MovementList implements Serializable{
 	LinkedList<Movement> movements;
 	
 	/** index of current movement */
-	int curr = -1;
+	int curr = 0;
 	
 	/**
 	 * Constructor
@@ -152,8 +152,8 @@ public class MovementList implements Serializable{
 	
 	public MovementList(LinkedList<Movement> movements) {
 		this.movements = movements;
-//		curr = movements.indexOf(movements.getFirst());
-		System.out.println("SETTATI MOVIMENTI");
+		if( movements.size() > 0 )
+			curr = movements.indexOf(movements.getFirst());
 	}
 
 	/**

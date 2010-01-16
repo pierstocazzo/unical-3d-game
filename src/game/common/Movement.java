@@ -36,7 +36,7 @@ public class Movement implements Serializable {
 	 * @return (Vector3f)
 	 */
 	public Vector3f getDirection() {
-		return direction;
+		return direction.clone();
 	}
 
 	/**
