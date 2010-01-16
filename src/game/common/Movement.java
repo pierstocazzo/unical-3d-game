@@ -13,7 +13,7 @@ import com.jme.math.Vector3f;
 @SuppressWarnings("serial")
 public class Movement implements Serializable {
 	
-	/** directionr of current movement */
+	/** direction of current movement */
 	Vector3f direction;
 	
 	/** length of current movement */

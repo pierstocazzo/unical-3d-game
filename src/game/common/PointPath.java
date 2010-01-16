@@ -4,11 +4,25 @@ import java.util.LinkedList;
 
 import com.jme.math.Vector3f;
 
+/**
+ * Class PointPath
+ * It can generate a movements list
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class PointPath {
 
+	/** Point list */
 	LinkedList<Point> pointList;
+	
+	/** movements list generate */
 	public LinkedList<Movement> movementslist;
 	
+	/**
+	 * Constructor
+	 * 
+	 * Initialize field
+	 */
 	public PointPath(){
 		pointList = new LinkedList<Point>();
 		movementslist = new LinkedList<Movement>();

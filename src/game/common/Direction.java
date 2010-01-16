@@ -19,7 +19,6 @@ public class Direction {
 	static Vector3f LEFT_BACKWARD = Vector3f.UNIT_X.add( Vector3f.UNIT_Z.negate() );
 	static Vector3f RIGHT_FORWARD = Vector3f.UNIT_X.negate().add( Vector3f.UNIT_Z );
 	static Vector3f RIGHT_BACKWARD =  Vector3f.UNIT_X.negate().add( Vector3f.UNIT_Z.negate() );
-	static Vector3f FREE = Vector3f.ZERO;
 	
 	/** current direction */
 	Vector3f direction;
