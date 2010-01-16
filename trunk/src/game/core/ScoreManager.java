@@ -11,25 +11,34 @@ import java.util.HashMap;
 public class ScoreManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	/** Pointer to logic world */
 	LogicWorld world;
+	
+	/** Container of score players */
 	HashMap<String, Score> players;
 	
-	float previousTime;
-	
+	/**
+	 * Constructor
+	 * 
+	 * @param (LogicWorld) world
+	 */
 	public ScoreManager( LogicWorld world ) {
 		this.world = world;
-		this.previousTime = 0;
 		players = new HashMap<String, Score>();
 	}
 
+	/**
+	 * Initialize score manager
+	 */
 	public void initScoreManager() {
-		for( String id : world.getPlayersIds() ) {
+		for( String id : world.getPlayersIds() )
 			players.put( id, new Score() );
-		}
 	}
 
 	/**
 	 * it decreases score and level after the player was killed
+	 * 
+	 * @param (String) playerId
 	 */
 	void playerKilled( String playerId ) {
 		players.get(playerId).decreaseScore();
@@ -38,16 +47,19 @@ public class ScoreManager implements Serializable {
 	
 	/**
 	 * it increase score and level after the player killed an enemy
+	 * 
+	 * @param (String) playerId
 	 */
 	void enemyKilled( String playerId ) {
 		try {
 			players.get(playerId).increaseScore();
 			update();
-		} catch ( Exception e ) {
-			// just do nothing when the bullet who kill an enemy came from an other enemy
-		}
+		} catch ( Exception e ) {}
 	}
 	
+	/**
+	 * Update score and level for each player
+	 */
 	void update() {
 		for( String id : players.keySet() )
 			switch( players.get(id).level ) {
@@ -69,6 +81,15 @@ public class ScoreManager implements Serializable {
 			}
 	}
 	
+	/**
+	 * Useful function that change game parameter
+	 * 
+	 * @param (String) playerId
+	 * @param (String) playerLife
+	 * @param (int) enemyLife - max enemies life
+	 * @param (int) maxAmmo - max ammo
+	 * @param (int) enemyErrorAngle - error angle of enemy shooting
+	 */
 	private void changeParameters( String playerId, int playerLife, int enemyLife, int maxAmmo, int enemyErrorAngle ) {
 		((LogicPlayer) world.characters.get(playerId)).maxAmmo = maxAmmo;
 		world.characters.get(playerId).maxLife = playerLife;
@@ -83,75 +104,123 @@ public class ScoreManager implements Serializable {
 		}
 	}
 
+	/**
+	 * Reset score of every player
+	 */
 	void reset() {
 		for( String id : players.keySet() ) {
 			players.get(id).reset();
 		}
 	}
 	
+	/**
+	 * Return score of indicated player
+	 * 
+	 * @param (String) id
+	 * @return (int)
+	 */
 	public int getScore( String id ) {
 		return players.get(id).score;
 	}
 	
+	/**
+	 * Return level of indicated player
+	 * 
+	 * @param (String) id
+	 * @return (int)
+	 */
 	public int getLevel( String id ) {
 		return players.get(id).level;
 	}
 	
-	
-	
+	/**
+	 * Class Score
+	 * 
+	 * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+	 */
 	public class Score implements Serializable {
+		
+		/** Identifier */
 		private static final long serialVersionUID = 1L;
 		
+		/** score value */
 		int score;
+		
+		/** level value */
 		int level;
+		
+		/** useful variable */
 		boolean showLevel2 = false;
 		
+		/**
+		 * Constructor
+		 */
 		Score() {
 			score = 0;
 			level = 1;
 		}
 		
+		/**
+		 * Reset player value
+		 */
 		public void reset() {
 			level = 1;
 			score = 0;
 		}
 		
+		/**
+		 * Increase score after an enemy killing
+		 */
 		public void increaseScore() {
+			
 			switch ( level ) {
-			case 1:
-				score = score + 5;
-				if( score >= 25 ){
-					level = 2;
-					showLevel2 = true;
-				}
-				break;
-			case 2: 
-				score = score + 10;
-				if( score >= 125 )
-					level = 3;
-				break;
-			case 3:
-				score = score + 15;
-				if( score >= 350 )
-					level = 4;
-				break;
-			case 4:
-				score = score + 20;
-				if( score >= 750 )
-					level = 5;
-				break;
-			case 5: 
-				score = score + 25;
-				break;
+				case 1:
+					score = score + 5;
+					if( score >= 25 ){
+						level = 2;
+						showLevel2 = true;
+					}
+					break;
+					
+				case 2: 
+					score = score + 10;
+					if( score >= 125 )
+						level = 3;
+					break;
+					
+				case 3:
+					score = score + 15;
+					if( score >= 350 )
+						level = 4;
+					break;
+					
+				case 4:
+					score = score + 20;
+					if( score >= 750 )
+						level = 5;
+					break;
+					
+				case 5: 
+					score = score + 25;
+					break;
 			}
 		}
 		
+		/**
+		 * Decrease player score after death
+		 */
 		public void decreaseScore() {
 			score = score - (int)(score*0.8f);
 			score = score - score % 5;
 		}
 	}
 
+	/**
+	 * Return true if a message was displayed, false otherwise
+	 * 
+	 * @param (String) id - player id
+	 * @return (boolean)
+	 */
 	public boolean getShowLevel2(String id) {
 		return players.get(id).showLevel2;
 	}
