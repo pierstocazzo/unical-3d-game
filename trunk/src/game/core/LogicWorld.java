@@ -9,6 +9,7 @@ import game.graphics.WorldInterface;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -99,6 +100,14 @@ public class LogicWorld implements WorldInterface, Serializable {
 		Vector3f position = new Vector3f( x, 0, z );
 		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.AR15, state, position, 
 				movements, this );
+		characters.put( enemy.id, enemy );
+	}
+	
+	public void createEnemy(int x, int z, State state, LinkedList<Movement> list) {
+		enemyCounter = enemyCounter + 1;
+		Vector3f position = new Vector3f( x, 0, z );
+		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.AR15, state, position, 
+				list, this );
 		characters.put( enemy.id, enemy );
 	}
 	

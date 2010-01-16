@@ -1,12 +1,16 @@
 package game.main;
 
 import game.base.PhysicsGame;
+import game.common.PointPath;
+import game.common.Movement;
+import game.common.Point;
 import game.common.State;
 import game.common.MovementList.MovementType;
 import game.core.LogicWorld;
 import game.graphics.GraphicalWorld;
 import game.menu.LoadingFrame;
 
+import java.util.LinkedList;
 import java.util.logging.Level;
 
 public class GameThread implements Runnable {
@@ -19,7 +23,14 @@ public class GameThread implements Runnable {
 		this.loadingFrame = loadingFrame;
 		logicGame = new LogicWorld();
     	logicGame.createPlayer( 100, -700, -900 );
-    	logicGame.createEnemy( -900, -900, State.DEFAULT, MovementType.CIRCLE_SENTINEL_LARGE);
+    	
+    	PointPath custom = new PointPath();
+    	custom.add( new Point( -868, -958 ) );
+		custom.add( new Point( -1023, -969 ) );
+		custom.add( new Point( -859, -824 ) );
+		LinkedList<Movement> list = custom.generateMovementsList();
+    	
+    	logicGame.createEnemy( -900, -900, State.DEFAULT, list );
     	logicGame.createEnemy( -1165, -1175, State.DEFAULT, MovementType.REST );
 //    	logicGame.createEnemiesGroup( 15, -800, -800 );
 //    	logicGame.createEnemiesGroup( 7, 1216, 749 );

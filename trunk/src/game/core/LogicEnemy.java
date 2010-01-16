@@ -1,5 +1,6 @@
 package game.core;
 
+import game.common.PointPath;
 import game.common.Movement;
 import game.common.MovementList;
 import game.common.State;
@@ -7,6 +8,7 @@ import game.common.WeaponType;
 import game.common.MovementList.MovementType;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 import com.jme.math.Vector3f;
 
@@ -64,6 +66,21 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	 */
 	public LogicEnemy( String id, int maxLife, WeaponType weapon, State state,
 						Vector3f position, MovementType movements, LogicWorld world ) {
+		super( id, maxLife, position, world );
+		/** create the enemy weapon */
+		this.weapon = new LogicWeapon( super.id + "w", 1, weapon );
+		this.state = state;
+		this.movements = new MovementList( movements );
+		this.shootDirection = new Vector3f();
+		this.movementStartPosition = new Vector3f( position );
+		this.movementStartPosition.setY(0);
+		this.errorAngle = 10;
+		this.currentMovement = this.movements.getNextMovement();
+		this.initialFindPosition = new Vector3f();
+	}
+	
+	public LogicEnemy( String id, int maxLife, WeaponType weapon, State state,
+		Vector3f position, LinkedList<Movement> movements, LogicWorld world ) {
 		super( id, maxLife, position, world );
 		/** create the enemy weapon */
 		this.weapon = new LogicWeapon( super.id + "w", 1, weapon );
