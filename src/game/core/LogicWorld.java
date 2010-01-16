@@ -1,6 +1,5 @@
 package game.core;
 
-import game.common.Direction;
 import game.common.Movement;
 import game.common.State;
 import game.common.WeaponType;

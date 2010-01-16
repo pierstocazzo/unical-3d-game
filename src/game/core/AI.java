@@ -1,14 +1,14 @@
 package game.core;
 
-import java.io.Serializable;
-
-import game.common.Direction;
 import game.common.GameTimer;
 import game.common.State;
+
+import java.io.Serializable;
 
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
+
 @SuppressWarnings("serial")
 public class AI implements Serializable {
 	
