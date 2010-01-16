@@ -36,6 +36,7 @@ public class KeyConverter {
 		stringKeyList.put("K", KeyInput.KEY_K);
 		stringKeyList.put("L", KeyInput.KEY_L);
 		stringKeyList.put("LEFT", KeyInput.KEY_LEFT);	
+		stringKeyList.put("LSHIFT", KeyInput.KEY_LSHIFT);
 		stringKeyList.put("M", KeyInput.KEY_M);
 		stringKeyList.put("N", KeyInput.KEY_N);
 		stringKeyList.put("NUMPAD0", KeyInput.KEY_NUMPAD0);
@@ -54,6 +55,7 @@ public class KeyConverter {
 		stringKeyList.put("R", KeyInput.KEY_R);
 		stringKeyList.put("ENTER", KeyInput.KEY_RETURN);
 		stringKeyList.put("RIGHT", KeyInput.KEY_RIGHT);
+		stringKeyList.put("RSHIFT", KeyInput.KEY_RSHIFT);
 		stringKeyList.put("S", KeyInput.KEY_S);
 		stringKeyList.put("SPACE", KeyInput.KEY_SPACE);
 		stringKeyList.put("T", KeyInput.KEY_T);	
@@ -92,6 +94,7 @@ public class KeyConverter {
 		keyStringList.put( Integer.toString( KeyInput.KEY_K ), "K" );
 		keyStringList.put( Integer.toString( KeyInput.KEY_L ), "L" );
 		keyStringList.put( Integer.toString( KeyInput.KEY_LEFT ), "LEFT" );	
+		keyStringList.put( Integer.toString( KeyInput.KEY_LSHIFT), "LSHIFT" );	
 		keyStringList.put( Integer.toString( KeyInput.KEY_M ), "M" );
 		keyStringList.put( Integer.toString( KeyInput.KEY_N ), "N" );
 		keyStringList.put( Integer.toString( KeyInput.KEY_NUMPAD0 ), "NUMPAD0" );
@@ -110,6 +113,7 @@ public class KeyConverter {
 		keyStringList.put( Integer.toString( KeyInput.KEY_R ), "R" );
 		keyStringList.put( Integer.toString( KeyInput.KEY_RETURN ), "ENTER" );
 		keyStringList.put( Integer.toString( KeyInput.KEY_RIGHT ), "RIGHT" );
+		keyStringList.put( Integer.toString( KeyInput.KEY_RSHIFT ), "RSHIFT" );	
 		keyStringList.put( Integer.toString( KeyInput.KEY_S ), "S" );
 		keyStringList.put( Integer.toString( KeyInput.KEY_SPACE ), "SPACE" );
 		keyStringList.put( Integer.toString( KeyInput.KEY_T ), "T" );	
