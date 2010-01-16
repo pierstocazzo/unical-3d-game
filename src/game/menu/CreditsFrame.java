@@ -25,8 +25,7 @@ import javax.swing.JPanel;
 public class CreditsFrame extends JFrame {
 	/** Class ID */
 	private static final long serialVersionUID = 1L;
-	/** Pointer to background image */
-	Image background;
+
 	/** Useful pointer to MainMenu frame */
 	MainMenu mainMenu;
 	
@@ -44,10 +43,6 @@ public class CreditsFrame extends JFrame {
 	        Toolkit.getDefaultToolkit().getScreenSize();
 		// applied screen size to frame
 		setBounds(0,0,screenSize.width, screenSize.height);
-		// get image
-		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
-		//image scaled
-		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_DEFAULT);
 		setUndecorated(true); 
 	    
 		//hide cursor
@@ -58,17 +53,7 @@ public class CreditsFrame extends JFrame {
 		setTitle("Credits Game");
 		
 		// Create a main panel that contains background image
-		JPanel creditsFramePanel = new JPanel(){
-			private static final long serialVersionUID = 1L;
-
-			// Override the method  for obtains the painted background image
-			// before main panel and its components
-			@Override
-			public void paintComponent(Graphics g){
-				g.drawImage(background, 0, 0, this);
-				super.paintComponent(g);
-			}
-		};
+		JPanel creditsFramePanel = new JPanel();
 		
 		// Applied a borderLayout
 		creditsFramePanel.setLayout(new BorderLayout());
