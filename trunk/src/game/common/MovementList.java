@@ -150,6 +150,12 @@ public class MovementList implements Serializable{
 		curr = movements.indexOf(movements.getFirst());
 	}
 	
+	/**
+	 * Constructor
+	 * It receives directly a list of move of movements
+	 * 
+	 * @param (LinkedList<Movement>) movements
+	 */
 	public MovementList(LinkedList<Movement> movements) {
 		this.movements = movements;
 		if( movements.size() > 0 )
@@ -169,11 +175,21 @@ public class MovementList implements Serializable{
 		return movements.get(curr);
 	}
 	
-	
-	public int getSize() {
+	/**
+	 * Get movements size
+	 * 
+	 * @return (int) 
+	 */
+	public int size() {
 		return movements.size();
 	}
 	
+	/**
+	 * Get movement with index i
+	 * 
+	 * @param (int) i
+	 * @return (Movement)
+	 */
 	public Movement get( int i ) {
 		return movements.get(i);
 	}
