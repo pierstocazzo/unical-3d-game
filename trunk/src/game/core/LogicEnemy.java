@@ -1,6 +1,5 @@
 package game.core;
 
-import game.common.PointPath;
 import game.common.Movement;
 import game.common.MovementList;
 import game.common.State;
