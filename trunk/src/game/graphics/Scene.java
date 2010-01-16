@@ -13,6 +13,7 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
 import utils.Loader;
+import utils.Util;
 
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
@@ -137,55 +138,60 @@ public class Scene {
 		 * position, scale and rotation
 		 * so we need to look at the SceneLayers
 		 */
-		Element sceneLayer = xmlRoot.getChild("SceneLayers").getChild("SceneLayer");
+		Element sceneLayers = xmlRoot.getChild("SceneLayers");
 		
 		/* catch all children of the sceneLayer (they are the models to load */
-		List<Element> children = sceneLayer.getChildren();
-		
-		for( Element curr : children ) {
-			Item item = new Item();
-			
-			/* extract the position of the object */
-			
-			String positionString = curr.getAttributeValue("Position");
-			String[] positionArray = positionString.split(",");
-			
-			Vector3f position = new Vector3f();
-			position.x = Float.valueOf( positionArray[0] );
-			position.y = Float.valueOf( positionArray[1] );
-			position.z = Float.valueOf( positionArray[2] );
-			
-			item.position = position;
-			
-			/* extract its rotation */
-			
-			String rotationString = curr.getAttributeValue("Quat");
-			String[] rotationArray = rotationString.split(",");
-			
-			Quaternion rotation = new Quaternion();
-			rotation.x = Float.valueOf( rotationArray[0] );
-			rotation.y = Float.valueOf( rotationArray[1] );
-			rotation.z = Float.valueOf( rotationArray[2] );
-			rotation.w = Float.valueOf( rotationArray[3] );
-			
-			item.rotation = rotation;
-			
-			/* extract its scale */
-			
-			String scaleString = curr.getAttributeValue("Scale");
-			String[] scaleArray = scaleString.split(",");
-			
-			Vector3f scale = new Vector3f();
-			scale.x = Float.valueOf( scaleArray[0] );
-			scale.y = Float.valueOf( scaleArray[1] );
-			scale.z = Float.valueOf( scaleArray[2] );
-			
-			item.scale = scale;
-			
-			/* extract the mesh id */
-			item.meshId = curr.getAttributeValue("CachedMeshId");
-			
-			items.add( item );
+		List<Element> layers = sceneLayers.getChildren();
+		for( Element layer : layers ) {
+			List<Element> meshes = layer.getChildren();
+			for( Element curr : meshes ) {
+				Item item = new Item(); 
+				
+				/* extract the layer name */
+				item.layer = layer.getAttributeValue("Name");
+				
+				/* extract the position of the object */
+				
+				String positionString = curr.getAttributeValue("Position");
+				String[] positionArray = positionString.split(",");
+				
+				Vector3f position = new Vector3f();
+				position.x = Float.valueOf( positionArray[0] );
+				position.y = Float.valueOf( positionArray[1] );
+				position.z = Float.valueOf( positionArray[2] );
+				
+				item.position = position;
+				
+				/* extract its rotation */
+				
+				String rotationString = curr.getAttributeValue("Quat");
+				String[] rotationArray = rotationString.split(",");
+				
+				Quaternion rotation = new Quaternion();
+				rotation.x = Float.valueOf( rotationArray[0] );
+				rotation.y = Float.valueOf( rotationArray[1] );
+				rotation.z = Float.valueOf( rotationArray[2] );
+				rotation.w = Float.valueOf( rotationArray[3] );
+				
+				item.rotation = rotation;
+				
+				/* extract its scale */
+				
+				String scaleString = curr.getAttributeValue("Scale");
+				String[] scaleArray = scaleString.split(",");
+				
+				Vector3f scale = new Vector3f();
+				scale.x = Float.valueOf( scaleArray[0] );
+				scale.y = Float.valueOf( scaleArray[1] );
+				scale.z = Float.valueOf( scaleArray[2] );
+				
+				item.scale = scale;
+				
+				/* extract the mesh id */
+				item.meshId = curr.getAttributeValue("CachedMeshId");
+				
+				items.add( item );
+			}
 		}
 	}
 	
@@ -195,14 +201,20 @@ public class Scene {
 	private void loadCashedMeshes() {
 		cachedMeshes = new LinkedList<CachedMesh>();
 		
-		Element meshGroup = xmlRoot.getChild("CachedMeshGroups").getChild("CachedMeshGroup");
-		Iterator<Element> it = meshGroup.getChildren().iterator();
-		
-		while( it.hasNext() ) {
-			Element mesh = it.next();
-			String id = mesh.getAttributeValue("Id");
-			String filePath = dataDirectory + "/models/environment/" + mesh.getAttributeValue("Name");
-			cachedMeshes.add( new CachedMesh( id, filePath ) );
+		List<Element> meshGroups = xmlRoot.getChild("CachedMeshGroups").getChildren();
+		for( Element meshGroup : meshGroups ) {
+			List<Element> meshes = meshGroup.getChildren();
+			for( Element mesh : meshes ) {
+				String id = mesh.getAttributeValue("Id");
+				String filePath = dataDirectory + mesh.getAttributeValue("Filename");
+				String texturePath;
+				if( meshGroup.getAttributeValue("Name").equals("vegetation") ) 
+					texturePath = filePath.replaceFirst( Util.extensionOf( filePath ), "png" );
+				else 
+					texturePath = filePath.replaceFirst( Util.extensionOf( filePath ), "jpg" );
+				
+				cachedMeshes.add( new CachedMesh( id, filePath, texturePath ) );
+			}
 		}
 	}
 	
@@ -243,10 +255,12 @@ public class Scene {
 	public class CachedMesh {
 		String id;
 		String modelPath;
+		String texturePath;
 		
-		CachedMesh( String id, String modelPath ) {
+		CachedMesh( String id, String modelPath, String texturePath ) {
 			this.id = id;
 			this.modelPath = modelPath;
+			this.texturePath = texturePath;
 		}
 	}
 	
@@ -255,6 +269,7 @@ public class Scene {
 		Quaternion rotation;
 		Vector3f scale;
 		String meshId;
+		String layer;
 		
 		public Item() {
 			this.position = new Vector3f();
