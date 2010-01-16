@@ -8,6 +8,8 @@ import com.jme.math.Vector3f;
 
 /** Class <code>LogicAmmo</code> <br>
  * Represent pack of ammunitions the player can catch and use
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 @SuppressWarnings("serial")
 public class LogicAmmoPack implements Serializable {
@@ -34,16 +36,30 @@ public class LogicAmmoPack implements Serializable {
 		this.position = position;
 	}
 	
+	/**
+	 * Return ammo quantity
+	 * 
+	 * @return (int)
+	 */
 	public int getQuantity() {
 		return quantity;
 	}
 
+	/**
+	 * Return the position of current ammo pack
+	 * 
+	 * @return {@link Vector3f}
+	 */
 	public Vector3f getPosition() {
 		return position;
 	}
 
+	/**
+	 * Return weapon type of current ammo
+	 * 
+	 * @return {@link WeaponType}
+	 */
 	public WeaponType getType() {
 		return type;
 	}
-
 }

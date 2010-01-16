@@ -11,7 +11,7 @@ import com.jme.math.Vector3f;
 /**
  * Class LogicPlayer
  * 
- * @author Andrea
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 @SuppressWarnings("serial")
 public class LogicPlayer extends LogicCharacter implements Serializable {
@@ -99,7 +99,6 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	/** 
 	 * Just decrease ammunitions
 	 */
-    @Override
 	public boolean shoot() {
 		currentWeapon.decreaseAmmo();
 		if( currentWeapon.ammo > 0 ) 
