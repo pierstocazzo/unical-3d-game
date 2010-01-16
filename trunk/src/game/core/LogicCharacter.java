@@ -9,6 +9,8 @@ import com.jme.math.Vector3f;
 
 /**
  * Abstract Class LogicCharacter
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 @SuppressWarnings("serial")
 public abstract class LogicCharacter implements Serializable {
@@ -83,7 +85,7 @@ public abstract class LogicCharacter implements Serializable {
 	}
 
 	/**
-	 * Sets the value of maximum life
+	 * Set the value of maximum life
 	 * 
 	 * @param maxLife - (int) nuovo valore di massima vita
 	 */
@@ -95,7 +97,7 @@ public abstract class LogicCharacter implements Serializable {
 		}
 	}
 	
-    /** Function 
+    /** Return current position
      * 
      * @return
      */
@@ -104,6 +106,7 @@ public abstract class LogicCharacter implements Serializable {
 	}
 
 	/** 
+	 * Set current position
 	 * 
 	 * @param position
 	 */
@@ -112,6 +115,7 @@ public abstract class LogicCharacter implements Serializable {
 	}
 	
 	/** 
+	 * Calculate life damage if the character has hit
 	 * 
 	 * @param bulletDamage - (int) the bullet damage power
 	 * @param shooterId 
@@ -123,44 +127,88 @@ public abstract class LogicCharacter implements Serializable {
 			currentLife = currentLife - bulletDamage;
 	}
 
-	// Just do nothing
-	public boolean shoot() {
-		return false;
-		// to override
-	}
+	/**
+	 * True - if character is shooting
+	 * False - otherwise
+	 * @return
+	 */
+	public abstract boolean shoot() ;
 
+	/**
+	 * A character deaths
+	 * 
+	 * @param shooterId
+	 */
 	public void die( String shooterId ) {
 		world.removeCharacter(id);
 	}
 	
-	/** reset character movements */
+	/** 
+	 * Reset character movements 
+	 */
 	public void rest() {
         moving = false;
         jumping = false;
 	}
 
+	/**
+	 * True - the character is moving
+	 * False - otherwise
+	 * 
+	 * @return (boolean)
+	 */
     public boolean isMoving() {
         return moving;
     }
 
+    /**
+     * Set move value
+     * 
+     * @param (boolean) moving
+     */
     public void setMoving( boolean moving ) {
         this.moving = moving;
     }
 
+    /**
+     * True - the character is jumping
+     * False - otherwise
+     * 
+     * @return (boolean)
+     */
     public boolean getJumping() {
         return jumping;
     }
 
+    /**
+     * Set jumping value
+     * 
+     * @param (boolean) jumping
+     */
     public void setJumping( boolean jumping ) {
         this.jumping = jumping;
     }
 
+    /**
+     * Return next movement
+     * 
+     * @return {@link Movement}
+     */
 	public abstract Movement getNextMovement();
 	
+	/**
+	 * Return current weapon type
+	 * 
+	 * @return {@link WeaponType}
+	 */
 	public abstract WeaponType getCurrentWeapon();
 
-	public boolean addAmmo( WeaponType weaponType, int quantity ) {
-		// to override
-		return false;
-	}
+	/**
+	 * Add an ammo pack to character equipment
+	 * 
+	 * @param  {@link WeaponType}
+	 * @param (int) quantity
+	 * @return (boolean)
+	 */
+	public abstract boolean addAmmo( WeaponType weaponType, int quantity ) ;
 }

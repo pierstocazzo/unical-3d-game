@@ -9,6 +9,7 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class LogicEnergyPack implements Serializable {
 	
+	/** Identifier */
 	String id;
 	
 	/** the energy the pack can give to the player */
@@ -23,10 +24,20 @@ public class LogicEnergyPack implements Serializable {
 		this.id = id;
 	}
 
+	/**
+	 * Get life value associated
+	 * 
+	 * @return (int)
+	 */
 	public int getValue() {
 		return value;
 	}
 
+	/**
+	 * Set life value
+	 * 
+	 * @param (int) value
+	 */
 	public void setValue(int value) {
 		this.value = value;
 	}

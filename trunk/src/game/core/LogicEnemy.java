@@ -14,6 +14,7 @@ import com.jme.math.Vector3f;
 /**
  * Class LogicEnemy
  *
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 @SuppressWarnings("serial")
 public class LogicEnemy extends LogicCharacter implements Serializable {
@@ -38,7 +39,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	/** where to shoot */
 	Vector3f shootDirection;
 	
-	/** the time the enemy remain in alert or attack state */
+	/** the time that the enemy remain in alert or attack state */
 	float alertTime;
 	
 	/** true when the enemy is coming back from the state find */
@@ -52,7 +53,6 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 
 	public Vector3f initialFindPosition;
 
-
 	/**
 	 * <code>LogicEnemy</code> constructor<br>
 	 * Create a new Enemy
@@ -61,7 +61,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	 * @param weapon - (EnumWeaponType) the weapon of the enemy
 	 * @param state - (EnumCharacterState) the initial state of enemy
 	 * @param position - (Vector3f) the position of the enemy
-	 * @param movements - (MovementList) the movements the enemy have to repeate
+	 * @param movements - (MovementList) the movement type that the enemy have to repeat
 	 */
 	public LogicEnemy( String id, int maxLife, WeaponType weapon, State state,
 						Vector3f position, MovementType movements, LogicWorld world ) {
@@ -78,6 +78,16 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.initialFindPosition = new Vector3f();
 	}
 	
+	/**
+	 * <code>LogicEnemy</code> constructor<br>
+	 * Create a new Enemy
+	 * @param id - (String) Identifier
+	 * @param maxLife - (int) Max Life
+	 * @param weapon - (EnumWeaponType) the weapon of the enemy
+	 * @param state - (EnumCharacterState) the initial state of enemy
+	 * @param position - (Vector3f) the position of the enemy
+	 * @param movements - (LinkedList<Movement>) the movements the enemy have to repeat
+	 */
 	public LogicEnemy( String id, int maxLife, WeaponType weapon, State state,
 		Vector3f position, LinkedList<Movement> movements, LogicWorld world ) {
 		super( id, maxLife, position, world );
@@ -93,15 +103,28 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.initialFindPosition = new Vector3f();
 	}
 	
+	/**
+	 * Return next movement
+	 */
 	public Movement getNextMovement() {
 		currentMovement = movements.getNextMovement();
 		return currentMovement;
 	}
 
+	/**
+	 * Get current movement
+	 * 
+	 * @return {@link Movement}
+	 */
 	public Movement getCurrentMovement() {
 		return currentMovement;
 	}
 	
+	/**
+	 * Check if an enemy is in attack.
+	 * 
+	 * @return (boolean)
+	 */
 	boolean enemyNextInAttack() {
 		boolean inAttack = false;
 		for( int i = 1; i <= world.enemyCounter; i++ ) {
@@ -115,10 +138,19 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		return inAttack;
 	}
 	
+	/**
+	 * Return current alert time
+	 * 
+	 * @return (float)
+	 */
 	public float getAlertTime() {
 		return alertTime;
 	}
 
+	/**
+	 * Check if the character is shooted.
+	 * It perform also state change and life decrease
+	 */
 	@Override
 	public void isShooted( int bulletDamage, String shooterId ) {
 		if(state == State.FIND || state == State.FINDATTACK)
@@ -134,44 +166,72 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 			currentLife = currentLife - bulletDamage;
 	}
 	
+	/**
+	 * Return current weapon
+	 * 
+	 * @return {@link WeaponType}
+	 */
 	@Override
 	public WeaponType getCurrentWeapon() {
 		return weapon.type;
 	}
 
 	/**
-	 * @return the state
+	 * Get current state
+	 * 
+	 * @return {@link State}
 	 */
 	public State getState() {
 		return state;
 	}
 
 	/**
-	 * @param state the state to set
+	 * Set enemy state
+	 * 
+	 * @param (State) state
 	 */
 	public void setState( State state ) {
 		this.state = state;
 	}
 
 	/**
-	 * @return the shootDirection
+	 * Return shoot direction
+	 * 
+	 * @return {@link Vector3f}
 	 */
 	public Vector3f getShootDirection() {
 		return shootDirection;
 	}
 
 	/**
-	 * @param shootDirection the shootDirection to set
+	 * Set shoot direction
+	 * 
+	 * @param (Vector3f)
 	 */
 	public void setShootDirection(Vector3f shootDirection) {
 		this.shootDirection = shootDirection;
 	}
 	
+	/**
+	 * Kill current enemy
+	 * 
+	 * @param (String) id
+	 */
 	@Override
 	public void die( String shooterId ) {
 		world.ammoPackCounter++;
 		world.createAmmoPack( "ammo" + world.ammoPackCounter, weapon.type, 20, position );
 		world.kill(shooterId);
 		super.die( shooterId );
+	}
+
+	@Override
+	public boolean shoot() {
+		return false;
+	}
+
+	@Override
+	public boolean addAmmo(WeaponType weaponType, int quantity) {
+		return false;
 	}
 }
