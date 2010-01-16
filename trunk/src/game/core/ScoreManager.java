@@ -1,8 +1,5 @@
 package game.core;
 
-import game.HUD.HudMessageHandler;
-import game.HUD.UserHud;
-
 import java.io.Serializable;
 import java.util.HashMap;
 
