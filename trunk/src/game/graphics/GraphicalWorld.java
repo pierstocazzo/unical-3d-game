@@ -166,12 +166,12 @@ public class GraphicalWorld extends Game {
 	 */
 	public void setupPlayer() {
 		
-		Node model = ModelLoader.loadModel("game/data/models/soldier/player.jme", 
-				"game/data/models/soldier/soldato.jpg", 1 );
+		Node model = ModelLoader.loadModel("game/data/meshes/soldier/player.jme", 
+				"game/data/meshes/soldier/soldato.jpg", 1 );
 	    model.setLocalTranslation(0, -2f, 0);   
 	    loadingFrame.setLoadingText("Caricamento Modello Giocatore e Arma");
 	    loadingFrame.setProgress(65);
-		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/lr300map.jpg" ),
+		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/meshes/soldier/lr300map.jpg" ),
 	            Texture.MinificationFilter.Trilinear,
 	            Texture.MagnificationFilter.Bilinear);
 	    TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
@@ -196,11 +196,11 @@ public class GraphicalWorld extends Game {
     	int difference = 20/core.getEnemiesIds().size();
         for( String id : core.getEnemiesIds() ) {
         	enemiesCounter++;
-    		Node model = ModelLoader.loadModel("game/data/models/soldier/prova.ms3d", 
-    				"game/data/models/soldier/soldier.jpg", 1 );
+    		Node model = ModelLoader.loadModel("game/data/meshes/soldier/prova.ms3d", 
+    				"game/data/meshes/soldier/soldier.jpg", 1 );
     	    model.setLocalTranslation(0, -2f, 0);   
     	    
-    		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/models/soldier/AR15.jpg" ),
+    		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/meshes/soldier/AR15.jpg" ),
     	            Texture.MinificationFilter.Trilinear,
     	            Texture.MagnificationFilter.Bilinear);
     	    TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
