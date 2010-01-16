@@ -1,8 +1,6 @@
 package game.core;
 
 import game.common.GameTimer;
-import game.common.Movement;
-import game.common.MovementList;
 import game.common.State;
 
 import java.io.Serializable;
