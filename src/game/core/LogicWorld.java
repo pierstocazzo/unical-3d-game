@@ -16,6 +16,11 @@ import java.util.regex.Pattern;
 
 import com.jme.math.Vector3f;
 
+/**
+ * Class LogicWorld
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 @SuppressWarnings("serial")
 public class LogicWorld implements WorldInterface, Serializable {
 	
@@ -40,9 +45,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 	/** Score Manager */
 	ScoreManager scoreManager;
 	
+	/** AI manage enemies intelligence */
 	AI enemyAi;
 
-	
 	/** <code>LogicWorld</code> Constructor<br>
 	 * Initialize data structures and counters
 	 */
@@ -93,7 +98,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 * 
 	 * @param x - the x position of the enemy
 	 * @param z - the z position of the enemy
-	 * @param movementList - (MovementList) list of movements
+	 * @param movementList - (MovementType) type of movements
 	 */
 	public void createEnemy( float x, float z, State state, MovementType movements ) {
 		enemyCounter = enemyCounter + 1;
@@ -103,6 +108,12 @@ public class LogicWorld implements WorldInterface, Serializable {
 		characters.put( enemy.id, enemy );
 	}
 	
+	/** Function that create an enemy, with this movementList, in this position
+	 * 
+	 * @param x - the x position of the enemy
+	 * @param z - the z position of the enemy
+	 * @param movementList - (MovementList) list of movements
+	 */
 	public void createEnemy(int x, int z, State state, LinkedList<Movement> list) {
 		enemyCounter = enemyCounter + 1;
 		Vector3f position = new Vector3f( x, 0, z );
@@ -124,39 +135,61 @@ public class LogicWorld implements WorldInterface, Serializable {
 	}
 	
 	/**
-	 *  Create an ammo pack
+	 * Create an ammo pack
+	 * 
+	 * @param (string) id - ammo pack id
+	 * @param (WeaponType) type - ammo pack type
+	 * @param (int) quantity - ammo quantity
+	 * @param (Vector3f) position - position of ammo pack
 	 */
 	public void createAmmoPack( String id, WeaponType type, int quantity, Vector3f position ) {
 		LogicAmmoPack ammoPack = new LogicAmmoPack( type, quantity, position );
 		ammoPackages.put( id, ammoPack );
 	}
 	
+	/**
+	 * @see WorldInterface
+	 */
 	@Override 
 	public void setPosition( String id, Vector3f position ) {
 		characters.get( id ).setPosition( position );
 	}
 	
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public Vector3f getPosition( String id ) {
 		return characters.get(id).position;
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public Set<String> getCharactersIds() {
 		return characters.keySet();
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public Set<String> getEnemiesIds() {
 		return getCharactersId( "enemy" );
 	}
 	
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public Set<String> getPlayersIds() {
 		return getCharactersId( "player" );
 	}
 
-	/** utility function */
+	/** 
+	 * Utility function that return characters id set
+	 */
 	private Set<String> getCharactersId( String type ) {
 		Set<String> charactersId = new HashSet<String>();
 		
@@ -171,26 +204,43 @@ public class LogicWorld implements WorldInterface, Serializable {
 		return charactersId;
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public boolean shoot( String id ) {
         return characters.get(id).shoot();
     }
 	
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public void shooted( String id, String shooterId, int bulletDamage ) {
 		if( characters.get( id ) != null )
 			characters.get(id).isShooted( bulletDamage, shooterId );
 	}
 
+	/**
+	 * Remove indicated character from container
+	 * 
+	 * @param (String) id
+	 */
 	public void removeCharacter( String id ) {
 		characters.remove( id );
 	}
 	
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public Movement getNextMovement( String id ) {
 		return characters.get(id).getNextMovement();
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public Movement getCurrentMovement( String id ) {
 		try { 
@@ -200,26 +250,41 @@ public class LogicWorld implements WorldInterface, Serializable {
 		}
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public boolean isMoving( String id ) {
 		return characters.get(id).isMoving();
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public void setMoving( String id, boolean b ) {
 		characters.get(id).setMoving(b);
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public void setJumping( String id, boolean b ) {
 		characters.get(id).setJumping(b);
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public WeaponType getWeapon(String id) {
 		return characters.get(id).getCurrentWeapon();
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public boolean isAlive(String id) {
 		if( !characters.containsKey( id ) )
@@ -228,6 +293,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 			return true;
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public State getState( String id ) {
 		try {
@@ -237,15 +305,19 @@ public class LogicWorld implements WorldInterface, Serializable {
 		}
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public void updateState(String id) {
 		try {
-//			((LogicEnemy) characters.get(id)).updateState();
 			enemyAi.updateState(id);
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public Vector3f getShootDirection( String id ) {
 		try {
@@ -255,35 +327,50 @@ public class LogicWorld implements WorldInterface, Serializable {
 		}
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public boolean catchAmmoPack( String playerId, String ammoPackId ) {
 		try {
 			if( characters.get(playerId).addAmmo( ammoPackages.get(ammoPackId).getType(), ammoPackages.get(ammoPackId).getQuantity() ) ) {
 				ammoPackages.remove(ammoPackId);
 				return true;
-			} else {
+			} 
+			else
 				return false;
-			}
 		} catch (Exception e) {
 			return false;
 		}
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public boolean catchEnergyPack( String playerId, String energyPackId ) {
 		return characters.get(playerId).addLife( energyPackages.get(energyPackId).getValue() );
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public int getCurrentLife( String id ) {
 		return characters.get(id).currentLife;
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public void kill( String id ) {
 		scoreManager.enemyKilled( id );
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public void killed( String id ) {
 		scoreManager.playerKilled( id );
@@ -293,21 +380,33 @@ public class LogicWorld implements WorldInterface, Serializable {
 		scoreManager.initScoreManager();
 	}
 	
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public int getScore( String id ) {
 		return scoreManager.getScore(id);
 	}
 	
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public int getLevel( String id ) {
 		return scoreManager.getLevel(id);
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public Set<String> getEnergyPackagesIds() {
 		return energyPackages.keySet();
 	}
 	
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public int getAmmo( String playerId ) {
 		try {
@@ -317,6 +416,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 		}
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public float getAlertLevel(String id) {
 		try {
@@ -326,20 +428,27 @@ public class LogicWorld implements WorldInterface, Serializable {
 		}
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public void setState(String id, State state) {
 		try {
 			((LogicEnemy)characters.get(id)).setState(state);
-		} catch (Exception e) {
-			// do nothing 
-		}
+		} catch (Exception e) {}
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public int getMaxLife(String id) {
 		return characters.get(id).getMaxLife();
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public int getMaxAmmo(String id) {
 		try {
@@ -349,6 +458,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 		}
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public boolean firstFind( String id ) {
 		try {
@@ -358,14 +470,19 @@ public class LogicWorld implements WorldInterface, Serializable {
 		}
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public void setFirstFind( String id, boolean firstFind ) {
 		try {
 			((LogicEnemy) characters.get(id)).firstFind = firstFind;
-		} catch ( Exception e ) {
-		}
+		} catch ( Exception e ) {}
 	}
 	
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public boolean comeBack( String id ) {
 		try {
@@ -375,14 +492,19 @@ public class LogicWorld implements WorldInterface, Serializable {
 		}
 	}
 	
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public void setComeBack( String id, boolean comeBack ) {
 		try {
 			((LogicEnemy) characters.get(id)).comingBack = comeBack;
-		} catch ( Exception e ) {
-		}
+		} catch ( Exception e ) {}
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public boolean isReborn( String id ){
 		if(characters.containsKey(id))
@@ -390,21 +512,33 @@ public class LogicWorld implements WorldInterface, Serializable {
 		return false;
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public void setReborn(String id, boolean value) {
 		((LogicPlayer)characters.get(id)).reborn = value;
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public boolean showLevel2Message(String id) {
 		return scoreManager.getShowLevel2( id );
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public void setShowLevel2Message(String id, boolean b) {
 		scoreManager.players.get(id).showLevel2 = b;
 	}
 
+	/**
+	 * @see WorldInterface
+	 */
 	@Override
 	public Vector3f getMoveDirection(String id) {
 		return enemyAi.getMoveDirection(id);
