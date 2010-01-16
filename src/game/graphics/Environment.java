@@ -300,8 +300,9 @@ public class Environment {
 		HashMap< String, Node > cachedModels = new HashMap<String, Node>();
 		
 		for( CachedMesh cachedMesh : scene.getCachedMeshes() ) {
+			System.out.println("fuck");
 			String modelPath = cachedMesh.modelPath;
-			String texturePath = modelPath.replaceFirst( Util.extensionOf( modelPath ), "jpg" );
+			String texturePath = cachedMesh.texturePath;
 			Node model = ModelLoader.loadModel( modelPath, texturePath, 1 );
 			cachedModels.put( cachedMesh.id, model );
 		}
