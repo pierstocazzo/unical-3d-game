@@ -225,11 +225,11 @@ public class AI implements Serializable {
 				}
 				
 				moveDirection.set( enemy.currentMovement.getDirection() );
-				System.out.println("Lista direzioni");
-				for(int i = 0; i < enemy.movements.size(); i++){
-					System.out.println( i + " : " + enemy.movements.get(i).getDirection());
-				}
-				System.out.println("Dir corrente " + moveDirection);
+//				System.out.println("Lista direzioni");
+//				for(int i = 0; i < enemy.movements.size(); i++){
+//					System.out.println( i + " : " + enemy.movements.get(i).getDirection());
+//				}
+//				System.out.println("Dir corrente " + moveDirection);
 				return moveDirection;
 			} 
 		} 

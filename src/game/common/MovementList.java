@@ -168,7 +168,6 @@ public class MovementList implements Serializable{
 			curr = 0;
 		else
 			curr = curr + 1;
-		System.out.println("get Next  = "+curr);
 		return movements.get(curr);
 	}
 	
