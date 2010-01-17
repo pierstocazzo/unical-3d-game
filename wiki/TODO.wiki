@@ -3,22 +3,12 @@
   * File di configurazione xml da cui leggere opzioni e parametri di gioco - joe (WORK IN PROGRESS)
   * Menù opzioni - andrea (PREDISPOSTO)
   * Riorganizzazione codice e commenti - andrea/joe (WORK IN PROGRESS)
-  * Sound Manager - andrea (WORK IN PROGRESS)
   * Gestire collisione proiettili-collisionNode - slash
   * Supporto joystick - joe
   * Scena di gioco - slash (WORK IN PROGRESS) 
   * Animazioni modello e armi - slash (WORK IN PROGRESS)
   * Immagini Menu - slash
   * Multiplayer - slash/joe/andrea (?)
-
-== Audio - File che servono ==
-
-  * Mancanza di ammo ( click senza sparo )
-  * Passi ( dev'essere semplice e corta senza suoni di disturbo )
-  * Corsa ( Idem come i passi )
-  * Vittoria ( Musichetta corta tipo uno squillo di trombe )
-  * Alert Music ( Musichetta ripetitiva che trasmette l'ansia da stato di allerta )
-  * Attack Music ( Musichetta ripetitiva che trasmette la paura dello stato di attacco )
 
 == Bug da sistemare ==
 
