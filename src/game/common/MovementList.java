@@ -146,8 +146,6 @@ public class MovementList implements Serializable{
 				movements.add( new Movement( Direction.RIGHT, 40 ) );
 				break;
 		}
-		// set current at first element
-		curr = movements.indexOf(movements.getFirst());
 	}
 	
 	/**
@@ -158,8 +156,6 @@ public class MovementList implements Serializable{
 	 */
 	public MovementList(LinkedList<Movement> movements) {
 		this.movements = movements;
-		if( movements.size() > 0 )
-			curr = movements.indexOf(movements.getFirst());
 	}
 
 	/**
@@ -169,9 +165,10 @@ public class MovementList implements Serializable{
 	 */
 	public Movement getNextMovement() {
 		if( curr + 1 >= movements.size())
-			curr = movements.indexOf(movements.getFirst());
+			curr = 0;
 		else
 			curr = curr + 1;
+		System.out.println("get Next  = "+curr);
 		return movements.get(curr);
 	}
 	
