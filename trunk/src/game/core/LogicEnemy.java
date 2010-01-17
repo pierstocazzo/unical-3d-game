@@ -74,7 +74,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.movementStartPosition = new Vector3f( position );
 		this.movementStartPosition.setY(0);
 		this.errorAngle = 10;
-		this.currentMovement = this.movements.getNextMovement();
+		this.currentMovement = this.movements.get(0);
 		this.initialFindPosition = new Vector3f();
 	}
 	
@@ -99,7 +99,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.movementStartPosition = new Vector3f( position );
 		this.movementStartPosition.setY(0);
 		this.errorAngle = 10;
-		this.currentMovement = this.movements.getNextMovement();
+		this.currentMovement = this.movements.get(0);
 		this.initialFindPosition = new Vector3f();
 	}
 	
