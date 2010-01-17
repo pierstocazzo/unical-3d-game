@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+  <item name="run_key" type="integer">42</item>
+  <item name="pause_key" type="integer">17</item>
+  <item name="sound_enabled" type="boolean">false</item>
+  <item name="backward_key" type="integer">31</item>
+  <item name="straferight_key" type="integer">32</item>
+  <item name="resolution_depth" type="integer">16</item>
+  <item name="resolution_width" type="integer">640</item>
+  <item name="resolution_height" type="integer">480</item>
+  <item name="resolution_frequency" type="integer">50</item>
+  <item name="is_fullscreen" type="boolean">false</item>
+  <item name="forward_key" type="integer">17</item>
+  <item name="strafeleft_key" type="integer">30</item>
+</settings>
+
