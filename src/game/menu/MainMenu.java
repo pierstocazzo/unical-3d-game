@@ -1,5 +1,7 @@
 package game.menu;
 
+import game.common.GameSettings;
+
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -41,6 +43,9 @@ public class MainMenu extends JFrame {
 	 */
 	public MainMenu(){
 		super();
+		
+		GameSettings.init();
+		
 		// get screen size informations
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		// apply screen size value to current frame
