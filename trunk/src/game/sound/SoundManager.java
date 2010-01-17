@@ -81,41 +81,37 @@ public class SoundManager {
 		death.setMaxAudibleDistance(100000);
 		death.setVolume(4.0f);
 		
-		//manca
-		noAmmo = audio.createAudioTrack("/game/data/sound/death.ogg", false);
+		noAmmo = audio.createAudioTrack("/game/data/sound/trigger.wav", false);
 		noAmmo.setType(TrackType.POSITIONAL);
 		noAmmo.setRelative(true);
 		noAmmo.setMaxAudibleDistance(100000);
 		noAmmo.setVolume(2.0f);
 		
-		//manca
-		walk = audio.createAudioTrack("/game/data/sound/walk.ogg", false);
+		walk = audio.createAudioTrack("/game/data/sound/walk.wav", false);
 		walk.setType(TrackType.POSITIONAL);
 		walk.setRelative(true);
 		walk.setMaxAudibleDistance(100000);
 		walk.setVolume(2.0f);
 		
-		//manca
-		run = audio.createAudioTrack("/game/data/sound/explosion.ogg", false);
+		run = audio.createAudioTrack("/game/data/sound/run.wav", false);
 		run.setType(TrackType.POSITIONAL);
 		run.setRelative(true);
 		run.setMaxAudibleDistance(100000);
 		run.setVolume(2.0f);
 		
-		//manca
-		victory = audio.createAudioTrack("/game/data/sound/death.ogg", false);
+		victory = audio.createAudioTrack("/game/data/sound/victory.wav", false);
 		victory.setType(TrackType.POSITIONAL);
 		victory.setRelative(true);
 		victory.setMaxAudibleDistance(100000);
 		victory.setVolume(2.0f);
 		
-		alertMusic = audio.createAudioTrack("/game/data/sound/explosion.ogg", false);
+		alertMusic = audio.createAudioTrack("/game/data/sound/alert.wav", false);
 		alertMusic.setType(TrackType.MUSIC);
 		alertMusic.setRelative(true);
 		alertMusic.setMaxAudibleDistance(100000);
 		alertMusic.setVolume(2.0f);
 		
-		attackMusic = audio.createAudioTrack("/game/data/sound/death.ogg", false);
+		attackMusic = audio.createAudioTrack("/game/data/sound/attack.wav", false);
 		attackMusic.setType(TrackType.MUSIC);
 		attackMusic.setRelative(true);
 		attackMusic.setMaxAudibleDistance(100000);
@@ -164,6 +160,8 @@ public class SoundManager {
 				}
 				break;
 			case VICTORY:
+				if(attackMusic.isPlaying())
+					attackMusic.stop();
 				victory.setWorldPosition( position );
 				victory.play();
 				break;

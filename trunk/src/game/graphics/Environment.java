@@ -33,6 +33,7 @@ import com.jme.scene.SharedNode;
 import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
 import com.jme.scene.Spatial.TextureCombineMode;
+import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.CullState;
@@ -162,6 +163,14 @@ public class Environment {
 	    world.loadingFrame.setLoadingText("Caricamento ambientazione");
         world.loadingFrame.setProgress(55);
 	    loadItems();
+	    
+//	    StaticPhysicsNode staticNode = world.getPhysicsSpace().createStaticNode();
+//	    world.getRootNode().attachChild(staticNode);
+//	    Box box1 = new Box("box1tower");
+//	    box1.setLocalScale(0.00001f);
+//	    staticNode.attachChild(box1);
+//	    staticNode.setLocalTranslation(867, 20, 485);
+	    
 	    
 	    createWorldBounds();
 	    
