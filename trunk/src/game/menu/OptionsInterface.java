@@ -7,48 +7,48 @@ package game.menu;
  */
 public interface OptionsInterface {
 
-	public abstract int getDefaultResolutionWidth();
-	public abstract int getDefaultResolutionHeight();
-	public abstract int getDefaultResolutionDepth();
-	public abstract int getDefaultResolutionFrequency();
+	public abstract String getDefaultResolutionWidth();
+	public abstract String getDefaultResolutionHeight();
+	public abstract String getDefaultResolutionDepth();
+	public abstract String getDefaultResolutionFrequency();
 	
-	public abstract int getResolutionWidth();
-	public abstract int getResolutionHeight();
-	public abstract int getResolutionDepth();
-	public abstract int getResolutionFrequency();
+	public abstract String getResolutionWidth();
+	public abstract String getResolutionHeight();
+	public abstract String getResolutionDepth();
+	public abstract String getResolutionFrequency();
 	
-	public abstract void setResolutionWidth( int value );
-	public abstract void setResolutionHeight( int value );
-	public abstract void setResolutionDepth( int value );
-	public abstract void setResolutionFrequency( int value );
+	public abstract void setResolutionWidth( String value );
+	public abstract void setResolutionHeight( String value );
+	public abstract void setResolutionDepth( String value );
+	public abstract void setResolutionFrequency( String value );
 	
 	public abstract boolean getDefaultIsFullscreen();
 	public abstract boolean isFullscreen();
 	public abstract void setFullscreen( boolean value );
 	
-	public abstract int getDefaultForwardKey();
-	public abstract int getForwardKey();
-	public abstract void setForwardKey( int value );
+	public abstract String getDefaultForwardKey();
+	public abstract String getForwardKey();
+	public abstract void setForwardKey( String value );
 	
-	public abstract int getDefaultBackwardKey();
-	public abstract int getBackwardKey();
-	public abstract void setBackwardKey( int value );
+	public abstract String getDefaultBackwardKey();
+	public abstract String getBackwardKey();
+	public abstract void setBackwardKey( String value );
 	
-	public abstract int getDefaultStrafeRightKey();
-	public abstract int getStrafeRightKey();
-	public abstract void setStrafeRightKey( int value );
+	public abstract String getDefaultStrafeRightKey();
+	public abstract String getStrafeRightKey();
+	public abstract void setStrafeRightKey( String value );
 	
-	public abstract int getDefaultStrafeLeftKey();
-	public abstract int getStrafeLeftKey();
-	public abstract void setStrafeLeftKey( int value );
+	public abstract String getDefaultStrafeLeftKey();
+	public abstract String getStrafeLeftKey();
+	public abstract void setStrafeLeftKey( String value );
 	
-	public abstract int getDefaultRunKey();
-	public abstract int getRunKey();
-	public abstract void setRunKey( int value );
+	public abstract String getDefaultRunKey();
+	public abstract String getRunKey();
+	public abstract void setRunKey( String value );
 	
-	public abstract int getDefaultPauseKey();
-	public abstract int getPauseKey();
-	public abstract void setPauseKey( int value );
+	public abstract String getDefaultPauseKey();
+	public abstract String getPauseKey();
+	public abstract void setPauseKey( String value );
 	
 	public abstract boolean getDefaultSoundEnabled();
 	public abstract boolean isSoundEnabled();
