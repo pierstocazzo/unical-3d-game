@@ -171,18 +171,18 @@ public class GameSettings implements OptionsInterface {
 	}
 	
 	@Override
-	public int getBackwardKey() {
-		return values.get( "backward_key" ).integerValue;
+	public String getBackwardKey() {
+		return KeyConverter.toString(values.get( "backward_key" ).integerValue);
 	}
 
 	@Override
-	public int getDefaultBackwardKey() {
-		return defaultValues.get( "backward_key" ).integerValue;
+	public String getDefaultBackwardKey() {
+		return KeyConverter.toString(defaultValues.get( "backward_key" ).integerValue);
 	}
 
 	@Override
-	public int getDefaultForwardKey() {
-		return defaultValues.get( "forward_key" ).integerValue;
+	public String getDefaultForwardKey() {
+		return KeyConverter.toString(defaultValues.get( "forward_key" ).integerValue);
 	}
 
 	@Override
@@ -191,23 +191,23 @@ public class GameSettings implements OptionsInterface {
 	}
 
 	@Override
-	public int getDefaultPauseKey() {
-		return defaultValues.get( "pause_key" ).integerValue;
+	public String getDefaultPauseKey() {
+		return KeyConverter.toString(defaultValues.get( "pause_key" ).integerValue);
 	}
 
 	@Override
-	public int getDefaultResolutionHeight() {
-		return defaultValues.get( "resolution_height" ).integerValue;
+	public String getDefaultResolutionHeight() {
+		return KeyConverter.toString(defaultValues.get( "resolution_height" ).integerValue);
 	}
 
 	@Override
-	public int getDefaultResolutionWidth() {
-		return defaultValues.get( "resolution_width" ).integerValue;
+	public String getDefaultResolutionWidth() {
+		return KeyConverter.toString(defaultValues.get( "resolution_width" ).integerValue);
 	}
 
 	@Override
-	public int getDefaultRunKey() {
-		return defaultValues.get( "run_key" ).integerValue;
+	public String getDefaultRunKey() {
+		return KeyConverter.toString(defaultValues.get( "run_key" ).integerValue);
 	}
 
 	@Override
@@ -216,48 +216,48 @@ public class GameSettings implements OptionsInterface {
 	}
 
 	@Override
-	public int getDefaultStrafeLeftKey() {
-		return defaultValues.get( "strafeleft_key" ).integerValue;
+	public String getDefaultStrafeLeftKey() {
+		return KeyConverter.toString(defaultValues.get( "strafeleft_key" ).integerValue);
 	}
 
 	@Override
-	public int getDefaultStrafeRightKey() {
-		return defaultValues.get( "straferight_key" ).integerValue;
+	public String getDefaultStrafeRightKey() {
+		return KeyConverter.toString(defaultValues.get( "straferight_key" ).integerValue);
 	}
 
 	@Override
-	public int getForwardKey() {
-		return values.get( "forward_key" ).integerValue;
+	public String getForwardKey() {
+		return KeyConverter.toString(values.get( "forward_key" ).integerValue);
 	}
 
 	@Override
-	public int getPauseKey() {
-		return values.get( "pause_key" ).integerValue;
+	public String getPauseKey() {
+		return KeyConverter.toString(values.get( "pause_key" ).integerValue);
 	}
 
 	@Override
-	public int getResolutionHeight() {
-		return values.get( "resolution_height" ).integerValue;
+	public String getResolutionHeight() {
+		return KeyConverter.toString(values.get( "resolution_height" ).integerValue);
 	}
 
 	@Override
-	public int getResolutionWidth() {
-		return values.get( "resolution_width" ).integerValue;
+	public String getResolutionWidth() {
+		return KeyConverter.toString(values.get( "resolution_width" ).integerValue);
 	}
 
 	@Override
-	public int getRunKey() {
-		return values.get( "run_key" ).integerValue;
+	public String getRunKey() {
+		return KeyConverter.toString(values.get( "run_key" ).integerValue);
 	}
 
 	@Override
-	public int getStrafeLeftKey() {
-		return values.get( "strafeleft_key" ).integerValue;
+	public String getStrafeLeftKey() {
+		return KeyConverter.toString(values.get( "strafeleft_key" ).integerValue);
 	}
 
 	@Override
-	public int getStrafeRightKey() {
-		return values.get( "straferight_key" ).integerValue;
+	public String getStrafeRightKey() {
+		return KeyConverter.toString(values.get( "straferight_key" ).integerValue);
 	}
 
 	@Override
@@ -271,13 +271,13 @@ public class GameSettings implements OptionsInterface {
 	}
 
 	@Override
-	public void setBackwardKey(int value) {
-		values.put( "backward_key", new Value(value) );
+	public void setBackwardKey(String value) {
+		values.put( "backward_key", new Value(KeyConverter.toKey(value)) );
 	}
 
 	@Override
-	public void setForwardKey(int value) {
-		values.put( "forward_key", new Value(value) );
+	public void setForwardKey(String value) {
+		values.put( "forward_key", new Value(KeyConverter.toKey(value)) );
 	}
 
 	@Override
@@ -286,23 +286,23 @@ public class GameSettings implements OptionsInterface {
 	}
 
 	@Override
-	public void setPauseKey(int value) {
-		values.put( "pause_key", new Value(value) );
+	public void setPauseKey(String value) {
+		values.put( "pause_key", new Value(KeyConverter.toKey(value)) );
 	}
 
 	@Override
-	public void setResolutionHeight(int value) {
-		values.put( "resolution_height", new Value(value) );
+	public void setResolutionHeight(String value) {
+		values.put( "resolution_height", new Value(KeyConverter.toKey(value)) );
 	}
 
 	@Override
-	public void setResolutionWidth(int value) {
-		values.put( "resolution_width", new Value(value) );
+	public void setResolutionWidth(String value) {
+		values.put( "resolution_width", new Value(KeyConverter.toKey(value)) );
 	}
 
 	@Override
-	public void setRunKey(int value) {
-		values.put( "run_key", new Value(value) );
+	public void setRunKey(String value) {
+		values.put( "run_key", new Value(KeyConverter.toKey(value)) );
 	}
 
 	@Override
@@ -311,43 +311,43 @@ public class GameSettings implements OptionsInterface {
 	}
 
 	@Override
-	public void setStrafeLeftKey(int value) {
-		values.put( "strafeleft_key", new Value(value) );
+	public void setStrafeLeftKey(String value) {
+		values.put( "strafeleft_key", new Value(KeyConverter.toKey(value)) );
 	}
 
 	@Override
-	public void setStrafeRightKey(int value) {
-		values.put( "straferight_key", new Value(value) );
+	public void setStrafeRightKey(String value) {
+		values.put( "straferight_key", new Value(KeyConverter.toKey(value)) );
 	}
 
 	@Override
-	public int getDefaultResolutionDepth() {
-		return defaultValues.get( "resolution_depth" ).integerValue;
+	public String getDefaultResolutionDepth() {
+		return KeyConverter.toString(defaultValues.get( "resolution_depth" ).integerValue);
 	}
 
 	@Override
-	public int getDefaultResolutionFrequency() {
-		return defaultValues.get( "resolution_frequency" ).integerValue;
+	public String getDefaultResolutionFrequency() {
+		return KeyConverter.toString(defaultValues.get( "resolution_frequency" ).integerValue);
 	}
 
 	@Override
-	public int getResolutionDepth() {
-		return values.get( "resolution_depth" ).integerValue;
+	public String getResolutionDepth() {
+		return KeyConverter.toString(values.get( "resolution_depth" ).integerValue);
 	}
 
 	@Override
-	public int getResolutionFrequency() {
-		return values.get( "resolution_frequency" ).integerValue;
+	public String getResolutionFrequency() {
+		return KeyConverter.toString(values.get( "resolution_frequency" ).integerValue);
 	}
 
 	@Override
-	public void setResolutionDepth(int value) {
-		values.put("resolution_depth", new Value(value));
+	public void setResolutionDepth(String value) {
+		values.put("resolution_depth", new Value(KeyConverter.toKey(value)));
 	}
 
 	@Override
-	public void setResolutionFrequency(int value) {
-		values.put("resolution_frequency", new Value(value));
+	public void setResolutionFrequency(String value) {
+		values.put("resolution_frequency", new Value(KeyConverter.toKey(value)));
 	}
 	
 	/**
