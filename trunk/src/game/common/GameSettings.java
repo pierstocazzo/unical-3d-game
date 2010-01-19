@@ -1,7 +1,5 @@
 package game.common;
 
-import game.menu.OptionsInterface;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
@@ -16,13 +14,15 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
+import com.jme.input.KeyInput;
+
 /** Class GameSettings used to read the xml configuration file<br>
  * 
  * Needed library: <a href="http://www.jdom.org">JDOM</a>
  * 
  * @author Giuseppe Leone 
  */
-public class GameSettings implements OptionsInterface {
+public class GameSettings {
 	
 	public static String SETTINGS_FILE = "src/game/data/settings.xml";
 	
@@ -63,16 +63,16 @@ public class GameSettings implements OptionsInterface {
 		 */
 		
 		// Keyboard
-		defaultValues.put( "run_key", new Value(42) ); // default is 42
-		defaultValues.put( "forward_key", new Value(17) );
-		defaultValues.put( "backward_key", new Value(31) );
-		defaultValues.put( "straferight_key", new Value(32) );
-		defaultValues.put( "strafeleft_key", new Value(30) );
-		defaultValues.put( "pause_key", new Value(17) ); // Not used in the game yet.
+		defaultValues.put( "run_key", new Value(KeyInput.KEY_LSHIFT) ); 
+		defaultValues.put( "forward_key", new Value(KeyInput.KEY_W) );
+		defaultValues.put( "backward_key", new Value(KeyInput.KEY_S) );
+		defaultValues.put( "straferight_key", new Value(KeyInput.KEY_D) );
+		defaultValues.put( "strafeleft_key", new Value(KeyInput.KEY_A) );
+		defaultValues.put( "pause_key", new Value(KeyInput.KEY_P) ); 
 		
 		// Resolution
-		defaultValues.put( "resolution_width", new Value(640) );
-		defaultValues.put( "resolution_height", new Value(480) );
+		defaultValues.put( "resolution_width", new Value(1280) );
+		defaultValues.put( "resolution_height", new Value(800) );
 		defaultValues.put( "resolution_depth", new Value(16) );
 		defaultValues.put( "resolution_frequency", new Value(50) );
 		
@@ -85,6 +85,9 @@ public class GameSettings implements OptionsInterface {
 		
 		// Sound
 		defaultValues.put( "sound_enabled", new Value(false) );
+		
+		//XML path scene file
+		defaultValues.put( "scene_file_path", new Value("src/game/data/level/island.xml") );
 		
 		/**
 		 * ### STRING VALUES ###
@@ -100,6 +103,7 @@ public class GameSettings implements OptionsInterface {
 		values.putAll(defaultValues);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static void load() {
 		SAXBuilder builder = new SAXBuilder();
 		
@@ -108,8 +112,8 @@ public class GameSettings implements OptionsInterface {
 			document = builder.build( new File( SETTINGS_FILE ) );
 			root = document.getRootElement();
 			
-			for( Iterator it = root.getChildren().iterator(); it.hasNext();  ) {
-				Element element = (Element) it.next();
+			for( Iterator<Element> it = root.getChildren().iterator(); it.hasNext();  ) {
+				Element element = it.next();
 				Attribute name = element.getAttribute("name");
 				Attribute type = element.getAttribute("type");
 				
@@ -170,184 +174,174 @@ public class GameSettings implements OptionsInterface {
 		}
 	}
 	
-	@Override
-	public String getBackwardKey() {
+	public static String getBackwardKey() {
 		return KeyConverter.toString(values.get( "backward_key" ).integerValue);
 	}
 
-	@Override
-	public String getDefaultBackwardKey() {
+	public static String getDefaultBackwardKey() {
 		return KeyConverter.toString(defaultValues.get( "backward_key" ).integerValue);
 	}
 
-	@Override
-	public String getDefaultForwardKey() {
+	public static String getDefaultForwardKey() {
 		return KeyConverter.toString(defaultValues.get( "forward_key" ).integerValue);
 	}
 
-	@Override
-	public boolean getDefaultIsFullscreen() {
-		return defaultValues.get( "is_fullscreen" ).booleanValue;
+	public static String getDefaultIsFullscreen() {
+		if ( defaultValues.get( "is_fullscreen" ).booleanValue )
+			return "YES";
+		return "NO";
 	}
 
-	@Override
-	public String getDefaultPauseKey() {
+	public static String getDefaultPauseKey() {
 		return KeyConverter.toString(defaultValues.get( "pause_key" ).integerValue);
 	}
 
-	@Override
-	public String getDefaultResolutionHeight() {
-		return KeyConverter.toString(defaultValues.get( "resolution_height" ).integerValue);
+	public static String getDefaultResolutionHeight() {
+		return defaultValues.get( "resolution_height" ).stringValue;
 	}
 
-	@Override
-	public String getDefaultResolutionWidth() {
-		return KeyConverter.toString(defaultValues.get( "resolution_width" ).integerValue);
+	public static String getDefaultResolutionWidth() {
+		return defaultValues.get( "resolution_width" ).stringValue;
 	}
 
-	@Override
-	public String getDefaultRunKey() {
+	public static String getDefaultRunKey() {
 		return KeyConverter.toString(defaultValues.get( "run_key" ).integerValue);
 	}
 
-	@Override
-	public boolean getDefaultSoundEnabled() {
-		return defaultValues.get( "sound_enabled" ).booleanValue;
+	public static String getDefaultSoundEnabled() {
+		if ( defaultValues.get( "sound_enabled" ).booleanValue )
+			return "YES";
+		return "NO";
 	}
 
-	@Override
-	public String getDefaultStrafeLeftKey() {
+	public static String getDefaultStrafeLeftKey() {
 		return KeyConverter.toString(defaultValues.get( "strafeleft_key" ).integerValue);
 	}
 
-	@Override
-	public String getDefaultStrafeRightKey() {
+	public static String getDefaultStrafeRightKey() {
 		return KeyConverter.toString(defaultValues.get( "straferight_key" ).integerValue);
 	}
 
-	@Override
-	public String getForwardKey() {
+	public static String getForwardKey() {
 		return KeyConverter.toString(values.get( "forward_key" ).integerValue);
 	}
 
-	@Override
-	public String getPauseKey() {
+	public static String getPauseKey() {
 		return KeyConverter.toString(values.get( "pause_key" ).integerValue);
 	}
 
-	@Override
-	public String getResolutionHeight() {
-		return KeyConverter.toString(values.get( "resolution_height" ).integerValue);
+	public static String getResolutionHeight() {
+		return values.get( "resolution_height" ).stringValue;
 	}
 
-	@Override
-	public String getResolutionWidth() {
-		return KeyConverter.toString(values.get( "resolution_width" ).integerValue);
+	public static String getResolutionWidth() {
+		return values.get( "resolution_width" ).stringValue;
 	}
 
-	@Override
-	public String getRunKey() {
+	public static String getRunKey() {
 		return KeyConverter.toString(values.get( "run_key" ).integerValue);
 	}
 
-	@Override
-	public String getStrafeLeftKey() {
+	public static String getStrafeLeftKey() {
 		return KeyConverter.toString(values.get( "strafeleft_key" ).integerValue);
 	}
 
-	@Override
-	public String getStrafeRightKey() {
+	public static String getStrafeRightKey() {
 		return KeyConverter.toString(values.get( "straferight_key" ).integerValue);
 	}
 
-	@Override
-	public boolean isFullscreen() {
-		return values.get( "is_fullscreen" ).booleanValue;
+	public static String isFullscreen() {
+		if (values.get( "is_fullscreen" ).booleanValue ) 
+			return "YES";
+		return "NO";
 	}
 
-	@Override
-	public boolean isSoundEnabled() {
-		return values.get( "sound_enabled" ).booleanValue;
+	public static String isSoundEnabled() {
+		if ( values.get( "sound_enabled" ).booleanValue )
+			return "YES";
+		return "NO";
 	}
 
-	@Override
-	public void setBackwardKey(String value) {
+	public static void setBackwardKey(String value) {
 		values.put( "backward_key", new Value(KeyConverter.toKey(value)) );
 	}
 
-	@Override
-	public void setForwardKey(String value) {
+	public static void setForwardKey(String value) {
 		values.put( "forward_key", new Value(KeyConverter.toKey(value)) );
 	}
 
-	@Override
-	public void setFullscreen(boolean value) {
-		values.put( "is_fullscreen", new Value(value) );
+	public static void setFullscreen(String value) {
+		if ( value == "YES")
+			values.put( "is_fullscreen", new Value(true) );
+		else
+			values.put( "is_fullscreen", new Value(false) );
 	}
 
-	@Override
-	public void setPauseKey(String value) {
+	public static void setPauseKey(String value) {
 		values.put( "pause_key", new Value(KeyConverter.toKey(value)) );
 	}
 
-	@Override
-	public void setResolutionHeight(String value) {
-		values.put( "resolution_height", new Value(KeyConverter.toKey(value)) );
+	public static void setResolutionHeight(String value) {
+		values.put( "resolution_height", new Value( value ) );
 	}
 
-	@Override
-	public void setResolutionWidth(String value) {
-		values.put( "resolution_width", new Value(KeyConverter.toKey(value)) );
+	public static void setResolutionWidth(String value) {
+		values.put( "resolution_width", new Value( value ) );
 	}
 
-	@Override
-	public void setRunKey(String value) {
+	public static void setRunKey(String value) {
 		values.put( "run_key", new Value(KeyConverter.toKey(value)) );
 	}
 
-	@Override
-	public void setSoundEnabled(boolean value) {
-		values.put( "sound_enabled", new Value(value) );
+	public static void setSoundEnabled(String value) {
+		if ( value == "YES" )
+			values.put( "sound_enabled", new Value(true) );
+		else
+			values.put( "sound_enabled", new Value(false) );
 	}
 
-	@Override
-	public void setStrafeLeftKey(String value) {
+	public static void setStrafeLeftKey(String value) {
 		values.put( "strafeleft_key", new Value(KeyConverter.toKey(value)) );
 	}
 
-	@Override
-	public void setStrafeRightKey(String value) {
+	public static void setStrafeRightKey(String value) {
 		values.put( "straferight_key", new Value(KeyConverter.toKey(value)) );
 	}
 
-	@Override
-	public String getDefaultResolutionDepth() {
-		return KeyConverter.toString(defaultValues.get( "resolution_depth" ).integerValue);
+	public static String getDefaultResolutionDepth() {
+		return defaultValues.get( "resolution_depth" ).stringValue;
 	}
 
-	@Override
-	public String getDefaultResolutionFrequency() {
-		return KeyConverter.toString(defaultValues.get( "resolution_frequency" ).integerValue);
+	public static String getDefaultResolutionFrequency() {
+		return defaultValues.get( "resolution_frequency" ).stringValue;
 	}
 
-	@Override
-	public String getResolutionDepth() {
-		return KeyConverter.toString(values.get( "resolution_depth" ).integerValue);
+	public static String getResolutionDepth() {
+		return values.get( "resolution_depth" ).stringValue;
 	}
 
-	@Override
-	public String getResolutionFrequency() {
-		return KeyConverter.toString(values.get( "resolution_frequency" ).integerValue);
+	public static String getResolutionFrequency() {
+		return values.get( "resolution_frequency" ).stringValue;
 	}
 
-	@Override
-	public void setResolutionDepth(String value) {
-		values.put("resolution_depth", new Value(KeyConverter.toKey(value)));
+	public static void setResolutionDepth(String value) {
+		values.put("resolution_depth", new Value(value));
 	}
 
-	@Override
-	public void setResolutionFrequency(String value) {
-		values.put("resolution_frequency", new Value(KeyConverter.toKey(value)));
+	public static void setResolutionFrequency(String value) {
+		values.put("resolution_frequency", new Value(value));
+	}
+	
+	public static String getDefaultSceneFilePath() {
+		return defaultValues.get( "scene_file_path" ).stringValue;
+	}
+	
+	public static String getSceneFilePath() {
+		return values.get( "scene_file_path" ).stringValue;
+	}
+	
+	public static void setSceneFilePath( String path ) {
+		values.put( "scene_file_path", new Value( path ) );
 	}
 	
 	/**

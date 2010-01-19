@@ -1,5 +1,6 @@
 package game.graphics;
 
+import game.common.GameSettings;
 import game.graphics.Scene.CachedMesh;
 import game.graphics.Scene.Item;
 import game.graphics.Scene.TerrainLayer;
@@ -33,7 +34,6 @@ import com.jme.scene.SharedNode;
 import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
 import com.jme.scene.Spatial.TextureCombineMode;
-import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.CullState;
@@ -101,7 +101,7 @@ public class Environment {
 	}
 	
 	private void init() {
-		scene = new Scene( Scene.DEFAULT_SCENE_FILE );
+		scene = new Scene( GameSettings.getSceneFilePath() );
 		
 		heightMapSize = scene.getHeightmapSize();
 		terrainScale = scene.getScale();
@@ -309,7 +309,6 @@ public class Environment {
 		HashMap< String, Node > cachedModels = new HashMap<String, Node>();
 		
 		for( CachedMesh cachedMesh : scene.getCachedMeshes() ) {
-			System.out.println("fuck");
 			String modelPath = cachedMesh.modelPath;
 			String texturePath = cachedMesh.texturePath;
 			Node model = ModelLoader.loadModel( modelPath, texturePath, 1 );
