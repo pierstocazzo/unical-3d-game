@@ -1,6 +1,6 @@
 package game.menu;
 
-import game.common.GameSettings;
+import game.common.GameConfiguration;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -121,8 +121,8 @@ public class OptionsMenu extends JFrame {
 		resolutions.add("1280x800");resolutions.add("1024x768");resolutions.add("800x600");
 		final JComboBox resolutionCombo = new JComboBox(resolutions);
 		resolutionCombo.setSelectedIndex(
-				resolutions.indexOf((GameSettings.getResolutionWidth() + "x" +
-									GameSettings.getResolutionHeight()) ));
+				resolutions.indexOf((GameConfiguration.getResolutionWidth() + "x" +
+									GameConfiguration.getResolutionHeight()) ));
 		
 		lim.gridx = 1;
 		lim.gridy = 0;
@@ -142,9 +142,9 @@ public class OptionsMenu extends JFrame {
 		
 		// Create a comboBox that allow to choose fullscreen yes or no
 		itemsYesNo = new Vector<String>();
-		itemsYesNo.add("YES");itemsYesNo.add("NO");
+		itemsYesNo.add("true");itemsYesNo.add("false");
 		final JComboBox fullscreenCombo = new JComboBox(itemsYesNo);
-		fullscreenCombo.setSelectedIndex(itemsYesNo.indexOf(GameSettings.isFullscreen()));
+		fullscreenCombo.setSelectedIndex(itemsYesNo.indexOf(GameConfiguration.isFullscreen()));
 		lim.gridx = 1;
 		lim.gridy = 1;
 		lim.weightx = 0.5;
@@ -167,7 +167,7 @@ public class OptionsMenu extends JFrame {
 		xmlPanel.add(xmlLabel);
 	
 		//JTextBox that contains a file path
-		sceneFilePath = GameSettings.getSceneFilePath();
+		sceneFilePath = GameConfiguration.getSceneFilePath();
         int lastDot = sceneFilePath.lastIndexOf( '/' );
         String sceneFile;
         sceneFile = sceneFilePath.substring( lastDot + 1 );
@@ -209,7 +209,7 @@ public class OptionsMenu extends JFrame {
 		
 		// create a JComboBox - Sound SI or NO
 		final JComboBox soundCombo = new JComboBox(itemsYesNo);
-		soundCombo.setSelectedIndex(itemsYesNo.indexOf(GameSettings.isSoundEnabled()));
+		soundCombo.setSelectedIndex(itemsYesNo.indexOf(GameConfiguration.isSoundEnabled()));
 		lim.gridx = 1;
 		lim.gridy = 3;
 		lim.weightx = 0.5;
@@ -254,7 +254,7 @@ public class OptionsMenu extends JFrame {
 		
 		// JComboBox - walk forward
 		final JComboBox comboWalkForward = new JComboBox(itemsKeyCommands);
-		comboWalkForward.setSelectedIndex(itemsKeyCommands.indexOf(GameSettings.getForwardKey()));
+		comboWalkForward.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getForwardKey()));
 		lim.gridx = 1;
 		lim.gridy = 0;
 		lim.weightx = 0.5;
@@ -273,7 +273,7 @@ public class OptionsMenu extends JFrame {
 		
 		// JComboBox - walk backward
 		final JComboBox comboWalkBackward = new JComboBox(itemsKeyCommands);
-		comboWalkBackward.setSelectedIndex(itemsKeyCommands.indexOf(GameSettings.getBackwardKey()));
+		comboWalkBackward.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getBackwardKey()));
 		lim.gridx = 1;
 		lim.gridy = 1;
 		lim.weightx = 0.5;
@@ -292,7 +292,7 @@ public class OptionsMenu extends JFrame {
 		
 		// JComboBox - walk to right
 		final JComboBox comboWalkRight = new JComboBox(itemsKeyCommands);
-		comboWalkRight.setSelectedIndex(itemsKeyCommands.indexOf(GameSettings.getStrafeRightKey()));
+		comboWalkRight.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getStrafeRightKey()));
 		lim.gridx = 1;
 		lim.gridy = 2;
 		lim.weightx = 0.5;
@@ -311,7 +311,7 @@ public class OptionsMenu extends JFrame {
 		
 		// JComboBox - walk to left
 		final JComboBox comboWalkLeft = new JComboBox(itemsKeyCommands);
-		comboWalkLeft.setSelectedIndex(itemsKeyCommands.indexOf(GameSettings.getStrafeLeftKey()));
+		comboWalkLeft.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getStrafeLeftKey()));
 		lim.gridx = 1;
 		lim.gridy = 3;
 		lim.weightx = 0.5;
@@ -330,7 +330,7 @@ public class OptionsMenu extends JFrame {
 		
 		// JComboBox - run
 		final JComboBox comboRun = new JComboBox(itemsKeyCommands);
-		comboRun.setSelectedIndex(itemsKeyCommands.indexOf(GameSettings.getRunKey()));
+		comboRun.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getRunKey()));
 		lim.gridx = 1;
 		lim.gridy = 4;
 		lim.weightx = 0.5;
@@ -349,7 +349,7 @@ public class OptionsMenu extends JFrame {
 		
 		// JComboBox - pause
 		final JComboBox comboPause = new JComboBox(itemsKeyCommands);
-		comboPause.setSelectedIndex(itemsKeyCommands.indexOf(GameSettings.getPauseKey()));
+		comboPause.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getPauseKey()));
 		lim.gridx = 1;
 		lim.gridy = 5;
 		lim.weightx = 0.5;
@@ -373,12 +373,12 @@ public class OptionsMenu extends JFrame {
 		buttonReset.addActionListener(
 			    new ActionListener() {
 			        public void actionPerformed(ActionEvent e) {
-			        	comboWalkForward.setSelectedIndex(itemsKeyCommands.indexOf(GameSettings.getDefaultForwardKey()));
-			        	comboWalkBackward.setSelectedIndex(itemsKeyCommands.indexOf(GameSettings.getDefaultBackwardKey()));
-			        	comboWalkRight.setSelectedIndex(itemsKeyCommands.indexOf(GameSettings.getDefaultStrafeRightKey()));
-			        	comboWalkLeft.setSelectedIndex(itemsKeyCommands.indexOf(GameSettings.getDefaultStrafeLeftKey()));
-			        	comboRun.setSelectedIndex(itemsKeyCommands.indexOf(GameSettings.getDefaultRunKey()));
-			        	comboPause.setSelectedIndex(itemsKeyCommands.indexOf(GameSettings.getDefaultPauseKey()));
+			        	comboWalkForward.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getDefaultForwardKey()));
+			        	comboWalkBackward.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getDefaultBackwardKey()));
+			        	comboWalkRight.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getDefaultStrafeRightKey()));
+			        	comboWalkLeft.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getDefaultStrafeLeftKey()));
+			        	comboRun.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getDefaultRunKey()));
+			        	comboPause.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getDefaultPauseKey()));
 			        }
 			    }
 			);
@@ -397,22 +397,22 @@ public class OptionsMenu extends JFrame {
 		buttonOk.addActionListener(
 			    new ActionListener() {
 			        public void actionPerformed(ActionEvent e) {
-			        	GameSettings.setForwardKey(comboWalkForward.getSelectedItem().toString());
-			        	GameSettings.setBackwardKey(comboWalkBackward.getSelectedItem().toString());
-			        	GameSettings.setStrafeRightKey(comboWalkRight.getSelectedItem().toString());
-			        	GameSettings.setStrafeLeftKey(comboWalkLeft.getSelectedItem().toString());
-			        	GameSettings.setRunKey(comboRun.getSelectedItem().toString());
-			        	GameSettings.setPauseKey(comboPause.getSelectedItem().toString());
+			        	GameConfiguration.setForwardKey(comboWalkForward.getSelectedItem().toString());
+			        	GameConfiguration.setBackwardKey(comboWalkBackward.getSelectedItem().toString());
+			        	GameConfiguration.setStrafeRightKey(comboWalkRight.getSelectedItem().toString());
+			        	GameConfiguration.setStrafeLeftKey(comboWalkLeft.getSelectedItem().toString());
+			        	GameConfiguration.setRunKey(comboRun.getSelectedItem().toString());
+			        	GameConfiguration.setPauseKey(comboPause.getSelectedItem().toString());
 			        	
 			        	String[] resolutionSetting = resolutionCombo.getSelectedItem().toString().split("x");
-			        	GameSettings.setResolutionWidth(resolutionSetting[0]);
-			        	GameSettings.setResolutionHeight(resolutionSetting[1]);
-			        	GameSettings.setSoundEnabled(soundCombo.getSelectedItem().toString());
-			        	GameSettings.setFullscreen(fullscreenCombo.getSelectedItem().toString());
+			        	GameConfiguration.setResolutionWidth(resolutionSetting[0]);
+			        	GameConfiguration.setResolutionHeight(resolutionSetting[1]);
+			        	GameConfiguration.setSoundEnabled(soundCombo.getSelectedItem().toString());
+			        	GameConfiguration.setFullscreen(fullscreenCombo.getSelectedItem().toString());
 			        	
-			        	GameSettings.setSceneFilePath( sceneFilePath );
+			        	GameConfiguration.setSceneFilePath( sceneFilePath );
 			        	
-			        	GameSettings.save();
+			        	GameConfiguration.save();
 			            setVisible(false);
 			            mainMenu.setVisible(true);
 			        }

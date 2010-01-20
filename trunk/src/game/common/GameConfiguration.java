@@ -22,7 +22,7 @@ import com.jme.input.KeyInput;
  * 
  * @author Giuseppe Leone 
  */
-public class GameSettings {
+public class GameConfiguration {
 	
 	public static String SETTINGS_FILE = "src/game/data/settings.xml";
 	
@@ -251,15 +251,11 @@ public class GameSettings {
 	}
 
 	public static String isFullscreen() {
-		if (values.get( "is_fullscreen" ).booleanValue ) 
-			return "YES";
-		return "NO";
+		return String.valueOf(values.get( "is_fullscreen" ).booleanValue);
 	}
 
 	public static String isSoundEnabled() {
-		if ( values.get( "sound_enabled" ).booleanValue )
-			return "YES";
-		return "NO";
+		return String.valueOf(values.get( "sound_enabled" ).booleanValue );
 	}
 
 	public static void setBackwardKey(String value) {
@@ -271,10 +267,7 @@ public class GameSettings {
 	}
 
 	public static void setFullscreen(String value) {
-		if ( value == "YES")
-			values.put( "is_fullscreen", new Value(true) );
-		else
-			values.put( "is_fullscreen", new Value(false) );
+		values.put( "is_fullscreen", new Value(Boolean.valueOf( value )) );
 	}
 
 	public static void setPauseKey(String value) {
@@ -294,10 +287,7 @@ public class GameSettings {
 	}
 
 	public static void setSoundEnabled(String value) {
-		if ( value == "YES" )
-			values.put( "sound_enabled", new Value(true) );
-		else
-			values.put( "sound_enabled", new Value(false) );
+		values.put( "sound_enabled", new Value(Boolean.valueOf( value )) );
 	}
 
 	public static void setStrafeLeftKey(String value) {

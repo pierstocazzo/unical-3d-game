@@ -1,16 +1,14 @@
 package game.base;
 
+import game.common.GameConfiguration;
+import game.common.GameTimer;
+import game.graphics.GraphicalWorld;
+import game.menu.InGameMenu;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import game.base.PhysicsGame;
-import game.common.GameTimer;
-import game.graphics.GraphicalWorld;
-
-import game.menu.InGameMenu;
-
 import com.jme.app.AbstractGame;
-
 import com.jme.input.InputSystem;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
@@ -291,22 +289,30 @@ public abstract class PhysicsGame extends AbstractGame {
      * @see AbstractGame#initSystem()
      */
     protected void initSystem() throws JmeException {
+    	
+    	/** apply settings */
+    	settings.setWidth( Integer.valueOf( GameConfiguration.getResolutionWidth() ) );
+    	settings.setHeight( Integer.valueOf( GameConfiguration.getResolutionHeight() ) );
+    	settings.setFrequency( Integer.valueOf( GameConfiguration.getResolutionFrequency() ) );
+    	settings.setDepth( Integer.valueOf( GameConfiguration.getResolutionDepth() ) );
+    	settings.setFullscreen( Boolean.valueOf( GameConfiguration.isFullscreen() ) );
+    	
         try {
-            display = DisplaySystem.getDisplaySystem(settings.getRenderer() );
+        	 display = DisplaySystem.getDisplaySystem(settings.getRenderer() );
 
-            display.setMinDepthBits( depthBits );
-            display.setMinStencilBits( stencilBits );
-            display.setMinAlphaBits( alphaBits );
-            display.setMinSamples( samples );
+             display.setMinDepthBits( depthBits );
+             display.setMinStencilBits( stencilBits );
+             display.setMinAlphaBits( alphaBits );
+             display.setMinSamples( samples );
 
-            // Create a window with the startup box's information.
-            display.createWindow(
-                    settings.getWidth(),
-                    settings.getHeight(),
-                    settings.getDepth(),
-                    settings.getFrequency(),
-                    settings.isFullscreen()
-                    );
+             // Create a window with the startup box's information.
+             display.createWindow(
+                     settings.getWidth(),
+                     settings.getHeight(),
+                     settings.getDepth(),
+                     settings.getFrequency(),
+                     settings.isFullscreen()
+                     );
 
             cam = display.getRenderer().createCamera( display.getWidth(), display.getHeight() );
         } catch ( JmeException e ) {
@@ -498,7 +504,23 @@ public abstract class PhysicsGame extends AbstractGame {
         if ( showBounds ) Debugger.drawBounds( rootNode, r, true );
     }
     
-    /**
+    public Camera getCam() {
+    	return this.cam;
+    }
+    
+    public Node getRootNode() {
+    	return this.rootNode;
+    }
+
+	public void setPause(boolean pause) {
+		this.pause = pause;
+	}
+
+	public boolean isPause() {
+		return pause;
+	}
+
+	/**
      * @see AbstractGame#getNewSettings()
      */
     protected GameSettings getNewSettings() {
@@ -530,20 +552,4 @@ public abstract class PhysicsGame extends AbstractGame {
             load();
         }
     }
-    
-    public Camera getCam() {
-    	return this.cam;
-    }
-    
-    public Node getRootNode() {
-    	return this.rootNode;
-    }
-
-	public void setPause(boolean pause) {
-		this.pause = pause;
-	}
-
-	public boolean isPause() {
-		return pause;
-	}
 }

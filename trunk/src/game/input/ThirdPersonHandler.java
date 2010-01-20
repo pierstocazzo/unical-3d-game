@@ -1,5 +1,7 @@
 package game.input;
 
+import game.common.GameConfiguration;
+import game.common.KeyConverter;
 import game.graphics.GraphicalPlayer;
 import game.input.action.FirstPersonAction;
 import game.input.action.ShootAction;
@@ -27,7 +29,6 @@ import com.jme.renderer.Camera;
  * @author Salvatore Loria
  */
 public class ThirdPersonHandler extends InputHandler {
-    
     GraphicalPlayer target;
 
     /** The camera this handler uses for determining action movement. */
@@ -82,11 +83,11 @@ public class ThirdPersonHandler extends InputHandler {
         actionShoot = new ShootAction( this );
         actionFirstPerson = new FirstPersonAction( this );
                 
-        addAction( actionForwardRun, DEVICE_KEYBOARD, KeyInput.KEY_LSHIFT, AXIS_NONE, false );
-        addAction( actionForward, DEVICE_KEYBOARD, KeyInput.KEY_W, AXIS_NONE, false );
-        addAction( actionBack, DEVICE_KEYBOARD, KeyInput.KEY_S, AXIS_NONE, false );
-        addAction( actionRight, DEVICE_KEYBOARD, KeyInput.KEY_D, AXIS_NONE, false );
-        addAction( actionLeft, DEVICE_KEYBOARD, KeyInput.KEY_A, AXIS_NONE, false );
+        addAction( actionForwardRun, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getRunKey()), AXIS_NONE, false );
+        addAction( actionForward, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getForwardKey()), AXIS_NONE, false );
+        addAction( actionBack, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getBackwardKey()), AXIS_NONE, false );
+        addAction( actionRight, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getStrafeRightKey()), AXIS_NONE, false );
+        addAction( actionLeft, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getStrafeLeftKey()), AXIS_NONE, false );
         addAction( actionShoot, DEVICE_MOUSE, MouseButtonBinding.LEFT_BUTTON, AXIS_NONE, false );
         addAction( actionFirstPerson, DEVICE_MOUSE, MouseButtonBinding.RIGHT_BUTTON, AXIS_NONE, false );
         

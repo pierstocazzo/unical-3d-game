@@ -34,6 +34,7 @@ import com.jme.scene.state.TextureState;
 import com.jme.scene.state.BlendState.DestinationFunction;
 import com.jme.scene.state.BlendState.SourceFunction;
 import com.jme.system.DisplaySystem;
+import com.jme.system.GameSettings;
 import com.jme.util.TextureManager;
 import com.jmex.physics.StaticPhysicsNode;
 
@@ -117,7 +118,7 @@ public class GraphicalWorld extends Game {
         this.core = core;
         super.loadingFrame = loadingFrame;
         
-        audioEnabled = true;
+//        audioEnabled = true;
     }
 
 	public void setupInit() {

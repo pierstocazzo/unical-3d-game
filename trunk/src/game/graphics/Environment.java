@@ -1,6 +1,6 @@
 package game.graphics;
 
-import game.common.GameSettings;
+import game.common.GameConfiguration;
 import game.graphics.Scene.CachedMesh;
 import game.graphics.Scene.Item;
 import game.graphics.Scene.TerrainLayer;
@@ -101,7 +101,7 @@ public class Environment {
 	}
 	
 	private void init() {
-		scene = new Scene( GameSettings.getSceneFilePath() );
+		scene = new Scene( GameConfiguration.getSceneFilePath() );
 		
 		heightMapSize = scene.getHeightmapSize();
 		terrainScale = scene.getScale();
