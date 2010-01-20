@@ -34,7 +34,6 @@ import com.jme.scene.state.TextureState;
 import com.jme.scene.state.BlendState.DestinationFunction;
 import com.jme.scene.state.BlendState.SourceFunction;
 import com.jme.system.DisplaySystem;
-import com.jme.system.GameSettings;
 import com.jme.util.TextureManager;
 import com.jmex.physics.StaticPhysicsNode;
 
@@ -232,8 +231,6 @@ public class GraphicalWorld extends Game {
     	mouseLookHandler.setEnabled(false);
     	
         KeyBindingManager.getKeyBindingManager().set( "freeCamAction", KeyInput.KEY_C );
-        KeyBindingManager.getKeyBindingManager().set( "shoot", KeyInput.KEY_F );
-        KeyBindingManager.getKeyBindingManager().set( "firstPerson", KeyInput.KEY_R );
     	
         inputHandler = new ThirdPersonHandler( player, cam );
         

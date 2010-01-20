@@ -14,7 +14,6 @@ import game.input.action.ThirdPersonRunAction;
 
 import com.jme.input.ChaseCamera;
 import com.jme.input.InputHandler;
-import com.jme.input.KeyInput;
 import com.jme.input.MouseLookHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
