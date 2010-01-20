@@ -57,6 +57,13 @@ public class Scene {
 	/** list containing the terrain layers to apply */
 	List<TerrainLayer> terrainLayers;
 	
+	/** skybox's textures */
+	SkyTextures skyTextures;
+	
+	/** water height */
+	float waterHeight;
+	
+	
 	/** Class <code>Scene</code> constructor <p>
 	 * Create a scene from witch you can get the heightmap for the terrain,
 	 * the terrain layers and a list of all items of the scene with their position,
@@ -100,9 +107,12 @@ public class Scene {
 				terrain.getChild( "Heightmap" ).getAttributeValue( "File" ) );
 		heightmap = new RawHeightMap( heightmapURL, heightmapSize, RawHeightMap.FORMAT_16BITLE, false );
 		
+		waterHeight = Float.valueOf( xmlRoot.getChild("Water").getAttributeValue("Height") );
+		
 		loadTerrainLayers();
 		loadCashedMeshes();
 		loadItems();
+		loadSkyTextures();
 	}
 
 	/** 
@@ -145,52 +155,56 @@ public class Scene {
 		for( Element layer : layers ) {
 			List<Element> meshes = layer.getChildren();
 			for( Element curr : meshes ) {
-				Item item = new Item(); 
-				
-				/* extract the layer name */
-				item.layer = layer.getAttributeValue("Name");
-				
-				/* extract the position of the object */
-				
-				String positionString = curr.getAttributeValue("Position");
-				String[] positionArray = positionString.split(",");
-				
-				Vector3f position = new Vector3f();
-				position.x = Float.valueOf( positionArray[0] );
-				position.y = Float.valueOf( positionArray[1] );
-				position.z = Float.valueOf( positionArray[2] );
-				
-				item.position = position;
-				
-				/* extract its rotation */
-				
-				String rotationString = curr.getAttributeValue("Quat");
-				String[] rotationArray = rotationString.split(",");
-				
-				Quaternion rotation = new Quaternion();
-				rotation.x = Float.valueOf( rotationArray[0] );
-				rotation.y = Float.valueOf( rotationArray[1] );
-				rotation.z = Float.valueOf( rotationArray[2] );
-				rotation.w = Float.valueOf( rotationArray[3] );
-				
-				item.rotation = rotation;
-				
-				/* extract its scale */
-				
-				String scaleString = curr.getAttributeValue("Scale");
-				String[] scaleArray = scaleString.split(",");
-				
-				Vector3f scale = new Vector3f();
-				scale.x = Float.valueOf( scaleArray[0] );
-				scale.y = Float.valueOf( scaleArray[1] );
-				scale.z = Float.valueOf( scaleArray[2] );
-				
-				item.scale = scale;
-				
-				/* extract the mesh id */
-				item.meshId = curr.getAttributeValue("CachedMeshId");
-				
-				items.add( item );
+				try {
+					Item item = new Item(); 
+					
+					/* extract the layer name */
+					item.layer = layer.getAttributeValue("Name");
+					
+					/* extract the position of the object */
+					
+					String positionString = curr.getAttributeValue("Position");
+					String[] positionArray = positionString.split(",");
+					
+					Vector3f position = new Vector3f();
+					position.x = Float.valueOf( positionArray[0] );
+					position.y = Float.valueOf( positionArray[1] );
+					position.z = Float.valueOf( positionArray[2] );
+					
+					item.position = position;
+					
+					/* extract its rotation */
+					
+					String rotationString = curr.getAttributeValue("Quat");
+					String[] rotationArray = rotationString.split(",");
+					
+					Quaternion rotation = new Quaternion();
+					rotation.x = Float.valueOf( rotationArray[0] );
+					rotation.y = Float.valueOf( rotationArray[1] );
+					rotation.z = Float.valueOf( rotationArray[2] );
+					rotation.w = Float.valueOf( rotationArray[3] );
+					
+					item.rotation = rotation;
+					
+					/* extract its scale */
+					
+					String scaleString = curr.getAttributeValue("Scale");
+					String[] scaleArray = scaleString.split(",");
+					
+					Vector3f scale = new Vector3f();
+					scale.x = Float.valueOf( scaleArray[0] );
+					scale.y = Float.valueOf( scaleArray[1] );
+					scale.z = Float.valueOf( scaleArray[2] );
+					
+					item.scale = scale;
+					
+					/* extract the mesh id */
+					item.meshId = curr.getAttributeValue("CachedMeshId");
+					
+					items.add( item );
+				} catch (Exception e) {
+					// do nothing if there is an exception loading some item
+				}
 			}
 		}
 	}
@@ -218,6 +232,17 @@ public class Scene {
 		}
 	}
 	
+	private void loadSkyTextures() {
+		Element sky = xmlRoot.getChild("Skymesh");
+		skyTextures = new SkyTextures();
+		skyTextures.up = dataDirectory + sky.getAttributeValue("TexUp");
+		skyTextures.down = dataDirectory + sky.getAttributeValue("TexDown");
+		skyTextures.south = dataDirectory + sky.getAttributeValue("TexFront");
+		skyTextures.north = dataDirectory + sky.getAttributeValue("TexBack");
+		skyTextures.east = dataDirectory + sky.getAttributeValue("TexLeft");
+		skyTextures.west = dataDirectory + sky.getAttributeValue("TexRight");
+	}
+	
 	public List<CachedMesh> getCachedMeshes() {
 		return cachedMeshes;
 	}
@@ -240,6 +265,14 @@ public class Scene {
 	
 	public List<TerrainLayer> getTerrainLayers() {
 		return terrainLayers;
+	}
+	
+	public SkyTextures getSkyTextures() {
+		return skyTextures;
+	}
+	
+	public float getWaterHeight() {
+		return waterHeight;
 	}
 	
 	public class TerrainLayer {
@@ -276,5 +309,9 @@ public class Scene {
 			this.rotation = new Quaternion();
 			this.scale = new Vector3f();
 		}
+	}
+	
+	public class SkyTextures {
+		String up, down, north, south, west, east;
 	}
 }

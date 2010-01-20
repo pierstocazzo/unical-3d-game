@@ -106,7 +106,7 @@ public class Environment {
 		heightMapSize = scene.getHeightmapSize();
 		terrainScale = scene.getScale();
 		
-		world.dimension = heightMapSize * terrainScale.x;
+		world.dimension = (heightMapSize-1) * terrainScale.x;
 	    
         ground = world.getPhysicsSpace().createStaticNode();
         gameBounds = world.getPhysicsSpace().createStaticNode();
@@ -114,7 +114,6 @@ public class Environment {
         world.getRootNode().attachChild(gameBounds);
         
 		world.loadingFrame.setProgress(25);
-//	    setuplight();
 		
 	    CullState cs = DisplaySystem.getDisplaySystem().getRenderer().createCullState();
 	    cs.setCullFace(CullState.Face.Back);
@@ -155,21 +154,15 @@ public class Environment {
 
 	    world.getRootNode().setCullHint(Spatial.CullHint.Never);
 	    world.getRootNode().setCullHint(Spatial.CullHint.Never);
-		
-        world.loadingFrame.setLoadingText("Creazione Vegetazione");
-        world.loadingFrame.setProgress(50);
-	    createVegetation();
 	    
 	    world.loadingFrame.setLoadingText("Caricamento ambientazione");
-        world.loadingFrame.setProgress(55);
+        world.loadingFrame.setProgress(50);
 	    loadItems();
 	    
-//	    StaticPhysicsNode staticNode = world.getPhysicsSpace().createStaticNode();
-//	    world.getRootNode().attachChild(staticNode);
-//	    Box box1 = new Box("box1tower");
-//	    box1.setLocalScale(0.00001f);
-//	    staticNode.attachChild(box1);
-//	    staticNode.setLocalTranslation(867, 20, 485);
+	    /* per andrea */
+	    PhysicsBox box = ground.createBox("box");
+	    box.setLocalScale( new Vector3f( 10, 0.5f, 10 ) );
+	    box.setLocalTranslation( 888.1968f, 65.276375f - 6, 481.20407f );
 	    
 	    
 	    createWorldBounds();
@@ -192,118 +185,6 @@ public class Environment {
         }
 	}
 	
-	/*private void setuplight() {
-		world.getLight().detachAll();
-
-        PointLight dr = new PointLight();
-        dr.setEnabled(true);
-        dr.setDiffuse(ColorRGBA.white.clone());
-        dr.setAmbient(ColorRGBA.gray.clone());
-        dr.setLocation(new Vector3f(0f, 0f, 0f));
-
-        world.getLight().attach(dr);
-        world.getLight().setTwoSidedLighting(true);
-
-        lightNode = new LightNode("light");
-        lightNode.setLight(dr);
-
-        Vector3f min2 = new Vector3f(-0.5f, -0.5f, -0.5f);
-        Vector3f max2 = new Vector3f(0.5f, 0.5f, 0.5f);
-        Box lightBox = new Box("box", min2, max2);
-        lightBox.setModelBound(new BoundingBox());
-        lightBox.updateModelBound();
-        lightNode.attachChild(lightBox);
-        lightNode.setLocalTranslation(new Vector3f(-2048, 500,-1800));
-
-        // clear the lights from this lightbox so the lightbox itself doesn't
-        // get affected by light:
-        lightBox.setLightCombineMode(LightCombineMode.Off);
-
-        // Setup the lensflare textures.
-        TextureState[] tex = new TextureState[4];
-        tex[0] = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        tex[0].setTexture(TextureManager.loadTexture(LensFlare.class
-                .getClassLoader()
-                .getResource("jmetest/data/texture/flare1.png"),
-                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear, Image.Format.RGBA8,
-                0.0f, true));
-        tex[0].setEnabled(true);
-
-        tex[1] = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        tex[1].setTexture(TextureManager.loadTexture(LensFlare.class
-                .getClassLoader()
-                .getResource("jmetest/data/texture/flare2.png"),
-                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear));
-        tex[1].setEnabled(true);
-
-        tex[2] = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        tex[2].setTexture(TextureManager.loadTexture(LensFlare.class
-                .getClassLoader()
-                .getResource("jmetest/data/texture/flare3.png"),
-                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear));
-        tex[2].setEnabled(true);
-
-        tex[3] = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        tex[3].setTexture(TextureManager.loadTexture(LensFlare.class
-                .getClassLoader()
-                .getResource("jmetest/data/texture/flare4.png"),
-                Texture.MinificationFilter.Trilinear, Texture.MagnificationFilter.Bilinear));
-        tex[3].setEnabled(true);
-
-        flare = LensFlareFactory.createBasicLensFlare("flare", tex);
-        flare.setRootNode(world.getRootNode());
-        world.getRootNode().attachChild(lightNode);
-
-        // notice that it comes at the end
-        lightNode.attachChild(flare);
-	}*/
-	
-	private void createVegetation() {
-//		float x, z;
-//
-//		for( int k = 1; k < 6; k++ ) {
-//			Node tree = ModelLoader.loadModel( "game/data/models/environment/palm" + k + ".3ds", 
-//					"game/data/models/environment/palm" + k + ".png", 0.08f );
-//			
-//			for (int i = 0; i < 200; i++) {
-//				SharedNode sharedTree = new SharedNode( "tree"+i, tree );
-//				x = (float) Math.random() * world.dimension - world.dimension/2;
-//				z = (float) Math.random() * world.dimension - world.dimension/2;
-//				while( terrain.getHeight(x, z) <= 25 || terrain.getHeight(x, z) >= 50 ) {
-//					x = (float) Math.random() * world.dimension - world.dimension/2;
-//					z = (float) Math.random() * world.dimension - world.dimension/2;
-//				}
-//				sharedTree.setModelBound( new BoundingBox() );
-//				sharedTree.updateModelBound();
-//				world.getCollisionNode().attachChild( sharedTree );
-//				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 20, z ));
-//				sharedTree.lock();
-//				world.items.add( sharedTree );
-//			}
-//		}
-//		
-//		for( int k = 1; k < 3; k++ ) {
-//			Node tree = ModelLoader.loadModel( "game/data/models/environment/tree" + k + ".3ds", 
-//					"game/data/models/environment/tree" + k + ".png", 0.8f );
-//			
-//			for (int i = 0; i < 400; i++) {
-//				SharedNode sharedTree = new SharedNode( "tree"+i, tree );
-//				x = (float) Math.random() * world.dimension - world.dimension/2;
-//				z = (float) Math.random() * world.dimension - world.dimension/2;
-//				while( terrain.getHeight(x, z) <= 60 || terrain.getHeight(x, z) >= 200 ) {
-//					x = (float) Math.random() * world.dimension - world.dimension/2;
-//					z = (float) Math.random() * world.dimension - world.dimension/2;
-//				}
-//				sharedTree.setModelBound( new BoundingBox() );
-//				sharedTree.updateModelBound();
-//				world.getCollisionNode().attachChild( sharedTree );
-//				sharedTree.setLocalTranslation(new Vector3f( x, terrain.getHeight(x, z) - 20, z ));
-//				sharedTree.lock();
-//				world.items.add( sharedTree );
-//			}
-//		}
-	}
-	
 	public void loadItems() {
 		/* load all 3d models needed in the scene */
 		HashMap< String, Node > cachedModels = new HashMap<String, Node>();
@@ -318,11 +199,12 @@ public class Environment {
 		/* create a sharedNode for each item of the scene, using the models previously loaded */
 		for( Item item : scene.getItems() ) {
 			String meshId = item.meshId;
-			
+
 			SharedNode sharedModel = new SharedNode( cachedModels.get(meshId) );
 			world.collisionNode.attachChild( sharedModel );
-			
-			Vector3f position = item.position.subtract( 2048, 20, 2048 );
+
+			Vector3f position = item.position.subtract( 
+					world.dimension/2, scene.getWaterHeight(), world.dimension/2 );
 			sharedModel.setLocalTranslation( position );
 			
 			sharedModel.setLocalRotation( item.rotation );
@@ -340,7 +222,7 @@ public class Environment {
 	public void createWorldBounds() {
 
 		float x = world.dimension;
-		float z = x;
+		float z = world.dimension;
 		float y = 800;
 		
 		gameBounds.setLocalTranslation( -x/2, 0, -z/2 );
@@ -399,7 +281,7 @@ public class Environment {
 		
         terrain = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
-        terrain.getLocalTranslation().set( 0, -20f, 0);
+        terrain.getLocalTranslation().set( 0, -scene.getWaterHeight(), 0 );
         terrain.setDetailTexture(1, 1);
         
         // alpha used for blending the passnodestates together
@@ -410,15 +292,6 @@ public class Environment {
         as.setTestEnabled(true);
         as.setTestFunction(BlendState.TestFunction.GreaterThan);
         as.setEnabled(true);
-
-//        // alpha used for blending the lightmap
-//        BlendState as2 = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
-//        as2.setBlendEnabled(true);
-//        as2.setSourceFunction(BlendState.SourceFunction.DestinationColor);
-//        as2.setDestinationFunction(BlendState.DestinationFunction.SourceColor);
-//        as2.setTestEnabled(true);
-//        as2.setTestFunction(BlendState.TestFunction.GreaterThan);
-//        as2.setEnabled(true);
 
         PassNode splattingPassNode = new PassNode("SplatPassNode");
         splattingPassNode.attachChild(terrain);
@@ -524,38 +397,25 @@ public class Environment {
         return ts;
     }
 
-//    private TextureState createLightmapTextureState(String texture) {
-//        TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-//
-//        Texture t0 = TextureManager.loadTexture( Loader.load( texture ),
-//                Texture.MinificationFilter.Trilinear,
-//                Texture.MagnificationFilter.Bilinear);
-//        t0.setWrap(Texture.WrapMode.Repeat);
-//        ts.setTexture(t0, 0);
-//
-//        return ts;
-//    }
-
     private void buildSkyBox() {
     	skybox = new Skybox("skybox", 10, 10, 10);
 
-        String dir = "game/data/images/skybox/";
-        Texture north = TextureManager.loadTexture( Loader.load(dir + "north.jpg"),
+        Texture north = TextureManager.loadTexture( Loader.load( scene.getSkyTextures().north ),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture south = TextureManager.loadTexture( Loader.load(dir + "south.jpg"),
+        Texture south = TextureManager.loadTexture( Loader.load( scene.getSkyTextures().south ),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture east = TextureManager.loadTexture( Loader.load(dir + "east.jpg"),
+        Texture east = TextureManager.loadTexture( Loader.load( scene.getSkyTextures().east ),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture west = TextureManager.loadTexture( Loader.load(dir + "west.jpg"),
+        Texture west = TextureManager.loadTexture( Loader.load( scene.getSkyTextures().west ),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture up = TextureManager.loadTexture( Loader.load(dir + "up.jpg"),
+        Texture up = TextureManager.loadTexture( Loader.load( scene.getSkyTextures().up ),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture down = TextureManager.loadTexture( Loader.load(dir + "down.jpg"),
+        Texture down = TextureManager.loadTexture( Loader.load( scene.getSkyTextures().down ),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
 
