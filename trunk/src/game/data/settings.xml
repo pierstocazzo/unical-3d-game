@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
+  <item name="turnleft_key">A</item>
   <item name="run_key">LSHIFT</item>
   <item name="sound_enabled">false</item>
   <item name="pause_key">P</item>
   <item name="backward_key">S</item>
-  <item name="resolution_depth">32</item>
-  <item name="scene_file_path">src/game/data/level/world.cfg</item>
-  <item name="is_fullscreen">true</item>
-  <item name="resolution_frequency">60</item>
-  <item name="resolution_height">800</item>
-  <item name="strafeleft_key">A</item>
-  <item name="straferight_key">D</item>
-  <item name="resolution_width">1280</item>
-  <item name="forward_key">Y</item>
+  <item name="resolution_depth">24</item>
+  <item name="scene_file_path">src/game/data/level/island.xml</item>
+  <item name="is_fullscreen">false</item>
+  <item name="resolution_frequency">50</item>
+  <item name="resolution_height">768</item>
+  <item name="resolution_width">1024</item>
+  <item name="turnright_key">D</item>
+  <item name="forward_key">W</item>
 </settings>
 
