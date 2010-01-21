@@ -26,7 +26,8 @@ import com.jmex.terrain.util.RawHeightMap;
  * @author Salvatore Loria 
  */
 public class Scene {
-
+	public final Logger logger =  Logger.getLogger("global");
+	
 	/** put here the default scene file path, it will be loaded by default */
 	public static String DEFAULT_SCENE_FILE = "src/game/data/level/island.xml";
 	
@@ -78,7 +79,7 @@ public class Scene {
 		try {
 			document = builder.build( new File( sceneFilePath ) );
 		} catch (Exception e) {
-			Logger.getAnonymousLogger().log( Level.SEVERE, 
+			logger.log( Level.SEVERE, 
 					"Error loading the scene file, make sure the path is correct." +
 					"\nDefault scene will be loaded" );
 			try {
@@ -97,17 +98,36 @@ public class Scene {
 	 * It also creates a list of all items of the scene.
 	 */
 	private void buildScene() {
-		Element terrain = xmlRoot.getChild( "Terrain" );
-		heightmapSize = Integer.valueOf( terrain.getAttributeValue( "Size" ) );
-		scale = new Vector3f();
-		scale.x = Float.valueOf( terrain.getAttributeValue( "Step" ) );
-		scale.y = Float.valueOf( terrain.getChild( "Heightmap" ).getAttributeValue( "Scale" ) );
-		scale.z = scale.x;
-		URL heightmapURL = Loader.load( dataDirectory + 
-				terrain.getChild( "Heightmap" ).getAttributeValue( "File" ) );
-		heightmap = new RawHeightMap( heightmapURL, heightmapSize, RawHeightMap.FORMAT_16BITLE, false );
+		try {
+			Element terrain = xmlRoot.getChild( "Terrain" );
+			
+			heightmapSize = Integer.valueOf( terrain.getAttributeValue( "Size" ) );
+			scale = new Vector3f();
+			scale.x = Float.valueOf( terrain.getAttributeValue( "Step" ) );
+			scale.y = Float.valueOf( terrain.getChild( "Heightmap" ).getAttributeValue( "Scale" ) );
+			scale.z = scale.x;
+			URL heightmapURL = Loader.load( dataDirectory + 
+					terrain.getChild( "Heightmap" ).getAttributeValue( "File" ) );
+			heightmap = new RawHeightMap( heightmapURL, heightmapSize, RawHeightMap.FORMAT_16BITLE, false );
+		} catch (Exception e) {
+			logger.severe( 
+					"The scene file you are trying to load doesn't contain the necessary heightmap informations" +
+					"\nDefault scene will be loaded");
+			try {
+				document = new SAXBuilder().build( new File( DEFAULT_SCENE_FILE ) );
+				xmlRoot = document.getRootElement();
+				buildScene();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			} 
+			
+		}
 		
-		waterHeight = Float.valueOf( xmlRoot.getChild("Water").getAttributeValue("Height") );
+		try {
+			waterHeight = Float.valueOf( xmlRoot.getChild("Water").getAttributeValue("Height") );
+		} catch (Exception e) {
+			waterHeight = 0;
+		}
 		
 		loadTerrainLayers();
 		loadCashedMeshes();
@@ -122,17 +142,22 @@ public class Scene {
 	private void loadTerrainLayers() {
 		terrainLayers = new LinkedList<TerrainLayer>();
 		
-		Element terrainLayer = xmlRoot.getChild("TerrainLayers");
-		Iterator<Element> it = terrainLayer.getChildren().iterator();
-		while( it.hasNext() ) {
-			Element layer = it.next();
-			String texture = layer.getChild("Texture").getAttributeValue("File");
-			if( layer.getAttributeValue("Type").equals( "Base Layer" ) ) {
-				terrainLayers.add( new TerrainLayer( texture, null ) );
-			} else {
-				String alpha = layer.getChild("AlphaMap").getAttributeValue("File");
-				terrainLayers.add( new TerrainLayer( texture, alpha ) );
+		try {
+			Element terrainLayer = xmlRoot.getChild("TerrainLayers");
+			Iterator<Element> it = terrainLayer.getChildren().iterator();
+			while( it.hasNext() ) {
+				Element layer = it.next();
+				String texture = layer.getChild("Texture").getAttributeValue("File");
+				if( layer.getAttributeValue("Type").equals( "Base Layer" ) ) {
+					terrainLayers.add( new TerrainLayer( texture, null ) );
+				} else {
+					String alpha = layer.getChild("AlphaMap").getAttributeValue("File");
+					terrainLayers.add( new TerrainLayer( texture, alpha ) );
+				}
 			}
+		} catch (Exception e) {
+			logger.info( "No terrain layer found in the scene file\n" +
+					"No texture will be loaded for the terrian" );
 		}
 	}
 	
@@ -142,13 +167,13 @@ public class Scene {
 	@SuppressWarnings("unchecked")
 	private void loadItems() {
 		items = new LinkedList<Item>();
+		Element sceneLayers;
 		
-		/* The xml file exported from FW3D contains lot of things.
-		 * here we just want to list all the items in the scene, with their
-		 * position, scale and rotation
-		 * so we need to look at the SceneLayers
-		 */
-		Element sceneLayers = xmlRoot.getChild("SceneLayers");
+		try {
+			sceneLayers = xmlRoot.getChild("SceneLayers");
+		} catch (Exception e) {
+			return;
+		}
 		
 		/* catch all children of the sceneLayer (they are the models to load */
 		List<Element> layers = sceneLayers.getChildren();
@@ -214,8 +239,14 @@ public class Scene {
 	@SuppressWarnings("unchecked")
 	private void loadCashedMeshes() {
 		cachedMeshes = new LinkedList<CachedMesh>();
+		List<Element> meshGroups;
 		
-		List<Element> meshGroups = xmlRoot.getChild("CachedMeshGroups").getChildren();
+		try {
+			meshGroups = xmlRoot.getChild("CachedMeshGroups").getChildren();
+		} catch (Exception e) {
+			return;
+		}
+		
 		for( Element meshGroup : meshGroups ) {
 			List<Element> meshes = meshGroup.getChildren();
 			for( Element mesh : meshes ) {
@@ -233,14 +264,20 @@ public class Scene {
 	}
 	
 	private void loadSkyTextures() {
-		Element sky = xmlRoot.getChild("Skymesh");
 		skyTextures = new SkyTextures();
-		skyTextures.up = dataDirectory + sky.getAttributeValue("TexUp");
-		skyTextures.down = dataDirectory + sky.getAttributeValue("TexDown");
-		skyTextures.south = dataDirectory + sky.getAttributeValue("TexFront");
-		skyTextures.north = dataDirectory + sky.getAttributeValue("TexBack");
-		skyTextures.east = dataDirectory + sky.getAttributeValue("TexLeft");
-		skyTextures.west = dataDirectory + sky.getAttributeValue("TexRight");
+		Element sky;
+		
+		try{ 
+			sky = xmlRoot.getChild("Skymesh");
+			skyTextures.up = dataDirectory + sky.getAttributeValue("TexUp");
+			skyTextures.down = dataDirectory + sky.getAttributeValue("TexDown");
+			skyTextures.south = dataDirectory + sky.getAttributeValue("TexFront");
+			skyTextures.north = dataDirectory + sky.getAttributeValue("TexBack");
+			skyTextures.east = dataDirectory + sky.getAttributeValue("TexLeft");
+			skyTextures.west = dataDirectory + sky.getAttributeValue("TexRight");
+		} catch (Exception e) {
+			return;
+		}
 	}
 	
 	public List<CachedMesh> getCachedMeshes() {

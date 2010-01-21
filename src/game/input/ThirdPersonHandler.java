@@ -85,8 +85,8 @@ public class ThirdPersonHandler extends InputHandler {
         addAction( actionForwardRun, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getRunKey()), AXIS_NONE, false );
         addAction( actionForward, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getForwardKey()), AXIS_NONE, false );
         addAction( actionBack, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getBackwardKey()), AXIS_NONE, false );
-        addAction( actionRight, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getStrafeRightKey()), AXIS_NONE, false );
-        addAction( actionLeft, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getStrafeLeftKey()), AXIS_NONE, false );
+        addAction( actionRight, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getTurnRightKey()), AXIS_NONE, false );
+        addAction( actionLeft, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getTurnLeftKey()), AXIS_NONE, false );
         addAction( actionShoot, DEVICE_MOUSE, MouseButtonBinding.LEFT_BUTTON, AXIS_NONE, false );
         addAction( actionFirstPerson, DEVICE_MOUSE, MouseButtonBinding.RIGHT_BUTTON, AXIS_NONE, false );
         

@@ -42,7 +42,7 @@ public class OptionsMenu extends JFrame {
 	MainMenu mainMenu;
 	
 	/** JTextPath that contains a xml file path */
-	JTextArea xmlTextPath;
+	JTextArea sceneFileName;
 	
 	/** His Pointer used in a subClass */
 	OptionsMenu optionsMenu;
@@ -52,6 +52,8 @@ public class OptionsMenu extends JFrame {
 	final Vector<String> itemsKeyCommands;
 
 	String sceneFilePath;
+
+	Vector<String> resolutions;
 	
 	public OptionsMenu( final MainMenu mainMenu ){
 		super();
@@ -108,7 +110,7 @@ public class OptionsMenu extends JFrame {
 		GridBagConstraints lim = new GridBagConstraints();
 		
 		//Create a label that show text
-		JLabel resolutionLabel = new JLabel("Monitor's Resolution");
+		JLabel resolutionLabel = new JLabel("Screen's Resolution");
 		lim.gridx = 0;
 		lim.gridy = 0;
 		lim.weightx = 0.5;
@@ -117,9 +119,15 @@ public class OptionsMenu extends JFrame {
 		grid.add(resolutionLabel);
 		
 		// Create comboBox about screen resolution settings
-		Vector<String> resolutions = new Vector<String>();
-		resolutions.add("1280x800");resolutions.add("1024x768");resolutions.add("800x600");
-		// TODO to add other 
+		resolutions = new Vector<String>();
+		resolutions.add("1680x1050");
+		resolutions.add("1440x900");
+		resolutions.add("1280x1024");
+		resolutions.add("1280x800");
+		resolutions.add("1024x768");
+		resolutions.add("1024x600");
+		resolutions.add("800x600");
+		
 		final JComboBox resolutionCombo = new JComboBox(resolutions);
 		resolutionCombo.setSelectedIndex(
 				resolutions.indexOf((GameConfiguration.getResolutionWidth() + "x" +
@@ -141,9 +149,11 @@ public class OptionsMenu extends JFrame {
 		layout.setConstraints(fullscreenLabel, lim);
 		grid.add(fullscreenLabel);
 		
-		// Create a comboBox that allow to choose fullscreen yes or no
+		// Create a comboBox that allow to choose fullscreen true or false
 		itemsTrueFalse = new Vector<String>();
-		itemsTrueFalse.add("true");itemsTrueFalse.add("false");
+		itemsTrueFalse.add("true");
+		itemsTrueFalse.add("false");
+		
 		final JComboBox fullscreenCombo = new JComboBox(itemsTrueFalse);
 		fullscreenCombo.setSelectedIndex(itemsTrueFalse.indexOf(GameConfiguration.isFullscreen()));
 		lim.gridx = 1;
@@ -164,7 +174,7 @@ public class OptionsMenu extends JFrame {
 		grid.add(xmlPanel);
 		
 		// Create a label
-		JLabel xmlLabel = new JLabel("Environment's XML file: ");
+		JLabel xmlLabel = new JLabel("Scene's XML file: ");
 		xmlPanel.add(xmlLabel);
 	
 		//JTextBox that contains a file path
@@ -172,8 +182,8 @@ public class OptionsMenu extends JFrame {
         int lastDot = sceneFilePath.lastIndexOf( '/' );
         String sceneFile;
         sceneFile = sceneFilePath.substring( lastDot + 1 );
-		xmlTextPath = new JTextArea( sceneFile );
-		xmlPanel.add(xmlTextPath);
+		sceneFileName = new JTextArea( sceneFile );
+		xmlPanel.add(sceneFileName);
 		
 		//Button Browses for choose files
 		JButton browsButton = new JButton("Browse");
@@ -194,7 +204,7 @@ public class OptionsMenu extends JFrame {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = fc.getSelectedFile();
 					sceneFilePath = file.getPath();
-					xmlTextPath.setText(file.getName());
+					sceneFileName.setText(file.getName());
 				}
 			}
 		});
@@ -208,7 +218,7 @@ public class OptionsMenu extends JFrame {
 		layout.setConstraints(soundLabel, lim);
 		grid.add(soundLabel);
 		
-		// create a JComboBox - Sound SI or NO
+		// create a JComboBox - Sound true or not
 		final JComboBox soundCombo = new JComboBox(itemsTrueFalse);
 		soundCombo.setSelectedIndex(itemsTrueFalse.indexOf(GameConfiguration.isSoundEnabled()));
 		lim.gridx = 1;
@@ -287,7 +297,7 @@ public class OptionsMenu extends JFrame {
 		grid2.add(comboWalkBackward);
 		
 		//create a label
-		JLabel combo3Label = new JLabel("Walk to Right");
+		JLabel combo3Label = new JLabel("Turn Right");
 		lim.gridx = 0;
 		lim.gridy = 2;
 		lim.weightx = 0.5;
@@ -297,7 +307,7 @@ public class OptionsMenu extends JFrame {
 		
 		// JComboBox - walk to right
 		final JComboBox comboWalkRight = new JComboBox(itemsKeyCommands);
-		comboWalkRight.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getStrafeRightKey()));
+		comboWalkRight.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getTurnRightKey()));
 		lim.gridx = 1;
 		lim.gridy = 2;
 		lim.weightx = 0.5;
@@ -306,7 +316,7 @@ public class OptionsMenu extends JFrame {
 		grid2.add(comboWalkRight);
 		
 		//create a label
-		JLabel combo4Label = new JLabel("Walk to Left");
+		JLabel combo4Label = new JLabel("Trun Left");
 		lim.gridx = 0;
 		lim.gridy = 3;
 		lim.weightx = 0.5;
@@ -316,7 +326,7 @@ public class OptionsMenu extends JFrame {
 		
 		// JComboBox - walk to left
 		final JComboBox comboWalkLeft = new JComboBox(itemsKeyCommands);
-		comboWalkLeft.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getStrafeLeftKey()));
+		comboWalkLeft.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getTurnLeftKey()));
 		lim.gridx = 1;
 		lim.gridy = 3;
 		lim.weightx = 0.5;
@@ -378,12 +388,34 @@ public class OptionsMenu extends JFrame {
 		buttonReset.addActionListener(
 			    new ActionListener() {
 			        public void actionPerformed(ActionEvent e) {
-			        	comboWalkForward.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getDefaultForwardKey()));
-			        	comboWalkBackward.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getDefaultBackwardKey()));
-			        	comboWalkRight.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getDefaultStrafeRightKey()));
-			        	comboWalkLeft.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getDefaultStrafeLeftKey()));
-			        	comboRun.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getDefaultRunKey()));
-			        	comboPause.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getDefaultPauseKey()));
+			        	comboWalkForward.setSelectedIndex(
+			        			itemsKeyCommands.indexOf(GameConfiguration.getDefaultForwardKey()));
+			        	comboWalkBackward.setSelectedIndex(
+			        			itemsKeyCommands.indexOf(GameConfiguration.getDefaultBackwardKey()));
+			        	comboWalkRight.setSelectedIndex(
+			        			itemsKeyCommands.indexOf(GameConfiguration.getDefaultTurnRightKey()));
+			        	comboWalkLeft.setSelectedIndex(
+			        			itemsKeyCommands.indexOf(GameConfiguration.getDefaultTurnLeftKey()));
+			        	comboRun.setSelectedIndex(
+			        			itemsKeyCommands.indexOf(GameConfiguration.getDefaultRunKey()));
+			        	comboPause.setSelectedIndex(
+			        			itemsKeyCommands.indexOf(GameConfiguration.getDefaultPauseKey()));
+			        	
+			        	resolutionCombo.setSelectedIndex(
+			    				resolutions.indexOf((GameConfiguration.getDefaultResolutionWidth() + "x" +
+			    									GameConfiguration.getDefaultResolutionHeight()) ));
+			    		
+			    		fullscreenCombo.setSelectedIndex( 
+			    				itemsTrueFalse.indexOf(GameConfiguration.getDefaultIsFullscreen() ) );
+			    		
+			    		sceneFilePath = GameConfiguration.getDefaultSceneFilePath();
+			            int lastDot = sceneFilePath.lastIndexOf( '/' );
+			            String sceneFile;
+			            sceneFile = sceneFilePath.substring( lastDot + 1 );
+			    		sceneFileName.setText( sceneFile );
+			    		
+			    		soundCombo.setSelectedIndex(
+			    				itemsTrueFalse.indexOf(GameConfiguration.getDefaultSoundEnabled() ) );
 			        }
 			    }
 			);
@@ -404,8 +436,8 @@ public class OptionsMenu extends JFrame {
 			        public void actionPerformed(ActionEvent e) {
 			        	GameConfiguration.setForwardKey(comboWalkForward.getSelectedItem().toString());
 			        	GameConfiguration.setBackwardKey(comboWalkBackward.getSelectedItem().toString());
-			        	GameConfiguration.setStrafeRightKey(comboWalkRight.getSelectedItem().toString());
-			        	GameConfiguration.setStrafeLeftKey(comboWalkLeft.getSelectedItem().toString());
+			        	GameConfiguration.setTurnRightKey(comboWalkRight.getSelectedItem().toString());
+			        	GameConfiguration.setTurnLeftKey(comboWalkLeft.getSelectedItem().toString());
 			        	GameConfiguration.setRunKey(comboRun.getSelectedItem().toString());
 			        	GameConfiguration.setPauseKey(comboPause.getSelectedItem().toString());
 			        	

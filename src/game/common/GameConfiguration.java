@@ -14,8 +14,6 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
-import com.jme.input.KeyInput;
-
 /** Class GameSettings used to read the xml configuration file<br>
  * 
  * Needed library: <a href="http://www.jdom.org">JDOM</a>
@@ -37,25 +35,18 @@ public class GameConfiguration {
 	 */
 	static HashMap< String, String > defaultValues = new HashMap<String, String>();
 	static {
-		defaultValues.put( "run_key", String.valueOf( KeyInput.KEY_LSHIFT ) ); 
-		defaultValues.put( "forward_key", String.valueOf( KeyInput.KEY_W ) );
-		defaultValues.put( "backward_key", String.valueOf( KeyInput.KEY_S ) );
-		defaultValues.put( "straferight_key", String.valueOf( KeyInput.KEY_D ) );
-		defaultValues.put( "strafeleft_key", String.valueOf( KeyInput.KEY_A ) );
-		defaultValues.put( "pause_key", String.valueOf( KeyInput.KEY_P ) ); 
+		defaultValues.put( "run_key", "LSHIFT" ); 
+		defaultValues.put( "forward_key", "W" );
+		defaultValues.put( "backward_key", "S" );
+		defaultValues.put( "turnright_key", "D" );
+		defaultValues.put( "turnleft_key", "A" );
+		defaultValues.put( "pause_key", "P" ); 
 		
-		// Resolution
+		// screen
 		defaultValues.put( "resolution_width", "1024" );
 		defaultValues.put( "resolution_height", "768" );
-		
-		if( System.getProperties().getProperty("os.name").equals( "Linux" ) ) {
-			defaultValues.put( "resolution_depth", "24" );
-			defaultValues.put( "resolution_frequency", "50" );
-		} else {
-			defaultValues.put( "resolution_depth", "32" );
-			defaultValues.put( "resolution_frequency", "60" );
-		}
-		
+		defaultValues.put( "resolution_depth", "16" );
+		defaultValues.put( "resolution_frequency", "-1" );
 		defaultValues.put( "is_fullscreen", "false" );
 		
 		// Sound
@@ -73,13 +64,24 @@ public class GameConfiguration {
 	public static void init() {
 		values = new HashMap< String, String >();
 		values.putAll(defaultValues);
-		
-		/**
-		 * Load user defined values from XML file setting 
-		 */
+
 		load();
+		
+		/* 
+		 * Change depth and frequency according to the operating system in use
+		 */
+		if( System.getProperties().getProperty("os.name").equals( "Linux" ) ) {
+			values.put( "resolution_depth", "24" );
+			values.put( "resolution_frequency", "50" );
+		} else {
+			values.put( "resolution_depth", "32" );
+			values.put( "resolution_frequency", "60" );
+		}
 	}
 	
+	/**
+	 * Load user defined values from XML file setting 
+	 */
 	@SuppressWarnings("unchecked")
 	public static void load() {
 		SAXBuilder builder = new SAXBuilder();
@@ -162,12 +164,12 @@ public class GameConfiguration {
 		return defaultValues.get( "sound_enabled" );
 	}
 
-	public static String getDefaultStrafeLeftKey() {
-		return defaultValues.get( "strafeleft_key" );
+	public static String getDefaultTurnLeftKey() {
+		return defaultValues.get( "turnleft_key" );
 	}
 
-	public static String getDefaultStrafeRightKey() {
-		return defaultValues.get( "straferight_key" );
+	public static String getDefaultTurnRightKey() {
+		return defaultValues.get( "turnright_key" );
 	}
 
 	public static String getForwardKey() {
@@ -190,12 +192,12 @@ public class GameConfiguration {
 		return values.get( "run_key" );
 	}
 
-	public static String getStrafeLeftKey() {
-		return values.get( "strafeleft_key" );
+	public static String getTurnLeftKey() {
+		return values.get( "turnleft_key" );
 	}
 
-	public static String getStrafeRightKey() {
-		return values.get( "straferight_key" );
+	public static String getTurnRightKey() {
+		return values.get( "turnright_key" );
 	}
 
 	public static String isFullscreen() {
@@ -238,12 +240,12 @@ public class GameConfiguration {
 		values.put( "sound_enabled", value );
 	}
 
-	public static void setStrafeLeftKey(String value) {
-		values.put( "strafeleft_key", value );
+	public static void setTurnLeftKey(String value) {
+		values.put( "turnleft_key", value );
 	}
 
-	public static void setStrafeRightKey(String value) {
-		values.put( "straferight_key", value );
+	public static void setTurnRightKey(String value) {
+		values.put( "turnright_key", value );
 	}
 
 	public static String getDefaultResolutionDepth() {

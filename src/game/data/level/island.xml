@@ -6,6 +6,10 @@
 -->
 
 <Freeworld3D Version="2.0">
+<Environment>
+	<Viewport Color="128,128,128" Fov="60.000000" NearClip="1.000000" FarClip="10000.000000"/>
+	<Lighting Direction="-1.000000,0.000000,-1.000000" Ambient="0,0,0" Diffuse="255,255,255"/>
+</Environment>
 <Terrain Size="129" Step="32.000000">
 	<Heightmap File="/terrain/heightmap16bit.raw" Format="16bit RAW" Scale="0.008000"/>
 </Terrain>
@@ -34,7 +38,7 @@
 	<CachedMeshGroup Name="unsorted" Count="0">
 	</CachedMeshGroup>
 	<CachedMeshGroup Name="vegetation" Count="10">
-		<Mesh Name="banana.ms3d" Id="15" Filename="/meshes/vegetation/banana.3ds"/>
+		<Mesh Name="banana.3ds" Id="15" Filename="/meshes/vegetation/banana.3ds"/>
 		<Mesh Name="lowpalm1.3ds" Id="16" Filename="/meshes/vegetation/lowpalm1.3ds"/>
 		<Mesh Name="palm1.3ds" Id="17" Filename="/meshes/vegetation/palm1.3ds"/>
 		<Mesh Name="palm2.3ds" Id="18" Filename="/meshes/vegetation/palm2.3ds"/>
@@ -45,7 +49,7 @@
 		<Mesh Name="tree3.3ds" Id="23" Filename="/meshes/vegetation/tree3.3ds"/>
 		<Mesh Name="tree4.3ds" Id="24" Filename="/meshes/vegetation/tree4.3ds"/>
 	</CachedMeshGroup>
-	<CachedMeshGroup Name="items" Count="24">
+	<CachedMeshGroup Name="items" Count="23">
 		<Mesh Name="crate.3ds" Id="4" Filename="/meshes/items/crate.3ds"/>
 		<Mesh Name="log.3ds" Id="5" Filename="/meshes/items/log.3ds"/>
 		<Mesh Name="fence.3ds" Id="6" Filename="/meshes/items/fence.3ds"/>
@@ -58,8 +62,6 @@
 		<Mesh Name="watchtower.3ds" Id="13" Filename="/meshes/items/watchtower.3ds"/>
 		<Mesh Name="woodbarrel.3ds" Id="14" Filename="/meshes/items/woodbarrel.3ds"/>
 		<Mesh Name="building.3ds" Id="25" Filename="/meshes/items/building.3ds"/>
-		<Mesh Name="building2.3ds" Id="26" Filename="/meshes/items/building2.3ds"/>
-		<Mesh Name="tank.3ds" Id="33" Filename="/meshes/items/tank.3ds"/>
 		<Mesh Name="stones2.3ds" Id="32" Filename="/meshes/items/stones2.3ds"/>
 		<Mesh Name="stones1.3ds" Id="31" Filename="/meshes/items/stones1.3ds"/>
 		<Mesh Name="crates.3ds" Id="29" Filename="/meshes/items/crates.3ds"/>
@@ -73,7 +75,7 @@
 	</CachedMeshGroup>
 </CachedMeshGroups>
 <SceneLayers Count="3">
-	<SceneLayer Name="unsorted" Count="2826" DrawDistance="0.000000">
+	<SceneLayer Name="unsorted" Count="2825" DrawDistance="0.000000">
 		<SceneMesh Name="tent.3ds" CachedMeshId="12" Coords="Quaternion" Position="3190.212158,56.182133,2693.599854" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.147809,0.000000,0.989016"/>
 		<SceneMesh Name="tent.3ds" CachedMeshId="12" Coords="Quaternion" Position="3128.225830,56.182133,2676.663574" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.087156,0.000000,0.996195"/>
 		<SceneMesh Name="log.3ds" CachedMeshId="5" Coords="Quaternion" Position="3155.385742,56.246185,2697.126465" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.156434,0.000000,0.987688"/>
@@ -119,13 +121,6 @@
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="3375.468262,57.433453,3049.471191" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.656059,0.000000,0.754710"/>
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="3369.947754,64.765717,3098.413086" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.803857,0.000000,0.594823"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="3353.022217,59.739185,3069.286377" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.824126,0.000000,0.566406"/>
-		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2993.704346,68.450020,2429.505371" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.366501,0.000000,0.930418"/>
-		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="3076.580811,61.468735,2523.421143" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.981627,0.000000,0.190809"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3020.099609,65.301643,2495.487793" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.522499,0.000000,0.852640"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3174.899902,74.613373,2528.375732" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.165048,0.000000,0.986286"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2958.725098,68.449532,2419.789307" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.573576,0.000000,0.819152"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3230.240723,64.537758,2573.526855" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.414693,0.000000,0.909961"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3133.312988,56.513794,2582.765625" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.754710,0.000000,0.656059"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3320.942627,58.918968,2637.534424" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.945519,0.000000,0.325568"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="3383.702881,57.676170,2669.831787" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.675590,0.000000,0.737277"/>
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="3258.918457,56.048584,2635.764893" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.656059,0.000000,0.754710"/>
@@ -149,15 +144,9 @@
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="3053.135254,57.598248,2847.422363" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.989016,0.000000,0.147809"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3004.810303,56.661026,2789.626221" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.366501,0.000000,0.930418"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2932.838379,56.555290,2777.951904" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.615661,0.000000,0.788011"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2957.697998,65.508926,2467.927979" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.920505,0.000000,0.390731"/>
 		<SceneMesh Name="building.3ds" CachedMeshId="25" Coords="Quaternion" Position="3318.959961,55.805717,2756.092041" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.788011,0.000000,-0.615663"/>
 		<SceneMesh Name="building.3ds" CachedMeshId="25" Coords="Quaternion" Position="3153.329590,159.911087,1409.385376" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="tent.3ds" CachedMeshId="12" Coords="Quaternion" Position="3136.798828,160.393478,1549.180542" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.694659,0.000000,0.719340"/>
-		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="3081.148926,149.251114,1783.970337" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.688355,0.000000,0.725374"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="3088.390137,150.143005,1778.942505" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="3102.889404,150.796188,1774.673828" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="3112.658691,152.017853,1768.470581" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.707107,0.000000,0.707107"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="3048.659912,155.455734,1759.937378" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.069757,0.000000,0.997565"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="3149.175049,151.160370,1822.353760" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.909961,0.000000,0.414693"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="3149.175049,151.160370,1822.353760" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.909961,0.000000,0.414693"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="3157.745605,151.444412,1832.306641" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.909961,0.000000,0.414693"/>
@@ -317,41 +306,11 @@
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="3578.634277,128.279495,1462.151367" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.803857,0.000000,0.594823"/>
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="3627.460938,91.424614,1806.894287" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.968148,0.000000,0.250380"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3703.988770,91.462006,1778.784058" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.559193,0.000000,0.829038"/>
-		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2855.503174,68.591995,2376.434570" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.087156,0.000000,0.996195"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2824.629150,65.464928,2400.992432" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.636078,0.000000,0.771625"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2882.083008,74.413536,2336.674072" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.241922,0.000000,0.970296"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2874.174561,66.551369,2440.143799" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.894934,0.000000,0.446198"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2855.728516,65.066185,2466.623291" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.857167,0.000000,0.515038"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2802.624756,64.837357,2448.485107" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.594823,0.000000,0.803857"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2827.253662,64.717918,2512.486572" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.390731,0.000000,0.920505"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2800.129150,64.831924,2538.536133" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.017452,0.000000,0.999848"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2782.269043,65.086205,2491.915771" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.838671,0.000000,0.544639"/>
-		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2750.994873,58.059036,2538.497314" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.945519,0.000000,0.325568"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2744.610107,62.618919,2490.012695" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.515038,0.000000,0.857167"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2761.844727,64.831924,2425.805664" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.104528,0.000000,0.994522"/>
-		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2806.229980,67.515465,2351.065186" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.945519,0.000000,0.325568"/>
-		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2727.879883,61.246651,2430.566650" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.250380,0.000000,0.968148"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2718.223877,55.992302,2484.347900" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.942642,0.000000,0.333807"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2723.365234,56.205620,2533.369141" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.930418,0.000000,0.366501"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2653.867676,55.795940,2571.218262" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.719340,0.000000,0.694658"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2644.685791,55.462814,2532.455811" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.284015,0.000000,0.958820"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2613.332520,55.548717,2571.029785" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.333807,0.000000,0.942641"/>
-		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2571.236084,55.661221,2576.212402" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.559193,0.000000,0.829038"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2532.247559,55.830090,2600.622559" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.669131,0.000000,0.743145"/>
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2499.933594,55.624546,2628.701904" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.990268,0.000000,0.139173"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2478.680664,55.420128,2657.145020" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.951057,0.000000,0.309017"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2425.312256,55.473049,2657.367676" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.788011,0.000000,0.615661"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2446.760742,55.794521,2698.864502" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.061049,0.000000,0.998135"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2444.006104,55.630310,2631.893311" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.771625,0.000000,0.636078"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2471.532959,55.969746,2603.824707" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.917060,0.000000,0.398749"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2436.154785,56.512756,2581.105469" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.843391,0.000000,0.537300"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2500.751953,56.190277,2556.311523" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.573576,0.000000,0.819152"/>
-		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2575.514404,55.965904,2529.294434" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.284015,0.000000,0.958820"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2592.881104,56.275028,2493.281738" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.374607,0.000000,0.927184"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2685.643066,58.203213,2444.001709" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.675590,0.000000,0.737277"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2507.905762,60.828148,2500.738770" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.121869,0.000000,0.992546"/>
-		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2455.625977,61.935181,2520.587402" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.927184,0.000000,0.374607"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2422.595703,60.843430,2544.118652" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.078459,0.000000,0.996917"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2385.484863,58.036938,2598.879150" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.446198,0.000000,0.894934"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2394.796143,55.602718,2698.020020" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.333807,0.000000,0.942641"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2290.412109,55.765930,2807.379639" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.939693,0.000000,0.342020"/>
@@ -362,13 +321,9 @@
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2142.392822,55.801010,3000.750488" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.974370,0.000000,0.224951"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2315.542969,57.009727,2720.541748" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.233445,0.000000,0.972370"/>
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2271.401855,58.875683,2750.558350" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.446198,0.000000,0.894934"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2914.496826,76.189781,2231.556885" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.953717,0.000000,0.300706"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="3033.802734,78.727219,2085.234619" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.777146,0.000000,0.629320"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2963.557373,76.517441,2156.151855" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.766044,0.000000,0.642788"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2979.434814,86.615829,2016.805664" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3093.680664,135.460861,1890.216431" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.920505,0.000000,0.390731"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2982.808838,76.061699,2314.763184" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.920505,0.000000,0.390731"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2682.042236,55.564487,2533.134033" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.995396,0.000000,0.095846"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="3361.781494,56.032337,3001.386475" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.882948,0.000000,0.469472"/>
 		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="3350.169434,56.742199,3024.258057" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.477159,0.000000,0.878817"/>
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="3328.501953,58.093399,3045.853760" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.121869,0.000000,0.992546"/>
@@ -501,12 +456,8 @@
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2127.199951,117.013802,2681.911865" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.782608,0.000000,-0.622515"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2285.616943,92.415314,2585.020264" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.113203,0.000000,0.993572"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2329.959229,95.131851,2508.935303" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.902585,0.000000,0.430511"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2422.957031,82.212311,2476.223145" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.887011,0.000000,-0.461749"/>
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2379.171875,97.942162,2452.316650" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.917060,0.000000,-0.398749"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2480.382812,85.309258,2442.742920" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.095846,0.000000,0.995396"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2544.778809,78.390648,2421.426758" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.990268,0.000000,-0.139173"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2607.615967,92.401367,2366.877197" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.991445,0.000000,-0.130526"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2655.100586,69.036407,2399.910889" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.737277,0.000000,0.675590"/>
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2524.285400,111.795891,2370.541260" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.992546,0.000000,-0.121869"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="1674.870972,49.118526,3341.487061" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.469472,0.000000,0.882948"/>
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="1714.605103,44.000217,3324.572021" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.981627,0.000000,0.190809"/>
@@ -572,8 +523,6 @@
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2666.241211,55.535923,2718.587402" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2717.352295,55.793945,2784.538330" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2727.297607,55.810570,2728.241699" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2609.695557,61.246502,2436.888184" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2645.016113,56.106522,2477.758301" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2455.596680,104.201775,2402.521729" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2398.662109,105.971611,2415.014648" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2575.582520,120.383835,2329.599365" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
@@ -589,19 +538,6 @@
 		<SceneMesh Name="tent.3ds" CachedMeshId="12" Coords="Quaternion" Position="2464.107666,56.182133,3158.166016" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.366501,0.000000,0.930418"/>
 		<SceneMesh Name="tent.3ds" CachedMeshId="12" Coords="Quaternion" Position="2502.476074,57.211273,3209.106201" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.406737,0.000000,0.913546"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2428.993408,55.746613,3170.963867" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.662620,0.000000,0.748956"/>
-		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="216.139328,63.745003,3253.807861" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.358368,0.000000,0.933580"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="150.130234,55.567989,3238.704590" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.537300,0.000000,0.843391"/>
-		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="169.913544,53.812111,3188.233154" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.382683,0.000000,0.923880"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="211.796707,55.386227,3165.381592" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.078459,0.000000,0.996917"/>
-		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="245.405029,56.434418,3171.082764" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.989016,0.000000,0.147809"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="277.799194,58.084114,3199.929199" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.933580,0.000000,-0.358368"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="158.863876,57.980000,3277.955811" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.374607,0.000000,0.927184"/>
-		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="173.384216,55.596069,3316.603516" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.891006,0.000000,-0.453991"/>
-		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="241.721680,62.765575,3220.049805" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.069756,0.000000,0.997564"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="207.954712,61.957977,3214.070801" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.608761,0.000000,0.793353"/>
-		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="178.318787,60.981285,3245.097900" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.996195,0.000000,0.087156"/>
-		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="191.907410,61.475979,3288.610840" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.917060,0.000000,-0.398749"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="264.321106,61.795490,3247.403320" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.887011,0.000000,-0.461749"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="682.077942,45.428516,2999.625244" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.078459,0.000000,0.996917"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="708.582581,43.995651,3018.537354" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.998135,0.000000,-0.061049"/>
 		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="719.895142,42.924866,3063.183105" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.104529,0.000000,0.994522"/>
@@ -1354,20 +1290,12 @@
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3291.068604,158.137070,1255.832275" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.956305,0.000000,-0.292372"/>
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="3310.042969,154.360123,1227.718140" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.608761,0.000000,0.793353"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3357.923584,154.711441,1266.512451" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.898794,0.000000,0.438371"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3559.905029,108.152351,1393.642456" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.782608,0.000000,0.622515"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3534.388672,91.428162,1345.477661" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.580703,0.000000,0.814116"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3481.419678,116.030731,1335.265503" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.793353,0.000000,-0.608761"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3435.105957,125.657341,1283.630249" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.026177,0.000000,0.999657"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="3395.757568,150.285599,1292.004883" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.824126,0.000000,0.566406"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3412.079590,128.065323,1245.778809" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.636078,0.000000,0.771625"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="3485.145752,90.035126,1292.005371" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.139173,0.000000,0.990268"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2926.966553,76.196518,2182.413818" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.978148,0.000000,0.207912"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2957.713379,79.370247,2062.223145" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.996917,0.000000,-0.078459"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2908.346680,76.118980,2295.172852" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.250380,0.000000,0.968148"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2855.827393,75.023048,2290.802002" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.300706,0.000000,0.953717"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2880.255615,76.987007,2210.195312" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.992546,0.000000,-0.121869"/>
-		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2880.698242,85.119934,2146.643066" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.948324,0.000000,0.317305"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2918.758301,79.185318,2088.762939" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.484810,0.000000,0.874620"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2934.338623,89.647514,2011.707031" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.182235,0.000000,0.983255"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2958.773193,107.469177,1953.398193" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.069756,0.000000,0.997564"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2993.742920,118.542877,1920.443604" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.649448,0.000000,0.760406"/>
@@ -1378,7 +1306,6 @@
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="3119.791748,141.638977,1923.803467" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.829038,0.000000,0.559193"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3046.955322,78.695412,2153.874268" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.317305,0.000000,0.948324"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="3014.658203,76.507332,2220.937744" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.258819,0.000000,0.965926"/>
-		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="3007.933594,76.691055,2280.877930" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.793353,0.000000,0.608761"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3051.951172,92.621086,2246.717285" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.984808,0.000000,0.173648"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3145.586914,156.088470,1927.479370" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.894934,0.000000,0.446198"/>
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="3130.427979,144.310822,2003.072021" Scale="1.000000,1.000000,1.000000" Quat="-0.265620,0.925655,0.123697,0.239391"/>
@@ -1393,9 +1320,7 @@
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="3511.112549,93.029320,1913.011841" Scale="1.000000,1.000000,1.000000" Quat="0.159941,0.074481,-0.270676,0.946365"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3537.327881,71.216110,1959.198242" Scale="1.000000,1.000000,1.000000" Quat="0.065777,0.149849,-0.279449,0.946111"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3622.348633,73.600754,1855.385620" Scale="1.000000,1.000000,1.000000" Quat="0.240810,0.838452,0.068369,0.484081"/>
-		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3605.878662,55.418629,2097.495605" Scale="1.000000,1.000000,1.000000" Quat="-0.043156,0.150013,-0.280276,0.947143"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="3090.749512,101.890129,2126.512207" Scale="1.000000,1.000000,1.000000" Quat="-0.085700,0.385125,0.244581,0.885728"/>
-		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3577.873535,45.702793,1991.535034" Scale="1.000000,1.000000,1.000000" Quat="0.162724,0.679356,-0.257500,0.667601"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3116.129883,133.137390,2163.065430" Scale="1.000000,1.000000,1.000000" Quat="-0.246794,0.661161,-0.307097,-0.638476"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3073.389404,96.030899,2189.759277" Scale="1.000000,1.000000,1.000000" Quat="0.083569,-0.493335,0.318640,0.805050"/>
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="3079.531494,110.338295,2230.064941" Scale="1.000000,1.000000,1.000000" Quat="-0.297834,0.700209,0.153324,0.630471"/>
@@ -1521,22 +1446,6 @@
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="989.900635,41.371769,3173.304688" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.207912,0.000000,0.978148"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="971.800293,42.861149,3146.632080" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.529919,0.000000,0.848048"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="967.239563,42.508068,3137.318359" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.819152,0.000000,0.573576"/>
-		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="234.336853,60.628689,3301.353760" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.675591,0.000000,0.737277"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="254.242172,59.986435,3300.148193" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.406737,0.000000,0.913545"/>
-		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="234.612610,62.534149,3278.711670" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.113203,0.000000,0.993572"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="289.053406,58.846600,3241.183350" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.438371,0.000000,0.898794"/>
-		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="306.058319,55.445999,3238.351807" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.848048,0.000000,-0.529919"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="305.050842,55.975735,3254.247803" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.207912,0.000000,0.978148"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="309.611572,55.399994,3263.561523" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.580703,0.000000,0.814116"/>
-		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="270.733795,59.930927,3279.775146" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.754710,0.000000,0.656059"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="328.604706,51.684345,3266.671631" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.833886,0.000000,0.551937"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="275.509735,57.844086,3303.298584" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.984808,0.000000,-0.173648"/>
-		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="327.711884,51.191189,3290.234131" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.017452,0.000000,0.999848"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="237.594604,62.005398,3284.030273" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.902585,0.000000,0.430511"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="242.155350,61.154808,3293.343994" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.374606,0.000000,0.927184"/>
-		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="203.277649,59.382420,3309.557617" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.923880,0.000000,0.382683"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="261.148041,59.883022,3296.454102" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.139173,0.000000,0.990268"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="208.053604,55.991619,3333.081055" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.972370,0.000000,-0.233445"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="939.300720,44.946198,3778.793213" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.529919,0.000000,0.848048"/>
 		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="907.651306,42.873932,3767.219482" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.551937,0.000000,0.833886"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="947.635010,47.795486,3807.417725" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.484810,0.000000,0.874620"/>
@@ -1656,8 +1565,6 @@
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2832.946289,186.930099,1996.013428" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.700909,0.000000,0.713251"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2848.811523,144.595230,2050.932861" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.968148,0.000000,-0.250380"/>
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2832.981445,127.611183,2131.601807" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.748956,0.000000,0.662620"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2892.172852,89.468239,2095.376953" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.891006,0.000000,-0.453991"/>
-		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2716.222412,100.015610,2342.263916" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.662620,0.000000,0.748956"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2755.496094,179.079941,2152.064941" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.737277,0.000000,-0.675590"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2753.101562,207.965881,2078.151367" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.996195,0.000000,-0.087156"/>
 		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2759.326172,166.203903,2179.518799" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.121869,0.000000,0.992546"/>
@@ -2000,15 +1907,10 @@
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="1974.700684,117.327118,2776.917236" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.681998,0.000000,0.731354"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="1770.401001,57.469067,2832.229736" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.507538,0.000000,0.861629"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="1823.568604,74.070129,2825.306396" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.974370,0.000000,0.224951"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="2416.236816,55.712692,3044.422852" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.999657,0.000000,-0.026177"/>
-		<SceneMesh Name="container.3ds" CachedMeshId="28" Coords="Quaternion" Position="3029.489014,55.843685,2592.718262" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.190809,0.000000,0.981627"/>
-		<SceneMesh Name="container.3ds" CachedMeshId="28" Coords="Quaternion" Position="3044.233643,55.658459,2597.436768" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.199368,0.000000,0.979925"/>
 		<SceneMesh Name="crates.3ds" CachedMeshId="29" Coords="Quaternion" Position="3137.954590,55.728867,2629.518799" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.766044,0.000000,-0.642788"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="3017.070801,56.094837,2598.473633" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="3014.473877,55.925232,2609.601807" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="log.3ds" CachedMeshId="5" Coords="Quaternion" Position="3018.209229,58.888618,2573.371338" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="3009.236328,56.164066,2602.255859" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="container.3ds" CachedMeshId="28" Coords="Quaternion" Position="3057.805664,55.655910,2602.770508" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.190809,0.000000,0.981627"/>
 		<SceneMesh Name="container.3ds" CachedMeshId="28" Coords="Quaternion" Position="3072.550293,55.648659,2607.489014" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.199368,0.000000,0.979925"/>
 		<SceneMesh Name="container.3ds" CachedMeshId="28" Coords="Quaternion" Position="5807.165039,55.648659,-8218.655273" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.199368,0.000000,0.979925"/>
 		<SceneMesh Name="helipad.3ds" CachedMeshId="30" Coords="Quaternion" Position="3296.681396,159.401657,1570.333252" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.043619,0.000000,0.999048"/>
@@ -2047,13 +1949,6 @@
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="3335.489014,159.571320,1605.687500" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="3330.377686,159.575165,1609.815308" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="3324.068359,159.576950,1612.888550" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="tank.3ds" CachedMeshId="33" Coords="Quaternion" Position="3338.266846,159.489120,1505.680054" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.662622,0.000000,0.748956"/>
-		<SceneMesh Name="tank.3ds" CachedMeshId="33" Coords="Quaternion" Position="3335.932373,159.489120,1524.692749" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.662622,0.000000,0.748956"/>
-		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="3382.191895,159.675232,1462.377808" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3373.330811,159.558029,1480.305420" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3819.593018,129.096024,1722.375610" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="3838.692139,131.980072,1726.661865" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3860.563232,133.479050,1722.479614" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="3839.872070,136.142044,1714.396973" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="3833.571045,135.118774,1713.335327" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="3838.836670,137.833649,1708.586914" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
@@ -2066,13 +1961,8 @@
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="3757.264160,118.875153,1719.727417" Scale="1.000000,1.000000,1.000000" Quat="0.112717,0.000000,0.045099,0.992603"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="3743.768311,117.184563,1719.727417" Scale="1.000000,1.000000,1.000000" Quat="0.117619,0.000000,0.018196,0.992892"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="3802.265137,126.397537,1719.727417" Scale="1.000000,1.000000,1.000000" Quat="0.095729,0.000000,0.081208,0.992089"/>
-		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="3723.970459,112.426292,1730.552002" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3710.102539,108.702904,1738.177734" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3688.874756,106.384735,1744.792969" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="container.3ds" CachedMeshId="28" Coords="Quaternion" Position="3133.694580,159.493225,1647.839844" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.719340,0.000000,-0.694659"/>
 		<SceneMesh Name="container.3ds" CachedMeshId="28" Coords="Quaternion" Position="3134.152344,159.532013,1634.722656" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.719340,0.000000,-0.694659"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="1149.995850,61.601173,2984.224365" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="1205.383667,33.679127,3126.766357" Scale="2.412861,2.896492,2.490537" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="747.192078,42.300747,3202.719727" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.529919,0.000000,0.848048"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="885.155823,43.034878,3031.552979" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.156434,0.000000,0.987688"/>
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="884.763916,43.118824,3057.212402" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.983255,0.000000,-0.182236"/>
@@ -2095,13 +1985,10 @@
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="796.150879,41.729313,3330.982666" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.848048,0.000000,-0.529920"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="771.042908,41.575653,3329.639648" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.333807,0.000000,0.942641"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="798.970642,42.184921,3310.651855" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.824126,0.000000,-0.566406"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="970.491089,40.736416,3208.381104" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.766044,0.000000,-0.642788"/>
-		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="942.778137,41.543911,3223.106445" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.233445,0.000000,0.972370"/>
 		<SceneMesh Name="watchtower.3ds" CachedMeshId="13" Coords="Quaternion" Position="1017.669006,48.687199,2712.403320" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.414694,0.000000,0.909961"/>
 		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="1038.806396,48.330624,2723.949463" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.989016,0.000000,-0.147810"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="1027.634888,48.480492,2737.786865" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.958820,0.000000,-0.284016"/>
 		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="1008.664612,48.330624,2742.400879" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.838671,0.000000,0.544639"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="1040.848145,48.666637,2701.004150" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.207912,0.000000,0.978148"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="1024.461060,48.546612,2730.202637" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.961262,0.000000,0.275637"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="1013.962891,48.546612,2736.281738" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.972370,0.000000,0.233445"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="1003.215210,48.546612,2732.906738" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.986286,0.000000,-0.165048"/>
@@ -2155,7 +2042,6 @@
 		<SceneMesh Name="log.3ds" CachedMeshId="5" Coords="Quaternion" Position="917.743225,52.784721,2760.509521" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.978148,0.000000,-0.207912"/>
 		<SceneMesh Name="log.3ds" CachedMeshId="5" Coords="Quaternion" Position="883.374146,52.897007,2745.335693" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.477159,0.000000,0.878817"/>
 		<SceneMesh Name="log.3ds" CachedMeshId="5" Coords="Quaternion" Position="845.928833,52.926544,2721.122559" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.965926,0.000000,0.258819"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="872.591370,52.393299,2762.718262" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.250380,0.000000,0.968148"/>
 		<SceneMesh Name="crates.3ds" CachedMeshId="29" Coords="Quaternion" Position="382.990021,63.662136,2195.921387" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.559193,0.000000,0.829038"/>
 		<SceneMesh Name="helipad.3ds" CachedMeshId="30" Coords="Quaternion" Position="370.679260,63.528831,2223.391113" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.559193,0.000000,0.829038"/>
 		<SceneMesh Name="container.3ds" CachedMeshId="28" Coords="Quaternion" Position="439.836823,63.584435,2226.492676" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.207912,0.000000,0.978148"/>
@@ -2471,28 +2357,22 @@
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="564.803894,29.548378,3844.317627" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.374607,0.000000,0.927184"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="412.145813,29.277451,3639.508545" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.829038,0.000000,0.559193"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="391.154999,29.277451,3619.913086" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.700909,0.000000,0.713250"/>
-		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="347.505371,29.455605,3575.249268" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.008726,0.000000,0.999962"/>
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="387.586029,29.361202,3596.360107" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.999848,0.000000,-0.017453"/>
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="364.644958,29.361202,3573.014160" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.199368,0.000000,0.979925"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="224.807968,32.766430,3419.390625" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.999391,0.000000,0.034900"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="615.142151,29.490034,3868.218994" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.515038,0.000000,0.857167"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="602.989685,29.381947,3849.912109" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.453990,0.000000,0.891007"/>
 		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="244.564499,33.394608,3422.326172" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.866025,0.000000,0.500000"/>
-		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="221.239059,36.067432,3395.837646" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.224951,0.000000,0.974370"/>
 		<SceneMesh Name="building.3ds" CachedMeshId="25" Coords="Quaternion" Position="593.551270,29.413715,3780.185791" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.891007,0.000000,0.453991"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="407.993530,29.277451,3579.644287" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.333807,0.000000,0.942642"/>
-		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="244.840256,36.283035,3399.684082" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.902585,0.000000,0.430511"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="363.989685,29.381947,3543.218750" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.559193,0.000000,0.829038"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="342.737579,29.356092,3522.636475" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.446198,0.000000,0.894934"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="312.053192,29.574060,3485.427246" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.309017,0.000000,0.951057"/>
-		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="218.116760,39.768154,3368.832031" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.165048,0.000000,0.986286"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="355.283630,29.277452,3524.203125" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.095846,0.000000,0.995396"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="338.409821,29.331795,3504.737549" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.713250,0.000000,-0.700909"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="264.470032,34.064495,3421.120605" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.147809,0.000000,0.989016"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="233.335129,41.049862,3363.151855" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.182235,0.000000,0.983255"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="648.414124,31.149845,3869.799561" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.981627,0.000000,0.190809"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="307.725433,30.204824,3467.528320" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.130526,0.000000,0.991445"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="224.051025,43.046417,3346.145508" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.998135,0.000000,0.061048"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="364.440979,29.416594,3510.101807" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.906308,0.000000,-0.422618"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="285.737488,33.857067,3424.270996" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.999391,0.000000,-0.034900"/>
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="260.447235,38.426212,3385.037598" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.760406,0.000000,0.649448"/>
@@ -2502,9 +2382,6 @@
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="360.113220,29.444332,3492.202881" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.829038,0.000000,0.559193"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="329.428833,30.931368,3454.993652" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.017453,0.000000,0.999848"/>
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="280.961548,36.312183,3400.747559" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.906308,0.000000,-0.422618"/>
-		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="266.426514,41.237556,3361.307129" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.587785,0.000000,0.809017"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="249.393524,42.745640,3349.935303" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.522499,0.000000,0.852640"/>
-		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="249.644592,45.355202,3326.709961" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.996195,0.000000,-0.087156"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="579.419312,29.312946,3756.038818" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.258819,0.000000,0.965926"/>
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="689.565063,30.368999,3878.929443" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.771624,0.000000,-0.636079"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="616.710144,29.354610,3794.787598" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.406737,0.000000,0.913545"/>
@@ -2520,14 +2397,11 @@
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="590.792419,29.312946,3750.091553" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.913545,0.000000,-0.406737"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="587.721863,29.312946,3745.302734" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.559193,0.000000,0.829038"/>
 		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="327.328430,33.719894,3417.899902" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.766044,0.000000,-0.642788"/>
-		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="265.686615,43.249523,3343.000732" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.788011,0.000000,0.615661"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="625.688721,29.354610,3782.936279" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.898794,0.000000,-0.438371"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="290.776672,39.233921,3374.159668" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.737277,0.000000,0.675590"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="270.520935,43.867722,3337.269043" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.267239,0.000000,0.963630"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="702.637939,32.089203,3859.344482" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.414693,0.000000,0.909961"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="595.070374,29.312946,3745.858887" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.430511,0.000000,0.902585"/>
 		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="358.012817,30.621132,3455.109131" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.622515,0.000000,0.782608"/>
-		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="260.255249,45.763306,3320.016602" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.507538,0.000000,0.861629"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="319.839172,36.963165,3384.533936" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.492423,0.000000,0.870356"/>
 		<SceneMesh Name="woodbarrel.3ds" CachedMeshId="14" Coords="Quaternion" Position="632.303589,29.346401,3776.659180" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.990268,0.000000,0.139173"/>
 		<SceneMesh Name="woodbarrel.3ds" CachedMeshId="14" Coords="Quaternion" Position="631.449036,29.346401,3772.004639" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.997564,0.000000,0.069756"/>
@@ -2539,10 +2413,8 @@
 		<SceneMesh Name="woodbarrel.3ds" CachedMeshId="14" Coords="Quaternion" Position="632.351196,29.346401,3764.759277" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.317305,0.000000,0.948324"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="616.365662,29.354610,3737.150391" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.788011,0.000000,-0.615661"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="314.823822,39.471447,3359.411865" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.978148,0.000000,-0.207912"/>
-		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="301.701263,42.017086,3342.442139" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.958820,0.000000,-0.284015"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="692.524719,31.730156,3810.959717" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.981627,0.000000,0.190809"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="613.747253,29.354610,3728.426025" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.573576,0.000000,0.819152"/>
-		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="291.507141,45.248890,3316.363037" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.675590,0.000000,0.737277"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="575.244690,29.277451,3650.644531" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.766045,0.000000,0.642787"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="713.852417,32.959755,3810.450928" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.461748,0.000000,0.887011"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="410.761536,29.670412,3460.754639" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.866025,0.000000,0.500000"/>
@@ -2555,21 +2427,17 @@
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="733.675659,32.955196,3820.089600" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.216440,0.000000,0.976296"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="601.946716,30.835632,3666.567383" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.743145,0.000000,0.669130"/>
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="571.675720,29.361202,3627.091553" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.993572,0.000000,-0.113204"/>
-		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="303.774567,44.211533,3319.495850" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.017452,0.000000,0.999848"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="444.617371,29.348207,3466.526855" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.997564,0.000000,0.069756"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="413.932983,30.723301,3429.317627" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.848048,0.000000,-0.529920"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="432.464935,29.736500,3448.219971" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.173648,0.000000,0.984808"/>
-		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="335.424011,40.436375,3331.069580" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.963630,0.000000,0.267238"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="753.543274,33.536808,3818.331543" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.087156,0.000000,0.996195"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="428.137177,30.306795,3430.321045" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.681998,0.000000,0.731354"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="401.780548,31.823631,3411.010742" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.250380,0.000000,0.968148"/>
-		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="333.143341,41.838013,3313.218262" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.898794,0.000000,-0.438371"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="571.092468,29.277451,3590.780273" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.656059,0.000000,0.754710"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="397.452789,32.772339,3393.111816" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.874620,0.000000,-0.484810"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="369.789490,35.469170,3365.058350" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.992546,0.000000,-0.121869"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="592.083252,29.277451,3610.375732" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.615661,0.000000,0.788011"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="365.461731,36.460411,3347.159424" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.882948,0.000000,0.469471"/>
-		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="317.100769,45.260986,3296.927490" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.121869,0.000000,0.992546"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="449.464935,29.857391,3429.812256" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.173648,0.000000,0.984808"/>
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="774.870972,34.906101,3817.822754" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.461749,0.000000,0.887011"/>
 		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="742.838135,30.626463,3787.561035" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.737277,0.000000,-0.675590"/>
@@ -2677,8 +2545,6 @@
 		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="637.690979,25.810896,3489.005615" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.675590,0.000000,0.737277"/>
 		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="717.022888,35.391495,3291.893555" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.788011,0.000000,0.615661"/>
 		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="719.762207,40.360519,3301.109619" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.406737,0.000000,0.913545"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="831.949402,39.129581,3283.337646" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.968148,0.000000,-0.250380"/>
-		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="826.962036,39.102005,3295.747803" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.382683,0.000000,0.923880"/>
 		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="748.587524,31.922268,3367.309326" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.350208,0.000000,0.936672"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="1047.553711,33.937477,3869.974854" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="1039.007202,35.784924,3871.370117" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
@@ -2759,44 +2625,32 @@
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2258.460693,55.696949,3297.023926" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.994522,0.000000,-0.104529"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2215.948730,55.672493,3300.973633" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.998630,0.000000,0.052336"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2357.461914,55.738613,3288.455078" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.788011,0.000000,-0.615661"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.359619,55.738613,3288.402832" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2202.139893,55.672493,3299.920898" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.998630,0.000000,0.052336"/>
 		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2015.867920,55.011021,3264.114502" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.130526,0.000000,0.991445"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2275.056641,55.696949,3292.083496" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.803857,0.000000,-0.594823"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.359619,55.738613,3291.393555" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2374.302002,55.738613,3283.093506" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.968148,0.000000,0.250380"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2364.547852,55.738613,3284.136719" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.113203,0.000000,0.993572"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.733887,55.738613,3281.554443" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2089.276611,55.551205,3278.354248" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="2350.631104,55.704693,3275.615479" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.754709,0.000000,-0.656059"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2276.722168,55.738613,3283.978760" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.559193,0.000000,0.829038"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2187.863770,55.672493,3298.595459" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.998630,0.000000,0.052336"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2253.707275,55.672493,3283.554688" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.688355,0.000000,0.725374"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2174.054932,55.672977,3297.542725" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.998630,0.000000,0.052336"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="2355.569580,55.704693,3266.090820" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.848048,0.000000,-0.529919"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.739990,55.738613,3274.906738" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.733887,55.738613,3284.545166" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2165.413574,55.675140,3289.684814" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.688355,0.000000,0.725374"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2380.253418,55.738613,3274.191650" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.991445,0.000000,0.130526"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2276.983643,55.738613,3275.901611" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.731354,0.000000,0.681998"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2387.481201,55.696949,3271.088135" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.965926,0.000000,0.258819"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="2366.085205,55.704693,3266.250000" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.974370,0.000000,0.224951"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2282.647949,55.696949,3274.087158" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.095846,0.000000,0.995396"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.833008,55.738613,3268.165039" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.739990,55.738613,3277.897461" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2148.520020,55.411285,3258.805664" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="container.3ds" CachedMeshId="28" Coords="Quaternion" Position="2335.632324,55.601860,3255.867188" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.999962,0.000000,0.008726"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2281.340332,55.696949,3269.740479" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.927184,0.000000,-0.374607"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.833008,55.738613,3271.155762" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2254.235596,55.672493,3269.305176" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.688355,0.000000,0.725374"/>
-		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="2383.072754,55.839607,3256.895508" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.358368,0.000000,0.933580"/>
-		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="2372.248535,55.839607,3256.218750" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.814116,0.000000,-0.580703"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2276.931152,55.738613,3264.841553" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.374607,0.000000,0.927184"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2166.091064,55.674969,3275.472900" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.688355,0.000000,0.725374"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2267.657715,55.738613,3263.680664" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="2350.693604,55.839607,3258.078125" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.731354,0.000000,-0.681998"/>
 		<SceneMesh Name="woodbarrel.3ds" CachedMeshId="14" Coords="Quaternion" Position="2274.589355,55.730408,3259.917725" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.358368,0.000000,0.933580"/>
-		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="2367.020020,55.839607,3247.848389" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.615661,0.000000,0.788011"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2269.438721,55.738613,3256.586426" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.917060,0.000000,-0.398749"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2346.290283,55.738613,3253.239258" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.594823,0.000000,0.803857"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2255.386230,55.672493,3255.506348" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.688355,0.000000,0.725374"/>
@@ -2843,10 +2697,6 @@
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2358.737793,55.738613,3132.075195" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.902585,0.000000,0.430511"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2364.154785,55.738613,3124.475830" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.406737,0.000000,0.913545"/>
 		<SceneMesh Name="log.3ds" CachedMeshId="5" Coords="Quaternion" Position="2363.386475,56.238186,3098.228760" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.981627,0.000000,-0.190809"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.359619,60.609104,3288.402832" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.733887,60.600735,3281.554443" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.739990,60.594082,3274.906738" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.833008,60.584042,3268.165039" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="1935.834717,24.325043,3092.286621" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.087156,0.000000,0.996195"/>
 		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2012.831543,36.344788,3099.699707" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.945519,0.000000,0.325568"/>
 		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="1673.590332,32.853653,3303.695068" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.309017,0.000000,0.951056"/>
@@ -2878,15 +2728,11 @@
 		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="2310.840576,52.016975,3021.741943" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.824126,0.000000,-0.566406"/>
 		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="2299.220215,52.151890,3033.129395" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.951056,0.000000,-0.309017"/>
 		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="2322.503174,52.016975,3036.818359" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.713250,0.000000,0.700909"/>
-		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="2888.600098,53.049400,2747.385498" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="2899.836670,54.230556,2776.917480" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3090.800293,52.626770,2622.310547" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3488.737061,43.596249,3065.145752" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3435.717529,51.845295,3095.107422" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3442.672852,52.733997,3132.332031" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="3448.665283,59.151718,3173.578613" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
-		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="444.712097,60.861740,2630.285156" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.414693,0.000000,0.909961"/>
-		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="460.626892,58.024632,2632.551758" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.008726,0.000000,0.999962"/>
 		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="529.289124,39.498905,2205.416748" Scale="1.000000,1.000000,1.000000" Quat="0.013991,1.648581,-0.154082,0.784205"/>
 		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="411.338928,51.979355,2135.450439" Scale="1.000000,1.000000,1.000000" Quat="0.000000,1.344592,0.000000,-0.378159"/>
 		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="441.690552,58.464470,2152.935303" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.180100,0.000000,1.006497"/>
@@ -2900,6 +2746,161 @@
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2178.260498,55.696949,3208.113281" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2182.631592,55.696949,3207.605957" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
 		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2188.117676,55.696949,3207.075195" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3577.873535,54.176189,1991.535034" Scale="1.000000,1.000000,1.000000" Quat="0.162724,0.679356,-0.257500,0.667601"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3605.878662,63.109558,2097.495605" Scale="1.000000,1.000000,1.000000" Quat="-0.043156,0.150013,-0.280276,0.947143"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3174.899902,74.613373,2528.375732" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.165048,0.000000,0.986286"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3230.240723,64.537758,2573.526855" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.414693,0.000000,0.909961"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="3133.312988,56.513794,2582.765625" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.754710,0.000000,0.656059"/>
+		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="3076.580811,66.532425,2523.421143" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.981627,0.000000,0.190809"/>
+		<SceneMesh Name="container.3ds" CachedMeshId="28" Coords="Quaternion" Position="3044.233643,55.609859,2597.436768" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.199368,0.000000,0.979925"/>
+		<SceneMesh Name="container.3ds" CachedMeshId="28" Coords="Quaternion" Position="3057.805664,55.609859,2602.770508" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.190809,0.000000,0.981627"/>
+		<SceneMesh Name="container.3ds" CachedMeshId="28" Coords="Quaternion" Position="3029.489014,55.609859,2592.718262" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.190809,0.000000,0.981627"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2422.957031,82.212311,2476.223145" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.887011,0.000000,-0.461749"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2544.778809,78.390648,2421.426758" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.990268,0.000000,-0.139173"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2655.100586,69.036407,2399.910889" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.737277,0.000000,0.675590"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2716.222412,100.015610,2342.263916" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.662620,0.000000,0.748956"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2880.255615,76.987007,2210.195312" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.992546,0.000000,-0.121869"/>
+		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2880.698242,85.119934,2146.643066" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.948324,0.000000,0.317305"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2892.172852,89.468239,2095.376953" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.891006,0.000000,-0.453991"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2926.966553,76.196518,2182.413818" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.978148,0.000000,0.207912"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2918.758301,79.185318,2088.762939" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.484810,0.000000,0.874620"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2963.557373,76.517441,2156.151855" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.766044,0.000000,0.642788"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2480.382812,85.309258,2442.742920" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.095846,0.000000,0.995396"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2507.905762,60.828148,2500.738770" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.121869,0.000000,0.992546"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2855.827393,75.023048,2290.802002" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.300706,0.000000,0.953717"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2908.346680,76.118980,2295.172852" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.250380,0.000000,0.968148"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2914.496826,76.189781,2231.556885" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.953717,0.000000,0.300706"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2422.595703,60.843433,2544.118652" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.078459,0.000000,0.996917"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2882.083008,74.323074,2336.674072" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.241922,0.000000,0.970296"/>
+		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2455.625977,61.935181,2520.587402" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.927184,0.000000,0.374607"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2609.695557,61.246498,2436.888184" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2436.154785,56.512756,2581.105469" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.843391,0.000000,0.537300"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2471.532959,55.969746,2603.824707" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.917060,0.000000,0.398749"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2500.751953,56.190277,2556.311523" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.573576,0.000000,0.819152"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2592.881104,56.275028,2493.281738" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.374607,0.000000,0.927184"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2645.016113,58.002552,2477.758301" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2685.643066,61.699421,2444.001709" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.675590,0.000000,0.737277"/>
+		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2806.229980,70.178589,2351.065186" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.945519,0.000000,0.325568"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2982.808838,76.061699,2314.763184" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.920505,0.000000,0.390731"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2532.247559,55.830090,2600.622559" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.669131,0.000000,0.743145"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2761.844727,66.462234,2425.805664" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.104528,0.000000,0.994522"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2824.629150,66.580421,2400.992432" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.636078,0.000000,0.771625"/>
+		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2727.879883,65.605820,2430.566650" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.250380,0.000000,0.968148"/>
+		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2575.514404,55.965904,2529.294434" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.284015,0.000000,0.958820"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2644.685791,56.190392,2532.455811" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.284015,0.000000,0.958820"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2782.269043,59.994019,2491.915771" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.838671,0.000000,0.544639"/>
+		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2855.503174,68.136086,2376.434570" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.087156,0.000000,0.996195"/>
+		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="3007.933594,76.691055,2280.877930" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.793353,0.000000,0.608761"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2613.332520,55.625443,2571.029785" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.333807,0.000000,0.942641"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2718.223877,59.963619,2484.347900" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.942642,0.000000,0.333807"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2744.610107,59.873596,2490.012695" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.515038,0.000000,0.857167"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2802.624756,62.730556,2448.485107" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.594823,0.000000,0.803857"/>
+		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2571.236084,55.661221,2576.212402" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.559193,0.000000,0.829038"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2653.867676,56.137997,2571.218262" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.719340,0.000000,0.694658"/>
+		<SceneMesh Name="tree4.3ds" CachedMeshId="24" Coords="Quaternion" Position="2723.365234,57.838665,2533.369141" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.930418,0.000000,0.366501"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2874.174561,62.381458,2440.143799" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.894934,0.000000,0.446198"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2682.042236,57.091827,2533.134033" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.995396,0.000000,0.095846"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2855.728516,60.490479,2466.623291" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.857167,0.000000,0.515038"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2958.725098,67.394142,2419.789307" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.573576,0.000000,0.819152"/>
+		<SceneMesh Name="tree3.3ds" CachedMeshId="23" Coords="Quaternion" Position="2827.253662,58.096790,2512.486572" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.390731,0.000000,0.920505"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2800.129150,57.363476,2538.536133" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.017452,0.000000,0.999848"/>
+		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2750.994873,57.515728,2538.497314" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.945519,0.000000,0.325568"/>
+		<SceneMesh Name="tree1.3ds" CachedMeshId="21" Coords="Quaternion" Position="2993.704346,70.112640,2429.505371" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.366501,0.000000,0.930418"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="2957.697998,61.190041,2467.927979" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.920505,0.000000,0.390731"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3020.099609,65.026932,2495.487793" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.522499,0.000000,0.852640"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="2899.836670,51.686787,2776.917480" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="2888.600098,53.303837,2747.385498" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="2350.631104,51.443871,3275.615479" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.754709,0.000000,-0.656059"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="2355.569580,51.443871,3266.090820" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.848048,0.000000,-0.529919"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="2366.085205,51.443871,3266.250000" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.974370,0.000000,0.224951"/>
+		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="2372.248535,51.578785,3256.218750" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.814116,0.000000,-0.580703"/>
+		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="2367.020020,51.578785,3247.848389" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.615661,0.000000,0.788011"/>
+		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="2383.072754,51.578785,3256.895508" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.358368,0.000000,0.933580"/>
+		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="2350.693604,52.946419,3258.078125" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.731354,0.000000,-0.681998"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2266.359619,55.738613,3291.393555" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2259.893799,55.738613,3288.402832" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2260.274170,55.738613,3274.906738" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2260.367188,55.738613,3268.165039" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2260.268066,55.738613,3281.554443" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2264.031738,60.584042,3268.165039" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2263.938721,60.594082,3274.906738" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2263.932617,60.600735,3281.554443" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2263.558350,60.609104,3288.402832" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="2416.236816,53.060707,3044.422852" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.999657,0.000000,-0.026177"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="1040.848145,45.323254,2701.004150" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.207912,0.000000,0.978148"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="872.591370,48.549129,2762.718262" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.250380,0.000000,0.968148"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="1205.383667,26.026779,3126.766357" Scale="2.412861,2.896492,2.490537" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="1149.995850,57.597527,2984.224365" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="335.424011,40.436375,3331.069580" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.963630,0.000000,0.267238"/>
+		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="301.701263,42.017086,3342.442139" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.958820,0.000000,-0.284015"/>
+		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="266.426514,41.237556,3361.307129" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.587785,0.000000,0.809017"/>
+		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="244.840256,36.283031,3399.684082" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.902585,0.000000,0.430511"/>
+		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="333.143341,41.838013,3313.218262" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.898794,0.000000,-0.438371"/>
+		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="221.239059,36.067432,3395.837646" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.224951,0.000000,0.974370"/>
+		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="327.711884,44.231140,3290.234131" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.017452,0.000000,0.999848"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="270.520935,43.867722,3337.269043" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.267239,0.000000,0.963630"/>
+		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="265.686615,43.249523,3343.000732" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.788011,0.000000,0.615661"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="233.335129,41.049862,3363.151855" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.182235,0.000000,0.983255"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="249.393524,42.745640,3349.935303" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.522499,0.000000,0.852640"/>
+		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="218.116760,39.768154,3368.832031" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.165048,0.000000,0.986286"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="275.509735,46.998974,3303.298584" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.984808,0.000000,-0.173648"/>
+		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="260.255249,45.763306,3320.016602" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.507538,0.000000,0.861629"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="328.604706,45.713703,3266.671631" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.833886,0.000000,0.551937"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="261.148041,48.504261,3296.454102" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.139173,0.000000,0.990268"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="224.051025,43.046417,3346.145508" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.998135,0.000000,0.061048"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="309.611572,48.144577,3263.561523" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.580703,0.000000,0.814116"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="208.053604,43.918217,3333.081055" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.972370,0.000000,-0.233445"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="305.050842,48.934425,3254.247803" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.207912,0.000000,0.978148"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="242.155350,49.251972,3293.343994" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.374606,0.000000,0.927184"/>
+		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="270.733795,49.450329,3279.775146" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.754710,0.000000,0.656059"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="237.594604,50.237293,3284.030273" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.902585,0.000000,0.430511"/>
+		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="203.277649,46.684948,3309.557617" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.923880,0.000000,0.382683"/>
+		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="306.058319,49.559998,3238.351807" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.848048,0.000000,-0.529919"/>
+		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="173.384216,43.878727,3316.603516" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.891006,0.000000,-0.453991"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="264.321106,52.498787,3247.403320" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.887011,0.000000,-0.461749"/>
+		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="191.907410,48.689976,3288.610840" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.917060,0.000000,-0.398749"/>
+		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="216.139328,52.873940,3253.807861" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.358368,0.000000,0.933580"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="158.863876,46.842373,3277.955811" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.374607,0.000000,0.927184"/>
+		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="241.721680,54.537445,3220.049805" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.069756,0.000000,0.997564"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="277.799194,52.763855,3199.929199" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.933580,0.000000,-0.358368"/>
+		<SceneMesh Name="palm3.3ds" CachedMeshId="19" Coords="Quaternion" Position="178.318787,50.146366,3245.097900" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.996195,0.000000,0.087156"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="207.954712,52.589802,3214.070801" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.608761,0.000000,0.793353"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="150.130234,46.948360,3238.704590" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.537300,0.000000,0.843391"/>
+		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="245.405029,54.451160,3171.082764" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.989016,0.000000,0.147809"/>
+		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="169.913544,48.314114,3188.233154" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.382683,0.000000,0.923880"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="211.796707,50.653641,3165.381592" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.078459,0.000000,0.996917"/>
+		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="185.677322,45.355198,3253.423828" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.996195,0.000000,-0.087156"/>
+		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="239.807373,44.211533,3246.209717" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.017452,0.000000,0.999848"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="227.539886,45.248890,3243.076904" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.675590,0.000000,0.737277"/>
+		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="253.133530,45.260986,3223.641357" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.121869,0.000000,0.992546"/>
+		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="170.369583,48.441322,3228.067627" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.675591,0.000000,0.737277"/>
+		<SceneMesh Name="palm4.3ds" CachedMeshId="20" Coords="Quaternion" Position="246.777374,55.002773,3175.910645" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.113203,0.000000,0.993572"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="295.713806,51.350071,3210.006104" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.438371,0.000000,0.898794"/>
+		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="293.327484,46.894539,3295.369873" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.406737,0.000000,0.913545"/>
+		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="347.505371,26.567408,3575.249268" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.008726,0.000000,0.999962"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="831.949402,37.945854,3283.337646" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.968148,0.000000,-0.250380"/>
+		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="826.962036,36.675766,3295.747803" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.382683,0.000000,0.923880"/>
+		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="942.778137,37.329521,3223.106445" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.233445,0.000000,0.972370"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="970.491089,36.457836,3208.381104" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.766044,0.000000,-0.642788"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="444.712097,58.519730,2630.285156" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.414693,0.000000,0.909961"/>
+		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="460.626892,55.682617,2632.551758" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.008726,0.000000,0.999962"/>
+		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="3081.763672,151.483719,1765.459839" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.688355,0.000000,0.725374"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="3089.004883,152.376709,1760.432007" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="3100.344482,152.938660,1756.442993" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="3114.464355,154.162811,1749.281494" Scale="1.000000,1.000000,1.000000" Quat="0.039871,-0.706375,-0.021940,0.706374"/>
+		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="3051.635986,155.899368,1752.581543" Scale="1.000000,1.000000,1.000000" Quat="0.036863,-0.072068,-0.067402,0.994437"/>
+		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="3065.870850,153.682297,1754.562866" Scale="1.000000,1.000000,1.000000" Quat="0.037490,-0.071744,-0.076077,0.993811"/>
+		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="3051.635986,155.899368,1752.581543" Scale="1.000000,1.000000,1.000000" Quat="0.036863,-0.072068,-0.067402,0.994437"/>
+		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="3382.191895,156.310608,1462.377808" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.139173,0.000000,0.990268"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3559.905029,104.787712,1393.642456" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.782608,0.000000,0.622515"/>
+		<SceneMesh Name="tree2.3ds" CachedMeshId="22" Coords="Quaternion" Position="3534.388672,88.063522,1345.477661" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.580703,0.000000,0.814116"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3373.330811,156.193405,1480.305420" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3688.713867,101.643013,1743.977173" Scale="1.000000,1.000000,1.000000" Quat="0.164510,0.000000,-0.032429,0.985842"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3709.941650,103.961182,1737.361938" Scale="1.000000,1.000000,1.000000" Quat="0.164510,0.000000,-0.032429,0.985842"/>
+		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="3723.809570,107.684570,1729.736206" Scale="1.000000,1.000000,1.000000" Quat="0.167118,0.000000,0.012954,0.985852"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3819.593018,126.569946,1722.375610" Scale="1.000000,1.000000,1.000000" Quat="0.077053,0.000000,0.099352,0.992065"/>
+		<SceneMesh Name="stones2.3ds" CachedMeshId="32" Coords="Quaternion" Position="3839.376709,128.619568,1726.131348" Scale="1.000000,1.000000,1.000000" Quat="0.077053,0.000000,0.099352,0.992065"/>
+		<SceneMesh Name="stones1.3ds" CachedMeshId="31" Coords="Quaternion" Position="3860.881348,129.372818,1722.106934" Scale="1.000000,1.000000,1.000000" Quat="0.045104,-0.000000,0.038607,0.998236"/>
 	</SceneLayer>
 	<SceneLayer Name="vegetation" Count="75" DrawDistance="0.000000">
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="393.967957,49.133366,556.133484" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.000000,0.000000,1.000000"/>
@@ -2978,70 +2979,15 @@
 		<SceneMesh Name="palm1.3ds" CachedMeshId="17" Coords="Quaternion" Position="806.447144,35.158707,881.226868" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.961262,0.000000,0.275637"/>
 		<SceneMesh Name="palm2.3ds" CachedMeshId="18" Coords="Quaternion" Position="777.802551,35.191566,915.192749" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.754710,0.000000,0.656059"/>
 	</SceneLayer>
-	<SceneLayer Name="items" Count="84" DrawDistance="0.000000">
-		<SceneMesh Name="watchtower.3ds" CachedMeshId="13" Coords="Quaternion" Position="2938.385742,65.139206,2527.806396" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.522499,0.000000,0.852640"/>
-		<SceneMesh Name="watchtower.3ds" CachedMeshId="13" Coords="Quaternion" Position="2878.696289,55.865944,2699.072266" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.894935,0.000000,-0.446199"/>
-		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2872.606445,55.532475,2676.694336" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.390731,0.000000,0.920505"/>
-		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2855.782715,55.545258,2692.314697" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.182236,0.000000,0.983255"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2892.612793,55.683647,2666.276367" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.898794,0.000000,-0.438371"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2900.823730,55.763374,2655.579346" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.350207,0.000000,0.936672"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2911.008789,55.959641,2647.109131" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.325568,0.000000,0.945519"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2923.135498,55.964474,2639.806885" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.182236,0.000000,0.983255"/>
-		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2942.692871,55.829441,2636.446533" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.529920,0.000000,0.848048"/>
+	<SceneLayer Name="items" Count="74" DrawDistance="0.000000">
+		<SceneMesh Name="watchtower.3ds" CachedMeshId="13" Coords="Quaternion" Position="2938.385742,55.849220,2527.806396" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.522499,0.000000,0.852640"/>
+		<SceneMesh Name="watchtower.3ds" CachedMeshId="13" Coords="Quaternion" Position="2938.385742,55.849220,2527.806396" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.522499,0.000000,0.852640"/>
 		<SceneMesh Name="tent.3ds" CachedMeshId="12" Coords="Quaternion" Position="3153.826416,56.982449,2911.165039" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.978148,0.000000,0.207912"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2953.175781,64.247566,2574.270020" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.267239,0.000000,0.963631"/>
 		<SceneMesh Name="tent.3ds" CachedMeshId="12" Coords="Quaternion" Position="3205.183105,56.395947,2936.125732" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.983255,0.000000,0.182236"/>
 		<SceneMesh Name="tent.3ds" CachedMeshId="12" Coords="Quaternion" Position="3261.464600,56.361771,2960.252197" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.987689,0.000000,0.156435"/>
 		<SceneMesh Name="log.3ds" CachedMeshId="5" Coords="Quaternion" Position="3113.771484,59.114124,2903.546387" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.923880,0.000000,0.382683"/>
-		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2862.427002,55.562317,2713.714111" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.662620,0.000000,0.748956"/>
-		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2879.293213,55.705772,2688.823730" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.258819,0.000000,0.965926"/>
-		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2873.917480,55.707443,2689.297363" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.945519,0.000000,0.325568"/>
-		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2882.863281,57.570892,2684.043701" Scale="1.000000,1.000000,1.000000" Quat="0.444009,0.000000,-0.436328,-0.548539"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2870.622803,55.765266,2706.656494" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.580703,0.000000,0.814116"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2862.499512,55.758827,2698.450195" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.948324,0.000000,0.317305"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2888.754639,55.749161,2675.748047" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.453991,0.000000,0.891007"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2938.740234,55.754356,2657.021240" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.469472,0.000000,0.882948"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2933.868408,55.752991,2662.488037" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.366501,0.000000,0.930418"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2936.874756,60.808685,2659.255127" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.317305,0.000000,0.948324"/>
-		<SceneMesh Name="woodbarrel.3ds" CachedMeshId="14" Coords="Quaternion" Position="2927.194092,55.746143,2665.332275" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.951057,0.000000,0.309017"/>
-		<SceneMesh Name="woodbarrel.3ds" CachedMeshId="14" Coords="Quaternion" Position="2928.376953,55.747646,2659.327637" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.991445,0.000000,0.130526"/>
-		<SceneMesh Name="woodbarrel.3ds" CachedMeshId="14" Coords="Quaternion" Position="2925.437500,55.744720,2671.030273" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.987688,0.000000,0.156434"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2914.677734,55.749847,2675.056641" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.681998,0.000000,0.731354"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2907.652344,55.749947,2674.657715" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.999657,0.000000,0.026177"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2911.309814,55.747093,2686.083252" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.233445,0.000000,0.972370"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2903.003906,55.748451,2680.652344" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.350207,0.000000,0.936672"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2912.364990,60.751556,2674.612305" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.993572,0.000000,0.113203"/>
-		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2910.265625,55.709709,2668.960693" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.737277,0.000000,0.675590"/>
-		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2901.629639,55.708435,2674.047363" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.948324,0.000000,0.317305"/>
-		<SceneMesh Name="log.3ds" CachedMeshId="5" Coords="Quaternion" Position="2869.752930,56.452797,2743.281738" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.754710,0.000000,0.656059"/>
 		<SceneMesh Name="log.3ds" CachedMeshId="5" Coords="Quaternion" Position="2880.769531,57.514114,2770.658691" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.887011,0.000000,0.461749"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2937.029053,65.118256,2500.246826" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.793353,0.000000,0.608761"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2930.994141,65.099960,2506.958252" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.866025,0.000000,0.500000"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2934.059814,70.319672,2503.504639" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.267238,0.000000,0.963630"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2933.419678,65.075462,2515.265137" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.782608,0.000000,0.622515"/>
-		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2916.098389,64.845924,2512.847656" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.061049,0.000000,0.998135"/>
-		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2930.151123,64.983253,2534.578857" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.492424,0.000000,0.870356"/>
-		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2938.444580,64.965439,2537.114014" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.325568,0.000000,0.945519"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2908.888184,64.968246,2531.262939" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.675591,0.000000,0.737277"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2937.174072,64.919022,2555.555176" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.069756,0.000000,0.997564"/>
-		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2913.575439,64.785324,2548.346680" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.573577,0.000000,0.819152"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2927.078369,64.975113,2550.900146" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.537300,0.000000,0.843391"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2928.882812,64.865028,2560.115479" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.267238,0.000000,0.963631"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2940.922607,64.633774,2567.181641" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.250380,0.000000,0.968148"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2937.029053,65.118256,2500.246826" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.793353,0.000000,0.608761"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2930.994141,65.099960,2506.958252" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.866025,0.000000,0.500000"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2934.059814,70.319672,2503.504639" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.267238,0.000000,0.963630"/>
-		<SceneMesh Name="watchtower.3ds" CachedMeshId="13" Coords="Quaternion" Position="2938.385742,65.139206,2527.806396" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.522499,0.000000,0.852640"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2933.419678,65.075462,2515.265137" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.782608,0.000000,0.622515"/>
-		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2916.098389,64.845924,2512.847656" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.061049,0.000000,0.998135"/>
-		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2930.151123,64.983253,2534.578857" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.492424,0.000000,0.870356"/>
-		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2938.444580,64.965439,2537.114014" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.325568,0.000000,0.945519"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2908.888184,64.968246,2531.262939" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.675591,0.000000,0.737277"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2937.174072,64.919022,2555.555176" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.069756,0.000000,0.997564"/>
-		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2913.575439,64.785324,2548.346680" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.573577,0.000000,0.819152"/>
-		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2927.078369,64.975113,2550.900146" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.537300,0.000000,0.843391"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2928.882812,64.865028,2560.115479" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.267238,0.000000,0.963631"/>
-		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2940.922607,64.633774,2567.181641" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.250380,0.000000,0.968148"/>
+		<SceneMesh Name="watchtower.3ds" CachedMeshId="13" Coords="Quaternion" Position="2938.385742,55.849220,2527.806396" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.522499,0.000000,0.852640"/>
 		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2150.587402,55.520981,3112.488037" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.292372,0.000000,0.956305"/>
 		<SceneMesh Name="log.3ds" CachedMeshId="5" Coords="Quaternion" Position="2981.250488,56.360111,2763.915527" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.994522,0.000000,0.104528"/>
 		<SceneMesh Name="log.3ds" CachedMeshId="5" Coords="Quaternion" Position="2933.045898,56.343052,2744.270508" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.587785,0.000000,0.809017"/>
@@ -3063,6 +3009,60 @@
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2578.038818,60.648693,3332.039307" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.999658,0.000000,0.026177"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2581.007568,55.548965,3328.781494" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.951056,0.000000,-0.309017"/>
 		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2144.257812,60.690483,3138.208252" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.999658,0.000000,0.026177"/>
+		<SceneMesh Name="watchtower.3ds" CachedMeshId="13" Coords="Quaternion" Position="2938.385742,55.849220,2527.806396" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.522499,0.000000,0.852640"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2937.029053,55.746613,2500.246826" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.793353,0.000000,0.608761"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2930.994141,55.746613,2506.958252" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.866025,0.000000,0.500000"/>
+		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2953.175781,55.680496,2574.270020" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.267239,0.000000,0.963631"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2937.174072,55.746613,2555.555176" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.069756,0.000000,0.997564"/>
+		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2940.922607,55.680496,2567.181641" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.250380,0.000000,0.968148"/>
+		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2928.882812,55.680496,2560.115479" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.267238,0.000000,0.963631"/>
+		<SceneMesh Name="watchtower.3ds" CachedMeshId="13" Coords="Quaternion" Position="2878.696289,55.849220,2699.072266" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.894935,0.000000,-0.446199"/>
+		<SceneMesh Name="log.3ds" CachedMeshId="5" Coords="Quaternion" Position="2869.752930,56.246185,2743.281738" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.754710,0.000000,0.656059"/>
+		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2862.427002,55.530624,2713.714111" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.662620,0.000000,0.748956"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2911.309814,55.746613,2686.083252" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.233445,0.000000,0.972370"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2870.622803,55.746613,2706.656494" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.580703,0.000000,0.814116"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2903.003906,55.746613,2680.652344" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.350207,0.000000,0.936672"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2862.499512,55.746613,2698.450195" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.948324,0.000000,0.317305"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2933.868408,55.746613,2662.488037" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.366501,0.000000,0.930418"/>
+		<SceneMesh Name="woodbarrel.3ds" CachedMeshId="14" Coords="Quaternion" Position="2925.437500,55.738403,2671.030273" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.987688,0.000000,0.156434"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2907.652344,55.746613,2674.657715" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.999657,0.000000,0.026177"/>
+		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2879.293213,55.704948,2688.823730" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.258819,0.000000,0.965926"/>
+		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2873.917480,55.704948,2689.297363" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.945519,0.000000,0.325568"/>
+		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2855.782715,55.530624,2692.314697" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.182236,0.000000,0.983255"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2938.740234,55.746613,2657.021240" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.469472,0.000000,0.882948"/>
+		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2910.265625,55.704948,2668.960693" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.737277,0.000000,0.675590"/>
+		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2901.629639,55.704948,2674.047363" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.948324,0.000000,0.317305"/>
+		<SceneMesh Name="woodbarrel.3ds" CachedMeshId="14" Coords="Quaternion" Position="2927.194092,55.738407,2665.332275" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.951057,0.000000,0.309017"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2888.754639,55.746613,2675.748047" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.453991,0.000000,0.891007"/>
+		<SceneMesh Name="woodbarrel.3ds" CachedMeshId="14" Coords="Quaternion" Position="2928.376953,55.738407,2659.327637" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.991445,0.000000,0.130526"/>
+		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2882.863281,57.687817,2684.043701" Scale="1.000000,1.000000,1.000000" Quat="0.444009,-NAN,-0.436328,-0.548539"/>
+		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2892.612793,55.680492,2666.276367" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.898794,0.000000,-0.438371"/>
+		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2872.606445,55.530624,2676.694336" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.390731,0.000000,0.920505"/>
+		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2942.692871,55.530624,2636.446533" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.529920,0.000000,0.848048"/>
+		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2900.823730,55.680492,2655.579346" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.350207,0.000000,0.936672"/>
+		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2911.008789,55.680492,2647.109131" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.325568,0.000000,0.945519"/>
+		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2923.135498,55.680492,2639.806885" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.182236,0.000000,0.983255"/>
+		<SceneMesh Name="watchtower.3ds" CachedMeshId="13" Coords="Quaternion" Position="2938.385742,55.849220,2527.806396" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.522499,0.000000,0.852640"/>
+		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2916.098389,55.530624,2512.847656" Scale="1.000000,1.000000,1.000000" Quat="0.000000,-0.061049,0.000000,0.998135"/>
+		<SceneMesh Name="fence.3ds" CachedMeshId="6" Coords="Quaternion" Position="2908.888184,55.678825,2531.262939" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.675591,0.000000,0.737277"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2933.419678,55.746613,2515.265137" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.782608,0.000000,0.622515"/>
+		<SceneMesh Name="sandbags.3ds" CachedMeshId="11" Coords="Quaternion" Position="2913.575439,55.530624,2548.346680" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.573577,0.000000,0.819152"/>
+		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2930.151123,55.704948,2534.578857" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.492424,0.000000,0.870356"/>
+		<SceneMesh Name="metalbarrel.3ds" CachedMeshId="7" Coords="Quaternion" Position="2938.444580,55.704948,2537.114014" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.325568,0.000000,0.945519"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2927.078369,55.746613,2550.900146" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.537300,0.000000,0.843391"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2936.874756,60.694168,2659.255127" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.317305,0.000000,0.948324"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2912.364990,60.753178,2674.612305" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.993572,0.000000,0.113203"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2914.677734,55.746613,2675.056641" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.681998,0.000000,0.731354"/>
+		<SceneMesh Name="crate.3ds" CachedMeshId="4" Coords="Quaternion" Position="2934.059814,60.766968,2503.504639" Scale="1.000000,1.000000,1.000000" Quat="0.000000,0.267238,0.000000,0.963630"/>
 	</SceneLayer>
 </SceneLayers>
+<EntityTypes Count="0">
+</EntityTypes>
+<Entities Count="0">
+</Entities>
+<Skymesh Type="SkyBox" Radius="5.000000" Position="2.500000,0.000000,2.500000" Scale="1.000000,1.000000,1.000000" TexUp="/textures/up.jpg" TexDown="/textures/down.jpg" TexFront="/textures/south.jpg" TexBack="/textures/north.jpg" TexLeft="/textures/east.jpg" TexRight="/textures/west.jpg"/>
+<Water Height="20.000000" Transparency="1.000000" Color="65090.000000,65025.000000,255.000000" MixColor="0.000000" Texture="-1" ScaleU="1.000000" ScaleV="1.000000" Reflections="True" ReflectTerrain="True" ReflectSky="True" ReflectMeshes="True"/>
+<Roads Filename="/roads/road.txt"/>
+<Vegetation count="0">
+</Vegetation>
 </Freeworld3D>
