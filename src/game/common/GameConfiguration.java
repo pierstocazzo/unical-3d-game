@@ -35,72 +35,49 @@ public class GameConfiguration {
 	/**
 	 * Default Values
 	 */
-	static HashMap< String, Value > defaultValues;
+	static HashMap< String, String > defaultValues = new HashMap<String, String>();
+	static {
+		defaultValues.put( "run_key", String.valueOf( KeyInput.KEY_LSHIFT ) ); 
+		defaultValues.put( "forward_key", String.valueOf( KeyInput.KEY_W ) );
+		defaultValues.put( "backward_key", String.valueOf( KeyInput.KEY_S ) );
+		defaultValues.put( "straferight_key", String.valueOf( KeyInput.KEY_D ) );
+		defaultValues.put( "strafeleft_key", String.valueOf( KeyInput.KEY_A ) );
+		defaultValues.put( "pause_key", String.valueOf( KeyInput.KEY_P ) ); 
+		
+		// Resolution
+		defaultValues.put( "resolution_width", "1024" );
+		defaultValues.put( "resolution_height", "768" );
+		
+		if( System.getProperties().getProperty("os.name").equals( "Linux" ) ) {
+			defaultValues.put( "resolution_depth", "24" );
+			defaultValues.put( "resolution_frequency", "50" );
+		} else {
+			defaultValues.put( "resolution_depth", "32" );
+			defaultValues.put( "resolution_frequency", "60" );
+		}
+		
+		defaultValues.put( "is_fullscreen", "false" );
+		
+		// Sound
+		defaultValues.put( "sound_enabled", "false" );
+		
+		//XML path scene file
+		defaultValues.put( "scene_file_path", "src/game/data/level/island.xml" );
+	}
 	
 	/**
 	 * User defined values
 	 */
-	static HashMap< String, Value > values;
+	static HashMap< String, String > values;
 	
 	public static void init() {
-		/* Initialize default values */
-		initializeDefaultValues();
+		values = new HashMap< String, String >();
+		values.putAll(defaultValues);
 		
 		/**
 		 * Load user defined values from XML file setting 
 		 */
 		load();
-	}
-	
-	public static void initializeDefaultValues() {
-		/**
-		 * Let's create new HashMaps!
-		 */
-		defaultValues = new HashMap< String, Value >();
-		
-		/**
-		 * ### INTEGER VALUES ###
-		 */
-		
-		// Keyboard
-		defaultValues.put( "run_key", new Value(KeyInput.KEY_LSHIFT) ); 
-		defaultValues.put( "forward_key", new Value(KeyInput.KEY_W) );
-		defaultValues.put( "backward_key", new Value(KeyInput.KEY_S) );
-		defaultValues.put( "straferight_key", new Value(KeyInput.KEY_D) );
-		defaultValues.put( "strafeleft_key", new Value(KeyInput.KEY_A) );
-		defaultValues.put( "pause_key", new Value(KeyInput.KEY_P) ); 
-		
-		// Resolution
-		defaultValues.put( "resolution_width", new Value(1280) );
-		defaultValues.put( "resolution_height", new Value(800) );
-		defaultValues.put( "resolution_depth", new Value(16) );
-		defaultValues.put( "resolution_frequency", new Value(50) );
-		
-		/**
-		 * ### BOOLEAN VALUES ###
-		 */
-		
-		// Resolution
-		defaultValues.put( "is_fullscreen", new Value(false) );
-		
-		// Sound
-		defaultValues.put( "sound_enabled", new Value(false) );
-		
-		//XML path scene file
-		defaultValues.put( "scene_file_path", new Value("src/game/data/level/island.xml") );
-		
-		/**
-		 * ### STRING VALUES ###
-		 */
-		
-		// Phrases
-		// TODO
-		
-		/**
-		 * Set actual values as default values
-		 */
-		values = new HashMap< String, Value >();
-		values.putAll(defaultValues);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -115,21 +92,8 @@ public class GameConfiguration {
 			for( Iterator<Element> it = root.getChildren().iterator(); it.hasNext();  ) {
 				Element element = it.next();
 				Attribute name = element.getAttribute("name");
-				Attribute type = element.getAttribute("type");
-				
-				/**
-				 * Check the correct type of setting
-				 */
-				if ( type.getValue().equals("integer") ) {
-					// Is an Integer
-					values.put( name.getValue(), new Value( Integer.valueOf(element.getText()) ) );
-				} else if ( type.getValue().contains("boolean") ) {
-					// Is a Boolean
-					values.put( name.getValue(), new Value( Boolean.valueOf(element.getText()) ) );
-				} else {
-					// Is a String
-					values.put( name.getValue(), new Value(element.getText().toString()) );
-				}
+
+				values.put( name.getValue(), element.getText() );
 			}
 		} catch (Exception e) {
 			Logger.getAnonymousLogger().log( Level.SEVERE, 
@@ -149,19 +113,7 @@ public class GameConfiguration {
 			for( String key : values.keySet() ) {
 				Element item = new Element( "item" );
 				item.setAttribute("name", key);
-				/**
-				 * Check for the correct element type
-				 */
-				if ( values.get(key).integerValue != null ) {
-					item.setAttribute("type", "integer");
-					item.setText( values.get(key).integerValue.toString() );
-				} else if ( values.get(key).booleanValue != null ) {
-					item.setAttribute("type", "boolean");
-					item.setText( values.get(key).booleanValue.toString() );
-				} else {
-					item.setAttribute("type", "string");
-					item.setText( values.get(key).stringValue );
-				}
+				item.setText( values.get(key) );
 				root.addContent(item);
 			}
 			
@@ -175,192 +127,158 @@ public class GameConfiguration {
 	}
 	
 	public static String getBackwardKey() {
-		return KeyConverter.toString(values.get( "backward_key" ).integerValue);
+		return values.get( "backward_key" );
 	}
 
 	public static String getDefaultBackwardKey() {
-		return KeyConverter.toString(defaultValues.get( "backward_key" ).integerValue);
+		return defaultValues.get( "backward_key" );
 	}
 
 	public static String getDefaultForwardKey() {
-		return KeyConverter.toString(defaultValues.get( "forward_key" ).integerValue);
+		return defaultValues.get( "forward_key" );
 	}
 
 	public static String getDefaultIsFullscreen() {
-		if ( defaultValues.get( "is_fullscreen" ).booleanValue )
-			return "YES";
-		return "NO";
+		return defaultValues.get( "is_fullscreen" );
 	}
 
 	public static String getDefaultPauseKey() {
-		return KeyConverter.toString(defaultValues.get( "pause_key" ).integerValue);
+		return defaultValues.get( "pause_key" );
 	}
 
 	public static String getDefaultResolutionHeight() {
-		return defaultValues.get( "resolution_height" ).stringValue;
+		return defaultValues.get( "resolution_height" );
 	}
 
 	public static String getDefaultResolutionWidth() {
-		return defaultValues.get( "resolution_width" ).stringValue;
+		return defaultValues.get( "resolution_width" );
 	}
 
 	public static String getDefaultRunKey() {
-		return KeyConverter.toString(defaultValues.get( "run_key" ).integerValue);
+		return defaultValues.get( "run_key" );
 	}
 
 	public static String getDefaultSoundEnabled() {
-		if ( defaultValues.get( "sound_enabled" ).booleanValue )
-			return "YES";
-		return "NO";
+		return defaultValues.get( "sound_enabled" );
 	}
 
 	public static String getDefaultStrafeLeftKey() {
-		return KeyConverter.toString(defaultValues.get( "strafeleft_key" ).integerValue);
+		return defaultValues.get( "strafeleft_key" );
 	}
 
 	public static String getDefaultStrafeRightKey() {
-		return KeyConverter.toString(defaultValues.get( "straferight_key" ).integerValue);
+		return defaultValues.get( "straferight_key" );
 	}
 
 	public static String getForwardKey() {
-		return KeyConverter.toString(values.get( "forward_key" ).integerValue);
+		return values.get( "forward_key" );
 	}
 
 	public static String getPauseKey() {
-		return KeyConverter.toString(values.get( "pause_key" ).integerValue);
+		return values.get( "pause_key" );
 	}
 
 	public static String getResolutionHeight() {
-		return values.get( "resolution_height" ).stringValue;
+		return values.get( "resolution_height" );
 	}
 
 	public static String getResolutionWidth() {
-		return values.get( "resolution_width" ).stringValue;
+		return values.get( "resolution_width" );
 	}
 
 	public static String getRunKey() {
-		return KeyConverter.toString(values.get( "run_key" ).integerValue);
+		return values.get( "run_key" );
 	}
 
 	public static String getStrafeLeftKey() {
-		return KeyConverter.toString(values.get( "strafeleft_key" ).integerValue);
+		return values.get( "strafeleft_key" );
 	}
 
 	public static String getStrafeRightKey() {
-		return KeyConverter.toString(values.get( "straferight_key" ).integerValue);
+		return values.get( "straferight_key" );
 	}
 
 	public static String isFullscreen() {
-		return String.valueOf(values.get( "is_fullscreen" ).booleanValue);
+		return values.get( "is_fullscreen" );
 	}
 
 	public static String isSoundEnabled() {
-		return String.valueOf(values.get( "sound_enabled" ).booleanValue );
+		return values.get( "sound_enabled" );
 	}
 
-	public static void setBackwardKey(String value) {
-		values.put( "backward_key", new Value(KeyConverter.toKey(value)) );
+	public static void setBackwardKey( String value ) {
+		values.put( "backward_key", value );
 	}
 
 	public static void setForwardKey(String value) {
-		values.put( "forward_key", new Value(KeyConverter.toKey(value)) );
+		values.put( "forward_key", value );
 	}
 
 	public static void setFullscreen(String value) {
-		values.put( "is_fullscreen", new Value(Boolean.valueOf( value )) );
+		values.put( "is_fullscreen", value );
 	}
 
 	public static void setPauseKey(String value) {
-		values.put( "pause_key", new Value(KeyConverter.toKey(value)) );
+		values.put( "pause_key", value );
 	}
 
 	public static void setResolutionHeight(String value) {
-		values.put( "resolution_height", new Value( value ) );
+		values.put( "resolution_height", value );
 	}
 
 	public static void setResolutionWidth(String value) {
-		values.put( "resolution_width", new Value( value ) );
+		values.put( "resolution_width", value );
 	}
 
 	public static void setRunKey(String value) {
-		values.put( "run_key", new Value(KeyConverter.toKey(value)) );
+		values.put( "run_key", value );
 	}
 
 	public static void setSoundEnabled(String value) {
-		values.put( "sound_enabled", new Value(Boolean.valueOf( value )) );
+		values.put( "sound_enabled", value );
 	}
 
 	public static void setStrafeLeftKey(String value) {
-		values.put( "strafeleft_key", new Value(KeyConverter.toKey(value)) );
+		values.put( "strafeleft_key", value );
 	}
 
 	public static void setStrafeRightKey(String value) {
-		values.put( "straferight_key", new Value(KeyConverter.toKey(value)) );
+		values.put( "straferight_key", value );
 	}
 
 	public static String getDefaultResolutionDepth() {
-		return defaultValues.get( "resolution_depth" ).stringValue;
+		return defaultValues.get( "resolution_depth" );
 	}
 
 	public static String getDefaultResolutionFrequency() {
-		return defaultValues.get( "resolution_frequency" ).stringValue;
+		return defaultValues.get( "resolution_frequency" );
 	}
 
 	public static String getResolutionDepth() {
-		return values.get( "resolution_depth" ).stringValue;
+		return values.get( "resolution_depth" );
 	}
 
 	public static String getResolutionFrequency() {
-		return values.get( "resolution_frequency" ).stringValue;
+		return values.get( "resolution_frequency" );
 	}
 
 	public static void setResolutionDepth(String value) {
-		values.put("resolution_depth", new Value(value));
+		values.put("resolution_depth", value );
 	}
 
 	public static void setResolutionFrequency(String value) {
-		values.put("resolution_frequency", new Value(value));
+		values.put("resolution_frequency", value );
 	}
 	
 	public static String getDefaultSceneFilePath() {
-		return defaultValues.get( "scene_file_path" ).stringValue;
+		return defaultValues.get( "scene_file_path" );
 	}
 	
 	public static String getSceneFilePath() {
-		return values.get( "scene_file_path" ).stringValue;
+		return values.get( "scene_file_path" );
 	}
 	
 	public static void setSceneFilePath( String path ) {
-		values.put( "scene_file_path", new Value( path ) );
+		values.put( "scene_file_path", path );
 	}
-	
-	/**
-	 * A generic value(Integer|Boolean|String) container
-	 * 
-	 * @author Giuseppe Leone
-	 */
-	public static class Value {
-		Integer integerValue;
-		Boolean booleanValue;
-		String stringValue;
-		
-		public Value( Integer value ) {
-			this.integerValue = value;
-			this.booleanValue = null;
-			this.stringValue = null;
-		}
-		
-		public Value( Boolean value ) {
-			this.integerValue = null;
-			this.booleanValue = value;
-			this.stringValue = null;
-		}
-		
-		public Value( String value ) {
-			this.integerValue = null;
-			this.booleanValue = null;
-			this.stringValue = value;
-		}
-	}
-
 }

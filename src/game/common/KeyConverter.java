@@ -68,69 +68,7 @@ public class KeyConverter {
 		stringKeyList.put( "Z", KeyInput.KEY_Z );	
 	}
 	
-	public final static HashMap<Integer,String> keyStringList = new HashMap<Integer, String>();
-	static {
-		keyStringList.put( KeyInput.KEY_0, "0" );
-		keyStringList.put( KeyInput.KEY_1, "1" );
-		keyStringList.put( KeyInput.KEY_2, "2" );
-		keyStringList.put( KeyInput.KEY_3, "3" );
-		keyStringList.put( KeyInput.KEY_4, "4" );
-		keyStringList.put( KeyInput.KEY_5, "5" );
-		keyStringList.put( KeyInput.KEY_6, "6" );
-		keyStringList.put( KeyInput.KEY_7, "7" );
-		keyStringList.put( KeyInput.KEY_8, "8" );
-		keyStringList.put( KeyInput.KEY_9, "9" );
-		keyStringList.put( KeyInput.KEY_A, "A" );
-		keyStringList.put( KeyInput.KEY_B, "B" );
-		keyStringList.put( KeyInput.KEY_C, "C" );
-		keyStringList.put( KeyInput.KEY_D, "D" );
-		keyStringList.put( KeyInput.KEY_DOWN, "DOWN" );
-		keyStringList.put( KeyInput.KEY_E, "E" );
-		keyStringList.put( KeyInput.KEY_F, "F" );
-		keyStringList.put( KeyInput.KEY_G, "G" );
-		keyStringList.put( KeyInput.KEY_H, "H" );
-		keyStringList.put( KeyInput.KEY_I, "I" );
-		keyStringList.put( KeyInput.KEY_J, "J" );
-		keyStringList.put( KeyInput.KEY_K, "K" );
-		keyStringList.put( KeyInput.KEY_L, "L" );
-		keyStringList.put( KeyInput.KEY_LEFT, "LEFT" );	
-		keyStringList.put( KeyInput.KEY_LSHIFT, "LSHIFT" );	
-		keyStringList.put( KeyInput.KEY_M, "M" );
-		keyStringList.put( KeyInput.KEY_N, "N" );
-		keyStringList.put( KeyInput.KEY_NUMPAD0, "NUMPAD0" );
-		keyStringList.put( KeyInput.KEY_NUMPAD1, "NUMPAD1" );
-		keyStringList.put( KeyInput.KEY_NUMPAD2, "NUMPAD2" );
-		keyStringList.put( KeyInput.KEY_NUMPAD3, "NUMPAD3" );
-		keyStringList.put( KeyInput.KEY_NUMPAD4, "NUMPAD4" );
-		keyStringList.put( KeyInput.KEY_NUMPAD5, "NUMPAD5" );
-		keyStringList.put( KeyInput.KEY_NUMPAD6, "NUMPAD6" );
-		keyStringList.put( KeyInput.KEY_NUMPAD7, "NUMPAD7" );
-		keyStringList.put( KeyInput.KEY_NUMPAD8, "NUMPAD8" );
-		keyStringList.put( KeyInput.KEY_NUMPAD9, "NUMPAD9" );
-		keyStringList.put( KeyInput.KEY_O, "O" );
-		keyStringList.put( KeyInput.KEY_P, "P" );
-		keyStringList.put( KeyInput.KEY_Q, "Q" );
-		keyStringList.put( KeyInput.KEY_R, "R" );
-		keyStringList.put( KeyInput.KEY_RETURN, "ENTER" );
-		keyStringList.put( KeyInput.KEY_RIGHT, "RIGHT" );
-		keyStringList.put( KeyInput.KEY_RSHIFT, "RSHIFT" );	
-		keyStringList.put( KeyInput.KEY_S, "S" );
-		keyStringList.put( KeyInput.KEY_SPACE, "SPACE" );
-		keyStringList.put( KeyInput.KEY_T, "T" );	
-		keyStringList.put( KeyInput.KEY_U, "U" );
-		keyStringList.put( KeyInput.KEY_UP, "UP" );
-		keyStringList.put( KeyInput.KEY_V, "V" );
-		keyStringList.put( KeyInput.KEY_X, "X" );
-		keyStringList.put( KeyInput.KEY_Y, "Y" );
-		keyStringList.put( KeyInput.KEY_W, "W" );
-		keyStringList.put( KeyInput.KEY_Z, "Z" );	
-	}
-	
 	public static int toKey( String string ){
 		return stringKeyList.get( string );
-	}
-	
-	public static String toString( int key ){
-		return keyStringList.get( key );
 	}
 }

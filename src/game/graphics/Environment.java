@@ -209,6 +209,8 @@ public class Environment {
 			
 			sharedModel.setLocalRotation( item.rotation );
 			
+			sharedModel.setLocalScale( item.scale );
+			
 			sharedModel.setModelBound( new BoundingBox() );
 			sharedModel.updateModelBound();
 			sharedModel.lock();
