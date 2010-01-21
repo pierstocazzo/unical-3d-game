@@ -1,7 +1,7 @@
 package game.base;
 
-import game.common.GameConfiguration;
 import game.common.GameTimer;
+import game.common.GameConfiguration;
 import game.graphics.GraphicalWorld;
 import game.menu.InGameMenu;
 

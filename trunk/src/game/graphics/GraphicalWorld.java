@@ -3,6 +3,7 @@ package game.graphics;
 import game.HUD.HudMessageBox;
 import game.HUD.UserHud;
 import game.base.Game;
+import game.common.GameConfiguration;
 import game.input.ThirdPersonHandler;
 import game.menu.LoadingFrame;
 import game.sound.SoundManager;
@@ -117,7 +118,7 @@ public class GraphicalWorld extends Game {
         this.core = core;
         super.loadingFrame = loadingFrame;
         
-//        audioEnabled = true;
+        audioEnabled = Boolean.valueOf( GameConfiguration.isSoundEnabled() );
     }
 
 	public void setupInit() {
