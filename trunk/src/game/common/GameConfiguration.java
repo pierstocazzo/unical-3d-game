@@ -2,8 +2,8 @@ package game.common;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,13 +33,13 @@ public class GameConfiguration {
 	/**
 	 * Default Values
 	 */
-	static HashMap< String, String > defaultValues = new HashMap<String, String>();
+	static LinkedHashMap< String, String > defaultValues = new LinkedHashMap<String, String>();
 	static {
-		defaultValues.put( "run_key", "LSHIFT" ); 
 		defaultValues.put( "forward_key", "W" );
 		defaultValues.put( "backward_key", "S" );
 		defaultValues.put( "turnright_key", "D" );
 		defaultValues.put( "turnleft_key", "A" );
+		defaultValues.put( "run_key", "LSHIFT" ); 
 		defaultValues.put( "pause_key", "P" ); 
 		
 		// screen
@@ -59,10 +59,10 @@ public class GameConfiguration {
 	/**
 	 * User defined values
 	 */
-	static HashMap< String, String > values;
+	static LinkedHashMap< String, String > values;
 	
 	public static void init() {
-		values = new HashMap< String, String >();
+		values = new LinkedHashMap< String, String >();
 		values.putAll(defaultValues);
 
 		load();
@@ -91,7 +91,7 @@ public class GameConfiguration {
 			document = builder.build( new File( SETTINGS_FILE ) );
 			root = document.getRootElement();
 			
-			for( Iterator<Element> it = root.getChildren().iterator(); it.hasNext();  ) {
+			for( Iterator<Element> it = root.getChild("settings").getChildren().iterator(); it.hasNext();  ) {
 				Element element = it.next();
 				Attribute name = element.getAttribute("name");
 
