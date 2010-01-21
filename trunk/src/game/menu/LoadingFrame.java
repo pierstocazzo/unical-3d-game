@@ -1,5 +1,7 @@
 package game.menu;
 
+import game.common.GameConfiguration;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -42,8 +44,9 @@ public class LoadingFrame extends JFrame {
 		super();
 
 		// Get screen size
-		Dimension screenSize = 
-	        Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension screenSize = new Dimension (
+				Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(),
+				Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue());
 		// apply screen size to current frame
 		setBounds(0,0,screenSize.width, screenSize.height);
 		// get image file

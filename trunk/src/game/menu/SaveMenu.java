@@ -1,5 +1,7 @@
 package game.menu;
 
+import game.common.GameConfiguration;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -47,7 +49,9 @@ public class SaveMenu extends JFrame {
 		super();
 		this.gameMenu = gameMenu;
 		// get screen informations
-		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		screenSize =  new Dimension (
+				Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(),
+				Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue());
 		// apply screen size to frame
 		setBounds(0,0,screenSize.width, screenSize.height);
 		// get background image

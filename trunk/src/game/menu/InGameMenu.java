@@ -1,6 +1,7 @@
 package game.menu;
 
 import game.base.PhysicsGame;
+import game.common.GameConfiguration;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -49,7 +50,10 @@ public class InGameMenu extends JFrame {
 		super();
 		this.game = game;
 		// get screen size and apply it to current frame
-		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		screenSize =  new Dimension (
+				Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(),
+				Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue());
+		System.out.println("INGAME "+screenSize.width+" "+screenSize.height);
 		setBounds(0,0,screenSize.width, screenSize.height);
 		
 		//get image background
