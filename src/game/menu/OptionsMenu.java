@@ -47,7 +47,7 @@ public class OptionsMenu extends JFrame {
 	/** His Pointer used in a subClass */
 	OptionsMenu optionsMenu;
 	
-	Vector<String> itemsYesNo;
+	Vector<String> itemsTrueFalse;
 	
 	final Vector<String> itemsKeyCommands;
 
@@ -101,14 +101,14 @@ public class OptionsMenu extends JFrame {
 		grid.setOpaque(true);
 		grid.setPreferredSize(new Dimension(screenSize.width*6/8, screenSize.height/4));
 		//add a label to panel
-		TitledBorder titleBorder = new TitledBorder("Impostazioni Generali");
+		TitledBorder titleBorder = new TitledBorder("General Settings");
 		grid.setBorder(titleBorder);
 		dividePanel.add(grid, BorderLayout.NORTH);
 		
 		GridBagConstraints lim = new GridBagConstraints();
 		
 		//Create a label that show text
-		JLabel resolutionLabel = new JLabel("Risoluzione dello schermo");
+		JLabel resolutionLabel = new JLabel("Monitor's Resolution");
 		lim.gridx = 0;
 		lim.gridy = 0;
 		lim.weightx = 0.5;
@@ -119,6 +119,7 @@ public class OptionsMenu extends JFrame {
 		// Create comboBox about screen resolution settings
 		Vector<String> resolutions = new Vector<String>();
 		resolutions.add("1280x800");resolutions.add("1024x768");resolutions.add("800x600");
+		// TODO to add other 
 		final JComboBox resolutionCombo = new JComboBox(resolutions);
 		resolutionCombo.setSelectedIndex(
 				resolutions.indexOf((GameConfiguration.getResolutionWidth() + "x" +
@@ -141,10 +142,10 @@ public class OptionsMenu extends JFrame {
 		grid.add(fullscreenLabel);
 		
 		// Create a comboBox that allow to choose fullscreen yes or no
-		itemsYesNo = new Vector<String>();
-		itemsYesNo.add("true");itemsYesNo.add("false");
-		final JComboBox fullscreenCombo = new JComboBox(itemsYesNo);
-		fullscreenCombo.setSelectedIndex(itemsYesNo.indexOf(GameConfiguration.isFullscreen()));
+		itemsTrueFalse = new Vector<String>();
+		itemsTrueFalse.add("true");itemsTrueFalse.add("false");
+		final JComboBox fullscreenCombo = new JComboBox(itemsTrueFalse);
+		fullscreenCombo.setSelectedIndex(itemsTrueFalse.indexOf(GameConfiguration.isFullscreen()));
 		lim.gridx = 1;
 		lim.gridy = 1;
 		lim.weightx = 0.5;
@@ -163,7 +164,7 @@ public class OptionsMenu extends JFrame {
 		grid.add(xmlPanel);
 		
 		// Create a label
-		JLabel xmlLabel = new JLabel("XML file per l'ambientazione: ");
+		JLabel xmlLabel = new JLabel("Environment's XML file: ");
 		xmlPanel.add(xmlLabel);
 	
 		//JTextBox that contains a file path
@@ -199,7 +200,7 @@ public class OptionsMenu extends JFrame {
 		});
 		
 		//Create a label
-		JLabel soundLabel = new JLabel("Suono");
+		JLabel soundLabel = new JLabel("Sound");
 		lim.gridx = 0;
 		lim.gridy = 3;
 		lim.weightx = 0.5;
@@ -208,8 +209,8 @@ public class OptionsMenu extends JFrame {
 		grid.add(soundLabel);
 		
 		// create a JComboBox - Sound SI or NO
-		final JComboBox soundCombo = new JComboBox(itemsYesNo);
-		soundCombo.setSelectedIndex(itemsYesNo.indexOf(GameConfiguration.isSoundEnabled()));
+		final JComboBox soundCombo = new JComboBox(itemsTrueFalse);
+		soundCombo.setSelectedIndex(itemsTrueFalse.indexOf(GameConfiguration.isSoundEnabled()));
 		lim.gridx = 1;
 		lim.gridy = 3;
 		lim.weightx = 0.5;
@@ -223,7 +224,7 @@ public class OptionsMenu extends JFrame {
 		grid2.setLayout(layout2);
 		grid2.setOpaque(true);
 		grid2.setPreferredSize(new Dimension(screenSize.width*6/8, screenSize.height/2));
-		TitledBorder titleBorder2 = new TitledBorder("Comandi Giocatore");
+		TitledBorder titleBorder2 = new TitledBorder("Player Command");
 		grid2.setBorder(titleBorder2);
 		dividePanel.add(grid2, BorderLayout.CENTER);
 		
@@ -240,11 +241,15 @@ public class OptionsMenu extends JFrame {
 		itemsKeyCommands.add("S");itemsKeyCommands.add("T");
 		itemsKeyCommands.add("U");itemsKeyCommands.add("V");itemsKeyCommands.add("X");
 		itemsKeyCommands.add("Y");itemsKeyCommands.add("W");
-		itemsKeyCommands.add("Z");itemsKeyCommands.add("LSHIFT");itemsKeyCommands.add("SPACE");
-		itemsKeyCommands.add("CTRL");itemsKeyCommands.add("ENTER");
-		
+		itemsKeyCommands.add("Z");itemsKeyCommands.add("LSHIFT");itemsKeyCommands.add("RSHIFT");
+		itemsKeyCommands.add("SPACE");itemsKeyCommands.add("CTRL");itemsKeyCommands.add("ENTER");
+		itemsKeyCommands.add("DOWN");itemsKeyCommands.add("UP");itemsKeyCommands.add("LEFT");
+		itemsKeyCommands.add("RIGHT");itemsKeyCommands.add("NUMPAD0");itemsKeyCommands.add("NUMPAD1");
+		itemsKeyCommands.add("NUMPAD2");itemsKeyCommands.add("NUMPAD3");itemsKeyCommands.add("NUMPAD4");
+		itemsKeyCommands.add("NUMPAD5");itemsKeyCommands.add("NUMPAD6");itemsKeyCommands.add("NUMPAD7");
+		itemsKeyCommands.add("NUMPAD8");itemsKeyCommands.add("NUMPAD9");
 		//create a label
-		JLabel combo1Label = new JLabel("Cammina Avanti");
+		JLabel combo1Label = new JLabel("Walk Forward");
 		lim.gridx = 0;
 		lim.gridy = 0;
 		lim.weightx = 0.5;
@@ -263,7 +268,7 @@ public class OptionsMenu extends JFrame {
 		grid2.add(comboWalkForward);
 		
 		//create a label
-		JLabel combo2Label = new JLabel("Cammina Indietro");
+		JLabel combo2Label = new JLabel("Walk Backward");
 		lim.gridx = 0;
 		lim.gridy = 1;
 		lim.weightx = 0.5;
@@ -282,7 +287,7 @@ public class OptionsMenu extends JFrame {
 		grid2.add(comboWalkBackward);
 		
 		//create a label
-		JLabel combo3Label = new JLabel("Cammina a Destra");
+		JLabel combo3Label = new JLabel("Walk to Right");
 		lim.gridx = 0;
 		lim.gridy = 2;
 		lim.weightx = 0.5;
@@ -301,7 +306,7 @@ public class OptionsMenu extends JFrame {
 		grid2.add(comboWalkRight);
 		
 		//create a label
-		JLabel combo4Label = new JLabel("Cammina a Sinistra");
+		JLabel combo4Label = new JLabel("Walk to Left");
 		lim.gridx = 0;
 		lim.gridy = 3;
 		lim.weightx = 0.5;
@@ -320,7 +325,7 @@ public class OptionsMenu extends JFrame {
 		grid2.add(comboWalkLeft);
 		
 		//create a label
-		JLabel combo5Label = new JLabel("Corri");
+		JLabel combo5Label = new JLabel("Run");
 		lim.gridx = 0;
 		lim.gridy = 4;
 		lim.weightx = 0.5;
@@ -339,7 +344,7 @@ public class OptionsMenu extends JFrame {
 		grid2.add(comboRun);
 		
 		//create a label
-		JLabel combo6Label = new JLabel("Pausa");
+		JLabel combo6Label = new JLabel("Pause");
 		lim.gridx = 0;
 		lim.gridy = 5;
 		lim.weightx = 0.5;
