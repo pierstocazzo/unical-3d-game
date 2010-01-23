@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -62,13 +62,13 @@ public class GameConfiguration {
 	 */
 	static LinkedHashMap< String, String > values;
 
-	static LinkedHashMap< String, EnemyInfo > enemies;
+	static List<EnemyInfo> enemies;
 	
 	public static void init() {
 		values = new LinkedHashMap< String, String >();
 		values.putAll(defaultValues);
 		
-		enemies = new LinkedHashMap< String, EnemyInfo >();
+		enemies = new LinkedList< EnemyInfo >();
 
 		load();
 		
@@ -98,50 +98,39 @@ public class GameConfiguration {
 			
 			for( Iterator<Element> it = root.getChild("settings").getChildren().iterator(); it.hasNext();  ) {
 				Element element = it.next();
-				Attribute name = element.getAttribute("name");
-
-				values.put( name.getValue(), element.getText() );
+				values.put( element.getAttributeValue("name"), element.getText() );
 			}
 			
 			List<Element> enemy_list = root.getChild("enemies").getChildren();
 			for( Element enemy : enemy_list ) {
 				EnemyInfo enemyInfo = new EnemyInfo();
+						
+				enemyInfo.setPosX( Float.valueOf( enemy.getAttributeValue("x") ) );
 				
-				Attribute name = enemy.getAttribute("name");
-				enemyInfo.id = name.getValue();
+				enemyInfo.setPosZ( Float.valueOf( enemy.getAttributeValue("z") ) );
 				
-				name = enemy.getAttribute("x");
-				enemyInfo.x = Float.valueOf(name.getValue());
-				
-				name = enemy.getAttribute("z");
-				enemyInfo.z = Float.valueOf(name.getValue());
-				
-				name = enemy.getAttribute("state");
-				enemyInfo.state = State.toState(name.getValue());
+				enemyInfo.setState( State.toState( enemy.getAttributeValue("state") ) );
 				
 				//load path's points
 				PointPath pointPath = new PointPath();
+				
 				List<Element> point_list = enemy.getChildren();
 				for( Element pointInfo : point_list ) {
-					Attribute x = pointInfo.getAttribute("x");
-					Attribute z = pointInfo.getAttribute("z");
-					Point point = new Point( Float.valueOf(x.getValue()), Float.valueOf(z.getValue()) );
+					int x = Integer.valueOf( pointInfo.getAttributeValue("x") );
+					int z = Integer.valueOf( pointInfo.getAttributeValue("z") );
+					Point point = new Point( x, z );
 					pointPath.add(point);
-					System.out.println(x.getValue()+" "+z.getValue());
 				}
-				enemyInfo.movements = pointPath.generateMovementsList();
-				System.out.println("lista movimenti");
-				for (int i = 0; i < enemyInfo.movements.size(); i++ )
-					System.out.println(enemyInfo.movements.get(i).direction.toString());
+				enemyInfo.setMovements( pointPath.generateMovementsList() );
 				
-				enemies.put( enemyInfo.id, enemyInfo );
+				enemies.add( enemyInfo );
 			}
 			
 			
 		} catch (Exception e) {
 			Logger.getAnonymousLogger().log( Level.SEVERE, 
-					"Error loading the settings file, make sure the path is correct." +
-					"\nDefault settings will be loaded" );
+					"Error loading the configuration file, make sure the path is correct." +
+					"\nDefault configuration will be loaded" );
 		}
 	}
 	
@@ -328,7 +317,48 @@ public class GameConfiguration {
 		values.put( "scene_file_path", path );
 	}
 	
-	public static LinkedHashMap<String, EnemyInfo> getEmemiesInfoList() {
+	public static List<EnemyInfo> getEmemiesInfoList() {
 		return enemies;
+	}
+	
+	/** Utility class used to store some informations 
+	 * for the creation of enemies
+	 */
+	public static class EnemyInfo {
+		float posX;
+		float posZ;
+		State state;
+		LinkedList<Movement> movements;
+		
+		public void setPosX(float posX) {
+			this.posX = posX;
+		}
+		public float getPosX() {
+			return posX;
+		}
+		
+		public void setPosZ(float posZ) {
+			this.posZ = posZ;
+		}
+		
+		public float getPosZ() {
+			return posZ;
+		}
+		
+		public void setState(State state) {
+			this.state = state;
+		}
+		
+		public State getState() {
+			return state;
+		}
+		
+		public void setMovements(LinkedList<Movement> movements) {
+			this.movements = movements;
+		}
+		
+		public LinkedList<Movement> getMovements() {
+			return movements;
+		}
 	}
 }
