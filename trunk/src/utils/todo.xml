@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TODO_LIST>
-  <item importanza="3" stato="da iniziare" assegnatario="joe">Importazione parametri e opzioni di gioco da file xml</item>
-  <item importanza="2" stato="iniziato" assegnatario="slash">Importazione scena da file xml</item>
-  <item importanza="1" stato="iniziato" assegnatario="andrea">Sound Manager</item>
-</TODO_LIST>
-
