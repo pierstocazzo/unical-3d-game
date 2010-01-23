@@ -45,8 +45,8 @@ public class HudLife {
 	public HudLife(UserHud userHud){
 		this.userHud = userHud;
 		// get screen informations
-		screenWidth = userHud.gWorld.getResolution().x;
-    	screenHeight = userHud.gWorld.getResolution().y;
+		screenWidth = userHud.world.getResolution().x;
+    	screenHeight = userHud.world.getResolution().y;
     	
 		createBar();
 
@@ -56,7 +56,7 @@ public class HudLife {
     	lifeNum.setLocalScale(screenWidth/1100);
     	lifeNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
-    	userHud.gWorld.hudNode.attachChild( lifeNum );
+    	userHud.hudNode.attachChild( lifeNum );
     	
     	//for first correct visualization
     	lifeValue = 100;
@@ -74,10 +74,10 @@ public class HudLife {
 	 */
 	public void update(){
 		// get current life value
-		lifeValue = userHud.game.getCurrentLife(userHud.gWorld.player.id);
+		lifeValue = userHud.game.getCurrentLife(userHud.world.player.id);
 		checkColor();
 		// resize frontQuad respect life value
-		frontQuad.resize( initialLenght*lifeValue/userHud.game.getMaxLife(userHud.gWorld.player.id), 
+		frontQuad.resize( initialLenght*lifeValue/userHud.game.getMaxLife(userHud.world.player.id), 
 						frontQuad.getHeight() );
 		frontQuad.setLocalTranslation( screenWidth/40 + frontQuad.getWidth()/2 + borderWeight,
 										backQuad.getLocalTranslation().y, 0 );
@@ -96,7 +96,7 @@ public class HudLife {
     	backQuad.setLocalTranslation(screenWidth/40+backQuad.getWidth()/2,
     								screenHeight/40+backQuad.getHeight()/2, 0);
     	backQuad.lock();
-    	userHud.gWorld.hudNode.attachChild( backQuad );
+    	userHud.hudNode.attachChild( backQuad );
     	
     	// create front quad
     	frontQuad = new Quad("frontQuad", backQuad.getWidth() - borderWeight*2 , 
@@ -105,7 +105,7 @@ public class HudLife {
     	frontQuad.setDefaultColor(ColorRGBA.green);
     	frontQuad.setLocalTranslation(backQuad.getLocalTranslation().x,
     			backQuad.getLocalTranslation().y, 0);
-    	userHud.gWorld.hudNode.attachChild( frontQuad );
+    	userHud.hudNode.attachChild( frontQuad );
 	}
 	
 	/**

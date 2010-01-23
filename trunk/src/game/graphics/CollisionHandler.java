@@ -2,17 +2,17 @@ package game.graphics;
 
 import java.util.List;
 
-import game.input.ThirdPersonHandler;
+import game.input.GameInputHandler;
 import com.jme.scene.Node;
 import com.jme.scene.TriMesh;
 
 public class CollisionHandler {
 	
 	protected Node collisionNode;
-	protected ThirdPersonHandler inputHandler;
+	protected GameInputHandler inputHandler;
 	protected Node player;
 	
-	public CollisionHandler( ThirdPersonHandler inputHandler, Node collisionNode ) {
+	public CollisionHandler( GameInputHandler inputHandler, Node collisionNode ) {
 		this.inputHandler = inputHandler;
 		this.collisionNode = collisionNode;
 		this.player = inputHandler.getPlayer().getCollision();

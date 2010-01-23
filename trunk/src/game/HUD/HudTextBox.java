@@ -41,8 +41,8 @@ public class HudTextBox {
 	 */
 	public HudTextBox(UserHud userHud){
 		this.userHud = userHud;
-		weight = userHud.gWorld.getResolution().x;
-		height = userHud.gWorld.getResolution().y;
+		weight = userHud.world.getResolution().x;
+		height = userHud.world.getResolution().y;
 		textList = new ArrayList<Text>();
 		stringList = new ArrayList<String>();
 		
@@ -99,7 +99,7 @@ public class HudTextBox {
 				tmp.setLocalTranslation(weight/2-tmp.getWidth()/2,height/2-tmp.getHeight()*numberLine,0);
 				tmp.lock();
 				textList.add(tmp);
-				userHud.gWorld.hudNode.attachChild(tmp);
+				userHud.hudNode.attachChild(tmp);
 				
 				numberLine++;
 				counter = 0;
@@ -117,7 +117,7 @@ public class HudTextBox {
 				tmp.setLocalTranslation(weight/2-tmp.getWidth()/2,height/2-tmp.getHeight()*numberLine,0);
 				tmp.lock();
 				textList.add(tmp);
-				userHud.gWorld.hudNode.attachChild(tmp);
+				userHud.hudNode.attachChild(tmp);
 			}
 		}
 		

@@ -48,9 +48,9 @@ public class HudMessage {
 		// create a text label
 		message = Text.createDefaultTextLabel(messageString);
 		message.setTextColor(color);
-		message.setLocalScale(userHud.gWorld.getResolution().x/1200);
+		message.setLocalScale(userHud.world.getResolution().x/1200);
 		message.lock();
-		userHud.gWorld.hudNode.attachChild(message);
+		userHud.hudNode.attachChild(message);
 		
 		// initialize time
 		time = GameTimer.getTimeInSeconds();

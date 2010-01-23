@@ -54,8 +54,8 @@ public class HudAlert {
 	public HudAlert(UserHud userHud){
 		this.userHud = userHud;
 		// get screen informations
-		screenWidth = userHud.gWorld.getResolution().x;
-    	screenHeight = userHud.gWorld.getResolution().y;
+		screenWidth = userHud.world.getResolution().x;
+    	screenHeight = userHud.world.getResolution().y;
     	
 		createBar();
 		
@@ -65,7 +65,7 @@ public class HudAlert {
     	alertLabel.setLocalScale(screenWidth/1200);
     	alertLabel.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
-    	userHud.gWorld.hudNode.attachChild( alertLabel );
+    	userHud.hudNode.attachChild( alertLabel );
     	
     	//initialize for correct first visualization
     	alertValue = 0;
@@ -90,13 +90,13 @@ public class HudAlert {
 		//if an enemy is in alert state
 		if( stateColor == State.ALERT ){
 			frontQuad.setDefaultColor(ColorRGBA.yellow);
-			if(userHud.gWorld.audioEnabled)
+			if( userHud.world.isAudioEnabled() )
 				SoundManager.playSound( SoundType.ALERTMUSIC, null );
 		}
 		//if an enemy is in attack state
 		if( stateColor == State.ATTACK ){
 			frontQuad.setDefaultColor(ColorRGBA.red);
-			if(userHud.gWorld.audioEnabled)
+			if(userHud.world.isAudioEnabled())
 				SoundManager.playSound( SoundType.ATTACKMUSIC, null );
 		}
 		//if all enemy are in default state
@@ -150,7 +150,7 @@ public class HudAlert {
     	backQuad.setLocalTranslation(screenWidth/40+backQuad.getWidth()/2,
     			screenHeight-screenHeight/20-backQuad.getHeight()/2, 0);
     	backQuad.lock();
-    	userHud.gWorld.hudNode.attachChild( backQuad );
+    	userHud.hudNode.attachChild( backQuad );
     	
     	//create front quad
     	frontQuad = new Quad("frontQuad", backQuad.getWidth() - borderWeight*2 , 
@@ -159,7 +159,7 @@ public class HudAlert {
     	frontQuad.setDefaultColor( ColorRGBA.green );
     	frontQuad.setLocalTranslation( backQuad.getLocalTranslation().x,
     			backQuad.getLocalTranslation().y, 0 );
-    	userHud.gWorld.hudNode.attachChild( frontQuad );
+    	userHud.hudNode.attachChild( frontQuad );
     	
 	}
 	

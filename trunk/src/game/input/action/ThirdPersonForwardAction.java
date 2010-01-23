@@ -32,7 +32,7 @@
 
 package game.input.action;
 
-import game.input.ThirdPersonHandler;
+import game.input.GameInputHandler;
 
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.KeyInputAction;
@@ -41,9 +41,9 @@ import com.jme.input.action.KeyInputAction;
  * <code>ThirdPersonForwardAction</code>
  */
 public class ThirdPersonForwardAction extends KeyInputAction {
-    private ThirdPersonHandler handler;
+    private GameInputHandler handler;
 
-    public ThirdPersonForwardAction(ThirdPersonHandler handler, float speed) {
+    public ThirdPersonForwardAction(GameInputHandler handler, float speed) {
         this.handler = handler;
     }
 

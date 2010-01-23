@@ -27,7 +27,7 @@ import com.jme.renderer.Camera;
  * 
  * @author Salvatore Loria
  */
-public class ThirdPersonHandler extends InputHandler {
+public class GameInputHandler extends InputHandler {
     GraphicalPlayer target;
 
     /** The camera this handler uses for determining action movement. */
@@ -59,7 +59,7 @@ public class ThirdPersonHandler extends InputHandler {
 	boolean canStrafeRight;
     
 	
-    public ThirdPersonHandler( GraphicalPlayer target, Camera cam ) {
+    public GameInputHandler( GraphicalPlayer target, Camera cam ) {
         this.target = target;
         this.cam = cam;
 

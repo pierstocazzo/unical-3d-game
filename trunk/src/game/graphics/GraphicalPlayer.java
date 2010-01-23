@@ -138,7 +138,7 @@ public class GraphicalPlayer extends GraphicalCharacter {
 			world.shoot( world.getCam().getLocation() );
 		} else {
 			UserHud.addMessage(HudMessageHandler.AMMO_FINISHED);
-			if(world.audioEnabled)
+			if(world.isAudioEnabled())
 				SoundManager.playSound(SoundType.NOAMMO, world.getCam().getLocation());
 		}
 	}

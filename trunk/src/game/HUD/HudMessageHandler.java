@@ -51,8 +51,8 @@ public class HudMessageHandler {
 	public HudMessageHandler(UserHud userHud){
 		this.userHud = userHud;
 		// get and save screen informations
-		weight = (int) userHud.gWorld.getResolution().x ;
-		height = (int) userHud.gWorld.getResolution().y;
+		weight = (int) userHud.world.getResolution().x ;
+		height = (int) userHud.world.getResolution().y;
 		
 		messageList = new ArrayList<HudMessage>();
 	}
@@ -97,9 +97,9 @@ public class HudMessageHandler {
 			case MAX_ENERGY:text="Non puoi acquisire ulteriore energia.";break;
 			case AMMO_FINISHED:text="Hai finito tutte le munizioni, cercane negli avanposti nemici che hai ripulito.";break;
 			case NEW_LEVEL:
-				int level = userHud.gWorld.getCore().getLevel(userHud.gWorld.player.id);
-				int maxEnergy = userHud.gWorld.getCore().getMaxLife(userHud.gWorld.player.id);
-				int maxAmmo = userHud.gWorld.getCore().getMaxAmmo(userHud.gWorld.player.id);
+				int level = userHud.world.getCore().getLevel(userHud.world.player.id);
+				int maxEnergy = userHud.world.getCore().getMaxLife(userHud.world.player.id);
+				int maxAmmo = userHud.world.getCore().getMaxAmmo(userHud.world.player.id);
 				text="Sei passato al livello "+level+", la tua energia massima è "+
 					maxEnergy+" e potrai portare fino a "+maxAmmo+" munizioni.";
 				break;
@@ -133,7 +133,7 @@ public class HudMessageHandler {
 	 */
 	public void checkLevel(){
 		// get level player
-		int currLevel = userHud.gWorld.getCore().getLevel(userHud.gWorld.player.id);
+		int currLevel = userHud.world.getCore().getLevel(userHud.world.player.id);
 		if( currLevel != oldLevel )
 			addMessage( NEW_LEVEL, 3, ColorRGBA.blue );
 		oldLevel = currLevel;

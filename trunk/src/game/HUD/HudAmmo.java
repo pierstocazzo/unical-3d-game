@@ -45,8 +45,8 @@ public class HudAmmo {
 	public HudAmmo(UserHud userHud){
 		this.userHud = userHud;
 		// get screen informations
-		screenWidth = userHud.gWorld.getResolution().x;
-    	screenHeight = userHud.gWorld.getResolution().y;
+		screenWidth = userHud.world.getResolution().x;
+    	screenHeight = userHud.world.getResolution().y;
     	
 		createBar();
 
@@ -55,7 +55,7 @@ public class HudAmmo {
     	ammoNum.setLocalScale(screenWidth/1100);
     	ammoNum.setLocalTranslation( backQuad.getLocalTranslation().x, 
     			backQuad.getLocalTranslation().y, 0 );
-    	userHud.gWorld.hudNode.attachChild( ammoNum );
+    	userHud.hudNode.attachChild( ammoNum );
     	//initialize for first correct visualization
     	ammoValue = 0;
 		frontQuad.resize( initialLenght*ammoValue/100, frontQuad.getHeight() );
@@ -71,9 +71,9 @@ public class HudAmmo {
 	 */
 	public void update(){
 		// get ammo value
-		ammoValue = userHud.game.getAmmo(userHud.gWorld.player.id);
+		ammoValue = userHud.game.getAmmo(userHud.world.player.id);
 		// resize front quad respect ammo value and max ammo value
-		frontQuad.resize(initialLenght*ammoValue/userHud.game.getMaxAmmo(userHud.gWorld.player.id), 
+		frontQuad.resize(initialLenght*ammoValue/userHud.game.getMaxAmmo(userHud.world.player.id), 
 						frontQuad.getHeight());
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										backQuad.getLocalTranslation().y, 0);
@@ -93,7 +93,7 @@ public class HudAmmo {
     	backQuad.setLocalTranslation( screenWidth/40 + backQuad.getWidth()/2,
     			userHud.hudLife.backQuad.getHeight()+userHud.hudLife.backQuad.getHeight()+10, 0);
     	backQuad.lock();
-    	userHud.gWorld.hudNode.attachChild( backQuad );
+    	userHud.hudNode.attachChild( backQuad );
     	
     	// create a front quad
     	frontQuad = new Quad( "frontQuad", backQuad.getWidth() - borderWeight*2 , 
@@ -102,6 +102,6 @@ public class HudAmmo {
     	frontQuad.setDefaultColor(ColorRGBA.green);
     	frontQuad.setLocalTranslation( backQuad.getLocalTranslation().x,
     			backQuad.getLocalTranslation().y, 0 );
-    	userHud.gWorld.hudNode.attachChild( frontQuad );
+    	userHud.hudNode.attachChild( frontQuad );
 	}
 }
