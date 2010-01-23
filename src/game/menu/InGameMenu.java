@@ -94,7 +94,7 @@ public class InGameMenu extends JFrame {
 		borderPanel.setLayout( new BorderLayout() );
 		borderPanel.setOpaque(false);
 		setContentPane( borderPanel );
-		gamePanel = new InGamePanel( this);
+		gamePanel = new InGamePanel( this );
 		borderPanel.add( gamePanel, BorderLayout.CENTER );
 		
 		//add left vertical empty panel

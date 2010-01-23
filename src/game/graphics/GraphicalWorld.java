@@ -458,13 +458,6 @@ public class GraphicalWorld extends Game {
 		return environment.ground;
 	}
 	
-	protected void cleanup() {
-		super.cleanup();
-		if( audioEnabled ) {
-			audio.cleanup();
-		}
-	}
-	
 	public void shoot( Vector3f position ) {
 		if( audioEnabled )
 	    	SoundManager.playSound( SoundType.SHOOT, position.clone() );

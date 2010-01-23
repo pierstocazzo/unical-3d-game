@@ -34,6 +34,7 @@ import com.jme.util.GameTaskQueueManager;
 import com.jme.util.TextureManager;
 import com.jme.util.ThrowableHandler;
 import com.jme.util.geom.Debugger;
+import com.jmex.audio.AudioSystem;
 import com.jmex.physics.PhysicsDebugger;
 import com.jmex.physics.PhysicsSpace;
 
@@ -455,6 +456,9 @@ public abstract class PhysicsGame extends AbstractGame {
         KeyInput.destroyIfInitalized();
         MouseInput.destroyIfInitalized();
         JoystickInput.destroyIfInitalized();
+        if( AudioSystem.isCreated() ) {
+        	AudioSystem.getSystem().cleanup();
+        }
     }
 
     /**
