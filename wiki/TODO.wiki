@@ -11,5 +11,4 @@
 
 == Bug da sistemare ==
 
-  * Chiusura errata con audio attivo (su windows)
-  * Inizializzare lista nemici in GameConfiguration solo se non è una partita caricata
+  * Inizializzare lista nemici in GameConfiguration solo se non è una partita caricata (perchè???)
