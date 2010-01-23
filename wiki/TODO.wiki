@@ -1,7 +1,6 @@
 == Cose da fare == 
 
   * File di configurazione xml da cui leggere opzioni e parametri di gioco - joe (WORK IN PROGRESS)
-  * Menù opzioni - andrea (PREDISPOSTO)
   * Riorganizzazione codice e commenti - andrea/joe (WORK IN PROGRESS)
   * Gestire collisione proiettili-collisionNode - slash
   * Supporto joystick - joe
@@ -13,4 +12,3 @@
 == Bug da sistemare ==
 
   * Chiusura errata con audio attivo (su windows)
-  * Problema avvio caricando energyPack
