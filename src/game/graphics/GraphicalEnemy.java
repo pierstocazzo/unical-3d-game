@@ -177,8 +177,8 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 			    
 				world.getCore().updateState(id);
 				if( world.getCore().getState(id) == State.ATTACK || 
-						world.getCore().getState(id) == State.FINDATTACK || 
-						world.getCore().getState(id) == State.GUARDATTACK) {
+					world.getCore().getState(id) == State.FINDATTACK || 
+					world.getCore().getState(id) == State.GUARDATTACK ) {
 					animationController.runAnimation( Animation.SHOOT );
 					shooting = true;
 					if( GameTimer.getTimeInSeconds() - previousShootTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
@@ -205,12 +205,13 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 	public void moveCharacter() {
 		Vector3f moveDirection = world.getCore().getMoveDirection( id );
 		if( !moveDirection.equals( Vector3f.ZERO ) ) {
-			if( Math.abs(moveDirection.angleBetween( previousMoveDirection )) >= 3.14/4 ) {
+			if( Math.abs(moveDirection.angleBetween( previousMoveDirection )) >= (FastMath.DEG_TO_RAD * 2) ) {
 				clearDynamics();
 				previousMoveDirection.set( moveDirection );
 				setMoving(false);
 			} else {
-				move( moveDirection );
+//				if( feet.getLinearVelocity( null ).length() < 1 )
+					move( moveDirection );
 				setMoving( true );
 			}
 			lookAtAction( moveDirection );
@@ -261,7 +262,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 			// the rotational axis is orthogonal to the direction and
 			// to the Y axis. It's calculated using cross product
 			rotationalAxis.setDirection( direction.cross( new Vector3f(0,1,0) ) );
-			rotationalAxis.setAvailableAcceleration( 30*speed );
+			rotationalAxis.setAvailableAcceleration( 100*speed );
 			rotationalAxis.setDesiredVelocity( speed );
 		} catch( Exception e ) {
 			rotationalAxis.setDesiredVelocity(0f);
