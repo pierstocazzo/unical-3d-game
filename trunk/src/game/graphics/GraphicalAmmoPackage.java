@@ -94,6 +94,7 @@ public class GraphicalAmmoPackage {
 	}
 
 	public void update(float time) {
-		contactDetect.update(time);
+		if( physicsPack.isActive() )
+			contactDetect.update(time);
 	}
 }

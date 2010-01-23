@@ -109,14 +109,17 @@ public class GameConfiguration {
 	 */
 	public static void save() {
 		try {
-			root = new Element("settings");
+			root = new Element("game_configuration");
 			document = new Document(root);
 			
+			root.addContent( new Element("settings") );
+			root.addContent( new Element("parameters") );
+			
 			for( String key : values.keySet() ) {
-				Element item = new Element( "item" );
-				item.setAttribute("name", key);
-				item.setText( values.get(key) );
-				root.addContent(item);
+				Element setting = new Element( "setting" );
+				setting.setAttribute("name", key);
+				setting.setText( values.get(key) );
+				root.getChild("settings").addContent(setting);
 			}
 			
 			XMLOutputter outputter = new XMLOutputter();
