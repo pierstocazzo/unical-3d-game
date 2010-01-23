@@ -136,15 +136,17 @@ public class GraphicalWorld extends Game {
 		ammoPackages = new LinkedList<GraphicalAmmoPackage>();
 		energyPackages = new LinkedList<GraphicalEnergyPackage>();
 		items = new LinkedList<Node>();
+		
 		loadingFrame.setProgress(10);
-		loadingFrame.setLoadingText("Impostazioni Prima Persona");
+		
     	setCrosshair();
     	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
     	
 		gameOver = Text.createDefaultTextLabel( "gameOver" );
 		rootNode.attachChild(gameOver);
-		loadingFrame.setLoadingText("Caricamento Audio ed Effetti Grafici");
+		
 		loadingFrame.setProgress(15);
+		
     	ExplosionFactory.warmup();
     	
 		if( audioEnabled ) {
@@ -167,11 +169,14 @@ public class GraphicalWorld extends Game {
 	 */
 	public void setupPlayer() {
 		
+		// TODO rivedere setupPlayer per multiplayer
+		
 		Node model = ModelLoader.loadModel("game/data/meshes/soldier/player.jme", 
 				"game/data/meshes/soldier/soldato.jpg", 1 );
 	    model.setLocalTranslation(0, -2f, 0);   
-	    loadingFrame.setLoadingText("Caricamento Modello Giocatore e Arma");
+
 	    loadingFrame.setProgress(65);
+	    
 		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/meshes/soldier/lr300map.jpg" ),
 	            Texture.MinificationFilter.Trilinear,
 	            Texture.MagnificationFilter.Bilinear);
@@ -195,6 +200,7 @@ public class GraphicalWorld extends Game {
      */
     public void setupEnemies() { 
     	int difference = 20/core.getEnemiesIds().size();
+    	
         for( String id : core.getEnemiesIds() ) {
         	enemiesCounter++;
     		Node model = ModelLoader.loadModel("game/data/meshes/soldier/prova.ms3d", 
@@ -208,15 +214,17 @@ public class GraphicalWorld extends Game {
     	    ts.setEnabled(true);
     	    ts.setTexture(texture);
     		model.getChild( "weapon" ).setRenderState( ts );
-			loadingFrame.setProgress(80+difference);
+    		
+			loadingFrame.setProgress( 80 + difference );
 
             GraphicalEnemy enemy = new GraphicalEnemy( id, this, 20, 100,  model );
             
             Vector3f position = core.getPosition(id);
-            position.setY( environment.getTerrain().getHeight( position.x, position.z ) + 1 );
+            position.setY( environment.getHeight( position.x, position.z ) + 2 );
         	enemy.getCharacterNode().getLocalTranslation().set( position );
         	characters.add( enemy );
         	rootNode.attachChild( enemy.getCharacterNode() );
+        	
         	difference = difference + 20/core.getEnemiesIds().size();
         }
     }
@@ -265,7 +273,7 @@ public class GraphicalWorld extends Game {
 	        freeCamInput.update(tpf);
 	        
 	        if( !inputHandler.isFirstPerson() ) {
-		        float camMinHeight = environment.getTerrain().getHeight(cam.getLocation()) + 0.5f;
+		        float camMinHeight = environment.getHeight( cam.getLocation() ) + 1;
 		        if (!Float.isInfinite(camMinHeight) && !Float.isNaN(camMinHeight)
 		                && cam.getLocation().y <= camMinHeight) {
 		            cam.getLocation().y = camMinHeight;
@@ -275,8 +283,8 @@ public class GraphicalWorld extends Game {
 	        
 	        environment.update();
 	        
-	        float characterMinHeight = environment.getTerrain().getHeight(player.getCharacterNode()
-	                .getLocalTranslation()) - 18f ;
+	        float characterMinHeight = environment.getHeight( player.getCharacterNode()
+	                .getLocalTranslation() ) + 2;
 	        if (!Float.isInfinite(characterMinHeight) && !Float.isNaN(characterMinHeight)) {
 	            player.getCharacterNode().getLocalTranslation().y = characterMinHeight;
 	        }
@@ -405,7 +413,7 @@ public class GraphicalWorld extends Game {
 			Random r = new Random();
 			position.setX( r.nextInt( (int) dimension ) - dimension/2 );
 			position.setZ( r.nextInt( (int) dimension ) - dimension/2 );
-			position.setY( environment.getTerrain().getHeight(position.x, position.z) - environment.waterHeight );
+			position.setY( environment.getHeight( position ) );
 			GraphicalEnergyPackage energyPack = new GraphicalEnergyPackage( id, this, position );
 			energyPackages.add( energyPack );
 		}

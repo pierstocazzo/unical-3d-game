@@ -86,11 +86,15 @@ public class Environment {
     /** the game's bounds, a physics box that contains the scene */
     StaticPhysicsNode gameBounds;
     
+    /** the scene */
     Scene scene;
 	
+    /** terrain scale factor */
     Vector3f terrainScale;
 	
+    /** height of the water */
     float waterHeight;
+    
     
     /** Class Environment constructor <br>
      * Create the environment for the game
@@ -117,13 +121,6 @@ public class Environment {
         world.getRootNode().attachChild(ground);
         world.getRootNode().attachChild(gameBounds);
         
-		world.loadingFrame.setProgress(25);
-		
-	    CullState cs = DisplaySystem.getDisplaySystem().getRenderer().createCullState();
-	    cs.setCullFace(CullState.Face.Back);
-	    world.getRootNode().setRenderState(cs);
-
-	    world.loadingFrame.setLoadingText("Impostazione Effetto Nebbia");
 	    world.loadingFrame.setProgress(30);
 	    
 	    FogState fogState = DisplaySystem.getDisplaySystem().getRenderer().createFogState();
@@ -136,11 +133,9 @@ public class Environment {
 	    fogState.setQuality(FogState.Quality.PerVertex);
 	    world.getRootNode().setRenderState(fogState);
 	    
-	    world.loadingFrame.setLoadingText("Creazione Terreno");
 	    world.loadingFrame.setProgress(35);
 		createTerrain();
 		
-		world.loadingFrame.setLoadingText("Caricamento SkyBox e Riflesso del Terreno");
 		world.loadingFrame.setProgress(40);
         createReflectionTerrain();
 
@@ -148,7 +143,6 @@ public class Environment {
         world.getRootNode().attachChild( skybox );
         world.getRootNode().attachChild( splatTerrain );
         
-        world.loadingFrame.setLoadingText("Caricamento Mare");
         world.loadingFrame.setProgress(45);
         createWater();
         
@@ -159,7 +153,6 @@ public class Environment {
 	    world.getRootNode().setCullHint(Spatial.CullHint.Never);
 	    world.getRootNode().setCullHint(Spatial.CullHint.Never);
 	    
-	    world.loadingFrame.setLoadingText("Caricamento ambientazione");
         world.loadingFrame.setProgress(50);
 	    loadItems();
 	    
@@ -494,4 +487,12 @@ public class Environment {
     public TerrainPage getTerrain() {
     	return terrain;
     }
+    
+    public float getHeight( float x, float z ) {
+    	return terrain.getHeight( x, z ) - waterHeight;
+    }
+
+	public float getHeight( Vector3f pos ) {
+		return terrain.getHeight( pos.x, pos.z ) - waterHeight;
+	}
 }
