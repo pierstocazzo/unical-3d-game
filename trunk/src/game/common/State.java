@@ -88,4 +88,18 @@ public enum State implements Serializable {
 	public int getActionRange() {
 		return actionRange;
 	}
+	
+	public static State toState( String type ){
+		State state = State.DEFAULT;
+		
+		if(type.equals("DEFAULT")) state = State.DEFAULT;
+		else if(type.equals("ALERT")) state = State.ALERT;
+		else if(type.equals("ATTACK")) state = State.ATTACK;
+		else if(type.equals("FIND")) state = State.FIND;
+		else if(type.equals("FINDATTACK")) state = State.FINDATTACK;
+		else if(type.equals("GUARD")) state = State.GUARD;
+		else if(type.equals("GUARDATTACK")) state = State.GUARDATTACK;
+		
+		return state;
+	}
 }

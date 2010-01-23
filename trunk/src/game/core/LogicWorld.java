@@ -1,14 +1,17 @@
 package game.core;
 
+import game.common.GameConfiguration;
 import game.common.Movement;
 import game.common.State;
 import game.common.WeaponType;
+import game.common.EnemyInfo;
 import game.common.MovementList.MovementType;
 import game.graphics.WorldInterface;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Set;
@@ -61,6 +64,13 @@ public class LogicWorld implements WorldInterface, Serializable {
 		playerCounter = 0;
 		scoreManager = new ScoreManager( this );
 		enemyAi = new AI( this );
+		
+		//set enemy from xml file
+		LinkedHashMap<String , EnemyInfo> enemyInfoList = GameConfiguration.getEmemiesInfoList();
+		for( String id : enemyInfoList.keySet()){
+			createEnemy( enemyInfoList.get(id).x, enemyInfoList.get(id).z, 
+					enemyInfoList.get(id).state, enemyInfoList.get(id).movements );
+		}
 	}
 	
 	/** Create one player with this life in this position
@@ -114,7 +124,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 * @param z - the z position of the enemy
 	 * @param movementList - (MovementList) list of movements
 	 */
-	public void createEnemy(int x, int z, State state, LinkedList<Movement> list) {
+	public void createEnemy(float x, float z, State state, LinkedList<Movement> list) {
 		enemyCounter = enemyCounter + 1;
 		Vector3f position = new Vector3f( x, 0, z );
 		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.AR15, state, position, 
