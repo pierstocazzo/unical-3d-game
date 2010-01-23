@@ -124,7 +124,7 @@ public class GraphicalWorld extends Game {
 	public void setupInit() {
    	
 		/** Setting up collision node */
-		collisionNode = new Node( "Collision" );
+		collisionNode = new Node("collision");
 		rootNode.attachChild(collisionNode);
 		
 		hudNode = new Node( "HUD" );

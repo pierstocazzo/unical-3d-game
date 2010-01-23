@@ -206,7 +206,7 @@ public class Environment {
 
 			SharedNode sharedModel = new SharedNode( cachedModels.get(meshId) );
 			world.collisionNode.attachChild( sharedModel );
-
+			
 			Vector3f position = item.position.subtract( 
 					world.dimension/2, scene.getWaterHeight(), world.dimension/2 );
 			sharedModel.setLocalTranslation( position );
