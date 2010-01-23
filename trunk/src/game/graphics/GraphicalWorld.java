@@ -217,7 +217,7 @@ public class GraphicalWorld extends Game {
     		
 			loadingFrame.setProgress( 80 + difference );
 
-            GraphicalEnemy enemy = new GraphicalEnemy( id, this, 20, 100,  model );
+            GraphicalEnemy enemy = new GraphicalEnemy( id, this, 5, 100,  model );
             
             Vector3f position = core.getPosition(id);
             position.setY( environment.getHeight( position.x, position.z ) + 2 );
