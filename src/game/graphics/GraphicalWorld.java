@@ -477,10 +477,8 @@ public class GraphicalWorld extends Game {
 		Vector3f camPos = new Vector3f( cam.getLocation() );
 		camPos.setY(0);
 		Vector3f pos = new Vector3f();
-		Iterator<GraphicalCharacter> it = characters.iterator();
-		while( it.hasNext() ) {
-			GraphicalCharacter character = it.next();
-			
+		
+		for( GraphicalCharacter character : characters ) {
 			pos.set( core.getPosition( character.id ) ).setY(0);
 
 			distance = camPos.distance( pos );
@@ -498,19 +496,31 @@ public class GraphicalWorld extends Game {
 			}
 		}
 		
-		Iterator<GraphicalEnergyPackage> it1 = energyPackages.iterator();
-		while( it.hasNext() ) {
-			GraphicalEnergyPackage e = it1.next();
-			pos.set( e.position ).setY(0);
+		for( GraphicalEnergyPackage energyPack : energyPackages ) {
+			pos.set( energyPack.position ).setY(0);
 			
 			distance = camPos.distance( pos );
 			
 			if( distance > 500 ) {
-				e.physicsPack.setActive( false );
-				e.physicsPack.removeFromParent();
+				energyPack.physicsPack.setActive( false );
+				energyPack.physicsPack.removeFromParent();
 			} else {
-				e.physicsPack.setActive( true );
-				rootNode.attachChild( e.physicsPack );
+				energyPack.physicsPack.setActive( true );
+				rootNode.attachChild( energyPack.physicsPack );
+			}
+		}
+		
+		for( GraphicalAmmoPackage ammoPack : ammoPackages ) {
+			pos.set( ammoPack.position ).setY(0);
+			
+			distance = camPos.distance( pos );
+			
+			if( distance > 500 ) {
+				ammoPack.physicsPack.setActive( false );
+				ammoPack.physicsPack.removeFromParent();
+			} else {
+				ammoPack.physicsPack.setActive( true );
+				rootNode.attachChild( ammoPack.physicsPack );
 			}
 		}
 		
