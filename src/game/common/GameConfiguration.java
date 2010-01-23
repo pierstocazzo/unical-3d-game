@@ -23,7 +23,7 @@ import org.jdom.output.XMLOutputter;
  */
 public class GameConfiguration {
 	
-	public static String SETTINGS_FILE = "src/game/data/settings.xml";
+	private final static String SETTINGS_FILE = "src/game/data/game.conf";
 	
 	/** the xml document */
 	static Document document;
@@ -34,7 +34,7 @@ public class GameConfiguration {
 	/**
 	 * Default Values
 	 */
-	static LinkedHashMap< String, String > defaultValues = new LinkedHashMap<String, String>();
+	static final LinkedHashMap< String, String > defaultValues = new LinkedHashMap<String, String>();
 	static {
 		defaultValues.put( "forward_key", "W" );
 		defaultValues.put( "backward_key", "S" );
@@ -135,30 +135,23 @@ public class GameConfiguration {
 	}
 	
 	/**
-	 * Store the user defined settings into a XML file
+	 * Store the user defined settings into the XML file
 	 */
+	@SuppressWarnings("unchecked")
 	public static void save() {
-		try {
-			root = new Element("game_configuration");
-			document = new Document(root);
-			
-			root.addContent( new Element("settings") );
-			root.addContent( new Element("parameters") );
-			
-			for( String key : values.keySet() ) {
-				Element setting = new Element( "setting" );
-				setting.setAttribute("name", key);
-				setting.setText( values.get(key) );
-				root.getChild("settings").addContent(setting);
-			}
-			
-			XMLOutputter outputter = new XMLOutputter();
-			outputter.setFormat( Format.getPrettyFormat() );
-			outputter.output( document, new FileOutputStream( SETTINGS_FILE ) );
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+		List<Element> settings = root.getChild("settings").getChildren();
+		
+		for( Element setting : settings ) {
+			setting.setText( values.get( setting.getAttributeValue("name") ) );
 		}
+		XMLOutputter outputter = new XMLOutputter();
+		outputter.setFormat( Format.getPrettyFormat() );
+		
+		try {
+			outputter.output( document, new FileOutputStream( SETTINGS_FILE ) );
+		} catch (Exception e) {
+			Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).severe("Error saving game configuration");
+		} 
 	}
 	
 	public static String getBackwardKey() {
