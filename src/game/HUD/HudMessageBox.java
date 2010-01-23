@@ -107,23 +107,23 @@ public class HudMessageBox {
 				case VICTORY:
 					// victory message
 					if( time + 10 <= GameTimer.getTimeInSeconds() )
-						userHud.gWorld.finish();
+						userHud.world.finish();
 					break;
 					
 				case GAMEOVER:
 					// game over message
 					if( time + 3 <= GameTimer.getTimeInSeconds() )
-						userHud.gWorld.finish();
+						userHud.world.finish();
 					break;
 			}
 		}
 		
-		if(userHud.gWorld.getCore().isReborn(userHud.gWorld.player.id)){
-			userHud.gWorld.getCore().setReborn(userHud.gWorld.player.id, false);
+		if(userHud.world.getCore().isReborn(userHud.world.player.id)){
+			userHud.world.getCore().setReborn(userHud.world.player.id, false);
 			createMessageBox(DIE);
 		}
-		else if(userHud.gWorld.getCore().showLevel2Message(userHud.gWorld.player.id)){
-			userHud.gWorld.getCore().setShowLevel2Message(userHud.gWorld.player.id,false);
+		else if(userHud.world.getCore().showLevel2Message(userHud.world.player.id)){
+			userHud.world.getCore().setShowLevel2Message(userHud.world.player.id,false);
 			createMessageBox(LEVEL2);
 		}
 	}
@@ -142,10 +142,10 @@ public class HudMessageBox {
 			usedLevel2 = true;
         this.type = type;
         // create a quad that contains request message
-        quad = new Quad("messageBox", userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y/3);
+        quad = new Quad("messageBox", userHud.world.getResolution().x/2, userHud.world.getResolution().y/3);
         // quad moved
-        quad.setLocalTranslation(userHud.gWorld.getResolution().x/2, userHud.gWorld.getResolution().y*3/5, 0);
-        userHud.gWorld.hudNode.attachChild(quad);
+        quad.setLocalTranslation(userHud.world.getResolution().x/2, userHud.world.getResolution().y*3/5, 0);
+        userHud.hudNode.attachChild(quad);
         // select file image of request message
         String path = "game/data/message/sfondo.jpg";
         switch (type) {

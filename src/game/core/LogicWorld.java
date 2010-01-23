@@ -169,7 +169,11 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 */
 	@Override
 	public Vector3f getPosition( String id ) {
-		return characters.get(id).position;
+		try {
+			return characters.get(id).position;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**

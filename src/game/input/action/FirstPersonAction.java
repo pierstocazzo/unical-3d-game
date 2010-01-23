@@ -1,14 +1,14 @@
 package game.input.action;
 
-import game.input.ThirdPersonHandler;
+import game.input.GameInputHandler;
 
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.MouseInputAction;
 
 public class FirstPersonAction extends MouseInputAction {
-	ThirdPersonHandler handler;
+	GameInputHandler handler;
 
-    public FirstPersonAction( ThirdPersonHandler handler ) {
+    public FirstPersonAction( GameInputHandler handler ) {
         this.handler = handler;
     }
 

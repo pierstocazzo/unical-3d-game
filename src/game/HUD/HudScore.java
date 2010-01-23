@@ -53,13 +53,13 @@ public class HudScore {
 		this.userHud = userHud;
 		value = 0;
 		// get score info
-		xPosition = (int) (userHud.gWorld.getResolution().x/2) ;
-		yPosition = (int) userHud.gWorld.getResolution().y;
+		xPosition = (int) (userHud.world.getResolution().x/2) ;
+		yPosition = (int) userHud.world.getResolution().y;
 		
 		// create a score quad
-		scoreQuad = new Quad("scoreQuad", userHud.gWorld.getResolution().x/8, userHud.gWorld.getResolution().y/15);
+		scoreQuad = new Quad("scoreQuad", userHud.world.getResolution().x/8, userHud.world.getResolution().y/15);
 		float xScoreQuad = xPosition - scoreQuad.getWidth()/4;
-		scoreQuad.setLocalTranslation(xScoreQuad, userHud.gWorld.getResolution().y - scoreQuad.getHeight(), 0);
+		scoreQuad.setLocalTranslation(xScoreQuad, userHud.world.getResolution().y - scoreQuad.getHeight(), 0);
 		
 		/* load the texture to set to the map */
         TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
@@ -77,22 +77,22 @@ public class HudScore {
         
         scoreQuad.setRenderState(as);
 		
-		userHud.gWorld.hudNode.attachChild(scoreQuad);
+		userHud.hudNode.attachChild(scoreQuad);
 		
 		// create score text
 		score = Text.createDefaultTextLabel( "Score" );
     	score.setTextColor(ColorRGBA.red);
-    	score.setLocalScale(userHud.gWorld.getResolution().x/400);
+    	score.setLocalScale(userHud.world.getResolution().x/400);
     	score.setLocalTranslation( scoreQuad.getLocalTranslation().x+scoreQuad.getWidth()/2, 
 				scoreQuad.getLocalTranslation().y-scoreQuad.getHeight()/2, 0 );
-    	userHud.gWorld.hudNode.attachChild( score );
+    	userHud.hudNode.attachChild( score );
 	}
 	
 	/**
 	 * Update Score informations
 	 */
 	public void update(){
-		value = userHud.game.getScore(userHud.gWorld.player.id);
+		value = userHud.game.getScore(userHud.world.player.id);
 		score.print(Integer.toString(value));
 		float xScoreQuad = xPosition - (scoreQuad.getWidth() + score.getWidth())/8;
 		scoreQuad.setLocalTranslation(xScoreQuad, scoreQuad.getLocalTranslation().y, 0);

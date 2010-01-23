@@ -68,7 +68,6 @@ public class PointPath {
 				direction = first.clone();
 			
 			movementslist.add( new Movement( direction, direction.length() ) );
-			// sembra che la lista ha un elemento in più
 		}
 		return movementslist;
 	}

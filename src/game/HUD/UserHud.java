@@ -1,12 +1,21 @@
 package game.HUD;
 
+import utils.Loader;
 import game.common.GameTimer;
 import game.graphics.GraphicalWorld;
 import game.graphics.WorldInterface;
 
 import com.jme.renderer.ColorRGBA;
+import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Text;
+import com.jme.scene.shape.Quad;
+import com.jme.scene.state.BlendState;
+import com.jme.scene.state.TextureState;
+import com.jme.scene.state.BlendState.DestinationFunction;
+import com.jme.scene.state.BlendState.SourceFunction;
+import com.jme.system.DisplaySystem;
+import com.jme.util.TextureManager;
 
 /**
  * Class UserHud
@@ -22,7 +31,7 @@ public class UserHud {
 	Node hudNode;
 	
 	/** World pointer */
-	GraphicalWorld gWorld;
+	GraphicalWorld world;
 	
 	/** HudScore pointer */
 	HudScore hudScore;
@@ -53,6 +62,9 @@ public class UserHud {
 
 	/** big message handler */
 	public HudMessageBox hudMsgBox;
+
+	/** crosshair */
+	Quad crosshair;
 	
 	/** 
 	 * Constructor
@@ -60,16 +72,19 @@ public class UserHud {
 	 * @param graphicalWorld - (GraphicalWorld)
 	 */
 	public UserHud(GraphicalWorld graphicalWorld){
-		this.gWorld = graphicalWorld;
+		this.world = graphicalWorld;
 		this.game = graphicalWorld.getCore();
-		this.hudNode = graphicalWorld.hudNode;
+		this.hudNode = new Node("Hud");
+		
+		world.getRootNode().attachChild( hudNode );
+		hudNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
 		
 		// initialize time variable and other objects
 		oldTicks = 0;
 		hudScore = new HudScore(this);
 		hudLife = new HudLife(this);
 		hudAmmo = new HudAmmo(this);
-		map = new WorldMap2D(graphicalWorld);
+		map = new WorldMap2D( graphicalWorld, this );
 		
 		// create text label
 		level = Text.createDefaultTextLabel( "Level" );
@@ -81,13 +96,15 @@ public class UserHud {
     	
     	// create text label
     	fps = Text.createDefaultTextLabel( "FPS" );
-    	fps.setLocalTranslation( gWorld.getResolution().x - 200, gWorld.getResolution().y - 40, 0 );
-    	gWorld.getRootNode().attachChild( fps );
+    	fps.setLocalTranslation( world.getResolution().x - 200, world.getResolution().y - 40, 0 );
+    	world.getRootNode().attachChild( fps );
     	
     	// create alert bar and two message handler
     	hudAlert = new HudAlert(this);
     	hudMsg = new HudMessageHandler(this);
     	hudMsgBox = new HudMessageBox(HudMessageBox.WELCOME1, this);
+    	
+    	setCrosshair();
     }
 	
 	/**
@@ -98,7 +115,7 @@ public class UserHud {
 		if(oldTicks + 500 <= (int)GameTimer.getTime())
 		{
 			oldTicks = (int) GameTimer.getTime();
-			int value = gWorld.getCore().getLevel(gWorld.player.id);
+			int value = world.getCore().getLevel(world.player.id);
 			level.print("Level: "+Integer.toString(value));
 			hudScore.update();
 			hudLife.update();
@@ -119,5 +136,36 @@ public class UserHud {
 	 */
 	public static void addMessage( int type ) {
 		hudMsg.addMessage( type, 5, ColorRGBA.blue );
+	}
+
+	public void showCrosshair( boolean show ) {
+		if( show ) {
+			hudNode.attachChild( crosshair );
+		} else {
+			crosshair.removeFromParent();
+		}
+	}
+	
+	public void setCrosshair() {
+		BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
+	    as.setBlendEnabled(true);
+	    as.setTestEnabled(false);
+	    as.setSourceFunction( SourceFunction.SourceAlpha );
+	    as.setDestinationFunction( DestinationFunction.OneMinusSourceAlpha );
+	    as.setEnabled(true);
+		TextureState cross = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+		cross.setTexture( TextureManager.loadTexture( Loader.load(
+		                "game/data/images/crosshair.png" ), false ) );
+		cross.setEnabled(true);
+		crosshair = new Quad( "quad", 30, 30 );
+		crosshair.setLocalTranslation( DisplaySystem.getDisplaySystem().getWidth() / 2,
+				DisplaySystem.getDisplaySystem().getHeight() / 2, 0 );
+		crosshair.setRenderState(as);
+		crosshair.setRenderState(cross);
+		crosshair.lock();
+		
+		hudNode.attachChild( crosshair );
+		hudNode.updateGeometricState( 0.0f, true );
+		hudNode.updateRenderState();
 	}
 }

@@ -4,7 +4,7 @@ import game.HUD.HudMessageBox;
 import game.HUD.UserHud;
 import game.base.Game;
 import game.common.GameConfiguration;
-import game.input.ThirdPersonHandler;
+import game.input.GameInputHandler;
 import game.menu.LoadingFrame;
 import game.sound.SoundManager;
 import game.sound.SoundManager.SoundType;
@@ -27,13 +27,9 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.Renderer;
 import com.jme.renderer.pass.BasicPassManager;
 import com.jme.scene.Node;
-import com.jme.scene.Text;
 import com.jme.scene.shape.Quad;
-import com.jme.scene.state.BlendState;
 import com.jme.scene.state.LightState;
 import com.jme.scene.state.TextureState;
-import com.jme.scene.state.BlendState.DestinationFunction;
-import com.jme.scene.state.BlendState.SourceFunction;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 import com.jmex.physics.StaticPhysicsNode;
@@ -49,7 +45,7 @@ public class GraphicalWorld extends Game {
 	WorldInterface core;
 	
 	/** a custom freeCamInput handler to control the player */
-	ThirdPersonHandler inputHandler;
+	GameInputHandler inputHandler;
     
     /** list of the characters */
     List<GraphicalCharacter> characters; 
@@ -74,16 +70,13 @@ public class GraphicalWorld extends Game {
     /** set to false when you don't want to do the world update */
 	boolean enabled = true;
 	
-	/** HUD node */
-	public Node hudNode;
-	/** very very basic hud */
+	/** HUD */
 	Quad crosshair;
-	Text gameOver;
 	public UserHud userHud;
 	
 	/** audio controller */
 	SoundManager audio;
-	public boolean audioEnabled;
+	private boolean audioEnabled;
 	
 	boolean freeCam;
 
@@ -118,7 +111,7 @@ public class GraphicalWorld extends Game {
         this.core = core;
         super.loadingFrame = loadingFrame;
         
-        audioEnabled = Boolean.valueOf( GameConfiguration.isSoundEnabled() );
+        setAudioEnabled(Boolean.valueOf( GameConfiguration.isSoundEnabled() ));
     }
 
 	public void setupInit() {
@@ -126,10 +119,6 @@ public class GraphicalWorld extends Game {
 		/** Setting up collision node */
 		collisionNode = new Node("collision");
 		rootNode.attachChild(collisionNode);
-		
-		hudNode = new Node( "HUD" );
-		rootNode.attachChild( hudNode );
-		hudNode.setRenderQueueMode(Renderer.QUEUE_ORTHO);
 		
 		characters = new LinkedList<GraphicalCharacter>();
 		bullets = new LinkedList<Bullet>();
@@ -139,17 +128,13 @@ public class GraphicalWorld extends Game {
 		
 		loadingFrame.setProgress(10);
 		
-    	setCrosshair();
     	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
     	
-		gameOver = Text.createDefaultTextLabel( "gameOver" );
-		rootNode.attachChild(gameOver);
-		
 		loadingFrame.setProgress(15);
 		
     	ExplosionFactory.warmup();
     	
-		if( audioEnabled ) {
+		if( isAudioEnabled() ) {
 			audio = new SoundManager( cam );
 		}
     }
@@ -241,7 +226,7 @@ public class GraphicalWorld extends Game {
     	
         KeyBindingManager.getKeyBindingManager().set( "freeCamAction", KeyInput.KEY_C );
     	
-        inputHandler = new ThirdPersonHandler( player, cam );
+        inputHandler = new GameInputHandler( player, cam );
         
         // setup CollisionHandler
         collisionHandler = new CollisionHandler( inputHandler, collisionNode );
@@ -252,7 +237,7 @@ public class GraphicalWorld extends Game {
 		if( !enabled )
 			return;
 		
-		if( audioEnabled )
+		if( isAudioEnabled() )
 			audio.update();
     	
 		if( core.isAlive( player.id ) == false ) {
@@ -294,11 +279,9 @@ public class GraphicalWorld extends Game {
 	        
 	        /** print the crosshair only in first person view */
 	        if( inputHandler.isFirstPerson() ) {
-	        	if( !hudNode.hasChild( crosshair ) )
-	        		hudNode.attachChild( crosshair );
+	        	userHud.showCrosshair( true );
 	        } else {
-	        	if( hudNode.hasChild( crosshair ) )
-	        		hudNode.detachChild( crosshair );
+	        	userHud.showCrosshair( false );
 	        }
 	        
 		    if( freeCam ) {
@@ -322,9 +305,9 @@ public class GraphicalWorld extends Game {
 		updateInput();
 		
 		if( player.walkingBackwards || player.walkingForward )
-			if(audioEnabled)
+			if(isAudioEnabled())
 				SoundManager.playSound(SoundType.WALK, cam.getLocation().clone());
-		if( player.running && audioEnabled)
+		if( player.running && isAudioEnabled())
 				SoundManager.playSound(SoundType.RUN, cam.getLocation().clone());
     }
     
@@ -334,7 +317,7 @@ public class GraphicalWorld extends Game {
 			int tot = characters.size() - 1;
 			if( tot == 0 ) {
 				userHud.hudMsgBox.createMessageBox(HudMessageBox.VICTORY);
-				if(audioEnabled)
+				if(isAudioEnabled())
 					SoundManager.playSound(SoundType.VICTORY, cam.getLocation().clone());
 				victory = true;
 			}
@@ -418,36 +401,9 @@ public class GraphicalWorld extends Game {
 			energyPackages.add( energyPack );
 		}
 	}
-	
-	public Node getHudNode() {
-		return hudNode;
-	}
 
 	public float getDimension() {
 		return dimension;
-	}
-
-	public void setCrosshair() {
-		BlendState as = DisplaySystem.getDisplaySystem().getRenderer().createBlendState();
-	    as.setBlendEnabled(true);
-	    as.setTestEnabled(false);
-	    as.setSourceFunction( SourceFunction.SourceAlpha );
-	    as.setDestinationFunction( DestinationFunction.OneMinusSourceAlpha );
-	    as.setEnabled(true);
-		TextureState cross = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-		cross.setTexture( TextureManager.loadTexture( Loader.load(
-		                "game/data/images/crosshair.png" ), false ) );
-		cross.setEnabled(true);
-		crosshair = new Quad( "quad", 30, 30 );
-		crosshair.setLocalTranslation( DisplaySystem.getDisplaySystem().getWidth() / 2,
-				DisplaySystem.getDisplaySystem().getHeight() / 2, 0 );
-		crosshair.setRenderState(as);
-		crosshair.setRenderState(cross);
-		crosshair.lock();
-		
-		hudNode.attachChild(crosshair);
-		hudNode.updateGeometricState( 0.0f, true );
-		hudNode.updateRenderState();
 	}
 
 	public WorldInterface getCore() {
@@ -459,17 +415,17 @@ public class GraphicalWorld extends Game {
 	}
 	
 	public void shoot( Vector3f position ) {
-		if( audioEnabled )
+		if( isAudioEnabled() )
 	    	SoundManager.playSound( SoundType.SHOOT, position.clone() );
 	}
 	
 	public void explode( Vector3f position ) {
-		if( audioEnabled ) 
+		if( isAudioEnabled() ) 
 			SoundManager.playSound( SoundType.EXPLOTION, position.clone() );
 	}
     
 	public void playDeathSound() {
-		if( audioEnabled ) 
+		if( isAudioEnabled() ) 
 			SoundManager.playSound( SoundType.DEATH, cam.getLocation().clone() );
 	}
 	
@@ -552,5 +508,13 @@ public class GraphicalWorld extends Game {
 
 	public Node getCollisionNode() {
 		return collisionNode;
+	}
+
+	public void setAudioEnabled(boolean audioEnabled) {
+		this.audioEnabled = audioEnabled;
+	}
+
+	public boolean isAudioEnabled() {
+		return audioEnabled;
 	}
 }

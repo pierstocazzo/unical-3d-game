@@ -1,8 +1,10 @@
 package game.HUD;
 
-import java.util.HashMap;
-
 import game.graphics.GraphicalWorld;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import utils.Loader;
 
 import com.jme.math.Vector3f;
@@ -29,7 +31,7 @@ public class WorldMap2D {
 	Quad map;
     
     /** This HashMap contains the disk of each character */
-    HashMap<String, Disk> characters;
+    List<Spot> characters;
     
     /** display's width */
     float displayWidth;
@@ -48,6 +50,8 @@ public class WorldMap2D {
 	
 	/** time variable */
 	long oldTicks = 0;
+
+	UserHud hud;
 	
 	/** 
 	 * WorldMap2D constructor 
@@ -55,9 +59,11 @@ public class WorldMap2D {
 	 * Create a 2d Map of the graphical world.
 	 * 
 	 * @param world - (GraphicalWorld) the graphical world to represent in the 2d map
+	 * @param userHud 
 	 */
-	public WorldMap2D( GraphicalWorld world ){
+	public WorldMap2D( GraphicalWorld world, UserHud userHud ){
 		this.world = world;
+		this.hud = userHud;
 		
 	    /* parameters used to create the map proportionally to 
 	     * the display resolution and to the world dimensions 
@@ -76,11 +82,11 @@ public class WorldMap2D {
 		this.mapExtension = mapDimension / 2;
 		this.mapScale = worldDimension / mapDimension;
 		
-		/* initialize the hashmap that will contains all the characters disks */
-		characters = new HashMap<String, Disk>();
+		/* initialize the list that will contains all the characters disks */
+		characters = new LinkedList<Spot>();
 		
 		map = new Quad( "hudmap", mapDimension, mapDimension );
-		world.getHudNode().attachChild( map );
+		hud.hudNode.attachChild( map );
 		
 		/* place the map in the lower right angle of the display */
 		Vector3f pos = new Vector3f( displayWidth - mapExtension, mapExtension, 0 );
@@ -97,43 +103,42 @@ public class WorldMap2D {
         
         /* create a blue disk for each player... */
 		for( String id : world.getCore().getPlayersIds() ) {
-			createDisk( id, ColorRGBA.blue );
+			createSpot( id, ColorRGBA.blue );
 		}
 		/* ...and a red one for each enemy */
 		for( String id : world.getCore().getEnemiesIds() ){
-			createDisk( id, ColorRGBA.red );
+			createSpot( id, ColorRGBA.red );
 		}
 	}
 	
 	/** Update the 2d WorldMap 
 	 */
 	public void update() {
-		// Clean previously printed disks
-		for( String id : characters.keySet() )
-			world.getHudNode().detachChild( characters.get(id) );
-		
-		// set the new position and render each disk
-		for( String id : world.getCore().getCharactersIds() ) {
-			characters.get( id ).setLocalTranslation( calculatePosition( world.getCore().getPosition( id ) ) );
-			world.getHudNode().attachChild( characters.get( id ) );
+		// set the new position of each spot...or remove it
+		for( Spot sp : characters ) {
+			Vector3f pos = new Vector3f( world.getCore().getPosition( sp.characterId ) );
+			if( pos != null ) {
+				sp.spot.setLocalTranslation( calculatePosition( pos ) );
+			} else {
+				sp.spot.removeFromParent();
+			}
 		}
 	}
 	
-	/** Function that create a new disk with this color, and add it into the hashmap
+	/** Function that create a new spot with this color, and add it into the hashmap
 	 * with the id: characterId + "disk" (es: player1disk)
 	 * 
 	 * @param id - (String) the character's id
 	 * @param color - (ColorRGBA) the color to set to the disk
 	 */
-	void createDisk( String id, ColorRGBA color ) {
-		Disk disk = new Disk( id + "disk", 5, 5, 5 );
-		disk.clearTextureBuffers();
-		disk.setDefaultColor( color );
-		world.getHudNode().attachChild( disk );
-		disk.lockBounds();
-		disk.lockMeshes();
-		disk.lockShadows();
-		characters.put( id, disk );
+	void createSpot( String id, ColorRGBA color ) {
+		Disk spot = new Disk( id + "disk", 5, 5, 5 );
+		spot.setDefaultColor( color );
+		hud.hudNode.attachChild( spot );
+		spot.lockBounds();
+		spot.lockMeshes();
+		spot.lockShadows();
+		characters.add( new Spot( id, spot ) );
 	}
 	
 	/** Utility function that calculate the correct position where to print the disk in the map
@@ -143,5 +148,15 @@ public class WorldMap2D {
 	 */
 	Vector3f calculatePosition( Vector3f pos ) {
 		return new Vector3f( displayWidth - mapExtension + pos.z/mapScale, mapExtension + pos.x/mapScale, 0 );
+	}
+	
+	class Spot {
+		String characterId;
+		Disk spot;
+		
+		Spot( String characterId, Disk spot ) {
+			this.characterId = characterId;
+			this.spot = spot;
+		}
 	}
 }
