@@ -141,7 +141,7 @@ public class LoadingFrame extends JFrame {
 	 *  
 	 * @param num - (int) Progress Value
 	 */
-	public void setProgress(int num){
+	public void setProgress( int num ){
 		progressBar.setValue(num);
 	}
 	
