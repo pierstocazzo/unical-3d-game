@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,10 +61,14 @@ public class GameConfiguration {
 	 * User defined values
 	 */
 	static LinkedHashMap< String, String > values;
+
+	static LinkedHashMap< String, EnemyInfo > enemies;
 	
 	public static void init() {
 		values = new LinkedHashMap< String, String >();
 		values.putAll(defaultValues);
+		
+		enemies = new LinkedHashMap< String, EnemyInfo >();
 
 		load();
 		
@@ -97,6 +102,42 @@ public class GameConfiguration {
 
 				values.put( name.getValue(), element.getText() );
 			}
+			
+			List<Element> enemy_list = root.getChild("enemies").getChildren();
+			for( Element enemy : enemy_list ) {
+				EnemyInfo enemyInfo = new EnemyInfo();
+				
+				Attribute name = enemy.getAttribute("name");
+				enemyInfo.id = name.getValue();
+				
+				name = enemy.getAttribute("x");
+				enemyInfo.x = Float.valueOf(name.getValue());
+				
+				name = enemy.getAttribute("z");
+				enemyInfo.z = Float.valueOf(name.getValue());
+				
+				name = enemy.getAttribute("state");
+				enemyInfo.state = State.toState(name.getValue());
+				
+				//load path's points
+				PointPath pointPath = new PointPath();
+				List<Element> point_list = enemy.getChildren();
+				for( Element pointInfo : point_list ) {
+					Attribute x = pointInfo.getAttribute("x");
+					Attribute z = pointInfo.getAttribute("z");
+					Point point = new Point( Float.valueOf(x.getValue()), Float.valueOf(z.getValue()) );
+					pointPath.add(point);
+					System.out.println(x.getValue()+" "+z.getValue());
+				}
+				enemyInfo.movements = pointPath.generateMovementsList();
+				System.out.println("lista movimenti");
+				for (int i = 0; i < enemyInfo.movements.size(); i++ )
+					System.out.println(enemyInfo.movements.get(i).direction.toString());
+				
+				enemies.put( enemyInfo.id, enemyInfo );
+			}
+			
+			
 		} catch (Exception e) {
 			Logger.getAnonymousLogger().log( Level.SEVERE, 
 					"Error loading the settings file, make sure the path is correct." +
@@ -285,5 +326,9 @@ public class GameConfiguration {
 	
 	public static void setSceneFilePath( String path ) {
 		values.put( "scene_file_path", path );
+	}
+	
+	public static LinkedHashMap<String, EnemyInfo> getEmemiesInfoList() {
+		return enemies;
 	}
 }

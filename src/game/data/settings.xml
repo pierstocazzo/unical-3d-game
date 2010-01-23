@@ -7,13 +7,62 @@
     <setting name="turnleft_key">A</setting>
     <setting name="run_key">LSHIFT</setting>
     <setting name="pause_key">P</setting>
-    <setting name="resolution_width">1680</setting>
-    <setting name="resolution_height">1050</setting>
-    <setting name="resolution_depth">32</setting>
-    <setting name="resolution_frequency">60</setting>
+    <setting name="resolution_width">1280</setting>
+    <setting name="resolution_height">800</setting>
+    <setting name="resolution_depth">24</setting>
+    <setting name="resolution_frequency">50</setting>
     <setting name="is_fullscreen">true</setting>
     <setting name="sound_enabled">false</setting>
     <setting name="scene_file_path">src/game/data/level/island.xml</setting>
   </settings>
+  <enemies>
+  	<!-- ACCAMPAMENTO 1 -->
+	    <enemy name="1" x="892" z="528" state="DEFAULT">
+			<point x="892" z="528"/>
+	    	<point x="869" z="571"/>
+	    </enemy>
+	    <enemy name="2" x="892" z="575" state="DEFAULT">
+			<point x="892" z="575"/>
+	    	<point x="909" z="541"/>
+    	</enemy>
+    	<enemy name="3" x="867" z="485" state="GUARD"></enemy>
+    	<enemy name="4" x="822" z="634" state="GUARD"></enemy>
+    	<enemy name="5" x="942" z="538" state="DEFAULT">
+    		<point x="942" z="538"/>
+			<point x="947" z="569"/>
+	    	<point x="1025" z="619"/>
+	    	<point x="1031" z="667"/>
+	    	<point x="1154" z="685"/>
+	    	<point x="1191" z="657"/>
+	    	<point x="1173" z="619"/>
+	    	<point x="1108" z="559"/>
+	    	<point x="960" z="507"/>
+    	</enemy>
+    	<enemy name="6" x="919" z="654" state="DEFAULT">
+			<point x="919" z="654"/>
+	    	<point x="964" z="713"/>
+	    	<point x="998" z="682"/>
+	    	<point x="950" z="614"/>
+    	</enemy>
+    	<enemy name="7" x="988" z="728" state="DEFAULT">
+			<point x="988" z="728"/>
+	    	<point x="1074" z="824"/>
+	    	<point x="1105" z="729"/>
+	    	<point x="1050" z="692"/>
+    	</enemy>
+    	<enemy name="8" x="1111" z="800" state="DEFAULT">
+			<point x="1111" z="800"/>
+	    	<point x="1228" z="867"/>
+	    	<point x="1279" z="915"/>
+	    	<point x="1355" z="883"/>
+	    	<point x="1342" z="833"/>
+	    	<point x="1260" z="793"/>
+	    	<point x="1209" z="741"/>
+    	</enemy>
+    	<enemy name="9" x="1294" z="866" state="DEFAULT">
+			<point x="1294" z="866"/>
+	    	<point x="1186" z="792"/>
+    	</enemy>
+  </enemies>
   <parameters />
 </game_configuration>
