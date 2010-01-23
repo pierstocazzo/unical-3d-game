@@ -78,7 +78,6 @@ public class GraphicalCharacter {
 	}
 
 	public PhysicsNode getCharacterFeet() {
-		// used just for GraphicalEnemy
-		return null;
+		return body;
 	}
 }
