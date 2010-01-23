@@ -75,6 +75,8 @@ public class GameThread implements Runnable {
     	logicGame.createEnemy( 1133, 864, State.DEFAULT, MovementType.REST );
     	
     	logicGame.initScoreManager();
+    	
+    	logicGame.createEnergyPackages( 100 );
 	}
 	
 	public GameThread( LogicWorld logicGame, LoadingFrame loadingFrame ){

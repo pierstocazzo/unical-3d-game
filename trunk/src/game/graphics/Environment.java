@@ -89,6 +89,8 @@ public class Environment {
     Scene scene;
 	
     Vector3f terrainScale;
+	
+    float waterHeight;
     
     /** Class Environment constructor <br>
      * Create the environment for the game
@@ -108,6 +110,8 @@ public class Environment {
 		
 		world.dimension = (heightMapSize-1) * terrainScale.x;
 	    
+		waterHeight = scene.getWaterHeight();
+		
         ground = world.getPhysicsSpace().createStaticNode();
         gameBounds = world.getPhysicsSpace().createStaticNode();
         world.getRootNode().attachChild(ground);
@@ -283,7 +287,7 @@ public class Environment {
 		
         terrain = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
-        terrain.getLocalTranslation().set( 0, -scene.getWaterHeight(), 0 );
+        terrain.getLocalTranslation().set( 0, -waterHeight, 0 );
         terrain.setDetailTexture(1, 1);
         
         // alpha used for blending the passnodestates together
@@ -339,7 +343,7 @@ public class Environment {
 
         TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
                 terrainScale, heightMap.getHeightMap());
-        page.getLocalTranslation().set(  0, -20, 0 );
+        page.getLocalTranslation().set(  0, -waterHeight, 0 );
         page.setDetailTexture(1, 1);
 
         TextureState ts1 = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();

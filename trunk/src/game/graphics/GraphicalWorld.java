@@ -403,9 +403,9 @@ public class GraphicalWorld extends Game {
 		for( String id : core.getEnergyPackagesIds() ) {
 			Vector3f position = new Vector3f();
 			Random r = new Random();
-			position.setX( r.nextInt( (int) dimension ) );
-			position.setZ( r.nextInt( (int) dimension ) );
-			position.setY( environment.getTerrain().getHeight(position.x, position.z) +10 );
+			position.setX( r.nextInt( (int) dimension ) - dimension/2 );
+			position.setZ( r.nextInt( (int) dimension ) - dimension/2 );
+			position.setY( environment.getTerrain().getHeight(position.x, position.z) - environment.waterHeight );
 			GraphicalEnergyPackage energyPack = new GraphicalEnergyPackage( id, this, position );
 			energyPackages.add( energyPack );
 		}
@@ -495,6 +495,22 @@ public class GraphicalWorld extends Game {
 					character.showModel();
 					character.setEnabled(true);
 				}
+			}
+		}
+		
+		Iterator<GraphicalEnergyPackage> it1 = energyPackages.iterator();
+		while( it.hasNext() ) {
+			GraphicalEnergyPackage e = it1.next();
+			pos.set( e.position ).setY(0);
+			
+			distance = camPos.distance( pos );
+			
+			if( distance > 500 ) {
+				e.physicsPack.setActive( false );
+				e.physicsPack.removeFromParent();
+			} else {
+				e.physicsPack.setActive( true );
+				rootNode.attachChild( e.physicsPack );
 			}
 		}
 		

@@ -126,7 +126,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 *  Create a number of energy packages in random 
 	 *  positions of the world...
 	 */
-	public void createEnergyPackages( int number, int xDimension, int zDimension ) {
+	public void createEnergyPackages( int number ) {
 		for( int i = 0; i < number; i++ ) {
 			energyPackCounter = energyPackCounter + 1;
 			LogicEnergyPack energyPack = new LogicEnergyPack( "energyPack" + energyPackCounter, 10 );

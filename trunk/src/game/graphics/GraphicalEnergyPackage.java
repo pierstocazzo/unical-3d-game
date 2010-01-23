@@ -1,9 +1,9 @@
 package game.graphics;
 
-import java.util.Iterator;
-
 import game.HUD.HudMessageHandler;
 import game.HUD.UserHud;
+
+import java.util.Iterator;
 
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
@@ -11,15 +11,14 @@ import com.jme.input.action.InputActionEvent;
 import com.jme.input.util.SyntheticButton;
 import com.jme.math.Vector3f;
 import com.jme.scene.shape.Box;
-import com.jmex.physics.DynamicPhysicsNode;
+import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
-import com.jmex.physics.material.Material;
 
 public class GraphicalEnergyPackage {
 	
 	String id;
 	
-	DynamicPhysicsNode physicsPack;
+	StaticPhysicsNode physicsPack;
 	
 	Box pack;
 	
@@ -35,7 +34,7 @@ public class GraphicalEnergyPackage {
 		this.id = id;
 		this.world = world;
 		this.position = new Vector3f( position );
-		this.position.setY( position.getY() + 30 );
+		this.position.setY( position.getY() + 2 );
 		this.contactDetect = new InputHandler();
 		createPhysics();
 		contactDetector();
@@ -43,13 +42,14 @@ public class GraphicalEnergyPackage {
 	}
 	
 	public void createPhysics() {
-		physicsPack = world.getPhysicsSpace().createDynamicNode();
+		physicsPack = world.getPhysicsSpace().createStaticNode();
 		world.getRootNode().attachChild( physicsPack );
 		physicsPack.getLocalTranslation().set( position );
-		physicsPack.setMaterial( Material.RUBBER );
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
 		pack.setRandomColors();
 		pack.updateRenderState();
+		pack.lockShadows();
+		pack.lockMeshes();
 		physicsPack.attachChild( pack );
 		physicsPack.generatePhysicsGeometry();
 	}

@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<game_configuration>
-	<settings>
-		<setting name="run_key">LSHIFT</setting>
-		<setting name="forward_key">W</setting>
-		<setting name="backward_key">S</setting>
-		<setting name="turnright_key">D</setting>
-		<setting name="turnleft_key">A</setting>
-		<setting name="pause_key">P</setting>
-		<setting name="resolution_width">1024</setting>
-		<setting name="resolution_height">768</setting>
-		<setting name="resolution_depth">24</setting>
-		<setting name="resolution_frequency">50</setting>
-		<setting name="is_fullscreen">false</setting>
-		<setting name="sound_enabled">false</setting>
-		<setting name="scene_file_path">src/game/data/level/island.xml</setting>
-	</settings>
-	<parameters>
-	</parameters>
-</game_configuration>
+<settings>
+  <item name="forward_key">W</item>
+  <item name="backward_key">S</item>
+  <item name="turnright_key">D</item>
+  <item name="turnleft_key">A</item>
+  <item name="run_key">LSHIFT</item>
+  <item name="pause_key">P</item>
+  <item name="resolution_width">1680</item>
+  <item name="resolution_height">1050</item>
+  <item name="resolution_depth">32</item>
+  <item name="resolution_frequency">60</item>
+  <item name="is_fullscreen">true</item>
+  <item name="sound_enabled">false</item>
+  <item name="scene_file_path">src/game/data/level/island.xml</item>
+</settings>
+
