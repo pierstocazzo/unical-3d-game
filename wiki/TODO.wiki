@@ -8,7 +8,6 @@
   * Animazioni modello e armi - slash (WORK IN PROGRESS)
   * Immagini Menu - slash
   * Multiplayer - slash/joe/andrea (?)
+  * Posizionamento Nemici - andrea (WORK IN PROGRESS)
 
 == Bug da sistemare ==
-
-  * Inizializzare lista nemici in GameConfiguration solo se non è una partita caricata (perchè???)
