@@ -161,7 +161,10 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 */
 	@Override 
 	public void setPosition( String id, Vector3f position ) {
-		characters.get( id ).setPosition( position );
+		try {
+			characters.get( id ).setPosition( position );
+		} catch (Exception e) {
+		}
 	}
 	
 	/**
@@ -222,7 +225,11 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 */
 	@Override
 	public boolean shoot( String id ) {
-        return characters.get(id).shoot();
+		try {
+			return characters.get(id).shoot();
+		} catch (Exception e) {
+			return false;
+		}
     }
 	
 	/**
@@ -248,7 +255,11 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 */
 	@Override
 	public Movement getNextMovement( String id ) {
-		return characters.get(id).getNextMovement();
+		try {
+			return characters.get(id).getNextMovement();
+		} catch (Exception e) {
+			return new Movement( Vector3f.ZERO, 0 );
+		}
 	}
 
 	/**
@@ -268,23 +279,33 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 */
 	@Override
 	public boolean isMoving( String id ) {
-		return characters.get(id).isMoving();
+		try {
+			return characters.get(id).isMoving();
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
 	 * @see WorldInterface
 	 */
 	@Override
-	public void setMoving( String id, boolean b ) {
-		characters.get(id).setMoving(b);
+	public void setMoving( String id, boolean moving ) {
+		try {
+			characters.get(id).setMoving( moving );
+		} catch (Exception e) {
+		}
 	}
 
 	/**
 	 * @see WorldInterface
 	 */
 	@Override
-	public void setJumping( String id, boolean b ) {
-		characters.get(id).setJumping(b);
+	public void setJumping( String id, boolean jumping ) {
+		try {
+			characters.get(id).setJumping( jumping );
+		} catch (Exception e) {
+		}
 	}
 
 	/**
@@ -292,7 +313,11 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 */
 	@Override
 	public WeaponType getWeapon(String id) {
-		return characters.get(id).getCurrentWeapon();
+		try {
+			return characters.get(id).getCurrentWeapon();
+		} catch (Exception e) {
+			return WeaponType.AR15;
+		}
 	}
 
 	/**
@@ -362,7 +387,11 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 */
 	@Override
 	public boolean catchEnergyPack( String playerId, String energyPackId ) {
-		return characters.get(playerId).addLife( energyPackages.get(energyPackId).getValue() );
+		try {
+			return characters.get(playerId).addLife( energyPackages.get(energyPackId).getValue() );
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
