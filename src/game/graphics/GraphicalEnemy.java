@@ -101,15 +101,15 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 		
 		previousMoveDirection = world.getCore().getMoveDirection(id).clone();
 		
-		TextLabel2D label = new TextLabel2D( id );
-		label.setBackground(Color.GREEN);
-		label.setFontResolution( 100 );
-		label.setForeground(Color.GREEN);
-		BillboardNode bNode = label.getBillboard(0.5f);
-		bNode.getLocalTranslation().y += 10;
-		bNode.setLocalScale( 5 );
-		
-		model.attachChild( bNode );
+//		TextLabel2D label = new TextLabel2D( id );
+//		label.setBackground(Color.GREEN);
+//		label.setFontResolution( 100 );
+//		label.setForeground(Color.GREEN);
+//		BillboardNode bNode = label.getBillboard(0.5f);
+//		bNode.getLocalTranslation().y += 10;
+//		bNode.setLocalScale( 5 );
+//		
+//		model.attachChild( bNode );
 	}
 
 	/** Function <code>createPhysics</code> <p>
