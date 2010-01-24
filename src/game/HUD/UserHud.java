@@ -28,7 +28,7 @@ public class UserHud {
 	WorldInterface game;
 	
 	/** main Hud Node */
-	Node hudNode;
+	public Node hudNode;
 	
 	/** World pointer */
 	GraphicalWorld world;

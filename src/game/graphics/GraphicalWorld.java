@@ -27,11 +27,13 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.Renderer;
 import com.jme.renderer.pass.BasicPassManager;
 import com.jme.scene.Node;
+import com.jme.scene.Text;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.LightState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
+import com.jmex.font2d.Text2D;
 import com.jmex.physics.StaticPhysicsNode;
 
 /** Class GraphicalWorld <br>
@@ -101,6 +103,8 @@ public class GraphicalWorld extends Game {
 
 	CollisionHandler collisionHandler;
 	
+	Text cameraPosition;
+	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
 	 * 
@@ -129,6 +133,9 @@ public class GraphicalWorld extends Game {
 		loadingFrame.setProgress(10);
 		
     	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
+    	
+    	cameraPosition = Text2D.createDefaultTextLabel("cameraPosition");
+		cameraPosition.setLocalTranslation(getResolution().x/2, getResolution().y * 3/4, 0 );
     	
 		loadingFrame.setProgress(15);
 		
@@ -256,6 +263,18 @@ public class GraphicalWorld extends Game {
     		collisionHandler.update();
 	        inputHandler.update(tpf);
 	        freeCamInput.update(tpf);
+	        
+	        if(freeCamInput.isEnabled())
+	        {
+	        	cameraPosition.print(cam.getLocation().toString());
+	        	cameraPosition.setLocalTranslation(
+	        			getResolution().x/2 - cameraPosition.getWidth()/2,
+	        			cameraPosition.getLocalTranslation().y, 0);
+	        	if(!userHud.hudNode.hasChild(cameraPosition))
+	        		userHud.hudNode.attachChild(cameraPosition);
+	        }
+	        else
+	        	cameraPosition.removeFromParent();
 	        
 	        if( !inputHandler.isFirstPerson() ) {
 		        float camMinHeight = environment.getHeight( cam.getLocation() ) + 1;
