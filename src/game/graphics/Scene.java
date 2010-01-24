@@ -116,7 +116,17 @@ public class Scene {
 			try {
 				document = new SAXBuilder().build( new File( DEFAULT_SCENE_FILE ) );
 				xmlRoot = document.getRootElement();
-				buildScene();
+				
+				Element terrain = xmlRoot.getChild( "Terrain" );
+				
+				heightmapSize = Integer.valueOf( terrain.getAttributeValue( "Size" ) );
+				scale = new Vector3f();
+				scale.x = Float.valueOf( terrain.getAttributeValue( "Step" ) );
+				scale.y = Float.valueOf( terrain.getChild( "Heightmap" ).getAttributeValue( "Scale" ) );
+				scale.z = scale.x;
+				URL heightmapURL = Loader.load( dataDirectory + 
+						terrain.getChild( "Heightmap" ).getAttributeValue( "File" ) );
+				heightmap = new RawHeightMap( heightmapURL, heightmapSize, RawHeightMap.FORMAT_16BITLE, false );
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			} 
