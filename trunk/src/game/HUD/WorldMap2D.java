@@ -116,7 +116,7 @@ public class WorldMap2D {
 	public void update() {
 		// set the new position of each spot...or remove it
 		for( Spot sp : characters ) {
-			Vector3f pos = new Vector3f( world.getCore().getPosition( sp.characterId ) );
+			Vector3f pos = world.getCore().getPosition( sp.characterId );
 			if( pos != null ) {
 				sp.spot.setLocalTranslation( calculatePosition( pos ) );
 			} else {
