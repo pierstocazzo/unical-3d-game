@@ -2,6 +2,7 @@ package game.core;
 
 import game.common.Movement;
 import game.common.WeaponType;
+import game.core.ScoreManager.Score;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -29,6 +30,8 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	
 	boolean reborn = false;
 	
+	Score score;
+	
 	/**
 	 * LogicPlayer Constructor <br>
 	 * Create a new Player
@@ -49,6 +52,8 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 		changeWeapon( ar15.id );
 		
 		maxAmmo = 100;
+		
+		this.score = new Score();
 	}
 	
 	/** Function <code>addWeapon</code><br>

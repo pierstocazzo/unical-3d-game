@@ -3,6 +3,8 @@ package game.core;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import game.common.GameConfiguration;
+
 /**
  * Class Logic Controller (Score and Levels)
  * 
@@ -14,9 +16,6 @@ public class ScoreManager implements Serializable {
 	/** Pointer to logic world */
 	LogicWorld world;
 	
-	/** Container of score players */
-	HashMap<String, Score> players;
-	
 	/**
 	 * Constructor
 	 * 
@@ -24,15 +23,6 @@ public class ScoreManager implements Serializable {
 	 */
 	public ScoreManager( LogicWorld world ) {
 		this.world = world;
-		players = new HashMap<String, Score>();
-	}
-
-	/**
-	 * Initialize score manager
-	 */
-	public void initScoreManager() {
-		for( String id : world.getPlayersIds() )
-			players.put( id, new Score() );
 	}
 
 	/**
@@ -41,7 +31,7 @@ public class ScoreManager implements Serializable {
 	 * @param (String) playerId
 	 */
 	void playerKilled( String playerId ) {
-		players.get(playerId).decreaseScore();
+		((LogicPlayer)world.characters.get(playerId)).score.decreaseScore();
 		update();
 	}
 	
@@ -52,7 +42,7 @@ public class ScoreManager implements Serializable {
 	 */
 	void enemyKilled( String playerId ) {
 		try {
-			players.get(playerId).increaseScore();
+			((LogicPlayer)world.characters.get(playerId)).score.increaseScore();
 			update();
 		} catch ( Exception e ) {}
 	}
@@ -61,24 +51,32 @@ public class ScoreManager implements Serializable {
 	 * Update score and level for each player
 	 */
 	void update() {
-		for( String id : players.keySet() )
-			switch( players.get(id).level ) {
-			case 1: 
-				changeParameters( id, 100, 15, 100, 16 );
-				break;
-			case 2: 
-				changeParameters( id, 125, 20, 125, 12 );
-				break;
-			case 3: 
-				changeParameters( id, 150, 25, 150, 8 );
-				break;
-			case 4: 
-				changeParameters( id, 175, 30, 175, 4 );
-				break;
-			case 5: 
-				changeParameters( id, 200, 35, 200, 0 );
-				break;
+		for( String id : world.getPlayersIds() ) {
+			
+			int level = ((LogicPlayer)world.characters.get(id)).score.level;
+			int previousLevel = ((LogicPlayer)world.characters.get(id)).score.previousLevel;
+			
+			int initialPlayerLife = Integer.valueOf( GameConfiguration.getParameter("initialPlayerLife") );
+			int initialEnemyLife = Integer.valueOf( GameConfiguration.getParameter("initialEnemyLife") );
+			int playerLifeIncrease = Integer.valueOf( GameConfiguration.getParameter("playerLifeIncrease") );
+			int enemyLifeIncrease = Integer.valueOf( GameConfiguration.getParameter("enemyLifeIncrease") );
+			int initialPlayerAmmo = Integer.valueOf( GameConfiguration.getParameter("initialPlayerAmmo") );
+			int playerAmmoIncrease = Integer.valueOf( GameConfiguration.getParameter("playerAmmoIncrease") );
+			int initialEnemyAccuracy = Integer.valueOf( GameConfiguration.getParameter("initialEnemyAccuracy") );
+			int enemyAccuracyIncrease = Integer.valueOf( GameConfiguration.getParameter("enemyAccuracyIncrease") );
+			
+			if ( level != previousLevel ) {
+				changeParameters(
+						id,
+						initialPlayerLife + playerLifeIncrease * previousLevel,
+						initialEnemyLife + enemyLifeIncrease * previousLevel,
+						initialPlayerAmmo + playerAmmoIncrease * previousLevel,
+						initialEnemyAccuracy - enemyAccuracyIncrease * previousLevel 
+				);
+				
+				((LogicPlayer)world.characters.get(id)).score.previousLevel = level;
 			}
+		}
 	}
 	
 	/**
@@ -108,8 +106,8 @@ public class ScoreManager implements Serializable {
 	 * Reset score of every player
 	 */
 	void reset() {
-		for( String id : players.keySet() ) {
-			players.get(id).reset();
+		for( String id : world.getPlayersIds() ) {
+			((LogicPlayer)world.characters.get(id)).score.reset();
 		}
 	}
 	
@@ -120,7 +118,7 @@ public class ScoreManager implements Serializable {
 	 * @return (int)
 	 */
 	public int getScore( String id ) {
-		return players.get(id).score;
+		return ((LogicPlayer)world.characters.get(id)).score.score;
 	}
 	
 	/**
@@ -130,7 +128,7 @@ public class ScoreManager implements Serializable {
 	 * @return (int)
 	 */
 	public int getLevel( String id ) {
-		return players.get(id).level;
+		return ((LogicPlayer)world.characters.get(id)).score.level;
 	}
 	
 	/**
@@ -138,7 +136,7 @@ public class ScoreManager implements Serializable {
 	 * 
 	 * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
 	 */
-	public class Score implements Serializable {
+	public static class Score implements Serializable {
 		
 		/** Identifier */
 		private static final long serialVersionUID = 1L;
@@ -146,7 +144,8 @@ public class ScoreManager implements Serializable {
 		/** score value */
 		int score;
 		
-		/** level value */
+		/** level values */
+		int previousLevel;
 		int level;
 		
 		/** useful variable */
@@ -157,6 +156,7 @@ public class ScoreManager implements Serializable {
 		 */
 		Score() {
 			score = 0;
+			previousLevel = 1;
 			level = 1;
 		}
 		
@@ -165,44 +165,30 @@ public class ScoreManager implements Serializable {
 		 */
 		public void reset() {
 			level = 1;
+			previousLevel = 1;
 			score = 0;
+		}
+		
+		private int calculateNextScore( int level ) {
+			if ( level == 1 ) {
+				return 25;
+			}
+			
+			return (int) (Math.pow( 5*level, 2 ) + calculateNextScore( level - 1 ));
 		}
 		
 		/**
 		 * Increase score after an enemy killing
 		 */
 		public void increaseScore() {
-			
-			switch ( level ) {
-				case 1:
-					score = score + 5;
-					if( score >= 25 ){
-						level = 2;
-						showLevel2 = true;
-					}
-					break;
-					
-				case 2: 
-					score = score + 10;
-					if( score >= 125 )
-						level = 3;
-					break;
-					
-				case 3:
-					score = score + 15;
-					if( score >= 350 )
-						level = 4;
-					break;
-					
-				case 4:
-					score = score + 20;
-					if( score >= 750 )
-						level = 5;
-					break;
-					
-				case 5: 
-					score = score + 25;
-					break;
+			score = score + 5*level;
+			if ( score >= calculateNextScore(level) ) {
+				previousLevel = level;
+				level = level + 1;
+				
+				if ( level == 2 ) {
+					showLevel2 = true;
+				}
 			}
 		}
 		
@@ -222,6 +208,6 @@ public class ScoreManager implements Serializable {
 	 * @return (boolean)
 	 */
 	public boolean getShowLevel2(String id) {
-		return players.get(id).showLevel2;
+		return ((LogicPlayer)world.characters.get(id)).score.showLevel2;
 	}
 }
