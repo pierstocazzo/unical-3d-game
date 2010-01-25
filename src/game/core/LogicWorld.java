@@ -418,10 +418,6 @@ public class LogicWorld implements WorldInterface, Serializable {
 		scoreManager.playerKilled( id );
 	}
 	
-	public void initScoreManager() {
-		scoreManager.initScoreManager();
-	}
-	
 	/**
 	 * @see WorldInterface
 	 */
@@ -575,7 +571,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 */
 	@Override
 	public void setShowLevel2Message(String id, boolean b) {
-		scoreManager.players.get(id).showLevel2 = b;
+		((LogicPlayer)characters.get(id)).score.showLevel2 = b;
 	}
 
 	/**

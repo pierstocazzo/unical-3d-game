@@ -1,5 +1,6 @@
 package game.core;
 
+import game.common.GameConfiguration;
 import game.common.GameTimer;
 import game.common.State;
 
@@ -49,7 +50,6 @@ public class AI implements Serializable {
 
 		// initialize useful variable
 		LogicEnemy enemy = (LogicEnemy) world.characters.get( id );
-		float maxAlertTime = LogicEnemy.ALERT_RANGE;
 		float distance;
 		enemy.shootDirection.set( Vector3f.ZERO );
 		
@@ -58,7 +58,7 @@ public class AI implements Serializable {
 			distance = enemy.position.distance( world.getPosition( playerId ) );
 
 			if ( enemy.enemyNextInAttack() ){
-				if(enemy.state == State.GUARD || enemy.state == State.GUARDATTACK)
+				if( enemy.state == State.GUARD || enemy.state == State.GUARDATTACK )
 					enemy.state = State.GUARDATTACK;
 				else if(enemy.state == State.FIND || enemy.state == State.FINDATTACK)
 					enemy.state = State.FINDATTACK;
@@ -70,7 +70,7 @@ public class AI implements Serializable {
 			// update current state
 			switch ( enemy.state ) {
 			case DEFAULT:
-				enemy.alertTime = GameTimer.getTimeInSeconds() - 20;
+//				enemy.alertTime = GameTimer.getTimeInSeconds() - 20;
 				// if player enter in enemy view range he go in alert
 				if ( distance <= enemy.state.getViewRange() ) {
 					enemy.state = State.ALERT;
@@ -87,7 +87,8 @@ public class AI implements Serializable {
 					/* if the player goes away from the actionRange of this enemy, 
 					 * he remains in alert state for "ALERT_RANGE" seconds
 					 */
-					if( GameTimer.getTimeInSeconds() - enemy.alertTime > maxAlertTime ) {
+					if( GameTimer.getTimeInSeconds() - enemy.alertTime > 
+							Integer.valueOf( GameConfiguration.getParameter("maxAlertTime") ) ) {
 						enemy.state = State.DEFAULT;
 					}
 				}
@@ -191,7 +192,7 @@ public class AI implements Serializable {
 			}
 			
 			distance = Math.abs( currentPosition.distance( enemy.initialFindPosition ) );
-			if( distance > 80 ) {
+			if( distance > Integer.valueOf( GameConfiguration.getParameter("maxFindDistance") ) ) {
 				if( enemy.comingBack == false ) {
 					findDirection.negateLocal();
 					enemy.comingBack = true;

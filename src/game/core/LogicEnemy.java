@@ -1,5 +1,6 @@
 package game.core;
 
+import game.common.GameConfiguration;
 import game.common.Movement;
 import game.common.MovementList;
 import game.common.State;
@@ -19,8 +20,6 @@ import com.jme.math.Vector3f;
 @SuppressWarnings("serial")
 public class LogicEnemy extends LogicCharacter implements Serializable {
 
-	static public final int ALERT_RANGE = 20;
-	
 	/** Enemy's weapon */
 	LogicWeapon weapon;
 	
@@ -125,17 +124,14 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	 * 
 	 * @return (boolean)
 	 */
-	boolean enemyNextInAttack() {
-		boolean inAttack = false;
-		for( int i = 1; i <= world.enemyCounter; i++ ) {
-			if( world.characters.get( "enemy"+i ) != null ){
-				State currState = world.getState( "enemy"+i );
-				if((currState == State.ATTACK || currState == State.FINDATTACK || currState == State.GUARDATTACK)
-						&& !id.equals( "enemy"+i ) && position.distance( world.getPosition("enemy"+i)) <=  50 )
-					return true;
-			}
+	public boolean enemyNextInAttack() {
+		for( String id : world.getEnemiesIds() ) {
+			State currState = world.getState( id );
+			if( ( currState == State.ATTACK || currState == State.FINDATTACK || currState == State.GUARDATTACK )
+					&& position.distance( world.getPosition( id ) ) <=  Integer.valueOf( GameConfiguration.getParameter("maxNeighborhoodRange") ) )
+				return true;
 		}
-		return inAttack;
+		return false;
 	}
 	
 	/**

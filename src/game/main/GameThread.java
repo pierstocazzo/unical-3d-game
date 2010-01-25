@@ -17,9 +17,6 @@ public class GameThread implements Runnable {
 		this.loadingFrame = loadingFrame;
 		logicGame = new LogicWorld();
     	logicGame.createPlayer( 100, 476, 561 );  	
-    	
-    	logicGame.initScoreManager();
-    	
     	logicGame.createEnergyPackages( 100 );
 	}
 	

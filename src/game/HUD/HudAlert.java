@@ -1,8 +1,8 @@
 package game.HUD;
 
+import game.common.GameConfiguration;
 import game.common.GameTimer;
 import game.common.State;
-import game.core.LogicEnemy;
 import game.sound.SoundManager;
 import game.sound.SoundManager.SoundType;
 
@@ -108,7 +108,7 @@ public class HudAlert {
 	}
 	
 	public float getAlertLevel(){
-		final int ALERT_RANGE = LogicEnemy.ALERT_RANGE;
+		final int ALERT_RANGE = Integer.valueOf( GameConfiguration.getParameter("maxAlertTime") );
 		stateColor = State.DEFAULT;
 		//calculate max alert level
 		float max = -99999;

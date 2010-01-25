@@ -34,53 +34,57 @@ public class GameConfiguration {
 	/**
 	 * Default Values
 	 */
-	static final LinkedHashMap< String, String > defaultValues = new LinkedHashMap<String, String>();
+	static final LinkedHashMap< String, String > defaultSettings = new LinkedHashMap<String, String>();
 	static {
-		defaultValues.put( "forward_key", "W" );
-		defaultValues.put( "backward_key", "S" );
-		defaultValues.put( "turnright_key", "D" );
-		defaultValues.put( "turnleft_key", "A" );
-		defaultValues.put( "run_key", "LSHIFT" ); 
-		defaultValues.put( "pause_key", "P" ); 
+		defaultSettings.put( "forward_key", "W" );
+		defaultSettings.put( "backward_key", "S" );
+		defaultSettings.put( "turnright_key", "D" );
+		defaultSettings.put( "turnleft_key", "A" );
+		defaultSettings.put( "run_key", "LSHIFT" ); 
+		defaultSettings.put( "pause_key", "P" ); 
 		
 		// screen
-		defaultValues.put( "resolution_width", "1024" );
-		defaultValues.put( "resolution_height", "768" );
-		defaultValues.put( "resolution_depth", "16" );
-		defaultValues.put( "resolution_frequency", "-1" );
-		defaultValues.put( "is_fullscreen", "false" );
+		defaultSettings.put( "resolution_width", "1024" );
+		defaultSettings.put( "resolution_height", "768" );
+		defaultSettings.put( "resolution_depth", "16" );
+		defaultSettings.put( "resolution_frequency", "-1" );
+		defaultSettings.put( "is_fullscreen", "false" );
 		
 		// Sound
-		defaultValues.put( "sound_enabled", "false" );
+		defaultSettings.put( "sound_enabled", "false" );
 		
 		//XML path scene file
-		defaultValues.put( "scene_file_path", "src/game/data/level/island.xml" );
+		defaultSettings.put( "scene_file_path", "src/game/data/level/island.xml" );
 	}
 	
 	/**
 	 * User defined values
 	 */
-	static LinkedHashMap< String, String > values;
+	static LinkedHashMap< String, String > settings;
 
 	static List<EnemyInfo> enemies;
 	
+	static LinkedHashMap< String, String > parameters;
+	
+	
 	public static void init() {
-		values = new LinkedHashMap< String, String >();
-		values.putAll(defaultValues);
+		settings = new LinkedHashMap< String, String >();
+		settings.putAll(defaultSettings);
 		
 		enemies = new LinkedList< EnemyInfo >();
-
+		parameters = new LinkedHashMap<String, String>();
+		
 		load();
 		
 		/* 
 		 * Change depth and frequency according to the operating system in use
 		 */
 		if( System.getProperties().getProperty("os.name").equals( "Linux" ) ) {
-			values.put( "resolution_depth", "24" );
-			values.put( "resolution_frequency", "50" );
+			settings.put( "resolution_depth", "24" );
+			settings.put( "resolution_frequency", "50" );
 		} else {
-			values.put( "resolution_depth", "32" );
-			values.put( "resolution_frequency", "60" );
+			settings.put( "resolution_depth", "32" );
+			settings.put( "resolution_frequency", "60" );
 		}
 	}
 	
@@ -98,7 +102,7 @@ public class GameConfiguration {
 			
 			for( Iterator<Element> it = root.getChild("settings").getChildren().iterator(); it.hasNext();  ) {
 				Element element = it.next();
-				values.put( element.getAttributeValue("name"), element.getText() );
+				settings.put( element.getAttributeValue("name"), element.getText() );
 			}
 			
 			List<Element> enemy_list = root.getChild("enemies").getChildren();
@@ -126,6 +130,13 @@ public class GameConfiguration {
 				enemies.add( enemyInfo );
 			}
 			
+			List<Element> parameter_list = root.getChild("parameters").getChildren();
+			for( Element param : parameter_list ) {
+				String key = param.getAttributeValue("name");
+				String value = param.getAttributeValue("value");
+				
+				parameters.put( key, value );
+			}
 			
 		} catch (Exception e) {
 			Logger.getAnonymousLogger().log( Level.SEVERE, 
@@ -139,10 +150,10 @@ public class GameConfiguration {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void save() {
-		List<Element> settings = root.getChild("settings").getChildren();
+		List<Element> settingsList = root.getChild("settings").getChildren();
 		
-		for( Element setting : settings ) {
-			setting.setText( values.get( setting.getAttributeValue("name") ) );
+		for( Element setting : settingsList ) {
+			setting.setText( settings.get( setting.getAttributeValue("name") ) );
 		}
 		XMLOutputter outputter = new XMLOutputter();
 		outputter.setFormat( Format.getPrettyFormat() );
@@ -155,163 +166,167 @@ public class GameConfiguration {
 	}
 	
 	public static String getBackwardKey() {
-		return values.get( "backward_key" );
+		return settings.get( "backward_key" );
 	}
 
 	public static String getDefaultBackwardKey() {
-		return defaultValues.get( "backward_key" );
+		return defaultSettings.get( "backward_key" );
 	}
 
 	public static String getDefaultForwardKey() {
-		return defaultValues.get( "forward_key" );
+		return defaultSettings.get( "forward_key" );
 	}
 
 	public static String getDefaultIsFullscreen() {
-		return defaultValues.get( "is_fullscreen" );
+		return defaultSettings.get( "is_fullscreen" );
 	}
 
 	public static String getDefaultPauseKey() {
-		return defaultValues.get( "pause_key" );
+		return defaultSettings.get( "pause_key" );
 	}
 
 	public static String getDefaultResolutionHeight() {
-		return defaultValues.get( "resolution_height" );
+		return defaultSettings.get( "resolution_height" );
 	}
 
 	public static String getDefaultResolutionWidth() {
-		return defaultValues.get( "resolution_width" );
+		return defaultSettings.get( "resolution_width" );
 	}
 
 	public static String getDefaultRunKey() {
-		return defaultValues.get( "run_key" );
+		return defaultSettings.get( "run_key" );
 	}
 
 	public static String getDefaultSoundEnabled() {
-		return defaultValues.get( "sound_enabled" );
+		return defaultSettings.get( "sound_enabled" );
 	}
 
 	public static String getDefaultTurnLeftKey() {
-		return defaultValues.get( "turnleft_key" );
+		return defaultSettings.get( "turnleft_key" );
 	}
 
 	public static String getDefaultTurnRightKey() {
-		return defaultValues.get( "turnright_key" );
+		return defaultSettings.get( "turnright_key" );
 	}
 
 	public static String getForwardKey() {
-		return values.get( "forward_key" );
+		return settings.get( "forward_key" );
 	}
 
 	public static String getPauseKey() {
-		return values.get( "pause_key" );
+		return settings.get( "pause_key" );
 	}
 
 	public static String getResolutionHeight() {
-		return values.get( "resolution_height" );
+		return settings.get( "resolution_height" );
 	}
 
 	public static String getResolutionWidth() {
-		return values.get( "resolution_width" );
+		return settings.get( "resolution_width" );
 	}
 
 	public static String getRunKey() {
-		return values.get( "run_key" );
+		return settings.get( "run_key" );
 	}
 
 	public static String getTurnLeftKey() {
-		return values.get( "turnleft_key" );
+		return settings.get( "turnleft_key" );
 	}
 
 	public static String getTurnRightKey() {
-		return values.get( "turnright_key" );
+		return settings.get( "turnright_key" );
 	}
 
 	public static String isFullscreen() {
-		return values.get( "is_fullscreen" );
+		return settings.get( "is_fullscreen" );
 	}
 
 	public static String isSoundEnabled() {
-		return values.get( "sound_enabled" );
+		return settings.get( "sound_enabled" );
 	}
 
 	public static void setBackwardKey( String value ) {
-		values.put( "backward_key", value );
+		settings.put( "backward_key", value );
 	}
 
 	public static void setForwardKey(String value) {
-		values.put( "forward_key", value );
+		settings.put( "forward_key", value );
 	}
 
 	public static void setFullscreen(String value) {
-		values.put( "is_fullscreen", value );
+		settings.put( "is_fullscreen", value );
 	}
 
 	public static void setPauseKey(String value) {
-		values.put( "pause_key", value );
+		settings.put( "pause_key", value );
 	}
 
 	public static void setResolutionHeight(String value) {
-		values.put( "resolution_height", value );
+		settings.put( "resolution_height", value );
 	}
 
 	public static void setResolutionWidth(String value) {
-		values.put( "resolution_width", value );
+		settings.put( "resolution_width", value );
 	}
 
 	public static void setRunKey(String value) {
-		values.put( "run_key", value );
+		settings.put( "run_key", value );
 	}
 
 	public static void setSoundEnabled(String value) {
-		values.put( "sound_enabled", value );
+		settings.put( "sound_enabled", value );
 	}
 
 	public static void setTurnLeftKey(String value) {
-		values.put( "turnleft_key", value );
+		settings.put( "turnleft_key", value );
 	}
 
 	public static void setTurnRightKey(String value) {
-		values.put( "turnright_key", value );
+		settings.put( "turnright_key", value );
 	}
 
 	public static String getDefaultResolutionDepth() {
-		return defaultValues.get( "resolution_depth" );
+		return defaultSettings.get( "resolution_depth" );
 	}
 
 	public static String getDefaultResolutionFrequency() {
-		return defaultValues.get( "resolution_frequency" );
+		return defaultSettings.get( "resolution_frequency" );
 	}
 
 	public static String getResolutionDepth() {
-		return values.get( "resolution_depth" );
+		return settings.get( "resolution_depth" );
 	}
 
 	public static String getResolutionFrequency() {
-		return values.get( "resolution_frequency" );
+		return settings.get( "resolution_frequency" );
 	}
 
 	public static void setResolutionDepth(String value) {
-		values.put("resolution_depth", value );
+		settings.put("resolution_depth", value );
 	}
 
 	public static void setResolutionFrequency(String value) {
-		values.put("resolution_frequency", value );
+		settings.put("resolution_frequency", value );
 	}
 	
 	public static String getDefaultSceneFilePath() {
-		return defaultValues.get( "scene_file_path" );
+		return defaultSettings.get( "scene_file_path" );
 	}
 	
 	public static String getSceneFilePath() {
-		return values.get( "scene_file_path" );
+		return settings.get( "scene_file_path" );
 	}
 	
 	public static void setSceneFilePath( String path ) {
-		values.put( "scene_file_path", path );
+		settings.put( "scene_file_path", path );
 	}
 	
 	public static List<EnemyInfo> getEmemiesInfoList() {
 		return enemies;
+	}
+	
+	public static String getParameter( String param ) {
+		return parameters.get( param );
 	}
 	
 	/** Utility class used to store some informations 
