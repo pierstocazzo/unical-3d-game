@@ -2,6 +2,8 @@ package game.common;
 
 import java.io.Serializable;
 
+import game.common.GameConfiguration;
+
 /**
  * Class WeaponType
  * 
@@ -10,13 +12,28 @@ import java.io.Serializable;
 public enum WeaponType implements Serializable {
 	
 	/** mp5 weapon */
-	AR15 ( 1, 30000, 20, false ),
+	AR15 (
+		Integer.valueOf( GameConfiguration.getParameter("weapon_ar15_damage") ),
+		Integer.valueOf( GameConfiguration.getParameter("weapon_ar15_power") ),
+		Integer.valueOf( GameConfiguration.getParameter("weapon_ar15_loadtime") ),
+		false
+	),
 	
 	/** not used */
-	GATLING ( 2, 30000, 20, true ),
+	GATLING (
+		Integer.valueOf( GameConfiguration.getParameter("weapon_gatling_damage") ),
+		Integer.valueOf( GameConfiguration.getParameter("weapon_gatling_power") ),
+		Integer.valueOf( GameConfiguration.getParameter("weapon_gatling_loadtime") ),
+		true
+	),
 	
 	/** not used */
-	BAZOOKA ( 30, 10000, 1000, true );
+	BAZOOKA (
+		Integer.valueOf( GameConfiguration.getParameter("weapon_bazooka_damage") ),
+		Integer.valueOf( GameConfiguration.getParameter("weapon_bazooka_power") ),
+		Integer.valueOf( GameConfiguration.getParameter("weapon_bazooka_loadtime") ),
+		true
+	);
 	
 	/** <code>WeaponType</code> field */
 	int damage, power, loadTime;

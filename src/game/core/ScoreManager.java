@@ -1,9 +1,8 @@
 package game.core;
 
-import java.io.Serializable;
-import java.util.HashMap;
-
 import game.common.GameConfiguration;
+
+import java.io.Serializable;
 
 /**
  * Class Logic Controller (Score and Levels)
@@ -48,7 +47,7 @@ public class ScoreManager implements Serializable {
 	}
 	
 	/**
-	 * Update score and level for each player
+	 * Update level for each player
 	 */
 	void update() {
 		for( String id : world.getPlayersIds() ) {
@@ -64,6 +63,11 @@ public class ScoreManager implements Serializable {
 			int playerAmmoIncrease = Integer.valueOf( GameConfiguration.getParameter("playerAmmoIncrease") );
 			int initialEnemyAccuracy = Integer.valueOf( GameConfiguration.getParameter("initialEnemyAccuracy") );
 			int enemyAccuracyIncrease = Integer.valueOf( GameConfiguration.getParameter("enemyAccuracyIncrease") );
+			int initialAmmoPackValue = Integer.valueOf( GameConfiguration.getParameter("initialAmmoPackValue") );
+			int ammoPackIncrease = Integer.valueOf( GameConfiguration.getParameter("ammoPackIncrease") );
+			int initialEnergyPackValue = Integer.valueOf( GameConfiguration.getParameter("initialEnergyPackValue") );
+			int energyPackIncrease = Integer.valueOf( GameConfiguration.getParameter("energyPackIncrease") );
+			
 			
 			if ( level != previousLevel ) {
 				changeParameters(
@@ -71,7 +75,9 @@ public class ScoreManager implements Serializable {
 						initialPlayerLife + playerLifeIncrease * previousLevel,
 						initialEnemyLife + enemyLifeIncrease * previousLevel,
 						initialPlayerAmmo + playerAmmoIncrease * previousLevel,
-						initialEnemyAccuracy - enemyAccuracyIncrease * previousLevel 
+						initialEnemyAccuracy - enemyAccuracyIncrease * previousLevel,
+						initialEnergyPackValue + energyPackIncrease * previousLevel,
+						initialAmmoPackValue + ammoPackIncrease * previousLevel
 				);
 				
 				((LogicPlayer)world.characters.get(id)).score.previousLevel = level;
@@ -87,18 +93,27 @@ public class ScoreManager implements Serializable {
 	 * @param (int) enemyLife - max enemies life
 	 * @param (int) maxAmmo - max ammo
 	 * @param (int) enemyErrorAngle - error angle of enemy shooting
+	 * @param (int) energyPackValue
+	 * @param (int) ammoPackValue
 	 */
-	private void changeParameters( String playerId, int playerLife, int enemyLife, int maxAmmo, int enemyErrorAngle ) {
+	private void changeParameters( String playerId, int playerLife, int enemyLife, int maxAmmo, 
+			int enemyErrorAngle, int energyPackValue, int ammoPackValue ) {
 		((LogicPlayer) world.characters.get(playerId)).maxAmmo = maxAmmo;
 		world.characters.get(playerId).maxLife = playerLife;
 		
-		for( int i = 1; i <= world.enemyCounter; i++ ) {
-			String enemyID = "enemy"+i;
-			if( world.characters.get(enemyID) != null ) {
-				world.characters.get(enemyID).currentLife = enemyLife;
-				world.characters.get(enemyID).maxLife = enemyLife;
-				((LogicEnemy) world.characters.get(enemyID)).errorAngle = enemyErrorAngle;
+		for( String id : world.getEnemiesIds() ) {
+			world.characters.get(id).currentLife = enemyLife;
+			world.characters.get(id).maxLife = enemyLife;
+			
+			if( enemyErrorAngle >= 0 ) {
+				((LogicEnemy) world.characters.get(id)).errorAngle = enemyErrorAngle;
 			}
+		}
+		
+		world.ammoPackValue = ammoPackValue;
+		
+		for( String id : world.energyPackages.keySet() ) {
+			world.energyPackages.get(id).value = energyPackValue;
 		}
 	}
 
@@ -208,6 +223,10 @@ public class ScoreManager implements Serializable {
 	 * @return (boolean)
 	 */
 	public boolean getShowLevel2(String id) {
-		return ((LogicPlayer)world.characters.get(id)).score.showLevel2;
+		try {
+			return ((LogicPlayer)world.characters.get(id)).score.showLevel2;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

@@ -9,13 +9,11 @@ import game.sound.SoundManager.SoundType;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.math.FastMath;
-import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial.CullHint;
 import com.jme.scene.shape.Box;
 import com.jmex.physics.DynamicPhysicsNode;
-import com.jmex.physics.geometry.PhysicsCapsule;
 import com.jmex.physics.material.Material;
 
 /** Class <code>PhysicsPlayer</code> <br>
@@ -60,13 +58,13 @@ public class GraphicalPlayer extends GraphicalCharacter {
         characterNode = new Node("character node");
         body = world.getPhysicsSpace().createDynamicNode();
         
-	    PhysicsCapsule bodyGeometry = body.createCapsule("body geometry");
-	    bodyGeometry.setLocalScale( 2.5f );
-	    bodyGeometry.setLocalTranslation(0,3,0);
-	    
-//	     Set UP the orientation of the Body
-	    Quaternion quaternion = new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
-	    bodyGeometry.setLocalRotation(quaternion);
+        Box bodyGeometry = new Box("body", new Vector3f(-1.5f,-5,-1.5f), new Vector3f(1.5f,5,1.5f));
+        bodyGeometry.setCullHint( CullHint.Always );
+
+        body.attachChild(bodyGeometry);
+        bodyGeometry.setLocalTranslation(0,3,0);
+        
+        body.generatePhysicsGeometry();
 	    
 	    body.setAffectedByGravity(false);
 	    body.setMaterial( Material.GHOST );

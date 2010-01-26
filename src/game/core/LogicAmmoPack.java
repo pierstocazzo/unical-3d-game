@@ -13,7 +13,7 @@ import com.jme.math.Vector3f;
  */
 @SuppressWarnings("serial")
 public class LogicAmmoPack implements Serializable {
-	
+
 	/** type of the weapon which can use this ammo */
 	private WeaponType type;
 	
