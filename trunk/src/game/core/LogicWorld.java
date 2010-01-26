@@ -50,6 +50,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 	
 	/** AI manage enemies intelligence */
 	AI enemyAi;
+	
+	/** current ammoPack value */
+	int ammoPackValue;
 
 	/** <code>LogicWorld</code> Constructor<br>
 	 * Initialize data structures and counters
@@ -65,9 +68,11 @@ public class LogicWorld implements WorldInterface, Serializable {
 		scoreManager = new ScoreManager( this );
 		enemyAi = new AI( this );
 		
+		ammoPackValue = Integer.valueOf( GameConfiguration.getParameter("initialAmmoPackValue") );
+		
 		//set enemy from xml file
 		List<EnemyInfo> enemyList = GameConfiguration.getEmemiesInfoList();
-		for( EnemyInfo e : enemyList ){
+		for( EnemyInfo e : enemyList ) {
 			createEnemy( e.getPosX(), e.getPosZ(), e.getState(), e.getMovements() );
 		}
 	}
@@ -123,11 +128,13 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 * @param z - the z position of the enemy
 	 * @param movementList - (MovementList) list of movements
 	 */
-	public void createEnemy(float x, float z, State state, LinkedList<Movement> list) {
+	public void createEnemy( float x, float z, State state, LinkedList<Movement> movements ) {
 		enemyCounter = enemyCounter + 1;
 		Vector3f position = new Vector3f( x, 0, z );
-		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.AR15, state, position, 
-				list, this );
+		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter,
+				Integer.valueOf( GameConfiguration.getParameter("initialEnemyLife") ), 
+				WeaponType.AR15, state, position, movements, this );
+		
 		characters.put( enemy.id, enemy );
 	}
 	
@@ -138,7 +145,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public void createEnergyPackages( int number ) {
 		for( int i = 0; i < number; i++ ) {
 			energyPackCounter = energyPackCounter + 1;
-			LogicEnergyPack energyPack = new LogicEnergyPack( "energyPack" + energyPackCounter, 10 );
+			LogicEnergyPack energyPack = new LogicEnergyPack( "energyPack" + energyPackCounter, 
+					Integer.valueOf( GameConfiguration.getParameter("initialEnergyPackValue") ) );
+			
 			energyPackages.put( energyPack.id, energyPack );
 		}
 	}
@@ -371,7 +380,8 @@ public class LogicWorld implements WorldInterface, Serializable {
 	@Override
 	public boolean catchAmmoPack( String playerId, String ammoPackId ) {
 		try {
-			if( characters.get(playerId).addAmmo( ammoPackages.get(ammoPackId).getType(), ammoPackages.get(ammoPackId).getQuantity() ) ) {
+			if( characters.get(playerId).addAmmo( ammoPackages.get(ammoPackId).getType(), 
+				ammoPackages.get(ammoPackId).getQuantity() ) ) {
 				ammoPackages.remove(ammoPackId);
 				return true;
 			} 

@@ -2,11 +2,7 @@ package game.graphics;
 
 import game.common.GameTimer;
 import game.common.State;
-import game.common.TextLabel2D;
 import game.graphics.GameAnimationController.Animation;
-
-import java.awt.Color;
-
 import jmetest.TutorialGuide.ExplosionFactory;
 
 import com.jme.input.action.InputAction;
@@ -15,7 +11,6 @@ import com.jme.input.util.SyntheticButton;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
-import com.jme.scene.BillboardNode;
 import com.jme.scene.Node;
 import com.jmex.effects.particles.ParticleMesh;
 import com.jmex.physics.DynamicPhysicsNode;

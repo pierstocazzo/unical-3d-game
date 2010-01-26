@@ -72,7 +72,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.shootDirection = new Vector3f();
 		this.movementStartPosition = new Vector3f( position );
 		this.movementStartPosition.setY(0);
-		this.errorAngle = 10;
+		this.errorAngle = Integer.valueOf( GameConfiguration.getParameter("initialEnemyAccuracy") );
 		this.currentMovement = this.movements.get(0);
 		this.initialFindPosition = new Vector3f();
 	}
@@ -97,7 +97,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.shootDirection = new Vector3f();
 		this.movementStartPosition = new Vector3f( position );
 		this.movementStartPosition.setY(0);
-		this.errorAngle = 10;
+		this.errorAngle = Integer.valueOf( GameConfiguration.getParameter("initialEnemyAccuracy") );;
 		this.currentMovement = this.movements.get(0);
 		this.initialFindPosition = new Vector3f();
 	}
@@ -128,7 +128,8 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		for( String id : world.getEnemiesIds() ) {
 			State currState = world.getState( id );
 			if( ( currState == State.ATTACK || currState == State.FINDATTACK || currState == State.GUARDATTACK )
-					&& position.distance( world.getPosition( id ) ) <=  Integer.valueOf( GameConfiguration.getParameter("maxNeighborhoodRange") ) )
+					&& position.distance( world.getPosition( id ) ) <=  
+					Integer.valueOf( GameConfiguration.getParameter("maxNeighborhoodRange") ) )
 				return true;
 		}
 		return false;
@@ -149,9 +150,9 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	 */
 	@Override
 	public void isShooted( int bulletDamage, String shooterId ) {
-		if(state == State.FIND || state == State.FINDATTACK)
+		if( state == State.FIND || state == State.FINDATTACK )
 			state = State.FINDATTACK;
-		else if(state == State.GUARD || state == State.GUARDATTACK)
+		else if( state == State.GUARD || state == State.GUARDATTACK )
 			state = State.GUARDATTACK;
 		else
 			state = State.ATTACK;
@@ -216,7 +217,8 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	@Override
 	public void die( String shooterId ) {
 		world.ammoPackCounter++;
-		world.createAmmoPack( "ammo" + world.ammoPackCounter, weapon.type, 20, position );
+		world.createAmmoPack( "ammo" + world.ammoPackCounter, weapon.type, 
+				world.ammoPackValue, position );
 		world.kill(shooterId);
 		super.die( shooterId );
 	}

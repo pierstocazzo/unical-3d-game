@@ -5,6 +5,7 @@ import game.common.KeyConverter;
 import game.graphics.GraphicalPlayer;
 import game.input.action.FirstPersonAction;
 import game.input.action.ShootAction;
+import game.input.action.SwitchWeapon;
 import game.input.action.ThirdPersonBackwardAction;
 import game.input.action.ThirdPersonForwardAction;
 import game.input.action.ThirdPersonJoystickPlugin;
@@ -49,6 +50,7 @@ public class GameInputHandler extends InputHandler {
 	InputAction actionForwardRun;
 	InputAction actionShoot;
 	InputAction actionFirstPerson;
+	InputAction actionSwitchWeapon;
 	
 	/**
 	 * Check if the player can do movements
@@ -81,6 +83,7 @@ public class GameInputHandler extends InputHandler {
         actionLeft = new ThirdPersonLeftAction( this, 20 );
         actionShoot = new ShootAction( this );
         actionFirstPerson = new FirstPersonAction( this );
+        actionSwitchWeapon = new SwitchWeapon( this ); // TODO :)
                 
         addAction( actionForwardRun, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getRunKey()), AXIS_NONE, false );
         addAction( actionForward, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getForwardKey()), AXIS_NONE, false );
@@ -89,6 +92,7 @@ public class GameInputHandler extends InputHandler {
         addAction( actionLeft, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getTurnLeftKey()), AXIS_NONE, false );
         addAction( actionShoot, DEVICE_MOUSE, MouseButtonBinding.LEFT_BUTTON, AXIS_NONE, false );
         addAction( actionFirstPerson, DEVICE_MOUSE, MouseButtonBinding.RIGHT_BUTTON, AXIS_NONE, false );
+        addAction( actionSwitchWeapon, DEVICE_MOUSE, MouseButtonBinding.MIDDLE_BUTTON, AXIS_NONE, false );
         
     	mouseLookHandler = new MouseLookHandler( cam, 1 );
     	mouseLookHandler.setEnabled(false);
