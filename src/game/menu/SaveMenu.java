@@ -48,10 +48,15 @@ public class SaveMenu extends JFrame {
 	public SaveMenu(InGameMenu gameMenu){
 		super();
 		this.gameMenu = gameMenu;
-		// get screen informations
-		screenSize =  new Dimension (
-				Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(),
-				Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue());
+		
+		/** Get screen size */
+		if(GameConfiguration.isFullscreen().equals("true"))
+			screenSize = new Dimension( 
+					Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(), 
+					Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue() );
+		else
+			screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
 		// apply screen size to frame
 		setBounds(0,0,screenSize.width, screenSize.height);
 		// get background image
