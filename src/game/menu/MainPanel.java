@@ -2,7 +2,6 @@ package game.menu;
 
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,6 +15,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import game.common.ImagesContainer;
 import game.core.LogicWorld;
 import game.main.GameThread;
 
@@ -37,10 +37,10 @@ public class MainPanel extends JPanel {
 	public int current = 0;
 	
 	/** List of image path */
-	ArrayList<String> imageFolder;
+	ArrayList<String> menuImagesFolder;
 	
 	/** Preloaded images */
-	ArrayList<Image> imageContainer;
+	ArrayList<Image> menuImageContainer;
 	
 	/** MainMenu */
 	MainMenu mainMenu;
@@ -56,7 +56,8 @@ public class MainPanel extends JPanel {
 	public MainPanel(MainMenu mainMenu){
 		super();
 		this.mainMenu = mainMenu;
-		initImageFolder();
+		menuImagesFolder = ImagesContainer.getMenuImagesFolders();
+		menuImageContainer = ImagesContainer.getMenuImagesContainer();
 		initItem();
 		
 		this.setLayout(new GridLayout(5,1));
@@ -94,7 +95,7 @@ public class MainPanel extends JPanel {
 	 * @return (String) path
 	 */
 	public Icon StandardImage(int i){
-		return new ImageIcon(imageContainer.get(i*2));
+		return new ImageIcon(menuImageContainer.get(i*2));
 	}
 	
 	/**
@@ -104,7 +105,7 @@ public class MainPanel extends JPanel {
 	 * @return (String) path
 	 */
 	public Icon SelectedImage(int i){
-		return new ImageIcon(imageContainer.get(i*2+1));
+		return new ImageIcon(menuImageContainer.get(i*2+1));
 	}
 	
 	/**
@@ -124,40 +125,16 @@ public class MainPanel extends JPanel {
 	 */
 	public void initItem(){
 		item = new ArrayList<JLabel>();
-		item.add( new JLabel(new ImageIcon(imageContainer.get(1))));
+		item.add( new JLabel(new ImageIcon(menuImageContainer.get(1))));
 		this.add(item.get(0));
-		item.add( new JLabel(new ImageIcon(imageContainer.get(2))));
+		item.add( new JLabel(new ImageIcon(menuImageContainer.get(2))));
 		this.add(item.get(1));
-		item.add( new JLabel(new ImageIcon(imageContainer.get(4))));
+		item.add( new JLabel(new ImageIcon(menuImageContainer.get(4))));
 		this.add(item.get(2));
-		item.add( new JLabel(new ImageIcon(imageContainer.get(6))));
+		item.add( new JLabel(new ImageIcon(menuImageContainer.get(6))));
 		this.add(item.get(3));
-		item.add( new JLabel(new ImageIcon(imageContainer.get(8))));
+		item.add( new JLabel(new ImageIcon(menuImageContainer.get(8))));
 		this.add(item.get(4));
-	}
-	
-	/**
-	 * Initialize image path list
-	 */
-	public void initImageFolder(){
-		imageFolder = new ArrayList<String>();
-		imageFolder.add("src/game/data/images/menu/newgame.png");
-		imageFolder.add("src/game/data/images/menu/newgame2.png");
-		imageFolder.add("src/game/data/images/menu/load.png");
-		imageFolder.add("src/game/data/images/menu/load2.png");
-		imageFolder.add("src/game/data/images/menu/options.png");
-		imageFolder.add("src/game/data/images/menu/options2.png");
-		imageFolder.add("src/game/data/images/menu/credits.png");
-		imageFolder.add("src/game/data/images/menu/credits2.png");
-		imageFolder.add("src/game/data/images/menu/exit.png");
-		imageFolder.add("src/game/data/images/menu/exit2.png");
-		imageContainer = new ArrayList<Image>();
-		// scale all image respect screen size
-		for(int i=0; i<imageFolder.size(); i++){
-			Image img = Toolkit.getDefaultToolkit().getImage( imageFolder.get(i) );
-			img = img.getScaledInstance(mainMenu.screenSize.width/3, mainMenu.screenSize.height/10, Image.SCALE_SMOOTH);
-			imageContainer.add(img);
-		}
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package game.menu;
 
 import game.common.GameConfiguration;
+import game.common.ImagesContainer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -50,19 +51,20 @@ public class SaveMenu extends JFrame {
 		this.gameMenu = gameMenu;
 		
 		/** Get screen size */
-		if(GameConfiguration.isFullscreen().equals("true"))
+		/** Get screen size */
+		if(GameConfiguration.isFullscreen().equals("true")){
 			screenSize = new Dimension( 
 					Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(), 
 					Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue() );
-		else
+			background = ImagesContainer.getBackground_with_FullScreen();
+		}
+		else{
 			screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			background = ImagesContainer.getBackground_no_FullScreen();
+		}
 		
 		// apply screen size to frame
 		setBounds(0,0,screenSize.width, screenSize.height);
-		// get background image
-		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
-		// scale background image
-		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_SMOOTH);
 		
 		this.setUndecorated(true); 
 	    

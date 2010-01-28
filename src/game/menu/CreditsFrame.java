@@ -1,5 +1,7 @@
 package game.menu;
 
+import game.common.ImagesContainer;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -60,8 +62,7 @@ public class CreditsFrame extends JFrame {
 		setContentPane(creditsFramePanel);
         
 		JLabel photo = new JLabel();
-		Image img = Toolkit.getDefaultToolkit().getImage( "src/game/data/images/menu/credits16_9.jpg" );
-		img = img.getScaledInstance(screenSize.width, screenSize.height, Image.SCALE_SMOOTH);
+		Image img = ImagesContainer.getBackgroundCreditsFrame();
 		photo.setIcon(new ImageIcon(img));
         
         creditsFramePanel.add(photo,BorderLayout.CENTER);

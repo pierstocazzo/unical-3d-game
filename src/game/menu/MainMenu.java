@@ -1,6 +1,7 @@
 package game.menu;
 
 import game.common.GameConfiguration;
+import game.common.ImagesContainer;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -31,6 +32,7 @@ public class MainMenu extends JFrame {
 	
 	/** Main Panel */
 	MainPanel centerPanel;
+	JPanel panelContainer;
 	
 	/** background image */
 	Image background;
@@ -44,16 +46,17 @@ public class MainMenu extends JFrame {
 	public MainMenu(){
 		super();
 		
-		GameConfiguration.init();
-		
 		// get screen size informations
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		// apply screen size value to current frame
 	    setBounds(0,0,screenSize.width, screenSize.height);
+		
+		GameConfiguration.init();
+		ImagesContainer.init();
+		
 	    // get background image
-		background = Toolkit.getDefaultToolkit().getImage( "src/game/data/images/menu/background.jpg" );
-		// scale background image respect screen size
-		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_SMOOTH);
+		background = ImagesContainer.getBackgroundMainMenu();
+		
 		// hide frame border
 		setUndecorated(true); 
 		this.setAlwaysOnTop(true);
@@ -61,21 +64,14 @@ public class MainMenu extends JFrame {
 		hideCursor();
 		
 		this.setTitle("Main Menu");
-		centerPanel = new MainPanel(this);
 		
 	    setResizable(false);
-	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-	}
-	
-	/**
-	 * Create a panel. This panel is displayed with its components at frame center
-	 */
-	public void createMenu(){
-		
-		/**
+//	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+	    
+	    /**
 		 * Create a panel for mapping frame components
 		 */
-		JPanel mainPanel = new JPanel(){
+		panelContainer = new JPanel(){
 			
 			/** panel ID */
 			private static final long serialVersionUID = 1L;
@@ -91,35 +87,45 @@ public class MainMenu extends JFrame {
 		};
 		
 		// set a layout to main panel
-		mainPanel.setLayout(new BorderLayout());
-		mainPanel.setOpaque(false);
-		this.setContentPane(mainPanel);
+		panelContainer.setLayout(new BorderLayout());
+		panelContainer.setOpaque(false);
+		setContentPane(panelContainer);
+		
+		createMenu();
+	}
+	
+	/**
+	 * Create a panel. This panel is displayed with its components at frame center
+	 */
+	public void createMenu(){
+		
 		// at main panel center add centerPanel
-		mainPanel.add(centerPanel, BorderLayout.CENTER);
+		centerPanel = new MainPanel(this);
+		panelContainer.add(centerPanel, BorderLayout.CENTER);
 		
 		//add left vertical empty panel for spacing
 		JPanel pVerticalEmpty1 = new JPanel();
 		pVerticalEmpty1.setOpaque(false);
 		pVerticalEmpty1.setPreferredSize(new Dimension(screenSize.width/4, 1));
-		mainPanel.add(pVerticalEmpty1,BorderLayout.WEST);
+		panelContainer.add(pVerticalEmpty1,BorderLayout.WEST);
 		
 		//add right vertical empty panel for spacing
 		JPanel pVerticalEmpty2 = new JPanel();
 		pVerticalEmpty2.setOpaque(false);
 		pVerticalEmpty2.setPreferredSize(new Dimension(screenSize.width/4, 1));
-		mainPanel.add(pVerticalEmpty2,BorderLayout.EAST);
+		panelContainer.add(pVerticalEmpty2,BorderLayout.EAST);
 		
 		//add lower horizontal empty panel for spacing
 		JPanel pHorizontalEmpty1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pHorizontalEmpty1.setOpaque(false);
 		pHorizontalEmpty1.setPreferredSize(new Dimension(1, screenSize.height/4));
-		mainPanel.add(pHorizontalEmpty1,BorderLayout.SOUTH);
+		panelContainer.add(pHorizontalEmpty1,BorderLayout.SOUTH);
 		
 		//add upper horizontal empty panel for spacing
 		JPanel pHorizontalEmpty2 = new JPanel();
 		pHorizontalEmpty2.setOpaque(false);
 		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height/4));
-		mainPanel.add(pHorizontalEmpty2,BorderLayout.NORTH);
+		panelContainer.add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 		/**
 		 * Custom Listener.
