@@ -15,13 +15,13 @@ import com.jme.math.Vector3f;
 public class LogicAmmoPack implements Serializable {
 
 	/** type of the weapon which can use this ammo */
-	private WeaponType type;
+	WeaponType type;
 	
 	/** quantity of ammunition */
-	private int quantity;
+	int value;
 	
 	/** the position of the ammo pack */
-	private Vector3f position;
+	Vector3f position;
 	
 	/** <code>LogicAmmo</code> constructor <br>
 	 * Create a new ammo pack
@@ -32,7 +32,7 @@ public class LogicAmmoPack implements Serializable {
 	 */
 	public LogicAmmoPack( WeaponType type, int quantity, Vector3f position ){
 		this.type = type;
-		this.quantity = quantity;
+		this.value = quantity;
 		this.position = position;
 	}
 	
@@ -42,7 +42,7 @@ public class LogicAmmoPack implements Serializable {
 	 * @return (int)
 	 */
 	public int getQuantity() {
-		return quantity;
+		return value;
 	}
 
 	/**

@@ -5,18 +5,16 @@ import game.input.GameInputHandler;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.MouseInputAction;
 
-public class SwitchWeapon extends MouseInputAction {
+public class NextWeaponAction extends MouseInputAction {
 	GameInputHandler handler;
 
-    public SwitchWeapon( GameInputHandler handler ) {
+    public NextWeaponAction( GameInputHandler handler ) {
         this.handler = handler;
     }
 
     public void performAction(InputActionEvent evt) {
-    	if( evt.getTriggerPressed() ) {
-    		handler.setFirstPerson( true );
-    	} else {
-    		handler.setFirstPerson( false );
+    	if( handler.isFirstPerson() ) {
+	    	handler.getTarget().nextWeapon();
     	}
     }
 }

@@ -591,4 +591,12 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public Vector3f getMoveDirection(String id) {
 		return enemyAi.getMoveDirection(id);
 	}
+
+	@Override
+	public void nextWeapon(String id) {
+		try {
+			((LogicPlayer) characters.get(id)).nextWeapon();
+		} catch (Exception e) {
+		}
+	}
 }

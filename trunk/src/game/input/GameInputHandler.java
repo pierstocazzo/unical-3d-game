@@ -5,13 +5,13 @@ import game.common.KeyConverter;
 import game.graphics.GraphicalPlayer;
 import game.input.action.FirstPersonAction;
 import game.input.action.ShootAction;
-import game.input.action.SwitchWeapon;
-import game.input.action.ThirdPersonBackwardAction;
-import game.input.action.ThirdPersonForwardAction;
+import game.input.action.NextWeaponAction;
+import game.input.action.BackwardAction;
+import game.input.action.ForwardAction;
 import game.input.action.ThirdPersonJoystickPlugin;
-import game.input.action.ThirdPersonLeftAction;
-import game.input.action.ThirdPersonRightAction;
-import game.input.action.ThirdPersonRunAction;
+import game.input.action.LeftAction;
+import game.input.action.RightAction;
+import game.input.action.RunAction;
 
 import com.jme.input.ChaseCamera;
 import com.jme.input.InputHandler;
@@ -50,7 +50,7 @@ public class GameInputHandler extends InputHandler {
 	InputAction actionForwardRun;
 	InputAction actionShoot;
 	InputAction actionFirstPerson;
-	InputAction actionSwitchWeapon;
+	InputAction actionNextWeapon;
 	
 	/**
 	 * Check if the player can do movements
@@ -69,21 +69,19 @@ public class GameInputHandler extends InputHandler {
         setupChaseCamera();
     }
 
-    /** TODO parametrizzare
-     * 
+    /** 
      * <code>setActions</code> sets the keyboard actions with the
      * corresponding key command.
-     *
      */
     protected void setActions() {
-    	actionForwardRun = new ThirdPersonRunAction( this, 40 );
-        actionForward = new ThirdPersonForwardAction( this, 20 );
-        actionBack = new ThirdPersonBackwardAction( this, 20 );
-        actionRight = new ThirdPersonRightAction( this, 20 );
-        actionLeft = new ThirdPersonLeftAction( this, 20 );
+    	actionForwardRun = new RunAction( this );
+        actionForward = new ForwardAction( this );
+        actionBack = new BackwardAction( this );
+        actionRight = new RightAction( this );
+        actionLeft = new LeftAction( this );
         actionShoot = new ShootAction( this );
         actionFirstPerson = new FirstPersonAction( this );
-        actionSwitchWeapon = new SwitchWeapon( this ); // TODO :)
+        actionNextWeapon = new NextWeaponAction( this );
                 
         addAction( actionForwardRun, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getRunKey()), AXIS_NONE, false );
         addAction( actionForward, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getForwardKey()), AXIS_NONE, false );
@@ -92,7 +90,7 @@ public class GameInputHandler extends InputHandler {
         addAction( actionLeft, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getTurnLeftKey()), AXIS_NONE, false );
         addAction( actionShoot, DEVICE_MOUSE, MouseButtonBinding.LEFT_BUTTON, AXIS_NONE, false );
         addAction( actionFirstPerson, DEVICE_MOUSE, MouseButtonBinding.RIGHT_BUTTON, AXIS_NONE, false );
-        addAction( actionSwitchWeapon, DEVICE_MOUSE, MouseButtonBinding.MIDDLE_BUTTON, AXIS_NONE, false );
+        addAction( actionNextWeapon, DEVICE_MOUSE, BUTTON_NONE, 2, false );
         
     	mouseLookHandler = new MouseLookHandler( cam, 1 );
     	mouseLookHandler.setEnabled(false);
@@ -259,4 +257,9 @@ public class GameInputHandler extends InputHandler {
 	public void setTurningRight(boolean b) {
 		target.setTurningRight(b);
 	}
+
+	public GraphicalPlayer getTarget() {
+		return target;
+	}
+
 }

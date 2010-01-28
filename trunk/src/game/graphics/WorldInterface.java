@@ -211,4 +211,6 @@ public interface WorldInterface {
 	public abstract void setShowLevel2Message( String id, boolean b);
 
 	public abstract Vector3f getMoveDirection( String id );
+
+	public abstract void nextWeapon( String id );
 }

@@ -5,13 +5,12 @@ import game.input.GameInputHandler;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.KeyInputAction;
 
-public class ThirdPersonRunAction extends KeyInputAction {
+public class RunAction extends KeyInputAction {
 
     private GameInputHandler handler;
 
-    public ThirdPersonRunAction(GameInputHandler handler, float speed) {
+    public RunAction(GameInputHandler handler) {
         this.handler = handler;
-        this.speed = speed;
     }
 
     public void performAction(InputActionEvent event) {

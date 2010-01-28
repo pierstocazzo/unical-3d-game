@@ -45,6 +45,9 @@ public class UserHud {
 	/** Level Label */
 	Text level;
 	
+	/** Current weapon */
+	Text weapon;
+	
 	/** variable used for controlled update */
 	int oldTicks;
 	
@@ -91,8 +94,16 @@ public class UserHud {
     	level.setTextColor(ColorRGBA.black);
     	level.setLocalScale(1.2f);
     	level.setLocalTranslation( hudAmmo.backQuad.getLocalTranslation().x - hudAmmo.backQuad.getWidth()/2, 
-    			hudAmmo.backQuad.getLocalTranslation().y + hudLife.backQuad.getHeight()/2 + 3, 0 );
+    			hudAmmo.backQuad.getLocalTranslation().y + hudLife.backQuad.getHeight()/2 + 20, 0 );
     	graphicalWorld.getRootNode().attachChild(level);
+    	
+    	// create text label
+		weapon = Text.createDefaultTextLabel( "Weapon" );
+		weapon.setTextColor(ColorRGBA.black);
+		weapon.setLocalScale(1.2f);
+		weapon.setLocalTranslation( hudAmmo.backQuad.getLocalTranslation().x - hudAmmo.backQuad.getWidth()/2, 
+    			hudAmmo.backQuad.getLocalTranslation().y + hudLife.backQuad.getHeight()/2 + 3, 0 );
+    	graphicalWorld.getRootNode().attachChild(weapon);
     	
     	// create text label
     	fps = Text.createDefaultTextLabel( "FPS" );
@@ -116,7 +127,8 @@ public class UserHud {
 		{
 			oldTicks = (int) GameTimer.getTime();
 			int value = world.getCore().getLevel(world.player.id);
-			level.print("Level: "+Integer.toString(value));
+			level.print("Level: " + Integer.toString(value));
+			weapon.print("Current Weapon: " + world.getCore().getWeapon(world.player.id));
 			hudScore.update();
 			hudLife.update();
 			map.update();

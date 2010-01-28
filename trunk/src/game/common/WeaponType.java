@@ -15,7 +15,7 @@ public enum WeaponType implements Serializable {
 	AR15 (
 		Integer.valueOf( GameConfiguration.getParameter("weapon_ar15_damage") ),
 		Integer.valueOf( GameConfiguration.getParameter("weapon_ar15_power") ),
-		Integer.valueOf( GameConfiguration.getParameter("weapon_ar15_loadtime") ),
+		Float.valueOf( GameConfiguration.getParameter("weapon_ar15_loadtime") ),
 		false
 	),
 	
@@ -23,7 +23,7 @@ public enum WeaponType implements Serializable {
 	GATLING (
 		Integer.valueOf( GameConfiguration.getParameter("weapon_gatling_damage") ),
 		Integer.valueOf( GameConfiguration.getParameter("weapon_gatling_power") ),
-		Integer.valueOf( GameConfiguration.getParameter("weapon_gatling_loadtime") ),
+		Float.valueOf( GameConfiguration.getParameter("weapon_gatling_loadtime") ),
 		true
 	),
 	
@@ -31,12 +31,14 @@ public enum WeaponType implements Serializable {
 	BAZOOKA (
 		Integer.valueOf( GameConfiguration.getParameter("weapon_bazooka_damage") ),
 		Integer.valueOf( GameConfiguration.getParameter("weapon_bazooka_power") ),
-		Integer.valueOf( GameConfiguration.getParameter("weapon_bazooka_loadtime") ),
+		Float.valueOf( GameConfiguration.getParameter("weapon_bazooka_loadtime") ),
 		true
 	);
 	
 	/** <code>WeaponType</code> field */
-	int damage, power, loadTime;
+	int damage, power;
+
+	float loadTime;
 	
 	/** not used */
 	boolean isHeavy;
@@ -48,7 +50,7 @@ public enum WeaponType implements Serializable {
 	 * @param power - (int) the shoot power of the weapon
 	 * @param isHeavy - (bool) if true the character can't run when using this weapon
 	 */
-	WeaponType ( int damage, int power, int loadTime, boolean isHeavy ) {
+	WeaponType ( int damage, int power, float loadTime, boolean isHeavy ) {
 		this.damage = damage;
 		this.power = power;
 		this.isHeavy = isHeavy;
@@ -78,7 +80,11 @@ public enum WeaponType implements Serializable {
 	 * 
 	 * @return (long)
 	 */
-	public long getLoadTime() {
+	public float getLoadTime() {
 		return this.loadTime;
+	}
+
+	public boolean isHeavy() {
+		return isHeavy;
 	}
 }
