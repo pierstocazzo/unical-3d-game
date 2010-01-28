@@ -95,16 +95,6 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 		vectorToLookAt = new Vector3f();
 		
 		previousMoveDirection = world.getCore().getMoveDirection(id).clone();
-		
-//		TextLabel2D label = new TextLabel2D( id );
-//		label.setBackground(Color.GREEN);
-//		label.setFontResolution( 100 );
-//		label.setForeground(Color.GREEN);
-//		BillboardNode bNode = label.getBillboard(0.5f);
-//		bNode.getLocalTranslation().y += 10;
-//		bNode.setLocalScale( 5 );
-//		
-//		model.attachChild( bNode );
 	}
 
 	/** Function <code>createPhysics</code> <p>
@@ -272,7 +262,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
         
         world.ammoPackagesCounter++;
 		GraphicalAmmoPackage ammoPack = new GraphicalAmmoPackage( "ammo" + world.ammoPackagesCounter, 
-				world, feet.getWorldTranslation().clone().add( new Vector3f(0,15,0) ) );
+				world, feet.getWorldTranslation() );
 		world.ammoPackages.add( ammoPack );
 		
     	clearDynamics();

@@ -11,7 +11,7 @@ import com.jme.input.action.InputActionEvent;
 import com.jme.input.util.SyntheticButton;
 import com.jme.math.Vector3f;
 import com.jme.scene.shape.Box;
-import com.jmex.physics.DynamicPhysicsNode;
+import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 
 /**
@@ -20,7 +20,7 @@ public class GraphicalAmmoPackage {
  
 	String id;
 	
-	DynamicPhysicsNode physicsPack;
+	StaticPhysicsNode physicsPack;
 	
 	Box pack;
 	
@@ -38,7 +38,6 @@ public class GraphicalAmmoPackage {
 		this.id = id;
 		this.world = world;
 		this.position = new Vector3f( position );
-		this.position.setY( position.getY() + 10 );
 		this.contactDetect = new InputHandler();
 		createPhysics();
 		contactDetector();
@@ -46,7 +45,7 @@ public class GraphicalAmmoPackage {
 	}
 	
 	public void createPhysics() {
-		physicsPack = world.getPhysicsSpace().createDynamicNode();
+		physicsPack = world.getPhysicsSpace().createStaticNode();
 		world.getRootNode().attachChild( physicsPack );
 		physicsPack.getLocalTranslation().set( position );
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );

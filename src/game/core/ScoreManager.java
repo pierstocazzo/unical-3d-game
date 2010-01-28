@@ -1,6 +1,7 @@
 package game.core;
 
 import game.common.GameConfiguration;
+import game.common.WeaponType;
 
 import java.io.Serializable;
 
@@ -111,6 +112,13 @@ public class ScoreManager implements Serializable {
 		}
 		
 		world.ammoPackValue = ammoPackValue;
+		for( String id : world.ammoPackages.keySet() ) {
+			if( world.ammoPackages.get(id).type == WeaponType.BAZOOKA ) {
+				world.ammoPackages.get(id).value = (int) (ammoPackValue * 0.1);
+			} else {
+				world.ammoPackages.get(id).value = ammoPackValue;
+			}
+		}
 		
 		for( String id : world.energyPackages.keySet() ) {
 			world.energyPackages.get(id).value = energyPackValue;

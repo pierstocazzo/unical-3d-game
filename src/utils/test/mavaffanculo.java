@@ -1,5 +1,8 @@
 package utils.test;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class mavaffanculo {
 	
 	private static int calculateNextScore( int level ) {
@@ -12,6 +15,15 @@ public class mavaffanculo {
 	
 	public static void main(String[] args) {
 		System.out.println( calculateNextScore(200) );
+		List<Integer> interi = new LinkedList<Integer>();
+		interi.add(1);
+		interi.add(2);
+		interi.add(3);
+		System.out.println( interi.size() );
+		
+		for( int i=0; i<interi.size(); i++ ) {
+			System.out.println( interi.get(i) + " " );
+		}
 	}
 	
 }

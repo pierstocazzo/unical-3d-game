@@ -40,13 +40,12 @@ import com.jme.input.action.KeyInputAction;
 /**
  * <code>ThirdPersonLeftAction</code>
  */
-public class ThirdPersonLeftAction extends KeyInputAction {
+public class LeftAction extends KeyInputAction {
 
     private GameInputHandler handler;
 
-    public ThirdPersonLeftAction(GameInputHandler handler, float speed) {
+    public LeftAction(GameInputHandler handler) {
         this.handler = handler;
-        this.speed = speed;
     }
 
     public void performAction(InputActionEvent event) {

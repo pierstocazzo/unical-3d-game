@@ -156,7 +156,8 @@ public class GraphicalPlayer extends GraphicalCharacter {
 		    }
 
 		    if( shooting ) {
-		    	if( GameTimer.getTimeInSeconds() - previousShootTime > 0.1f  ) {
+		    	if( GameTimer.getTimeInSeconds() - previousShootTime > 
+		    		world.getCore().getWeapon(id).getLoadTime() ) {
 		    		previousShootTime = GameTimer.getTimeInSeconds();
 		    		shoot( world.getCam().getDirection() );
 		    	}
@@ -179,7 +180,11 @@ public class GraphicalPlayer extends GraphicalCharacter {
 		lookAtAction( world.getCam().getDirection() );
 
 		if( running && walkingForward ) {
-			run( 35 );
+			if( world.getCore().getWeapon(id).isHeavy() == false )
+				run( 35 );
+			else {
+				moveForward( 15 );
+			}
 		} 
 		else if( walkingForward ) {
 			moveForward( 15 );
@@ -383,5 +388,9 @@ public class GraphicalPlayer extends GraphicalCharacter {
 
 	public void setTurningLeft(boolean turningLeft) {
 		this.turningLeft = turningLeft;
+	}
+
+	public void nextWeapon() {
+		world.getCore().nextWeapon( id );
 	}
 }

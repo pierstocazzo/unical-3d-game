@@ -28,6 +28,7 @@ import com.jme.renderer.Renderer;
 import com.jme.renderer.pass.BasicPassManager;
 import com.jme.scene.Node;
 import com.jme.scene.Text;
+import com.jme.scene.Spatial.CullHint;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.LightState;
 import com.jme.scene.state.TextureState;
@@ -50,17 +51,17 @@ public class GraphicalWorld extends Game {
 	GameInputHandler inputHandler;
     
     /** list of the characters */
-    List<GraphicalCharacter> characters; 
+    LinkedList<GraphicalCharacter> characters; 
     
     /** list of the bullets */
-	List<Bullet> bullets;
+    LinkedList<Bullet> bullets;
     
     /** list of the ammo packages */
-	List<GraphicalAmmoPackage> ammoPackages;
+    LinkedList<GraphicalAmmoPackage> ammoPackages;
     int ammoPackagesCounter = 0;
     
     /** list of the energy packages */
-	List<GraphicalEnergyPackage> energyPackages;
+    LinkedList<GraphicalEnergyPackage> energyPackages;
     int energyPackagesCounter = 0;
     
     List< Node > items;
@@ -152,6 +153,7 @@ public class GraphicalWorld extends Game {
 	    environment = new Environment( this );
 	
 	    setupEnergyPackages();
+	    setupAmmoPackages();
 	    
 	    userHud = new UserHud(this);
 	}
@@ -418,6 +420,15 @@ public class GraphicalWorld extends Game {
 			position.setY( environment.getHeight( position ) );
 			GraphicalEnergyPackage energyPack = new GraphicalEnergyPackage( id, this, position );
 			energyPackages.add( energyPack );
+		}
+	}
+	
+	private void setupAmmoPackages() {
+		for( int i = 0; i < core.getEnemiesIds().size(); i++ ) {
+			ammoPackagesCounter++;
+			GraphicalAmmoPackage ammoPack = new GraphicalAmmoPackage( "ammo" + ammoPackagesCounter, this, Vector3f.ZERO );
+			ammoPack.pack.setCullHint( CullHint.Always );
+			ammoPackages.add( ammoPack );
 		}
 	}
 

@@ -38,20 +38,21 @@ import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.KeyInputAction;
 
 /**
- * <code>ThirdPersonForwardAction</code>
+ * <code>ThirdPersonRightAction</code>
  */
-public class ThirdPersonForwardAction extends KeyInputAction {
+public class RightAction extends KeyInputAction {
+
     private GameInputHandler handler;
 
-    public ThirdPersonForwardAction(GameInputHandler handler, float speed) {
+    public RightAction(GameInputHandler handler) {
         this.handler = handler;
     }
 
     public void performAction(InputActionEvent event) {
-        if( event.getTriggerPressed() && handler.isCanMoveForward() ) {
-	        handler.setGoingForward(true);
+        if( event.getTriggerPressed() && handler.isCanStrafeRight() ) {
+        	handler.setTurningRight(true);
         } else {
-        	handler.setGoingForward(false);
+        	handler.setTurningRight(false);
         }
     }
 }
