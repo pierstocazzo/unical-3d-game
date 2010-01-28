@@ -43,10 +43,15 @@ public class LoadingFrame extends JFrame {
 	public LoadingFrame(){
 		super();
 
-		// Get screen size
-		Dimension screenSize = new Dimension (
-				Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(),
-				Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue());
+		/** Get screen size */
+		Dimension screenSize;
+		if(GameConfiguration.isFullscreen().equals("true"))
+			screenSize = new Dimension( 
+					Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(), 
+					Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue() );
+		else
+			screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
 		// apply screen size to current frame
 		setBounds(0,0,screenSize.width, screenSize.height);
 		// get image file

@@ -49,11 +49,15 @@ public class InGameMenu extends JFrame {
 	public InGameMenu( PhysicsGame game ){
 		super();
 		this.game = game;
-		// get screen size and apply it to current frame
-		screenSize =  new Dimension (
-				Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(),
-				Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue());
-		System.out.println("INGAME "+screenSize.width+" "+screenSize.height);
+		
+		/** Get screen size */
+		if(GameConfiguration.isFullscreen().equals("true"))
+			screenSize = new Dimension( 
+					Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(), 
+					Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue() );
+		else
+			screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
 		setBounds(0,0,screenSize.width, screenSize.height);
 		
 		//get image background
