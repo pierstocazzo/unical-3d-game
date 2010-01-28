@@ -60,8 +60,6 @@ public class ScoreManager implements Serializable {
 			int initialEnemyLife = Integer.valueOf( GameConfiguration.getParameter("initialEnemyLife") );
 			int playerLifeIncrease = Integer.valueOf( GameConfiguration.getParameter("playerLifeIncrease") );
 			int enemyLifeIncrease = Integer.valueOf( GameConfiguration.getParameter("enemyLifeIncrease") );
-			int initialPlayerAmmo = Integer.valueOf( GameConfiguration.getParameter("initialPlayerAmmo") );
-			int playerAmmoIncrease = Integer.valueOf( GameConfiguration.getParameter("playerAmmoIncrease") );
 			int initialEnemyAccuracy = Integer.valueOf( GameConfiguration.getParameter("initialEnemyAccuracy") );
 			int enemyAccuracyIncrease = Integer.valueOf( GameConfiguration.getParameter("enemyAccuracyIncrease") );
 			int initialAmmoPackValue = Integer.valueOf( GameConfiguration.getParameter("initialAmmoPackValue") );
@@ -75,7 +73,6 @@ public class ScoreManager implements Serializable {
 						id,
 						initialPlayerLife + playerLifeIncrease * previousLevel,
 						initialEnemyLife + enemyLifeIncrease * previousLevel,
-						initialPlayerAmmo + playerAmmoIncrease * previousLevel,
 						initialEnemyAccuracy - enemyAccuracyIncrease * previousLevel,
 						initialEnergyPackValue + energyPackIncrease * previousLevel,
 						initialAmmoPackValue + ammoPackIncrease * previousLevel
@@ -97,10 +94,11 @@ public class ScoreManager implements Serializable {
 	 * @param (int) energyPackValue
 	 * @param (int) ammoPackValue
 	 */
-	private void changeParameters( String playerId, int playerLife, int enemyLife, int maxAmmo, 
+	private void changeParameters( String playerId, int playerLife, int enemyLife, 
 			int enemyErrorAngle, int energyPackValue, int ammoPackValue ) {
-		((LogicPlayer) world.characters.get(playerId)).maxAmmo = maxAmmo;
 		world.characters.get(playerId).maxLife = playerLife;
+		
+		int previousLevel = ((LogicPlayer)world.characters.get(playerId)).score.previousLevel;
 		
 		for( String id : world.getEnemiesIds() ) {
 			world.characters.get(id).currentLife = enemyLife;
@@ -122,6 +120,25 @@ public class ScoreManager implements Serializable {
 		
 		for( String id : world.energyPackages.keySet() ) {
 			world.energyPackages.get(id).value = energyPackValue;
+		}
+		
+		for ( LogicWeapon weapon : ((LogicPlayer)world.characters.get(playerId)).equipment.values() ) {
+			switch( weapon.type ) {
+			case AR15: 
+				weapon.magazineCapacity = Integer.valueOf( GameConfiguration.getParameter("initial_ar15_capacity") )
+				+ Integer.valueOf(GameConfiguration.getParameter("ar15AmmoIncrease")) * previousLevel;
+				break;
+				
+			case GATLING: 
+				weapon.magazineCapacity = Integer.valueOf( GameConfiguration.getParameter("initial_gatling_capacity") )
+				+ Integer.valueOf(GameConfiguration.getParameter("gatlingAmmoIncrease")) * previousLevel;
+				break;
+				
+			case BAZOOKA: 
+				weapon.magazineCapacity = Integer.valueOf( GameConfiguration.getParameter("initial_bazooka_capacity") )
+				+ Integer.valueOf(GameConfiguration.getParameter("bazookaAmmoIncrease")) * previousLevel;
+				break;
+			}
 		}
 	}
 

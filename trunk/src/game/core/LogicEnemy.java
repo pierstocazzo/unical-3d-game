@@ -66,7 +66,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 						Vector3f position, MovementType movements, LogicWorld world ) {
 		super( id, maxLife, position, world );
 		/** create the enemy weapon */
-		this.weapon = new LogicWeapon( super.id + "w", 1, weapon );
+		this.weapon = new LogicWeapon( super.id + "w", weapon );
 		this.state = state;
 		this.movements = new MovementList( movements );
 		this.shootDirection = new Vector3f();
@@ -91,7 +91,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		Vector3f position, LinkedList<Movement> movements, LogicWorld world ) {
 		super( id, maxLife, position, world );
 		/** create the enemy weapon */
-		this.weapon = new LogicWeapon( super.id + "w", 1, weapon );
+		this.weapon = new LogicWeapon( super.id + "w", weapon );
 		this.state = state;
 		this.movements = new MovementList( movements );
 		this.shootDirection = new Vector3f();
@@ -216,8 +216,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	 */
 	@Override
 	public void die( String shooterId ) {
-		world.ammoPackCounter++;
-		world.createAmmoPack( "ammo" + world.ammoPackCounter, weapon.type, 
+		world.createAmmoPack( id, weapon.type, 
 				world.ammoPackValue, position );
 		world.kill(shooterId);
 		super.die( shooterId );
