@@ -213,4 +213,5 @@ public interface WorldInterface {
 	public abstract Vector3f getMoveDirection( String id );
 
 	public abstract void nextWeapon( String id );
+
 }

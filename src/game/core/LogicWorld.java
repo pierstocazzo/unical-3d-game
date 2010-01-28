@@ -17,6 +17,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import com.jme.math.FastMath;
 import com.jme.math.Vector3f;
 
 /**
@@ -43,7 +44,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	HashMap< String, LogicAmmoPack > ammoPackages;
 	
 	/** utility counter */
-	int ammoPackCounter, energyPackCounter, enemyCounter, playerCounter;
+	int energyPackCounter, enemyCounter, playerCounter;
 	
 	/** Score Manager */
 	ScoreManager scoreManager;
@@ -62,7 +63,6 @@ public class LogicWorld implements WorldInterface, Serializable {
 		ammoPackages = new HashMap< String, LogicAmmoPack >();
 		energyPackages = new HashMap< String, LogicEnergyPack >();
 		energyPackCounter = 0;
-		ammoPackCounter = 0;
 		enemyCounter = 0;
 		playerCounter = 0;
 		scoreManager = new ScoreManager( this );
@@ -117,8 +117,22 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public void createEnemy( float x, float z, State state, MovementType movements ) {
 		enemyCounter = enemyCounter + 1;
 		Vector3f position = new Vector3f( x, 0, z );
-		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter, 15, WeaponType.AR15, state, position, 
-				movements, this );
+		
+		int probability = FastMath.rand.nextInt(100);
+		WeaponType type;
+		
+		if ( probability < Integer.valueOf( GameConfiguration.getParameter("ar15_probability") ) ) {
+			type = WeaponType.AR15;
+		} else if ( probability < Integer.valueOf( GameConfiguration.getParameter("gatling_probability")) ) {
+			type = WeaponType.GATLING;
+		} else {
+			type = WeaponType.BAZOOKA;
+		}
+		
+		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter,
+				Integer.valueOf( GameConfiguration.getParameter("initialEnemyLife") ),
+				type, state, position, movements, this );
+		
 		characters.put( enemy.id, enemy );
 	}
 	
@@ -131,9 +145,21 @@ public class LogicWorld implements WorldInterface, Serializable {
 	public void createEnemy( float x, float z, State state, LinkedList<Movement> movements ) {
 		enemyCounter = enemyCounter + 1;
 		Vector3f position = new Vector3f( x, 0, z );
+		
+		int probability = FastMath.rand.nextInt(100);
+		WeaponType type;
+		
+		if ( probability < Integer.valueOf( GameConfiguration.getParameter("ar15_probability") ) ) {
+			type = WeaponType.AR15;
+		} else if ( probability < Integer.valueOf( GameConfiguration.getParameter("gatling_probability")) ) {
+			type = WeaponType.GATLING;
+		} else {
+			type = WeaponType.BAZOOKA;
+		}
+		
 		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter,
-				Integer.valueOf( GameConfiguration.getParameter("initialEnemyLife") ), 
-				WeaponType.AR15, state, position, movements, this );
+				Integer.valueOf( GameConfiguration.getParameter("initialEnemyLife") ),
+				type, state, position, movements, this );
 		
 		characters.put( enemy.id, enemy );
 	}

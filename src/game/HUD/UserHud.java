@@ -122,17 +122,12 @@ public class UserHud {
 	 * Update user hud
 	 */
 	public void update(){
-		// some elements are updated every 500 ticks
-		if(oldTicks + 500 <= (int)GameTimer.getTime())
-		{
-			oldTicks = (int) GameTimer.getTime();
-			int value = world.getCore().getLevel(world.player.id);
-			level.print("Level: " + Integer.toString(value));
-			weapon.print("Current Weapon: " + world.getCore().getWeapon(world.player.id));
-			hudScore.update();
-			hudLife.update();
-			map.update();
-		} 
+		int value = world.getCore().getLevel(world.player.id);
+		level.print("Level: " + Integer.toString(value));
+		weapon.print("Current Weapon: " + world.getCore().getWeapon(world.player.id));
+		hudScore.update();
+		hudLife.update();
+		map.update();
 		// the follows elements are updated ever 
 		fps.print( "Frame Rate: " + (int) GameTimer.getFrameRate() + "fps" );
     	hudAmmo.update();

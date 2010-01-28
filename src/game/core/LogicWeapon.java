@@ -1,7 +1,7 @@
 package game.core;
 
 import game.common.WeaponType;
-
+import game.common.*;
 import java.io.Serializable;
 
 /**
@@ -17,6 +17,9 @@ public class LogicWeapon implements Serializable {
 	/** residue ammo */
 	int ammo;
 	
+	/** weapon magazine's capacity */
+	int magazineCapacity;
+	
 	/** Weapon's type */
 	WeaponType type;
 	
@@ -27,10 +30,25 @@ public class LogicWeapon implements Serializable {
 	 * @param ammo - (int) initial ammunitions quantity
 	 * @param type - (WeaponType) the weapon's type
 	 */
-	public LogicWeapon( String id, int ammo, WeaponType type ) {
+	public LogicWeapon( String id, WeaponType type ) {
 		this.id = id;
-		this.ammo = ammo;
 		this.type = type;
+		
+		switch( type ) {
+		case AR15: 
+			this.magazineCapacity = Integer.valueOf( GameConfiguration.getParameter("initial_ar15_capacity") );
+			break;
+			
+		case GATLING: 
+			this.magazineCapacity = Integer.valueOf( GameConfiguration.getParameter("initial_gatling_capacity") );
+			break;
+			
+		case BAZOOKA: 
+			this.magazineCapacity = Integer.valueOf( GameConfiguration.getParameter("initial_bazooka_capacity") );
+			break;
+		}
+		
+		this.ammo = this.magazineCapacity;
 	}
 
 	/**

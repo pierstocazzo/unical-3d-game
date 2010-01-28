@@ -166,7 +166,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 					world.getCore().getState(id) == State.GUARDATTACK ) {
 					animationController.runAnimation( Animation.SHOOT );
 					shooting = true;
-					if( GameTimer.getTimeInSeconds() - previousShootTime > 0.2f /*world.getCore().getCharacterWeapon(id).getLoadTime() == 0*/ ) {
+					if( GameTimer.getTimeInSeconds() - previousShootTime > world.getCore().getWeapon(id).getLoadTime() ) {
 						previousShootTime = GameTimer.getTimeInSeconds();
 						shoot( world.getCore().getShootDirection(id) );
 					}
@@ -260,8 +260,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
         world.getRootNode().attachChild(exp);
         exp.forceRespawn();
         
-        world.ammoPackagesCounter++;
-		GraphicalAmmoPackage ammoPack = new GraphicalAmmoPackage( "ammo" + world.ammoPackagesCounter, 
+		GraphicalAmmoPackage ammoPack = new GraphicalAmmoPackage( id, 
 				world, feet.getWorldTranslation() );
 		world.ammoPackages.add( ammoPack );
 		

@@ -28,7 +28,6 @@ import com.jme.renderer.Renderer;
 import com.jme.renderer.pass.BasicPassManager;
 import com.jme.scene.Node;
 import com.jme.scene.Text;
-import com.jme.scene.Spatial.CullHint;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.LightState;
 import com.jme.scene.state.TextureState;
@@ -153,7 +152,7 @@ public class GraphicalWorld extends Game {
 	    environment = new Environment( this );
 	
 	    setupEnergyPackages();
-	    setupAmmoPackages();
+//	    setupAmmoPackages();
 	    
 	    userHud = new UserHud(this);
 	}
@@ -423,14 +422,14 @@ public class GraphicalWorld extends Game {
 		}
 	}
 	
-	private void setupAmmoPackages() {
-		for( int i = 0; i < core.getEnemiesIds().size(); i++ ) {
-			ammoPackagesCounter++;
-			GraphicalAmmoPackage ammoPack = new GraphicalAmmoPackage( "ammo" + ammoPackagesCounter, this, Vector3f.ZERO );
-			ammoPack.pack.setCullHint( CullHint.Always );
-			ammoPackages.add( ammoPack );
-		}
-	}
+//	private void setupAmmoPackages() {
+//		for( int i = 0; i < core.getEnemiesIds().size(); i++ ) {
+//			ammoPackagesCounter++;
+//			GraphicalAmmoPackage ammoPack = new GraphicalAmmoPackage( "ammo" + ammoPackagesCounter, this, Vector3f.ZERO );
+//			ammoPack.pack.setCullHint( CullHint.Always );
+//			ammoPackages.add( ammoPack );
+//		}
+//	}
 
 	public float getDimension() {
 		return dimension;

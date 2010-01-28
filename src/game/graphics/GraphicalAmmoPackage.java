@@ -75,7 +75,8 @@ public class GraphicalAmmoPackage {
     						deletePackage();
     						return;
     					} else {
-    						UserHud.addMessage( HudMessageHandler.MAX_AMMO );
+    						UserHud.addMessage( HudMessageHandler.MAX_AMMO  );
+    						System.out.println(id);
     					}
     				}
         		}
