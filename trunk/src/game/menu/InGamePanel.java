@@ -1,6 +1,8 @@
 package game.menu;
 
+import game.common.GameConfiguration;
 import game.common.GameTimer;
+import game.common.ImagesContainer;
 
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -39,7 +41,12 @@ public class InGamePanel extends JPanel {
 	public InGamePanel(InGameMenu gameMenu){
 		super();
 		this.gameMenu = gameMenu;
-		initImageFolder();
+		imageFolder = ImagesContainer.getMenuImagesFolders();
+		if(GameConfiguration.isFullscreen().equals("true"))
+			imageContainer = ImagesContainer.getInGameMenuImagesContainer_with_fullscreen();
+		else
+			imageContainer = ImagesContainer.getInGameMenuImagesContainer_no_fullscreen();
+		
 		initItem();
 		
 		this.setLayout(new GridLayout(5,1));
@@ -115,26 +122,6 @@ public class InGamePanel extends JPanel {
 		this.add(item.get(1));
 		item.add( new JLabel(new ImageIcon(imageContainer.get(4))));
 		this.add(item.get(2));
-	}
-	
-	/**
-	 * Initialize image path list
-	 */
-	public void initImageFolder(){
-		imageFolder = new ArrayList<String>();
-		imageFolder.add("src/game/data/images/menu/resume.png");
-		imageFolder.add("src/game/data/images/menu/resume2.png");
-		imageFolder.add("src/game/data/images/menu/save.png");
-		imageFolder.add("src/game/data/images/menu/save2.png");
-		imageFolder.add("src/game/data/images/menu/exit.png");
-		imageFolder.add("src/game/data/images/menu/exit2.png");
-		imageContainer = new ArrayList<Image>();
-		// Scale every image respect screen size
-		for(int i=0; i<imageFolder.size(); i++){
-			Image img = Toolkit.getDefaultToolkit().getImage( imageFolder.get(i) );
-			img = img.getScaledInstance(gameMenu.screenSize.width/3, gameMenu.screenSize.height/10, Image.SCALE_SMOOTH);
-			imageContainer.add( img );
-		}
 	}
 
 	/**

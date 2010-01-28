@@ -1,6 +1,7 @@
 package game.menu;
 
 import game.common.GameConfiguration;
+import game.common.ImagesContainer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -66,9 +67,7 @@ public class OptionsMenu extends JFrame {
 		// apply screen size informations
 		setBounds(0,0,screenSize.width, screenSize.height);
 		// get image file
-		background = Toolkit.getDefaultToolkit().getImage("src/game/data/images/menu/background.jpg");
-		// scale image respect screen size 
-		background = background.getScaledInstance(screenSize.width,screenSize.height,Image.SCALE_SMOOTH);
+		background = ImagesContainer.getBackgroundMainMenu();
 		setUndecorated(true); 
 		
 		setTitle("Credits Game");
@@ -450,6 +449,7 @@ public class OptionsMenu extends JFrame {
 			        	GameConfiguration.setSceneFilePath( sceneFilePath );
 			        	
 			        	GameConfiguration.save();
+			        	ImagesContainer.init();
 			            setVisible(false);
 			            mainMenu.setVisible(true);
 			        }
