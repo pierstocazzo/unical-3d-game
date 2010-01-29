@@ -106,11 +106,9 @@ public class HudMessageHandler {
 			case NEW_LEVEL:
 				int level = userHud.world.getCore().getLevel(userHud.world.player.id);
 				int maxEnergy = userHud.world.getCore().getMaxLife(userHud.world.player.id);
-				int maxAmmo = userHud.world.getCore().getMaxAmmo(userHud.world.player.id);
 				text = GameConfiguration.getPhrase( "hud_new_level_1" ) + " " + level + " "
 					+ GameConfiguration.getPhrase( "hud_new_level_2" ) + " " + maxEnergy + " "
-					+ GameConfiguration.getPhrase( "hud_new_level_3" ) + " " + maxAmmo + " "
-				    + GameConfiguration.getPhrase( "hud_new_level_4" );
+					+ GameConfiguration.getPhrase( "hud_new_level_3" );
 				break;
 		}
 		
