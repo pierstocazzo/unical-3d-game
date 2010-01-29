@@ -5,12 +5,18 @@ import game.HUD.UserHud;
 
 import java.util.Iterator;
 
+import utils.Loader;
+
+import com.jme.image.Texture;
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.util.SyntheticButton;
 import com.jme.math.Vector3f;
 import com.jme.scene.shape.Box;
+import com.jme.scene.state.TextureState;
+import com.jme.system.DisplaySystem;
+import com.jme.util.TextureManager;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 
@@ -46,7 +52,13 @@ public class GraphicalEnergyPackage {
 		world.getRootNode().attachChild( physicsPack );
 		physicsPack.getLocalTranslation().set( position );
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
-		pack.setRandomColors();
+		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/textures/energy.jpg" ),
+	            Texture.MinificationFilter.Trilinear,
+	            Texture.MagnificationFilter.Bilinear);
+	    TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
+	    ts.setEnabled(true);
+	    ts.setTexture(texture);
+		pack.setRenderState(ts);
 		pack.updateRenderState();
 		pack.lockShadows();
 		pack.lockMeshes();
