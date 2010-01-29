@@ -146,15 +146,21 @@ public class LogicWorld implements WorldInterface, Serializable {
 		enemyCounter = enemyCounter + 1;
 		Vector3f position = new Vector3f( x, 0, z );
 		
-		int probability = FastMath.rand.nextInt(100);
+		int rand = FastMath.rand.nextInt(100);
 		WeaponType type;
 		
-		if ( probability < Integer.valueOf( GameConfiguration.getParameter("ar15_probability") ) ) {
+		int ar15probability = Integer.valueOf( GameConfiguration.getParameter("ar15_probability") );
+		int gatlingProbability = Integer.valueOf( GameConfiguration.getParameter("gatling_probability") );
+		int bazookaProbability = Integer.valueOf( GameConfiguration.getParameter("bazooka_probability") );
+		
+		if ( rand < ar15probability ) {
 			type = WeaponType.AR15;
-		} else if ( probability < Integer.valueOf( GameConfiguration.getParameter("gatling_probability")) ) {
+		} else if ( rand < gatlingProbability  + ar15probability ) {
 			type = WeaponType.GATLING;
-		} else {
+		} else if ( rand < bazookaProbability + gatlingProbability + ar15probability ) {
 			type = WeaponType.BAZOOKA;
+		} else {
+			type = WeaponType.AR15;
 		}
 		
 		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter,
