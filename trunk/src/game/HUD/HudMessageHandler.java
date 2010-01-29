@@ -1,5 +1,6 @@
 package game.HUD;
 
+import game.common.GameConfiguration;
 import game.common.GameTimer;
 
 import java.util.ArrayList;
@@ -91,17 +92,25 @@ public class HudMessageHandler {
 		}
 		
 		// get string associated
-		String text = "Missing Message";
+		String text = GameConfiguration.getPhrase( "hud_no_message" );
 		switch (type) {
-			case MAX_AMMO:text="Non puoi prendere ulteriori munizioni.";break;
-			case MAX_ENERGY:text="Non puoi acquisire ulteriore energia.";break;
-			case AMMO_FINISHED:text="Hai finito tutte le munizioni, cercane negli avanposti nemici che hai ripulito.";break;
+			case MAX_AMMO:
+				text = GameConfiguration.getPhrase( "hud_max_ammo" );
+				break;
+			case MAX_ENERGY:
+				text = GameConfiguration.getPhrase( "hud_max_energy" );
+				break;
+			case AMMO_FINISHED:
+				text = GameConfiguration.getPhrase( "hud_ammo_finished" );
+				break;
 			case NEW_LEVEL:
 				int level = userHud.world.getCore().getLevel(userHud.world.player.id);
 				int maxEnergy = userHud.world.getCore().getMaxLife(userHud.world.player.id);
 				int maxAmmo = userHud.world.getCore().getMaxAmmo(userHud.world.player.id);
-				text="Sei passato al livello "+level+", la tua energia massima è "+
-					maxEnergy+" e potrai portare fino a "+maxAmmo+" munizioni.";
+				text = GameConfiguration.getPhrase( "hud_new_level_1" ) + " " + level + " "
+					+ GameConfiguration.getPhrase( "hud_new_level_2" ) + " " + maxEnergy + " "
+					+ GameConfiguration.getPhrase( "hud_new_level_3" ) + " " + maxAmmo + " "
+				    + GameConfiguration.getPhrase( "hud_new_level_4" );
 				break;
 		}
 		

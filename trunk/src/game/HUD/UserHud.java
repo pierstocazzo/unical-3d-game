@@ -1,6 +1,7 @@
 package game.HUD;
 
 import utils.Loader;
+import game.common.GameConfiguration;
 import game.common.GameTimer;
 import game.graphics.GraphicalWorld;
 import game.graphics.WorldInterface;
@@ -92,7 +93,7 @@ public class UserHud {
 		// create text label
 		level = Text.createDefaultTextLabel( "Level" );
     	level.setTextColor(ColorRGBA.black);
-    	level.setLocalScale(1.2f);
+    	level.setLocalScale(.8f);
     	level.setLocalTranslation( hudAmmo.backQuad.getLocalTranslation().x - hudAmmo.backQuad.getWidth()/2, 
     			hudAmmo.backQuad.getLocalTranslation().y + hudLife.backQuad.getHeight()/2 + 20, 0 );
     	graphicalWorld.getRootNode().attachChild(level);
@@ -100,7 +101,7 @@ public class UserHud {
     	// create text label
 		weapon = Text.createDefaultTextLabel( "Weapon" );
 		weapon.setTextColor(ColorRGBA.black);
-		weapon.setLocalScale(1.2f);
+		weapon.setLocalScale(.8f);
 		weapon.setLocalTranslation( hudAmmo.backQuad.getLocalTranslation().x - hudAmmo.backQuad.getWidth()/2, 
     			hudAmmo.backQuad.getLocalTranslation().y + hudLife.backQuad.getHeight()/2 + 3, 0 );
     	graphicalWorld.getRootNode().attachChild(weapon);
@@ -123,13 +124,13 @@ public class UserHud {
 	 */
 	public void update(){
 		int value = world.getCore().getLevel(world.player.id);
-		level.print("Level: " + Integer.toString(value));
-		weapon.print("Current Weapon: " + world.getCore().getWeapon(world.player.id));
+		level.print( GameConfiguration.getPhrase( "hud_level" ) + " " + Integer.toString(value));
+		weapon.print( GameConfiguration.getPhrase( "hud_current_weapon" ) + " " + world.getCore().getWeapon(world.player.id));
 		hudScore.update();
 		hudLife.update();
 		map.update();
 		// the follows elements are updated ever 
-		fps.print( "Frame Rate: " + (int) GameTimer.getFrameRate() + "fps" );
+		fps.print( (int) GameTimer.getFrameRate() + "fps" );
     	hudAmmo.update();
     	hudAlert.update();
     	hudMsg.update();

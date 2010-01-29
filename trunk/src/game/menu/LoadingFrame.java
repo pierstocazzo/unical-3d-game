@@ -68,7 +68,7 @@ public class LoadingFrame extends JFrame {
 				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
 				new Point(), "null"));
 		
-		setTitle("Loading Game");
+		setTitle("Loading Frame");
 		
 		/** create a panel that contains label and progress bar */
 		JPanel loadingFranePanel = new JPanel(){
@@ -97,7 +97,7 @@ public class LoadingFrame extends JFrame {
 		loadingFranePanel.add(flowPanel,BorderLayout.CENTER);
 		
 		// create a label that express loading informations
-		textLoading = new JLabel("Loading...");
+		textLoading = new JLabel("");
 		textLoading.setFont(new Font("Times New Roman", Font.BOLD, 32));
 		textLoading.setForeground(Color.red);
 		textLoading.setHorizontalAlignment(JLabel.CENTER);

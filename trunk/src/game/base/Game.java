@@ -4,6 +4,7 @@ import com.jme.input.FirstPersonHandler;
 import com.jme.input.InputHandler;
 
 import game.base.PhysicsGame;
+import game.common.GameConfiguration;
 import game.menu.LoadingFrame;
 
 /**
@@ -23,19 +24,19 @@ public abstract class Game extends PhysicsGame {
 	
     @Override
     protected void setupGame() {
-    	loadingFrame.setLoadingText("Init game");
+    	loadingFrame.setLoadingText( GameConfiguration.getPhrase( "loading_init" ) );
     	loadingFrame.setProgress(5);
         setupInit();
-        loadingFrame.setLoadingText("Loading environment");
+        loadingFrame.setLoadingText( GameConfiguration.getPhrase( "loading_environment" ) );
         loadingFrame.setProgress(20);
         setupEnvironment();
-        loadingFrame.setLoadingText("Loading players");
+        loadingFrame.setLoadingText( GameConfiguration.getPhrase( "loading_players" ) );
         loadingFrame.setProgress(60);
         setupPlayer();
-        loadingFrame.setLoadingText("Loading enemies");
+        loadingFrame.setLoadingText( GameConfiguration.getPhrase( "loading_enemies" ) );
         loadingFrame.setProgress(80);
         setupEnemies();
-        loadingFrame.setLoadingText("Setting up input");
+        loadingFrame.setLoadingText( GameConfiguration.getPhrase( "loading_input" ) );
         loadingFrame.setProgress(100);
         setupCamera();
         setupInput();
