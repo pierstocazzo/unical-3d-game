@@ -1,5 +1,7 @@
 package game.HUD;
 
+import game.common.GameConfiguration;
+
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Text;
 import com.jme.scene.shape.Quad;
@@ -61,7 +63,7 @@ public class HudAmmo {
 		frontQuad.resize( initialLenght*ammoValue/100, frontQuad.getHeight() );
 		frontQuad.setLocalTranslation( screenWidth/40 + frontQuad.getWidth()/2 + borderWeight,
 										backQuad.getLocalTranslation().y, 0 );
-		ammoNum.print( "Ammo: " + Integer.toString(ammoValue) );
+		ammoNum.print( GameConfiguration.getPhrase( "hud_ammo" ) + " " + Integer.toString(ammoValue) );
 		ammoNum.setLocalTranslation(backQuad.getLocalTranslation().x - backQuad.getWidth()/2,
 				backQuad.getLocalTranslation().y - ammoNum.getHeight()/2, 0 );
    	}
@@ -78,7 +80,7 @@ public class HudAmmo {
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										backQuad.getLocalTranslation().y, 0);
 		// print current ammo value
-		ammoNum.print("Ammo: "+Integer.toString(ammoValue));
+		ammoNum.print( GameConfiguration.getPhrase( "hud_ammo" ) + " " + Integer.toString(ammoValue) );
 		ammoNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
 				backQuad.getLocalTranslation().y-ammoNum.getHeight()/2, 0);
 	}

@@ -2,6 +2,7 @@ package game.graphics;
 
 import game.HUD.HudMessageHandler;
 import game.HUD.UserHud;
+import game.common.GameConfiguration;
 import game.common.GameTimer;
 import game.graphics.GameAnimationController.Animation;
 import game.sound.SoundManager;
@@ -181,28 +182,28 @@ public class GraphicalPlayer extends GraphicalCharacter {
 
 		if( running && walkingForward ) {
 			if( world.getCore().getWeapon(id).isHeavy() == false )
-				run( 35 );
+				run( Integer.valueOf( GameConfiguration.getParameter( "runVelocity" ) ) );
 			else {
-				moveForward( 15 );
+				moveForward( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
 			}
 		} 
 		else if( walkingForward ) {
-			moveForward( 15 );
+			moveForward( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
 			if( turningRight ) {
-				turnRight( 15 );
+				turnRight( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
 			} 
 			else if( turningLeft ) {
-				turnLeft( 15 );
+				turnLeft( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
 			} 
 		} 
 		else if( walkingBackwards ) {
-			moveBackward( 15 );
+			moveBackward( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
 		} 
 		else if( turningRight ) {
-			turnRight( 15 );
+			turnRight( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
 		} 
 		else if( turningLeft ) {
-			turnLeft( 15 );
+			turnLeft( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
 		} 
 		else {
 			rest();

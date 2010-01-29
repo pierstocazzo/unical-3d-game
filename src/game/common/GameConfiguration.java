@@ -66,13 +66,16 @@ public class GameConfiguration {
 	
 	static LinkedHashMap< String, String > parameters;
 	
+	static LinkedHashMap< String, String > phrases;
+	
 	
 	public static void init() {
 		settings = new LinkedHashMap< String, String >();
 		settings.putAll(defaultSettings);
 		
 		enemies = new LinkedList< EnemyInfo >();
-		parameters = new LinkedHashMap<String, String>();
+		parameters = new LinkedHashMap< String, String >();
+		phrases = new LinkedHashMap< String, String >();
 		
 		load();
 		
@@ -130,12 +133,26 @@ public class GameConfiguration {
 				enemies.add( enemyInfo );
 			}
 			
+			/**
+			 * Load all parameters
+			 */
 			List<Element> parameter_list = root.getChild("parameters").getChildren();
 			for( Element param : parameter_list ) {
 				String key = param.getAttributeValue("name");
 				String value = param.getAttributeValue("value");
 				
 				parameters.put( key, value );
+			}
+			
+			/**
+			 * Load all phrases
+			 */
+			List<Element> phrase_list = root.getChild("phrases").getChildren();
+			for( Element phrase : phrase_list ) {
+				String key = phrase.getAttributeValue("name");
+				String value = phrase.getAttributeValue("value");
+				
+				phrases.put( key, value );
 			}
 			
 		} catch (Exception e) {
@@ -327,6 +344,10 @@ public class GameConfiguration {
 	
 	public static String getParameter( String param ) {
 		return parameters.get( param );
+	}
+	
+	public static String getPhrase( String phrase ) {
+		return phrases.get( phrase );
 	}
 	
 	/** Utility class used to store some informations 
