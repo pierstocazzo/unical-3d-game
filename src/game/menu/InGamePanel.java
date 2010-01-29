@@ -6,7 +6,6 @@ import game.common.ImagesContainer;
 
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.Icon;

@@ -191,6 +191,10 @@ public class ScoreManager implements Serializable {
 		/** useful variable */
 		boolean showLevel2 = false;
 		
+		int scoreFactor = Integer.valueOf( GameConfiguration.getParameter("scoreFactor") );
+		int scoreForSecondLevel = Integer.valueOf( GameConfiguration.getParameter("secondLevelScore") );
+		float scoreDecreasePercentage = Float.valueOf( GameConfiguration.getParameter("scoreDecreasePercentage") );
+		
 		/**
 		 * Constructor
 		 */
@@ -209,23 +213,48 @@ public class ScoreManager implements Serializable {
 			score = 0;
 		}
 		
-		private int calculateNextScore( int level ) {
+		/**
+		 * 
+		 * @param level
+		 * @return the score needed to switch to next level
+		 */
+		private int scoreForNextLevel( int level ) {
+			/* base: return the value needed to switch to the second level */
 			if ( level == 1 ) {
-				return 25;
+				return scoreForSecondLevel;
 			}
 			
-			return (int) (Math.pow( 5*level, 2 ) + calculateNextScore( level - 1 ));
+			/* recursively call this function to calculate the score needed
+			 * the dynamic function is: 
+			 * 
+			 * 		nextLevelScore = previousLevelScore + (scorePowerFactor * currentLevel)^2
+			 * 
+			 * es. score needed to switch to third level: 
+			 * 
+			 * 		1 - scoreForNextLevel( 2 ) = (5*2)^2 + scoreForNextLevel( 1 )
+			 * 
+			 * 		2 - scoreForNextLevel( 1 ) = 25
+			 * 
+			 * 		3 - scoreForNextLevel( 2 ) = (5*2)^2 + 25 = 125
+			 * 		
+			 */
+			return (int) (Math.pow( scoreFactor*level, 2 ) + scoreForNextLevel( level - 1 ));
 		}
 		
 		/**
 		 * Increase score after an enemy killing
 		 */
 		public void increaseScore() {
-			score = score + 5*level;
-			if ( score >= calculateNextScore(level) ) {
+			int factor = Integer.valueOf( GameConfiguration.getParameter("scoreFactor") );
+			
+			score = score + factor*level;
+			
+			/* switch to next level if the score reached the needed value */
+			if ( score >= scoreForNextLevel(level) ) {
 				previousLevel = level;
 				level = level + 1;
 				
+				/* just to display a tutorial message at the switch to level 2 */
 				if ( level == 2 ) {
 					showLevel2 = true;
 				}
@@ -236,8 +265,10 @@ public class ScoreManager implements Serializable {
 		 * Decrease player score after death
 		 */
 		public void decreaseScore() {
-			score = score - (int)(score*0.8f);
-			score = score - score % 5;
+			/* decrease score */
+			score = score - (int)(score*scoreDecreasePercentage);
+			/* modulate score to be a multiple of scoreFactor */
+			score = score - score % scoreFactor;
 		}
 	}
 
