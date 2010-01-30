@@ -164,19 +164,19 @@ public class GraphicalWorld extends Game {
 		
 		// TODO rivedere setupPlayer per multiplayer
 		
-		Node model = ModelLoader.loadModel("game/data/meshes/soldier/player.jme", 
-				"game/data/meshes/soldier/soldato.jpg", 1 );
+		Node model = ModelLoader.loadModel("game/data/meshes/soldier/soldier.ms3d", 
+				"game/data/meshes/soldier/soldier.jpg", 1 );
 	    model.setLocalTranslation(0, -2f, 0);   
 
 	    loadingFrame.setProgress(65);
 	    
-		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/meshes/soldier/lr300map.jpg" ),
+		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/meshes/soldier/AR15.jpg" ),
 	            Texture.MinificationFilter.Trilinear,
 	            Texture.MagnificationFilter.Bilinear);
 	    TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
 	    ts.setEnabled(true);
 	    ts.setTexture(texture);
-		model.getChild( "weapon" ).setRenderState( ts );
+		model.getChild( "Regroup05" ).setRenderState( ts );
 		loadingFrame.setProgress(70);
 	    
 	    for( String id : core.getPlayersIds() ) {
@@ -196,7 +196,7 @@ public class GraphicalWorld extends Game {
     	
         for( String id : core.getEnemiesIds() ) {
         	enemiesCounter++;
-    		Node model = ModelLoader.loadModel("game/data/meshes/soldier/prova.ms3d", 
+    		Node model = ModelLoader.loadModel("game/data/meshes/soldier/soldier.ms3d", 
     				"game/data/meshes/soldier/soldier.jpg", 1 );
     	    model.setLocalTranslation(0, -2f, 0);   
     	    
@@ -206,7 +206,7 @@ public class GraphicalWorld extends Game {
     	    TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
     	    ts.setEnabled(true);
     	    ts.setTexture(texture);
-    		model.getChild( "weapon" ).setRenderState( ts );
+    		model.getChild( "Regroup05" ).setRenderState( ts );
     		
 			loadingFrame.setProgress( 80 + difference );
 
