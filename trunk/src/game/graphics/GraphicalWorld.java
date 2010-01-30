@@ -164,7 +164,7 @@ public class GraphicalWorld extends Game {
 		
 		// TODO rivedere setupPlayer per multiplayer
 		
-		Node model = ModelLoader.loadModel("game/data/meshes/soldier/soldier.ms3d", 
+		Node model = ModelLoader.loadModel("game/data/meshes/soldier/soldier.jme", 
 				"game/data/meshes/soldier/soldier.jpg", 1 );
 	    model.setLocalTranslation(0, -2f, 0);   
 
@@ -196,7 +196,7 @@ public class GraphicalWorld extends Game {
     	
         for( String id : core.getEnemiesIds() ) {
         	enemiesCounter++;
-    		Node model = ModelLoader.loadModel("game/data/meshes/soldier/soldier.ms3d", 
+    		Node model = ModelLoader.loadModel("game/data/meshes/soldier/soldier.jme", 
     				"game/data/meshes/soldier/soldier.jpg", 1 );
     	    model.setLocalTranslation(0, -2f, 0);   
     	    
