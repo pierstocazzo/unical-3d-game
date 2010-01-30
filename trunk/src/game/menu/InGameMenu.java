@@ -30,7 +30,7 @@ public class InGameMenu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	/** Game Panel */
-	InGamePanel gamePanel;
+	JPanel borderPanel;
 	
 	/** background image */
 	Image background;
@@ -64,22 +64,12 @@ public class InGameMenu extends JFrame {
 		}
 
 		setBounds(0,0,screenSize.width, screenSize.height);
-		
-		
-		this.setUndecorated(true); 
-	    
-		//hide cursor
-		setCursor( getToolkit().createCustomCursor(
-				new BufferedImage( 3, 3, BufferedImage.TYPE_INT_ARGB ),
-				new Point(), "null" ) );
-		
-		this.setTitle( "Game Menu" );
+		setUndecorated(true); 
+		setTitle( "Game Menu" );
 		createMenu();
-		
 		setVisible(true);
-		
 	    setResizable(false);
-	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+//	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	/**
@@ -88,7 +78,7 @@ public class InGameMenu extends JFrame {
 	 */
 	public void createMenu(){
 		//create main panel
-		JPanel borderPanel = new JPanel(){
+		borderPanel = new JPanel(){
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -101,8 +91,7 @@ public class InGameMenu extends JFrame {
 		borderPanel.setLayout( new BorderLayout() );
 		borderPanel.setOpaque(false);
 		setContentPane( borderPanel );
-		gamePanel = new InGamePanel( this );
-		borderPanel.add( gamePanel, BorderLayout.CENTER );
+		borderPanel.add( new InGamePanel( this ), BorderLayout.CENTER );
 		
 		//add left vertical empty panel
 		JPanel pVerticalEmpty1 = new JPanel();
@@ -128,42 +117,6 @@ public class InGameMenu extends JFrame {
 		pHorizontalEmpty2.setPreferredSize( new Dimension( 1, screenSize.height/4 ) );
 		borderPanel.add( pHorizontalEmpty2, BorderLayout.NORTH );
 		
-		/**
-		 * Custom Listener
-		 * Used for intercept pressed keys
-		 */
-		class KeyHandler implements KeyListener{
-			InGamePanel panel;
-			/**
-			 * Constructor
-			 * 
-			 * @param panel - Game Panel
-			 */
-			public KeyHandler( InGamePanel panel ){
-				this.panel = panel;
-			}
-			@Override
-			public void keyPressed( KeyEvent e ) {
-				if( e.getKeyCode() == KeyEvent.VK_UP )
-					panel.next();// go to next element
-				if( e.getKeyCode() == KeyEvent.VK_DOWN )
-					panel.prev();// go to previous element
-				if( e.getKeyCode() == KeyEvent.VK_ENTER )
-					// execute current element
-					panel.executeSelectedItem();
-				if( e.getKeyCode() == KeyEvent.VK_ESCAPE ){
-					// return to game
-					panel.current = 0;
-					panel.executeSelectedItem();
-				}
-			}
-			@Override
-			public void keyReleased( KeyEvent e ) {}
-			@Override
-			public void keyTyped( KeyEvent e ) {}
-		}
-		
-		this.addKeyListener( new KeyHandler(gamePanel) );
-		this.setFocusable(true);
+		setFocusable(true);
 	}
 }

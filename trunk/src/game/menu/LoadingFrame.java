@@ -64,9 +64,9 @@ public class LoadingFrame extends JFrame {
 		setUndecorated(true); 
 	    
 		//hide cursor
-		setCursor(getToolkit().createCustomCursor(
-				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
-				new Point(), "null"));
+//		setCursor(getToolkit().createCustomCursor(
+//				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
+//				new Point(), "null"));
 		
 		setTitle("Loading Frame");
 		

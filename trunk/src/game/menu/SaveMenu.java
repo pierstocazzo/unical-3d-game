@@ -67,11 +67,6 @@ public class SaveMenu extends JFrame {
 		setBounds(0,0,screenSize.width, screenSize.height);
 		
 		this.setUndecorated(true); 
-	    
-		//hide cursor
-		setCursor(getToolkit().createCustomCursor(
-				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
-				new Point(), "null"));
 		
 		this.setTitle("Save Game");
 		createMenu();
