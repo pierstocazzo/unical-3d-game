@@ -4,8 +4,8 @@ import game.common.ImagesContainer;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -36,7 +36,6 @@ public class CreditsPanel extends JPanel {
 		
 		// Applied a borderLayout
 		setLayout(new BorderLayout());
-		setOpaque(false);
         
 		JLabel photo = new JLabel();
 		Image img = ImagesContainer.getBackgroundCreditsFrame();
@@ -44,16 +43,11 @@ public class CreditsPanel extends JPanel {
         
         add(photo,BorderLayout.CENTER);
 		
-		addKeyListener( new KeyListener() {
+		addMouseListener( new MouseAdapter() {
 			@Override
-			public void keyTyped(KeyEvent e) {}
-			@Override
-			public void keyReleased(KeyEvent e) {}
-			@Override
-			public void keyPressed(KeyEvent e) {
-				mainMenu.switchToMainPanel();
+			public void mouseClicked(MouseEvent e) {
+				mainMenu.switchTo( mainMenu.mainPanel );
 			}
 		});
-		setFocusable(true);
 	}
 }
