@@ -1,14 +1,15 @@
 package game.menu;
 
+import game.common.ImagesContainer;
+import game.core.LogicWorld;
+import game.main.GameThread;
+
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -18,16 +19,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import game.common.ImagesContainer;
-import game.core.LogicWorld;
-import game.main.GameThread;
 
 /**
  * Class MainPanel
@@ -214,7 +209,7 @@ public class MainPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// switch to credits panel
-				mainMenu.switchToCreditsPanel();
+				mainMenu.switchTo( mainMenu.creditsPanel );
 			}
 		});
 		centerPanel.add( buttonCredits );
