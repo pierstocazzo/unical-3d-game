@@ -55,17 +55,17 @@ public class GameAnimationController {
 	 */
 	 public enum Animation {
 		
-		RUN ( 15, 28, 0.7f ), 
+		RUN ( 46, 66, 1.2f ), 
 		
-		WALK ( 1, 14, 0.4f ),
+		WALK ( 25, 45, 0.7f ),
 		
-		IDLE ( 251, 276, 0.3f ),
+		IDLE ( 1, 24, 0.3f ),
 		
-		JUMP ( 103, 111, 0.7f ),
+		JUMP ( 68, 68, 0.7f ),
 		
-		DIE ( 230, 251, 1f ),
+		DIE ( 68, 68, 1f ),
 		
-		SHOOT ( 63, 64, 0.4f );
+		SHOOT ( 68, 68, 0.4f );
 		
 		int startFrame; 
 		
