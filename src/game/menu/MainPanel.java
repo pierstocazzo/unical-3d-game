@@ -1,7 +1,16 @@
 package game.menu;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,6 +20,7 @@ import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,7 +41,7 @@ public class MainPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	/** List of menu items */
-	ArrayList<JLabel> item;
+	ArrayList<JButton> item;
 	
 	/** Number of current element */
 	public int current = 0;
@@ -45,8 +55,12 @@ public class MainPanel extends JPanel {
 	/** MainMenu */
 	MainMenu mainMenu;
 	
+	JPanel currentPanel;
+	JPanel centerPanel;
+	
 	/** Pointer to current thread game */
 	GameThread gameThread;
+	Image background;
 	
 	/**
 	 * Constructor of MainPanel
@@ -58,92 +72,98 @@ public class MainPanel extends JPanel {
 		this.mainMenu = mainMenu;
 		menuImagesFolder = ImagesContainer.getMenuImagesFolders();
 		menuImageContainer = ImagesContainer.getMenuImagesContainer();
-		initItem();
+		background = ImagesContainer.getBackgroundMainMenu();
 		
-		this.setLayout(new GridLayout(5,1));
-		this.setOpaque(false);
+		setLayout(new BorderLayout());
+		setOpaque(false);
+		
+		createMenu();
+		initItem();
 	}
 	
 	/**
-	 * Get previous element number
-	 * 
-	 * @return (int) current
+	 * Create a panel. This panel is displayed with its components at frame center
 	 */
-	public int prev(){
-		this.current = this.current + 1;
-		if(this.current >= item.size())
-			this.current = 0;
-		refreshMenu();
-		return current;
+	public void createMenu(){
+		
+		centerPanel = new JPanel();
+		centerPanel.setLayout(new GridLayout(5,1));
+		centerPanel.setOpaque(false);
+		add( centerPanel, BorderLayout.CENTER );
+		
+		//add left vertical empty panel for spacing
+		JPanel pVerticalEmpty1 = new JPanel();
+		pVerticalEmpty1.setOpaque(false);
+		pVerticalEmpty1.setPreferredSize(new Dimension( mainMenu.screenSize.width/4, 1));
+		add(pVerticalEmpty1,BorderLayout.WEST);
+		
+		//add right vertical empty panel for spacing
+		JPanel pVerticalEmpty2 = new JPanel();
+		pVerticalEmpty2.setOpaque(false);
+		pVerticalEmpty2.setPreferredSize(new Dimension( mainMenu.screenSize.width/4, 1));
+		add(pVerticalEmpty2,BorderLayout.EAST);
+		
+		//add lower horizontal empty panel for spacing
+		JPanel pHorizontalEmpty1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		pHorizontalEmpty1.setOpaque(false);
+		pHorizontalEmpty1.setPreferredSize(new Dimension(1, mainMenu.screenSize.height/4));
+		add(pHorizontalEmpty1,BorderLayout.SOUTH);
+		
+		//add upper horizontal empty panel for spacing
+		JPanel pHorizontalEmpty2 = new JPanel();
+		pHorizontalEmpty2.setOpaque(false);
+		pHorizontalEmpty2.setPreferredSize(new Dimension(1, mainMenu.screenSize.height/4));
+		add(pHorizontalEmpty2,BorderLayout.NORTH);
+		
+		setFocusable(true);
+		setVisible(true);
 	}
 	
-	/**
-	 * Get next element number
-	 */
-	public int next(){
-		this.current = this.current - 1;
-		if(this.current < 0)
-			this.current = item.size() - 1;
-		refreshMenu();
-		return current;
-	}
-	
-	/**
-	 * Get Path String of unselected image of element i
-	 * 
-	 * @param (int) i
-	 * @return (String) path
-	 */
-	public Icon StandardImage(int i){
-		return new ImageIcon(menuImageContainer.get(i*2));
-	}
-	
-	/**
-	 * Get Path String of selected image of element i
-	 * 
-	 * @param (int) i
-	 * @return (String) path
-	 */
-	public Icon SelectedImage(int i){
-		return new ImageIcon(menuImageContainer.get(i*2+1));
-	}
-	
-	/**
-	 * Refresh Main Menu
-	 */
-	public void refreshMenu(){
-		for( int i=0; i < item.size(); i++ ){
-			if(current == i)
-				item.get(i).setIcon(SelectedImage(i));
-			else
-				item.get(i).setIcon(StandardImage(i));
-		}
+	@Override
+	public void paintComponent(Graphics g){
+		g.drawImage(background, 0, 0, this);
+		super.paintComponent(g);
 	}
 	
 	/**
 	 * Initialize item images
 	 */
 	public void initItem(){
-		item = new ArrayList<JLabel>();
-		item.add( new JLabel(new ImageIcon(menuImageContainer.get(1))));
-		this.add(item.get(0));
-		item.add( new JLabel(new ImageIcon(menuImageContainer.get(2))));
-		this.add(item.get(1));
-		item.add( new JLabel(new ImageIcon(menuImageContainer.get(4))));
-		this.add(item.get(2));
-		item.add( new JLabel(new ImageIcon(menuImageContainer.get(6))));
-		this.add(item.get(3));
-		item.add( new JLabel(new ImageIcon(menuImageContainer.get(8))));
-		this.add(item.get(4));
-	}
+		
+		class MouseHandler implements MouseListener{
+			
+			JButton button;
+			int index;
+			public MouseHandler( JButton button, int index ){
+				this.button = button;
+				this.index = index;
+			}
 
-	/**
-	 * Execute operation of selected element
-	 * @throws InterruptedException 
-	 */
-	public void executeSelectedItem(){
-		switch (current){
-			case 0:
+			@Override
+			public void mouseClicked(MouseEvent e) {}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				button.setIcon(new ImageIcon(menuImageContainer.get(index+1)));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				button.setIcon(new ImageIcon(menuImageContainer.get(index)));
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {}
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+		}
+		
+		JButton buttonNewgame = new JButton(new ImageIcon(menuImageContainer.get(0)));
+		buttonNewgame.setBorderPainted(false);
+		buttonNewgame.setContentAreaFilled(false);
+		buttonNewgame.addMouseListener( new MouseHandler(buttonNewgame, 0) {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				mainMenu.setAlwaysOnTop(false);
 				
 				// Create a Loading Bar
@@ -154,73 +174,110 @@ public class MainPanel extends JPanel {
 				Thread gameThreadNew = new Thread( gameThread );
 				gameThreadNew.start();
 				
-				mainMenu.setVisible(false);break;
-			case 1:
-				//Load game with fileChooser
-				mainMenu.showCursor();
-				JFileChooser fc = new JFileChooser();
-				int returnVal = fc.showOpenDialog(this);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					File file = fc.getSelectedFile();
-					System.out.println("Opening: " + file.getName() + ".");
-					
-					FileInputStream fin = null;
-					try {
-							fin = new FileInputStream("gameSave/"+file.getName());
-						}
-					catch (FileNotFoundException e) {
-							e.printStackTrace();
-						}
-					
-					ObjectInputStream ois = null;
-					try { 
-							ois = new ObjectInputStream(fin); 
-						} 
-					catch (IOException e) { 
-							e.printStackTrace(); 
-						}
-					
-					LogicWorld gameLoaded = null;
-					try {
-							try { 
-									gameLoaded = (LogicWorld) ois.readObject();
-								} 
-							catch (IOException e) {
-									e.printStackTrace();
-								}
-						}
-					catch (ClassNotFoundException e) {
-							e.printStackTrace();
-						} 
-					
-					//Create a Loading Bar
-					LoadingFrame loadingFrame = new LoadingFrame();
-					
-					// create a new game thread and launch it
-					gameThread = new GameThread(gameLoaded,loadingFrame);
-					Thread gameThreadLoaded = new Thread( gameThread );
-					gameThreadLoaded.start();
-					
-					mainMenu.setVisible(false);
-				} 
-				mainMenu.hideCursor();
-				break;
-			case 2:
+				mainMenu.setVisible(false);
+			}
+		});
+		centerPanel.add( buttonNewgame);
+		
+		JButton buttonLoad = new JButton(new ImageIcon(menuImageContainer.get(2)));
+		buttonLoad.setBorderPainted(false);
+		buttonLoad.setContentAreaFilled(false);
+		buttonLoad.addMouseListener(new MouseHandler(buttonLoad, 2){
+			@Override
+			public void mouseClicked(MouseEvent e) { 
+				loadGame();
+			}
+		});
+		centerPanel.add( buttonLoad );
+		
+		JButton buttonOptions = new JButton(new ImageIcon(menuImageContainer.get(4)));
+		buttonOptions.setBorderPainted(false);
+		buttonOptions.setContentAreaFilled(false);
+		buttonOptions.setSelected(false);
+		buttonOptions.addMouseListener( new MouseHandler(buttonOptions,4) {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				// create a optionsMenu
 				OptionsMenu om = new OptionsMenu(mainMenu);
 				om.setVisible(true);
 				mainMenu.setVisible(false);
-				break;
-			case 3:
-				// create a CreditsFrame
-				CreditsFrame cm = new CreditsFrame(mainMenu);
-				cm.setVisible(true);
-				mainMenu.setVisible(false);
-				break;
-			case 4:
-				// close all
+			}
+		});
+		centerPanel.add( buttonOptions );
+			
+		JButton buttonCredits = new JButton(new ImageIcon(menuImageContainer.get(6)));
+		buttonCredits.setBorderPainted(false);
+		buttonCredits.setContentAreaFilled(false);
+		buttonCredits.addMouseListener( new MouseHandler(buttonCredits,6) {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// switch to credits panel
+				mainMenu.switchToCreditsPanel();
+			}
+		});
+		centerPanel.add( buttonCredits );
+		
+		
+		JButton buttonExit = new JButton(new ImageIcon(menuImageContainer.get(8)));
+		buttonExit.setBorderPainted(false);
+		buttonExit.setContentAreaFilled(false);
+		buttonExit.addMouseListener( new MouseHandler(buttonExit,8) {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
-				break;
-		}
+			}
+		});
+		centerPanel.add( buttonExit );
+	}
+	
+	public void loadGame(){
+		//Load game with fileChooser
+		JFileChooser fc = new JFileChooser();
+		int returnVal = fc.showOpenDialog(mainMenu);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = fc.getSelectedFile();
+			System.out.println("Opening: " + file.getName() + ".");
+			
+			FileInputStream fin = null;
+			try {
+					fin = new FileInputStream("gameSave/"+file.getName());
+				}
+			catch (FileNotFoundException e0) {
+					e0.printStackTrace();
+				}
+			
+			ObjectInputStream ois = null;
+			try { 
+					ois = new ObjectInputStream(fin); 
+				} 
+			catch (IOException e1) { 
+					e1.printStackTrace(); 
+				}
+			
+			LogicWorld gameLoaded = null;
+			try {
+					try { 
+							gameLoaded = (LogicWorld) ois.readObject();
+						} 
+					catch (IOException e2) {
+							e2.printStackTrace();
+						}
+				}
+			catch (ClassNotFoundException e3) {
+					e3.printStackTrace();
+				} 
+			
+			//Create a Loading Bar
+			LoadingFrame loadingFrame = new LoadingFrame();
+			
+			// create a new game thread and launch it
+			gameThread = new GameThread(gameLoaded,loadingFrame);
+			Thread gameThreadLoaded = new Thread( gameThread );
+			gameThreadLoaded.start();
+			
+			mainMenu.setVisible(false);
+		} 
 	}
 }
