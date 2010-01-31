@@ -1,15 +1,12 @@
 package game.menu;
 
 import game.common.GameConfiguration;
-import game.common.ImagesContainer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Toolkit;
 
 import javax.swing.JLabel;
@@ -25,9 +22,6 @@ import javax.swing.JProgressBar;
 public class LoadingFrame extends JPanel {
 	/** Class ID */
 	private static final long serialVersionUID = 1L;
-	
-	/** Backgroung Image */
-	Image background;
 	
 	/** Progress Bar */
 	JProgressBar progressBar;
@@ -51,11 +45,9 @@ public class LoadingFrame extends JPanel {
 			screenSize = new Dimension( 
 					Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(), 
 					Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue() );
-			background = ImagesContainer.getBackground_with_FullScreen();
 		}
 		else{
 			screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			background = ImagesContainer.getBackground_no_FullScreen();
 		}
 //		
 //		// apply screen size to current frame
@@ -142,12 +134,6 @@ public class LoadingFrame extends JPanel {
 	    
 	    setVisible(true);
 //		setAlwaysOnTop(true);
-	}
-	
-	@Override
-	public void paintComponent(Graphics g){
-		g.drawImage(background, 0, 0, this);
-		super.paintComponent(g);
 	}
 	
 	/**

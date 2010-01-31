@@ -6,10 +6,8 @@ import game.common.ImagesContainer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,9 +32,6 @@ public class OptionsPanel extends JPanel {
 	
 	/** Class ID */
 	private static final long serialVersionUID = 1L;
-	
-	/** background image */
-	Image background;
 	
 	/** MainMenu Pointer */
 	MainMenu mainMenu;
@@ -64,8 +59,6 @@ public class OptionsPanel extends JPanel {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		// apply screen size informations
 		setBounds(0,0,screenSize.width, screenSize.height);
-		// get image file
-		background = ImagesContainer.getBackgroundMainMenu();
 		
 		// apply layout to main panel
 		setLayout(new BorderLayout());
@@ -466,11 +459,5 @@ public class OptionsPanel extends JPanel {
 		add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 		this.setFocusable(true);
-	}
-	
-	@Override
-	public void paintComponent(Graphics g){
-		g.drawImage(background, 0, 0, this);
-		super.paintComponent(g);
 	}
 }

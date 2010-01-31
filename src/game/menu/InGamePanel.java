@@ -8,7 +8,6 @@ import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -36,9 +35,6 @@ public class InGamePanel extends JPanel {
 	
 	JPanel localPanel;
 	
-	/** Backgroung Image */
-	Image background;
-	
 	/**
 	 * Constructor of InGamePanel Class
 	 * 
@@ -51,10 +47,8 @@ public class InGamePanel extends JPanel {
 		
 		if( GameConfiguration.isFullscreen().equals("true") ) {
 			imageContainer = ImagesContainer.getInGameMenuImagesContainer_with_fullscreen();
-			background = ImagesContainer.getBackground_with_FullScreen();
 		} else {
 			imageContainer = ImagesContainer.getInGameMenuImagesContainer_no_fullscreen();
-			background = ImagesContainer.getBackground_no_FullScreen();
 		}
 		
 		setLayout(new BorderLayout());
@@ -162,11 +156,5 @@ public class InGamePanel extends JPanel {
 			}
 		});
 		centerPanel.add(buttonExit);
-	}
-	
-	@Override
-	public void paintComponent( Graphics g ){
-		g.drawImage( background, 0, 0, this );
-		super.paintComponent(g);
 	}
 }

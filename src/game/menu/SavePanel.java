@@ -1,16 +1,13 @@
 package game.menu;
 
 import game.common.GameConfiguration;
-import game.common.ImagesContainer;
 import game.core.LogicWorld;
 import game.graphics.GraphicalWorld;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,9 +37,6 @@ public class SavePanel extends JPanel {
 	/** Useful pointer */
 	MainMenu gameMenu;
 	
-	/** Background image */
-	Image background;
-	
 	/** Screen informations */
 	Dimension screenSize;
 	
@@ -62,11 +56,9 @@ public class SavePanel extends JPanel {
 			screenSize = new Dimension( 
 					Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(), 
 					Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue() );
-			background = ImagesContainer.getBackground_with_FullScreen();
 		}
 		else{
 			screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			background = ImagesContainer.getBackground_no_FullScreen();
 		}
 		
 		// apply screen size to frame
@@ -180,11 +172,5 @@ public class SavePanel extends JPanel {
 		
 		setVisible(true);
 		setFocusable(true);
-	}
-	
-	@Override
-	public void paintComponent(Graphics g){
-		g.drawImage(background, 0, 0, this);
-		super.paintComponent(g);
 	}
 }

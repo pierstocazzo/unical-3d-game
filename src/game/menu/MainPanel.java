@@ -7,7 +7,6 @@ import game.main.GameThread;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -19,6 +18,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -48,7 +48,6 @@ public class MainPanel extends JPanel {
 	
 	/** Pointer to current thread game */
 	GameThread gameThread;
-	Image background;
 	
 	/**
 	 * Constructor of MainPanel
@@ -59,10 +58,10 @@ public class MainPanel extends JPanel {
 		super();
 		this.mainMenu = mainMenu;
 		menuImageContainer = ImagesContainer.getMenuImagesContainer();
-		background = ImagesContainer.getBackgroundMainMenu();
 		
 		setLayout(new BorderLayout());
 		setOpaque(false);
+		setBorder( BorderFactory.createEmptyBorder() );
 		
 		createMenu();
 		initItem();
@@ -104,12 +103,6 @@ public class MainPanel extends JPanel {
 		
 		setFocusable(true);
 		setVisible(true);
-	}
-	
-	@Override
-	public void paintComponent(Graphics g){
-		g.drawImage(background, 0, 0, this);
-		super.paintComponent(g);
 	}
 	
 	/**
