@@ -15,8 +15,8 @@ public class Convertitore extends SimpleGame {
 	@Override
 	protected void simpleInitGame() {
 		try {
-			convert( "src/game/data/meshes/vegetation" );
-			convert( "src/game/data/meshes/items" );
+//			convert( "src/game/data/meshes/vegetation/" );
+			convert( "game/data/meshes/items/" );
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -26,18 +26,23 @@ public class Convertitore extends SimpleGame {
 	
 	void convert( String directory ) throws Exception {
 		BufferedReader in = new BufferedReader( 
-				new InputStreamReader( Runtime.getRuntime().exec( "ls " + directory ).getInputStream() ) );
+				new InputStreamReader( Runtime.getRuntime().exec( "ls " + "src/" + directory ).getInputStream() ) );
 
 		String line;
 		while( (line = in.readLine()) != null ) {
-			System.out.println(line);
+			
 			if( line.matches( ".*3ds" ) ) {
-				// convert in binary jme file
+				System.out.println(line);
+				System.out.println(directory + line);
+//				 convert in binary jme file
+				line.replaceFirst( "\n", "" );
 				String newFile = line.replaceFirst( "3ds", "jme" );
 				ModelConverter.convert( directory + line, directory + newFile );
 				
 				// remove converted model
-				Runtime.getRuntime().exec( "rm " + directory + line );
+				Runtime.getRuntime().exec( "rm " + "src/" + directory + line );
+				
+				System.out.println( line + " converted" );
 			} 
 		}
 	}
