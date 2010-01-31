@@ -5,7 +5,7 @@ import game.HUD.UserHud;
 import game.base.Game;
 import game.common.GameConfiguration;
 import game.input.GameInputHandler;
-import game.menu.LoadingFrame;
+import game.menu.MainMenu;
 import game.sound.SoundManager;
 import game.sound.SoundManager.SoundType;
 
@@ -111,9 +111,9 @@ public class GraphicalWorld extends Game {
 	 * @param core - (WorldInterface) the logic world
 	 * @param loadingFrame - (LoadingFrame) the loading frame
 	 */
-    public GraphicalWorld( WorldInterface core, LoadingFrame loadingFrame ) {
+    public GraphicalWorld( WorldInterface core, MainMenu menu ) {
         this.core = core;
-        super.loadingFrame = loadingFrame;
+        super.setMenu(menu);
         
         setAudioEnabled(Boolean.valueOf( GameConfiguration.isSoundEnabled() ));
     }
@@ -130,14 +130,14 @@ public class GraphicalWorld extends Game {
 		energyPackages = new LinkedList<GraphicalEnergyPackage>();
 		items = new LinkedList<Node>();
 		
-		loadingFrame.setProgress(10);
+		getMenu().setProgress(10);
 		
     	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
     	
     	cameraPosition = Text2D.createDefaultTextLabel("cameraPosition");
 		cameraPosition.setLocalTranslation(getResolution().x/2, getResolution().y * 3/4, 0 );
     	
-		loadingFrame.setProgress(15);
+		getMenu().setProgress(15);
 		
     	ExplosionFactory.warmup();
     	
@@ -168,7 +168,7 @@ public class GraphicalWorld extends Game {
 				"game/data/meshes/soldier/soldier.jpg", 1 );
 	    model.setLocalTranslation(0, -2f, 0);   
 
-	    loadingFrame.setProgress(65);
+	    getMenu().setProgress(65);
 	    
 		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/meshes/soldier/AR15.jpg" ),
 	            Texture.MinificationFilter.Trilinear,
@@ -177,7 +177,7 @@ public class GraphicalWorld extends Game {
 	    ts.setEnabled(true);
 	    ts.setTexture(texture);
 		model.getChild( "Regroup05" ).setRenderState( ts );
-		loadingFrame.setProgress(70);
+		getMenu().setProgress(70);
 	    
 	    for( String id : core.getPlayersIds() ) {
 	    	playersCounter++;
@@ -208,7 +208,7 @@ public class GraphicalWorld extends Game {
     	    ts.setTexture(texture);
     		model.getChild( "Regroup05" ).setRenderState( ts );
     		
-			loadingFrame.setProgress( 80 + difference );
+			getMenu().setProgress( 80 + difference );
 
             GraphicalEnemy enemy = new GraphicalEnemy( id, this, 5, 100,  model );
             

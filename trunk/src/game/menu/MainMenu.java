@@ -1,10 +1,10 @@
 package game.menu;
 
+import game.base.PhysicsGame;
 import game.common.GameConfiguration;
 import game.common.ImagesContainer;
 
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.HashMap;
 
@@ -26,12 +26,11 @@ public class MainMenu extends JFrame {
 	/** Reference to the current Panel */
 	JPanel currentPanel;
 	HashMap<String, JPanel> panelsContainer;
-	
-	/** background image */
-	Image background;
-	
+
 	/** Screen size informations */
 	Dimension screenSize;
+
+	PhysicsGame game;
 	
 	/**
 	 * Constructor of MainMenu Class
@@ -61,6 +60,9 @@ public class MainMenu extends JFrame {
 		panelsContainer.put("mainPanel", new MainPanel(this));
 		panelsContainer.put("creditsPanel", new CreditsPanel(this));
 		panelsContainer.put("optionsPanel", new OptionsPanel(this));
+		panelsContainer.put("loadingPanel", new LoadingFrame(this) );
+		panelsContainer.put("inGamePanel", new InGamePanel(this));
+	    panelsContainer.put("savePanel", new SavePanel(this));
 	    
 		// set a layout to main panel
 		switchToMainPanel();
@@ -91,5 +93,48 @@ public class MainMenu extends JFrame {
 		add( currentPanel );
 		repaint();
 		validate();
+	}
+	
+	public void switchToLoadingPanel() {
+		if ( currentPanel != null )
+			remove( currentPanel );
+		currentPanel = panelsContainer.get("loadingPanel");
+		add( currentPanel );
+		repaint();
+		validate();
+	}
+	
+	public void switchToInGamePanel() {
+		if ( currentPanel != null )
+			remove( currentPanel );
+		currentPanel = panelsContainer.get("inGamePanel");
+		add( currentPanel );
+		repaint();
+		validate();
+	}
+	
+	public void switchToSavePanel() {
+		if ( currentPanel != null )
+			remove( currentPanel );
+		currentPanel = panelsContainer.get("savePanel");
+		add( currentPanel );
+		repaint();
+		validate();
+	}
+	
+	public void setLoadingText( String text ) {
+		((LoadingFrame) panelsContainer.get("loadingPanel")).setLoadingText( text );
+	}
+	
+	public void setProgress( int progress ) {
+		((LoadingFrame) panelsContainer.get("loadingPanel")).setProgress( progress );
+	}
+
+	public void setGame( PhysicsGame game) {
+		this.game = game;
+	}
+
+	public void hideMenu() {
+		setVisible(false);
 	}
 }

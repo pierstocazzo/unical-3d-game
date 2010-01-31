@@ -11,27 +11,21 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.regex.Pattern;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.text.BadLocationException;
 
 /**
  * Class SaveMenu
@@ -44,7 +38,7 @@ public class SavePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	/** Useful pointer */
-	InGameMenu gameMenu;
+	MainMenu gameMenu;
 	
 	/** Background image */
 	Image background;
@@ -59,9 +53,9 @@ public class SavePanel extends JPanel {
 	 * 
 	 * @param (InGameMenu) - gameMenu
 	 */
-	public SavePanel(InGameMenu gameMenu){
+	public SavePanel(MainMenu mainMenu){
 		super();
-		this.gameMenu = gameMenu;
+		this.gameMenu = mainMenu;
 		
 		/** Get screen size */
 		if(GameConfiguration.isFullscreen().equals("true")){

@@ -15,10 +15,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -34,23 +32,30 @@ public class InGamePanel extends JPanel {
 	/** Preloaded images */
 	ArrayList<Image> imageContainer;
 	/** Pointer to Game Menu (owner this panel)*/
-	InGameMenu gameMenu;
+	MainMenu gameMenu;
 	
 	JPanel localPanel;
+	
+	/** Backgroung Image */
+	Image background;
 	
 	/**
 	 * Constructor of InGamePanel Class
 	 * 
 	 * @param gameMenu - Game Menu
 	 */
-	public InGamePanel(InGameMenu gameMenu){
+	public InGamePanel(MainMenu gameMenu){
 		super();
 		this.gameMenu = gameMenu;
 		setCursor(Cursor.getDefaultCursor());
-		if(GameConfiguration.isFullscreen().equals("true"))
+		
+		if( GameConfiguration.isFullscreen().equals("true") ) {
 			imageContainer = ImagesContainer.getInGameMenuImagesContainer_with_fullscreen();
-		else
+			background = ImagesContainer.getBackground_with_FullScreen();
+		} else {
 			imageContainer = ImagesContainer.getInGameMenuImagesContainer_no_fullscreen();
+			background = ImagesContainer.getBackground_no_FullScreen();
+		}
 		
 		setLayout(new BorderLayout());
 		setOpaque(false);
@@ -161,7 +166,7 @@ public class InGamePanel extends JPanel {
 	
 	@Override
 	public void paintComponent( Graphics g ){
-		g.drawImage( gameMenu.background, 0, 0, this );
+		g.drawImage( background, 0, 0, this );
 		super.paintComponent(g);
 	}
 }
