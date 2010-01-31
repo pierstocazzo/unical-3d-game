@@ -4,8 +4,7 @@ import game.base.PhysicsGame;
 import game.common.GameConfiguration;
 import game.common.ImagesContainer;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
@@ -32,9 +31,13 @@ public class MainMenu extends JFrame {
 
 	PhysicsGame game;
 	
+	JPanel paneContainer;
+	Image background;
+	
 	/**
 	 * Constructor of MainMenu Class
 	 */
+	@SuppressWarnings("serial")
 	public MainMenu(){
 		super();
 		
@@ -45,6 +48,24 @@ public class MainMenu extends JFrame {
 		
 		GameConfiguration.init();
 		ImagesContainer.init();
+		
+		if(GameConfiguration.isFullscreen().equals("true")){
+			background = ImagesContainer.getBackground_with_FullScreen();
+		}
+		else{
+			background = ImagesContainer.getBackground_no_FullScreen();
+		}
+		
+		paneContainer = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g){
+				g.drawImage(background, 0, 0, this);
+//				super.paintComponent(g);
+			}
+		};
+//		add(paneContainer);
+	    paneContainer.setLayout( new BorderLayout() );
+		setContentPane(paneContainer);
 		
 		// hide frame border
 		setUndecorated(true); 
@@ -63,6 +84,8 @@ public class MainMenu extends JFrame {
 		panelsContainer.put("loadingPanel", new LoadingFrame(this) );
 		panelsContainer.put("inGamePanel", new InGamePanel(this));
 	    panelsContainer.put("savePanel", new SavePanel(this));
+	    
+	    
 	    
 		// set a layout to main panel
 		switchToMainPanel();
