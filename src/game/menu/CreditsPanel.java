@@ -46,7 +46,7 @@ public class CreditsPanel extends JPanel {
 		addMouseListener( new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				mainMenu.switchTo( mainMenu.mainPanel );
+				mainMenu.switchToMainPanel();
 			}
 		});
 	}

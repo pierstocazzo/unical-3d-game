@@ -6,6 +6,7 @@ import game.common.ImagesContainer;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,17 +25,13 @@ public class MainMenu extends JFrame {
 	
 	/** Reference to the current Panel */
 	JPanel currentPanel;
-//	HashMap<String, JPanel> panelsContainer;
+	HashMap<String, JPanel> panelsContainer;
 	
 	/** background image */
 	Image background;
 	
 	/** Screen size informations */
 	Dimension screenSize;
-	
-	/** Panels */
-	MainPanel mainPanel;
-	CreditsPanel creditsPanel;
 	
 	/**
 	 * Constructor of MainMenu Class
@@ -60,48 +57,29 @@ public class MainMenu extends JFrame {
 	    setResizable(false);
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
    		
-//		panelsContainer = new HashMap<String, JPanel>();
-//		panelsContainer.put("mainPanel", new MainPanel(this));
-//		panelsContainer.put("creditsPanel", new CreditsPanel(this));
-		
-	    mainPanel = new MainPanel(this);
-	    creditsPanel = new CreditsPanel(this);
+		panelsContainer = new HashMap<String, JPanel>();
+		panelsContainer.put("mainPanel", new MainPanel(this));
+		panelsContainer.put("creditsPanel", new CreditsPanel(this));
 	    
 		// set a layout to main panel
-//		switchToMainPanel();
-	    currentPanel = mainPanel;
-	    switchTo( mainPanel );
+		switchToMainPanel();
 	}
 	
-	/** 
-	 * Switch di pannello: <br>
-	 * rimuovo il pannello corrente dal ContentPane e aggiungo il pannello
-	 * passato come parametro della funzione, aggiornando currentPanel e chiamando 
-	 * la funzione "validate()" per riorganizzare i componenti
-	 * 
-	 * ps: la funzione "removeAll()" mi ha dato problemi, per questo utilizzo currentPanel
-	 * 
-	 * @param panel - (JPanel) il pannello da visualizzare
-	 */
-	public void switchTo( JPanel panel ) {
-		remove( currentPanel );
-		currentPanel = panel;
-		add( panel );
+	public void switchToMainPanel(){
+		if ( currentPanel != null )
+			remove( currentPanel );
+		currentPanel = panelsContainer.get("mainPanel");
+		add( currentPanel );
 		repaint();
 		validate();
 	}
-	
-//	public void switchToMainPanel(){
-//		remove( panelsContainer.get("creditsPanel") );
-//		add( panelsContainer.get("mainPanel") );
-//		repaint();
-//		validate();
-//	}
-//
-//	public void switchToCreditsPanel() {
-//		remove( panelsContainer.get("mainPanel") );
-//		add( panelsContainer.get("creditsPanel") );
-//		repaint();
-//		validate();
-//	}
+
+	public void switchToCreditsPanel() {
+		if ( currentPanel != null )
+			remove( currentPanel );
+		currentPanel = panelsContainer.get("creditsPanel");
+		add( currentPanel );
+		repaint();
+		validate();
+	}
 }

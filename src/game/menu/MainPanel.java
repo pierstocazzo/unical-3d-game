@@ -35,14 +35,8 @@ public class MainPanel extends JPanel {
 	/** Class ID */
 	private static final long serialVersionUID = 1L;
 	
-	/** List of menu items */
-	ArrayList<JButton> item;
-	
 	/** Number of current element */
 	public int current = 0;
-	
-	/** List of image path */
-	ArrayList<String> menuImagesFolder;
 	
 	/** Preloaded images */
 	ArrayList<Image> menuImageContainer;
@@ -50,7 +44,6 @@ public class MainPanel extends JPanel {
 	/** MainMenu */
 	MainMenu mainMenu;
 	
-	JPanel currentPanel;
 	JPanel centerPanel;
 	
 	/** Pointer to current thread game */
@@ -65,7 +58,6 @@ public class MainPanel extends JPanel {
 	public MainPanel(MainMenu mainMenu){
 		super();
 		this.mainMenu = mainMenu;
-		menuImagesFolder = ImagesContainer.getMenuImagesFolders();
 		menuImageContainer = ImagesContainer.getMenuImagesContainer();
 		background = ImagesContainer.getBackgroundMainMenu();
 		
@@ -209,7 +201,7 @@ public class MainPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// switch to credits panel
-				mainMenu.switchTo( mainMenu.creditsPanel );
+				mainMenu.switchToCreditsPanel();
 			}
 		});
 		centerPanel.add( buttonCredits );
