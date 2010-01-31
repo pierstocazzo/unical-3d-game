@@ -14,6 +14,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,7 +31,8 @@ public class InGameMenu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	/** Game Panel */
-	JPanel borderPanel;
+	JPanel currentPanel;
+	HashMap<String, JPanel> panelsContainer;
 	
 	/** background image */
 	Image background;
@@ -51,6 +53,8 @@ public class InGameMenu extends JFrame {
 		super();
 		this.game = game;
 		
+		panelsContainer = new HashMap<String, JPanel>();
+		
 		/** Get screen size */
 		if(GameConfiguration.isFullscreen().equals("true")){
 			screenSize = new Dimension( 
@@ -66,57 +70,31 @@ public class InGameMenu extends JFrame {
 		setBounds(0,0,screenSize.width, screenSize.height);
 		setUndecorated(true); 
 		setTitle( "Game Menu" );
-		createMenu();
 		setVisible(true);
 	    setResizable(false);
+	    
+	    panelsContainer.put("inGamePanel", new InGamePanel(this));
+	    panelsContainer.put("savePanel", new SavePanel(this));
+	    
+	    switchToInGamePanel();
 //	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
-	/**
-	 * Create Game Menu
-	 * It creates a panel that contains three component used in user choosing
-	 */
-	public void createMenu(){
-		//create main panel
-		borderPanel = new JPanel(){
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void paintComponent( Graphics g ){
-				g.drawImage( background, 0, 0, this );
-				super.paintComponent(g);
-			}
-		};
-		
-		borderPanel.setLayout( new BorderLayout() );
-		borderPanel.setOpaque(false);
-		setContentPane( borderPanel );
-		borderPanel.add( new InGamePanel( this ), BorderLayout.CENTER );
-		
-		//add left vertical empty panel
-		JPanel pVerticalEmpty1 = new JPanel();
-		pVerticalEmpty1.setOpaque(false);
-		pVerticalEmpty1.setPreferredSize( new Dimension(screenSize.width/4, 1 ) );
-		borderPanel.add( pVerticalEmpty1, BorderLayout.WEST );
-		
-		//add right vertical empty panel
-		JPanel pVerticalEmpty2 = new JPanel();
-		pVerticalEmpty2.setOpaque(false);
-		pVerticalEmpty2.setPreferredSize( new Dimension(screenSize.width/4, 1 ) );
-		borderPanel.add( pVerticalEmpty2, BorderLayout.EAST );
-		
-		//add lower horizontal empty panel
-		JPanel pHorizontalEmpty1 = new JPanel( new FlowLayout( FlowLayout.RIGHT ) );
-		pHorizontalEmpty1.setOpaque(false);
-		pHorizontalEmpty1.setPreferredSize( new Dimension( 1, screenSize.height/4) );
-		borderPanel.add( pHorizontalEmpty1, BorderLayout.SOUTH );
-		
-		//add upper horizontal empty panel
-		JPanel pHorizontalEmpty2 = new JPanel();
-		pHorizontalEmpty2.setOpaque(false);
-		pHorizontalEmpty2.setPreferredSize( new Dimension( 1, screenSize.height/4 ) );
-		borderPanel.add( pHorizontalEmpty2, BorderLayout.NORTH );
-		
-		setFocusable(true);
+	public void switchToInGamePanel(){
+		if ( currentPanel != null )
+			remove( currentPanel );
+		currentPanel = panelsContainer.get("inGamePanel");
+		add( currentPanel );
+		repaint();
+		validate();
+	}
+	
+	public void switchToSavePanel(){
+		if ( currentPanel != null )
+			remove( currentPanel );
+		currentPanel = panelsContainer.get("savePanel");
+		add( currentPanel );
+		repaint();
+		validate();
 	}
 }

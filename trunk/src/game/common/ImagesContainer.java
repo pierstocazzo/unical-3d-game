@@ -42,13 +42,13 @@ public class ImagesContainer {
 		backgroundCreditsFrame = Toolkit.getDefaultToolkit().getImage( 
 				"src/game/data/images/menu/credits16_9.jpg" );
 		backgroundCreditsFrame = backgroundCreditsFrame.getScaledInstance(
-				screenSize.width, screenSize.height, Image.SCALE_FAST);
+				screenSize.width, screenSize.height, Image.SCALE_SMOOTH);
 		
 		// get background image
 		background_no_FullScreen = Toolkit.getDefaultToolkit().getImage( 
 				"src/game/data/images/menu/background.jpg" );
 		background_no_FullScreen = background_no_FullScreen.getScaledInstance(
-				screenSize.width, screenSize.height, Image.SCALE_FAST);
+				screenSize.width, screenSize.height, Image.SCALE_SMOOTH);
 		
 		// get background image
 		background_with_FullScreen = Toolkit.getDefaultToolkit().getImage( 
@@ -81,7 +81,7 @@ public class ImagesContainer {
 		// scale all image respect screen size
 		for(int i=0; i<menuImagesFolders.size(); i++){
 			Image img = Toolkit.getDefaultToolkit().getImage( menuImagesFolders.get(i) );
-			img = img.getScaledInstance(screenSize.width/3, screenSize.height/10, Image.SCALE_FAST);
+			img = img.getScaledInstance(screenSize.width/3, screenSize.height/10, Image.SCALE_SMOOTH);
 			menuImagesContainer.add(img);
 		}
 	}
@@ -101,7 +101,7 @@ public class ImagesContainer {
 		// Scale every image respect screen size
 		for(int i=0; i<inGameMenuImagesFolder.size(); i++){
 			Image img = Toolkit.getDefaultToolkit().getImage( inGameMenuImagesFolder.get(i) );
-			img = img.getScaledInstance(screenSize.width/3, screenSize.height/10, Image.SCALE_FAST);
+			img = img.getScaledInstance(screenSize.width/3, screenSize.height/10, Image.SCALE_SMOOTH);
 			inGameMenuImagesContainer_no_fullscreen.add( img );
 		}
 	}

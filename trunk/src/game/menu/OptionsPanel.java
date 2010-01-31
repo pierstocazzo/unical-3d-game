@@ -31,7 +31,7 @@ import javax.swing.border.TitledBorder;
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
-public class OptionsMenu extends JFrame {
+public class OptionsPanel extends JPanel {
 	
 	/** Class ID */
 	private static final long serialVersionUID = 1L;
@@ -46,7 +46,7 @@ public class OptionsMenu extends JFrame {
 	JTextArea sceneFileName;
 	
 	/** His Pointer used in a subClass */
-	OptionsMenu optionsMenu;
+	OptionsPanel optionsMenu;
 	
 	Vector<String> itemsTrueFalse;
 	
@@ -56,44 +56,26 @@ public class OptionsMenu extends JFrame {
 
 	Vector<String> resolutions;
 	
-	public OptionsMenu( final MainMenu mainMenu ){
+	public OptionsPanel( final MainMenu mainMenu ){
 		super();
 		this.mainMenu = mainMenu;
 		optionsMenu = this;
 
 		// Get screen size informations
-		Dimension screenSize = 
-	        Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		// apply screen size informations
 		setBounds(0,0,screenSize.width, screenSize.height);
 		// get image file
 		background = ImagesContainer.getBackgroundMainMenu();
-		setUndecorated(true); 
-		
-		setTitle("Credits Game");
-		
-		/**
-		 * Create a panel that allow to show background image
-		 */
-		JPanel mainPanel = new JPanel(){
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void paintComponent(Graphics g){
-				g.drawImage(background, 0, 0, this);
-				super.paintComponent(g);
-			}
-		};
 		
 		// apply layout to main panel
-		mainPanel.setLayout(new BorderLayout());
-		mainPanel.setOpaque(false);
-		setContentPane(mainPanel);
+		setLayout(new BorderLayout());
+		setOpaque(false);
 		
 		//Create a new sub panel that divide frame
 		JPanel dividePanel = new JPanel();
 		dividePanel.setLayout(new BorderLayout());
-		mainPanel.add(dividePanel,BorderLayout.CENTER);
+		add(dividePanel,BorderLayout.CENTER);
 		
 		//Create first visible panel ( Monitor Settings )
 		JPanel grid = new JPanel();
@@ -384,6 +366,8 @@ public class OptionsMenu extends JFrame {
 		flow.add(buttonOk);
 		
 		//add reset action
+		buttonReset.setMnemonic('r');
+		buttonReset.setMnemonic('R');
 		buttonReset.addActionListener(
 			    new ActionListener() {
 			        public void actionPerformed(ActionEvent e) {
@@ -420,16 +404,19 @@ public class OptionsMenu extends JFrame {
 			);
 		
 		// cancel return to main panel
+		buttonCancel.setMnemonic('c');
+		buttonCancel.setMnemonic('C');
 		buttonCancel.addActionListener(
 		    new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
-		            setVisible(false);
-		            mainMenu.setVisible(true);
+		            mainMenu.switchToMainPanel();
 		        }
 		    }
 		);
 		
 		// apply options
+		buttonOk.setMnemonic('o');
+		buttonOk.setMnemonic('O');
 		buttonOk.addActionListener(
 			    new ActionListener() {
 			        public void actionPerformed(ActionEvent e) {
@@ -450,8 +437,7 @@ public class OptionsMenu extends JFrame {
 			        	
 			        	GameConfiguration.save();
 			        	ImagesContainer.init();
-			            setVisible(false);
-			            mainMenu.setVisible(true);
+			            mainMenu.switchToMainPanel();
 			        }
 			    }
 			);
@@ -460,29 +446,32 @@ public class OptionsMenu extends JFrame {
 		JPanel pVerticalEmpty1 = new JPanel();
 		pVerticalEmpty1.setOpaque(false);
 		pVerticalEmpty1.setPreferredSize(new Dimension(screenSize.width/8, 1));
-		mainPanel.add(pVerticalEmpty1,BorderLayout.WEST);
+		add(pVerticalEmpty1,BorderLayout.WEST);
 		
 		//add right vertical empty panel
 		JPanel pVerticalEmpty2 = new JPanel();
 		pVerticalEmpty2.setOpaque(false);
 		pVerticalEmpty2.setPreferredSize(new Dimension(screenSize.width/8, 1));
-		mainPanel.add(pVerticalEmpty2,BorderLayout.EAST);
+		add(pVerticalEmpty2,BorderLayout.EAST);
 		
 		//add lower horizontal empty panel
 		JPanel pHorizontalEmpty1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pHorizontalEmpty1.setOpaque(false);
 		pHorizontalEmpty1.setPreferredSize(new Dimension(1, screenSize.height/8));
-		mainPanel.add(pHorizontalEmpty1,BorderLayout.SOUTH);
+		add(pHorizontalEmpty1,BorderLayout.SOUTH);
 		
 		//add upper horizontal empty panel
 		JPanel pHorizontalEmpty2 = new JPanel();
 		pHorizontalEmpty2.setOpaque(false);
 		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height/8));
-		mainPanel.add(pHorizontalEmpty2,BorderLayout.NORTH);
-		
-	    setResizable(false);
-	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 		this.setFocusable(true);
+	}
+	
+	@Override
+	public void paintComponent(Graphics g){
+		g.drawImage(background, 0, 0, this);
+		super.paintComponent(g);
 	}
 }

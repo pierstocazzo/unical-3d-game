@@ -6,6 +6,9 @@ import game.common.ImagesContainer;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -28,8 +31,6 @@ public class InGamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	/** current selected item */
 	public int current = 0;
-	/** images of every items */
-	ArrayList<String> imageFolder;
 	/** Preloaded images */
 	ArrayList<Image> imageContainer;
 	/** Pointer to Game Menu (owner this panel)*/
@@ -46,24 +47,50 @@ public class InGamePanel extends JPanel {
 		super();
 		this.gameMenu = gameMenu;
 		setCursor(Cursor.getDefaultCursor());
-		imageFolder = ImagesContainer.getMenuImagesFolders();
 		if(GameConfiguration.isFullscreen().equals("true"))
 			imageContainer = ImagesContainer.getInGameMenuImagesContainer_with_fullscreen();
 		else
 			imageContainer = ImagesContainer.getInGameMenuImagesContainer_no_fullscreen();
 		
+		setLayout(new BorderLayout());
+		setOpaque(false);
 		initItem();
-		
-		this.setLayout(new GridLayout(5,1));
-		this.setOpaque(false);
 	}
 	
 	/**
 	 * It initializes images used in panel components
 	 */
 	public void initItem(){
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout( new GridLayout(3,1) );
+		centerPanel.setOpaque(false);
+		add(centerPanel, BorderLayout.CENTER);
 		
-class MouseHandler implements MouseListener{
+		//add left vertical empty panel
+		JPanel pVerticalEmpty1 = new JPanel();
+		pVerticalEmpty1.setOpaque(false);
+		pVerticalEmpty1.setPreferredSize( new Dimension(gameMenu.screenSize.width/4, 1 ) );
+		add( pVerticalEmpty1, BorderLayout.WEST );
+		
+		//add right vertical empty panel
+		JPanel pVerticalEmpty2 = new JPanel();
+		pVerticalEmpty2.setOpaque(false);
+		pVerticalEmpty2.setPreferredSize( new Dimension(gameMenu.screenSize.width/4, 1 ) );
+		add( pVerticalEmpty2, BorderLayout.EAST );
+		
+		//add lower horizontal empty panel
+		JPanel pHorizontalEmpty1 = new JPanel( new FlowLayout( FlowLayout.RIGHT ) );
+		pHorizontalEmpty1.setOpaque(false);
+		pHorizontalEmpty1.setPreferredSize( new Dimension( 1, gameMenu.screenSize.height/3) );
+		add( pHorizontalEmpty1, BorderLayout.SOUTH );
+		
+		//add upper horizontal empty panel
+		JPanel pHorizontalEmpty2 = new JPanel();
+		pHorizontalEmpty2.setOpaque(false);
+		pHorizontalEmpty2.setPreferredSize( new Dimension( 1, gameMenu.screenSize.height/4 ) );
+		add( pHorizontalEmpty2, BorderLayout.NORTH );
+		
+		class MouseHandler implements MouseListener{
 			
 			JButton button;
 			int index;
@@ -90,6 +117,7 @@ class MouseHandler implements MouseListener{
 			@Override
 			public void mouseReleased(MouseEvent e) {}
 		}
+		
 		JButton buttonResume = new JButton(new ImageIcon(imageContainer.get(0)));
 		buttonResume.setBorderPainted(false);
 		buttonResume.setContentAreaFilled(false);
@@ -104,7 +132,7 @@ class MouseHandler implements MouseListener{
 				gameMenu.game.enabled = true;
 			}
 		});
-		add(buttonResume);
+		centerPanel.add(buttonResume);
 		
 		JButton buttonSave = new JButton(new ImageIcon(imageContainer.get(2)));
 		buttonSave.setBorderPainted(false);
@@ -112,13 +140,10 @@ class MouseHandler implements MouseListener{
 		buttonSave.addMouseListener( new MouseHandler(buttonSave, 2){
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				gameMenu.setVisible(false);
-				// create a new frame
-				SaveMenu sm = new SaveMenu(gameMenu);
-				sm.setVisible(true);
+				gameMenu.switchToSavePanel();
 			}
 		});
-		add(buttonSave);
+		centerPanel.add(buttonSave);
 		
 		JButton buttonExit = new JButton(new ImageIcon(imageContainer.get(4)));
 		buttonExit.setBorderPainted(false);
@@ -131,6 +156,12 @@ class MouseHandler implements MouseListener{
 				gameMenu.game.finish();
 			}
 		});
-		add(buttonExit);
+		centerPanel.add(buttonExit);
+	}
+	
+	@Override
+	public void paintComponent( Graphics g ){
+		g.drawImage( gameMenu.background, 0, 0, this );
+		super.paintComponent(g);
 	}
 }
