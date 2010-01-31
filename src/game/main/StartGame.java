@@ -1,6 +1,5 @@
 package game.main;
 
-import game.menu.InGameMenu;
 import game.menu.MainMenu;
 
 public class StartGame {

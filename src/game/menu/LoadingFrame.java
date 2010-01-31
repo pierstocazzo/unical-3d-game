@@ -10,11 +10,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -25,7 +22,7 @@ import javax.swing.JProgressBar;
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
-public class LoadingFrame extends JFrame {
+public class LoadingFrame extends JPanel {
 	/** Class ID */
 	private static final long serialVersionUID = 1L;
 	
@@ -38,13 +35,17 @@ public class LoadingFrame extends JFrame {
 	/** Label used for communicate during loading */
 	JLabel textLoading;
 	
+	MainMenu mainMenu;
+	
 	/**
 	 * Constructor Class LoadingFrame
+	 * @param mainMenu 
 	 */
-	public LoadingFrame(){
+	public LoadingFrame( MainMenu mainMenu ) {
 		super();
-
-		/** Get screen size */
+		this.mainMenu = mainMenu;
+		
+//		/** Get screen size */
 		Dimension screenSize;
 		if(GameConfiguration.isFullscreen().equals("true")){
 			screenSize = new Dimension( 
@@ -56,45 +57,45 @@ public class LoadingFrame extends JFrame {
 			screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 			background = ImagesContainer.getBackground_no_FullScreen();
 		}
-		
-		// apply screen size to current frame
-		setBounds(0,0,screenSize.width, screenSize.height);
-		
-		//hide frame border
-		setUndecorated(true); 
-	    
-		//hide cursor
-//		setCursor(getToolkit().createCustomCursor(
-//				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
-//				new Point(), "null"));
-		
-		setTitle("Loading Frame");
+//		
+//		// apply screen size to current frame
+//		setBounds(0,0,screenSize.width, screenSize.height);
+//		
+//		//hide frame border
+//		setUndecorated(true); 
+//	    
+//		//hide cursor
+////		setCursor(getToolkit().createCustomCursor(
+////				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
+////				new Point(), "null"));
+//		
+//		setTitle("Loading Frame");
 		
 		/** create a panel that contains label and progress bar */
-		JPanel loadingFranePanel = new JPanel(){
-			private static final long serialVersionUID = 1L;
-
-			// painted background before panel components
-			@Override
-			public void paintComponent(Graphics g){
-				g.drawImage(background, 0, 0, this);
-				super.paintComponent(g);
-			}
-		};
+//		JPanel loadingFranePanel = new JPanel(){
+//			private static final long serialVersionUID = 1L;
+//
+//			// painted background before panel components
+//			@Override
+//			public void paintComponent(Graphics g){
+//				g.drawImage(background, 0, 0, this);
+//				super.paintComponent(g);
+//			}
+//		};
 		
 		// applied a border layout
-		loadingFranePanel.setLayout(new BorderLayout());
-		loadingFranePanel.setOpaque(false);
-		setContentPane(loadingFranePanel);
+		setLayout(new BorderLayout());
+		setOpaque(false);
+//		setContentPane(loadingFranePanel);
 		
 		// create a sub panel for inserts new components on particular screen position
 		JPanel flowPanel = new JPanel();
 		flowPanel.setPreferredSize(new Dimension(screenSize.width*6/8, screenSize.height/8));
 		flowPanel.setOpaque(false);
-		
-		// delete spacing between components of the flow layout
+//		
+//		// delete spacing between components of the flow layout
 		flowPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		loadingFranePanel.add(flowPanel,BorderLayout.CENTER);
+		add(flowPanel,BorderLayout.CENTER);
 		
 		// create a label that express loading informations
 		textLoading = new JLabel("");
@@ -116,31 +117,37 @@ public class LoadingFrame extends JFrame {
 		JPanel pVerticalEmpty1 = new JPanel();
 		pVerticalEmpty1.setOpaque(false);
 		pVerticalEmpty1.setPreferredSize(new Dimension(screenSize.width/8, 1));
-		loadingFranePanel.add(pVerticalEmpty1,BorderLayout.WEST);
+		add(pVerticalEmpty1,BorderLayout.WEST);
 		
 		//add right vertical empty panel
 		JPanel pVerticalEmpty2 = new JPanel();
 		pVerticalEmpty2.setOpaque(false);
 		pVerticalEmpty2.setPreferredSize(new Dimension(screenSize.width/8, 1));
-		loadingFranePanel.add(pVerticalEmpty2,BorderLayout.EAST);
+		add(pVerticalEmpty2,BorderLayout.EAST);
 		
 		//add lower horizontal empty panel
 		JPanel pHorizontalEmpty1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pHorizontalEmpty1.setOpaque(false);
 		pHorizontalEmpty1.setPreferredSize(new Dimension(1, screenSize.height/8));
-		loadingFranePanel.add(pHorizontalEmpty1,BorderLayout.SOUTH);
+		add(pHorizontalEmpty1,BorderLayout.SOUTH);
 		
 		//add upper horizontal empty panel
 		JPanel pHorizontalEmpty2 = new JPanel();
 		pHorizontalEmpty2.setOpaque(false);
 		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height*12/16));
-		loadingFranePanel.add(pHorizontalEmpty2,BorderLayout.NORTH);
+		add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
-	    setResizable(false);
-	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+//	    setResizable(false);
+//	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	    
 	    setVisible(true);
-		setAlwaysOnTop(true);
+//		setAlwaysOnTop(true);
+	}
+	
+	@Override
+	public void paintComponent(Graphics g){
+		g.drawImage(background, 0, 0, this);
+		super.paintComponent(g);
 	}
 	
 	/**

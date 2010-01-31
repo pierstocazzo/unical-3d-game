@@ -1,11 +1,9 @@
 package game.base;
 
+import game.common.GameConfiguration;
+
 import com.jme.input.FirstPersonHandler;
 import com.jme.input.InputHandler;
-
-import game.base.PhysicsGame;
-import game.common.GameConfiguration;
-import game.menu.LoadingFrame;
 
 /**
  * Class Game
@@ -19,31 +17,33 @@ public abstract class Game extends PhysicsGame {
 	/** Used for debug mode */
 	public InputHandler freeCamInput;
 	
-	/** Frame that displays loading info */
-	public LoadingFrame loadingFrame;
-	
     @Override
     protected void setupGame() {
-    	loadingFrame.setLoadingText( GameConfiguration.getPhrase( "loading_init" ) );
-    	loadingFrame.setProgress(5);
+    	getMenu().setLoadingText( GameConfiguration.getPhrase( "loading_init" ) );
+    	getMenu().setProgress(5);
         setupInit();
-        loadingFrame.setLoadingText( GameConfiguration.getPhrase( "loading_environment" ) );
-        loadingFrame.setProgress(20);
+        getMenu().setLoadingText( GameConfiguration.getPhrase( "loading_environment" ) );
+        getMenu().setProgress(20);
         setupEnvironment();
-        loadingFrame.setLoadingText( GameConfiguration.getPhrase( "loading_players" ) );
-        loadingFrame.setProgress(60);
+        getMenu().setLoadingText( GameConfiguration.getPhrase( "loading_players" ) );
+        getMenu().setProgress(60);
         setupPlayer();
-        loadingFrame.setLoadingText( GameConfiguration.getPhrase( "loading_enemies" ) );
-        loadingFrame.setProgress(80);
+        getMenu().setLoadingText( GameConfiguration.getPhrase( "loading_enemies" ) );
+        getMenu().setProgress(80);
         setupEnemies();
-        loadingFrame.setLoadingText( GameConfiguration.getPhrase( "loading_input" ) );
-        loadingFrame.setProgress(100);
+        getMenu().setLoadingText( GameConfiguration.getPhrase( "loading_input" ) );
         setupCamera();
         setupInput();
-        
+        getMenu().setProgress(100);
         freeCamInput = new FirstPersonHandler( cam, 200, 1 );
         freeCamInput.setEnabled( false );
-        loadingFrame.setVisible(false);
+        try{
+        	Thread.sleep(2000);
+        } catch (Exception e) {
+			// TODO: handle exception
+		}
+        
+        getMenu().hideMenu();
     }
     
     /** initialize system */

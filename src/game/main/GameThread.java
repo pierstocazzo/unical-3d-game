@@ -1,33 +1,31 @@
 package game.main;
 
-import game.base.PhysicsGame;
 import game.core.LogicWorld;
 import game.graphics.GraphicalWorld;
-import game.menu.LoadingFrame;
+import game.menu.MainMenu;
 
-import java.util.logging.Level;
+public class GameThread extends Thread {
 
-public class GameThread implements Runnable {
-
-	public LogicWorld logicGame;
-	public GraphicalWorld game;
-	public LoadingFrame loadingFrame;
+	LogicWorld logicGame;
+	GraphicalWorld game;
+	MainMenu menu;
 	
-	public GameThread( LoadingFrame loadingFrame ) {
-		this.loadingFrame = loadingFrame;
+	
+	public GameThread( MainMenu menu ) {
+		this.menu = menu;
 		logicGame = new LogicWorld();
     	logicGame.createPlayer( 100, 476, 561 );  	
     	logicGame.createEnergyPackages( 100 );
 	}
 	
-	public GameThread( LogicWorld logicGame, LoadingFrame loadingFrame ){
-		this.loadingFrame = loadingFrame;
+	public GameThread( LogicWorld logicGame, MainMenu menu ){
+		this.menu = menu;
 		this.logicGame = logicGame;
 	}
 
 	public void run() {
-		game = new GraphicalWorld( logicGame, loadingFrame );
-		PhysicsGame.logger.setLevel( Level.SEVERE );
+		game = new GraphicalWorld( logicGame, menu );
+		menu.setGame( game );
         game.start();
     }
 	

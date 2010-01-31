@@ -121,7 +121,7 @@ public class Environment {
         world.getRootNode().attachChild(ground);
         world.getRootNode().attachChild(gameBounds);
         
-	    world.loadingFrame.setProgress(30);
+	    world.getMenu().setProgress(30);
 	    
 	    FogState fogState = DisplaySystem.getDisplaySystem().getRenderer().createFogState();
 	    fogState.setDensity(1.0f);
@@ -133,17 +133,17 @@ public class Environment {
 	    fogState.setQuality(FogState.Quality.PerVertex);
 	    world.getRootNode().setRenderState(fogState);
 	    
-	    world.loadingFrame.setProgress(35);
+	    world.getMenu().setProgress(35);
 		createTerrain();
 		
-		world.loadingFrame.setProgress(40);
+		world.getMenu().setProgress(40);
         createReflectionTerrain();
 
         buildSkyBox();
         world.getRootNode().attachChild( skybox );
         world.getRootNode().attachChild( splatTerrain );
         
-        world.loadingFrame.setProgress(45);
+        world.getMenu().setProgress(45);
         createWater();
         
 	    RenderPass rootPass = new RenderPass();
@@ -153,7 +153,7 @@ public class Environment {
 	    world.getRootNode().setCullHint(Spatial.CullHint.Never);
 	    world.getRootNode().setCullHint(Spatial.CullHint.Never);
 	    
-        world.loadingFrame.setProgress(50);
+        world.getMenu().setProgress(50);
 	    loadItems();
 	    
 	    /* per andrea */

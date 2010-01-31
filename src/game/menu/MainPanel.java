@@ -151,17 +151,13 @@ public class MainPanel extends JPanel {
 		buttonNewgame.addMouseListener( new MouseHandler(buttonNewgame, 0) {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				mainMenu.setAlwaysOnTop(false);
+				mainMenu.switchToLoadingPanel();
+				mainMenu.setAlwaysOnTop(true);
+				mainMenu.requestFocus();
 				
-				// Create a Loading Bar
-				LoadingFrame load = new LoadingFrame();
-		
 				// Create a new game thread and launch it
-				gameThread = new GameThread(load);
-				Thread gameThreadNew = new Thread( gameThread );
-				gameThreadNew.start();
-				
-				mainMenu.setVisible(false);
+				gameThread = new GameThread( mainMenu );
+				gameThread.start();
 			}
 		});
 		centerPanel.add( buttonNewgame);
@@ -224,45 +220,40 @@ public class MainPanel extends JPanel {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			System.out.println("Opening: " + file.getName() + ".");
-			
+
 			FileInputStream fin = null;
 			try {
-					fin = new FileInputStream("gameSave/"+file.getName());
-				}
-			catch (FileNotFoundException e0) {
-					e0.printStackTrace();
-				}
-			
+				fin = new FileInputStream("gameSave/"+file.getName());
+			} catch (FileNotFoundException e0) {
+				e0.printStackTrace();
+			}
+
 			ObjectInputStream ois = null;
 			try { 
-					ois = new ObjectInputStream(fin); 
-				} 
-			catch (IOException e1) { 
-					e1.printStackTrace(); 
-				}
-			
+				ois = new ObjectInputStream(fin); 
+			} catch (IOException e1) { 
+				e1.printStackTrace(); 
+			}
+
 			LogicWorld gameLoaded = null;
 			try {
-					try { 
-							gameLoaded = (LogicWorld) ois.readObject();
-						} 
-					catch (IOException e2) {
-							e2.printStackTrace();
-						}
-				}
-			catch (ClassNotFoundException e3) {
-					e3.printStackTrace();
+				try { 
+					gameLoaded = (LogicWorld) ois.readObject();
 				} 
+				catch (IOException e2) {
+					e2.printStackTrace();
+				}
+			} catch (ClassNotFoundException e3) {
+				e3.printStackTrace();
+			} 
 			
-			//Create a Loading Bar
-			LoadingFrame loadingFrame = new LoadingFrame();
+			mainMenu.switchToLoadingPanel();
+			mainMenu.setAlwaysOnTop(true);
+			mainMenu.requestFocus();
 			
 			// create a new game thread and launch it
-			gameThread = new GameThread(gameLoaded,loadingFrame);
-			Thread gameThreadLoaded = new Thread( gameThread );
-			gameThreadLoaded.start();
-			
-			mainMenu.setVisible(false);
+			gameThread = new GameThread( gameLoaded, mainMenu );
+			gameThread.start();
 		} 
 	}
 }

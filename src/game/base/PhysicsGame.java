@@ -3,7 +3,7 @@ package game.base;
 import game.common.GameTimer;
 import game.common.GameConfiguration;
 import game.graphics.GraphicalWorld;
-import game.menu.InGameMenu;
+import game.menu.MainMenu;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,6 +50,8 @@ import com.jmex.physics.PhysicsSpace;
 public abstract class PhysicsGame extends AbstractGame {
 
     // Main scene components:
+	
+	protected MainMenu menu;
 	
 	/** main camera node */
     protected Camera cam;
@@ -238,9 +240,11 @@ public abstract class PhysicsGame extends AbstractGame {
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
         	
-        	InGameMenu menu = new InGameMenu(this);
-    		menu.setVisible(true);
-    		menu.toFront();
+        	/* switch to in game menu */
+        	menu.switchToInGamePanel();
+        	menu.setVisible(true);
+        	menu.toFront();
+        	
     		enabled = false;
         }
         
@@ -531,7 +535,15 @@ public abstract class PhysicsGame extends AbstractGame {
         return new BaseGameSettings();
     }
 
-    /**
+    public void setMenu(MainMenu menu) {
+		this.menu = menu;
+	}
+
+	public MainMenu getMenu() {
+		return menu;
+	}
+
+	/**
      * A PropertiesGameSettings which defaults Fullscreen to TRUE.
      */
     static class BaseGameSettings extends PropertiesGameSettings {
