@@ -369,5 +369,3 @@ public class MainPanel extends JPanel {
 				buttonContainer.get(i).setIcon(new ImageIcon(menuImageContainer.get(i*2)));		
 	}
 }
-
-//quando ritorno nel frame il pannello ha perso il focus e non vanno più i tasti
