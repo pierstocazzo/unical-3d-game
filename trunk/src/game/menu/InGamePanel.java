@@ -10,6 +10,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 /**
  * Class GamePanel
@@ -131,6 +136,18 @@ public class InGamePanel extends JPanel {
 				gameMenu.game.enabled = true;
 			}
 		});
+		buttonResume.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// return to game
+				gameMenu.setVisible(false);
+				// reset timer for avoid game problems
+				GameTimer.reset();
+				// active a game main loop
+				gameMenu.game.enabled = true;
+			}
+		});
+		buttonResume.setMnemonic(KeyEvent.VK_R);
 		centerPanel.add(buttonResume);
 		
 		JButton buttonSave = new JButton(new ImageIcon(imageContainer.get(2)));
@@ -142,6 +159,13 @@ public class InGamePanel extends JPanel {
 				gameMenu.switchToSavePanel();
 			}
 		});
+		buttonSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				gameMenu.switchToSavePanel();
+			}
+		});
+		buttonSave.setMnemonic(KeyEvent.VK_S);
 		centerPanel.add(buttonSave);
 		
 		JButton buttonExit = new JButton(new ImageIcon(imageContainer.get(4)));
@@ -155,6 +179,31 @@ public class InGamePanel extends JPanel {
 				gameMenu.game.finish();
 			}
 		});
+		buttonExit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// close all (game and frames)
+				gameMenu.setVisible(false);
+				gameMenu.game.finish();
+			}
+		});
+		buttonExit.setMnemonic(KeyEvent.VK_X);
 		centerPanel.add(buttonExit);
+		
+		requestFocusInWindow();
+		
+	}
+	
+	public void next(){
+		current++;
+		if( current > 2 )
+			current = 0;
+	}
+	
+	public void prev(){
+		current--;
+		if( current < 0 )
+			current = 2;
 	}
 }

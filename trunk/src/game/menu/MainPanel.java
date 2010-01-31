@@ -9,6 +9,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -40,6 +44,8 @@ public class MainPanel extends JPanel {
 	
 	/** Preloaded images */
 	ArrayList<Image> menuImageContainer;
+	/** Preloaded images */
+	ArrayList<JButton> buttonContainer;
 	
 	/** MainMenu */
 	MainMenu mainMenu;
@@ -58,6 +64,7 @@ public class MainPanel extends JPanel {
 		super();
 		this.mainMenu = mainMenu;
 		menuImageContainer = ImagesContainer.getMenuImagesContainer();
+		buttonContainer = new ArrayList<JButton>();
 		
 		setLayout(new BorderLayout());
 		setOpaque(false);
@@ -65,6 +72,7 @@ public class MainPanel extends JPanel {
 		
 		createMenu();
 		initItem();
+		
 	}
 	
 	/**
@@ -110,6 +118,36 @@ public class MainPanel extends JPanel {
 	 */
 	public void initItem(){
 		
+		setFocusable(true);
+		addKeyListener(new KeyListener() {
+				@Override
+				public void keyTyped(KeyEvent arg0) {}
+				
+				@Override
+				public void keyReleased(KeyEvent arg0) {}
+				
+				@Override
+				public void keyPressed(KeyEvent event) {
+					if(event.getKeyCode() == KeyEvent.VK_DOWN){
+						next();
+						refresh();
+					}
+					if(event.getKeyCode() == KeyEvent.VK_UP){
+						prev();
+						refresh();
+					}
+					if(event.getKeyCode() == KeyEvent.VK_ENTER){
+						switch (current) {
+							case 0:newGame();break;
+							case 1:loadGame();break;
+							case 2:goOptions();break;
+							case 3:goCredits();break;
+							case 4:exitGame();break;
+						}
+					}
+				}
+			});
+		
 		class MouseHandler implements MouseListener{
 			
 			JButton button;
@@ -144,16 +182,19 @@ public class MainPanel extends JPanel {
 		buttonNewgame.addMouseListener( new MouseHandler(buttonNewgame, 0) {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				mainMenu.switchToLoadingPanel();
-				mainMenu.setAlwaysOnTop(true);
-				mainMenu.requestFocus();
-				
-				// Create a new game thread and launch it
-				gameThread = new GameThread( mainMenu );
-				gameThread.start();
+				newGame();
 			}
 		});
-		centerPanel.add( buttonNewgame);
+		buttonNewgame.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				newGame();
+			}
+		});
+		buttonNewgame.setMnemonic(KeyEvent.VK_N);
+		centerPanel.add(buttonNewgame);
+		buttonContainer.add(buttonNewgame);
 		
 		JButton buttonLoad = new JButton(new ImageIcon(menuImageContainer.get(2)));
 		buttonLoad.setBorderPainted(false);
@@ -164,7 +205,16 @@ public class MainPanel extends JPanel {
 				loadGame();
 			}
 		});
+		buttonLoad.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				loadGame();
+			}
+		});
+		buttonLoad.setMnemonic(KeyEvent.VK_L);
 		centerPanel.add( buttonLoad );
+		buttonContainer.add(buttonLoad);
 		
 		JButton buttonOptions = new JButton(new ImageIcon(menuImageContainer.get(4)));
 		buttonOptions.setBorderPainted(false);
@@ -174,10 +224,19 @@ public class MainPanel extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				mainMenu.switchToOptionsPanel();
+				goOptions();
 			}
 		});
+		buttonOptions.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				goOptions();
+			}
+		});
+		buttonOptions.setMnemonic(KeyEvent.VK_O);
 		centerPanel.add( buttonOptions );
+		buttonContainer.add(buttonOptions);
 			
 		JButton buttonCredits = new JButton(new ImageIcon(menuImageContainer.get(6)));
 		buttonCredits.setBorderPainted(false);
@@ -187,10 +246,19 @@ public class MainPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// switch to credits panel
-				mainMenu.switchToCreditsPanel();
+				goCredits();
 			}
 		});
+		buttonCredits.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				goCredits();
+			}
+		});
+		buttonCredits.setMnemonic(KeyEvent.VK_C);
 		centerPanel.add( buttonCredits );
+		buttonContainer.add(buttonCredits);
 		
 		
 		JButton buttonExit = new JButton(new ImageIcon(menuImageContainer.get(8)));
@@ -199,10 +267,29 @@ public class MainPanel extends JPanel {
 		buttonExit.addMouseListener( new MouseHandler(buttonExit,8) {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.exit(0);
+				exitGame();
 			}
 		});
+		buttonExit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				exitGame();
+			}
+		});
+		buttonExit.setMnemonic(KeyEvent.VK_X);
 		centerPanel.add( buttonExit );
+		buttonContainer.add(buttonExit);
+	}
+	
+	public void newGame(){
+		mainMenu.switchToLoadingPanel();
+		mainMenu.setAlwaysOnTop(true);
+		mainMenu.requestFocus();
+		
+		// Create a new game thread and launch it
+		gameThread = new GameThread( mainMenu );
+		gameThread.start();
 	}
 	
 	public void loadGame(){
@@ -249,4 +336,38 @@ public class MainPanel extends JPanel {
 			gameThread.start();
 		} 
 	}
+	
+	public void goOptions(){
+		mainMenu.switchToOptionsPanel();
+	}
+	
+	public void goCredits(){
+		mainMenu.switchToCreditsPanel();
+	}
+	
+	public void exitGame(){
+		System.exit(0);
+	}
+	
+	public void next(){
+		current++;
+		if( current > 4 )
+			current = 0;
+	}
+	
+	public void prev(){
+		current--;
+		if( current < 0 )
+			current = 4;
+	}
+	
+	public void refresh(){
+		for( int i = 0; i < buttonContainer.size(); i++ )
+			if( i == current )
+				buttonContainer.get(i).setIcon(new ImageIcon(menuImageContainer.get(i*2+1)));
+			else
+				buttonContainer.get(i).setIcon(new ImageIcon(menuImageContainer.get(i*2)));		
+	}
 }
+
+//quando ritorno nel frame il pannello ha perso il focus e non vanno più i tasti
