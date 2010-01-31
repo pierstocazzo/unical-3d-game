@@ -55,27 +55,27 @@ public class ModelConverter {
 				throw new MalformedObjectNameException();
 			
 			if ( Pattern.matches(".+\\.(?i)md3", inputFilePath) ) {
-				logger.info( "Converting md3 file..." );
+				logger.info( "Converting md3 file: " + inputFilePath );
 				converter = new Md3ToJme();
 			}	
 			else if ( Pattern.matches(".+\\.(?i)md2", inputFilePath) ) {
-				logger.info( "Converting md2 file..." );
+				logger.info( "Converting md2 file: " + inputFilePath );
 				converter =  new Md2ToJme();
 			}	
 			else if ( Pattern.matches(".+\\.(?i)3ds", inputFilePath) ) {
-				logger.info( "Converting 3ds file..." );
+				logger.info( "Converting 3ds file: " + inputFilePath );
 				converter = new MaxToJme();
 			}	
 			else if ( Pattern.matches(".+\\.(?i)obj", inputFilePath) ) {
-				logger.info( "Converting obj file..." );
+				logger.info( "Converting obj file: " + inputFilePath );
 				converter = new ObjToJme();
 			}	
 			else if ( Pattern.matches(".+\\.(?i)ase", inputFilePath) ) {
-				logger.info( "Converting ase file..." );
+				logger.info( "Converting ase file: " + inputFilePath );
 				converter = new AseToJme();
 			}	
 			else if ( Pattern.matches(".+\\.(?i)ms3d", inputFilePath) ) {
-				logger.info( "Loading MilkShape file..." );
+				logger.info( "Converting ms3d file: " + inputFilePath );
 				converter = new MilkToJme();
 			}	
 			else {
