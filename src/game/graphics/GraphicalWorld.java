@@ -416,6 +416,15 @@ public class GraphicalWorld extends Game {
 			Random r = new Random();
 			position.setX( r.nextInt( (int) dimension ) - dimension/2 );
 			position.setZ( r.nextInt( (int) dimension ) - dimension/2 );
+			
+			float y = environment.getHeight( position );
+			
+			while( y < 30 && y > 200 ) {
+				position.setX( r.nextInt( (int) dimension ) - dimension/2 );
+				position.setZ( r.nextInt( (int) dimension ) - dimension/2 );
+				y = environment.getHeight( position );
+			}
+			
 			position.setY( environment.getHeight( position ) );
 			GraphicalEnergyPackage energyPack = new GraphicalEnergyPackage( id, this, position );
 			energyPackages.add( energyPack );
