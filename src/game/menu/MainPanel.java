@@ -185,10 +185,7 @@ public class MainPanel extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// create a optionsMenu
-				OptionsMenu om = new OptionsMenu(mainMenu);
-				om.setVisible(true);
-				mainMenu.setVisible(false);
+				mainMenu.switchToOptionsPanel();
 			}
 		});
 		centerPanel.add( buttonOptions );
@@ -222,6 +219,7 @@ public class MainPanel extends JPanel {
 	public void loadGame(){
 		//Load game with fileChooser
 		JFileChooser fc = new JFileChooser();
+		fc.setCurrentDirectory(new File("./gameSave"));
 		int returnVal = fc.showOpenDialog(mainMenu);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();

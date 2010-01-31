@@ -60,6 +60,7 @@ public class MainMenu extends JFrame {
 		panelsContainer = new HashMap<String, JPanel>();
 		panelsContainer.put("mainPanel", new MainPanel(this));
 		panelsContainer.put("creditsPanel", new CreditsPanel(this));
+		panelsContainer.put("optionsPanel", new OptionsPanel(this));
 	    
 		// set a layout to main panel
 		switchToMainPanel();
@@ -78,6 +79,15 @@ public class MainMenu extends JFrame {
 		if ( currentPanel != null )
 			remove( currentPanel );
 		currentPanel = panelsContainer.get("creditsPanel");
+		add( currentPanel );
+		repaint();
+		validate();
+	}
+	
+	public void switchToOptionsPanel() {
+		if ( currentPanel != null )
+			remove( currentPanel );
+		currentPanel = panelsContainer.get("optionsPanel");
 		add( currentPanel );
 		repaint();
 		validate();
