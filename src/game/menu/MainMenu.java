@@ -98,6 +98,7 @@ public class MainMenu extends JFrame {
 		add( currentPanel );
 		repaint();
 		validate();
+		currentPanel.requestFocus();
 	}
 
 	public void switchToCreditsPanel() {
@@ -107,6 +108,7 @@ public class MainMenu extends JFrame {
 		add( currentPanel );
 		repaint();
 		validate();
+		currentPanel.requestFocus();
 	}
 	
 	public void switchToOptionsPanel() {
@@ -116,6 +118,7 @@ public class MainMenu extends JFrame {
 		add( currentPanel );
 		repaint();
 		validate();
+		currentPanel.requestFocus();
 	}
 	
 	public void switchToLoadingPanel() {
@@ -125,6 +128,7 @@ public class MainMenu extends JFrame {
 		add( currentPanel );
 		repaint();
 		validate();
+		currentPanel.requestFocus();
 	}
 	
 	public void switchToInGamePanel() {
@@ -134,6 +138,7 @@ public class MainMenu extends JFrame {
 		add( currentPanel );
 		repaint();
 		validate();
+		currentPanel.requestFocus();
 	}
 	
 	public void switchToSavePanel() {
@@ -143,6 +148,7 @@ public class MainMenu extends JFrame {
 		add( currentPanel );
 		repaint();
 		validate();
+		currentPanel.requestFocus();
 	}
 	
 	public void setLoadingText( String text ) {
