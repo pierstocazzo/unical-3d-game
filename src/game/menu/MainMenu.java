@@ -88,13 +88,13 @@ public class MainMenu extends JFrame {
 	    
 	    
 		// set a layout to main panel
-		switchToMainPanel();
+		switchToPanel("mainPanel");
 	}
 	
-	public void switchToMainPanel(){
+	public void switchToPanel( String panel ){
 		if ( currentPanel != null )
 			remove( currentPanel );
-		currentPanel = panelsContainer.get("mainPanel");
+		currentPanel = panelsContainer.get( panel );
 		add( currentPanel );
 		repaint();
 		validate();

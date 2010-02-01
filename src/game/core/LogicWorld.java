@@ -75,6 +75,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 		for( EnemyInfo e : enemyList ) {
 			createEnemy( e.getPosX(), e.getPosZ(), e.getState(), e.getMovements() );
 		}
+		
+		createPlayer( GameConfiguration.getPlayerLife(), 
+				GameConfiguration.getPlayerX(), GameConfiguration.getPlayerZ());
 	}
 	
 	/** Create one player with this life in this position

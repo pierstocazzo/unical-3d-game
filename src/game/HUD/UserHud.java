@@ -108,13 +108,16 @@ public class UserHud {
     	
     	// create text label
     	fps = Text.createDefaultTextLabel( "FPS" );
-    	fps.setLocalTranslation( world.getResolution().x - 200, world.getResolution().y - 40, 0 );
+    	fps.setLocalTranslation( world.getResolution().x - 100, world.getResolution().y - 40, 0 );
     	world.getRootNode().attachChild( fps );
     	
     	// create alert bar and two message handler
     	hudAlert = new HudAlert(this);
     	hudMsg = new HudMessageHandler(this);
-    	hudMsgBox = new HudMessageBox(HudMessageBox.WELCOME1, this);
+    	hudMsgBox = new HudMessageBox(this);
+    	
+    	if(!graphicalWorld.isLoaded)
+    		hudMsgBox.createMessageBox(HudMessageBox.WELCOME1);
     	
     	setCrosshair();
     }

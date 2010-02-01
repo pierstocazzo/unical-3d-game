@@ -401,7 +401,7 @@ public class OptionsPanel extends JPanel {
 		buttonCancel.addActionListener(
 		    new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
-		            mainMenu.switchToMainPanel();
+		            mainMenu.switchToPanel("mainPanel");
 		        }
 		    }
 		);
@@ -429,7 +429,7 @@ public class OptionsPanel extends JPanel {
 			        	
 			        	GameConfiguration.save();
 			        	ImagesContainer.init();
-			            mainMenu.switchToMainPanel();
+			            mainMenu.switchToPanel("mainPanel");
 			        }
 			    }
 			);

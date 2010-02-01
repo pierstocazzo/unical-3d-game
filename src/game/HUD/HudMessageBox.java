@@ -27,7 +27,7 @@ public class HudMessageBox {
 	public static final int NOTHING = 8;
 	
 	/** Type of current message */
-	int type;
+	int type = NOTHING;
 	
 	/** A quad that contains a message */
 	Quad quad;
@@ -47,9 +47,8 @@ public class HudMessageBox {
 	 * @param type (int) A Type of Message
 	 * @param userHud (UserHud) Useful pointer to UserHud
 	 */
-	public HudMessageBox( int type, UserHud userHud ) {
+	public HudMessageBox( UserHud userHud ) {
 		this.userHud = userHud;
-		createMessageBox(type);
 	}
 	
 	/** Update current message */

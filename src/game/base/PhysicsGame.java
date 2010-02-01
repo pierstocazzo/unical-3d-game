@@ -241,7 +241,7 @@ public abstract class PhysicsGame extends AbstractGame {
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
         	
         	/* switch to in game menu */
-        	menu.switchToInGamePanel();
+        	menu.switchToPanel("inGamePanel");
         	menu.setVisible(true);
         	menu.toFront();
         	

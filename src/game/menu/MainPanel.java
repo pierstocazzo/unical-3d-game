@@ -283,7 +283,7 @@ public class MainPanel extends JPanel {
 	}
 	
 	public void newGame(){
-		mainMenu.switchToLoadingPanel();
+		mainMenu.switchToPanel("loadingPanel");
 		mainMenu.setAlwaysOnTop(true);
 		mainMenu.requestFocus();
 		
@@ -327,7 +327,7 @@ public class MainPanel extends JPanel {
 				e3.printStackTrace();
 			} 
 			
-			mainMenu.switchToLoadingPanel();
+			mainMenu.switchToPanel("loadingPanel");
 			mainMenu.setAlwaysOnTop(true);
 			mainMenu.requestFocus();
 			
@@ -335,14 +335,16 @@ public class MainPanel extends JPanel {
 			gameThread = new GameThread( gameLoaded, mainMenu );
 			gameThread.start();
 		} 
+		else
+			mainMenu.switchToPanel("mainPanel");
 	}
 	
 	public void goOptions(){
-		mainMenu.switchToOptionsPanel();
+		mainMenu.switchToPanel("optionsPanel");
 	}
 	
 	public void goCredits(){
-		mainMenu.switchToCreditsPanel();
+		mainMenu.switchToPanel("creditsPanel");
 	}
 	
 	public void exitGame(){
