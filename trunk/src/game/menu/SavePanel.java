@@ -102,7 +102,7 @@ public class SavePanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gameMenu.switchToInGamePanel();
+				gameMenu.switchToPanel("inGamePanel");
 			}
 		});
 		
@@ -136,7 +136,7 @@ public class SavePanel extends JPanel {
 				catch (IOException e) {
 						e.printStackTrace();
 					}
-				gameMenu.switchToInGamePanel();
+				gameMenu.switchToPanel("inGamePanel");
 			}
 		});
 		JPanel buttonsPanel = new JPanel();

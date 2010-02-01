@@ -31,6 +31,12 @@ public class GameConfiguration {
 	/** the root of the xml file */
 	static Element root;
 	
+	static int playerX;
+	
+	static int playerZ;
+	
+	static int playerLife;
+	
 	/**
 	 * Default Values
 	 */
@@ -107,6 +113,11 @@ public class GameConfiguration {
 				Element element = it.next();
 				settings.put( element.getAttributeValue("name"), element.getText() );
 			}
+			
+			Element playerInfo = root.getChild("player");
+			playerX = Integer.valueOf(playerInfo.getAttributeValue("x")).intValue();
+			playerZ = Integer.valueOf(playerInfo.getAttributeValue("z")).intValue();
+			playerLife = Integer.valueOf(playerInfo.getAttributeValue("life")).intValue();
 			
 			List<Element> enemy_list = root.getChild("enemies").getChildren();
 			for( Element enemy : enemy_list ) {
@@ -348,6 +359,18 @@ public class GameConfiguration {
 	
 	public static String getPhrase( String phrase ) {
 		return phrases.get( phrase );
+	}
+	
+	public static int getPlayerX(){
+		return playerX;
+	}
+	
+	public static int getPlayerZ(){
+		return playerZ;
+	}
+	
+	public static int getPlayerLife(){
+		return playerLife;
 	}
 	
 	/** Utility class used to store some informations 

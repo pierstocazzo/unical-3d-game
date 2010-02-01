@@ -104,16 +104,20 @@ public class GraphicalWorld extends Game {
 	CollisionHandler collisionHandler;
 	
 	Text cameraPosition;
+
+	public boolean isLoaded = false;
 	
 	/** GraphicalWorld constructor <br>
 	 * Initialize the game graphics
 	 * 
 	 * @param core - (WorldInterface) the logic world
+	 * @param isLoaded 
 	 * @param loadingFrame - (LoadingFrame) the loading frame
 	 */
-    public GraphicalWorld( WorldInterface core, MainMenu menu ) {
+    public GraphicalWorld( WorldInterface core, MainMenu menu, boolean isLoaded ) {
         this.core = core;
         super.setMenu(menu);
+        this.isLoaded = isLoaded;
         
         setAudioEnabled(Boolean.valueOf( GameConfiguration.isSoundEnabled() ));
     }
