@@ -32,14 +32,14 @@ public enum State implements Serializable {
 	 * The character after an attack don't see you
 	 * and he come to find you
 	 */
-	FIND ( 200, 180 ),
+	SEARCH ( 200, 180 ),
 	
 	/**
 	 * The character is in find and see you.
 	 * He attack you and remember that 
 	 * he must return to default position
 	 */
-	FINDATTACK( 200, 180 ), 
+	SEARCHATTACK( 200, 180 ), 
 	
 	/**
 	 * Ever the character is careful.
@@ -95,8 +95,8 @@ public enum State implements Serializable {
 		if(type.equals("DEFAULT")) state = State.DEFAULT;
 		else if(type.equals("ALERT")) state = State.ALERT;
 		else if(type.equals("ATTACK")) state = State.ATTACK;
-		else if(type.equals("FIND")) state = State.FIND;
-		else if(type.equals("FINDATTACK")) state = State.FINDATTACK;
+		else if(type.equals("FIND")) state = State.SEARCH;
+		else if(type.equals("FINDATTACK")) state = State.SEARCHATTACK;
 		else if(type.equals("GUARD")) state = State.GUARD;
 		else if(type.equals("GUARDATTACK")) state = State.GUARDATTACK;
 		

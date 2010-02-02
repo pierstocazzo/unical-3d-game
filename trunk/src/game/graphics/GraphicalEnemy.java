@@ -1,31 +1,20 @@
 package game.graphics;
 
-import java.util.ArrayList;
-
 import game.common.GameTimer;
 import game.common.State;
-import game.core.LogicEnemy;
 import game.graphics.GameAnimationController.Animation;
 import jmetest.TutorialGuide.ExplosionFactory;
-import utils.*;
 
-
+import com.jme.bounding.BoundingBox;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.util.SyntheticButton;
-import com.jme.intersection.PickData;
-import com.jme.intersection.TrianglePickResults;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
-import com.jme.math.Ray;
 import com.jme.math.Vector3f;
-import com.jme.renderer.ColorRGBA;
-import com.jme.scene.Line;
 import com.jme.scene.Node;
-import com.jme.scene.TriMesh;
-import com.jme.scene.shape.Box;
+import com.jme.scene.Spatial.CullHint;
 import com.jme.scene.shape.Cylinder;
-import com.jme.scene.shape.Sphere;
 import com.jmex.effects.particles.ParticleMesh;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
@@ -65,11 +54,9 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 
 	/** the previous movement's direction */
 	Vector3f previousMoveDirection;
-    	
-	boolean doUpdate = true;
 	
 	Cylinder line;
-	
+	boolean update = true;
 	float distanceToPlayer;
 	
     /** PhysicsEnemy Constructor<br>
@@ -114,6 +101,8 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 		vectorToLookAt = new Vector3f();
 		
 		previousMoveDirection = world.getCore().getMoveDirection(id).clone();
+		
+		line = new Cylinder();
 	}
 
 	/** Function <code>createPhysics</code> <p>
@@ -165,8 +154,8 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 		setOnGround( false );
 	}
 
-	void dontSeePlayer( boolean b ) {
-		world.getCore().dontSeePlayer( id, b );
+	void cantSeePlayer( boolean b ) {
+		world.getCore().cantSeePlayer( id, b );
 	}
 	
 	/** Function <code>update</code> <br>
@@ -183,36 +172,31 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 				onGround = false;
 			    contactDetect.update(time);
 			    
-				Vector3f vec = new Vector3f( world.player.getPosition().add( 0, 5, 0 ).subtract( 
+				// check if this enemy can see the player just if the distance between them is
+				// fewer than the max enemy view range
+			    Vector3f vec = new Vector3f( world.player.getPosition().add( 0, 5, 0 ).subtract( 
 						feet.getWorldTranslation().add( 0, 5, 0 ) ).normalize() );
-
 				distanceToPlayer = feet.getWorldTranslation().distance( world.player.getPosition() );
-			    
-			    Vector3f lineOrigin = feet.getWorldTranslation().add(0,5,0);
-			    Vector3f lineEnd = world.player.getPosition().add(0,5,0);
-			    
-			    // debug
-			    world.getRootNode().detachChildNamed("s");
-			    Sphere spere = new Sphere("s", 10, 10, 1);
-			    spere.setLocalTranslation( lineOrigin );
-			    world.getRootNode().attachChild( spere );
-			    try {
+			    if( distanceToPlayer < State.ALERT.getViewRange() ) {
+				    Vector3f lineOrigin = feet.getWorldTranslation().add(0,5,0);
+				    
 					line.removeFromParent();
-				} catch (Exception e) {
-				}
-			    line = new Cylinder("line", 6, 6, 1, distanceToPlayer );
-			    line.setLocalRotation( Util.Y90 );
-			    line.setLocalTranslation( lineOrigin.add( vec.mult(distanceToPlayer/2) ) );
-			    line.lookAt( world.player.getPosition().add(0,5,0), Vector3f.UNIT_Y);
-				world.getRootNode().attachChild(line);
-			    // end debug
-				
-				checkLineCollision();
-			    
-				if( doUpdate ) {
+				    line = new Cylinder("line" + id, 6, 6, 1, distanceToPlayer );
+				    
+				    line.setLocalTranslation( lineOrigin.add( vec.mult(distanceToPlayer/2) ) );
+				    line.lookAt( world.player.getPosition().add(0,5,0), Vector3f.UNIT_Y );
+					world.getRootNode().attachChild(line);
+					line.setModelBound( new BoundingBox() );
+					line.updateModelBound();
+					line.updateGeometricState(0, true);
+					line.setCullHint(CullHint.Always);
+					
+					checkLineCollision();
+			    }
+			    if( update ) {
 					world.getCore().updateState(id);
 					if( world.getCore().getState(id) == State.ATTACK || 
-						world.getCore().getState(id) == State.FINDATTACK || 
+						world.getCore().getState(id) == State.SEARCHATTACK || 
 						world.getCore().getState(id) == State.GUARDATTACK ) {
 						animationController.runAnimation( Animation.SHOOT );
 						shooting = true;
@@ -223,8 +207,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 					} else {
 						shooting = false;
 					}
-				}
-				
+			    }
 			    moveCharacter();
 			    
 			    // update core
@@ -232,20 +215,22 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 			} else {
 				feet.setActive(false);
 				body.setActive(false);
+				try {
+					line.removeFromParent();
+				} catch (Exception e) {
+				}
 			}
 	    } else {
 	    	die();
 	    }
 	}
 
-	
-	
 	private void checkLineCollision() {
 		if( CollisionHandler.hasTriangleCollision( line, world.collisionNode ) ) {
 			System.out.println( "collisione" );
-			doUpdate = false;
+			cantSeePlayer( true );
 		} else {
-			doUpdate = true;
+			cantSeePlayer( false );
 		}
 	}
 
@@ -273,7 +258,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 	void lookAtAction( Vector3f direction ) {
 		if( direction == null ) {
 			if( world.getCore().getState(id) == State.ATTACK || 
-				world.getCore().getState(id) == State.FINDATTACK ||
+				world.getCore().getState(id) == State.SEARCHATTACK ||
 				world.getCore().getState(id) == State.GUARDATTACK ) {
 				Vector3f lookAtDirection = new Vector3f( world.getCore().getShootDirection(id) );
 				vectorToLookAt.set( model.getWorldTranslation() );

@@ -53,7 +53,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	public Vector3f initialFindPosition;
 
 	/** boolean that define if this enemy doesn't see the player */
-	boolean dontSeePlayer = false;
+	boolean cantSeePlayer = false;
 
 	/**
 	 * <code>LogicEnemy</code> constructor<br>
@@ -127,10 +127,10 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	 * 
 	 * @return (boolean)
 	 */
-	public boolean enemyNextInAttack() {
+	public boolean someNeighborInAttack() {
 		for( String id : world.getEnemiesIds() ) {
 			State currState = world.getState( id );
-			if( ( currState == State.ATTACK || currState == State.FINDATTACK || currState == State.GUARDATTACK )
+			if( ( currState == State.ATTACK || currState == State.SEARCHATTACK || currState == State.GUARDATTACK )
 					&& position.distance( world.getPosition( id ) ) <=  
 					Integer.valueOf( GameConfiguration.getParameter("maxNeighborhoodRange") ) )
 				return true;
@@ -153,8 +153,8 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	 */
 	@Override
 	public void isShooted( int bulletDamage, String shooterId ) {
-		if( state == State.FIND || state == State.FINDATTACK )
-			state = State.FINDATTACK;
+		if( state == State.SEARCH || state == State.SEARCHATTACK )
+			state = State.SEARCHATTACK;
 		else if( state == State.GUARD || state == State.GUARDATTACK )
 			state = State.GUARDATTACK;
 		else
@@ -235,7 +235,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		return false;
 	}
 
-	public void dontSeePlayer( boolean dontSeePlayer ) {
-		this.dontSeePlayer = dontSeePlayer;
+	public void cantSeePlayer( boolean cantSeePlayer ) {
+		this.cantSeePlayer = cantSeePlayer;
 	}
 }
