@@ -57,6 +57,7 @@ public class SoundManager {
 		audio.getEar().trackPosition(cam);
 
 		backgroundMusic = getMusic( Loader.load("game/data/sound/game.ogg"));
+		backgroundMusic.setVolume(0.25f);
 		audio.getMusicQueue().setRepeatType(RepeatType.ONE);
 		audio.getMusicQueue().setCrossfadeinTime(2.5f);
 		audio.getMusicQueue().setCrossfadeoutTime(2.5f);
@@ -87,13 +88,13 @@ public class SoundManager {
 		noAmmo.setMaxAudibleDistance(100000);
 		noAmmo.setVolume(2.0f);
 		
-		walk = audio.createAudioTrack("/game/data/sound/walk.wav", false);
+		walk = audio.createAudioTrack("/game/data/sound/walk.ogg", false);
 		walk.setType(TrackType.POSITIONAL);
 		walk.setRelative(true);
 		walk.setMaxAudibleDistance(100000);
-		walk.setVolume(2.0f);
+		walk.setVolume(6.0f);
 		
-		run = audio.createAudioTrack("/game/data/sound/run.wav", false);
+		run = audio.createAudioTrack("/game/data/sound/run.ogg", false);
 		run.setType(TrackType.POSITIONAL);
 		run.setRelative(true);
 		run.setMaxAudibleDistance(100000);
@@ -105,13 +106,13 @@ public class SoundManager {
 		victory.setMaxAudibleDistance(100000);
 		victory.setVolume(2.0f);
 		
-		alertMusic = audio.createAudioTrack("/game/data/sound/alert.wav", false);
+		alertMusic = audio.createAudioTrack("/game/data/sound/alert.ogg", false);
 		alertMusic.setType(TrackType.MUSIC);
 		alertMusic.setRelative(true);
 		alertMusic.setMaxAudibleDistance(100000);
 		alertMusic.setVolume(2.0f);
 		
-		attackMusic = audio.createAudioTrack("/game/data/sound/attack.wav", false);
+		attackMusic = audio.createAudioTrack("/game/data/sound/attack.ogg", false);
 		attackMusic.setType(TrackType.MUSIC);
 		attackMusic.setRelative(true);
 		attackMusic.setMaxAudibleDistance(100000);
