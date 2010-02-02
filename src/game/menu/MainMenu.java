@@ -63,8 +63,8 @@ public class MainMenu extends JFrame {
 //				super.paintComponent(g);
 			}
 		};
-//		add(paneContainer);
-	    paneContainer.setLayout( new BorderLayout() );
+
+		paneContainer.setLayout( new BorderLayout() );
 		setContentPane(paneContainer);
 		
 		// hide frame border
@@ -81,14 +81,13 @@ public class MainMenu extends JFrame {
 		panelsContainer.put("mainPanel", new MainPanel(this));
 		panelsContainer.put("creditsPanel", new CreditsPanel(this));
 		panelsContainer.put("optionsPanel", new OptionsPanel(this));
-		panelsContainer.put("loadingPanel", new LoadingFrame(this) );
+		panelsContainer.put("loadingPanel", new LoadingPanel(this) );
 		panelsContainer.put("inGamePanel", new InGamePanel(this));
 	    panelsContainer.put("savePanel", new SavePanel(this));
 	    
-	    
-	    
 		// set a layout to main panel
 		switchToPanel("mainPanel");
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	public void switchToPanel( String panel ){
@@ -100,63 +99,13 @@ public class MainMenu extends JFrame {
 		validate();
 		currentPanel.requestFocus();
 	}
-
-	public void switchToCreditsPanel() {
-		if ( currentPanel != null )
-			remove( currentPanel );
-		currentPanel = panelsContainer.get("creditsPanel");
-		add( currentPanel );
-		repaint();
-		validate();
-		currentPanel.requestFocus();
-	}
-	
-	public void switchToOptionsPanel() {
-		if ( currentPanel != null )
-			remove( currentPanel );
-		currentPanel = panelsContainer.get("optionsPanel");
-		add( currentPanel );
-		repaint();
-		validate();
-		currentPanel.requestFocus();
-	}
-	
-	public void switchToLoadingPanel() {
-		if ( currentPanel != null )
-			remove( currentPanel );
-		currentPanel = panelsContainer.get("loadingPanel");
-		add( currentPanel );
-		repaint();
-		validate();
-		currentPanel.requestFocus();
-	}
-	
-	public void switchToInGamePanel() {
-		if ( currentPanel != null )
-			remove( currentPanel );
-		currentPanel = panelsContainer.get("inGamePanel");
-		add( currentPanel );
-		repaint();
-		validate();
-		currentPanel.requestFocus();
-	}
-	
-	public void switchToSavePanel() {
-		if ( currentPanel != null )
-			remove( currentPanel );
-		currentPanel = panelsContainer.get("savePanel");
-		add( currentPanel );
-		repaint();
-		validate();
-		currentPanel.requestFocus();
-	}
 	
 	public void setLoadingText( String text ) {
-		((LoadingFrame) panelsContainer.get("loadingPanel")).setLoadingText( text );
+		((LoadingPanel) panelsContainer.get("loadingPanel")).setLoadingText( text );
 	}
 	
 	public void setProgress( int progress ) {
-		((LoadingFrame) panelsContainer.get("loadingPanel")).setProgress( progress );
+		((LoadingPanel) panelsContainer.get("loadingPanel")).setProgress( progress );
 	}
 
 	public void setGame( PhysicsGame game) {
