@@ -122,6 +122,10 @@ public class GraphicalPlayer extends GraphicalCharacter {
 	    /** initialize the animation */ 
 		animationController = new GameAnimationController( model.getController(0) );
 	}
+	
+	public Vector3f getPosition() {
+		return characterNode.getWorldTranslation();
+	}
 
 	/**
 	 * 

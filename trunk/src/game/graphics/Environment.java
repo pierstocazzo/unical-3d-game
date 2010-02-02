@@ -34,6 +34,7 @@ import com.jme.scene.SharedNode;
 import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
 import com.jme.scene.Spatial.TextureCombineMode;
+import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.CullState;
@@ -154,12 +155,42 @@ public class Environment {
 	    world.getRootNode().setCullHint(Spatial.CullHint.Never);
 	    
         world.getMenu().setProgress(50);
-	    loadItems();
+        
+//        Box b = new Box( "b", new Vector3f( -5, -7, -30 ), 5, 7, 30);
+//        b.setLocalTranslation(new Vector3f( 800, getHeight(800, 500) + 13, 500 ));
+//        world.getCollisionNode().attachChild(b);
+//        b.setModelBound(new BoundingBox() );
+//        b.updateModelBound();
+        
+        Node fuck = ModelLoader.loadModel( "game/data/meshes/items/tent.jme", 
+        		"game/data/meshes/items/tent.jpg", 1);
+        
+        SharedNode t = new SharedNode( fuck );
+        t.setLocalTranslation(new Vector3f( 800, getHeight(800, 500), 500 ));
+        world.collisionNode.attachChild(t);
+        t.setModelBound( new BoundingBox() );
+        t.updateModelBound();
+        
+        SharedNode t1 = new SharedNode( fuck );
+        t1.setLocalTranslation(new Vector3f( 700, getHeight(700, 600), 600 ));
+        world.collisionNode.attachChild(t1);
+        t1.setModelBound( new BoundingBox() );
+        t1.updateModelBound();
+        
+        Box b = new Box( "b", new Vector3f( -5, -30, -5 ), 5, 30, 5);
+        b.setLocalTranslation(new Vector3f( 700, getHeight(700,500), 500 ));
+        world.getCollisionNode().attachChild(b);
+        b.setModelBound(new BoundingBox() );
+        b.updateModelBound();
+        
+        
+        
+//	    loadItems();
 	    
 	    /* per andrea */
-	    PhysicsBox box = ground.createBox("box");
-	    box.setLocalScale( new Vector3f( 10, 0.5f, 10 ) );
-	    box.setLocalTranslation( 888.1968f, 65.276375f - 6, 481.20407f );
+//	    PhysicsBox box = ground.createBox("box");
+//	    box.setLocalScale( new Vector3f( 10, 0.5f, 10 ) );
+//	    box.setLocalTranslation( 888.1968f, 65.276375f - 6, 481.20407f );
 	    
 	    
 	    createWorldBounds();

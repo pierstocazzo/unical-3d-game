@@ -54,7 +54,7 @@ public class CollisionHandler {
 		return false;
 	}
 	
-	public boolean hasTriangleCollision( TriMesh node1Geometry, Node node2 ) {
+	public static boolean hasTriangleCollision( TriMesh node1Geometry, Node node2 ) {
 		// list all mesh children of the given node
 		List<TriMesh> node2Geometries = node2.descendantMatches( TriMesh.class );
 		

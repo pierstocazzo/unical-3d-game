@@ -214,4 +214,6 @@ public interface WorldInterface {
 
 	public abstract void nextWeapon( String id );
 
+	public abstract void dontSeePlayer( String id, boolean b );
+
 }
