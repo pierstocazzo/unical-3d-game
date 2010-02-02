@@ -1,17 +1,31 @@
 package game.graphics;
 
+import java.util.ArrayList;
+
 import game.common.GameTimer;
 import game.common.State;
+import game.core.LogicEnemy;
 import game.graphics.GameAnimationController.Animation;
 import jmetest.TutorialGuide.ExplosionFactory;
+import utils.*;
+
 
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.util.SyntheticButton;
+import com.jme.intersection.PickData;
+import com.jme.intersection.TrianglePickResults;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
+import com.jme.math.Ray;
 import com.jme.math.Vector3f;
+import com.jme.renderer.ColorRGBA;
+import com.jme.scene.Line;
 import com.jme.scene.Node;
+import com.jme.scene.TriMesh;
+import com.jme.scene.shape.Box;
+import com.jme.scene.shape.Cylinder;
+import com.jme.scene.shape.Sphere;
 import com.jmex.effects.particles.ParticleMesh;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.Joint;
@@ -52,6 +66,11 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 	/** the previous movement's direction */
 	Vector3f previousMoveDirection;
     	
+	boolean doUpdate = true;
+	
+	Cylinder line;
+	
+	float distanceToPlayer;
 	
     /** PhysicsEnemy Constructor<br>
 	 * Create a new graphical enemy and start his movements
@@ -146,6 +165,10 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 		setOnGround( false );
 	}
 
+	void dontSeePlayer( boolean b ) {
+		world.getCore().dontSeePlayer( id, b );
+	}
+	
 	/** Function <code>update</code> <br>
 	 * Update the physics character 
 	 * @param time
@@ -160,20 +183,48 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 				onGround = false;
 			    contactDetect.update(time);
 			    
-				world.getCore().updateState(id);
-				if( world.getCore().getState(id) == State.ATTACK || 
-					world.getCore().getState(id) == State.FINDATTACK || 
-					world.getCore().getState(id) == State.GUARDATTACK ) {
-					animationController.runAnimation( Animation.SHOOT );
-					shooting = true;
-					if( GameTimer.getTimeInSeconds() - previousShootTime > world.getCore().getWeapon(id).getLoadTime() ) {
-						previousShootTime = GameTimer.getTimeInSeconds();
-						shoot( world.getCore().getShootDirection(id) );
-					}
-				} else {
-					shooting = false;
-				}
+				Vector3f vec = new Vector3f( world.player.getPosition().add( 0, 5, 0 ).subtract( 
+						feet.getWorldTranslation().add( 0, 5, 0 ) ).normalize() );
+
+				distanceToPlayer = feet.getWorldTranslation().distance( world.player.getPosition() );
 			    
+			    Vector3f lineOrigin = feet.getWorldTranslation().add(0,5,0);
+			    Vector3f lineEnd = world.player.getPosition().add(0,5,0);
+			    
+			    // debug
+			    world.getRootNode().detachChildNamed("s");
+			    Sphere spere = new Sphere("s", 10, 10, 1);
+			    spere.setLocalTranslation( lineOrigin );
+			    world.getRootNode().attachChild( spere );
+			    try {
+					line.removeFromParent();
+				} catch (Exception e) {
+				}
+			    line = new Cylinder("line", 6, 6, 1, distanceToPlayer );
+			    line.setLocalRotation( Util.Y90 );
+			    line.setLocalTranslation( lineOrigin.add( vec.mult(distanceToPlayer/2) ) );
+			    line.lookAt( world.player.getPosition().add(0,5,0), Vector3f.UNIT_Y);
+				world.getRootNode().attachChild(line);
+			    // end debug
+				
+				checkLineCollision();
+			    
+				if( doUpdate ) {
+					world.getCore().updateState(id);
+					if( world.getCore().getState(id) == State.ATTACK || 
+						world.getCore().getState(id) == State.FINDATTACK || 
+						world.getCore().getState(id) == State.GUARDATTACK ) {
+						animationController.runAnimation( Animation.SHOOT );
+						shooting = true;
+						if( GameTimer.getTimeInSeconds() - previousShootTime > world.getCore().getWeapon(id).getLoadTime() ) {
+							previousShootTime = GameTimer.getTimeInSeconds();
+							shoot( world.getCore().getShootDirection(id) );
+						}
+					} else {
+						shooting = false;
+					}
+				}
+				
 			    moveCharacter();
 			    
 			    // update core
@@ -185,6 +236,17 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 	    } else {
 	    	die();
 	    }
+	}
+
+	
+	
+	private void checkLineCollision() {
+		if( CollisionHandler.hasTriangleCollision( line, world.collisionNode ) ) {
+			System.out.println( "collisione" );
+			doUpdate = false;
+		} else {
+			doUpdate = true;
+		}
 	}
 
 	public void moveCharacter() {

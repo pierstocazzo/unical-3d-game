@@ -52,6 +52,9 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 
 	public Vector3f initialFindPosition;
 
+	/** boolean that define if this enemy doesn't see the player */
+	boolean dontSeePlayer = false;
+
 	/**
 	 * <code>LogicEnemy</code> constructor<br>
 	 * Create a new Enemy
@@ -230,5 +233,9 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	@Override
 	public boolean addAmmo(WeaponType weaponType, int quantity) {
 		return false;
+	}
+
+	public void dontSeePlayer( boolean dontSeePlayer ) {
+		this.dontSeePlayer = dontSeePlayer;
 	}
 }

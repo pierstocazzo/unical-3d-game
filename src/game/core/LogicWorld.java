@@ -634,4 +634,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 		} catch (Exception e) {
 		}
 	}
+	
+	@Override
+	public void dontSeePlayer(String id, boolean b) {
+		((LogicEnemy) characters.get(id)).dontSeePlayer( b );
+	}
 }

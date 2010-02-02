@@ -57,7 +57,7 @@ public class AI implements Serializable {
 		for ( String playerId : world.getPlayersIds() ) {
 			distance = enemy.position.distance( world.getPosition( playerId ) );
 
-			if ( enemy.enemyNextInAttack() ){
+			if ( enemy.enemyNextInAttack() ) {
 				if( enemy.state == State.GUARD || enemy.state == State.GUARDATTACK )
 					enemy.state = State.GUARDATTACK;
 				else if(enemy.state == State.FIND || enemy.state == State.FINDATTACK)
