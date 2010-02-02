@@ -19,7 +19,7 @@ import javax.swing.JProgressBar;
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
-public class LoadingFrame extends JPanel {
+public class LoadingPanel extends JPanel {
 	/** Class ID */
 	private static final long serialVersionUID = 1L;
 	
@@ -35,7 +35,7 @@ public class LoadingFrame extends JPanel {
 	 * Constructor Class LoadingFrame
 	 * @param mainMenu 
 	 */
-	public LoadingFrame( MainMenu mainMenu ) {
+	public LoadingPanel( MainMenu mainMenu ) {
 		super();
 		this.mainMenu = mainMenu;
 		
