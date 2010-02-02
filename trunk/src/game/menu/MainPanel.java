@@ -44,12 +44,14 @@ public class MainPanel extends JPanel {
 	
 	/** Preloaded images */
 	ArrayList<Image> menuImageContainer;
+	
 	/** Preloaded images */
 	ArrayList<JButton> buttonContainer;
 	
 	/** MainMenu */
 	MainMenu mainMenu;
 	
+	/** Component's container */
 	JPanel centerPanel;
 	
 	/** Pointer to current thread game */
@@ -114,7 +116,7 @@ public class MainPanel extends JPanel {
 	}
 	
 	/**
-	 * Initialize item images
+	 * Initialize item's images and listeners
 	 */
 	public void initItem(){
 		
@@ -163,6 +165,8 @@ public class MainPanel extends JPanel {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				button.setIcon(new ImageIcon(menuImageContainer.get(index+1)));
+				current = (int) index / 2;
+				refresh();
 			}
 
 			@Override
@@ -259,8 +263,7 @@ public class MainPanel extends JPanel {
 		buttonCredits.setMnemonic(KeyEvent.VK_C);
 		centerPanel.add( buttonCredits );
 		buttonContainer.add(buttonCredits);
-		
-		
+
 		JButton buttonExit = new JButton(new ImageIcon(menuImageContainer.get(8)));
 		buttonExit.setBorderPainted(false);
 		buttonExit.setContentAreaFilled(false);
@@ -282,6 +285,9 @@ public class MainPanel extends JPanel {
 		buttonContainer.add(buttonExit);
 	}
 	
+	/**
+	 * Start a new game
+	 */
 	public void newGame(){
 		mainMenu.switchToPanel("loadingPanel");
 		mainMenu.setAlwaysOnTop(true);
@@ -292,6 +298,9 @@ public class MainPanel extends JPanel {
 		gameThread.start();
 	}
 	
+	/** 
+	 * It allows to load a saved game
+	 */
 	public void loadGame(){
 		//Load game with fileChooser
 		JFileChooser fc = new JFileChooser();
@@ -339,30 +348,48 @@ public class MainPanel extends JPanel {
 			mainMenu.switchToPanel("mainPanel");
 	}
 	
+	/**
+	 * It switches to options menu
+	 */
 	public void goOptions(){
 		mainMenu.switchToPanel("optionsPanel");
 	}
 	
+	/**
+	 * It switches to credits menu
+	 */
 	public void goCredits(){
 		mainMenu.switchToPanel("creditsPanel");
 	}
 	
+	/**
+	 * It exits from application
+	 */
 	public void exitGame(){
 		System.exit(0);
 	}
 	
+	/**
+	 * It moves to next element
+	 */
 	public void next(){
 		current++;
 		if( current > 4 )
 			current = 0;
 	}
 	
+	/**
+	 * It move to previous element
+	 */
 	public void prev(){
 		current--;
 		if( current < 0 )
 			current = 4;
 	}
 	
+	/**
+	 * Refresh menu's buttons
+	 */
 	public void refresh(){
 		for( int i = 0; i < buttonContainer.size(); i++ )
 			if( i == current )

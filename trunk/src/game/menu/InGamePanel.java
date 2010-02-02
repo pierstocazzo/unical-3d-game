@@ -34,12 +34,13 @@ public class InGamePanel extends JPanel {
 	public int current = 0;
 	/** Preloaded images */
 	ArrayList<Image> imageContainer;
-	
+	/** Container */
 	ArrayList<JButton> buttonsContainer;
 	
 	/** Pointer to Game Menu (owner this panel)*/
 	MainMenu gameMenu;
 	
+	/** Component's container */
 	JPanel localPanel;
 	
 	/**
@@ -215,6 +216,9 @@ public class InGamePanel extends JPanel {
 		
 	}
 	
+	/**
+	 * Resume the current game
+	 */
 	public void goResume(){
 		// return to game
 		gameMenu.setVisible(false);
@@ -224,28 +228,43 @@ public class InGamePanel extends JPanel {
 		gameMenu.game.enabled = true;
 	}
 	
+	/**
+	 * It allows to save the game
+	 */
 	public void goSave(){
 		gameMenu.switchToPanel("savePanel");
 	}
 	
+	/**
+	 * Exit from the application
+	 */
 	public void exitGame(){
 		// close all (game and frames)
 		gameMenu.setVisible(false);
 		gameMenu.game.finish();
 	}
 	
+	/**
+	 * Move to next element
+	 */
 	public void next(){
 		current++;
 		if( current > 2 )
 			current = 0;
 	}
 	
+	/**
+	 * Move to previous element
+	 */
 	public void prev(){
 		current--;
 		if( current < 0 )
 			current = 2;
 	}
 	
+	/**
+	 * Refresh the menu
+	 */
 	public void refresh(){
 		for( int i = 0; i < buttonsContainer.size(); i++ )
 			if( i == current )
