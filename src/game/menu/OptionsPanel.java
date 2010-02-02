@@ -42,14 +42,23 @@ public class OptionsPanel extends JPanel {
 	/** His Pointer used in a subClass */
 	OptionsPanel optionsMenu;
 	
+	/** Container */
 	Vector<String> itemsTrueFalse;
 	
+	/** Container */
 	final Vector<String> itemsKeyCommands;
 
+	/** Scene's file path */
 	String sceneFilePath;
 
+	/** Resolution's container */
 	Vector<String> resolutions;
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param mainMenu (MainMenu)
+	 */
 	public OptionsPanel( final MainMenu mainMenu ){
 		super();
 		this.mainMenu = mainMenu;

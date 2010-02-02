@@ -29,6 +29,7 @@ public class LoadingPanel extends JPanel {
 	/** Label used for communicate during loading */
 	JLabel textLoading;
 	
+	/** Pointer to frame */
 	MainMenu mainMenu;
 	
 	/**
@@ -39,7 +40,7 @@ public class LoadingPanel extends JPanel {
 		super();
 		this.mainMenu = mainMenu;
 		
-//		/** Get screen size */
+		/** Get screen size */
 		Dimension screenSize;
 		if(GameConfiguration.isFullscreen().equals("true")){
 			screenSize = new Dimension( 
@@ -49,43 +50,17 @@ public class LoadingPanel extends JPanel {
 		else{
 			screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		}
-//		
-//		// apply screen size to current frame
-//		setBounds(0,0,screenSize.width, screenSize.height);
-//		
-//		//hide frame border
-//		setUndecorated(true); 
-//	    
-//		//hide cursor
-////		setCursor(getToolkit().createCustomCursor(
-////				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
-////				new Point(), "null"));
-//		
-//		setTitle("Loading Frame");
-		
-		/** create a panel that contains label and progress bar */
-//		JPanel loadingFranePanel = new JPanel(){
-//			private static final long serialVersionUID = 1L;
-//
-//			// painted background before panel components
-//			@Override
-//			public void paintComponent(Graphics g){
-//				g.drawImage(background, 0, 0, this);
-//				super.paintComponent(g);
-//			}
-//		};
-		
+	
 		// applied a border layout
 		setLayout(new BorderLayout());
 		setOpaque(false);
-//		setContentPane(loadingFranePanel);
 		
 		// create a sub panel for inserts new components on particular screen position
 		JPanel flowPanel = new JPanel();
 		flowPanel.setPreferredSize(new Dimension(screenSize.width*6/8, screenSize.height/8));
 		flowPanel.setOpaque(false);
-//		
-//		// delete spacing between components of the flow layout
+	
+		// delete spacing between components of the flow layout
 		flowPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		add(flowPanel,BorderLayout.CENTER);
 		
@@ -129,11 +104,7 @@ public class LoadingPanel extends JPanel {
 		pHorizontalEmpty2.setPreferredSize(new Dimension(1, screenSize.height*12/16));
 		add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
-//	    setResizable(false);
-//	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-	    
 	    setVisible(true);
-//		setAlwaysOnTop(true);
 	}
 	
 	/**

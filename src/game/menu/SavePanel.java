@@ -40,6 +40,7 @@ public class SavePanel extends JPanel {
 	/** Screen informations */
 	Dimension screenSize;
 	
+	/** Text Field */
 	JTextField text;
 	
 	/**
