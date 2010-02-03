@@ -12,10 +12,10 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -70,13 +70,7 @@ public class InGamePanel extends JPanel {
 	public void initItem(){
 		
 		setFocusable(true);
-		addKeyListener(new KeyListener() { 
-				@Override
-				public void keyTyped(KeyEvent arg0) {}
-				
-				@Override
-				public void keyReleased(KeyEvent arg0) {}
-				
+		addKeyListener( new KeyAdapter() { 
 				@Override
 				public void keyPressed(KeyEvent event) {
 					if(event.getKeyCode() == KeyEvent.VK_DOWN){
@@ -126,7 +120,7 @@ public class InGamePanel extends JPanel {
 		pHorizontalEmpty2.setPreferredSize( new Dimension( 1, gameMenu.screenSize.height/4 ) );
 		add( pHorizontalEmpty2, BorderLayout.NORTH );
 		
-		class MouseHandler implements MouseListener{
+		class MouseHandler extends MouseAdapter {
 			
 			JButton button;
 			int index;
@@ -136,22 +130,15 @@ public class InGamePanel extends JPanel {
 			}
 
 			@Override
-			public void mouseClicked(MouseEvent e) {}
-
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				button.setIcon(new ImageIcon(imageContainer.get(index+1)));
+				current = (int) index / 2;
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button.setIcon(new ImageIcon(imageContainer.get(index)));
 			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {}
-			@Override
-			public void mouseReleased(MouseEvent e) {}
 		}
 		
 		JButton buttonResume = new JButton(new ImageIcon(imageContainer.get(0)));
