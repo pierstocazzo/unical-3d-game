@@ -43,7 +43,7 @@ import com.jme.renderer.Camera;
  * <code>ThirdPersonHandler</code> defines an InputHandler for
  * a third person view game
  * 
- * @author Salvatore Loria
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class GameInputHandler extends InputHandler {
     GraphicalPlayer target;

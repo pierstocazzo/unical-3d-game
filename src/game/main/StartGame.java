@@ -20,6 +20,11 @@ package game.main;
 import game.menu.MainMenu;
 import game.common.*;
 
+/**
+ * Class StartGame
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class StartGame {
 
 	public static void main( String[] args ) {

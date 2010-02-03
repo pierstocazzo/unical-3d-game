@@ -22,7 +22,11 @@ import java.io.InputStreamReader;
 
 import com.jme.app.SimpleGame;
 
-
+/**
+ * Class Convertitore
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class Convertitore extends SimpleGame {
 	
 	public static void main(String[] args) {

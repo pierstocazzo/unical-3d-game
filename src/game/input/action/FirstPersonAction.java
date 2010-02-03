@@ -22,6 +22,11 @@ import game.input.GameInputHandler;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.MouseInputAction;
 
+/**
+ * Class FirstPersonAction
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class FirstPersonAction extends MouseInputAction {
 	GameInputHandler handler;
 

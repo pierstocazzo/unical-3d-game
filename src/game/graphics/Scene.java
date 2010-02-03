@@ -40,7 +40,7 @@ import com.jmex.terrain.util.RawHeightMap;
  * 
  * Needed library: <a href="http://www.jdom.org">JDOM</a>
  * 
- * @author Salvatore Loria 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class Scene {
 	public final Logger logger =  Logger.getLogger("global");

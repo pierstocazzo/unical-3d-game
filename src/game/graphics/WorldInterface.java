@@ -26,7 +26,7 @@ import java.util.Set;
 import com.jme.math.Vector3f;
 
 /**
- * Interface
+ * Interface used by game graphics for communicate with the game logic
  */
 public interface WorldInterface {
 

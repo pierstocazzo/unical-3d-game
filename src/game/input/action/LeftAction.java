@@ -56,6 +56,8 @@ import com.jme.input.action.KeyInputAction;
 
 /**
  * <code>ThirdPersonLeftAction</code>
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class LeftAction extends KeyInputAction {
 

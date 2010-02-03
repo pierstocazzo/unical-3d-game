@@ -66,6 +66,11 @@ import com.jmex.physics.geometry.PhysicsBox;
 import com.jmex.terrain.TerrainPage;
 import com.jmex.terrain.util.RawHeightMap;
 
+/**
+ * Enviroment class - manage items and objects
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class Environment {
 
 	/** the animated water */

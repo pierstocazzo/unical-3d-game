@@ -24,6 +24,8 @@ import java.io.Serializable;
 /**
  * Class <code>LogicWeapon</code><br>
  * Represent the game weapons
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 @SuppressWarnings("serial")
 public class LogicWeapon implements Serializable {

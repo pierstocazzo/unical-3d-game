@@ -22,6 +22,11 @@ import game.input.GameInputHandler;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.action.KeyInputAction;
 
+/**
+ * Class RunAction
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class RunAction extends KeyInputAction {
 
     private GameInputHandler handler;
