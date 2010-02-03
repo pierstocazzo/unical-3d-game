@@ -25,16 +25,38 @@ import com.jme.scene.TriMesh;
 
 public class CollisionHandler {
 	
+	/**
+	 * Root node that contain all collidable object in the scene
+	 */
 	protected Node collisionNode;
+	
+	/**
+	 * InputHandler of the player
+	 */
 	protected GameInputHandler inputHandler;
+	
+	/**
+	 * The graphical node of the player
+	 */
 	protected Node player;
 	
+	/**
+	 * CollisionHandler constructor
+	 * 
+	 * @param inputHandler
+	 * @param collisionNode
+	 */
 	public CollisionHandler( GameInputHandler inputHandler, Node collisionNode ) {
 		this.inputHandler = inputHandler;
 		this.collisionNode = collisionNode;
 		this.player = inputHandler.getPlayer().getCollision();
 	}
 
+	/**
+	 * Function <code>update</code>
+	 * this function handles the collision between
+	 * player and all collidable objects
+	 */
 	public void update() {
 		/** Check for front or back collision here */
 		if( hasTriangleCollision( (TriMesh) player.getChild("frontal"), collisionNode ) ) {
@@ -61,6 +83,14 @@ public class CollisionHandler {
 		}
 	}
 	
+	/**
+	 * Function <code>hasTriangleCollision</code>
+	 * Check eventually collision
+	 * 
+	 * @param node1
+	 * @param node2
+	 * @return
+	 */
 	public boolean hasTriangleCollision( Node node1, Node node2 ) {
 		List<TriMesh> node1Geometries = node1.descendantMatches( TriMesh.class );
 		
@@ -71,11 +101,19 @@ public class CollisionHandler {
 		return false;
 	}
 	
+	/**
+	 * Function <code>hasTriangleCollision</code>
+	 * Check eventually collision
+	 * 
+	 * @param node1Geometry
+	 * @param node2
+	 * @return
+	 */
 	public static boolean hasTriangleCollision( TriMesh node1Geometry, Node node2 ) {
 		// list all mesh children of the given node
 		List<TriMesh> node2Geometries = node2.descendantMatches( TriMesh.class );
 		
-		// ceck for collision of each of this meshes with the given mesh
+		// check for collision of each of this meshes with the given mesh
 		// return true as soon as it finds a mesh child of the given node colliding with the given mesh
 		for ( TriMesh node2Geometry : node2Geometries ) {
 			if ( node2Geometry.hasTriangleCollision( node1Geometry ) )

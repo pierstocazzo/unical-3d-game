@@ -58,8 +58,13 @@ public class Direction {
 		return direction;
 	}
 	
+	/**
+	 * Set the direction
+	 * @param direction
+	 * @return
+	 */
 	public Direction setDirection( Vector3f direction ){
-		System.out.println("Direzione : " + direction);
+//		System.out.println("Direction : " + direction);
 		this.direction = direction;
 		return this;
 	}

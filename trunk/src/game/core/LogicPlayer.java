@@ -88,6 +88,13 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 		// advise the player he can't carry more than three weapons
 	}
 	
+	/**
+	 * Function <code>addAmmo</code><br>
+	 * 
+	 * Increase the  amount of ammo of a certain weapon
+	 * @param weaponType - (WeaponType) Ammo weapon type
+	 * @param quantity - (Integer) The quantity of ammo to add
+	 */
 	public boolean addAmmo( WeaponType weaponType, int quantity ) {
 		for( LogicWeapon weapon : equipment.values() ) {
 			if( weapon.type == weaponType ) {
@@ -127,6 +134,9 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 	}
 	
 	@Override
+	/**
+	 * Function called everytime a player die
+	 */
 	public void die( String shooterId ) {
 		world.scoreManager.playerKilled(id);
 		if(world.scoreManager.getScore(id)<=10){
@@ -139,14 +149,26 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 		}
 	}
 	
+	/**
+	 * Regenerate the life value of the player
+	 * at the maximum value.
+	 */
 	public void reborn(){
 		currentLife = maxLife;
 	}
 	
+	/**
+	 * Return the magazine capacity of
+	 * current weapons
+	 * @return
+	 */
 	public int getMaxAmmo() {
 		return currentWeapon.magazineCapacity;
 	}
 
+	/**
+	 * Switch at the next weapon that player carry on
+	 */
 	public void nextWeapon() {
 		currentWeaponIndex++;
 		if( currentWeaponIndex < 4 ) {

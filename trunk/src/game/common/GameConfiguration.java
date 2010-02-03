@@ -40,6 +40,7 @@ import org.jdom.output.XMLOutputter;
  */
 public class GameConfiguration {
 	
+	/** Base path of the configuration file */
 	private final static String SETTINGS_FILE = "src/game/data/game.conf";
 	
 	/** the xml document */
@@ -83,15 +84,23 @@ public class GameConfiguration {
 	/**
 	 * User defined values
 	 */
+	
+	// Main Settings
 	static LinkedHashMap< String, String > settings;
-
+	
+	// Enemies information
 	static List<EnemyInfo> enemies;
 	
+	// Global game parameters
 	static LinkedHashMap< String, String > parameters;
 	
+	// Phrases used in the game
 	static LinkedHashMap< String, String > phrases;
 	
-	
+	/**
+	 * Initialize game configuration regards the User Defined
+	 * configuration files (see: SETTINGS_FILE ) 
+	 */
 	public static void init() {
 		settings = new LinkedHashMap< String, String >();
 		settings.putAll(defaultSettings);
@@ -100,6 +109,7 @@ public class GameConfiguration {
 		parameters = new LinkedHashMap< String, String >();
 		phrases = new LinkedHashMap< String, String >();
 		
+		// Load all settings
 		load();
 		
 		/* 
