@@ -13,63 +13,54 @@ public enum State implements Serializable {
 	/**
 	 * The character is in default state
 	 */
-	DEFAULT ( 150, 100 ),
+	DEFAULT,
 	
 	/**
 	 * The character is in alert because he has 
 	 * seen something strange
 	 */
-	ALERT ( 200, 140 ),
+	ALERT,
 	
 	/**
 	 * The character is attacking you, because he
 	 * has seen you and he have to kill
 	 * everybody unknown
 	 */
-	ATTACK ( 200, 180 ),
+	ATTACK,
 	
 	/**
 	 * The character after an attack don't see you
 	 * and he come to find you
 	 */
-	SEARCH ( 200, 180 ),
+	SEARCH,
 	
 	/**
 	 * The character is in find and see you.
 	 * He attack you and remember that 
 	 * he must return to default position
 	 */
-	SEARCHATTACK( 200, 180 ), 
+	SEARCHATTACK, 
 	
 	/**
 	 * Ever the character is careful.
 	 * It's similar to alert state
 	 */
-	GUARD ( 200, 140 ),
+	GUARD,
 	
 	/**
 	 * The character is in attack 
 	 * but he remember he is a guard
 	 * and not a simple soldier
 	 */
-	GUARDATTACK( 200, 180 );
+	GUARDATTACK;
+	
+	/* State fields */
 	
 	/** view range */
 	int viewRange;
 	
 	/** action range */
 	int actionRange;
-	
-	/**
-	 * Constructor
-	 * 
-	 * @param (int) viewRange
-	 * @param (int) actionRange
-	 */
-	State( int viewRange, int actionRange ) {
-		this.viewRange = viewRange;
-		this.actionRange = actionRange;
-	}
 	
 	/**
 	 * Get view range
@@ -89,17 +80,44 @@ public enum State implements Serializable {
 		return actionRange;
 	}
 	
-	public static State toState( String type ){
-		State state = State.DEFAULT;
+	public static State toState( String type ) {
+		State state;
 		
-		if(type.equals("DEFAULT")) state = State.DEFAULT;
-		else if(type.equals("ALERT")) state = State.ALERT;
-		else if(type.equals("ATTACK")) state = State.ATTACK;
-		else if(type.equals("FIND")) state = State.SEARCH;
-		else if(type.equals("FINDATTACK")) state = State.SEARCHATTACK;
-		else if(type.equals("GUARD")) state = State.GUARD;
-		else if(type.equals("GUARDATTACK")) state = State.GUARDATTACK;
+		if( type.equals("DEFAULT") ) 
+			state = State.DEFAULT;
+		else if( type.equals("ALERT") ) 
+			state = State.ALERT;
+		else if( type.equals("ATTACK") ) 
+			state = State.ATTACK;
+		else if( type.equals("FIND") ) 
+			state = State.SEARCH;
+		else if( type.equals("FINDATTACK") ) 
+			state = State.SEARCHATTACK;
+		else if( type.equals("GUARD") ) 
+			state = State.GUARD;
+		else if( type.equals("GUARDATTACK") ) 
+			state = State.GUARDATTACK;
+		else
+			state = State.DEFAULT;
 		
 		return state;
+	}
+	
+	private static int get( String param ) {
+		return GameConfiguration.getIntParameter( param );
+	}
+	
+	private void set( int viewRange, int actionRange ) {
+		this.viewRange = viewRange;
+		this.actionRange = actionRange;
+	}
+
+	public static void init() {
+		DEFAULT.set( get("stateDefaultViewRange"), get("stateDefaultActionRange") );
+		ALERT.set( get("stateAlertViewRange"), get("stateAlertActionRange") );
+		ATTACK.set( get("stateAttackViewRange"), get("stateAttackActionRange") );
+		SEARCH.set( get("stateSearchViewRange"), get("stateSearchActionRange") );
+		SEARCHATTACK.set( get("stateAttackViewRange"), get("stateAttackActionRange") );
+		GUARD.set( get("stateGuardViewRange"), get("stateGuardActionRange") );
 	}
 }

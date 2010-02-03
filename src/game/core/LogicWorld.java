@@ -636,7 +636,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	}
 	
 	@Override
-	public void cantSeePlayer( String id, boolean b ) {
-		((LogicEnemy) characters.get(id)).cantSeePlayer( b );
+	public void canSeePlayer( String enemyId, boolean canSeePlayer ) {
+		((LogicEnemy) characters.get(enemyId)).canSeePlayer( canSeePlayer );
 	}
 }

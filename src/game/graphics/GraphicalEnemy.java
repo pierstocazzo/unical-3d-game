@@ -55,9 +55,11 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 	/** the previous movement's direction */
 	Vector3f previousMoveDirection;
 	
+	/** used to check if there is something that cause this enemy not to see the player */
 	Cylinder line;
-	boolean update = true;
-	float distanceToPlayer;
+	
+	/** distance from player */
+	float distanceFromPlayer;
 	
     /** PhysicsEnemy Constructor<br>
 	 * Create a new graphical enemy and start his movements
@@ -154,8 +156,12 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 		setOnGround( false );
 	}
 
-	void cantSeePlayer( boolean b ) {
-		world.getCore().cantSeePlayer( id, b );
+	/**
+	 * Set if this enemy can see the player
+	 * @param b
+	 */
+	private void canSeePlayer( boolean b ) {
+		world.getCore().canSeePlayer( id, b );
 	}
 	
 	/** Function <code>update</code> <br>
@@ -176,14 +182,14 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 				// fewer than the max enemy view range
 			    Vector3f vec = new Vector3f( world.player.getPosition().add( 0, 5, 0 ).subtract( 
 						feet.getWorldTranslation().add( 0, 5, 0 ) ).normalize() );
-				distanceToPlayer = feet.getWorldTranslation().distance( world.player.getPosition() );
-			    if( distanceToPlayer < State.ALERT.getViewRange() ) {
+				distanceFromPlayer = feet.getWorldTranslation().distance( world.player.getPosition() );
+			    if( distanceFromPlayer < State.ALERT.getViewRange() ) {
 				    Vector3f lineOrigin = feet.getWorldTranslation().add(0,5,0);
 				    
 					line.removeFromParent();
-				    line = new Cylinder("line" + id, 6, 6, 1, distanceToPlayer );
+				    line = new Cylinder("line" + id, 6, 6, 1, distanceFromPlayer );
 				    
-				    line.setLocalTranslation( lineOrigin.add( vec.mult(distanceToPlayer/2) ) );
+				    line.setLocalTranslation( lineOrigin.add( vec.mult(distanceFromPlayer/2) ) );
 				    line.lookAt( world.player.getPosition().add(0,5,0), Vector3f.UNIT_Y );
 					world.getRootNode().attachChild(line);
 					line.setModelBound( new BoundingBox() );
@@ -193,21 +199,21 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 					
 					checkLineCollision();
 			    }
-			    if( update ) {
-					world.getCore().updateState(id);
-					if( world.getCore().getState(id) == State.ATTACK || 
-						world.getCore().getState(id) == State.SEARCHATTACK || 
-						world.getCore().getState(id) == State.GUARDATTACK ) {
-						animationController.runAnimation( Animation.SHOOT );
-						shooting = true;
-						if( GameTimer.getTimeInSeconds() - previousShootTime > world.getCore().getWeapon(id).getLoadTime() ) {
-							previousShootTime = GameTimer.getTimeInSeconds();
-							shoot( world.getCore().getShootDirection(id) );
-						}
-					} else {
-						shooting = false;
+			    
+				world.getCore().updateState(id);
+				if( world.getCore().getState(id) == State.ATTACK || 
+					world.getCore().getState(id) == State.SEARCHATTACK || 
+					world.getCore().getState(id) == State.GUARDATTACK ) {
+					animationController.runAnimation( Animation.SHOOT );
+					shooting = true;
+					if( GameTimer.getTimeInSeconds() - previousShootTime > world.getCore().getWeapon(id).getLoadTime() ) {
+						previousShootTime = GameTimer.getTimeInSeconds();
+						shoot( world.getCore().getShootDirection(id) );
 					}
-			    }
+				} else {
+					shooting = false;
+				}
+				
 			    moveCharacter();
 			    
 			    // update core
@@ -227,9 +233,9 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 
 	private void checkLineCollision() {
 		if( CollisionHandler.hasTriangleCollision( line, world.collisionNode ) ) {
-			cantSeePlayer( true );
+			canSeePlayer( false );
 		} else {
-			cantSeePlayer( false );
+			canSeePlayer( true );
 		}
 	}
 
@@ -242,7 +248,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 				setMoving(false);
 			} else {
 //				if( feet.getLinearVelocity( null ).length() < 1 )
-					move( moveDirection );
+				move( moveDirection );
 				setMoving( true );
 			}
 			lookAtAction( moveDirection );
