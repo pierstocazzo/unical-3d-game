@@ -227,7 +227,6 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 
 	private void checkLineCollision() {
 		if( CollisionHandler.hasTriangleCollision( line, world.collisionNode ) ) {
-			System.out.println( "collisione" );
 			cantSeePlayer( true );
 		} else {
 			cantSeePlayer( false );

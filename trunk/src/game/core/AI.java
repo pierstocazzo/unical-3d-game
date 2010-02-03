@@ -100,11 +100,9 @@ public class AI implements Serializable {
 				// in find status
 				if ( distance > enemy.state.getViewRange() || enemy.cantSeePlayer  ) {
 					enemy.state = State.SEARCH;
-					enemy.alertTime = GameTimer.getTimeInSeconds();
-				} else {
-					calculateShootDirection( id, playerId );
-					enemy.alertTime = GameTimer.getTimeInSeconds();
-				}
+				} 
+				calculateShootDirection( id, playerId );
+				enemy.alertTime = GameTimer.getTimeInSeconds();
 				break;
 
 			case SEARCH:
