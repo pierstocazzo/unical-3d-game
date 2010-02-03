@@ -38,7 +38,10 @@ import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 
 /**
-*/
+ * A graphical ammo package
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class GraphicalAmmoPackage {
  
 	String id;

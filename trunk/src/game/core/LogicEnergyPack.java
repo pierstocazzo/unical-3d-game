@@ -22,6 +22,8 @@ import java.io.Serializable;
 /** class <code>LogicEnergyPack</code> <br>
  * Represents an energy pack the player can catch and use when
  * his energy (life) is few
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 @SuppressWarnings("serial")
 public class LogicEnergyPack implements Serializable {

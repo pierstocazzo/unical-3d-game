@@ -36,7 +36,7 @@ import org.jdom.output.XMLOutputter;
  * 
  * Needed library: <a href="http://www.jdom.org">JDOM</a>
  * 
- * @author Giuseppe Leone 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class GameConfiguration {
 	

@@ -37,6 +37,11 @@ import com.jme.util.TextureManager;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 
+/**
+ * Graphical energy package
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class GraphicalEnergyPackage {
 	
 	String id;

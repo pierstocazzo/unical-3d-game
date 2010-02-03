@@ -56,6 +56,8 @@ import com.jme.input.action.KeyInputAction;
 
 /**
  * <code>ThirdPersonBackwardAction</code>
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class BackwardAction extends KeyInputAction {
 

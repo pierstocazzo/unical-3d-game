@@ -56,6 +56,8 @@ import com.jme.input.action.KeyInputAction;
 
 /**
  * <code>ThirdPersonForwardAction</code>
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class ForwardAction extends KeyInputAction {
     private GameInputHandler handler;

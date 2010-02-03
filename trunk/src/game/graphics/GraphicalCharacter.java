@@ -22,6 +22,11 @@ import com.jme.scene.Node;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.PhysicsNode;
 
+/**
+ * Graphical Character
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class GraphicalCharacter {
 
 	/** the character identifier */

@@ -21,6 +21,11 @@ import game.core.LogicWorld;
 import game.graphics.GraphicalWorld;
 import game.menu.MainMenu;
 
+/**
+ * Class GameThread
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class GameThread extends Thread {
 
 	LogicWorld logicGame;

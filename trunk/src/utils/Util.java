@@ -28,6 +28,11 @@ import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 
+/**
+ * Class Util
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class Util {
     public static final Quaternion Z45  = new Quaternion().fromAngleAxis( FastMath.QUARTER_PI, Vector3f.UNIT_Z );
     public static final Quaternion Z90  = new Quaternion().fromAngleAxis( FastMath.HALF_PI, Vector3f.UNIT_Z );

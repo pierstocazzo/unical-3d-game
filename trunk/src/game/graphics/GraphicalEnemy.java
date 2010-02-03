@@ -42,6 +42,11 @@ import com.jmex.physics.geometry.PhysicsCapsule;
 import com.jmex.physics.geometry.PhysicsSphere;
 import com.jmex.physics.material.Material;
 
+/**
+ * Graphical enemy
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class GraphicalEnemy extends GraphicalCharacter  {
 	
 	/** utility Vector used for the look at action */

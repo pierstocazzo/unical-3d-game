@@ -31,6 +31,11 @@ import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
 import com.jmex.physics.material.Material;
 
+/**
+ * A graphical bullet
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class Bullet {
 	/** the bullet physicsNode */
 	DynamicPhysicsNode physicsBullet;

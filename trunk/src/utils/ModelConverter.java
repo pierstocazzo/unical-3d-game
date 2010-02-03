@@ -47,6 +47,8 @@ import com.jmex.model.converters.ObjToJme;
  * 
  * @param inputFilePath -> (String) il path del modello 3d da convertire
  * @param outFilePath -> (String) il path del file .jme da creare
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class ModelConverter {
 

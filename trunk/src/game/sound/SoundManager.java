@@ -28,6 +28,11 @@ import com.jmex.audio.AudioTrack;
 import com.jmex.audio.AudioTrack.TrackType;
 import com.jmex.audio.MusicTrackQueue.RepeatType;
 
+/**
+ * Class SoundManager
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class SoundManager {
 	
 	public static enum SoundType {

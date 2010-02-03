@@ -56,7 +56,7 @@ import com.jmex.model.converters.MilkToJme;
  * </code>
  * 
  * @author slash17
- * @author andrea (l'idea era sua)
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class ModelLoader {
 	

@@ -23,6 +23,11 @@ import game.input.GameInputHandler;
 import com.jme.scene.Node;
 import com.jme.scene.TriMesh;
 
+/**
+ * Class that manage objects's collisions
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class CollisionHandler {
 	
 	/**

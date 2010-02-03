@@ -25,6 +25,8 @@ import com.jmex.model.animation.JointController;
  * 
  * An custom animation controller to easily run animations
  * with a JointController
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class GameAnimationController {
 

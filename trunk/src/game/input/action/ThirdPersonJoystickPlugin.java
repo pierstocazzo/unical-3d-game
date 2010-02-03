@@ -50,6 +50,11 @@ package game.input.action;
 
 import com.jme.input.joystick.Joystick;
 
+/**
+ * Class ThirdPersonAction
+ * 
+ * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
+ */
 public class ThirdPersonJoystickPlugin {
     protected Joystick joystick = null;
     
