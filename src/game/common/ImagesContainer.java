@@ -22,6 +22,13 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
+/**
+ * A class that contains and handles all images
+ * used in the main menu of the Game
+ * 
+ * @author Salvatore Loria, Andrea Martire, Giuseppe Leone
+ *
+ */
 public class ImagesContainer {
 
 	static Dimension screenSize;

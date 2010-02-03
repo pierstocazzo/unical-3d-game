@@ -251,7 +251,12 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	public boolean addAmmo(WeaponType weaponType, int quantity) {
 		return false;
 	}
-
+	
+	/**
+	 * Set if a enemy can see the player
+	 * 
+	 * @param canSeePlayer
+	 */
 	public void canSeePlayer( boolean canSeePlayer ) {
 		this.canSeePlayer = canSeePlayer;
 	}

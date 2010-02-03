@@ -68,6 +68,11 @@ public class Bullet {
 		this.enabled = true;
 	}
 	
+	/**
+	 * Execute the graphical shoot of the bullet
+	 * 
+	 * @param direction
+	 */
 	public void shoot( Vector3f direction ) {
 		physicsBullet = world.getPhysicsSpace().createDynamicNode();
 		physicsBullet.setMaterial( Material.GHOST );
