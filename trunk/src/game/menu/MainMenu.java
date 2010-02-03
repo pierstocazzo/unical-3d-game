@@ -46,7 +46,6 @@ public class MainMenu extends JFrame {
 		// apply screen size value to current frame
 	    setBounds( 0, 0, screenSize.width, screenSize.height );
 		
-		GameConfiguration.init();
 		ImagesContainer.init();
 		
 		if(GameConfiguration.isFullscreen().equals("true")){

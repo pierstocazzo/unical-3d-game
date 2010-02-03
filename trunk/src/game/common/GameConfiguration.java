@@ -357,6 +357,10 @@ public class GameConfiguration {
 		return parameters.get( param );
 	}
 	
+	public static int getIntParameter( String param ) {
+		return Integer.valueOf( parameters.get( param ) );
+	}
+	
 	public static String getPhrase( String phrase ) {
 		return phrases.get( phrase );
 	}

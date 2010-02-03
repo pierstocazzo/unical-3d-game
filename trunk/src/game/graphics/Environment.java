@@ -155,27 +155,6 @@ public class Environment {
 	    
         world.getMenu().setProgress(50);
         
-//        Box b = new Box( "b", new Vector3f( -5, -7, -30 ), 5, 7, 30);
-//        b.setLocalTranslation(new Vector3f( 800, getHeight(800, 500) + 13, 500 ));
-//        world.getCollisionNode().attachChild(b);
-//        b.setModelBound(new BoundingBox() );
-//        b.updateModelBound();
-        
-//        Node fuck = ModelLoader.loadModel( "game/data/meshes/items/tent.jme", 
-//        		"game/data/meshes/items/tent.jpg", 1);
-//        
-//        SharedNode t = new SharedNode( fuck );
-//        t.setLocalTranslation(new Vector3f( 800, getHeight(800, 500), 500 ));
-//        world.collisionNode.attachChild(t);
-//        t.setModelBound( new BoundingBox() );
-//        t.updateModelBound();
-//        
-//        SharedNode t1 = new SharedNode( fuck );
-//        t1.setLocalTranslation(new Vector3f( 700, getHeight(700, 600), 600 ));
-//        world.collisionNode.attachChild(t1);
-//        t1.setModelBound( new BoundingBox() );
-//        t1.updateModelBound();
-//        
 	    loadItems();
 	    
 	    createWorldBounds();

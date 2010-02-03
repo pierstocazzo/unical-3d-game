@@ -69,22 +69,22 @@ public class AI implements Serializable {
 			// update current state
 			switch ( enemy.state ) {
 			case DEFAULT:
-//				enemy.alertTime = GameTimer.getTimeInSeconds() - 20;
-				// if player enter in enemy view range he go in alert
-				if ( distance <= enemy.state.getViewRange() && !enemy.cantSeePlayer ) {
+				// if he sees the player he goes in alert state
+				if ( distance <= enemy.state.getViewRange() && enemy.canSeePlayer ) {
 					enemy.state = State.ALERT;
 					enemy.alertTime = GameTimer.getTimeInSeconds();
 				}
 				break;
 
 			case ALERT:
-				// if player enter in enemy action range he go in attack
-				if ( distance <= enemy.state.getActionRange() && !enemy.cantSeePlayer ) {
+				// if the player is near enough and he can see him, he goes in attack state
+				if ( distance <= enemy.state.getActionRange() && enemy.canSeePlayer ) {
 					enemy.state = State.ATTACK;
-					updateState( id );
-				} else if ( distance > enemy.state.getViewRange() || enemy.cantSeePlayer ) {
-					/* if the player goes away from the actionRange of this enemy, 
+					calculateShootDirection( id, playerId );
+				} else if ( distance > enemy.state.getViewRange() || !enemy.canSeePlayer ) {
+					/* if he don't see the player
 					 * he remains in alert state for some time
+					 * then he return in default state
 					 */
 					if( GameTimer.getTimeInSeconds() - enemy.alertTime > 
 							Integer.valueOf( GameConfiguration.getParameter("maxAlertTime") ) ) {
@@ -96,26 +96,27 @@ public class AI implements Serializable {
 				break;
 
 			case ATTACK:
-				// if player hides himself or leaves the enemy view range,the enemy goes 
-				// in find status
-				if ( distance > enemy.state.getViewRange() || enemy.cantSeePlayer  ) {
+				// if player hides himself or leaves the enemy view range, the enemy 
+				// goes in search of him
+				if ( distance > enemy.state.getViewRange() || !enemy.canSeePlayer  ) {
 					enemy.state = State.SEARCH;
 				} 
+				// in any case he calculate the shoot direction
 				calculateShootDirection( id, playerId );
 				enemy.alertTime = GameTimer.getTimeInSeconds();
 				break;
 
 			case SEARCH:
 				enemy.alertTime = GameTimer.getTimeInSeconds();
-				// if he sees the player he goes in searchattack
-				// because he has to remember that he was in search status
-				if ( distance <= enemy.state.getActionRange() && !enemy.cantSeePlayer )
+				// if he sees the player he goes in searchattack state
+				// (different from Attack just to remember that he was in search state before)
+				if ( distance <= enemy.state.getActionRange() && enemy.canSeePlayer )
 					enemy.state = State.SEARCHATTACK;
 				break;
 
 			case SEARCHATTACK:
 				// if he doesen't see the player he keeps searching him
-				if ( distance > enemy.state.getViewRange() ||  enemy.cantSeePlayer ) {
+				if ( distance > enemy.state.getViewRange() || !enemy.canSeePlayer ) {
 					enemy.state = State.SEARCH;
 				} else {
 					calculateShootDirection( id, playerId );
@@ -126,16 +127,19 @@ public class AI implements Serializable {
 			case GUARD:
 				 /* if he can see the player he attacks him
 				  */
-				if ( distance <= enemy.state.getActionRange() && !enemy.cantSeePlayer )
+				if ( distance <= enemy.state.getViewRange() && enemy.canSeePlayer ) {
 					enemy.state = State.GUARDATTACK;
+					calculateShootDirection( id, playerId );
+				}
 				break;
 				
 			case GUARDATTACK:
 				/* if he can't see the player he returns in guard state */
-				if ( distance > enemy.state.getViewRange() || enemy.cantSeePlayer ) {
+				if ( distance > enemy.state.getViewRange() || !enemy.canSeePlayer ) {
 					enemy.alertTime = 0;
 					enemy.state = State.GUARD;
 				} else {
+					// else he attacks him
 					calculateShootDirection( id, playerId );
 					enemy.alertTime = GameTimer.getTimeInSeconds();
 				}
