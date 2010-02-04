@@ -99,9 +99,9 @@ public class MainMenu extends JFrame {
 	}
 	
 	public void start() {
+		requestFocus();
 		setVisible(true);
 		setAlwaysOnTop(true);
-		requestFocus();
 	}
 	
 	public void switchToPanel( String panel ){

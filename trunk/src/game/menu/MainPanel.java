@@ -325,7 +325,6 @@ public class MainPanel extends JPanel {
 		int returnVal = fc.showOpenDialog(mainMenu);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
-			System.out.println("Opening: " + file.getName() + ".");
 
 			FileInputStream fin = null;
 			try {

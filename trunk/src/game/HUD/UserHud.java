@@ -34,6 +34,7 @@ import com.jme.scene.state.BlendState.DestinationFunction;
 import com.jme.scene.state.BlendState.SourceFunction;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
+import com.jmex.font2d.Text2D;
 
 /**
  * Class UserHud
@@ -87,6 +88,9 @@ public class UserHud {
 	/** crosshair */
 	Quad crosshair;
 	
+	/** pause */
+	Text pauseText;
+	
 	/** 
 	 * Constructor
 	 * 
@@ -106,6 +110,13 @@ public class UserHud {
 		hudLife = new HudLife(this);
 		hudAmmo = new HudAmmo(this);
 		map = new WorldMap2D( graphicalWorld, this );
+		
+		pauseText = Text2D.createDefaultTextLabel("Pause");
+		pauseText.setLocalScale( GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ) / 600 );
+		pauseText.print("Pause");
+		pauseText.setLocalTranslation( GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH )/2 - pauseText.getWidth()/2,
+				GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT )/2 - pauseText.getHeight()/2, 0 );
+		pauseText.lock();
 		
 		// create text label
 		level = Text.createDefaultTextLabel( "Level" );
@@ -195,5 +206,12 @@ public class UserHud {
 		hudNode.attachChild( crosshair );
 		hudNode.updateGeometricState( 0.0f, true );
 		hudNode.updateRenderState();
+	}
+	
+	public void showPause( boolean show ) {
+		if( show ) 
+			hudNode.attachChild( pauseText );
+		else
+			pauseText.removeFromParent();
 	}
 }
