@@ -92,7 +92,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.shootDirection = new Vector3f();
 		this.movementStartPosition = new Vector3f( position );
 		this.movementStartPosition.setY(0);
-		this.errorAngle = Integer.valueOf( GameConf.getParameter("initialEnemyAccuracy") );
+		this.errorAngle = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_ENEMY_ACCURACY ) );
 		this.currentMovement = this.movements.get(0);
 		this.initialFindPosition = new Vector3f();
 	}
@@ -117,7 +117,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.shootDirection = new Vector3f();
 		this.movementStartPosition = new Vector3f( position );
 		this.movementStartPosition.setY(0);
-		this.errorAngle = Integer.valueOf( GameConf.getParameter("initialEnemyAccuracy") );;
+		this.errorAngle = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_ENEMY_ACCURACY ) );
 		this.currentMovement = this.movements.get(0);
 		this.initialFindPosition = new Vector3f();
 	}
@@ -149,7 +149,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 			State currState = world.getState( id );
 			if( ( currState == State.ATTACK || currState == State.SEARCHATTACK || currState == State.GUARDATTACK )
 					&& position.distance( world.getPosition( id ) ) <=  
-					Integer.valueOf( GameConf.getParameter("maxNeighborhoodRange") ) )
+					Integer.valueOf( GameConf.getParameter( GameConf.MAX_NEIGHBORHOOD_RANGE ) ) )
 				return true;
 		}
 		return false;

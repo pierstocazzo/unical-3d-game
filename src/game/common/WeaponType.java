@@ -30,25 +30,25 @@ public enum WeaponType implements Serializable {
 	
 	/** mp5 weapon */
 	AR15 (
-		Integer.valueOf( GameConf.getParameter("weapon_ar15_damage") ),
-		Integer.valueOf( GameConf.getParameter("weapon_ar15_power") ),
-		Float.valueOf( GameConf.getParameter("weapon_ar15_loadtime") ),
+		Integer.valueOf( GameConf.getParameter( GameConf.WEAPON_AR15_DAMAGE ) ),
+		Integer.valueOf( GameConf.getParameter( GameConf.WEAPON_AR15_POWER ) ),
+		Float.valueOf( GameConf.getParameter( GameConf.WEAPON_AR15_LOADTIME ) ),
 		false
 	),
 	
 	/** not used */
 	GATLING (
-		Integer.valueOf( GameConf.getParameter("weapon_gatling_damage") ),
-		Integer.valueOf( GameConf.getParameter("weapon_gatling_power") ),
-		Float.valueOf( GameConf.getParameter("weapon_gatling_loadtime") ),
+		Integer.valueOf( GameConf.getParameter( GameConf.WEAPON_GATLING_DAMAGE ) ),
+		Integer.valueOf( GameConf.getParameter( GameConf.WEAPON_GATLING_POWER ) ),
+		Float.valueOf( GameConf.getParameter( GameConf.WEAPON_GATLING_LOADTIME ) ),
 		true
 	),
 	
 	/** not used */
 	BAZOOKA (
-		Integer.valueOf( GameConf.getParameter("weapon_bazooka_damage") ),
-		Integer.valueOf( GameConf.getParameter("weapon_bazooka_power") ),
-		Float.valueOf( GameConf.getParameter("weapon_bazooka_loadtime") ),
+		Integer.valueOf( GameConf.getParameter( GameConf.WEAPON_BAZOOKA_DAMAGE ) ),
+		Integer.valueOf( GameConf.getParameter( GameConf.WEAPON_BAZOOKA_POWER ) ),
+		Float.valueOf( GameConf.getParameter( GameConf.WEAPON_BAZOOKA_LOADTIME ) ),
 		true
 	);
 	

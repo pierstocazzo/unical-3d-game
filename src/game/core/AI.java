@@ -104,7 +104,7 @@ public class AI implements Serializable {
 					 * then he return in default state
 					 */
 					if( GameTimer.getTimeInSeconds() - enemy.alertTime > 
-							Integer.valueOf( GameConf.getParameter("maxAlertTime") ) ) {
+							Integer.valueOf( GameConf.getParameter( GameConf.MAX_ALERT_TIME ) ) ) {
 						enemy.state = State.DEFAULT;
 					}
 				} else {
@@ -211,7 +211,7 @@ public class AI implements Serializable {
 			}
 			
 			distance = Math.abs( currentPosition.distance( enemy.initialFindPosition ) );
-			if( distance > Integer.valueOf( GameConf.getParameter("maxFindDistance") ) ) {
+			if( distance > Integer.valueOf( GameConf.getParameter( GameConf.MAX_FIND_DISTANCE ) ) ) {
 				if( enemy.comingBack == false ) {
 					findDirection.negateLocal();
 					enemy.comingBack = true;

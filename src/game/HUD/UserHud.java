@@ -144,8 +144,8 @@ public class UserHud {
 	 */
 	public void update(){
 		int value = world.getCore().getLevel(world.player.id);
-		level.print( GameConf.getPhrase( "hud_level" ) + " " + Integer.toString(value));
-		weapon.print( GameConf.getPhrase( "hud_current_weapon" ) + " " + world.getCore().getWeapon(world.player.id));
+		level.print( GameConf.getPhrase( GameConf.HUD_LEVEL ) + " " + Integer.toString(value));
+		weapon.print( GameConf.getPhrase( GameConf.HUD_CURRENT_WEAPON ) + " " + world.getCore().getWeapon(world.player.id));
 		hudScore.update();
 		hudLife.update();
 		map.update();

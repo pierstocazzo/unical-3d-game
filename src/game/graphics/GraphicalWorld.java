@@ -150,19 +150,19 @@ public class GraphicalWorld extends PhysicsGame {
 	
     @Override
     protected void setupGame() {
-    	menu.setLoadingText( GameConf.getPhrase( "loading_init" ) );
+    	menu.setLoadingText( GameConf.getPhrase( GameConf.LOADING_INIT ) );
     	menu.setProgress(5);
         setupInit();
-        menu.setLoadingText( GameConf.getPhrase( "loading_environment" ) );
+        menu.setLoadingText( GameConf.getPhrase( GameConf.LOADING_ENVIRONMENT ) );
         menu.setProgress(20);
         setupEnvironment();
-        menu.setLoadingText( GameConf.getPhrase( "loading_players" ) );
+        menu.setLoadingText( GameConf.getPhrase( GameConf.LOADING_PLAYERS ) );
         menu.setProgress(60);
         setupPlayer();
-        menu.setLoadingText( GameConf.getPhrase( "loading_enemies" ) );
+        menu.setLoadingText( GameConf.getPhrase( GameConf.LOADING_ENEMIES ) );
         menu.setProgress(80);
         setupEnemies();
-        menu.setLoadingText( GameConf.getPhrase( "loading_input" ) );
+        menu.setLoadingText( GameConf.getPhrase( GameConf.LOADING_INPUT ) );
         setupCamera();
         setupInput();
         menu.setProgress(100);

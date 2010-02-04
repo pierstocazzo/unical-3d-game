@@ -17,8 +17,8 @@
 
 package game.core;
 
-import game.common.WeaponType;
 import game.common.*;
+
 import java.io.Serializable;
 
 /**
@@ -55,15 +55,15 @@ public class LogicWeapon implements Serializable {
 		
 		switch( type ) {
 		case AR15: 
-			this.magazineCapacity = Integer.valueOf( GameConf.getParameter("initial_ar15_capacity") );
+			this.magazineCapacity = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_AR15_CAPACITY ) );
 			break;
 			
 		case GATLING: 
-			this.magazineCapacity = Integer.valueOf( GameConf.getParameter("initial_gatling_capacity") );
+			this.magazineCapacity = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_GATLING_CAPACITY ) );
 			break;
 			
 		case BAZOOKA: 
-			this.magazineCapacity = Integer.valueOf( GameConf.getParameter("initial_bazooka_capacity") );
+			this.magazineCapacity = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_BAZOOKA_CAPACITY ) );
 			break;
 		}
 		

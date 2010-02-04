@@ -125,7 +125,7 @@ public class HudAlert {
 	}
 	
 	public float getAlertLevel(){
-		final int ALERT_RANGE = Integer.valueOf( GameConf.getParameter("maxAlertTime") );
+		final int ALERT_RANGE = Integer.valueOf( GameConf.getParameter( GameConf.MAX_ALERT_TIME ) );
 		stateColor = State.DEFAULT;
 		//calculate max alert level
 		float max = -99999;

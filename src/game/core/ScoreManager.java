@@ -73,16 +73,16 @@ public class ScoreManager implements Serializable {
 			int level = ((LogicPlayer)world.characters.get(id)).score.level;
 			int previousLevel = ((LogicPlayer)world.characters.get(id)).score.previousLevel;
 			
-			int initialPlayerLife = Integer.valueOf( GameConf.getParameter("initialPlayerLife") );
-			int initialEnemyLife = Integer.valueOf( GameConf.getParameter("initialEnemyLife") );
-			int playerLifeIncrease = Integer.valueOf( GameConf.getParameter("playerLifeIncrease") );
-			int enemyLifeIncrease = Integer.valueOf( GameConf.getParameter("enemyLifeIncrease") );
-			int initialEnemyAccuracy = Integer.valueOf( GameConf.getParameter("initialEnemyAccuracy") );
-			int enemyAccuracyIncrease = Integer.valueOf( GameConf.getParameter("enemyAccuracyIncrease") );
-			int initialAmmoPackValue = Integer.valueOf( GameConf.getParameter("initialAmmoPackValue") );
-			int ammoPackIncrease = Integer.valueOf( GameConf.getParameter("ammoPackIncrease") );
-			int initialEnergyPackValue = Integer.valueOf( GameConf.getParameter("initialEnergyPackValue") );
-			int energyPackIncrease = Integer.valueOf( GameConf.getParameter("energyPackIncrease") );
+			int initialPlayerLife = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_PLAYER_LIFE ) );
+			int initialEnemyLife = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_ENEMY_LIFE ) );
+			int playerLifeIncrease = Integer.valueOf( GameConf.getParameter( GameConf.PLAYER_LIFE_INCREASE ) );
+			int enemyLifeIncrease = Integer.valueOf( GameConf.getParameter( GameConf.ENEMY_LIFE_INCREASE ) );
+			int initialEnemyAccuracy = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_ENEMY_ACCURACY ) );
+			int enemyAccuracyIncrease = Integer.valueOf( GameConf.getParameter( GameConf.ENEMY_ACCURACY_INCREASE ) );
+			int initialAmmoPackValue = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_AMMO_PACK_VALUE ) );
+			int ammoPackIncrease = Integer.valueOf( GameConf.getParameter( GameConf.AMMO_PACK_INCREASE ) );
+			int initialEnergyPackValue = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_ENERGY_PACK_VALUE ) );
+			int energyPackIncrease = Integer.valueOf( GameConf.getParameter( GameConf.ENERGY_PACK_INCREASE ) );
 			
 			
 			if ( level != previousLevel ) {
@@ -142,18 +142,18 @@ public class ScoreManager implements Serializable {
 		for ( LogicWeapon weapon : ((LogicPlayer)world.characters.get(playerId)).equipment.values() ) {
 			switch( weapon.type ) {
 			case AR15: 
-				weapon.magazineCapacity = Integer.valueOf( GameConf.getParameter("initial_ar15_capacity") )
-				+ Integer.valueOf(GameConf.getParameter("ar15AmmoIncrease")) * previousLevel;
+				weapon.magazineCapacity = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_AR15_CAPACITY ) )
+				+ Integer.valueOf(GameConf.getParameter( GameConf.AR15_AMMO_INCREASE )) * previousLevel;
 				break;
 				
 			case GATLING: 
-				weapon.magazineCapacity = Integer.valueOf( GameConf.getParameter("initial_gatling_capacity") )
-				+ Integer.valueOf(GameConf.getParameter("gatlingAmmoIncrease")) * previousLevel;
+				weapon.magazineCapacity = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_GATLING_CAPACITY ) )
+				+ Integer.valueOf(GameConf.getParameter( GameConf.GATLING_AMMO_INCREASE )) * previousLevel;
 				break;
 				
 			case BAZOOKA: 
-				weapon.magazineCapacity = Integer.valueOf( GameConf.getParameter("initial_bazooka_capacity") )
-				+ Integer.valueOf(GameConf.getParameter("bazookaAmmoIncrease")) * previousLevel;
+				weapon.magazineCapacity = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_BAZOOKA_CAPACITY ) )
+				+ Integer.valueOf(GameConf.getParameter( GameConf.BAZOOKA_AMMO_INCREASE )) * previousLevel;
 				break;
 			}
 		}
@@ -208,9 +208,9 @@ public class ScoreManager implements Serializable {
 		/** useful variable */
 		boolean showLevel2 = false;
 		
-		int scoreFactor = Integer.valueOf( GameConf.getParameter("scoreFactor") );
-		int scoreForSecondLevel = Integer.valueOf( GameConf.getParameter("secondLevelScore") );
-		float scoreDecreasePercentage = Float.valueOf( GameConf.getParameter("scoreDecreasePercentage") );
+		int scoreFactor = Integer.valueOf( GameConf.getParameter( GameConf.SCORE_FACTOR ) );
+		int scoreForSecondLevel = Integer.valueOf( GameConf.getParameter( GameConf.SECOND_LEVEL_SCORE ) );
+		float scoreDecreasePercentage = Float.valueOf( GameConf.getParameter( GameConf.SCORE_DECREASE_PERCENTAGE ) );
 		
 		/**
 		 * Constructor
@@ -262,7 +262,7 @@ public class ScoreManager implements Serializable {
 		 * Increase score after an enemy killing
 		 */
 		public void increaseScore() {
-			int factor = Integer.valueOf( GameConf.getParameter("scoreFactor") );
+			int factor = Integer.valueOf( GameConf.getParameter( GameConf.SCORE_FACTOR ) );
 			
 			score = score + factor*level;
 			

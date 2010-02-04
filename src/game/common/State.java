@@ -130,11 +130,11 @@ public enum State implements Serializable {
 	}
 
 	public static void init() {
-		DEFAULT.set( get("stateDefaultViewRange"), get("stateDefaultActionRange") );
-		ALERT.set( get("stateAlertViewRange"), get("stateAlertActionRange") );
-		ATTACK.set( get("stateAttackViewRange"), get("stateAttackActionRange") );
-		SEARCH.set( get("stateSearchViewRange"), get("stateSearchActionRange") );
-		SEARCHATTACK.set( get("stateAttackViewRange"), get("stateAttackActionRange") );
-		GUARD.set( get("stateGuardViewRange"), get("stateGuardActionRange") );
+		DEFAULT.set( get( GameConf.STATE_DEFAULT_VIEW_RANGE ), get( GameConf.STATE_DEFAULT_ACTION_RANGE ) );
+		ALERT.set( get( GameConf.STATE_ALERT_VIEW_RANGE ), get( GameConf.STATE_ALERT_ACTION_RANGE ) );
+		ATTACK.set( get( GameConf.STATE_ATTACK_VIEW_RANGE ), get( GameConf.STATE_ATTACK_ACTION_RANGE ) );
+		SEARCH.set( get( GameConf.STATE_SEARCH_VIEW_RANGE ), get( GameConf.STATE_SEARCH_VIEW_RANGE ) );
+		SEARCHATTACK.set( get( GameConf.STATE_ATTACK_VIEW_RANGE ), get( GameConf.STATE_ATTACK_ACTION_RANGE ) );
+		GUARD.set( get( GameConf.STATE_GUARD_VIEW_RANGE ), get( GameConf.STATE_GUARD_ACTION_RANGE ) );
 	}
 }

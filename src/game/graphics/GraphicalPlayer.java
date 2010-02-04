@@ -203,28 +203,28 @@ public class GraphicalPlayer extends GraphicalCharacter {
 
 		if( running && walkingForward ) {
 			if( world.getCore().getWeapon(id).isHeavy() == false )
-				run( Integer.valueOf( GameConf.getParameter( "runVelocity" ) ) );
+				run( Integer.valueOf( GameConf.getParameter( GameConf.RUN_VELOCITY ) ) );
 			else {
-				moveForward( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
+				moveForward( Integer.valueOf( GameConf.getParameter( GameConf.WALK_VELOCITY ) ) );
 			}
 		} 
 		else if( walkingForward ) {
-			moveForward( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
+			moveForward( Integer.valueOf( GameConf.getParameter( GameConf.WALK_VELOCITY ) ) );
 			if( turningRight ) {
-				turnRight( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
+				turnRight( Integer.valueOf( GameConf.getParameter( GameConf.WALK_VELOCITY ) ) );
 			} 
 			else if( turningLeft ) {
-				turnLeft( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
+				turnLeft( Integer.valueOf( GameConf.getParameter( GameConf.WALK_VELOCITY ) ) );
 			} 
 		} 
 		else if( walkingBackwards ) {
-			moveBackward( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
+			moveBackward( Integer.valueOf( GameConf.getParameter( GameConf.WALK_VELOCITY ) ) );
 		} 
 		else if( turningRight ) {
-			turnRight( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
+			turnRight( Integer.valueOf( GameConf.getParameter( GameConf.WALK_VELOCITY ) ) );
 		} 
 		else if( turningLeft ) {
-			turnLeft( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
+			turnLeft( Integer.valueOf( GameConf.getParameter( GameConf.WALK_VELOCITY ) ) );
 		} 
 		else {
 			rest();
