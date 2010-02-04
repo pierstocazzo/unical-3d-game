@@ -17,7 +17,7 @@
 
 package game.menu;
 
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.core.LogicWorld;
 import game.graphics.GraphicalWorld;
 
@@ -70,10 +70,10 @@ public class SavePanel extends JPanel {
 		this.gameMenu = mainMenu;
 		
 		/** Get screen size */
-		if(GameConfiguration.isFullscreen().equals("true")){
+		if( GameConf.getSetting( GameConf.IS_FULLSCREEN ).equals("true") ){
 			screenSize = new Dimension( 
-					Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(), 
-					Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue() );
+				GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ), 
+				GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT ) );
 		}
 		else{
 			screenSize = Toolkit.getDefaultToolkit().getScreenSize();

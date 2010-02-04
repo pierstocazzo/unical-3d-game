@@ -55,15 +55,15 @@ public class LogicWeapon implements Serializable {
 		
 		switch( type ) {
 		case AR15: 
-			this.magazineCapacity = Integer.valueOf( GameConfiguration.getParameter("initial_ar15_capacity") );
+			this.magazineCapacity = Integer.valueOf( GameConf.getParameter("initial_ar15_capacity") );
 			break;
 			
 		case GATLING: 
-			this.magazineCapacity = Integer.valueOf( GameConfiguration.getParameter("initial_gatling_capacity") );
+			this.magazineCapacity = Integer.valueOf( GameConf.getParameter("initial_gatling_capacity") );
 			break;
 			
 		case BAZOOKA: 
-			this.magazineCapacity = Integer.valueOf( GameConfiguration.getParameter("initial_bazooka_capacity") );
+			this.magazineCapacity = Integer.valueOf( GameConf.getParameter("initial_bazooka_capacity") );
 			break;
 		}
 		

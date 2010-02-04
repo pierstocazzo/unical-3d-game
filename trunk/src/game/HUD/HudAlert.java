@@ -17,7 +17,7 @@
 
 package game.HUD;
 
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.common.GameTimer;
 import game.common.State;
 import game.sound.SoundManager;
@@ -125,7 +125,7 @@ public class HudAlert {
 	}
 	
 	public float getAlertLevel(){
-		final int ALERT_RANGE = Integer.valueOf( GameConfiguration.getParameter("maxAlertTime") );
+		final int ALERT_RANGE = Integer.valueOf( GameConf.getParameter("maxAlertTime") );
 		stateColor = State.DEFAULT;
 		//calculate max alert level
 		float max = -99999;

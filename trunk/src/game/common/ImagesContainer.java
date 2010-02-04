@@ -76,11 +76,12 @@ public class ImagesContainer {
 		
 		// get background image
 		background_with_FullScreen = Toolkit.getDefaultToolkit().getImage( 
-				"src/game/data/images/menu/background.jpg" );
+			"src/game/data/images/menu/background.jpg" );
 		background_with_FullScreen = background_with_FullScreen.getScaledInstance(
-				Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(), 
-				Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue(), 
-				Image.SCALE_FAST);
+			GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ), 
+			GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT ), 
+			Image.SCALE_FAST
+		);
 		
 		initInGameMenuImage_no_Fullscreen();
 		initInGameMenuImage_with_Fullscreen();
@@ -142,8 +143,9 @@ public class ImagesContainer {
 		inGameMenuImagesFolder.add("src/game/data/images/menu/exit.png");
 		inGameMenuImagesFolder.add("src/game/data/images/menu/exit2.png");
 		Dimension screenSizeFullscreen = new Dimension(
-				Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(), 
-				Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue());
+			GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ), 
+			GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT )
+		);
 		inGameMenuImagesContainer_with_fullscreen = new ArrayList<Image>();
 		// Scale every image respect screen size
 		for(int i=0; i<inGameMenuImagesFolder.size(); i++){

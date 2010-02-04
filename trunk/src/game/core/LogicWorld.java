@@ -17,11 +17,11 @@
 
 package game.core;
 
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.common.Movement;
 import game.common.State;
 import game.common.WeaponType;
-import game.common.GameConfiguration.EnemyInfo;
+import game.common.GameConf.EnemyInfo;
 import game.common.MovementList.MovementType;
 import game.graphics.WorldInterface;
 
@@ -86,21 +86,21 @@ public class LogicWorld implements WorldInterface, Serializable {
 		scoreManager = new ScoreManager( this );
 		enemyAi = new AI( this );
 		
-		ammoPackValue = Integer.valueOf( GameConfiguration.getParameter("initialAmmoPackValue") );
+		ammoPackValue = Integer.valueOf( GameConf.getParameter("initialAmmoPackValue") );
 		
 		//set enemy from xml file
-		List<EnemyInfo> enemyList = GameConfiguration.getEmemiesInfoList();
+		List<EnemyInfo> enemyList = GameConf.getEmemiesInfoList();
 		for( EnemyInfo e : enemyList ) {
 			createEnemy( e.getPosX(), e.getPosZ(), e.getState(), e.getMovements() );
 		}
 		
 		// create the player
-		Vector2f position = GameConfiguration.getPlayerPosition();
-		createPlayer( GameConfiguration.getIntParameter( "initialPlayerLife" ), 
+		Vector2f position = GameConf.getPlayerPosition();
+		createPlayer( GameConf.getIntParameter( "initialPlayerLife" ), 
 				position.getX(), position.getY() );
 		
 		// create the energy packages
-		createEnergyPackages( GameConfiguration.getIntParameter( "energyPackNumber" ) );
+		createEnergyPackages( GameConf.getIntParameter( "energyPackNumber" ) );
 	}
 	
 	/** Create one player with this life in this position
@@ -147,16 +147,16 @@ public class LogicWorld implements WorldInterface, Serializable {
 		int probability = FastMath.rand.nextInt(100);
 		WeaponType type;
 		
-		if ( probability < Integer.valueOf( GameConfiguration.getParameter("ar15_probability") ) ) {
+		if ( probability < Integer.valueOf( GameConf.getParameter("ar15_probability") ) ) {
 			type = WeaponType.AR15;
-		} else if ( probability < Integer.valueOf( GameConfiguration.getParameter("gatling_probability")) ) {
+		} else if ( probability < Integer.valueOf( GameConf.getParameter("gatling_probability")) ) {
 			type = WeaponType.GATLING;
 		} else {
 			type = WeaponType.BAZOOKA;
 		}
 		
 		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter,
-				Integer.valueOf( GameConfiguration.getParameter("initialEnemyLife") ),
+				Integer.valueOf( GameConf.getParameter("initialEnemyLife") ),
 				type, state, position, movements, this );
 		
 		characters.put( enemy.id, enemy );
@@ -175,9 +175,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 		int rand = FastMath.rand.nextInt(100);
 		WeaponType type;
 		
-		int ar15probability = Integer.valueOf( GameConfiguration.getParameter("ar15_probability") );
-		int gatlingProbability = Integer.valueOf( GameConfiguration.getParameter("gatling_probability") );
-		int bazookaProbability = Integer.valueOf( GameConfiguration.getParameter("bazooka_probability") );
+		int ar15probability = Integer.valueOf( GameConf.getParameter("ar15_probability") );
+		int gatlingProbability = Integer.valueOf( GameConf.getParameter("gatling_probability") );
+		int bazookaProbability = Integer.valueOf( GameConf.getParameter("bazooka_probability") );
 		
 		if ( rand < ar15probability ) {
 			type = WeaponType.AR15;
@@ -190,7 +190,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		}
 		
 		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter,
-				Integer.valueOf( GameConfiguration.getParameter("initialEnemyLife") ),
+				Integer.valueOf( GameConf.getParameter("initialEnemyLife") ),
 				type, state, position, movements, this );
 		
 		characters.put( enemy.id, enemy );
@@ -204,7 +204,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		for( int i = 0; i < number; i++ ) {
 			energyPackCounter = energyPackCounter + 1;
 			LogicEnergyPack energyPack = new LogicEnergyPack( "energyPack" + energyPackCounter, 
-					Integer.valueOf( GameConfiguration.getParameter("initialEnergyPackValue") ) );
+					Integer.valueOf( GameConf.getParameter("initialEnergyPackValue") ) );
 			
 			energyPackages.put( energyPack.id, energyPack );
 		}

@@ -17,7 +17,7 @@
 
 package game.menu;
 
-import game.common.GameConfiguration;
+import game.common.GameConf;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -59,10 +59,10 @@ public class LoadingPanel extends JPanel {
 		
 		/** Get screen size */
 		Dimension screenSize;
-		if(GameConfiguration.isFullscreen().equals("true")){
+		if( GameConf.getSetting( GameConf.IS_FULLSCREEN ).equals("true") ){
 			screenSize = new Dimension( 
-					Integer.valueOf(GameConfiguration.getResolutionWidth()).intValue(), 
-					Integer.valueOf(GameConfiguration.getResolutionHeight()).intValue() );
+					GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ), 
+					GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT ) );
 		}
 		else{
 			screenSize = Toolkit.getDefaultToolkit().getScreenSize();

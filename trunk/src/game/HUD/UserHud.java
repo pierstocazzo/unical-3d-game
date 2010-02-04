@@ -18,7 +18,7 @@
 package game.HUD;
 
 import utils.Loader;
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.common.GameTimer;
 import game.graphics.GraphicalWorld;
 import game.graphics.WorldInterface;
@@ -144,8 +144,8 @@ public class UserHud {
 	 */
 	public void update(){
 		int value = world.getCore().getLevel(world.player.id);
-		level.print( GameConfiguration.getPhrase( "hud_level" ) + " " + Integer.toString(value));
-		weapon.print( GameConfiguration.getPhrase( "hud_current_weapon" ) + " " + world.getCore().getWeapon(world.player.id));
+		level.print( GameConf.getPhrase( "hud_level" ) + " " + Integer.toString(value));
+		weapon.print( GameConf.getPhrase( "hud_current_weapon" ) + " " + world.getCore().getWeapon(world.player.id));
 		hudScore.update();
 		hudLife.update();
 		map.update();

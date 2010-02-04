@@ -17,7 +17,7 @@
 
 package game.menu;
 
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.common.GameTimer;
 import game.common.ImagesContainer;
 
@@ -70,7 +70,7 @@ public class InGamePanel extends JPanel {
 		this.gameMenu = gameMenu;
 		setCursor(Cursor.getDefaultCursor());
 		buttonsContainer = new ArrayList<JButton>();
-		if( GameConfiguration.isFullscreen().equals("true") ) {
+		if( GameConf.getSetting( GameConf.IS_FULLSCREEN ).equals("true") ) {
 			imageContainer = ImagesContainer.getInGameMenuImagesContainer_with_fullscreen();
 		} else {
 			imageContainer = ImagesContainer.getInGameMenuImagesContainer_no_fullscreen();

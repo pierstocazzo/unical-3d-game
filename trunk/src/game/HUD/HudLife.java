@@ -17,7 +17,7 @@
 
 package game.HUD;
 
-import game.common.GameConfiguration;
+import game.common.GameConf;
 
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Text;
@@ -83,7 +83,7 @@ public class HudLife {
 		frontQuad.resize( initialLenght, frontQuad.getHeight() );
 		frontQuad.setLocalTranslation( screenWidth/40 + frontQuad.getWidth()/2 + borderWeight,
 										backQuad.getLocalTranslation().y, 0 );
-		lifeNum.print( GameConfiguration.getPhrase( "hud_life" ) + " " + Integer.toString(lifeValue) );
+		lifeNum.print( GameConf.getPhrase( "hud_life" ) + " " + Integer.toString(lifeValue) );
 		lifeNum.setLocalTranslation( backQuad.getLocalTranslation().x - backQuad.getWidth()/2,
 				backQuad.getLocalTranslation().y - lifeNum.getHeight()/2, 0);
    	}
@@ -100,7 +100,7 @@ public class HudLife {
 						frontQuad.getHeight() );
 		frontQuad.setLocalTranslation( screenWidth/40 + frontQuad.getWidth()/2 + borderWeight,
 										backQuad.getLocalTranslation().y, 0 );
-		lifeNum.print( GameConfiguration.getPhrase( "hud_life" ) + " " + Integer.toString(lifeValue) );
+		lifeNum.print( GameConf.getPhrase( "hud_life" ) + " " + Integer.toString(lifeValue) );
 		lifeNum.setLocalTranslation( backQuad.getLocalTranslation().x - backQuad.getWidth()/2,
 				backQuad.getLocalTranslation().y - lifeNum.getHeight()/2, 0);
 	}

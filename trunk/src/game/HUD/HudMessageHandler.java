@@ -17,7 +17,7 @@
 
 package game.HUD;
 
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.common.GameTimer;
 
 import java.util.ArrayList;
@@ -109,23 +109,23 @@ public class HudMessageHandler {
 		}
 		
 		// get string associated
-		String text = GameConfiguration.getPhrase( "hud_no_message" );
+		String text = GameConf.getPhrase( "hud_no_message" );
 		switch (type) {
 			case MAX_AMMO:
-				text = GameConfiguration.getPhrase( "hud_max_ammo" );
+				text = GameConf.getPhrase( "hud_max_ammo" );
 				break;
 			case MAX_ENERGY:
-				text = GameConfiguration.getPhrase( "hud_max_energy" );
+				text = GameConf.getPhrase( "hud_max_energy" );
 				break;
 			case AMMO_FINISHED:
-				text = GameConfiguration.getPhrase( "hud_ammo_finished" );
+				text = GameConf.getPhrase( "hud_ammo_finished" );
 				break;
 			case NEW_LEVEL:
 				int level = userHud.world.getCore().getLevel(userHud.world.player.id);
 				int maxEnergy = userHud.world.getCore().getMaxLife(userHud.world.player.id);
-				text = GameConfiguration.getPhrase( "hud_new_level_1" ) + " " + level + " "
-					+ GameConfiguration.getPhrase( "hud_new_level_2" ) + " " + maxEnergy + " "
-					+ GameConfiguration.getPhrase( "hud_new_level_3" );
+				text = GameConf.getPhrase( "hud_new_level_1" ) + " " + level + " "
+					+ GameConf.getPhrase( "hud_new_level_2" ) + " " + maxEnergy + " "
+					+ GameConf.getPhrase( "hud_new_level_3" );
 				break;
 		}
 		

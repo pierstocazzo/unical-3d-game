@@ -17,7 +17,7 @@
 
 package game.input;
 
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.common.KeyConverter;
 import game.graphics.GraphicalPlayer;
 import game.input.action.FirstPersonAction;
@@ -100,11 +100,26 @@ public class GameInputHandler extends InputHandler {
         actionFirstPerson = new FirstPersonAction( this );
         actionNextWeapon = new NextWeaponAction( this );
                 
-        addAction( actionForwardRun, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getRunKey()), AXIS_NONE, false );
-        addAction( actionForward, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getForwardKey()), AXIS_NONE, false );
-        addAction( actionBack, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getBackwardKey()), AXIS_NONE, false );
-        addAction( actionRight, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getTurnRightKey()), AXIS_NONE, false );
-        addAction( actionLeft, DEVICE_KEYBOARD, KeyConverter.toKey(GameConfiguration.getTurnLeftKey()), AXIS_NONE, false );
+        addAction( actionForwardRun, DEVICE_KEYBOARD,
+        		KeyConverter.toKey( GameConf.getSetting( GameConf.RUN_KEY ) ),
+        		AXIS_NONE, false );
+        
+        addAction( actionForward, DEVICE_KEYBOARD,
+        		KeyConverter.toKey( GameConf.getSetting( GameConf.FORWARD_KEY ) ),
+        		AXIS_NONE, false );
+        
+        addAction( actionBack, DEVICE_KEYBOARD,
+        		KeyConverter.toKey( GameConf.getSetting( GameConf.BACKWARD_KEY ) ),
+        		AXIS_NONE, false );
+        
+        addAction( actionRight, DEVICE_KEYBOARD,
+        		KeyConverter.toKey( GameConf.getSetting( GameConf.TURNRIGHT_KEY ) ),
+        		AXIS_NONE, false );
+        
+        addAction( actionLeft, DEVICE_KEYBOARD,
+        		KeyConverter.toKey( GameConf.getSetting( GameConf.TURNLEFT_KEY ) ),
+        		AXIS_NONE, false );
+        
         addAction( actionShoot, DEVICE_MOUSE, MouseButtonBinding.LEFT_BUTTON, AXIS_NONE, false );
         addAction( actionFirstPerson, DEVICE_MOUSE, MouseButtonBinding.RIGHT_BUTTON, AXIS_NONE, false );
         addAction( actionNextWeapon, DEVICE_MOUSE, BUTTON_NONE, 2, false );

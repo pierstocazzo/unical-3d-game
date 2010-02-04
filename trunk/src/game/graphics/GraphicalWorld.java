@@ -20,7 +20,7 @@ package game.graphics;
 import game.HUD.HudMessageBox;
 import game.HUD.UserHud;
 import game.base.PhysicsGame;
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.input.GameInputHandler;
 import game.menu.MainMenu;
 import game.sound.SoundManager;
@@ -141,7 +141,8 @@ public class GraphicalWorld extends PhysicsGame {
         this.menu = menu;
         this.isLoaded = isLoaded;
         
-        setAudioEnabled(Boolean.valueOf( GameConfiguration.isSoundEnabled() ));
+        setAudioEnabled(Boolean.valueOf(
+        		GameConf.getSetting( GameConf.SOUND_ENABLED ) ) );
     }
     
 	/** Used for debug mode */
@@ -149,19 +150,19 @@ public class GraphicalWorld extends PhysicsGame {
 	
     @Override
     protected void setupGame() {
-    	menu.setLoadingText( GameConfiguration.getPhrase( "loading_init" ) );
+    	menu.setLoadingText( GameConf.getPhrase( "loading_init" ) );
     	menu.setProgress(5);
         setupInit();
-        menu.setLoadingText( GameConfiguration.getPhrase( "loading_environment" ) );
+        menu.setLoadingText( GameConf.getPhrase( "loading_environment" ) );
         menu.setProgress(20);
         setupEnvironment();
-        menu.setLoadingText( GameConfiguration.getPhrase( "loading_players" ) );
+        menu.setLoadingText( GameConf.getPhrase( "loading_players" ) );
         menu.setProgress(60);
         setupPlayer();
-        menu.setLoadingText( GameConfiguration.getPhrase( "loading_enemies" ) );
+        menu.setLoadingText( GameConf.getPhrase( "loading_enemies" ) );
         menu.setProgress(80);
         setupEnemies();
-        menu.setLoadingText( GameConfiguration.getPhrase( "loading_input" ) );
+        menu.setLoadingText( GameConf.getPhrase( "loading_input" ) );
         setupCamera();
         setupInput();
         menu.setProgress(100);
@@ -185,7 +186,9 @@ public class GraphicalWorld extends PhysicsGame {
 		
 		menu.setProgress(10);
 		
-    	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
+    	resolution = new Vector2f(
+    			Integer.valueOf( GameConf.getSetting( GameConf.RESOLUTION_WIDTH ) ),
+    			Integer.valueOf( GameConf.getSetting( GameConf.RESOLUTION_HEIGHT ) ) );
     	
     	cameraPosition = Text2D.createDefaultTextLabel("cameraPosition");
 		cameraPosition.setLocalTranslation(getResolution().x/2, getResolution().y * 3/4, 0 );
@@ -277,7 +280,10 @@ public class GraphicalWorld extends PhysicsGame {
     
     public void setupCamera() {
         cam.setLocation( player.getCharacterNode().getLocalTranslation().clone() );
-        cam.setFrustumPerspective(45.0f, (float)this.settings.getWidth() / (float)this.settings.getHeight(), 1, environment.farPlane);
+        cam.setFrustumPerspective(45.0f,
+        		Float.valueOf( GameConf.getSetting( GameConf.RESOLUTION_WIDTH ) ) / 
+        		Float.valueOf( GameConf.getSetting( GameConf.RESOLUTION_HEIGHT ) ),
+        		1, environment.farPlane);
         cam.update();
     }
 
