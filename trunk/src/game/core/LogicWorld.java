@@ -35,6 +35,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import com.jme.math.FastMath;
+import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
 
 /**
@@ -93,8 +94,13 @@ public class LogicWorld implements WorldInterface, Serializable {
 			createEnemy( e.getPosX(), e.getPosZ(), e.getState(), e.getMovements() );
 		}
 		
-		createPlayer( GameConfiguration.getPlayerLife(), 
-				GameConfiguration.getPlayerX(), GameConfiguration.getPlayerZ());
+		// create the player
+		Vector2f position = GameConfiguration.getPlayerPosition();
+		createPlayer( GameConfiguration.getIntParameter( "initialPlayerLife" ), 
+				position.getX(), position.getY() );
+		
+		// create the energy packages
+		createEnergyPackages( GameConfiguration.getIntParameter( "energyPackNumber" ) );
 	}
 	
 	/** Create one player with this life in this position
@@ -103,7 +109,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	 * @param x - the x position of the player
 	 * @param z - the z position of the player
 	 */
-	public void createPlayer( int life, int x, int z ) {
+	public void createPlayer( int life, float x, float z ) {
 		playerCounter = playerCounter + 1;
 		Vector3f position = new Vector3f( x, 0, z );
 		LogicPlayer player = new LogicPlayer( "player" + playerCounter, life, position, this );

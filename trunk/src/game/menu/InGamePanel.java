@@ -229,7 +229,7 @@ public class InGamePanel extends JPanel {
 		// reset timer for avoid game problems
 		GameTimer.reset();
 		// active a game main loop
-		gameMenu.game.enabled = true;
+		gameMenu.game.resumeGame();
 	}
 	
 	/**

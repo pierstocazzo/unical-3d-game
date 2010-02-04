@@ -17,15 +17,13 @@
 
 package game.menu;
 
-import game.base.PhysicsGame;
 import game.common.GameConfiguration;
 import game.common.ImagesContainer;
+import game.graphics.GraphicalWorld;
 
 import java.awt.*;
 import java.util.HashMap;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  * Class Main Menu
@@ -46,7 +44,7 @@ public class MainMenu extends JFrame {
 	/** Screen size informations */
 	Dimension screenSize;
 
-	PhysicsGame game;
+	GraphicalWorld game;
 	
 	JPanel paneContainer;
 	Image background;
@@ -60,7 +58,7 @@ public class MainMenu extends JFrame {
 		
 		// get screen size informations
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		// apply screen size value to current frame
+		// set fullscreen
 	    setBounds( 0, 0, screenSize.width, screenSize.height );
 		
 		ImagesContainer.init();
@@ -76,7 +74,6 @@ public class MainMenu extends JFrame {
 			@Override
 			public void paintComponent(Graphics g){
 				g.drawImage(background, 0, 0, this);
-//				super.paintComponent(g);
 			}
 		};
 
@@ -85,13 +82,8 @@ public class MainMenu extends JFrame {
 		
 		// hide frame border
 		setUndecorated(true); 
-		setAlwaysOnTop(true);
-		requestFocus();
-		
-		setTitle("Main Menu");
 		
 	    setResizable(false);
-	    setDefaultCloseOperation(EXIT_ON_CLOSE);
    		
 		panelsContainer = new HashMap<String, JPanel>();
 		panelsContainer.put("mainPanel", new MainPanel(this));
@@ -104,6 +96,12 @@ public class MainMenu extends JFrame {
 		// set a layout to main panel
 		switchToPanel("mainPanel");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+	}
+	
+	public void start() {
+		setVisible(true);
+		setAlwaysOnTop(true);
+		requestFocus();
 	}
 	
 	public void switchToPanel( String panel ){
@@ -124,7 +122,7 @@ public class MainMenu extends JFrame {
 		((LoadingPanel) panelsContainer.get("loadingPanel")).setProgress( progress );
 	}
 
-	public void setGame( PhysicsGame game) {
+	public void setGame( GraphicalWorld game) {
 		this.game = game;
 	}
 
