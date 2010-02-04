@@ -17,7 +17,7 @@
 
 package game.core;
 
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.common.Movement;
 import game.common.MovementList;
 import game.common.State;
@@ -92,7 +92,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.shootDirection = new Vector3f();
 		this.movementStartPosition = new Vector3f( position );
 		this.movementStartPosition.setY(0);
-		this.errorAngle = Integer.valueOf( GameConfiguration.getParameter("initialEnemyAccuracy") );
+		this.errorAngle = Integer.valueOf( GameConf.getParameter("initialEnemyAccuracy") );
 		this.currentMovement = this.movements.get(0);
 		this.initialFindPosition = new Vector3f();
 	}
@@ -117,7 +117,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 		this.shootDirection = new Vector3f();
 		this.movementStartPosition = new Vector3f( position );
 		this.movementStartPosition.setY(0);
-		this.errorAngle = Integer.valueOf( GameConfiguration.getParameter("initialEnemyAccuracy") );;
+		this.errorAngle = Integer.valueOf( GameConf.getParameter("initialEnemyAccuracy") );;
 		this.currentMovement = this.movements.get(0);
 		this.initialFindPosition = new Vector3f();
 	}
@@ -149,7 +149,7 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 			State currState = world.getState( id );
 			if( ( currState == State.ATTACK || currState == State.SEARCHATTACK || currState == State.GUARDATTACK )
 					&& position.distance( world.getPosition( id ) ) <=  
-					Integer.valueOf( GameConfiguration.getParameter("maxNeighborhoodRange") ) )
+					Integer.valueOf( GameConf.getParameter("maxNeighborhoodRange") ) )
 				return true;
 		}
 		return false;

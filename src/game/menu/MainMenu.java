@@ -17,7 +17,7 @@
 
 package game.menu;
 
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.common.ImagesContainer;
 import game.graphics.GraphicalWorld;
 
@@ -63,7 +63,7 @@ public class MainMenu extends JFrame {
 		
 		ImagesContainer.init();
 		
-		if(GameConfiguration.isFullscreen().equals("true")){
+		if( GameConf.getSetting( GameConf.IS_FULLSCREEN ).equals("true") ){
 			background = ImagesContainer.getBackground_with_FullScreen();
 		}
 		else{

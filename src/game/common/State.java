@@ -121,7 +121,7 @@ public enum State implements Serializable {
 	}
 	
 	private static int get( String param ) {
-		return GameConfiguration.getIntParameter( param );
+		return GameConf.getIntParameter( param );
 	}
 	
 	private void set( int viewRange, int actionRange ) {

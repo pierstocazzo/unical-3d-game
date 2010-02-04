@@ -17,7 +17,7 @@
 
 package game.menu;
 
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.common.ImagesContainer;
 
 import java.awt.BorderLayout;
@@ -129,8 +129,9 @@ public class OptionsPanel extends JPanel {
 		
 		final JComboBox resolutionCombo = new JComboBox(resolutions);
 		resolutionCombo.setSelectedIndex(
-				resolutions.indexOf((GameConfiguration.getResolutionWidth() + "x" +
-									GameConfiguration.getResolutionHeight()) ));
+				resolutions.indexOf((
+						GameConf.getSetting( GameConf.RESOLUTION_WIDTH ) + "x" +
+						GameConf.getSetting( GameConf.RESOLUTION_HEIGHT )) ));
 		
 		lim.gridx = 1;
 		lim.gridy = 0;
@@ -154,7 +155,9 @@ public class OptionsPanel extends JPanel {
 		itemsTrueFalse.add("false");
 		
 		final JComboBox fullscreenCombo = new JComboBox(itemsTrueFalse);
-		fullscreenCombo.setSelectedIndex(itemsTrueFalse.indexOf(GameConfiguration.isFullscreen()));
+		fullscreenCombo.setSelectedIndex(itemsTrueFalse.indexOf(
+				GameConf.getSetting( GameConf.IS_FULLSCREEN )
+		));
 		lim.gridx = 1;
 		lim.gridy = 1;
 		lim.weightx = 0.5;
@@ -177,7 +180,7 @@ public class OptionsPanel extends JPanel {
 		xmlPanel.add(xmlLabel);
 	
 		//JTextBox that contains a file path
-		sceneFilePath = GameConfiguration.getSceneFilePath();
+		sceneFilePath = GameConf.getSetting( GameConf.SCENE_FILE_PATH );
         int lastDot = sceneFilePath.lastIndexOf( '/' );
         String sceneFile;
         sceneFile = sceneFilePath.substring( lastDot + 1 );
@@ -219,7 +222,9 @@ public class OptionsPanel extends JPanel {
 		
 		// create a JComboBox - Sound true or not
 		final JComboBox soundCombo = new JComboBox(itemsTrueFalse);
-		soundCombo.setSelectedIndex(itemsTrueFalse.indexOf(GameConfiguration.isSoundEnabled()));
+		soundCombo.setSelectedIndex(itemsTrueFalse.indexOf(
+				GameConf.getSetting( GameConf.SOUND_ENABLED )
+		));
 		lim.gridx = 1;
 		lim.gridy = 3;
 		lim.weightx = 0.5;
@@ -268,7 +273,9 @@ public class OptionsPanel extends JPanel {
 		
 		// JComboBox - walk forward
 		final JComboBox comboWalkForward = new JComboBox(itemsKeyCommands);
-		comboWalkForward.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getForwardKey()));
+		comboWalkForward.setSelectedIndex(itemsKeyCommands.indexOf(
+				GameConf.getSetting( GameConf.FORWARD_KEY )
+		));
 		lim.gridx = 1;
 		lim.gridy = 0;
 		lim.weightx = 0.5;
@@ -287,7 +294,9 @@ public class OptionsPanel extends JPanel {
 		
 		// JComboBox - walk backward
 		final JComboBox comboWalkBackward = new JComboBox(itemsKeyCommands);
-		comboWalkBackward.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getBackwardKey()));
+		comboWalkBackward.setSelectedIndex(itemsKeyCommands.indexOf(
+			GameConf.getSetting( GameConf.BACKWARD_KEY )
+		));
 		lim.gridx = 1;
 		lim.gridy = 1;
 		lim.weightx = 0.5;
@@ -306,7 +315,9 @@ public class OptionsPanel extends JPanel {
 		
 		// JComboBox - walk to right
 		final JComboBox comboWalkRight = new JComboBox(itemsKeyCommands);
-		comboWalkRight.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getTurnRightKey()));
+		comboWalkRight.setSelectedIndex(itemsKeyCommands.indexOf(
+			GameConf.getSetting( GameConf.TURNRIGHT_KEY )
+		));
 		lim.gridx = 1;
 		lim.gridy = 2;
 		lim.weightx = 0.5;
@@ -325,7 +336,9 @@ public class OptionsPanel extends JPanel {
 		
 		// JComboBox - walk to left
 		final JComboBox comboWalkLeft = new JComboBox(itemsKeyCommands);
-		comboWalkLeft.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getTurnLeftKey()));
+		comboWalkLeft.setSelectedIndex(itemsKeyCommands.indexOf(
+			GameConf.getSetting( GameConf.TURNLEFT_KEY )
+		));
 		lim.gridx = 1;
 		lim.gridy = 3;
 		lim.weightx = 0.5;
@@ -344,7 +357,9 @@ public class OptionsPanel extends JPanel {
 		
 		// JComboBox - run
 		final JComboBox comboRun = new JComboBox(itemsKeyCommands);
-		comboRun.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getRunKey()));
+		comboRun.setSelectedIndex(itemsKeyCommands.indexOf(
+				GameConf.getSetting( GameConf.RUN_KEY )
+		));
 		lim.gridx = 1;
 		lim.gridy = 4;
 		lim.weightx = 0.5;
@@ -363,7 +378,9 @@ public class OptionsPanel extends JPanel {
 		
 		// JComboBox - pause
 		final JComboBox comboPause = new JComboBox(itemsKeyCommands);
-		comboPause.setSelectedIndex(itemsKeyCommands.indexOf(GameConfiguration.getPauseKey()));
+		comboPause.setSelectedIndex(itemsKeyCommands.indexOf(
+			GameConf.getSetting( GameConf.PAUSE_KEY )
+		));
 		lim.gridx = 1;
 		lim.gridy = 5;
 		lim.weightx = 0.5;
@@ -390,33 +407,33 @@ public class OptionsPanel extends JPanel {
 			    new ActionListener() {
 			        public void actionPerformed(ActionEvent e) {
 			        	comboWalkForward.setSelectedIndex(
-			        			itemsKeyCommands.indexOf(GameConfiguration.getDefaultForwardKey()));
+			        			itemsKeyCommands.indexOf( GameConf.getDefaultSetting( GameConf.FORWARD_KEY ) ));
 			        	comboWalkBackward.setSelectedIndex(
-			        			itemsKeyCommands.indexOf(GameConfiguration.getDefaultBackwardKey()));
+			        			itemsKeyCommands.indexOf( GameConf.getDefaultSetting( GameConf.BACKWARD_KEY ) ));
 			        	comboWalkRight.setSelectedIndex(
-			        			itemsKeyCommands.indexOf(GameConfiguration.getDefaultTurnRightKey()));
+			        			itemsKeyCommands.indexOf( GameConf.getDefaultSetting( GameConf.TURNRIGHT_KEY ) ));
 			        	comboWalkLeft.setSelectedIndex(
-			        			itemsKeyCommands.indexOf(GameConfiguration.getDefaultTurnLeftKey()));
+			        			itemsKeyCommands.indexOf( GameConf.getDefaultSetting( GameConf.TURNLEFT_KEY ) ));
 			        	comboRun.setSelectedIndex(
-			        			itemsKeyCommands.indexOf(GameConfiguration.getDefaultRunKey()));
+			        			itemsKeyCommands.indexOf( GameConf.getDefaultSetting( GameConf.RUN_KEY ) ));
 			        	comboPause.setSelectedIndex(
-			        			itemsKeyCommands.indexOf(GameConfiguration.getDefaultPauseKey()));
+			        			itemsKeyCommands.indexOf( GameConf.getDefaultSetting( GameConf.PAUSE_KEY ) ));
 			        	
 			        	resolutionCombo.setSelectedIndex(
-			    				resolutions.indexOf((GameConfiguration.getDefaultResolutionWidth() + "x" +
-			    									GameConfiguration.getDefaultResolutionHeight()) ));
+			    				resolutions.indexOf(( GameConf.getDefaultSetting( GameConf.RESOLUTION_WIDTH ) + "x" +
+			    						GameConf.getDefaultSetting( GameConf.RESOLUTION_HEIGHT ) ) ));
 			    		
 			    		fullscreenCombo.setSelectedIndex( 
-			    				itemsTrueFalse.indexOf(GameConfiguration.getDefaultIsFullscreen() ) );
+			    				itemsTrueFalse.indexOf( GameConf.getDefaultSetting( GameConf.IS_FULLSCREEN ) ) );
 			    		
-			    		sceneFilePath = GameConfiguration.getDefaultSceneFilePath();
+			    		sceneFilePath = GameConf.getDefaultSetting( GameConf.SCENE_FILE_PATH );
 			            int lastDot = sceneFilePath.lastIndexOf( '/' );
 			            String sceneFile;
 			            sceneFile = sceneFilePath.substring( lastDot + 1 );
 			    		sceneFileName.setText( sceneFile );
 			    		
 			    		soundCombo.setSelectedIndex(
-			    				itemsTrueFalse.indexOf(GameConfiguration.getDefaultSoundEnabled() ) );
+			    				itemsTrueFalse.indexOf( GameConf.getDefaultSetting( GameConf.SOUND_ENABLED ) ) );
 			        }
 			    }
 			);
@@ -438,22 +455,31 @@ public class OptionsPanel extends JPanel {
 		buttonOk.addActionListener(
 			    new ActionListener() {
 			        public void actionPerformed(ActionEvent e) {
-			        	GameConfiguration.setForwardKey(comboWalkForward.getSelectedItem().toString());
-			        	GameConfiguration.setBackwardKey(comboWalkBackward.getSelectedItem().toString());
-			        	GameConfiguration.setTurnRightKey(comboWalkRight.getSelectedItem().toString());
-			        	GameConfiguration.setTurnLeftKey(comboWalkLeft.getSelectedItem().toString());
-			        	GameConfiguration.setRunKey(comboRun.getSelectedItem().toString());
-			        	GameConfiguration.setPauseKey(comboPause.getSelectedItem().toString());
-			        	
+			        	GameConf.setSetting(
+			        			GameConf.FORWARD_KEY, comboWalkForward.getSelectedItem().toString() );
+			        	GameConf.setSetting(
+			        			GameConf.BACKWARD_KEY, comboWalkBackward.getSelectedItem().toString() );
+			        	GameConf.setSetting(
+			        			GameConf.TURNRIGHT_KEY, comboWalkRight.getSelectedItem().toString() );
+			        	GameConf.setSetting(
+			        			GameConf.TURNLEFT_KEY, comboWalkLeft.getSelectedItem().toString() );
+			        	GameConf.setSetting(
+			        			GameConf.RUN_KEY, comboRun.getSelectedItem().toString() );
+			        	GameConf.setSetting(
+			        			GameConf.PAUSE_KEY, comboPause.getSelectedItem().toString() );
 			        	String[] resolutionSetting = resolutionCombo.getSelectedItem().toString().split("x");
-			        	GameConfiguration.setResolutionWidth(resolutionSetting[0]);
-			        	GameConfiguration.setResolutionHeight(resolutionSetting[1]);
-			        	GameConfiguration.setSoundEnabled(soundCombo.getSelectedItem().toString());
-			        	GameConfiguration.setFullscreen(fullscreenCombo.getSelectedItem().toString());
+			        	GameConf.setSetting(
+			        			GameConf.RESOLUTION_WIDTH, resolutionSetting[0] );
+			        	GameConf.setSetting(
+			        			GameConf.RESOLUTION_HEIGHT, resolutionSetting[1] );
+			        	GameConf.setSetting(
+			        			GameConf.SOUND_ENABLED, soundCombo.getSelectedItem().toString() );
+			        	GameConf.setSetting(
+			        			GameConf.IS_FULLSCREEN, fullscreenCombo.getSelectedItem().toString() );
+			        	GameConf.setSetting(
+			        			GameConf.SCENE_FILE_PATH, sceneFilePath );
 			        	
-			        	GameConfiguration.setSceneFilePath( sceneFilePath );
-			        	
-			        	GameConfiguration.save();
+			        	GameConf.save();
 			        	ImagesContainer.init();
 			            mainMenu.switchToPanel("mainPanel");
 			        }

@@ -40,10 +40,33 @@ import com.jme.math.Vector2f;
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
-public class GameConfiguration {
+public class GameConf {
 	
 	/** Base path of the configuration file */
 	private final static String SETTINGS_FILE = "src/game/data/game.conf";
+	
+	/**
+	 * Default game settings
+	 */
+	public static String FORWARD_KEY = "forward_key";
+	public static String BACKWARD_KEY = "backward_key";
+	public static String TURNRIGHT_KEY = "turnright_key";
+	public static String TURNLEFT_KEY = "turnleft_key";
+	public static String RUN_KEY = "run_key";
+	public static String PAUSE_KEY = "pause_key"; 
+	
+	// screen
+	public static String RESOLUTION_WIDTH = "resolution_width";
+	public static String RESOLUTION_HEIGHT = "resolution_height";
+	public static String RESOLUTION_DEPTH = "resolution_depth";
+	public static String RESOLUTION_FREQUENCY = "resolution_frequency";
+	public static String IS_FULLSCREEN = "is_fullscreen";
+	
+	// Sound
+	public static String SOUND_ENABLED = "sound_enabled";
+	
+	//XML path scene file
+	public static String SCENE_FILE_PATH = "scene_file_path";
 	
 	/** the xml document */
 	static Document document;
@@ -219,160 +242,24 @@ public class GameConfiguration {
 		} 
 	}
 	
-	public static String getBackwardKey() {
-		return settings.get( "backward_key" );
-	}
-
-	public static String getDefaultBackwardKey() {
-		return defaultSettings.get( "backward_key" );
-	}
-
-	public static String getDefaultForwardKey() {
-		return defaultSettings.get( "forward_key" );
-	}
-
-	public static String getDefaultIsFullscreen() {
-		return defaultSettings.get( "is_fullscreen" );
-	}
-
-	public static String getDefaultPauseKey() {
-		return defaultSettings.get( "pause_key" );
-	}
-
-	public static String getDefaultResolutionHeight() {
-		return defaultSettings.get( "resolution_height" );
-	}
-
-	public static String getDefaultResolutionWidth() {
-		return defaultSettings.get( "resolution_width" );
-	}
-
-	public static String getDefaultRunKey() {
-		return defaultSettings.get( "run_key" );
-	}
-
-	public static String getDefaultSoundEnabled() {
-		return defaultSettings.get( "sound_enabled" );
-	}
-
-	public static String getDefaultTurnLeftKey() {
-		return defaultSettings.get( "turnleft_key" );
-	}
-
-	public static String getDefaultTurnRightKey() {
-		return defaultSettings.get( "turnright_key" );
-	}
-
-	public static String getForwardKey() {
-		return settings.get( "forward_key" );
-	}
-
-	public static String getPauseKey() {
-		return settings.get( "pause_key" );
-	}
-
-	public static String getResolutionHeight() {
-		return settings.get( "resolution_height" );
-	}
-
-	public static String getResolutionWidth() {
-		return settings.get( "resolution_width" );
-	}
-
-	public static String getRunKey() {
-		return settings.get( "run_key" );
-	}
-
-	public static String getTurnLeftKey() {
-		return settings.get( "turnleft_key" );
-	}
-
-	public static String getTurnRightKey() {
-		return settings.get( "turnright_key" );
-	}
-
-	public static String isFullscreen() {
-		return settings.get( "is_fullscreen" );
-	}
-
-	public static String isSoundEnabled() {
-		return settings.get( "sound_enabled" );
-	}
-
-	public static void setBackwardKey( String value ) {
-		settings.put( "backward_key", value );
-	}
-
-	public static void setForwardKey(String value) {
-		settings.put( "forward_key", value );
-	}
-
-	public static void setFullscreen(String value) {
-		settings.put( "is_fullscreen", value );
-	}
-
-	public static void setPauseKey(String value) {
-		settings.put( "pause_key", value );
-	}
-
-	public static void setResolutionHeight(String value) {
-		settings.put( "resolution_height", value );
-	}
-
-	public static void setResolutionWidth(String value) {
-		settings.put( "resolution_width", value );
-	}
-
-	public static void setRunKey(String value) {
-		settings.put( "run_key", value );
-	}
-
-	public static void setSoundEnabled(String value) {
-		settings.put( "sound_enabled", value );
-	}
-
-	public static void setTurnLeftKey(String value) {
-		settings.put( "turnleft_key", value );
-	}
-
-	public static void setTurnRightKey(String value) {
-		settings.put( "turnright_key", value );
-	}
-
-	public static String getDefaultResolutionDepth() {
-		return defaultSettings.get( "resolution_depth" );
-	}
-
-	public static String getDefaultResolutionFrequency() {
-		return defaultSettings.get( "resolution_frequency" );
-	}
-
-	public static String getResolutionDepth() {
-		return settings.get( "resolution_depth" );
-	}
-
-	public static String getResolutionFrequency() {
-		return settings.get( "resolution_frequency" );
-	}
-
-	public static void setResolutionDepth(String value) {
-		settings.put("resolution_depth", value );
-	}
-
-	public static void setResolutionFrequency(String value) {
-		settings.put("resolution_frequency", value );
+	public static String getDefaultSetting( String setting ) {
+		return defaultSettings.get( setting );
+	} 
+	
+	public static int getIntDefaultSetting( String setting ) {
+		return Integer.valueOf( defaultSettings.get( setting ) );
 	}
 	
-	public static String getDefaultSceneFilePath() {
-		return defaultSettings.get( "scene_file_path" );
+	public static String getSetting( String setting ) {
+		return settings.get( setting );
+	} 
+	
+	public static int getIntSetting( String setting ) {
+		return Integer.valueOf( settings.get( setting ) );
 	}
 	
-	public static String getSceneFilePath() {
-		return settings.get( "scene_file_path" );
-	}
-	
-	public static void setSceneFilePath( String path ) {
-		settings.put( "scene_file_path", path );
+	public static String setSetting( String setting, String newValue ) {
+		return settings.put( setting, newValue );
 	}
 	
 	public static List<EnemyInfo> getEmemiesInfoList() {

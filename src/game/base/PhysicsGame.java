@@ -17,7 +17,7 @@
 
 package game.base;
 
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.common.GameTimer;
 
 import java.util.logging.Level;
@@ -121,8 +121,6 @@ public abstract class PhysicsGame extends AbstractGame {
     public final void start() {
         logger.info( "Application started." );
         try {
-            getAttributes();
-
             if ( !finished ) {
                 initSystem();
 
@@ -155,11 +153,14 @@ public abstract class PhysicsGame extends AbstractGame {
                 		while( wait ) {
                 			if( enabled ) {
 		                		display.recreateWindow( 
-		                				settings.getWidth(),
-		                				settings.getHeight(),
-		    	        				settings.getDepth(),
-		    	        				settings.getFrequency(),
-		    	        				settings.isFullscreen());
+		                			GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ),
+		                			GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT ),
+		                			GameConf.getIntSetting( GameConf.RESOLUTION_DEPTH ),
+		                			GameConf.getIntSetting( GameConf.RESOLUTION_FREQUENCY ),
+		                			Boolean.valueOf(
+		                				GameConf.getSetting( GameConf.IS_FULLSCREEN )
+		                			)
+		                        );
 		                		wait = false;
                 			}
                 			if( finished )
@@ -277,16 +278,8 @@ public abstract class PhysicsGame extends AbstractGame {
      * @see AbstractGame#initSystem()
      */
     protected void initSystem() throws JmeException {
-    	
-    	/** apply settings */
-    	settings.setWidth( Integer.valueOf( GameConfiguration.getResolutionWidth() ) );
-    	settings.setHeight( Integer.valueOf( GameConfiguration.getResolutionHeight() ) );
-    	settings.setFrequency( Integer.valueOf( GameConfiguration.getResolutionFrequency() ) );
-    	settings.setDepth( Integer.valueOf( GameConfiguration.getResolutionDepth() ) );
-    	settings.setFullscreen( Boolean.valueOf( GameConfiguration.isFullscreen() ) );
-    	
         try {
-        	 display = DisplaySystem.getDisplaySystem(settings.getRenderer() );
+        	 display = DisplaySystem.getDisplaySystem( "LWJGL" );
 
              display.setMinDepthBits( depthBits );
              display.setMinStencilBits( stencilBits );
@@ -295,12 +288,14 @@ public abstract class PhysicsGame extends AbstractGame {
 
              // Create a window with the startup box's information.
              display.createWindow(
-                     settings.getWidth(),
-                     settings.getHeight(),
-                     settings.getDepth(),
-                     settings.getFrequency(),
-                     settings.isFullscreen()
-                     );
+            	GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ),
+         		GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT ),
+         		GameConf.getIntSetting( GameConf.RESOLUTION_DEPTH ),
+         		GameConf.getIntSetting( GameConf.RESOLUTION_FREQUENCY ),
+         		Boolean.valueOf(
+         			GameConf.getSetting( GameConf.IS_FULLSCREEN )
+         		)
+            );
 
             cam = display.getRenderer().createCamera( display.getWidth(), display.getHeight() );
         } catch ( JmeException e ) {

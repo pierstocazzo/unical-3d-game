@@ -19,7 +19,7 @@ package game.graphics;
 
 import game.HUD.HudMessageHandler;
 import game.HUD.UserHud;
-import game.common.GameConfiguration;
+import game.common.GameConf;
 import game.common.GameTimer;
 import game.graphics.GameAnimationController.Animation;
 import game.sound.SoundManager;
@@ -203,28 +203,28 @@ public class GraphicalPlayer extends GraphicalCharacter {
 
 		if( running && walkingForward ) {
 			if( world.getCore().getWeapon(id).isHeavy() == false )
-				run( Integer.valueOf( GameConfiguration.getParameter( "runVelocity" ) ) );
+				run( Integer.valueOf( GameConf.getParameter( "runVelocity" ) ) );
 			else {
-				moveForward( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
+				moveForward( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
 			}
 		} 
 		else if( walkingForward ) {
-			moveForward( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
+			moveForward( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
 			if( turningRight ) {
-				turnRight( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
+				turnRight( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
 			} 
 			else if( turningLeft ) {
-				turnLeft( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
+				turnLeft( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
 			} 
 		} 
 		else if( walkingBackwards ) {
-			moveBackward( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
+			moveBackward( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
 		} 
 		else if( turningRight ) {
-			turnRight( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
+			turnRight( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
 		} 
 		else if( turningLeft ) {
-			turnLeft( Integer.valueOf( GameConfiguration.getParameter( "walkVelocity" ) ) );
+			turnLeft( Integer.valueOf( GameConf.getParameter( "walkVelocity" ) ) );
 		} 
 		else {
 			rest();
