@@ -19,7 +19,7 @@ package game.graphics;
 
 import game.HUD.HudMessageBox;
 import game.HUD.UserHud;
-import game.base.Game;
+import game.base.PhysicsGame;
 import game.common.GameConfiguration;
 import game.input.GameInputHandler;
 import game.menu.MainMenu;
@@ -36,6 +36,8 @@ import utils.Loader;
 import utils.ModelLoader;
 
 import com.jme.image.Texture;
+import com.jme.input.FirstPersonHandler;
+import com.jme.input.InputHandler;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
 import com.jme.input.MouseLookHandler;
@@ -58,7 +60,7 @@ import com.jmex.physics.StaticPhysicsNode;
  * 
  * @author Giuseppe Leone, Salvatore Loria, Andrea Martire
  */
-public class GraphicalWorld extends Game {
+public class GraphicalWorld extends PhysicsGame {
 	
 	/** an interface to communicate with the application core */
 	WorldInterface core;
@@ -91,7 +93,10 @@ public class GraphicalWorld extends Game {
 	
 	/** HUD */
 	Quad crosshair;
-	public UserHud userHud;
+	UserHud userHud;
+	
+	/** game menu */
+	MainMenu menu;
 	
 	/** audio controller */
 	SoundManager audio;
@@ -133,10 +138,37 @@ public class GraphicalWorld extends Game {
 	 */
     public GraphicalWorld( WorldInterface core, MainMenu menu, boolean isLoaded ) {
         this.core = core;
-        super.setMenu(menu);
+        this.menu = menu;
         this.isLoaded = isLoaded;
         
         setAudioEnabled(Boolean.valueOf( GameConfiguration.isSoundEnabled() ));
+    }
+    
+	/** Used for debug mode */
+	public InputHandler freeCamInput;
+	
+    @Override
+    protected void setupGame() {
+    	menu.setLoadingText( GameConfiguration.getPhrase( "loading_init" ) );
+    	menu.setProgress(5);
+        setupInit();
+        menu.setLoadingText( GameConfiguration.getPhrase( "loading_environment" ) );
+        menu.setProgress(20);
+        setupEnvironment();
+        menu.setLoadingText( GameConfiguration.getPhrase( "loading_players" ) );
+        menu.setProgress(60);
+        setupPlayer();
+        menu.setLoadingText( GameConfiguration.getPhrase( "loading_enemies" ) );
+        menu.setProgress(80);
+        setupEnemies();
+        menu.setLoadingText( GameConfiguration.getPhrase( "loading_input" ) );
+        setupCamera();
+        setupInput();
+        menu.setProgress(100);
+        freeCamInput = new FirstPersonHandler( cam, 200, 1 );
+        freeCamInput.setEnabled( false );
+        
+        menu.hideMenu();
     }
 
 	public void setupInit() {
@@ -151,14 +183,14 @@ public class GraphicalWorld extends Game {
 		energyPackages = new LinkedList<GraphicalEnergyPackage>();
 		items = new LinkedList<Node>();
 		
-		getMenu().setProgress(10);
+		menu.setProgress(10);
 		
     	resolution = new Vector2f( settings.getWidth(), settings.getHeight() );
     	
     	cameraPosition = Text2D.createDefaultTextLabel("cameraPosition");
 		cameraPosition.setLocalTranslation(getResolution().x/2, getResolution().y * 3/4, 0 );
     	
-		getMenu().setProgress(15);
+		menu.setProgress(15);
 		
     	ExplosionFactory.warmup();
     	
@@ -189,7 +221,7 @@ public class GraphicalWorld extends Game {
 				"game/data/meshes/soldier/soldier.jpg", 1 );
 	    model.setLocalTranslation(0, -2f, 0);   
 
-	    getMenu().setProgress(65);
+	    menu.setProgress(65);
 	    
 		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/meshes/soldier/AR15.jpg" ),
 	            Texture.MinificationFilter.Trilinear,
@@ -198,7 +230,7 @@ public class GraphicalWorld extends Game {
 	    ts.setEnabled(true);
 	    ts.setTexture(texture);
 		model.getChild( "Regroup05" ).setRenderState( ts );
-		getMenu().setProgress(70);
+		menu.setProgress(70);
 	    
 	    for( String id : core.getPlayersIds() ) {
 	    	playersCounter++;
@@ -229,7 +261,7 @@ public class GraphicalWorld extends Game {
     	    ts.setTexture(texture);
     		model.getChild( "Regroup05" ).setRenderState( ts );
     		
-			getMenu().setProgress( 80 + difference );
+			menu.setProgress( 80 + difference );
 
             GraphicalEnemy enemy = new GraphicalEnemy( id, this, 5, 100,  model );
             
@@ -254,7 +286,9 @@ public class GraphicalWorld extends Game {
     	mouseLookHandler.setEnabled(false);
     	
         KeyBindingManager.getKeyBindingManager().set( "freeCamAction", KeyInput.KEY_C );
-    	
+        KeyBindingManager.getKeyBindingManager().set( "switch_message", KeyInput.KEY_RETURN);
+        KeyBindingManager.getKeyBindingManager().set( "exit", KeyInput.KEY_ESCAPE );
+        
         inputHandler = new GameInputHandler( player, cam );
         
         // setup CollisionHandler
@@ -366,8 +400,21 @@ public class GraphicalWorld extends Game {
 	}
 
 	private void updateInput() {
-        if ( KeyBindingManager.getKeyBindingManager().isValidCommand("freeCamAction", false ) ) {
+        if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "freeCamAction", false ) ) {
             freeCam = !freeCam;
+        }
+        
+        if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "switch_message", false ) ) {
+            ((GraphicalWorld)(this)).userHud.hudMsgBox.switchToNext();
+        }
+        
+        if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
+        	/* switch to in game menu */
+        	menu.switchToPanel("inGamePanel");
+        	menu.setVisible(true);
+        	menu.toFront();
+        	
+    		stopGame();
         }
 	}
 
@@ -575,5 +622,13 @@ public class GraphicalWorld extends Game {
 
 	public boolean isAudioEnabled() {
 		return audioEnabled;
+	}
+	
+    public void setMenu( MainMenu menu ) {
+		this.menu = menu;
+	}
+
+	public MainMenu getMenu() {
+		return menu;
 	}
 }

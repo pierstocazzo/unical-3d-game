@@ -32,6 +32,8 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
+import com.jme.math.Vector2f;
+
 /** Class GameSettings used to read the xml configuration file<br>
  * 
  * Needed library: <a href="http://www.jdom.org">JDOM</a>
@@ -49,11 +51,8 @@ public class GameConfiguration {
 	/** the root of the xml file */
 	static Element root;
 	
-	static int playerX;
-	
-	static int playerZ;
-	
-	static int playerLife;
+	/** Player's initial position */
+	static Vector2f playerPosition;
 	
 	/**
 	 * Default Values
@@ -108,6 +107,7 @@ public class GameConfiguration {
 		enemies = new LinkedList< EnemyInfo >();
 		parameters = new LinkedHashMap< String, String >();
 		phrases = new LinkedHashMap< String, String >();
+		playerPosition = new Vector2f();
 		
 		// Load all settings
 		load();
@@ -142,9 +142,8 @@ public class GameConfiguration {
 			}
 			
 			Element playerInfo = root.getChild("player");
-			playerX = Integer.valueOf(playerInfo.getAttributeValue("x")).intValue();
-			playerZ = Integer.valueOf(playerInfo.getAttributeValue("z")).intValue();
-			playerLife = Integer.valueOf(playerInfo.getAttributeValue("life")).intValue();
+			playerPosition.setX( Integer.valueOf( playerInfo.getAttributeValue("x") ) );
+			playerPosition.setY( Integer.valueOf( playerInfo.getAttributeValue("z") ) );
 			
 			List<Element> enemy_list = root.getChild("enemies").getChildren();
 			for( Element enemy : enemy_list ) {
@@ -392,16 +391,8 @@ public class GameConfiguration {
 		return phrases.get( phrase );
 	}
 	
-	public static int getPlayerX(){
-		return playerX;
-	}
-	
-	public static int getPlayerZ(){
-		return playerZ;
-	}
-	
-	public static int getPlayerLife(){
-		return playerLife;
+	public static Vector2f getPlayerPosition() {
+		return playerPosition;
 	}
 	
 	/** Utility class used to store some informations 

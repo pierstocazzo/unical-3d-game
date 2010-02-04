@@ -17,10 +17,8 @@
 
 package game.base;
 
-import game.common.GameTimer;
 import game.common.GameConfiguration;
-import game.graphics.GraphicalWorld;
-import game.menu.MainMenu;
+import game.common.GameTimer;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,13 +60,11 @@ import com.jmex.physics.PhysicsSpace;
  * This class defines a pure high speed game loop that runs as fast as CPU/GPU
  * will allow
  * 
- * @author Salvatore Loria, Giuseppe Leone, Andrea Martire.
+ * @author Salvatore Loria Giuseppe Leone, Andrea Martire.
  */
 public abstract class PhysicsGame extends AbstractGame {
 
     // Main scene components:
-	
-	protected MainMenu menu;
 	
 	/** main camera node */
     protected Camera cam;
@@ -76,7 +72,7 @@ public abstract class PhysicsGame extends AbstractGame {
     /** the root node, everything visible must be attached to this */
     protected Node rootNode;
     
-    // Time per FrameRate
+    // Time per Frame
     protected float tpf;
 
     // Main render options
@@ -105,10 +101,10 @@ public abstract class PhysicsGame extends AbstractGame {
 	protected BasicPassManager passManager;
 
 	/** set to false when you don't want to do the world update */
-	public boolean enabled = true;
+	protected boolean enabled = true;
 
 	/** useful variable */
-	public boolean pause = false;
+	protected boolean pause = false;
 	
 	
     /**  
@@ -154,17 +150,20 @@ public abstract class PhysicsGame extends AbstractGame {
 	                    Thread.yield();
                 	}
                 	// else manage inGameMenu frame and check pause game
-                	else{
-                		boolean pause = true;
-                		while( pause ){
-                			if(enabled){
-		                		display.recreateWindow(settings.getWidth(),settings.getHeight(),
-		    	        								settings.getDepth(),settings.getFrequency(),
-		    	        								settings.isFullscreen());
-		                		pause = false;
+                	else {
+                		boolean wait = true;
+                		while( wait ) {
+                			if( enabled ) {
+		                		display.recreateWindow( 
+		                				settings.getWidth(),
+		                				settings.getHeight(),
+		    	        				settings.getDepth(),
+		    	        				settings.getFrequency(),
+		    	        				settings.isFullscreen());
+		                		wait = false;
                 			}
                 			if( finished )
-                				pause = false;
+                				wait = false;
                 		}
 	                }
                 }
@@ -185,24 +184,6 @@ public abstract class PhysicsGame extends AbstractGame {
         
         quit();
     }
-
-
-    /**
-     * Get the exception handler if one has been set.
-     * 
-     * @return the exception handler, or {@code null} if not set.
-     */
-	protected ThrowableHandler getThrowableHandler() {
-		return throwableHandler;
-	}
-
-	/**
-	 *
-	 * @param throwableHandler
-	 */
-	protected void setThrowableHandler(ThrowableHandler throwableHandler) {
-		this.throwableHandler = throwableHandler;
-	}
 
     /**
      * Updates the timer, sets tpf, updates the freeCamInput and updates the fps
@@ -232,7 +213,7 @@ public abstract class PhysicsGame extends AbstractGame {
          * Key handler
          */
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("toggle_pause", false ) ) {
-            setPause(!isPause());
+            setPause( !isPause() );
         }
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("step", true ) ) {
             update();
@@ -252,33 +233,18 @@ public abstract class PhysicsGame extends AbstractGame {
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand("toggle_bounds", false ) ) {
             showBounds  = !showBounds;
         }
-        if ( KeyBindingManager.getKeyBindingManager().isValidCommand("switch_message", false ) ) {
-            ((GraphicalWorld)(this)).userHud.hudMsgBox.switchToNext();
-        }
-        if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
-        	
-        	/* switch to in game menu */
-        	menu.switchToPanel("inGamePanel");
-        	menu.setVisible(true);
-        	menu.toFront();
-        	
-    		enabled = false;
-        }
         
-        if ( enabled ) {
-            
-        	if ( !isPause()  ) {
-        		update();
-        	
-	            if ( tpf > 0.2 || Float.isNaN( tpf ) ) {
-	                getPhysicsSpace().update( 0.2f * physicsSpeed );
-	            } else {
-	                getPhysicsSpace().update( tpf * physicsSpeed );
-	            }
-	            passManager.updatePasses(tpf);
-	            rootNode.updateGeometricState(tpf, true);
-        	}
-        }
+    	if ( !isPause()  ) {
+    		update();
+    	
+            if ( tpf > 0.2 || Float.isNaN( tpf ) ) {
+                getPhysicsSpace().update( 0.2f * physicsSpeed );
+            } else {
+                getPhysicsSpace().update( tpf * physicsSpeed );
+            }
+            passManager.updatePasses(tpf);
+            rootNode.updateGeometricState(tpf, true);
+    	}
     }
 
     /**
@@ -374,8 +340,6 @@ public abstract class PhysicsGame extends AbstractGame {
         KeyBindingManager.getKeyBindingManager().set( "toggle_lights", KeyInput.KEY_L );
         KeyBindingManager.getKeyBindingManager().set( "toggle_physics", KeyInput.KEY_V );
         KeyBindingManager.getKeyBindingManager().set( "toggle_bounds", KeyInput.KEY_B );
-        KeyBindingManager.getKeyBindingManager().set( "switch_message", KeyInput.KEY_RETURN);
-        KeyBindingManager.getKeyBindingManager().set( "exit", KeyInput.KEY_ESCAPE );
 
         setPhysicsSpace( PhysicsSpace.create() );
     }
@@ -537,33 +501,34 @@ public abstract class PhysicsGame extends AbstractGame {
     	return this.rootNode;
     }
 
-	public void setPause(boolean pause) {
+	public void setPause( boolean pause ) {
 		this.pause = pause;
 	}
 
 	public boolean isPause() {
 		return pause;
 	}
+	
+	public void stopGame() {
+		enabled = false;
+	}
+	
+	public void resumeGame() {
+		enabled = true;
+	}
 
 	/**
      * @see AbstractGame#getNewSettings()
      */
+	@Override
     protected GameSettings getNewSettings() {
-        return new BaseGameSettings();
+        return new PhysicsGameSettings();
     }
-
-    public void setMenu(MainMenu menu) {
-		this.menu = menu;
-	}
-
-	public MainMenu getMenu() {
-		return menu;
-	}
 
 	/**
      * A PropertiesGameSettings which defaults Fullscreen to TRUE.
      */
-    static class BaseGameSettings extends PropertiesGameSettings {
+    static class PhysicsGameSettings extends PropertiesGameSettings {
         static {
             // This is how you programmatically override the DEFAULT_*
             // settings of GameSettings.
@@ -580,7 +545,7 @@ public abstract class PhysicsGame extends AbstractGame {
          * Populates the GameSettings from the (session-specific) .properties
          * file.
          */
-        BaseGameSettings() {
+        PhysicsGameSettings() {
             super("properties.cfg");
             load();
         }

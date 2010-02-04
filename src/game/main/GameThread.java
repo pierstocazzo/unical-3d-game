@@ -37,8 +37,6 @@ public class GameThread extends Thread {
 	public GameThread( MainMenu menu ) {
 		this.menu = menu;
 		logicGame = new LogicWorld();
-//    	logicGame.createPlayer( 100, 476, 561 );  	
-    	logicGame.createEnergyPackages( 100 );
     	isLoaded = false;
 	}
 	
