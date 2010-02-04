@@ -86,7 +86,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		scoreManager = new ScoreManager( this );
 		enemyAi = new AI( this );
 		
-		ammoPackValue = Integer.valueOf( GameConf.getParameter("initialAmmoPackValue") );
+		ammoPackValue = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_AMMO_PACK_VALUE ) );
 		
 		//set enemy from xml file
 		List<EnemyInfo> enemyList = GameConf.getEmemiesInfoList();
@@ -100,7 +100,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 				position.getX(), position.getY() );
 		
 		// create the energy packages
-		createEnergyPackages( GameConf.getIntParameter( "energyPackNumber" ) );
+		createEnergyPackages( GameConf.getIntParameter( GameConf.ENERGY_PACK_NUMBER ) );
 	}
 	
 	/** Create one player with this life in this position
@@ -147,16 +147,16 @@ public class LogicWorld implements WorldInterface, Serializable {
 		int probability = FastMath.rand.nextInt(100);
 		WeaponType type;
 		
-		if ( probability < Integer.valueOf( GameConf.getParameter("ar15_probability") ) ) {
+		if ( probability < Integer.valueOf( GameConf.getParameter( GameConf.AR15_PROBABILITY ) ) ) {
 			type = WeaponType.AR15;
-		} else if ( probability < Integer.valueOf( GameConf.getParameter("gatling_probability")) ) {
+		} else if ( probability < Integer.valueOf( GameConf.getParameter( GameConf.GATLING_PROBABILITY )) ) {
 			type = WeaponType.GATLING;
 		} else {
 			type = WeaponType.BAZOOKA;
 		}
 		
 		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter,
-				Integer.valueOf( GameConf.getParameter("initialEnemyLife") ),
+				Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_ENEMY_LIFE ) ),
 				type, state, position, movements, this );
 		
 		characters.put( enemy.id, enemy );
@@ -175,9 +175,9 @@ public class LogicWorld implements WorldInterface, Serializable {
 		int rand = FastMath.rand.nextInt(100);
 		WeaponType type;
 		
-		int ar15probability = Integer.valueOf( GameConf.getParameter("ar15_probability") );
-		int gatlingProbability = Integer.valueOf( GameConf.getParameter("gatling_probability") );
-		int bazookaProbability = Integer.valueOf( GameConf.getParameter("bazooka_probability") );
+		int ar15probability = Integer.valueOf( GameConf.getParameter( GameConf.AR15_PROBABILITY ) );
+		int gatlingProbability = Integer.valueOf( GameConf.getParameter( GameConf.GATLING_PROBABILITY ) );
+		int bazookaProbability = Integer.valueOf( GameConf.getParameter( GameConf.BAZOOKA_PROBABILITY ) );
 		
 		if ( rand < ar15probability ) {
 			type = WeaponType.AR15;
@@ -190,7 +190,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		}
 		
 		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter,
-				Integer.valueOf( GameConf.getParameter("initialEnemyLife") ),
+				Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_ENEMY_LIFE ) ),
 				type, state, position, movements, this );
 		
 		characters.put( enemy.id, enemy );
@@ -204,7 +204,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		for( int i = 0; i < number; i++ ) {
 			energyPackCounter = energyPackCounter + 1;
 			LogicEnergyPack energyPack = new LogicEnergyPack( "energyPack" + energyPackCounter, 
-					Integer.valueOf( GameConf.getParameter("initialEnergyPackValue") ) );
+					Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_ENERGY_PACK_VALUE ) ) );
 			
 			energyPackages.put( energyPack.id, energyPack );
 		}

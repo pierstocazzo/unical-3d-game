@@ -46,7 +46,7 @@ public class GameConf {
 	private final static String SETTINGS_FILE = "src/game/data/game.conf";
 	
 	/**
-	 * Default game settings
+	 * Game settings keys
 	 */
 	public static String FORWARD_KEY = "forward_key";
 	public static String BACKWARD_KEY = "backward_key";
@@ -67,6 +67,84 @@ public class GameConf {
 	
 	//XML path scene file
 	public static String SCENE_FILE_PATH = "scene_file_path";
+	
+	/**
+	 * Game parameter keys
+	 */
+	// General purpose parameters
+	public static String MAX_ALERT_TIME = "maxAlertTime";
+	public static String MAX_FIND_DISTANCE = "maxFindDistance";
+	public static String MAX_NEIGHBORHOOD_RANGE = "maxNeighborhoodRange";
+	public static String INITIAL_PLAYER_LIFE = "initialPlayerLife";
+	public static String INITIAL_ENEMY_LIFE = "initialEnemyLife";
+	public static String PLAYER_LIFE_INCREASE = "playerLifeIncrease";
+	public static String ENEMY_LIFE_INCREASE = "enemyLifeIncrease";
+	public static String PLAYER_LIFE_DECREASE = "playerLifeDecrease";
+	public static String INITIAL_ENEMY_ACCURACY = "initialEnemyAccuracy";
+	public static String ENEMY_ACCURACY_INCREASE = "enemyAccuracyIncrease";
+	public static String INITIAL_ENERGY_PACK_VALUE = "initialEnergyPackValue";
+	public static String INITIAL_AMMO_PACK_VALUE = "initialAmmoPackValue";
+	public static String AMMO_PACK_INCREASE = "ammoPackIncrease";
+	public static String ENERGY_PACK_INCREASE = "energyPackIncrease";
+	public static String WALK_VELOCITY = "walkVelocity";
+	public static String RUN_VELOCITY = "runVelocity";
+	public static String SECOND_LEVEL_SCORE = "secondLevelScore";
+	public static String SCORE_FACTOR = "scoreFactor";
+	public static String SCORE_DECREASE_PERCENTAGE = "scoreDecreasePercentage";
+	public static String ENERGY_PACK_NUMBER = "energyPackNumber";
+	// States
+	public static String STATE_DEFAULT_VIEW_RANGE = "stateDefaultViewRange";
+	public static String STATE_DEFAULT_ACTION_RANGE = "stateDefaultActionRange";
+	public static String STATE_ALERT_VIEW_RANGE = "stateAlertViewRange";
+	public static String STATE_ALERT_ACTION_RANGE = "stateAlertActionRange";
+	public static String STATE_ATTACK_VIEW_RANGE = "stateAttackViewRange";
+	public static String STATE_ATTACK_ACTION_RANGE = "stateAttackActionRange";
+	public static String STATE_GUARD_VIEW_RANGE = "stateGuardViewRange";
+	public static String STATE_GUARD_ACTION_RANGE = "stateGuardActionRange";
+	public static String STATE_SEARCH_VIEW_RANGE = "stateSearchViewRange";
+	public static String STATE_SEARCH_ACTION_RANGE = "stateSearchActionRange";
+	// Weapons
+	// AR15
+	public static String AR15_PROBABILITY = "ar15_probability";
+	public static String INITIAL_AR15_CAPACITY = "initial_ar15_capacity";
+	public static String AR15_AMMO_INCREASE = "ar15AmmoIncrease";
+	public static String WEAPON_AR15_DAMAGE = "weapon_ar15_damage";
+	public static String WEAPON_AR15_POWER = "weapon_ar15_power";
+	public static String WEAPON_AR15_LOADTIME = "weapon_ar15_loadtime";
+	// GATLING
+	public static String GATLING_PROBABILITY = "gatling_probability";
+	public static String INITIAL_GATLING_CAPACITY = "initial_gatling_capacity";
+	public static String GATLING_AMMO_INCREASE = "gatlingAmmoIncrease";
+	public static String WEAPON_GATLING_DAMAGE = "weapon_gatling_damage";
+	public static String WEAPON_GATLING_POWER = "weapon_gatling_power";
+	public static String WEAPON_GATLING_LOADTIME = "weapon_gatling_loadtime";
+	// BAZOOKA
+	public static String BAZOOKA_PROBABILITY = "bazooka_probability";
+	public static String INITIAL_BAZOOKA_CAPACITY = "initial_bazooka_capacity";
+	public static String BAZOOKA_AMMO_INCREASE = "bazookaAmmoIncrease";
+	public static String WEAPON_BAZOOKA_DAMAGE = "weapon_bazooka_damage";
+	public static String WEAPON_BAZOOKA_POWER = "weapon_bazooka_power";
+	public static String WEAPON_BAZOOKA_LOADTIME = "weapon_bazooka_loadtime";
+	
+	/**
+	 * Game phrases keys
+	 */
+	public static String LOADING_INIT = "loading_init";
+	public static String LOADING_ENVIRONMENT = "loading_environment";
+	public static String LOADING_PLAYERS = "loading_players";
+	public static String LOADING_ENEMIES = "loading_enemies";
+	public static String LOADING_INPUT = "loading_input";
+	public static String HUD_NO_MESSAGE = "hud_no_message";
+	public static String HUD_AMMO = "hud_ammo";
+	public static String HUD_LIFE = "hud_life";
+	public static String HUD_MAX_AMMO = "hud_max_ammo";
+	public static String HUD_MAX_ENERGY = "hud_max_energy";
+	public static String HUD_AMMO_FINISHED = "hud_ammo_finished";
+	public static String HUD_LEVEL = "hud_level";
+	public static String HUD_CURRENT_WEAPON = "hud_current_weapon";
+	public static String HUD_NEW_LEVEL_1 = "hud_new_level_1";
+	public static String HUD_NEW_LEVEL_2 = "hud_new_level_2";
+	public static String HUD_NEW_LEVEL_3 = "hud_new_level_3";
 	
 	/** the xml document */
 	static Document document;

@@ -80,7 +80,7 @@ public class HudAmmo {
 		frontQuad.resize( initialLenght*ammoValue/100, frontQuad.getHeight() );
 		frontQuad.setLocalTranslation( screenWidth/40 + frontQuad.getWidth()/2 + borderWeight,
 										backQuad.getLocalTranslation().y, 0 );
-		ammoNum.print( GameConf.getPhrase( "hud_ammo" ) + " " + Integer.toString(ammoValue) );
+		ammoNum.print( GameConf.getPhrase( GameConf.HUD_AMMO ) + " " + Integer.toString(ammoValue) );
 		ammoNum.setLocalTranslation(backQuad.getLocalTranslation().x - backQuad.getWidth()/2,
 				backQuad.getLocalTranslation().y - ammoNum.getHeight()/2, 0 );
    	}
@@ -97,7 +97,7 @@ public class HudAmmo {
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										backQuad.getLocalTranslation().y, 0);
 		// print current ammo value
-		ammoNum.print( GameConf.getPhrase( "hud_ammo" ) + " " + Integer.toString(ammoValue) );
+		ammoNum.print( GameConf.getPhrase( GameConf.HUD_AMMO ) + " " + Integer.toString(ammoValue) );
 		ammoNum.setLocalTranslation(backQuad.getLocalTranslation().x-backQuad.getWidth()/2,
 				backQuad.getLocalTranslation().y-ammoNum.getHeight()/2, 0);
 	}
