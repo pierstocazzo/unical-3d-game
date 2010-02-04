@@ -248,8 +248,6 @@ public class GraphicalWorld extends PhysicsGame {
      *  and place them in positions setted in the logic game
      */
     public void setupEnemies() { 
-    	int difference = 20/core.getEnemiesIds().size();
-    	
         for( String id : core.getEnemiesIds() ) {
         	enemiesCounter++;
     		Node model = ModelLoader.loadModel("game/data/meshes/soldier/soldier.jme", 
@@ -264,8 +262,6 @@ public class GraphicalWorld extends PhysicsGame {
     	    ts.setTexture(texture);
     		model.getChild( "Regroup05" ).setRenderState( ts );
     		
-			menu.setProgress( 80 + difference );
-
             GraphicalEnemy enemy = new GraphicalEnemy( id, this, 5, 100,  model );
             
             Vector3f position = core.getPosition(id);
@@ -273,8 +269,6 @@ public class GraphicalWorld extends PhysicsGame {
         	enemy.getCharacterNode().getLocalTranslation().set( position );
         	characters.add( enemy );
         	rootNode.attachChild( enemy.getCharacterNode() );
-        	
-        	difference = difference + 20/core.getEnemiesIds().size();
         }
     }
     
