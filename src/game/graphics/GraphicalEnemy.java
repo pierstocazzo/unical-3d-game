@@ -209,7 +209,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 				    Vector3f lineOrigin = feet.getWorldTranslation().add(0,5,0);
 				    
 					line.removeFromParent();
-				    line = new Cylinder("line" + id, 6, 6, 1, distanceFromPlayer );
+				    line = new Cylinder("line" + id, 2, 3, 1, distanceFromPlayer );
 				    
 				    line.setLocalTranslation( lineOrigin.add( vec.mult(distanceFromPlayer/2) ) );
 				    line.lookAt( world.player.getPosition().add(0,5,0), Vector3f.UNIT_Y );

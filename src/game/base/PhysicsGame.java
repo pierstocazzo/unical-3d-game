@@ -236,6 +236,7 @@ public abstract class PhysicsGame extends AbstractGame {
         }
         
     	if ( !isPause()  ) {
+    		showPause( false );
     		update();
     	
             if ( tpf > 0.2 || Float.isNaN( tpf ) ) {
@@ -245,10 +246,14 @@ public abstract class PhysicsGame extends AbstractGame {
             }
             passManager.updatePasses(tpf);
             rootNode.updateGeometricState(tpf, true);
+    	} else {
+    		showPause( true );
     	}
     }
 
-    /**
+    public abstract void showPause( boolean pause );
+
+	/**
      * Clears stats, the buffers and renders bounds and normals if on.
      *
      * @param interpolation unused in this implementation

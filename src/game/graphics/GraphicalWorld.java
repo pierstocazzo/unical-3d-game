@@ -637,4 +637,9 @@ public class GraphicalWorld extends PhysicsGame {
 	public MainMenu getMenu() {
 		return menu;
 	}
+
+	@Override
+	public void showPause(boolean pause) {
+		userHud.showPause( pause );
+	}
 }
