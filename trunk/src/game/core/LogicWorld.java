@@ -528,7 +528,8 @@ public class LogicWorld implements WorldInterface, Serializable {
 	@Override
 	public float getAlertLevel(String id) {
 		try {
-			return ((LogicEnemy) characters.get(id)).getAlertTime();
+			((LogicEnemy) characters.get(id)).updateTimeAlert();
+			return ((LogicEnemy) characters.get(id)).getTimeAlert();
 		} catch (Exception e) {
 			return 20;
 		}

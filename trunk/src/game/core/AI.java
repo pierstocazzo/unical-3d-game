@@ -44,6 +44,8 @@ public class AI implements Serializable {
 	
 	/** current movement direction */
 	Vector3f moveDirection;
+	
+	final int ALERT_RANGE = Integer.valueOf( GameConf.getParameter( GameConf.MAX_ALERT_TIME ) );
 
 	/**
 	 * Constructor
@@ -80,7 +82,6 @@ public class AI implements Serializable {
 					enemy.state = State.SEARCHATTACK;
 				else
 					enemy.state = State.ATTACK;
-				enemy.alertTime = GameTimer.getTimeInSeconds();
 			}
 
 			// update current state
@@ -89,7 +90,7 @@ public class AI implements Serializable {
 				// if he sees the player he goes in alert state
 				if ( distance <= enemy.state.getViewRange() && enemy.canSeePlayer ) {
 					enemy.state = State.ALERT;
-					enemy.alertTime = GameTimer.getTimeInSeconds();
+					enemy.timeAlert = ALERT_RANGE;
 				}
 				break;
 
@@ -103,12 +104,11 @@ public class AI implements Serializable {
 					 * he remains in alert state for some time
 					 * then he return in default state
 					 */
-					if( GameTimer.getTimeInSeconds() - enemy.alertTime > 
-							Integer.valueOf( GameConf.getParameter( GameConf.MAX_ALERT_TIME ) ) ) {
+					if( enemy.timeAlert == 0 ) {
 						enemy.state = State.DEFAULT;
 					}
 				} else {
-					enemy.alertTime = GameTimer.getTimeInSeconds();
+					enemy.timeAlert = ALERT_RANGE;
 				}
 				break;
 
@@ -120,11 +120,11 @@ public class AI implements Serializable {
 				} 
 				// in any case he calculate the shoot direction
 				calculateShootDirection( id, playerId );
-				enemy.alertTime = GameTimer.getTimeInSeconds();
+				enemy.timeAlert = ALERT_RANGE;
 				break;
 
 			case SEARCH:
-				enemy.alertTime = GameTimer.getTimeInSeconds();
+				enemy.timeAlert = ALERT_RANGE;
 				// if he sees the player he goes in searchattack state
 				// (different from Attack just to remember that he was in search state before)
 				if ( distance <= enemy.state.getActionRange() && enemy.canSeePlayer )
@@ -137,29 +137,28 @@ public class AI implements Serializable {
 					enemy.state = State.SEARCH;
 				} else {
 					calculateShootDirection( id, playerId );
-					enemy.alertTime = GameTimer.getTimeInSeconds();
+					enemy.timeAlert = ALERT_RANGE;
 				}
 				break;
 				
 			case GUARD:
+				System.out.println("GUARD");
 				 /* if he can see the player he attacks him
 				  */
 				if ( distance <= enemy.state.getViewRange() && enemy.canSeePlayer ) {
 					enemy.state = State.GUARDATTACK;
-					calculateShootDirection( id, playerId );
 				}
 				break;
 				
 			case GUARDATTACK:
-				/* if he can't see the player he returns in guard state */
-				if ( distance > enemy.state.getViewRange() || !enemy.canSeePlayer ) {
-					enemy.alertTime = 0;
-					enemy.state = State.GUARD;
-				} else {
+				System.out.println("GUARDATTACK");
+				if( distance <= enemy.state.getViewRange() && enemy.canSeePlayer ){
 					// else he attacks him
 					calculateShootDirection( id, playerId );
-					enemy.alertTime = GameTimer.getTimeInSeconds();
+					enemy.timeAlert = ALERT_RANGE;
 				}
+				else
+					enemy.state = State.GUARD;
 				break;
 			}
 		}

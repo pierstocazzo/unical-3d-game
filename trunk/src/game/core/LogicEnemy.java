@@ -18,6 +18,7 @@
 package game.core;
 
 import game.common.GameConf;
+import game.common.GameTimer;
 import game.common.Movement;
 import game.common.MovementList;
 import game.common.State;
@@ -56,7 +57,8 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	Vector3f shootDirection;
 	
 	/** the time that the enemy remain in alert or attack state */
-	float alertTime;
+	float timeAlert = 0;
+	float oldTime = 0;
 	
 	/** true when the enemy is coming back from the state find */
 	boolean comingBack = false;
@@ -160,8 +162,17 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	 * 
 	 * @return (float)
 	 */
-	public float getAlertTime() {
-		return alertTime;
+	public float getTimeAlert() {
+		return timeAlert;
+	}
+	
+	public void updateTimeAlert(){
+		float newTime = GameTimer.getTimeInSeconds();
+		timeAlert = timeAlert - ( newTime - oldTime );
+		oldTime = newTime;
+		System.out.println("Time Corrente ="+timeAlert);
+		if( timeAlert < 0 )
+			timeAlert = 0;
 	}
 
 	/**
