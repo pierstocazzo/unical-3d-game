@@ -18,7 +18,6 @@
 package game.core;
 
 import game.common.GameConf;
-import game.common.GameTimer;
 import game.common.State;
 
 import java.io.Serializable;
@@ -45,7 +44,7 @@ public class AI implements Serializable {
 	/** current movement direction */
 	Vector3f moveDirection;
 	
-	final int ALERT_RANGE = Integer.valueOf( GameConf.getParameter( GameConf.MAX_ALERT_TIME ) );
+	int ALERT_RANGE = Integer.valueOf( GameConf.getParameter( GameConf.MAX_ALERT_TIME ) );
 
 	/**
 	 * Constructor
@@ -144,23 +143,22 @@ public class AI implements Serializable {
 				break;
 				
 			case GUARD:
-				System.out.println("GUARD");
 				 /* if he can see the player he attacks him
 				  */
 				if ( distance <= enemy.state.getViewRange() && enemy.canSeePlayer ) {
 					enemy.state = State.GUARDATTACK;
+					calculateShootDirection( id, playerId );
+					enemy.timeAlert = ALERT_RANGE;
 				}
 				break;
 				
 			case GUARDATTACK:
-				System.out.println("GUARDATTACK");
-				if( distance <= enemy.state.getViewRange() && enemy.canSeePlayer ){
-					// else he attacks him
+				if( distance <= enemy.state.getActionRange() && enemy.canSeePlayer ) {
 					calculateShootDirection( id, playerId );
 					enemy.timeAlert = ALERT_RANGE;
-				}
-				else
+				} else {
 					enemy.state = State.GUARD;
+				}
 				break;
 			}
 		}
