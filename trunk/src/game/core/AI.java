@@ -66,9 +66,11 @@ public class AI implements Serializable {
 	 * @param (String) id
 	 */
 	public void updateState( String id ) {
-
 		// initialize useful variable
 		LogicEnemy enemy = (LogicEnemy) world.characters.get( id );
+		
+		enemy.updateTimeAlert();
+		
 		float distance;
 		enemy.shootDirection.set( Vector3f.ZERO );
 		
