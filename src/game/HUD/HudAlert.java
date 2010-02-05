@@ -18,7 +18,6 @@
 package game.HUD;
 
 import game.common.GameConf;
-import game.common.GameTimer;
 import game.common.State;
 import game.sound.SoundManager;
 import game.sound.SoundManager.SoundType;
@@ -131,13 +130,13 @@ public class HudAlert {
 		//calculate max alert level
 		float max = 0;
 //		System.out.println("Ciclo sui nemici");
-		for( String id : userHud.game.getEnemiesIds() ){
+		for( String id : userHud.game.getEnemiesIds() ) {
 //			System.out.println("entro ciclo "+id);
 			State currState = userHud.game.getState(id);
 			if(userHud.game.getAlertLevel(id) > max )
 				max = userHud.game.getAlertLevel(id);
-			if(currState == State.GUARD)
-				max = 0;
+//			if(currState == State.GUARD)
+//				max = 0;
 			//check if current enemy is in attack
 			if(currState == State.ATTACK || currState == State.SEARCHATTACK || currState == State.GUARDATTACK)
 				stateColor = State.ATTACK;
