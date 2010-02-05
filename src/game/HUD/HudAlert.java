@@ -64,6 +64,8 @@ public class HudAlert {
 	/** Useful variable */
 	State stateColor;
 	
+	final int ALERT_RANGE = Integer.valueOf( GameConf.getParameter( GameConf.MAX_ALERT_TIME ) );
+	
 	/** Constructor
 	 * 
 	 * @param (UserHud) - userHud
@@ -125,16 +127,17 @@ public class HudAlert {
 	}
 	
 	public float getAlertLevel(){
-		final int ALERT_RANGE = Integer.valueOf( GameConf.getParameter( GameConf.MAX_ALERT_TIME ) );
 		stateColor = State.DEFAULT;
 		//calculate max alert level
-		float max = -99999;
+		float max = 0;
+		System.out.println("Ciclo sui nemici");
 		for( String id : userHud.game.getEnemiesIds() ){
+			System.out.println("entro ciclo "+id);
 			State currState = userHud.game.getState(id);
-			if(currState == State.ATTACK || currState == State.SEARCHATTACK ||
-					currState == State.ALERT || currState == State.SEARCH || currState == State.GUARDATTACK)
-				if(userHud.game.getAlertLevel(id) > max )
-					max = userHud.game.getAlertLevel(id);
+			if(userHud.game.getAlertLevel(id) > max )
+				max = userHud.game.getAlertLevel(id);
+			if(currState == State.GUARD)
+				max = 0;
 			//check if current enemy is in attack
 			if(currState == State.ATTACK || currState == State.SEARCHATTACK || currState == State.GUARDATTACK)
 				stateColor = State.ATTACK;
@@ -143,18 +146,9 @@ public class HudAlert {
 					&& stateColor != State.ATTACK)
 				stateColor = State.ALERT;
 		}
-		//If max < 0
-		if(max < 0)
-			return 0;//return minimal value
-		//calculate time difference
-		float diff = GameTimer.getTimeInSeconds() - max;
+		System.out.println("Massimo = "+max);
 		//check difference
-		if(diff < 0)
-			diff = 0;
-		//calculate percentage
-		if(((ALERT_RANGE - diff)*100/ALERT_RANGE)<0)
-			return 0;
-		return (ALERT_RANGE - diff)*100/ALERT_RANGE;
+		return max*100/ALERT_RANGE;
 	}
 	
 	/** 
