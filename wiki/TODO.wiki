@@ -1,13 +1,5 @@
 == Cose da fare == 
 
-  * File di configurazione xml da cui leggere opzioni e parametri di gioco - joe (WORK IN PROGRESS)
   * Riorganizzazione codice e commenti - andrea/joe (WORK IN PROGRESS)
   * Gestire collisione proiettili-collisionNode - slash
-  * Supporto joystick - joe
-  * Scena di gioco - slash (WORK IN PROGRESS) 
-  * Animazioni modello e armi - slash (WORK IN PROGRESS)
   * Immagini Menu - slash
-  * Multiplayer - slash/joe/andrea (?)
-  * Posizionamento Nemici - andrea (WORK IN PROGRESS)
-
-== Bug da sistemare ==
