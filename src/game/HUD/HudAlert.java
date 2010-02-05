@@ -130,9 +130,9 @@ public class HudAlert {
 		stateColor = State.DEFAULT;
 		//calculate max alert level
 		float max = 0;
-		System.out.println("Ciclo sui nemici");
+//		System.out.println("Ciclo sui nemici");
 		for( String id : userHud.game.getEnemiesIds() ){
-			System.out.println("entro ciclo "+id);
+//			System.out.println("entro ciclo "+id);
 			State currState = userHud.game.getState(id);
 			if(userHud.game.getAlertLevel(id) > max )
 				max = userHud.game.getAlertLevel(id);
@@ -146,7 +146,7 @@ public class HudAlert {
 					&& stateColor != State.ATTACK)
 				stateColor = State.ALERT;
 		}
-		System.out.println("Massimo = "+max);
+//		System.out.println("Massimo = "+max);
 		//check difference
 		return max*100/ALERT_RANGE;
 	}
