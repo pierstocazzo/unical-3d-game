@@ -243,10 +243,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 			} else {
 				feet.setActive(false);
 				body.setActive(false);
-				try {
-					line.removeFromParent();
-				} catch (Exception e) {
-				}
+				line.removeFromParent();
 			}
 	    } else {
 	    	die();
