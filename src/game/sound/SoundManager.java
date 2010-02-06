@@ -104,7 +104,7 @@ public class SoundManager {
 		death.setMaxAudibleDistance(100000);
 		death.setVolume(4.0f);
 		
-		noAmmo = audio.createAudioTrack("/game/data/sound/trigger.wav", false);
+		noAmmo = audio.createAudioTrack("/game/data/sound/trigger.ogg", false);
 		noAmmo.setType(TrackType.POSITIONAL);
 		noAmmo.setRelative(true);
 		noAmmo.setMaxAudibleDistance(100000);
@@ -122,7 +122,7 @@ public class SoundManager {
 		run.setMaxAudibleDistance(100000);
 		run.setVolume(2.0f);
 		
-		victory = audio.createAudioTrack("/game/data/sound/victory.wav", false);
+		victory = audio.createAudioTrack("/game/data/sound/victory.ogg", false);
 		victory.setType(TrackType.POSITIONAL);
 		victory.setRelative(true);
 		victory.setMaxAudibleDistance(100000);
@@ -152,7 +152,7 @@ public class SoundManager {
 		return sound;
 	}
 	
-	public static void playSound( SoundType soundType, Vector3f position){
+	public static void playSound( SoundType soundType, Vector3f position ) {
 		switch (soundType) {
 			case DEATH:
 				death.setWorldPosition( position );
