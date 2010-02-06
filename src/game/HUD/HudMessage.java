@@ -24,6 +24,8 @@ import com.jme.scene.Text;
 
 /**
  * Class HudMessage
+ * <br>
+ * Contains a single message that can be displayed in the game
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */

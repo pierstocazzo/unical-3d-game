@@ -23,7 +23,7 @@ import com.jme.scene.Text;
 
 /**
  * Class HudTextBox (DEPRECATED)
- * 
+ * <br>
  * Used for print intrusive message on screen
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone

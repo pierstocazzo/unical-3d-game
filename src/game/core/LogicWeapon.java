@@ -22,7 +22,8 @@ import game.common.*;
 import java.io.Serializable;
 
 /**
- * Class <code>LogicWeapon</code><br>
+ * Class <code>LogicWeapon</code>
+ * <br>
  * Represent the game weapons
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone

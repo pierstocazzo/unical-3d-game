@@ -40,6 +40,9 @@ import com.jme.math.Vector3f;
 
 /**
  * Class LogicWorld
+ * <br>
+ * Main class that handles all the communication
+ * between the Logical and the Graphical world.
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */

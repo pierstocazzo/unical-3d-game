@@ -30,7 +30,7 @@ public class StartGame {
 	public static void main( String[] args ) {
 		// load configuration from the game.conf file
 		GameConf.init();
-		// initialize the ai states
+		// initialize the AI states
 		State.init();
 		// start the game's menu
 		MainMenu menu = new MainMenu();

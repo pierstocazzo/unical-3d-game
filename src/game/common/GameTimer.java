@@ -21,6 +21,7 @@ import com.jme.util.Timer;
 
 /**
  * Class Game Timer
+ * <br>
  * Used for manage time in the game
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone

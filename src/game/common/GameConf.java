@@ -34,8 +34,9 @@ import org.jdom.output.XMLOutputter;
 
 import com.jme.math.Vector2f;
 
-/** Class GameSettings used to read the xml configuration file<br>
- * 
+/**
+ * Class GameSettings used to read the xml configuration file
+ * <br>
  * Needed library: <a href="http://www.jdom.org">JDOM</a>
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone

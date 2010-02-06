@@ -32,6 +32,8 @@ import com.jme.math.Vector3f;
 
 /**
  * Class LogicEnemy
+ * <br>
+ * Representation of logical enemy
  *
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */

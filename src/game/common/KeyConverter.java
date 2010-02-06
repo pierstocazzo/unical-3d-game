@@ -22,6 +22,8 @@ import com.jme.input.KeyInput;
 
 /**
  * Utility Keys Converter
+ * <br>
+ * Used to map StringKey Code to KeyInput Code and viceversa
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */

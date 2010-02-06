@@ -19,7 +19,8 @@ package game.core;
 
 import java.io.Serializable;
 
-/** class <code>LogicEnergyPack</code> <br>
+/** class <code>LogicEnergyPack</code>
+ * <br>
  * Represents an energy pack the player can catch and use when
  * his energy (life) is few
  * 

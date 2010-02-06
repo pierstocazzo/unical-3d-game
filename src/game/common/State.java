@@ -21,6 +21,7 @@ import java.io.Serializable;
 
 /**
  * Enum {@link State}
+ * <br>
  * Define states of enemies
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone

@@ -25,6 +25,8 @@ import com.jme.scene.shape.Quad;
 
 /**
  * Class HudLife
+ * <br>
+ * Update the life bar of the player
  * 
  * @author Andrea Martire, Giuseppe Leone, Salvatore Loria
  */

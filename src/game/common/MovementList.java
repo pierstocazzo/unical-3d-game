@@ -26,7 +26,10 @@ import game.common.Movement;
 
 /**
  * Class {@link MovementList}
- * a closed path, a list of movements
+ * <br>
+ * Manages the variuos type of movement path that
+ * a enemy can do. It can generate a set of default movements
+ * or a new movement path, directly.
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */

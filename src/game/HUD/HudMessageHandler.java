@@ -26,8 +26,8 @@ import com.jme.renderer.ColorRGBA;
 
 /**
  * Class HudMessageHandler
- * 
- * Small Message Handler
+ * <br>
+ * It manage and display all the messages in the game
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */

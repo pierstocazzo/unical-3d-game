@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 /**
  * A class that contains and handles all images
+ * <br>
  * used in the main menu of the Game
  * 
  * @author Salvatore Loria, Andrea Martire, Giuseppe Leone

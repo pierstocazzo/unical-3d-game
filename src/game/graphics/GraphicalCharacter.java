@@ -24,6 +24,8 @@ import com.jmex.physics.PhysicsNode;
 
 /**
  * Graphical Character
+ * <br>
+ * The graphical representation of the character
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
