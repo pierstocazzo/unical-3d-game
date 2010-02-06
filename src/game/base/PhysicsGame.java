@@ -99,13 +99,13 @@ public abstract class PhysicsGame {
     
 	protected ThrowableHandler throwableHandler;
 	
-	/** pass manager for terrain splatting etc */
+	/** pass manager for terrain splatting and water effects */
 	protected BasicPassManager passManager;
 
 	/** set to false when you don't want to do the world update */
 	protected boolean enabled = true;
 
-	/** useful variable */
+	/** pause the game */
 	protected boolean pause = false;
 
     /**
@@ -124,15 +124,10 @@ public abstract class PhysicsGame {
                 // main loop
                 while ( !finished && !display.isClosing() ) {
                 	if( enabled ) {
-	                    // handle freeCamInput events prior to updating the scene
-	                    // - some applications may want to put this into update of
-	                    // the game state
 	                    InputSystem.update();
 	
-	                    // update game state, do not use interpolation parameter
 	                    update(-1.0f);
 	
-	                    // render, do not use interpolation parameter
 	                    render(-1.0f);
 	
 	                    // swap buffers
@@ -188,7 +183,7 @@ public abstract class PhysicsGame {
      * @see AbstractGame#update(float interpolation)
      */
     protected void update( float interpolation ) {
-        // Recalculate the framerate.
+        // Recalculate the time.
         GameTimer.update();
         // Update tpf to time per frame according to the Timer.
         tpf = GameTimer.getTimePerFrame();
@@ -197,8 +192,6 @@ public abstract class PhysicsGame {
         GameTaskQueueManager.getManager().getQueue(GameTaskQueue.UPDATE).execute();
 
         if ( firstFrame ) {
-            // drawing and calculating the first frame usually takes longer than the rest
-            // to avoid a rushing simulation we reset the timer
             GameTimer.reset();
             firstFrame = false;
         }
@@ -296,7 +289,6 @@ public abstract class PhysicsGame {
      * Creates display, sets up camera, and binds keys. Called in
      * BaseGame.start() directly after the dialog box.
      *
-     * @see AbstractGame#initSystem()
      */
     protected void initSystem() throws JmeException {
         try {
@@ -367,10 +359,7 @@ public abstract class PhysicsGame {
     }
 
     /**
-     * Creates rootNode, lighting, statistic text, and other basic render
-     * states. Called in BaseGame.start() after initSystem().
-     *
-     * @see AbstractGame#initGame()
+     * Creates rootNode, lighting and render states. 
      */
     protected void initGame() {
     	
@@ -436,20 +425,9 @@ public abstract class PhysicsGame {
      */
     protected abstract void update();
 
-
     /**
-     * unused
+     * Cleans up the system.
      *
-     * @see AbstractGame#reinit()
-     */
-    protected void reinit() {
-        //do nothing
-    }
-
-    /**
-     * Cleans up the keyboard.
-     *
-     * @see AbstractGame#cleanup()
      */
     protected void cleanup() {
         TextureManager.doTextureCleanup();
@@ -463,7 +441,7 @@ public abstract class PhysicsGame {
     }
 
     /**
-     * Calls the quit of BaseGame to clean up the display and then closes the JVM.
+     * clean up the display and then closes the JVM.
      */
     protected void quit() {
         if (display != null)
@@ -472,7 +450,7 @@ public abstract class PhysicsGame {
     }
 
     /**
-     * @return speed set by {@link #setPhysicsSpeed(float)}
+     * @return speed
      */
     public float getPhysicsSpeed() {
         return physicsSpeed;
@@ -487,14 +465,14 @@ public abstract class PhysicsGame {
     }
 
     /**
-     * @return the physics space for this simple game
+     * @return the physics space for this game
      */
     public PhysicsSpace getPhysicsSpace() {
         return physicsSpace;
     }
 
     /**
-     * @param physicsSpace The physics space for this simple game
+     * @param physicsSpace The physics space for this game
      */
     protected void setPhysicsSpace(PhysicsSpace physicsSpace) {
         if ( physicsSpace != this.physicsSpace ) {
@@ -509,11 +487,11 @@ public abstract class PhysicsGame {
     }
     
     public Camera getCam() {
-    	return this.cam;
+    	return cam;
     }
     
     public Node getRootNode() {
-    	return this.rootNode;
+    	return rootNode;
     }
 
 	public void setPause( boolean pause ) {
