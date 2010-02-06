@@ -65,7 +65,7 @@ public class ImagesContainer {
 		initMenuImagesComponentFolders();
 		
 		backgroundCreditsFrame = Toolkit.getDefaultToolkit().getImage( 
-				"src/game/data/images/menu/credits16_9.jpg" );
+				"src/game/data/images/menu/creditsScreen.png" );
 		backgroundCreditsFrame = backgroundCreditsFrame.getScaledInstance(
 				screenSize.width, screenSize.height, Image.SCALE_SMOOTH);
 		
