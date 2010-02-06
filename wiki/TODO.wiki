@@ -1,5 +1,4 @@
 == Cose da fare == 
 
   * Riorganizzazione codice e commenti - andrea/joe (WORK IN PROGRESS)
-  * Gestire collisione proiettili-collisionNode - slash
   * Immagini Menu - slash
