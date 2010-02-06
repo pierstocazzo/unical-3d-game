@@ -23,7 +23,6 @@ import game.common.GameTimer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.jme.app.AbstractGame;
 import com.jme.input.InputSystem;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
@@ -41,9 +40,7 @@ import com.jme.scene.state.LightState;
 import com.jme.scene.state.WireframeState;
 import com.jme.scene.state.ZBufferState;
 import com.jme.system.DisplaySystem;
-import com.jme.system.GameSettings;
 import com.jme.system.JmeException;
-import com.jme.system.PropertiesGameSettings;
 import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
 import com.jme.util.TextureManager;
@@ -62,10 +59,15 @@ import com.jmex.physics.PhysicsSpace;
  * 
  * @author Salvatore Loria Giuseppe Leone, Andrea Martire.
  */
-public abstract class PhysicsGame extends AbstractGame {
+public abstract class PhysicsGame {
 
     // Main scene components:
-	
+	/** Flag for running the system. */
+    protected boolean finished;
+    
+    /** Renderer used to display the game */
+    protected DisplaySystem display;
+    
 	/** main camera node */
     protected Camera cam;
     
@@ -105,15 +107,6 @@ public abstract class PhysicsGame extends AbstractGame {
 
 	/** useful variable */
 	protected boolean pause = false;
-	
-	
-    /**  
-     *  PhysicsGame constructor<br>
-     *  Set up game properties
-     */
-    public PhysicsGame() {
-        System.setProperty( "jme.stats", "set" );
-    }
 
     /**
      * Main game loop: render and update as fast as possible.
@@ -250,7 +243,30 @@ public abstract class PhysicsGame extends AbstractGame {
     		showPause( true );
     	}
     }
+    
+    /**
+     * <code>assertDisplayCreated</code> determines if the display system was
+     * successfully created before use.
+     * 
+     * @throws JmeException
+     *             if the display system was not successfully created
+     */
+    protected void assertDisplayCreated() throws JmeException {
+        if (display == null) {
+            logger.severe("Display system is null.");
 
+            throw new JmeException("Window must be created during"
+                    + " initialization.");
+        }
+        if (!display.isCreated()) {
+            logger.severe("Display system not initialized.");
+
+            throw new JmeException("Window must be created during"
+                    + " initialization.");
+        }
+    }
+
+    /** set if to show that the game is in pause */
     public abstract void showPause( boolean pause );
 
 	/**
@@ -260,7 +276,7 @@ public abstract class PhysicsGame extends AbstractGame {
      * @see AbstractGame#render(float interpolation)
      */
     protected void render( float interpolation ) {
-        Renderer renderer = super.display.getRenderer();
+        Renderer renderer = display.getRenderer();
         /** Clears the previously rendered information. */
         renderer.clearBuffers();
 
@@ -449,7 +465,6 @@ public abstract class PhysicsGame extends AbstractGame {
     /**
      * Calls the quit of BaseGame to clean up the display and then closes the JVM.
      */
-    @Override
     protected void quit() {
         if (display != null)
             display.close();
@@ -516,38 +531,11 @@ public abstract class PhysicsGame extends AbstractGame {
 	public void resumeGame() {
 		enabled = true;
 	}
-
-	/**
-     * @see AbstractGame#getNewSettings()
+	
+    /**
+     * <code>finish</code> breaks out of the main game loop. 
      */
-	@Override
-    protected GameSettings getNewSettings() {
-        return new PhysicsGameSettings();
-    }
-
-	/**
-     * A PropertiesGameSettings which defaults Fullscreen to TRUE.
-     */
-    static class PhysicsGameSettings extends PropertiesGameSettings {
-        static {
-            // This is how you programmatically override the DEFAULT_*
-            // settings of GameSettings.
-            // You can also make declarative overrides by using
-            // "game-defaults.properties" in a CLASSPATH root directory (or
-            // use the 2-param PropertiesGameSettings constructor for any name).
-            // (This is all very different from the user-specific
-            // "properties.cfg"... or whatever file is specified below...,
-            // which is read from the current directory and is session-specific).
-            defaultFullscreen = Boolean.TRUE;
-            defaultSettingsWidgetImage = "/jmetest/data/images/Monkey.png";
-        }
-        /**
-         * Populates the GameSettings from the (session-specific) .properties
-         * file.
-         */
-        PhysicsGameSettings() {
-            super("properties.cfg");
-            load();
-        }
+    public void finish() {
+        finished = true;
     }
 }
