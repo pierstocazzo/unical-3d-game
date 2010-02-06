@@ -17,10 +17,9 @@
 
 package game.graphics;
 
-import java.util.Iterator;
-
 import game.common.WeaponType;
 
+import com.jme.bounding.BoundingBox;
 import com.jme.input.InputHandler;
 import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
@@ -57,6 +56,8 @@ public class Bullet {
 	
 	boolean enabled;
 	
+	Sphere bullet;
+	
 	/** PhysicsBullet constructor <br>
 	 * 
 	 * @param shooterId - (String) the id of the character who shoot this bullet
@@ -84,14 +85,15 @@ public class Bullet {
 		world.getRootNode().attachChild( physicsBullet );
 		physicsBullet.getLocalTranslation().set( position );
 		
-		Sphere s = new Sphere( "bullet", 10, 10, 0.05f );
-		physicsBullet.attachChild( s );
+		bullet = new Sphere( "bullet", 10, 10, 0.05f );
+		physicsBullet.attachChild( bullet );
 		physicsBullet.generatePhysicsGeometry();
-		s.lockBounds();
-		s.lockMeshes();
-		s.lockShadows();
+		bullet.lockBounds();
+		bullet.lockMeshes();
+		bullet.lockShadows();
 		physicsBullet.addForce( direction.mult( weaponType.getPower() ) );
-		
+		bullet.setModelBound(new BoundingBox() );
+		bullet.updateModelBound();
 		contactDetection();
 	}
 	
@@ -109,9 +111,7 @@ public class Bullet {
         		physicsBullet.delete();
         		enabled = false;
         		/** Control if the bullet hit a character */
-        		Iterator<GraphicalCharacter> it = world.characters.iterator();
-        		while( it.hasNext() ) {
-        			GraphicalCharacter character = it.next();
+        		for( GraphicalCharacter character : world.characters ) {
     				if( ( contactInfo.getNode1() == character.getCharacterBody() ||
     					  contactInfo.getNode2() == character.getCharacterBody() ) ||
     					( contactInfo.getNode1() == character.getCharacterFeet() ||

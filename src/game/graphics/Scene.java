@@ -175,11 +175,12 @@ public class Scene {
 			while( it.hasNext() ) {
 				Element layer = it.next();
 				String texture = layer.getChild("Texture").getAttributeValue("File");
+				float scale = Float.valueOf( layer.getChild("Texture").getAttributeValue("ScaleU") );
 				if( layer.getAttributeValue("Type").equals( "Base Layer" ) ) {
-					terrainLayers.add( new TerrainLayer( texture, null ) );
+					terrainLayers.add( new TerrainLayer( texture, null, scale ) );
 				} else {
 					String alpha = layer.getChild("AlphaMap").getAttributeValue("File");
-					terrainLayers.add( new TerrainLayer( texture, alpha ) );
+					terrainLayers.add( new TerrainLayer( texture, alpha, scale ) );
 				}
 			}
 		} catch (Exception e) {
@@ -342,10 +343,12 @@ public class Scene {
 	public class TerrainLayer {
 		String texture;
 		String alpha;
+		float scale;
 		
-		TerrainLayer( String texture, String alpha ) {
+		TerrainLayer( String texture, String alpha, float scale ) {
 			this.texture = texture;
 			this.alpha = alpha;
+			this.scale = scale;
 		}
 	}
 	

@@ -17,12 +17,9 @@
 
 package game.graphics;
 
-import java.util.Iterator;
-
-import utils.Loader;
-
 import game.HUD.HudMessageHandler;
 import game.HUD.UserHud;
+import utils.Loader;
 
 import com.jme.image.Texture;
 import com.jme.input.InputHandler;
@@ -98,9 +95,7 @@ public class GraphicalAmmoPackage {
         	public void performAction( InputActionEvent evt ) {
         		ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
         		
-        		Iterator<GraphicalCharacter> it = world.characters.iterator();
-        		while( it.hasNext() ) {
-        			GraphicalCharacter character = it.next();
+        		for( GraphicalCharacter character : world.characters ) {
     				if ( contactInfo.getNode1() == character.getCharacterBody() || 
     					 contactInfo.getNode2() == character.getCharacterBody() ) {
 

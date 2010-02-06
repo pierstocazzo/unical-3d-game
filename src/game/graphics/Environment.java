@@ -39,7 +39,6 @@ import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
-import com.jme.light.LightNode;
 import com.jme.math.Plane;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
@@ -59,7 +58,6 @@ import com.jme.scene.state.TextureState;
 import com.jme.scene.state.ZBufferState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
-import com.jmex.effects.LensFlare;
 import com.jmex.effects.water.WaterRenderPass;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
@@ -87,14 +85,8 @@ public class Environment {
     /** environment parameters */
     float farPlane = 10000.0f;
     float textureScale = 0.008f;
-    float globalSplatScale = 30.0f;
+//    float globalSplatScale = 30.0f;
 	int heightMapSize;
-	
-	/** the sun effect */
-	LensFlare flare;
-
-	/** the light */
-	LightNode lightNode;
 	
 	/** the sky */
 	Skybox skybox;
@@ -322,11 +314,12 @@ public class Environment {
         	if( layer.alpha != null ) {
 	            ts = createSplatTextureState(
 	            		dir + layer.texture,
-	            		dir + layer.alpha );
+	            		dir + layer.alpha,
+	            		layer.scale );
         	} else {
                 ts = createSplatTextureState(
                 		dir + layer.texture,
-                		null );
+                		null, layer.scale );
         	}
             
             passNodeState = new PassNodeState();
@@ -395,7 +388,7 @@ public class Environment {
         ts.setTexture(t1, ts.getNumberOfSetTextures());
     }
 
-    private TextureState createSplatTextureState(String texture, String alpha) {
+    private TextureState createSplatTextureState( String texture, String alpha, float scale ) {
         TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
 
         Texture t0 = TextureManager.loadTexture( Loader.load( texture ),
@@ -403,7 +396,7 @@ public class Environment {
                 Texture.MagnificationFilter.Bilinear);
         t0.setWrap(Texture.WrapMode.Repeat);
         t0.setApply(Texture.ApplyMode.Modulate);
-        t0.setScale(new Vector3f(globalSplatScale, globalSplatScale, 1.0f));
+        t0.setScale(new Vector3f( scale, scale, 1.0f));
         ts.setTexture(t0, 0);
 
         if (alpha != null) {
