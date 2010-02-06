@@ -1,5 +1,0 @@
-<Freeworld3D Version="2.0">
-<Environment>
-	<Viewport Color="128,128,128" Fov="60.000000" NearClip="1.000000" FarClip="10000.000000"/>
-	<Lighting Direction="-1.000000,0.000000,-1.000000" Ambient="0,0,0" Diffuse="255,255,255"/>
-</Environment>
