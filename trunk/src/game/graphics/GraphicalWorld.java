@@ -405,7 +405,7 @@ public class GraphicalWorld extends PhysicsGame {
         }
         
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "switch_message", false ) ) {
-            ((GraphicalWorld)(this)).userHud.hudMsgBox.switchToNext();
+            userHud.hudMsgBox.switchToNext();
         }
         
         if ( KeyBindingManager.getKeyBindingManager().isValidCommand( "exit", false ) ) {
