@@ -136,5 +136,6 @@ public enum State implements Serializable {
 		SEARCH.set( get( GameConf.STATE_SEARCH_VIEW_RANGE ), get( GameConf.STATE_SEARCH_VIEW_RANGE ) );
 		SEARCHATTACK.set( get( GameConf.STATE_ATTACK_VIEW_RANGE ), get( GameConf.STATE_ATTACK_ACTION_RANGE ) );
 		GUARD.set( get( GameConf.STATE_GUARD_VIEW_RANGE ), get( GameConf.STATE_GUARD_ACTION_RANGE ) );
+		GUARDATTACK.set( get( GameConf.STATE_ATTACK_VIEW_RANGE ), get( GameConf.STATE_ATTACK_ACTION_RANGE ) );
 	}
 }

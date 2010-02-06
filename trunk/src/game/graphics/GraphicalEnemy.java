@@ -204,8 +204,8 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 				// fewer than the max enemy view range
 			    Vector3f vec = new Vector3f( world.player.getPosition().add( 0, 5, 0 ).subtract( 
 						feet.getWorldTranslation().add( 0, 5, 0 ) ).normalize() );
-				distanceFromPlayer = feet.getWorldTranslation().distance( world.player.getPosition() );
-			    if( distanceFromPlayer < State.ALERT.getViewRange() ) {
+				distanceFromPlayer = FastMath.abs( feet.getWorldTranslation().distance( world.player.getPosition() ));
+			    if( distanceFromPlayer < State.ALERT.getViewRange() + 30 ) {
 				    Vector3f lineOrigin = feet.getWorldTranslation().add(0,5,0);
 				    
 					line.removeFromParent();
@@ -223,15 +223,18 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 			    }
 			    
 				world.getCore().updateState(id);
+				if( world.getCore().getState(id) == State.GUARDATTACK || world.getCore().getState(id) == State.GUARD ){
+					System.out.println( id + " in state: " + world.getCore().getState(id) );
+				}
 				if( world.getCore().getState(id) == State.ATTACK || 
 					world.getCore().getState(id) == State.SEARCHATTACK || 
 					world.getCore().getState(id) == State.GUARDATTACK ) {
-					animationController.runAnimation( Animation.SHOOT );
-					shooting = true;
-					if( GameTimer.getTimeInSeconds() - previousShootTime > world.getCore().getWeapon(id).getLoadTime() ) {
-						previousShootTime = GameTimer.getTimeInSeconds();
-						shoot( world.getCore().getShootDirection(id) );
-					}
+						animationController.runAnimation( Animation.SHOOT );
+						shooting = true;
+						if( GameTimer.getTimeInSeconds() - previousShootTime > world.getCore().getWeapon(id).getLoadTime() ) {
+							previousShootTime = GameTimer.getTimeInSeconds();
+							shoot( world.getCore().getShootDirection(id) );
+						}
 				} else {
 					shooting = false;
 				}
@@ -297,6 +300,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 	}
 
 	public void shoot( Vector3f direction ) {
+		if( !direction.equals(Vector3f.ZERO) ) {
 			Vector3f bulletPosition = world.getCore().
 						getPosition(id).add( direction.mult( 10 ) );
 			bulletPosition.addLocal( 0, 5, 0 );
@@ -307,6 +311,7 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 			
 			world.shoot( feet.getWorldTranslation() );
 		}
+	}
 
 	/** Function <code>move</code> <br>
 	 * Move the character in this direction (only if the character is on the ground)

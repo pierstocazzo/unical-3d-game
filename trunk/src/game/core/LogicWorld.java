@@ -570,7 +570,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	@Override
 	public boolean firstFind( String id ) {
 		try {
-			return ((LogicEnemy) characters.get(id)).firstFind;
+			return ((LogicEnemy) characters.get(id)).firstTimeInSearch;
 		} catch ( Exception e ) {
 			return false;
 		}
@@ -582,7 +582,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 	@Override
 	public void setFirstFind( String id, boolean firstFind ) {
 		try {
-			((LogicEnemy) characters.get(id)).firstFind = firstFind;
+			((LogicEnemy) characters.get(id)).firstTimeInSearch = firstFind;
 		} catch ( Exception e ) {}
 	}
 	
