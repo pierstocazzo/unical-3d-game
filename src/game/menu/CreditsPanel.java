@@ -53,7 +53,7 @@ public class CreditsPanel extends JPanel {
 		
 		// Applied a borderLayout
 		setLayout(new BorderLayout());
-        
+        setOpaque(false);
 		JLabel photo = new JLabel();
 		Image img = ImagesContainer.getBackgroundCreditsFrame();
 		photo.setIcon(new ImageIcon(img));
