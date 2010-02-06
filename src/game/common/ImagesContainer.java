@@ -107,7 +107,7 @@ public class ImagesContainer {
 		// scale all image respect screen size
 		for(int i=0; i<menuImagesFolders.size(); i++){
 			Image img = Toolkit.getDefaultToolkit().getImage( menuImagesFolders.get(i) );
-			img = img.getScaledInstance(screenSize.width/3, screenSize.height/10, Image.SCALE_SMOOTH);
+			img = img.getScaledInstance(screenSize.width/4, screenSize.height/11, Image.SCALE_SMOOTH);
 			menuImagesContainer.add(img);
 		}
 	}
@@ -127,7 +127,7 @@ public class ImagesContainer {
 		// Scale every image respect screen size
 		for(int i=0; i<inGameMenuImagesFolder.size(); i++){
 			Image img = Toolkit.getDefaultToolkit().getImage( inGameMenuImagesFolder.get(i) );
-			img = img.getScaledInstance(screenSize.width/3, screenSize.height/10, Image.SCALE_SMOOTH);
+			img = img.getScaledInstance(screenSize.width/4, screenSize.height/11, Image.SCALE_SMOOTH);
 			inGameMenuImagesContainer_no_fullscreen.add( img );
 		}
 	}
@@ -151,8 +151,8 @@ public class ImagesContainer {
 		// Scale every image respect screen size
 		for(int i=0; i<inGameMenuImagesFolder.size(); i++){
 			Image img = Toolkit.getDefaultToolkit().getImage( inGameMenuImagesFolder.get(i) );
-			img = img.getScaledInstance(screenSizeFullscreen.width/3, 
-					screenSizeFullscreen.height/10, Image.SCALE_FAST);
+			img = img.getScaledInstance(screenSizeFullscreen.width/4, 
+					screenSizeFullscreen.height/11, Image.SCALE_FAST);
 			inGameMenuImagesContainer_with_fullscreen.add( img );
 		}
 	}
