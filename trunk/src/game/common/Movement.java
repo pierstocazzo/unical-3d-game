@@ -23,7 +23,8 @@ import com.jme.math.Vector3f;
 
 /**
  * Class Movement
- * a single movement in a path
+ * <br>
+ * Describe a single movement in a path, used in MovementList
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */

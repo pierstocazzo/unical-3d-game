@@ -272,6 +272,9 @@ public class GraphicalWorld extends PhysicsGame {
         }
     }
     
+    /**
+     * Set Up the base properties of Camera
+     */
     public void setupCamera() {
         cam.setLocation( player.getCharacterNode().getLocalTranslation().clone() );
         cam.setFrustumPerspective(45.0f,
@@ -281,6 +284,9 @@ public class GraphicalWorld extends PhysicsGame {
         cam.update();
     }
 
+    /**
+     * Set Up Input Handler
+     */
     public void setupInput() {
     	mouseLookHandler = new MouseLookHandler( cam, 1 );
     	mouseLookHandler.setEnabled(false);

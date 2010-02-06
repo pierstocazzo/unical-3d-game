@@ -26,6 +26,8 @@ import com.jme.math.Vector3f;
 
 /**
  * Abstract Class LogicCharacter
+ * <br>
+ * An abstract class that represents the player and enemy 
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
@@ -44,7 +46,7 @@ public abstract class LogicCharacter implements Serializable {
     /** Current Position Vector of the character */
 	Vector3f position;
 	
-	/** the logic world in whitch the character live */
+	/** the logic world in which the character live */
 	LogicWorld world;
 
 	/** Control variables */

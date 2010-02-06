@@ -24,6 +24,8 @@ import com.jme.scene.Node;
 import com.jme.scene.TriMesh;
 
 /**
+ * <code>CollisionHandler</code>
+ * <br>
  * Class that manage objects's collisions
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone

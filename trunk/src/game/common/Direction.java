@@ -21,6 +21,7 @@ import com.jme.math.Vector3f;
 
 /**
  * Enum Direction.
+ * <br>
  * Define directions used in the game
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone

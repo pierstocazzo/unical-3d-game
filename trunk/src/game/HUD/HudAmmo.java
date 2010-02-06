@@ -24,7 +24,9 @@ import com.jme.scene.Text;
 import com.jme.scene.shape.Quad;
 
 /**
- * Class HudLife
+ * Class HudAmmo
+ * <br>
+ * It updates the Ammo Counter 
  * 
  * @author Andrea Martire, Giuseppe Leone, Salvatore Loria
  */

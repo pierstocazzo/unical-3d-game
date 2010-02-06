@@ -38,6 +38,8 @@ import com.jmex.font2d.Text2D;
 
 /**
  * Class UserHud
+ * <br>
+ * Main UserHUD 
  * 
  * @author Andrea Martire, Giuseppe Leone, Salvatore Loria
  */

@@ -19,7 +19,8 @@ package game.common;
 
 /**
  * Class Point
- * A single point in a custom path
+ * <br>
+ * Describe a single point in a custom path
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */

@@ -40,8 +40,9 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
 
 /**
- * <code>ThirdPersonHandler</code> defines an InputHandler for
- * a third person view game
+ * <code>ThirdPersonHandler</code>
+ * <br>
+ * defines an InputHandler for third person view game
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */

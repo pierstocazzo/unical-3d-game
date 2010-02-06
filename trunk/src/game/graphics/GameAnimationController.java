@@ -21,7 +21,8 @@ import com.jme.animation.AnimationController;
 import com.jme.scene.Controller;
 import com.jmex.model.animation.JointController;
 
-/** Class <code>CustomAnimationController</code> <br>
+/** Class <code>CustomAnimationController</code>
+ * <br>
  * 
  * An custom animation controller to easily run animations
  * with a JointController

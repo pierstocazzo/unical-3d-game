@@ -29,7 +29,7 @@ import com.jme.util.TextureManager;
 
 /**
  * Class HudScore
- * 
+ * <br>
  * It displays score info
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone

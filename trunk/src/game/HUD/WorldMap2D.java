@@ -34,8 +34,8 @@ import com.jme.util.TextureManager;
 
 /**
  * Class WorldMap2D
- * 
- * It displays a map at screen right
+ * <br>
+ * It displays a map at the bottom-right of the screen
  * 
  * @author andrea
  */

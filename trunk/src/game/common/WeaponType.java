@@ -23,6 +23,9 @@ import game.common.GameConf;
 
 /**
  * Class WeaponType
+ * <br>
+ * Describres various type of weapon
+ * with it properties
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */

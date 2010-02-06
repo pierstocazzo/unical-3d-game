@@ -28,6 +28,8 @@ import com.jme.scene.shape.Quad;
 
 /**
  * Class HudAlert
+ * <br>
+ * Management of the alert enemy bar
  * 
  * @author Andrea Martire, Giuseppe Leone, Salvatore Loria
  */

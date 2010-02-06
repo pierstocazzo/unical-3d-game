@@ -26,6 +26,7 @@ import com.jme.util.TextureManager;
 
 /**
  * Class HudMessageBox
+ * <br>
  * This class is used for manage and show big message on screen
  * 
  * @author Andrea Martire, Giuseppe Leone, Salvatore Loria

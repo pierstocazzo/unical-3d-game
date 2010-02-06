@@ -23,7 +23,8 @@ import java.io.Serializable;
 
 import com.jme.math.Vector3f;
 
-/** Class <code>LogicAmmo</code> <br>
+/** Class <code>LogicAmmo</code>
+ * <br>
  * Represent pack of ammunitions the player can catch and use
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone

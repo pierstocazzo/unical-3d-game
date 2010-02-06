@@ -32,10 +32,13 @@ import com.jmex.physics.material.Material;
 
 /**
  * A graphical bullet
+ * <br>
+ * The graphical (physics) representation of a bullet
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class Bullet {
+	
 	/** the bullet physicsNode */
 	DynamicPhysicsNode physicsBullet;
 	

@@ -30,11 +30,16 @@ import com.jmex.audio.MusicTrackQueue.RepeatType;
 
 /**
  * Class SoundManager
+ * <br>
+ * The Main class that handles all sound in the game
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class SoundManager {
 	
+	/**
+	 * Various sound types 
+	 */
 	public static enum SoundType {
 		DEATH,
 		GAME,
@@ -64,6 +69,9 @@ public class SoundManager {
 	private static AudioTrack run;
 	private static AudioTrack victory;
 	
+	/**
+	 * Point to camera
+	 */
 	Camera cam;
 	
 	public SoundManager( Camera cam ) {
@@ -72,6 +80,9 @@ public class SoundManager {
 		initSound();
 	}
 	
+	/**
+	 * Initialize all the sound in the game
+	 */
 	public void initSound() {
 		audio = AudioSystem.getSystem();
 

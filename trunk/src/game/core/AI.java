@@ -28,6 +28,7 @@ import com.jme.math.Vector3f;
 
 /**
  * AI
+ * <br>
  * Class used for manage artificial intelligence of enemies
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
@@ -226,15 +227,19 @@ public class AI implements Serializable {
 		} 
 		else if( enemy.state == State.DEFAULT )
 		{
-			/** The enemy will move only if he is in default state. When he attack or is in alert he rests
+			/** 
+			 * The enemy will move only if he is in default state.
+			 * When he attack or is in alert he rests
 			 */
 			if( !enemy.currentMovement.getDirection().equals(Vector3f.ZERO) ) {
-				/** calculate distance between the current movement's start position and
-				 *  the current character position
+				/** 
+				 * calculate distance between the current movement's start position and
+				 * the current character position
 				 */
 				distance = Math.abs( currentPosition.distance( enemy.movementStartPosition ) );
-				/** If this distance is major than the lenght specified in the movement 
-				 *  start the next movement
+				/** 
+				 * If this distance is major than the lenght specified in the movement 
+				 * start the next movement
 				 */
 				if( distance >= enemy.currentMovement.getLength() ) {
 					enemy.movementStartPosition.set( currentPosition );

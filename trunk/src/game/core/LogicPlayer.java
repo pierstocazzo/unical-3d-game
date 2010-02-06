@@ -28,6 +28,8 @@ import com.jme.math.Vector3f;
 
 /**
  * Class LogicPlayer
+ * <br>
+ * Logic representation of the player
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
@@ -62,6 +64,7 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 		/** Initially the player has just the AR15 */
 		LogicWeapon ar15 = new LogicWeapon( super.id + "ar15", WeaponType.AR15 );
 		LogicWeapon gatling = new LogicWeapon( super.id + "gatling", WeaponType.GATLING );
+		
 		LogicWeapon bazooka = new LogicWeapon( super.id + "bazooka", WeaponType.BAZOOKA );
 		addWeapon( ar15 );
 		addWeapon( gatling );

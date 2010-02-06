@@ -23,7 +23,9 @@ import com.jme.math.Vector3f;
 
 /**
  * Class PointPath
- * It can generate a movements list
+ * <br>
+ * It can generate a movements list from a list
+ * of Point
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
@@ -61,8 +63,18 @@ public class PointPath {
 		return pointList.size();
 	}
 	
+	/**
+	 * Function <code>generateMovementsList</code>
+	 * <br>
+	 * Starts from a set of point to generate a complete
+	 * list of movements
+	 * @return LinkedList<Movement>
+	 */
 	public LinkedList<Movement> generateMovementsList(){
-		//se ho meno di due punti ritorno il path vuoto
+		/**
+		 * Return a valid path only if there are 
+		 * 2 point at least.
+		 */
 		if( pointList.size() < 2 ){
 			movementslist.add( new Movement( Direction.REST, 0));
 			return movementslist;

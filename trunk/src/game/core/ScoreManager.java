@@ -24,6 +24,8 @@ import java.io.Serializable;
 
 /**
  * Class Logic Controller (Score and Levels)
+ * <br>
+ * It manage the score level
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
@@ -255,6 +257,7 @@ public class ScoreManager implements Serializable {
 			 * 		3 - scoreForNextLevel( 2 ) = (5*2)^2 + 25 = 125
 			 * 		
 			 */
+			
 			return (int) (Math.pow( scoreFactor*level, 2 ) + scoreForNextLevel( level - 1 ));
 		}
 		

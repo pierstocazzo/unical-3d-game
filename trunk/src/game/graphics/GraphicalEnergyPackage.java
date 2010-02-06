@@ -36,25 +36,52 @@ import com.jmex.physics.contact.ContactInfo;
 
 /**
  * Graphical energy package
+ * <br>
+ * The graphical (physics) representation of energy package 
  * 
  * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
  */
 public class GraphicalEnergyPackage {
 	
+	/**
+	 * The identifier of EnergyPackage
+	 */
 	String id;
 	
+	/**
+	 * The static physics node where attach the pack
+	 */
 	StaticPhysicsNode physicsPack;
 	
+	/**
+	 * The box that represents the pack
+	 */
 	Box pack;
 	
+	/**
+	 * Pointer to graphical world
+	 */
 	GraphicalWorld world;
 	
+	/**
+	 * Position of energy package
+	 */
 	Vector3f position;
 	
+	/**
+	 * Contact detection handler
+	 */
 	InputHandler contactDetect;
 
 	boolean enabled;
 	
+	/**
+	 * Constructor for GraphicalEnergyPackage
+	 * 
+	 * @param (String) id - The Identifier
+	 * @param (GraphicalWorld) world - pointer to GraphicalWorld
+	 * @param (Vector3f) position - the position of pack
+	 */
 	GraphicalEnergyPackage( String id, GraphicalWorld world, Vector3f position ) {
 		this.id = id;
 		this.world = world;
@@ -66,6 +93,9 @@ public class GraphicalEnergyPackage {
 		enabled = true;
 	}
 	
+	/**
+	 * Initialize the physics of energy package
+	 */
 	public void createPhysics() {
 		physicsPack = world.getPhysicsSpace().createStaticNode();
 		world.getRootNode().attachChild( physicsPack );
@@ -85,6 +115,9 @@ public class GraphicalEnergyPackage {
 		physicsPack.generatePhysicsGeometry();
 	}
 	
+	/**
+	 * Verify a contact between it and a character 
+	 */
 	public void contactDetector() {
         SyntheticButton energyPackCollisionHandler = physicsPack.getCollisionEventHandler();
         
@@ -108,6 +141,9 @@ public class GraphicalEnergyPackage {
         contactDetect.addAction( collisionAction, energyPackCollisionHandler, false );
 	}
 
+	/**
+	 * Detach from rootNode
+	 */
 	public void deletePackage() {
 		physicsPack.removeFromParent();
 		physicsPack.detachAllChildren();
@@ -115,6 +151,10 @@ public class GraphicalEnergyPackage {
 		enabled = false;
 	}
 
+	/**
+	 * Update the contact handler
+	 * @param time
+	 */
 	public void update(float time) {
 		if( physicsPack.isActive() )
 			contactDetect.update(time);
