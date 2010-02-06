@@ -151,7 +151,6 @@ public class AI implements Serializable {
 				break;
 				
 			case GUARDATTACK:
-				System.out.println( "distanza tra " + id + " e il player: " + distance );
 				if( distance <= enemy.state.getViewRange() && enemy.canSeePlayer ) {
 					calculateShootDirection( id, playerId );
 					enemy.alertTime = maxAlertTime;

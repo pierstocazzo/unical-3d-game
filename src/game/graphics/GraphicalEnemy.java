@@ -223,9 +223,6 @@ public class GraphicalEnemy extends GraphicalCharacter  {
 			    }
 			    
 				world.getCore().updateState(id);
-				if( world.getCore().getState(id) == State.GUARDATTACK || world.getCore().getState(id) == State.GUARD ){
-					System.out.println( id + " in state: " + world.getCore().getState(id) );
-				}
 				if( world.getCore().getState(id) == State.ATTACK || 
 					world.getCore().getState(id) == State.SEARCHATTACK || 
 					world.getCore().getState(id) == State.GUARDATTACK ) {
