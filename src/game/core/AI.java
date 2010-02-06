@@ -39,12 +39,12 @@ public class AI implements Serializable {
 	LogicWorld world;
 	
 	/** direction when enemy is in find state */
-	Vector3f findDirection;
+	Vector3f searchDirection;
 	
 	/** current movement direction */
 	Vector3f moveDirection;
 	
-	int ALERT_RANGE = Integer.valueOf( GameConf.getParameter( GameConf.MAX_ALERT_TIME ) );
+	int maxAlertTime = Integer.valueOf( GameConf.getParameter( GameConf.MAX_ALERT_TIME ) );
 
 	/**
 	 * Constructor
@@ -54,7 +54,7 @@ public class AI implements Serializable {
 	public AI( LogicWorld world ) {
 		//initialize field
 		this.world = world;
-		this.findDirection = new Vector3f();
+		this.searchDirection = new Vector3f();
 		this.moveDirection = new Vector3f();
 		moveDirection.set( Vector3f.ZERO );
 	}
@@ -91,7 +91,7 @@ public class AI implements Serializable {
 				// if he sees the player he goes in alert state
 				if ( distance <= enemy.state.getViewRange() && enemy.canSeePlayer ) {
 					enemy.state = State.ALERT;
-					enemy.timeAlert = ALERT_RANGE;
+					enemy.alertTime = maxAlertTime;
 				}
 				break;
 
@@ -99,17 +99,17 @@ public class AI implements Serializable {
 				// if the player is near enough and he can see him, he goes in attack state
 				if ( distance <= enemy.state.getActionRange() && enemy.canSeePlayer ) {
 					enemy.state = State.ATTACK;
-					calculateShootDirection( id, playerId );
+//					calculateShootDirection( id, playerId );
 				} else if ( distance > enemy.state.getViewRange() || !enemy.canSeePlayer ) {
 					/* if he don't see the player
 					 * he remains in alert state for some time
 					 * then he return in default state
 					 */
-					if( enemy.timeAlert == 0 ) {
+					if( enemy.alertTime == 0 ) {
 						enemy.state = State.DEFAULT;
 					}
 				} else {
-					enemy.timeAlert = ALERT_RANGE;
+					enemy.alertTime = maxAlertTime;
 				}
 				break;
 
@@ -121,11 +121,11 @@ public class AI implements Serializable {
 				} 
 				// in any case he calculate the shoot direction
 				calculateShootDirection( id, playerId );
-				enemy.timeAlert = ALERT_RANGE;
+				enemy.alertTime = maxAlertTime;
 				break;
 
 			case SEARCH:
-				enemy.timeAlert = ALERT_RANGE;
+				enemy.alertTime = maxAlertTime;
 				// if he sees the player he goes in searchattack state
 				// (different from Attack just to remember that he was in search state before)
 				if ( distance <= enemy.state.getActionRange() && enemy.canSeePlayer )
@@ -138,7 +138,7 @@ public class AI implements Serializable {
 					enemy.state = State.SEARCH;
 				} else {
 					calculateShootDirection( id, playerId );
-					enemy.timeAlert = ALERT_RANGE;
+					enemy.alertTime = maxAlertTime;
 				}
 				break;
 				
@@ -147,15 +147,14 @@ public class AI implements Serializable {
 				  */
 				if ( distance <= enemy.state.getViewRange() && enemy.canSeePlayer ) {
 					enemy.state = State.GUARDATTACK;
-					calculateShootDirection( id, playerId );
-					enemy.timeAlert = ALERT_RANGE;
 				}
 				break;
 				
 			case GUARDATTACK:
-				if( distance <= enemy.state.getActionRange() && enemy.canSeePlayer ) {
+				System.out.println( "distanza tra " + id + " e il player: " + distance );
+				if( distance <= enemy.state.getViewRange() && enemy.canSeePlayer ) {
 					calculateShootDirection( id, playerId );
-					enemy.timeAlert = ALERT_RANGE;
+					enemy.alertTime = maxAlertTime;
 				} else {
 					enemy.state = State.GUARD;
 				}
@@ -202,29 +201,29 @@ public class AI implements Serializable {
 		currentPosition.setY(0);
 
 		if( enemy.state == State.SEARCH ) {
-			if( enemy.firstFind ) {
-				findDirection.set( enemy.shootDirection );
-				findDirection.setY(0);
+			if( enemy.firstTimeInSearch ) {
+				searchDirection.set( enemy.shootDirection );
+				searchDirection.setY(0);
 				enemy.initialFindPosition.set( currentPosition );
-				enemy.firstFind = false;
+				enemy.firstTimeInSearch = false;
 			}
 			
 			distance = Math.abs( currentPosition.distance( enemy.initialFindPosition ) );
 			if( distance > Integer.valueOf( GameConf.getParameter( GameConf.MAX_FIND_DISTANCE ) ) ) {
 				if( enemy.comingBack == false ) {
-					findDirection.negateLocal();
+					searchDirection.negateLocal();
 					enemy.comingBack = true;
 				}
 			}
 
 			if( enemy.comingBack == true && distance <= 7 && distance >= 0 ) {
 				enemy.comingBack = false;
-				enemy.firstFind = true;
+				enemy.firstTimeInSearch = true;
 				enemy.state = State.ALERT;
 				enemy.initialFindPosition.set( currentPosition );
 			}
 			
-			return findDirection;
+			return searchDirection;
 		} 
 		else if( enemy.state == State.DEFAULT )
 		{
@@ -248,6 +247,7 @@ public class AI implements Serializable {
 				return moveDirection;
 			} 
 		} 
+		
 		return Vector3f.ZERO;
 	}
 }

@@ -315,7 +315,6 @@ public class GraphicalWorld extends PhysicsGame {
     		collisionNode.updateWorldBound();
     		collisionNode.updateGeometricState(0, true);
 			
-    		userHud.update();
     		collisionHandler.update();
 	        inputHandler.update(tpf);
 	        freeCamInput.update(tpf);
@@ -351,6 +350,7 @@ public class GraphicalWorld extends PhysicsGame {
 	        
 	        updateCharacters(tpf);
 	        updateRenderOptimizer();
+	        userHud.update();
 	        
 	        /** print the crosshair only in first person view */
 	        if( inputHandler.isFirstPerson() ) {

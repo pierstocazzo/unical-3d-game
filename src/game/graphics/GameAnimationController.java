@@ -84,7 +84,7 @@ public class GameAnimationController {
 		
 		DIE ( 68, 68, 1f ),
 		
-		SHOOT ( 68, 68, 0.4f );
+		SHOOT ( 68, 68, 1f );
 		
 		int startFrame; 
 		

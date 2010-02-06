@@ -57,14 +57,14 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	Vector3f shootDirection;
 	
 	/** the time that the enemy remain in alert or attack state */
-	float timeAlert = 0;
+	float alertTime = 0;
 	float oldTime = 0;
 	
 	/** true when the enemy is coming back from the state find */
 	boolean comingBack = false;
 	
 	/** false when the enemy is in find status */
-	boolean firstFind = true;
+	boolean firstTimeInSearch = true;
 	
 	/** the max error of the shot */
 	int errorAngle;
@@ -163,15 +163,15 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	 * @return (float)
 	 */
 	public float getTimeAlert() {
-		return timeAlert;
+		return alertTime;
 	}
 	
 	public void updateTimeAlert(){
 		float newTime = GameTimer.getTimeInSeconds();
-		timeAlert = timeAlert - ( newTime - oldTime );
+		alertTime = alertTime - ( newTime - oldTime );
 		oldTime = newTime;
-		if( timeAlert < 0 )
-			timeAlert = 0;
+		if( alertTime < 0 )
+			alertTime = 0;
 	}
 
 	/**
