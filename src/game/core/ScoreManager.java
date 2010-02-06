@@ -130,7 +130,7 @@ public class ScoreManager implements Serializable {
 		
 		world.ammoPackValue = ammoPackValue;
 		for( String id : world.ammoPackages.keySet() ) {
-			if( world.ammoPackages.get(id).type == WeaponType.BAZOOKA ) {
+			if( world.ammoPackages.get(id).type == WeaponType.RPG ) {
 				world.ammoPackages.get(id).value = (int) (ammoPackValue * 0.1);
 			} else {
 				world.ammoPackages.get(id).value = ammoPackValue;
@@ -153,7 +153,7 @@ public class ScoreManager implements Serializable {
 				+ Integer.valueOf(GameConf.getParameter( GameConf.GATLING_AMMO_INCREASE )) * previousLevel;
 				break;
 				
-			case BAZOOKA: 
+			case RPG: 
 				weapon.magazineCapacity = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_BAZOOKA_CAPACITY ) )
 				+ Integer.valueOf(GameConf.getParameter( GameConf.BAZOOKA_AMMO_INCREASE )) * previousLevel;
 				break;

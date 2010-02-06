@@ -155,7 +155,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		} else if ( probability < Integer.valueOf( GameConf.getParameter( GameConf.GATLING_PROBABILITY )) ) {
 			type = WeaponType.GATLING;
 		} else {
-			type = WeaponType.BAZOOKA;
+			type = WeaponType.RPG;
 		}
 		
 		LogicEnemy enemy = new LogicEnemy( "enemy" + enemyCounter,
@@ -187,7 +187,7 @@ public class LogicWorld implements WorldInterface, Serializable {
 		} else if ( rand < gatlingProbability  + ar15probability ) {
 			type = WeaponType.GATLING;
 		} else if ( rand < bazookaProbability + gatlingProbability + ar15probability ) {
-			type = WeaponType.BAZOOKA;
+			type = WeaponType.RPG;
 		} else {
 			type = WeaponType.AR15;
 		}

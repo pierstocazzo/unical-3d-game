@@ -65,7 +65,7 @@ public class LogicPlayer extends LogicCharacter implements Serializable {
 		LogicWeapon ar15 = new LogicWeapon( super.id + "ar15", WeaponType.AR15 );
 		LogicWeapon gatling = new LogicWeapon( super.id + "gatling", WeaponType.GATLING );
 		
-		LogicWeapon bazooka = new LogicWeapon( super.id + "bazooka", WeaponType.BAZOOKA );
+		LogicWeapon bazooka = new LogicWeapon( super.id + "bazooka", WeaponType.RPG );
 		addWeapon( ar15 );
 		addWeapon( gatling );
 		addWeapon( bazooka );
