@@ -19,9 +19,6 @@ package game.graphics;
 
 import game.HUD.HudMessageHandler;
 import game.HUD.UserHud;
-
-import java.util.Iterator;
-
 import utils.Loader;
 
 import com.jme.image.Texture;
@@ -95,9 +92,7 @@ public class GraphicalEnergyPackage {
         	public void performAction( InputActionEvent evt ) {
         		ContactInfo contactInfo = (ContactInfo) evt.getTriggerData();
 
-        		Iterator<GraphicalCharacter> it = world.characters.iterator();
-        		while( it.hasNext() ) {
-        			GraphicalCharacter character = it.next();
+        		for( GraphicalCharacter character : world.characters ) {
     				if ( contactInfo.getNode1() == character.getCharacterBody() || 
     					 contactInfo.getNode2() == character.getCharacterBody() ) {
 
