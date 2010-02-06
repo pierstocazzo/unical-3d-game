@@ -48,7 +48,7 @@ public enum WeaponType implements Serializable {
 	),
 	
 	/** not used */
-	BAZOOKA (
+	RPG (
 		Integer.valueOf( GameConf.getParameter( GameConf.WEAPON_BAZOOKA_DAMAGE ) ),
 		Integer.valueOf( GameConf.getParameter( GameConf.WEAPON_BAZOOKA_POWER ) ),
 		Float.valueOf( GameConf.getParameter( GameConf.WEAPON_BAZOOKA_LOADTIME ) ),

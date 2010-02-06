@@ -21,6 +21,7 @@ import game.HUD.HudMessageBox;
 import game.HUD.UserHud;
 import game.base.PhysicsGame;
 import game.common.GameConf;
+import game.common.WeaponType;
 import game.input.GameInputHandler;
 import game.menu.MainMenu;
 import game.sound.SoundManager;
@@ -232,7 +233,7 @@ public class GraphicalWorld extends PhysicsGame {
 	    TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
 	    ts.setEnabled(true);
 	    ts.setTexture(texture);
-		model.getChild( "Regroup05" ).setRenderState( ts );
+		model.getChild( "weapon" ).setRenderState( ts );
 		menu.setProgress(70);
 	    
 	    for( String id : core.getPlayersIds() ) {
@@ -250,17 +251,26 @@ public class GraphicalWorld extends PhysicsGame {
     public void setupEnemies() { 
         for( String id : core.getEnemiesIds() ) {
         	enemiesCounter++;
-    		Node model = ModelLoader.loadModel("game/data/meshes/soldier/soldier.jme", 
-    				"game/data/meshes/soldier/soldier.jpg", 1 );
+        	Node model;
+        	String texturePath;
+        	if( core.getWeapon(id) == WeaponType.RPG ) {
+        		model = ModelLoader.loadModel("game/data/meshes/soldier/soldierRPG.jme", 
+        				"game/data/meshes/soldier/soldier.jpg", 1 );
+        		texturePath = "game/data/meshes/soldier/RPG.jpg";
+        	} else {
+	    		model = ModelLoader.loadModel("game/data/meshes/soldier/soldier.jme", 
+	    				"game/data/meshes/soldier/soldier.jpg", 1 );
+	    		texturePath = "game/data/meshes/soldier/AR15.jpg";
+        	}
     	    model.setLocalTranslation(0, -2f, 0);   
     	    
-    		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/meshes/soldier/AR15.jpg" ),
+    		Texture texture = TextureManager.loadTexture( Loader.load( texturePath ),
     	            Texture.MinificationFilter.Trilinear,
     	            Texture.MagnificationFilter.Bilinear);
     	    TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
     	    ts.setEnabled(true);
     	    ts.setTexture(texture);
-    		model.getChild( "Regroup05" ).setRenderState( ts );
+    		model.getChild( "weapon" ).setRenderState( ts );
     		
             GraphicalEnemy enemy = new GraphicalEnemy( id, this, 5, 100,  model );
             

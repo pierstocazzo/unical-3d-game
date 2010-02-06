@@ -63,7 +63,7 @@ public class LogicWeapon implements Serializable {
 			this.magazineCapacity = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_GATLING_CAPACITY ) );
 			break;
 			
-		case BAZOOKA: 
+		case RPG: 
 			this.magazineCapacity = Integer.valueOf( GameConf.getParameter( GameConf.INITIAL_BAZOOKA_CAPACITY ) );
 			break;
 		}
