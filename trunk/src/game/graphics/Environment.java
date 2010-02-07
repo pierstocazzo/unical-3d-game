@@ -62,7 +62,7 @@ import com.jmex.effects.water.WaterRenderPass;
 import com.jmex.physics.StaticPhysicsNode;
 import com.jmex.physics.geometry.PhysicsBox;
 import com.jmex.terrain.TerrainPage;
-import com.jmex.terrain.util.RawHeightMap;
+import com.jmex.terrain.util.AbstractHeightMap;
 
 /**
  * Enviroment class
@@ -286,9 +286,9 @@ public class Environment {
 	}
 
 	private void createTerrain() {
-		RawHeightMap heightMap = scene.getHeightmap();
+		AbstractHeightMap heightMap = scene.getHeightmap();
 		
-        terrain = new TerrainPage("Terrain", 33, heightMap.getSize(),
+        terrain = new TerrainPage("Terrain", 33, scene.getHeightmapSize(),
                 terrainScale, heightMap.getHeightMap());
         terrain.getLocalTranslation().set( 0, -waterHeight, 0 );
         terrain.setDetailTexture(1, 1);
@@ -343,9 +343,9 @@ public class Environment {
     }
 
     private void createReflectionTerrain() {
-    	RawHeightMap heightMap = scene.getHeightmap();
+    	AbstractHeightMap heightMap = scene.getHeightmap();
 
-        TerrainPage page = new TerrainPage("Terrain", 33, heightMap.getSize(),
+        TerrainPage page = new TerrainPage("Terrain", 33, scene.getHeightmapSize(),
                 terrainScale, heightMap.getHeightMap());
         page.getLocalTranslation().set(  0, -waterHeight, 0 );
         page.setDetailTexture(1, 1);

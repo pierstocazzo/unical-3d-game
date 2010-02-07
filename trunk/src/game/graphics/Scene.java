@@ -34,6 +34,8 @@ import utils.Util;
 
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
+import com.jmex.terrain.util.AbstractHeightMap;
+import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.RawHeightMap;
 
 /** Class Scene used to read the xml file exported from FreeWorld3d<br>
@@ -55,7 +57,7 @@ public class Scene {
 	Element xmlRoot;
 	
 	/** the heightmap from witch to generate the terrain */
-	RawHeightMap heightmap;
+	AbstractHeightMap heightmap;
 	
 	/** the heightmap's size */
 	int heightmapSize;
@@ -102,7 +104,8 @@ public class Scene {
 			try {
 				document = builder.build( new File( DEFAULT_SCENE_FILE ) );
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				// load an empty document
+				document = new Document( new Element("root"));
 			} 
 		}
 		
@@ -145,9 +148,10 @@ public class Scene {
 						terrain.getChild( "Heightmap" ).getAttributeValue( "File" ) );
 				heightmap = new RawHeightMap( heightmapURL, heightmapSize, RawHeightMap.FORMAT_16BITLE, false );
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				heightmapSize = 129;
+				scale = new Vector3f( 32, 0.5f, 32 ); 
+				heightmap = new MidPointHeightMap(128, 1f);
 			} 
-			
 		}
 		
 		try {
@@ -304,7 +308,7 @@ public class Scene {
 			skyTextures.east = dataDirectory + sky.getAttributeValue("TexLeft");
 			skyTextures.west = dataDirectory + sky.getAttributeValue("TexRight");
 		} catch (Exception e) {
-			return;
+			// do nothing..if no skybox is defined in the scene file jme will load a missing texture image as skybox
 		}
 	}
 	
@@ -312,7 +316,7 @@ public class Scene {
 		return cachedMeshes;
 	}
 	
-	public RawHeightMap getHeightmap() {
+	public AbstractHeightMap getHeightmap() {
 		return heightmap;
 	}
 
