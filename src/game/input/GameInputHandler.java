@@ -25,7 +25,6 @@ import game.input.action.ShootAction;
 import game.input.action.NextWeaponAction;
 import game.input.action.BackwardAction;
 import game.input.action.ForwardAction;
-import game.input.action.ThirdPersonJoystickPlugin;
 import game.input.action.LeftAction;
 import game.input.action.RightAction;
 import game.input.action.RunAction;
@@ -34,7 +33,6 @@ import com.jme.input.ChaseCamera;
 import com.jme.input.InputHandler;
 import com.jme.input.MouseLookHandler;
 import com.jme.input.action.InputAction;
-import com.jme.input.action.InputActionEvent;
 import com.jme.input.controls.binding.MouseButtonBinding;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
@@ -58,8 +56,6 @@ public class GameInputHandler extends InputHandler {
 	
 	boolean firstPerson;
 	
-	ThirdPersonJoystickPlugin plugin = null;
-    
 	/** Actions */
     InputAction actionForward;
     InputAction actionBack;
@@ -163,30 +159,6 @@ public class GameInputHandler extends InputHandler {
 
 	protected void doInputUpdate(float time) {
         super.update(time);
-        updateFromJoystick(time);
-    }
-
-    protected void updateFromJoystick(float time) {
-        if (plugin == null) return;
-        float xAmnt = plugin.getJoystick().getAxisValue(plugin.getXAxis());
-        float yAmnt = plugin.getJoystick().getAxisValue(plugin.getYAxis());
-        
-        InputActionEvent evt = new InputActionEvent();
-        if (xAmnt > 0) {
-            evt.setTime(time*xAmnt);
-            actionRight.performAction(evt);
-        } else if (xAmnt < 0) {
-            evt.setTime(time*-xAmnt);
-            actionLeft.performAction(evt);            
-        }
-        
-        if (yAmnt > 0) {
-            evt.setTime(time*yAmnt);
-            actionBack.performAction(evt);
-        } else if (yAmnt < 0) {
-            evt.setTime(time*-yAmnt);
-            actionForward.performAction(evt);            
-        }
     }
 
     protected void setupChaseCamera() {
@@ -222,20 +194,6 @@ public class GameInputHandler extends InputHandler {
      */
     public void setGoingBackwards(boolean backwards) {
         target.setWalkingBackwards(backwards);
-    }
-
-    /**
-     * @return Returns the joystick plugin or null if not set.
-     */
-    public ThirdPersonJoystickPlugin getJoystickPlugin() {
-        return plugin;
-    }
-
-    /**
-     * @param plugin The joystick plugin to set.
-     */
-    public void setJoystickPlugin(ThirdPersonJoystickPlugin plugin) {
-        this.plugin = plugin;
     }
 
 	public void setFirstPerson( boolean firstPerson ) {
