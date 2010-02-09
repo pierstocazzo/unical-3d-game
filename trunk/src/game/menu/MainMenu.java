@@ -66,6 +66,8 @@ public class MainMenu extends JFrame {
 		
 	    setResizable(false);
 		
+	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+	    
 		GraphicsEnvironment env = GraphicsEnvironment.
         getLocalGraphicsEnvironment();
 		device = env.getScreenDevices()[0];
@@ -88,7 +90,6 @@ public class MainMenu extends JFrame {
 			screenSize = new Dimension( displayMode.getWidth(), 
 					displayMode.getHeight() );
 			setSize( screenSize );
-			validate();
 			background = ImagesContainer.getBackground_with_FullScreen();
 		} else {
 			exclusiveFullScreen = false;
@@ -118,16 +119,13 @@ public class MainMenu extends JFrame {
 		panelsContainer.put("loadingPanel", new LoadingPanel(this) );
 		panelsContainer.put("inGamePanel", new InGamePanel(this));
 	    panelsContainer.put("savePanel", new SavePanel(this));
-	    
-		// set a layout to main panel
-		switchToPanel("mainPanel");
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	public void start() {
 		requestFocus();
 		setVisible(true);
 		setAlwaysOnTop(true);
+		switchToPanel("mainPanel");
 	}
 	
 	public void switchToPanel( String panel ){

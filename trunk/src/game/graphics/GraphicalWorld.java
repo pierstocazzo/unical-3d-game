@@ -32,12 +32,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import jmetest.TutorialGuide.ExplosionFactory;
 import utils.Loader;
 import utils.ModelLoader;
 
 import com.jme.image.Texture;
-import com.jme.input.FirstPersonHandler;
+import com.jme.input.FirstPersonHandler;		
 import com.jme.input.InputHandler;
 import com.jme.input.KeyBindingManager;
 import com.jme.input.KeyInput;
