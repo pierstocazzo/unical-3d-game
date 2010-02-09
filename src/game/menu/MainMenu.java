@@ -49,25 +49,56 @@ public class MainMenu extends JFrame {
 	JPanel paneContainer;
 	Image background;
 	
+	GraphicsDevice device;
+	
+	DisplayMode currentDM;
+	
+	boolean exclusiveFullScreen = false;
+	
 	/**
 	 * Constructor of MainMenu Class
 	 */
 	@SuppressWarnings("serial")
 	public MainMenu(){
 		super();
+		// hide frame border
+		setUndecorated(true); 
 		
-		// get screen size informations
-		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		// set fullscreen
-	    setBounds( 0, 0, screenSize.width, screenSize.height );
+	    setResizable(false);
+		
+		GraphicsEnvironment env = GraphicsEnvironment.
+        getLocalGraphicsEnvironment();
+		device = env.getScreenDevices()[0];
 		
 		ImagesContainer.init();
 		
-		if( GameConf.getSetting( GameConf.IS_FULLSCREEN ).equals("true") ){
+		if( GameConf.getSetting( GameConf.IS_FULLSCREEN ).equals("true") ) {
+			device.setFullScreenWindow( this );
+			exclusiveFullScreen = true;
+			
+			DisplayMode displayMode = new DisplayMode( GameConf.getIntSetting(
+					GameConf.RESOLUTION_WIDTH), 
+					GameConf.getIntSetting(GameConf.RESOLUTION_HEIGHT), 
+					DisplayMode.BIT_DEPTH_MULTI, 
+					DisplayMode.REFRESH_RATE_UNKNOWN );
+			
+			device.setDisplayMode( displayMode );
+			currentDM = displayMode;
+			// get screen size informations
+			screenSize = new Dimension( displayMode.getWidth(), 
+					displayMode.getHeight() );
+			setSize( screenSize );
+			validate();
 			background = ImagesContainer.getBackground_with_FullScreen();
-		}
-		else{
+		} else {
+			exclusiveFullScreen = false;
+			// get screen size informations
+			screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			// set fullscreen
+		    setBounds( 0, 0, screenSize.width, screenSize.height );
 			background = ImagesContainer.getBackground_no_FullScreen();
+			currentDM = new DisplayMode( screenSize.width, screenSize.height, 
+					DisplayMode.BIT_DEPTH_MULTI, DisplayMode.REFRESH_RATE_UNKNOWN );
 		}
 		
 		paneContainer = new JPanel() {
@@ -80,11 +111,6 @@ public class MainMenu extends JFrame {
 		paneContainer.setLayout( new BorderLayout() );
 		setContentPane(paneContainer);
 		
-		// hide frame border
-		setUndecorated(true); 
-		
-	    setResizable(false);
-   		
 		panelsContainer = new HashMap<String, JPanel>();
 		panelsContainer.put("mainPanel", new MainPanel(this));
 		panelsContainer.put("creditsPanel", new CreditsPanel(this));
@@ -112,6 +138,65 @@ public class MainMenu extends JFrame {
 		repaint();
 		validate();
 		currentPanel.requestFocus();
+	}
+	
+	/** check if there are changes in the jme resolution and fullscreen mode
+	 * if true apply them
+	 */
+	public void applyChanges() {
+		DisplayMode displayMode = new DisplayMode( GameConf.getIntSetting(
+				GameConf.RESOLUTION_WIDTH), 
+				GameConf.getIntSetting(GameConf.RESOLUTION_HEIGHT), 
+				DisplayMode.BIT_DEPTH_MULTI, 
+				DisplayMode.REFRESH_RATE_UNKNOWN );
+		// if the user sets fullscreen enabled and a resolution differente from the current one
+		// change resolution and go in exclusive fullscreen mode
+		if( GameConf.getSetting( GameConf.IS_FULLSCREEN ).equals("true") ) {
+			if( displayMode.getWidth() != currentDM.getWidth() ||
+					displayMode.getHeight() != currentDM.getHeight() ) {
+				setVisible(false);
+				device.setFullScreenWindow( this );
+				exclusiveFullScreen = true;
+				background = ImagesContainer.getBackground_with_FullScreen();
+				device.setDisplayMode( displayMode );
+				
+				// get screen size informations
+				screenSize = new Dimension( displayMode.getWidth(), 
+						displayMode.getHeight() );
+				setSize( screenSize );
+				reinit();
+				validate();
+				currentDM = displayMode;
+				repaint();
+				setVisible(true);
+			}
+		} else { // if the user sets fullscreen disabled return to standard fullscreen mode
+			if( exclusiveFullScreen == true ) {
+				setVisible(false);
+				device.setFullScreenWindow(null);
+				background = ImagesContainer.getBackground_no_FullScreen();
+				
+				// get screen size informations
+				screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				setSize( screenSize );
+				reinit();
+				validate();
+				repaint();
+				setVisible(true);
+				currentDM = new DisplayMode( screenSize.width, screenSize.height, 
+						DisplayMode.BIT_DEPTH_MULTI, DisplayMode.REFRESH_RATE_UNKNOWN );
+				exclusiveFullScreen = false;
+			}
+		}
+	}
+	
+	public void reinit() {
+		panelsContainer.put("mainPanel", new MainPanel(this));
+		panelsContainer.put("creditsPanel", new CreditsPanel(this));
+		panelsContainer.put("optionsPanel", new OptionsPanel(this));
+		panelsContainer.put("loadingPanel", new LoadingPanel(this) );
+		panelsContainer.put("inGamePanel", new InGamePanel(this));
+	    panelsContainer.put("savePanel", new SavePanel(this));
 	}
 	
 	public void setLoadingText( String text ) {
