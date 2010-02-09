@@ -20,7 +20,6 @@ package game.graphics;
 import game.common.GameTimer;
 import game.common.State;
 import game.graphics.GameAnimationController.Animation;
-import jmetest.TutorialGuide.ExplosionFactory;
 
 import com.jme.bounding.BoundingBox;
 import com.jme.input.action.InputAction;
