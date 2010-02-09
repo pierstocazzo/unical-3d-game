@@ -393,7 +393,7 @@ public class OptionsPanel extends JPanel {
 		flow.setLayout(new FlowLayout());
 		dividePanel.add(flow,BorderLayout.SOUTH);
 		
-		JButton buttonReset = new JButton("RESET");
+		final JButton buttonReset = new JButton("RESET");
 		flow.add(buttonReset);
 		JButton buttonCancel = new JButton("CANCEL");
 		flow.add(buttonCancel);
@@ -481,6 +481,7 @@ public class OptionsPanel extends JPanel {
 			        	
 			        	GameConf.save();
 			        	ImagesContainer.init();
+			        	mainMenu.applyChanges();
 			            mainMenu.switchToPanel("mainPanel");
 			        }
 			    }
