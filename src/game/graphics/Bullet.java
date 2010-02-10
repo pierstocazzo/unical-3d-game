@@ -25,6 +25,7 @@ import com.jme.input.action.InputAction;
 import com.jme.input.action.InputActionEvent;
 import com.jme.input.util.SyntheticButton;
 import com.jme.math.Vector3f;
+import com.jme.renderer.ColorRGBA;
 import com.jme.scene.shape.Sphere;
 import com.jmex.physics.DynamicPhysicsNode;
 import com.jmex.physics.contact.ContactInfo;
@@ -88,7 +89,8 @@ public class Bullet {
 		world.getRootNode().attachChild( physicsBullet );
 		physicsBullet.getLocalTranslation().set( position );
 		
-		bullet = new Sphere( "bullet", 10, 10, 0.05f );
+		bullet = new Sphere( "bullet", 5, 5, 0.05f );
+		bullet.setDefaultColor( ColorRGBA.black );
 		physicsBullet.attachChild( bullet );
 		physicsBullet.generatePhysicsGeometry();
 		bullet.lockBounds();
