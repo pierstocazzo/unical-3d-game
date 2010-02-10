@@ -45,7 +45,7 @@ public class AI implements Serializable {
 	/** current movement direction */
 	Vector3f moveDirection;
 	
-	int maxAlertTime = Integer.valueOf( GameConf.getParameter( GameConf.MAX_ALERT_TIME ) );
+	int maxAlertTime = GameConf.getIntParameter( GameConf.MAX_ALERT_TIME );
 
 	/**
 	 * Constructor
@@ -100,7 +100,6 @@ public class AI implements Serializable {
 				// if the player is near enough and he can see him, he goes in attack state
 				if ( distance <= enemy.state.getActionRange() && enemy.canSeePlayer ) {
 					enemy.state = State.ATTACK;
-//					calculateShootDirection( id, playerId );
 				} else if ( distance > enemy.state.getViewRange() || !enemy.canSeePlayer ) {
 					/* if he don't see the player
 					 * he remains in alert state for some time
