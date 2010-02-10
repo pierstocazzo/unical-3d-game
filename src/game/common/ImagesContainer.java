@@ -53,7 +53,11 @@ public class ImagesContainer {
 	static ArrayList<Image> inGameMenuImagesContainer_no_fullscreen;
 
 	public static void init(){
-		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		if(GameConf.getSetting(GameConf.IS_FULLSCREEN).equals("true"))
+			screenSize = new Dimension(GameConf.getIntSetting(GameConf.RESOLUTION_WIDTH), 
+				GameConf.getIntSetting(GameConf.RESOLUTION_HEIGHT));
+		else
+			screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		// get background image
 		backgroundMainMenu = Toolkit.getDefaultToolkit().getImage( "src/game/data/images/menu/background.jpg" );
