@@ -99,7 +99,8 @@ public class MainMenu extends JFrame {
 		    setBounds( 0, 0, screenSize.width, screenSize.height );
 			background = ImagesContainer.getBackground_no_FullScreen();
 			currentDM = new DisplayMode( screenSize.width, screenSize.height, 
-					DisplayMode.BIT_DEPTH_MULTI, DisplayMode.REFRESH_RATE_UNKNOWN );
+					GameConf.getIntSetting( GameConf.RESOLUTION_DEPTH ), 
+					GameConf.getIntSetting( GameConf.RESOLUTION_FREQUENCY ) );
 		}
 		
 		paneContainer = new JPanel() {
@@ -184,7 +185,8 @@ public class MainMenu extends JFrame {
 				repaint();
 				setVisible(true);
 				currentDM = new DisplayMode( screenSize.width, screenSize.height, 
-						DisplayMode.BIT_DEPTH_MULTI, DisplayMode.REFRESH_RATE_UNKNOWN );
+						GameConf.getIntSetting( GameConf.RESOLUTION_DEPTH ), 
+						GameConf.getIntSetting( GameConf.RESOLUTION_FREQUENCY ));
 				exclusiveFullScreen = false;
 			}
 		}
