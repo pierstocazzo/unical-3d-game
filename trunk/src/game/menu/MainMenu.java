@@ -77,12 +77,21 @@ public class MainMenu extends JFrame {
 		if( GameConf.getSetting( GameConf.IS_FULLSCREEN ).equals("true") ) {
 			device.setFullScreenWindow( this );
 			exclusiveFullScreen = true;
+			DisplayMode displayMode;
 			
-			DisplayMode displayMode = new DisplayMode( 
-					GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ), 
-					GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT ), 
-					GameConf.getIntSetting( GameConf.RESOLUTION_DEPTH ), 
-					GameConf.getIntSetting( GameConf.RESOLUTION_FREQUENCY ) );
+			if( System.getProperties().getProperty("os.name").equals("Linux") ) {
+				displayMode = new DisplayMode( 
+						GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ), 
+						GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT ), 
+						DisplayMode.BIT_DEPTH_MULTI, 
+						GameConf.getIntSetting( GameConf.RESOLUTION_FREQUENCY ) );
+			} else {
+				displayMode = new DisplayMode( 
+						GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ), 
+						GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT ), 
+						GameConf.getIntSetting( GameConf.RESOLUTION_DEPTH ), 
+						GameConf.getIntSetting( GameConf.RESOLUTION_FREQUENCY ) );
+			}
 			
 			device.setDisplayMode( displayMode );
 			currentDM = displayMode;
