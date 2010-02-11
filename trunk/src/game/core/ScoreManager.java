@@ -116,6 +116,7 @@ public class ScoreManager implements Serializable {
 	private void changeParameters( String playerId, int playerLife, int enemyLife, 
 			int enemyErrorAngle, int energyPackValue, int ammoPackValue ) {
 		world.characters.get(playerId).maxLife = playerLife;
+		world.characters.get(playerId).currentLife = playerLife;
 		
 		int previousLevel = ((LogicPlayer)world.characters.get(playerId)).score.previousLevel;
 		
