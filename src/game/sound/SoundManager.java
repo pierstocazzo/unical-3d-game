@@ -19,7 +19,7 @@ package game.sound;
 
 import java.net.URL;
 
-import utils.Loader;
+import utils.Util;
 
 import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
@@ -89,7 +89,7 @@ public class SoundManager {
 		audio.getEar().trackOrientation(cam);
 		audio.getEar().trackPosition(cam);
 
-		backgroundMusic = getMusic( Loader.load("game/data/sound/game.ogg"));
+		backgroundMusic = getMusic( Util.load("game/data/sound/game.ogg"));
 		backgroundMusic.setVolume(0.25f);
 		audio.getMusicQueue().setRepeatType(RepeatType.ONE);
 		audio.getMusicQueue().setCrossfadeinTime(2.5f);

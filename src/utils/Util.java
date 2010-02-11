@@ -23,18 +23,15 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.PixelGrabber;
 import java.awt.image.WritableRaster;
+import java.net.URL;
 
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 
-/**
- * Class Util
- * 
- * @author Andrea Martire, Salvatore Loria, Giuseppe Leone
- */
 public class Util {
-    public static final Quaternion Z45  = new Quaternion().fromAngleAxis( FastMath.QUARTER_PI, Vector3f.UNIT_Z );
+	
+	public static final Quaternion Z45  = new Quaternion().fromAngleAxis( FastMath.QUARTER_PI, Vector3f.UNIT_Z );
     public static final Quaternion Z90  = new Quaternion().fromAngleAxis( FastMath.HALF_PI, Vector3f.UNIT_Z );
     public static final Quaternion Z180 = new Quaternion().fromAngleAxis( FastMath.PI, Vector3f.UNIT_Z );
     public static final Quaternion Z270 = new Quaternion().fromAngleAxis( FastMath.PI*3/2, Vector3f.UNIT_Z );
@@ -48,6 +45,9 @@ public class Util {
     public static final Quaternion X270 = new Quaternion().fromAngleAxis( FastMath.PI*3/2, Vector3f.UNIT_X );
     public static final Quaternion INVY = new Quaternion().fromAngleAxis(-FastMath.HALF_PI, Vector3f.UNIT_X );
     
+	public static URL load( String toLoad ) {
+		return Util.class.getClassLoader().getResource( toLoad );
+	}
     
     public static String extensionOf( String file ) {
         String fileName = new String( file );

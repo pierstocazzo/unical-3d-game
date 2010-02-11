@@ -17,7 +17,7 @@
 
 package game.HUD;
 
-import utils.Loader;
+import utils.Util;
 
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Text;
@@ -80,7 +80,7 @@ public class HudScore {
 		
 		/* load the texture to set to the map */
         TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-		ts.setTexture( TextureManager.loadTexture( Loader.load( "game/data/images/score.png" ), true ) );
+		ts.setTexture( TextureManager.loadTexture( Util.load( "game/data/images/score.png" ), true ) );
         ts.setEnabled(true);
         scoreQuad.setRenderState(ts);
         

@@ -32,7 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import utils.Loader;
+import utils.Util;
 import utils.ModelLoader;
 
 import com.jme.image.Texture;
@@ -226,7 +226,7 @@ public class GraphicalWorld extends PhysicsGame {
 
 	    menu.setProgress(65);
 	    
-		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/meshes/soldier/AR15.jpg" ),
+		Texture texture = TextureManager.loadTexture( Util.load( "game/data/meshes/soldier/AR15.jpg" ),
 	            Texture.MinificationFilter.Trilinear,
 	            Texture.MagnificationFilter.Bilinear);
 	    TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
@@ -263,7 +263,7 @@ public class GraphicalWorld extends PhysicsGame {
         	}
     	    model.setLocalTranslation(0, -2f, 0);   
     	    
-    		Texture texture = TextureManager.loadTexture( Loader.load( texturePath ),
+    		Texture texture = TextureManager.loadTexture( Util.load( texturePath ),
     	            Texture.MinificationFilter.Trilinear,
     	            Texture.MagnificationFilter.Bilinear);
     	    TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();

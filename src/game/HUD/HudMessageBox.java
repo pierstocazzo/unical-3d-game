@@ -18,7 +18,7 @@
 package game.HUD;
 
 import game.common.GameTimer;
-import utils.Loader;
+import utils.Util;
 import com.jme.scene.shape.Quad;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
@@ -179,7 +179,7 @@ public class HudMessageBox {
         time = GameTimer.getTimeInSeconds();
         /** add a texture */
         TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        ts.setTexture( TextureManager.loadTexture( Loader.load( path ) , true ) );
+        ts.setTexture( TextureManager.loadTexture( Util.load( path ) , true ) );
 	    ts.setEnabled(true);
 	    quad.setRenderState(ts);
 	    quad.updateRenderState();

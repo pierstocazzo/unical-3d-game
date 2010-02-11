@@ -19,7 +19,7 @@ package game.graphics;
 
 import game.HUD.HudMessageHandler;
 import game.HUD.UserHud;
-import utils.Loader;
+import utils.Util;
 
 import com.jme.image.Texture;
 import com.jme.input.InputHandler;
@@ -101,7 +101,7 @@ public class GraphicalEnergyPackage {
 		world.getRootNode().attachChild( physicsPack );
 		physicsPack.getLocalTranslation().set( position );
 		pack = new Box( id, new Vector3f(), 1, 1, 1 );
-		Texture texture = TextureManager.loadTexture( Loader.load( "game/data/textures/energy.jpg" ),
+		Texture texture = TextureManager.loadTexture( Util.load( "game/data/textures/energy.jpg" ),
 	            Texture.MinificationFilter.Trilinear,
 	            Texture.MagnificationFilter.Bilinear);
 	    TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();

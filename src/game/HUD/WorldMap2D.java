@@ -22,7 +22,7 @@ import game.graphics.GraphicalWorld;
 import java.util.LinkedList;
 import java.util.List;
 
-import utils.Loader;
+import utils.Util;
 
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
@@ -111,7 +111,7 @@ public class WorldMap2D {
 
         /* load the texture to set to the map */
         TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-		ts.setTexture( TextureManager.loadTexture( Loader.load( "game/data/images/map.jpg" ), true ) );
+		ts.setTexture( TextureManager.loadTexture( Util.load( "game/data/images/map.jpg" ), true ) );
         ts.setEnabled(true);
         map.setRenderState(ts);
         
