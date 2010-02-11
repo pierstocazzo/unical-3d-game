@@ -78,11 +78,11 @@ public class MainMenu extends JFrame {
 			device.setFullScreenWindow( this );
 			exclusiveFullScreen = true;
 			
-			DisplayMode displayMode = new DisplayMode( GameConf.getIntSetting(
-					GameConf.RESOLUTION_WIDTH), 
-					GameConf.getIntSetting(GameConf.RESOLUTION_HEIGHT), 
-					DisplayMode.BIT_DEPTH_MULTI, 
-					DisplayMode.REFRESH_RATE_UNKNOWN );
+			DisplayMode displayMode = new DisplayMode( 
+					GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ), 
+					GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT ), 
+					GameConf.getIntSetting( GameConf.RESOLUTION_DEPTH ), 
+					GameConf.getIntSetting( GameConf.RESOLUTION_FREQUENCY ) );
 			
 			device.setDisplayMode( displayMode );
 			currentDM = displayMode;
@@ -142,11 +142,13 @@ public class MainMenu extends JFrame {
 	 * if true apply them
 	 */
 	public void applyChanges() {
-		DisplayMode displayMode = new DisplayMode( GameConf.getIntSetting(
-				GameConf.RESOLUTION_WIDTH), 
-				GameConf.getIntSetting(GameConf.RESOLUTION_HEIGHT), 
-				DisplayMode.BIT_DEPTH_MULTI, 
-				DisplayMode.REFRESH_RATE_UNKNOWN );
+		DisplayMode displayMode = new DisplayMode( 
+			GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ), 
+			GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT ), 
+			GameConf.getIntSetting( GameConf.RESOLUTION_DEPTH ), 
+			GameConf.getIntSetting( GameConf.RESOLUTION_FREQUENCY ) 
+		);
+				
 		// if the user sets fullscreen enabled and a resolution differente from the current one
 		// change resolution and go in exclusive fullscreen mode
 		if( GameConf.getSetting( GameConf.IS_FULLSCREEN ).equals("true") ) {
