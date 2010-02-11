@@ -79,7 +79,9 @@ public class MainMenu extends JFrame {
 		for( DisplayMode dm : device.getDisplayModes() ) {
 			if( dm.getWidth() >= 800 && dm.getHeight() >= 600 ) {
 				String key = dm.getWidth() + "x" + dm.getHeight();
-				displayModes.put( key, dm );
+				if( !displayModes.containsKey(key) ) {
+					displayModes.put( key, dm );
+				}
 			}
 		}
 		
