@@ -21,80 +21,91 @@
 """
 __author__  = "Giuseppe Leone"
 __program__ = "addlicenseto"
-__version__ = "0.1.1"
-__date__    = "03-02-2010 10:30 AM"
+__version__ = "0.2.0"
+__date__    = "10-02-2010 23:15"
 
 import os
 import glob
 import sys
 
+# Global variables
 text_to_inject = ""
+be_verbose = False
+be_recursive = False
+extensions = []
 
 def usage( message = '' ):    
     if ( len(message) == 0 ):
         print """addlicenseto 
-Utility script that add License Disclaimer at the
-beginning of a single or each files into a specified Directory.
+Utility script that add "License Disclaimer" at the
+beginning of a single or each files inside specified Directory.
 
 Usage:
   addlicenseto [OPTION] license_file [directory | file]
 
 General options:
-  -t, --type            Specify for which type of files apply the
-                        License Disclaimer
-                        E.g.: --type php,java (without spaces)
+  -t, --type            Specify which type of files inject
+                        with the License Disclaimer
+                        e.g.: --type cpp,java (without spaces)
   -h, --help            Show this screen and exit
   -r, --recursive       Apply the License Disclaimer to all files recursively
   -v, --verbose         Display what's going on
 
 Usage Example:
   Q) How can I apply the license "mylicense.txt" to all python script
-     into a specified directory?
+     inside a specified directory?
   
   A) addlicenseto --type php,java --recursive /path/to/mylicense.txt /path/to/apply/license/
+  
+  Q) How can I apply the license "mylicense.txt" to multiple file
+     (e.g. cpp and java) into a specified directory?
+     
+  A) addlicenseto --type cpp,java --recursive /path/to/mylicense.txt /path/to/apply/license/
 
 Please report bugs to <joseph at masterdrive.it>"""
     else:
         print message
 
-def is_valid_extension( filename, extensions ):
+def is_valid_extension( filename ):
     for i in extensions:
         if filename[-len(i):] == i:
             return 1
     return 0
     
-def inject_files( directory, extensions, be_recursive, be_verbose ):
-    
-    os.chdir( directory )
-    files = glob.glob('*')
+def inject_files( directory ):
+    try:
+        os.chdir( directory )
+    except:
+        usage( "Unable to change location: " + directory )
+    finally:
+        files = glob.glob('*')
 
-    for f in files:
-        # Check extension
-        if os.path.isfile( directory + "/" + f ):
-            if is_valid_extension( f, extensions ):
-                # open file
-                fh = open( directory + "/" + f , 'r' )
-                new_content = text_to_inject + "\n" + fh.read()
-                fh = open( directory + "/" + f , 'w' )
-                fh.write( new_content )
-                
-                if be_verbose:
-                    print "Injected file: " + directory + "/" + f
-        else:
-            if be_recursive:
-                inject_files( directory + "/" + f, extensions, be_recursive, be_verbose )
+        for f in files:
+            # Check extension
+            if os.path.isfile( directory + "/" + f ):
+                if is_valid_extension( f ):
+                    # open file
+                    #fh = open( directory + "/" + f , 'r' )
+                    #new_content = text_to_inject + "\n" + fh.read()
+                    #fh = open( directory + "/" + f , 'w' )
+                    #fh.write( new_content )
+                    
+                    if be_verbose:
+                        print "Injected file: " + directory + "/" + f
+            else:
+                if be_recursive:
+                    inject_files( directory + "/" + f )
 
 # MAIN
 if __name__ == "__main__":
-    #show_files( os.getcwd(), [".py",".htm"], True, True )
-    
     # Process command line
-    
     if ( len(sys.argv) < 3 or ( "-h" in sys.argv or "--help" in sys.argv ) ):
         usage()
     else:
         # Check the for the Directory or File to inject
         if ( os.path.isfile( sys.argv[len(sys.argv)-1] ) or os.path.isdir( sys.argv[len(sys.argv)-1] ) ):
+            target = sys.argv[len(sys.argv)-1]
+            
             # Check for the License File
             if os.path.isfile( sys.argv[len(sys.argv)-2] ):
                 # Check file type to inject
@@ -109,13 +120,9 @@ if __name__ == "__main__":
                     # Check for recursive or verbose flags
                     if ( "-r" in sys.argv or "--recursive" in sys.argv ):
                         be_recursive = True
-                    else:
-                        be_recursive = False
                         
                     if ( "-v" in sys.argv or "--verbose" in sys.argv ):
                         be_verbose = True
-                    else:
-                        be_verbose = False
                     
                     # Read the license
                     flicense = open( sys.argv[len(sys.argv)-2], 'r' )
@@ -123,10 +130,13 @@ if __name__ == "__main__":
                     if be_verbose:
                         print "LICENSE DICLAIMER THAT WILL BE INJECTED:\n\n" + text_to_inject
                     
+                    # Retrieve the absolute path of target
+                    target = os.path.abspath( target )
+                    
                     # Inject
-                    inject_files( sys.argv[len(sys.argv)-1], extensions, be_recursive, be_verbose )
+                    inject_files( target )
                 else:
-                    usage( "You must specify which type of file inject (E.g. --type java,php)" )
+                    usage( "You must specify which type of file inject (E.g. --type java,cpp)" )
             else:
                 usage()
         else:
