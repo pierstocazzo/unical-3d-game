@@ -17,7 +17,7 @@
 
 package game.HUD;
 
-import utils.Loader;
+import utils.Util;
 import game.common.GameConf;
 import game.common.GameTimer;
 import game.graphics.GraphicalWorld;
@@ -195,7 +195,7 @@ public class UserHud {
 	    as.setDestinationFunction( DestinationFunction.OneMinusSourceAlpha );
 	    as.setEnabled(true);
 		TextureState cross = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-		cross.setTexture( TextureManager.loadTexture( Loader.load(
+		cross.setTexture( TextureManager.loadTexture( Util.load(
 		                "game/data/images/crosshair.png" ), false ) );
 		cross.setEnabled(true);
 		crosshair = new Quad( "quad", 30, 30 );

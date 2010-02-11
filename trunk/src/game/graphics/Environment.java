@@ -31,7 +31,6 @@ import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
-import utils.Loader;
 import utils.ModelLoader;
 import utils.Util;
 
@@ -351,7 +350,7 @@ public class Environment {
         page.setDetailTexture(1, 1);
 
         TextureState ts1 = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
-        Texture t0 = TextureManager.loadTexture( Loader.load(
+        Texture t0 = TextureManager.loadTexture( Util.load(
                         "game/data/terrain/terrainLod.jpg"),
                 Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
@@ -367,7 +366,7 @@ public class Environment {
 
     private void addAlphaSplat(TextureState ts, String alpha) {
     	
-    	URL alphaURL = Loader.load( alpha );
+    	URL alphaURL = Util.load( alpha );
     	
     	BufferedImage tex = null;
 		try {
@@ -392,7 +391,7 @@ public class Environment {
     private TextureState createSplatTextureState( String texture, String alpha, float scale ) {
         TextureState ts = DisplaySystem.getDisplaySystem().getRenderer().createTextureState();
 
-        Texture t0 = TextureManager.loadTexture( Loader.load( texture ),
+        Texture t0 = TextureManager.loadTexture( Util.load( texture ),
                 Texture.MinificationFilter.Trilinear,
                 Texture.MagnificationFilter.Bilinear);
         t0.setWrap(Texture.WrapMode.Repeat);
@@ -410,22 +409,22 @@ public class Environment {
     private void buildSkyBox() {
     	skybox = new Skybox("skybox", 10, 10, 10);
 
-        Texture north = TextureManager.loadTexture( Loader.load( scene.getSkyTextures().north ),
+        Texture north = TextureManager.loadTexture( Util.load( scene.getSkyTextures().north ),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture south = TextureManager.loadTexture( Loader.load( scene.getSkyTextures().south ),
+        Texture south = TextureManager.loadTexture( Util.load( scene.getSkyTextures().south ),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture east = TextureManager.loadTexture( Loader.load( scene.getSkyTextures().east ),
+        Texture east = TextureManager.loadTexture( Util.load( scene.getSkyTextures().east ),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture west = TextureManager.loadTexture( Loader.load( scene.getSkyTextures().west ),
+        Texture west = TextureManager.loadTexture( Util.load( scene.getSkyTextures().west ),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture up = TextureManager.loadTexture( Loader.load( scene.getSkyTextures().up ),
+        Texture up = TextureManager.loadTexture( Util.load( scene.getSkyTextures().up ),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
-        Texture down = TextureManager.loadTexture( Loader.load( scene.getSkyTextures().down ),
+        Texture down = TextureManager.loadTexture( Util.load( scene.getSkyTextures().down ),
                 Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
 

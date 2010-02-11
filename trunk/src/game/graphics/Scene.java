@@ -29,7 +29,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
-import utils.Loader;
 import utils.Util;
 
 import com.jme.math.Quaternion;
@@ -126,7 +125,7 @@ public class Scene {
 			scale.x = Float.valueOf( terrain.getAttributeValue( "Step" ) );
 			scale.y = Float.valueOf( terrain.getChild( "Heightmap" ).getAttributeValue( "Scale" ) );
 			scale.z = scale.x;
-			URL heightmapURL = Loader.load( dataDirectory + 
+			URL heightmapURL = Util.load( dataDirectory + 
 					terrain.getChild( "Heightmap" ).getAttributeValue( "File" ) );
 			heightmap = new RawHeightMap( heightmapURL, heightmapSize, RawHeightMap.FORMAT_16BITLE, false );
 		} catch (Exception e) {
@@ -144,7 +143,7 @@ public class Scene {
 				scale.x = Float.valueOf( terrain.getAttributeValue( "Step" ) );
 				scale.y = Float.valueOf( terrain.getChild( "Heightmap" ).getAttributeValue( "Scale" ) );
 				scale.z = scale.x;
-				URL heightmapURL = Loader.load( dataDirectory + 
+				URL heightmapURL = Util.load( dataDirectory + 
 						terrain.getChild( "Heightmap" ).getAttributeValue( "File" ) );
 				heightmap = new RawHeightMap( heightmapURL, heightmapSize, RawHeightMap.FORMAT_16BITLE, false );
 			} catch (Exception e1) {

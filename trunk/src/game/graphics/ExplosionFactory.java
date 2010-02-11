@@ -34,7 +34,7 @@ package game.graphics;
 
 import java.util.ArrayList;
 
-import utils.Loader;
+import utils.Util;
 
 import com.jme.math.FastMath;
 import com.jme.math.Vector3f;
@@ -179,7 +179,7 @@ public class ExplosionFactory {
 
         ts = display.getRenderer().createTextureState();
         ts.setTexture(TextureManager.loadTexture(
-                Loader.load(
+                Util.load(
                         "game/data/textures/flaresmall.jpg")));
 
         zstate = display.getRenderer().createZBufferState();
