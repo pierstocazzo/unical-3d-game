@@ -22,6 +22,7 @@ import game.common.ImagesContainer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.DisplayMode;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -119,13 +120,13 @@ public class OptionsPanel extends JPanel {
 		
 		// Create comboBox about screen resolution settings
 		resolutions = new Vector<String>();
-		resolutions.add("1680x1050");
-		resolutions.add("1440x900");
-		resolutions.add("1280x1024");
-		resolutions.add("1280x800");
-		resolutions.add("1024x768");
-		resolutions.add("1024x600");
-		resolutions.add("800x600");
+		// add only resolutions supported by the device
+		for( DisplayMode dm : mainMenu.device.getDisplayModes() ) {
+			if( dm.getWidth() >= 800 && dm.getHeight() >= 600 && !added( dm ) ) {
+				String resolution = dm.getWidth() + "x" + dm.getHeight();
+				resolutions.add( resolution );
+			}
+		}
 		
 		final JComboBox resolutionCombo = new JComboBox(resolutions);
 		resolutionCombo.setSelectedIndex(
@@ -512,5 +513,13 @@ public class OptionsPanel extends JPanel {
 		add(pHorizontalEmpty2,BorderLayout.NORTH);
 		
 		this.setFocusable(true);
+	}
+	
+	boolean added( DisplayMode dm ) {
+		for( String res : resolutions ) {
+			if( res.matches( dm.getWidth() + "x" + dm.getHeight() )) 
+				return true;
+		}
+		return false;
 	}
 }
