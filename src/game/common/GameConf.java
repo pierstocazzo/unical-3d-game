@@ -254,7 +254,7 @@ public class GameConf {
 		 * Change depth and frequency according to the operating system in use
 		 */
 		if( System.getProperties().getProperty("os.name").equals( "Linux" ) ) {
-			conf.put( RESOLUTION_DEPTH, "24" );
+			conf.put( RESOLUTION_DEPTH, "-1" );
 			conf.put( RESOLUTION_FREQUENCY, "50" );
 		} else {
 			conf.put( RESOLUTION_DEPTH, "32" );
