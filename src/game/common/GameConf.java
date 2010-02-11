@@ -346,19 +346,35 @@ public class GameConf {
 	}
 	
 	public static String getParameter( String param ) {
-		return parameters.get( param );
-	}
+		try {
+			return parameters.get( param );
+		} catch (Exception e) {
+			return "noparam";
+		}
+	} 
 	
 	public static int getIntParameter( String param ) {
-		return Integer.valueOf( parameters.get( param ) );
+		try {
+			return Integer.valueOf( parameters.get( param ) );
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 	
 	public static String getPhrase( String phrase ) {
-		return phrases.get( phrase );
+		try {
+			return phrases.get( phrase );
+		} catch (Exception e) {
+			return "frase not found";
+		}
 	}
 	
 	public static Vector2f getPlayerPosition() {
-		return playerPosition;
+		try {
+			return playerPosition;
+		} catch (Exception e) {
+			return new Vector2f();
+		}
 	}
 	
 	/** Utility class used to store some informations 
