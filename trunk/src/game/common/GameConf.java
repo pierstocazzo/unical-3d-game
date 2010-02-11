@@ -157,29 +157,73 @@ public class GameConf {
 	static Vector2f playerPosition;
 	
 	/**
-	 * Default Values
+	 * Default Values, loaded if the configuration file is corrupted
 	 */
-	static final LinkedHashMap< String, String > defaultSettings = new LinkedHashMap<String, String>();
+	static final LinkedHashMap< String, String > defaults = new LinkedHashMap<String, String>();
 	static {
-		defaultSettings.put( "forward_key", "W" );
-		defaultSettings.put( "backward_key", "S" );
-		defaultSettings.put( "turnright_key", "D" );
-		defaultSettings.put( "turnleft_key", "A" );
-		defaultSettings.put( "run_key", "LSHIFT" ); 
-		defaultSettings.put( "pause_key", "P" ); 
-		
-		// screen
-		defaultSettings.put( "resolution_width", "1024" );
-		defaultSettings.put( "resolution_height", "768" );
-		defaultSettings.put( "resolution_depth", "16" );
-		defaultSettings.put( "resolution_frequency", "-1" );
-		defaultSettings.put( "is_fullscreen", "false" );
-		
-		// Sound
-		defaultSettings.put( "sound_enabled", "false" );
-		
-		//XML path scene file
-		defaultSettings.put( "scene_file_path", "src/game/data/level/island.xml" );
+		// settings
+		defaults.put( FORWARD_KEY, "W" );
+		defaults.put( BACKWARD_KEY, "S" );
+		defaults.put( TURNRIGHT_KEY, "D" );
+		defaults.put( TURNLEFT_KEY, "A" );
+		defaults.put( RUN_KEY, "LSHIFT" ); 
+		defaults.put( PAUSE_KEY, "P" ); 
+		defaults.put( RESOLUTION_WIDTH, "1024" );
+		defaults.put( RESOLUTION_HEIGHT, "768" );
+		defaults.put( RESOLUTION_DEPTH, "16" );
+		defaults.put( RESOLUTION_FREQUENCY, "-1" );
+		defaults.put( IS_FULLSCREEN, "false" );
+		defaults.put( SOUND_ENABLED, "false" );
+		defaults.put( SCENE_FILE_PATH, "src/game/data/level/island.xml" );
+		// parameters
+		defaults.put( MAX_ALERT_TIME, "30" );
+		defaults.put( MAX_FIND_DISTANCE, "100" );
+		defaults.put( MAX_NEIGHBORHOOD_RANGE, "50" );
+		defaults.put( INITIAL_PLAYER_LIFE, "100" );
+		defaults.put( INITIAL_ENEMY_LIFE, "15" );
+		defaults.put( INITIAL_ENEMY_ACCURACY, "16" );
+		defaults.put( PLAYER_LIFE_INCREASE, "25" );
+		defaults.put( PLAYER_LIFE_DECREASE, "0.8" );
+		defaults.put( ENEMY_LIFE_INCREASE, "5" );
+		defaults.put( ENEMY_ACCURACY_INCREASE, "4" );
+		defaults.put( INITIAL_AMMO_PACK_VALUE, "20" );
+		defaults.put( INITIAL_ENERGY_PACK_VALUE, "20" );
+		defaults.put( AMMO_PACK_INCREASE, "10" );
+		defaults.put( ENERGY_PACK_INCREASE, "10" );
+		defaults.put( ENERGY_PACK_NUMBER, "100" );
+		defaults.put( WALK_VELOCITY, "15" );
+		defaults.put( RUN_VELOCITY, "35" );
+		defaults.put( SECOND_LEVEL_SCORE, "25" );
+		defaults.put( SCORE_FACTOR, "5" );
+		defaults.put( SCORE_DECREASE_PERCENTAGE, "0.8" );
+		defaults.put( STATE_ALERT_ACTION_RANGE, "140" );
+		defaults.put( STATE_ALERT_VIEW_RANGE, "200" );
+		defaults.put( STATE_ATTACK_ACTION_RANGE, "180" );
+		defaults.put( STATE_ATTACK_VIEW_RANGE, "200" );
+		defaults.put( STATE_DEFAULT_ACTION_RANGE, "100" );
+		defaults.put( STATE_DEFAULT_VIEW_RANGE, "150" );
+		defaults.put( STATE_GUARD_ACTION_RANGE, "140" );
+		defaults.put( STATE_GUARD_VIEW_RANGE, "200" );
+		defaults.put( STATE_SEARCH_ACTION_RANGE, "180" );
+		defaults.put( STATE_SEARCH_VIEW_RANGE, "200" );
+		defaults.put( AR15_PROBABILITY, "60" );
+		defaults.put( AR15_AMMO_INCREASE, "25" );
+		defaults.put( INITIAL_AR15_CAPACITY, "100" );
+		defaults.put( WEAPON_AR15_DAMAGE, "1" );
+		defaults.put( WEAPON_AR15_LOADTIME, "0.1" );
+		defaults.put( WEAPON_AR15_POWER, "30000" );
+		defaults.put( GATLING_PROBABILITY, "35" );
+		defaults.put( GATLING_AMMO_INCREASE, "50" );
+		defaults.put( INITIAL_GATLING_CAPACITY, "200" );
+		defaults.put( WEAPON_GATLING_DAMAGE, "3" );
+		defaults.put( WEAPON_GATLING_LOADTIME, "0.2" );
+		defaults.put( WEAPON_GATLING_POWER, "30000" );
+		defaults.put( BAZOOKA_PROBABILITY, "35" );
+		defaults.put( BAZOOKA_AMMO_INCREASE, "50" );
+		defaults.put( INITIAL_BAZOOKA_CAPACITY, "200" );
+		defaults.put( WEAPON_BAZOOKA_DAMAGE, "3" );
+		defaults.put( WEAPON_BAZOOKA_LOADTIME, "0.2" );
+		defaults.put( WEAPON_BAZOOKA_POWER, "30000" );
 	}
 	
 	/**
@@ -187,42 +231,34 @@ public class GameConf {
 	 */
 	
 	// Main Settings
-	static LinkedHashMap< String, String > settings;
+	static LinkedHashMap< String, String > conf;
 	
 	// Enemies information
 	static List<EnemyInfo> enemies;
-	
-	// Global game parameters
-	static LinkedHashMap< String, String > parameters;
-	
-	// Phrases used in the game
-	static LinkedHashMap< String, String > phrases;
 	
 	/**
 	 * Initialize game configuration regards the User Defined
 	 * configuration files (see: SETTINGS_FILE ) 
 	 */
 	public static void init() {
-		settings = new LinkedHashMap< String, String >();
-		settings.putAll(defaultSettings);
+		conf = new LinkedHashMap< String, String >();
+		conf.putAll(defaults);
 		
 		enemies = new LinkedList< EnemyInfo >();
-		parameters = new LinkedHashMap< String, String >();
-		phrases = new LinkedHashMap< String, String >();
 		playerPosition = new Vector2f();
 		
-		// Load all settings
+		// Load user's configuration
 		load();
 		
 		/* 
 		 * Change depth and frequency according to the operating system in use
 		 */
 		if( System.getProperties().getProperty("os.name").equals( "Linux" ) ) {
-			settings.put( "resolution_depth", "24" );
-			settings.put( "resolution_frequency", "50" );
+			conf.put( RESOLUTION_DEPTH, "24" );
+			conf.put( RESOLUTION_FREQUENCY, "50" );
 		} else {
-			settings.put( "resolution_depth", "32" );
-			settings.put( "resolution_frequency", "60" );
+			conf.put( RESOLUTION_DEPTH, "32" );
+			conf.put( RESOLUTION_FREQUENCY, "60" );
 		}
 	}
 	
@@ -240,7 +276,7 @@ public class GameConf {
 			
 			for( Iterator<Element> it = root.getChild("settings").getChildren().iterator(); it.hasNext();  ) {
 				Element element = it.next();
-				settings.put( element.getAttributeValue("name"), element.getText() );
+				conf.put( element.getAttributeValue("name"), element.getText() );
 			}
 			
 			Element playerInfo = root.getChild("player");
@@ -280,7 +316,7 @@ public class GameConf {
 				String key = param.getAttributeValue("name");
 				String value = param.getAttributeValue("value");
 				
-				parameters.put( key, value );
+				conf.put( key, value );
 			}
 			
 			/**
@@ -291,7 +327,7 @@ public class GameConf {
 				String key = phrase.getAttributeValue("name");
 				String value = phrase.getAttributeValue("value");
 				
-				phrases.put( key, value );
+				conf.put( key, value );
 			}
 			
 		} catch (Exception e) {
@@ -309,7 +345,7 @@ public class GameConf {
 		List<Element> settingsList = root.getChild("settings").getChildren();
 		
 		for( Element setting : settingsList ) {
-			setting.setText( settings.get( setting.getAttributeValue("name") ) );
+			setting.setText( conf.get( setting.getAttributeValue("name") ) );
 		}
 		XMLOutputter outputter = new XMLOutputter();
 		outputter.setFormat( Format.getPrettyFormat() );
@@ -322,23 +358,39 @@ public class GameConf {
 	}
 	
 	public static String getDefaultSetting( String setting ) {
-		return defaultSettings.get( setting );
+		try {
+			return defaults.get( setting );
+		} catch (Exception e) {
+			return "nosetting";
+		}
 	} 
 	
 	public static int getIntDefaultSetting( String setting ) {
-		return Integer.valueOf( defaultSettings.get( setting ) );
+		try {
+			return Integer.valueOf( defaults.get( setting ) );
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 	
 	public static String getSetting( String setting ) {
-		return settings.get( setting );
+		try {
+			return conf.get( setting );
+		} catch (Exception e) {
+			return "nosetting";
+		}
 	} 
 	
 	public static int getIntSetting( String setting ) {
-		return Integer.valueOf( settings.get( setting ) );
+		try {
+			return Integer.valueOf( conf.get( setting ) );
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 	
 	public static String setSetting( String setting, String newValue ) {
-		return settings.put( setting, newValue );
+		return conf.put( setting, newValue );
 	}
 	
 	public static List<EnemyInfo> getEmemiesInfoList() {
@@ -347,7 +399,7 @@ public class GameConf {
 	
 	public static String getParameter( String param ) {
 		try {
-			return parameters.get( param );
+			return conf.get( param );
 		} catch (Exception e) {
 			return "noparam";
 		}
@@ -355,7 +407,7 @@ public class GameConf {
 	
 	public static int getIntParameter( String param ) {
 		try {
-			return Integer.valueOf( parameters.get( param ) );
+			return Integer.valueOf( conf.get( param ) );
 		} catch (Exception e) {
 			return -1;
 		}
@@ -363,7 +415,7 @@ public class GameConf {
 	
 	public static String getPhrase( String phrase ) {
 		try {
-			return phrases.get( phrase );
+			return conf.get( phrase );
 		} catch (Exception e) {
 			return "frase not found";
 		}
