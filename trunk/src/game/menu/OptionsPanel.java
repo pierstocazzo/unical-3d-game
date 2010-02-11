@@ -121,11 +121,8 @@ public class OptionsPanel extends JPanel {
 		// Create comboBox about screen resolution settings
 		resolutions = new Vector<String>();
 		// add only resolutions supported by the device
-		for( DisplayMode dm : mainMenu.device.getDisplayModes() ) {
-			if( dm.getWidth() >= 800 && dm.getHeight() >= 600 && !added( dm ) ) {
-				String resolution = dm.getWidth() + "x" + dm.getHeight();
-				resolutions.add( resolution );
-			}
+		for( String resolution : mainMenu.displayModes.keySet() ) {
+			resolutions.add( resolution );
 		}
 		
 		final JComboBox resolutionCombo = new JComboBox(resolutions);
@@ -482,7 +479,7 @@ public class OptionsPanel extends JPanel {
 			        	
 			        	GameConf.save();
 			        	ImagesContainer.init();
-			        	mainMenu.applyChanges();
+			        	mainMenu.applyChanges( (String) resolutionCombo.getSelectedItem() );
 			            mainMenu.switchToPanel("mainPanel");
 			        }
 			    }

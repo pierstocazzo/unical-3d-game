@@ -23,6 +23,8 @@ import game.graphics.GraphicalWorld;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 import javax.swing.*;
 
 /**
@@ -51,9 +53,11 @@ public class MainMenu extends JFrame {
 	
 	GraphicsDevice device;
 	
-	DisplayMode currentDM;
-	
 	boolean exclusiveFullScreen = false;
+	
+	LinkedHashMap<String, DisplayMode> displayModes;
+	
+	DisplayMode currentDM;
 	
 	/**
 	 * Constructor of MainMenu Class
@@ -63,22 +67,28 @@ public class MainMenu extends JFrame {
 		super();
 		// hide frame border
 		setUndecorated(true); 
-		
 	    setResizable(false);
-		
 	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	    
-		GraphicsEnvironment env = GraphicsEnvironment.
-        getLocalGraphicsEnvironment();
+	    ImagesContainer.init();
+	    
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		device = env.getScreenDevices()[0];
 		
-		ImagesContainer.init();
+		displayModes = new LinkedHashMap<String, DisplayMode>();
+		for( DisplayMode dm : device.getDisplayModes() ) {
+			if( dm.getWidth() >= 800 && dm.getHeight() >= 600 ) {
+				String key = dm.getWidth() + "x" + dm.getHeight();
+				displayModes.put( key, dm );
+			}
+		}
 		
-		if( GameConf.getSetting( GameConf.IS_FULLSCREEN ).equals("true") ) {
-			if( device.isFullScreenSupported() )
-				exclusiveFullscreen();
-			else
-				normalFullscreen();
+		int width = GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ); 
+		int height = GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT );
+		
+		if( GameConf.getSetting( GameConf.IS_FULLSCREEN ).equals("true") && 
+				device.isFullScreenSupported() ) {
+			exclusiveFullscreen( displayModes.get( width + "x" + height ) );
 		} else {
 			normalFullscreen();
 		}
@@ -102,32 +112,16 @@ public class MainMenu extends JFrame {
 	    panelsContainer.put("savePanel", new SavePanel(this));
 	}
 	
-	private void exclusiveFullscreen() {
-		int width = GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ); 
-		int height = GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT );
-		boolean found = false;
-		
-		DisplayMode[] displayModes = device.getDisplayModes();
-		for( int i = 0; i < displayModes.length && !found; i++ ) {
-			DisplayMode displayMode = displayModes[i];
-			if( displayMode.getWidth() == width && displayMode.getHeight() == height ) {
-				device.setFullScreenWindow(this);
-				exclusiveFullScreen = true;
-				
-				device.setDisplayMode( displayMode );
-				currentDM = displayMode;
-				// get screen size informations
-				screenSize = new Dimension( displayMode.getWidth(), 
-						displayMode.getHeight() );
-				setSize( screenSize );
-				background = ImagesContainer.getBackground_with_FullScreen();
-				
-				found = true;
-			}
-		}
-		if( found == false ) {
-			normalFullscreen();
-		}
+	private void exclusiveFullscreen( DisplayMode displayMode ) {
+		device.setFullScreenWindow(this);
+		exclusiveFullScreen = true;
+		device.setDisplayMode( displayMode );
+		currentDM = displayMode;
+		// get screen size informations
+		screenSize = new Dimension( displayMode.getWidth(), 
+				displayMode.getHeight() );
+		setSize( screenSize );
+		background = ImagesContainer.getBackground_with_FullScreen();
 	}
 	
 	private void normalFullscreen() {
@@ -135,10 +129,10 @@ public class MainMenu extends JFrame {
 		exclusiveFullScreen = false;
 		// get screen size informations
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		currentDM = new DisplayMode( screenSize.width, screenSize.height, -1, -1 );
 		// set fullscreen
 	    setSize( screenSize );
 		background = ImagesContainer.getBackground_no_FullScreen();
-		currentDM = new DisplayMode( screenSize.width, screenSize.height, -1, -1 );
 	}
 	
 	public void start() {
@@ -160,8 +154,9 @@ public class MainMenu extends JFrame {
 	
 	/** check if there are changes in the jme resolution and fullscreen mode
 	 * if true apply them
+	 * @param key  
 	 */
-	public void applyChanges() {
+	public void applyChanges( String key ) {
 		int width = GameConf.getIntSetting( GameConf.RESOLUTION_WIDTH ); 
 		int height = GameConf.getIntSetting( GameConf.RESOLUTION_HEIGHT );
 		
@@ -169,7 +164,7 @@ public class MainMenu extends JFrame {
 		// change resolution and go in exclusive fullscreen mode
 		if( GameConf.getSetting( GameConf.IS_FULLSCREEN ).equals("true") ) {
 			if( width != currentDM.getWidth() || height != currentDM.getHeight() ) {
-				exclusiveFullscreen();
+				exclusiveFullscreen( displayModes.get(key) );
 				reinit();
 				repaint();
 				validate();
