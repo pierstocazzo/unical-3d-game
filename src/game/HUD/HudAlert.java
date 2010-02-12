@@ -122,6 +122,7 @@ public class HudAlert {
 		//if all enemy are in default state
 		if( stateColor == State.DEFAULT )
 			checkColor();
+		System.out.println(initialLenght + " " + alertValue);
 		frontQuad.resize( initialLenght*alertValue/100, frontQuad.getHeight() );
 		frontQuad.setLocalTranslation(screenWidth/40+frontQuad.getWidth()/2+borderWeight,
 										frontQuad.getLocalTranslation().y, 0);
