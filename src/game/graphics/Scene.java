@@ -187,6 +187,7 @@ public class Scene {
 				}
 			}
 		} catch (Exception e) {
+			terrainLayers.add( new TerrainLayer( "", null, 30 ) );
 			logger.info( "No terrain layer found in the scene file\n" +
 					"No texture will be loaded for the terrian" );
 		}
