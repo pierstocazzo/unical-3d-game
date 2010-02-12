@@ -148,7 +148,7 @@ public class Scene {
 				heightmap = new RawHeightMap( heightmapURL, heightmapSize, RawHeightMap.FORMAT_16BITLE, false );
 			} catch (Exception e1) {
 				heightmapSize = 129;
-				scale = new Vector3f( 32, 0.5f, 32 ); 
+				scale = new Vector3f( 32, 1, 32 ); 
 				heightmap = new MidPointHeightMap(128, 1f);
 			} 
 		}
@@ -202,66 +202,66 @@ public class Scene {
 		
 		try {
 			sceneLayers = xmlRoot.getChild("SceneLayers");
-		} catch (Exception e) {
-			return;
-		}
-		
-		/* catch all children of the sceneLayer (they are the models to load */
-		List<Element> layers = sceneLayers.getChildren();
-		for( Element layer : layers ) {
-			List<Element> meshes = layer.getChildren();
-			for( Element curr : meshes ) {
-				try {
-					Item item = new Item(); 
-					
-					/* extract the layer name */
-					item.layer = layer.getAttributeValue("Name");
-					
-					/* extract the position of the object */
-					
-					String positionString = curr.getAttributeValue("Position");
-					String[] positionArray = positionString.split(",");
-					
-					Vector3f position = new Vector3f();
-					position.x = Float.valueOf( positionArray[0] );
-					position.y = Float.valueOf( positionArray[1] );
-					position.z = Float.valueOf( positionArray[2] );
-					
-					item.position = position;
-					
-					/* extract its rotation */
-					
-					String rotationString = curr.getAttributeValue("Quat");
-					String[] rotationArray = rotationString.split(",");
-					
-					Quaternion rotation = new Quaternion();
-					rotation.x = Float.valueOf( rotationArray[0] );
-					rotation.y = Float.valueOf( rotationArray[1] );
-					rotation.z = Float.valueOf( rotationArray[2] );
-					rotation.w = Float.valueOf( rotationArray[3] );
-					
-					item.rotation = rotation;
-					
-					/* extract its scale */
-					
-					String scaleString = curr.getAttributeValue("Scale");
-					String[] scaleArray = scaleString.split(",");
-					
-					Vector3f scale = new Vector3f();
-					scale.x = Float.valueOf( scaleArray[0] );
-					scale.y = Float.valueOf( scaleArray[1] );
-					scale.z = Float.valueOf( scaleArray[2] );
-					
-					item.scale = scale;
-					
-					/* extract the mesh id */
-					item.meshId = curr.getAttributeValue("CachedMeshId");
-					
-					items.add( item );
-				} catch (Exception e) {
-					// do nothing if there is an exception loading some item
+			
+			/* catch all children of the sceneLayer (they are the models to load */
+			List<Element> layers = sceneLayers.getChildren();
+			for( Element layer : layers ) {
+				List<Element> meshes = layer.getChildren();
+				for( Element curr : meshes ) {
+					try {
+						Item item = new Item(); 
+						
+						/* extract the layer name */
+						item.layer = layer.getAttributeValue("Name");
+						
+						/* extract the position of the object */
+						
+						String positionString = curr.getAttributeValue("Position");
+						String[] positionArray = positionString.split(",");
+						
+						Vector3f position = new Vector3f();
+						position.x = Float.valueOf( positionArray[0] );
+						position.y = Float.valueOf( positionArray[1] );
+						position.z = Float.valueOf( positionArray[2] );
+						
+						item.position = position;
+						
+						/* extract its rotation */
+						
+						String rotationString = curr.getAttributeValue("Quat");
+						String[] rotationArray = rotationString.split(",");
+						
+						Quaternion rotation = new Quaternion();
+						rotation.x = Float.valueOf( rotationArray[0] );
+						rotation.y = Float.valueOf( rotationArray[1] );
+						rotation.z = Float.valueOf( rotationArray[2] );
+						rotation.w = Float.valueOf( rotationArray[3] );
+						
+						item.rotation = rotation;
+						
+						/* extract its scale */
+						
+						String scaleString = curr.getAttributeValue("Scale");
+						String[] scaleArray = scaleString.split(",");
+						
+						Vector3f scale = new Vector3f();
+						scale.x = Float.valueOf( scaleArray[0] );
+						scale.y = Float.valueOf( scaleArray[1] );
+						scale.z = Float.valueOf( scaleArray[2] );
+						
+						item.scale = scale;
+						
+						/* extract the mesh id */
+						item.meshId = curr.getAttributeValue("CachedMeshId");
+						
+						items.add( item );
+					} catch (Exception e) {
+						// do nothing if there is an exception loading some item
+					}
 				}
 			}
+		} catch (Exception e) {
+			return;
 		}
 	}
 	
@@ -274,23 +274,23 @@ public class Scene {
 		
 		try {
 			meshGroups = xmlRoot.getChild("CachedMeshGroups").getChildren();
+			
+			for( Element meshGroup : meshGroups ) {
+				List<Element> meshes = meshGroup.getChildren();
+				for( Element mesh : meshes ) {
+					String id = mesh.getAttributeValue("Id");
+					String filePath = dataDirectory + mesh.getAttributeValue("Filename");
+					String texturePath;
+					if( meshGroup.getAttributeValue("Name").equals("vegetation") ) 
+						texturePath = filePath.replaceFirst( Util.extensionOf( filePath ), "png" );
+					else 
+						texturePath = filePath.replaceFirst( Util.extensionOf( filePath ), "jpg" );
+					
+					cachedMeshes.add( new CachedMesh( id, filePath, texturePath ) );
+				}
+			}
 		} catch (Exception e) {
 			return;
-		}
-		
-		for( Element meshGroup : meshGroups ) {
-			List<Element> meshes = meshGroup.getChildren();
-			for( Element mesh : meshes ) {
-				String id = mesh.getAttributeValue("Id");
-				String filePath = dataDirectory + mesh.getAttributeValue("Filename");
-				String texturePath;
-				if( meshGroup.getAttributeValue("Name").equals("vegetation") ) 
-					texturePath = filePath.replaceFirst( Util.extensionOf( filePath ), "png" );
-				else 
-					texturePath = filePath.replaceFirst( Util.extensionOf( filePath ), "jpg" );
-				
-				cachedMeshes.add( new CachedMesh( id, filePath, texturePath ) );
-			}
 		}
 	}
 	
@@ -307,7 +307,12 @@ public class Scene {
 			skyTextures.east = dataDirectory + sky.getAttributeValue("TexLeft");
 			skyTextures.west = dataDirectory + sky.getAttributeValue("TexRight");
 		} catch (Exception e) {
-			// do nothing..if no skybox is defined in the scene file jme will load a missing texture image as skybox
+			skyTextures.up = "";
+			skyTextures.down = "";
+			skyTextures.south = "";
+			skyTextures.north = "";
+			skyTextures.east = "";
+			skyTextures.west = "";
 		}
 	}
 	
