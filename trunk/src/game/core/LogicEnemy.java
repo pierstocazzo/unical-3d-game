@@ -170,6 +170,9 @@ public class LogicEnemy extends LogicCharacter implements Serializable {
 	
 	public void updateTimeAlert(){
 		float newTime = GameTimer.getTimeInSeconds();
+		if( oldTime > newTime ) {
+			oldTime = newTime;
+		}
 		alertTime = alertTime - ( newTime - oldTime );
 		oldTime = newTime;
 		if( alertTime < 0 )
