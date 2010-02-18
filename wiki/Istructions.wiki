@@ -1,50 +1,42 @@
 = Last Chance =
 
-=== Descrizione ===
+=== Install ===
 
-
-Il gioco è uno “sparatutto” 3D in terza persona - ThirdPersonShooter. Si sviluppa in un'unica grande scena (un'isola) e il giocatore è totalmente libero di esplorarla in lungo e largo, e di scegliere la sua strategia di gioco. In particolare, in varie posizioni dell'isola, ci sono delle postazioni nemiche di diversa dimensione ed entità, ed è libera scelta del giocatore stabilire il momento e il modo in cui attaccare. Sparsi sull'isola ci sono anche kit medici che il giocatore può utilizzare per aumentare la sua energia. <br>
-Le armi presenti nel gioco sono tre: fucile automatico (AR-15), mitragliatore (gatling),  bazooka (RPG). Ad ogni nemico viene assegnata una di questa tre armi, mentre per il giocatore sono previste tutte e tre nel suo equipaggiamento, ognuna con un certo numero di munizioni; ulteriori munizioni potranno poi essere recuperate eliminando nemici (alla morte di un nemico viene creato un “ammopack” contenente un certo numero di munizioni per l'arma che gli era stata assegnata).<br>
-Lo scopo del gioco è eliminare tutti i nemici.
-
-
-=== Installazione ===
-
-Scaricare il pacchetto LastChance.zip:<br>
+Download the zip LastChance.zip:<br>
 <http://unical-3d-game.googlecode.com/files/LastChance.zip>.
 
-Estrarre il pacchetto nella directory che si preferisce: <br>
+Extract it in your directory: <br>
 es. `# unzip LastChance.zip -d /home/user/LastChance`
 
-Avviare il gioco: <br>
-  * Windows: start.bat
-  * GNU/Linux: start.sh
+Start the game: <br>
+  * GNU/Linux: # sh start.sh
+  * Windows: double click on start.bat
 
 
 ===== Eclipse =====
 
-L'archivio contiene il progetto eclipse completo di librerie;<br>
-Per importare il progetto in eclipse:
+The package contains the source code and the libraries too and is ready for eclipse;<br>
+To import the project in Eclipse:
 
   * New → Java Projet
   * Project Name: LastChance
   * Create project from existing source
-  * “Browse” fino alla directory in cui avete estratto LastChance (es. /home/user/LastChance)
+  * “Browse” to the directory where you extract LastChance (es. /home/user/LastChance)
   * “Finish”
 
-Per importare il progetto da SVN con Subclipse: 
+To import the project from SVN with Subclipse: 
 
   * New → Other → SVN → Checkout Project from SVN
   * Create a new repository location 
   * URL: http://unical-3d-game.googlecode.com/svn/trunk/
-  * Selezionare l'ultima revisione: “HEAD” 
+  * Select the last revision: “HEAD” 
   * Next → Next → Finish
 
 
-Per importare il progetto da SVN con Subversive:
+To import the project from SVN with Subversive:
 
   * New → Other → SVN → Project from SVN
   * Create a new repository location
   * URL: http://unical-3d-game.googlecode.com/svn/
-  * “Browse” e selezionare “trunk”
+  * “Browse” and select “trunk”
   * “finish”
