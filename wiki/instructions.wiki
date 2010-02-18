@@ -4,7 +4,7 @@
 === Install ===
 
 Download the zip LastChance.zip:<br>
-<http://unical-3d-game.googlecode.com/files/LastChance.zip>.
+http://unical-3d-game.googlecode.com/files/LastChance.zip
 
 Extract it in your directory: <br>
 es. `# unzip LastChance.zip -d /home/user/LastChance`
