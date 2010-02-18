@@ -1,0 +1,43 @@
+#labels Featured,Phase-Deploy
+= Last Chance =
+
+=== Install ===
+
+Download the zip LastChance.zip:<br>
+<http://unical-3d-game.googlecode.com/files/LastChance.zip>.
+
+Extract it in your directory: <br>
+es. `# unzip LastChance.zip -d /home/user/LastChance`
+
+Start the game: <br>
+  * GNU/Linux: # sh start.sh
+  * Windows: double click on start.bat
+
+
+===== Eclipse =====
+
+The package contains the source code and the libraries too and is ready for eclipse;<br>
+To import the project in Eclipse:
+
+  * New → Java Projet
+  * Project Name: LastChance
+  * Create project from existing source
+  * “Browse” to the directory where you extract LastChance (es. /home/user/LastChance)
+  * “Finish”
+
+To import the project from SVN with Subclipse: 
+
+  * New → Other → SVN → Checkout Project from SVN
+  * Create a new repository location 
+  * URL: http://unical-3d-game.googlecode.com/svn/trunk/
+  * Select the last revision: “HEAD” 
+  * Next → Next → Finish
+
+
+To import the project from SVN with Subversive:
+
+  * New → Other → SVN → Project from SVN
+  * Create a new repository location
+  * URL: http://unical-3d-game.googlecode.com/svn/
+  * “Browse” and select “trunk”
+  * “finish”
