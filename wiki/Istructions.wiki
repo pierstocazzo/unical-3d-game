@@ -36,7 +36,7 @@ Per importare il progetto da SVN con Subclipse:
 
   * New → Other → SVN → Checkout Project from SVN
   * Create a new repository location 
-  * URL: http://unical-3d-game.googlecode.com/svn/
+  * URL: http://unical-3d-game.googlecode.com/svn/trunk/
   * Selezionare l'ultima revisione: “HEAD” 
   * Next → Next → Finish
 
