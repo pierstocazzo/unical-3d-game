@@ -18,11 +18,11 @@
 		<Texture File="/terrain/base.jpg" ScaleU="20.000000" ScaleV="20.000000"/>
 	</TerrainLayer>
 	<TerrainLayer Name="grass" Type="Alpha Layer" Detail="False">
-		<Texture File="/terrain/grass.jpg" ScaleU="20.000000" ScaleV="20.000000"/>
+		<Texture File="/terrain/grass.jpg" ScaleU="200" ScaleV="200"/>
 		<AlphaMap File="/terrain/grass_alpha.png" Width="512" Height="512"/>
 	</TerrainLayer>
 	<TerrainLayer Name="brightgrass" Type="Alpha Layer" Detail="False">
-		<Texture File="/terrain/brightgrass.jpg" ScaleU="20.000000" ScaleV="20.000000"/>
+		<Texture File="/terrain/brightgrass.jpg" ScaleU="200" ScaleV="200"/>
 		<AlphaMap File="/terrain/brightgrass_alpha.png" Width="512" Height="512"/>
 	</TerrainLayer>
 	<TerrainLayer Name="rock" Type="Alpha Layer" Detail="False">
@@ -30,7 +30,7 @@
 		<AlphaMap File="/terrain/rock_alpha.png" Width="512" Height="512"/>
 	</TerrainLayer>
 	<TerrainLayer Name="road" Type="Alpha Layer" Detail="False">
-		<Texture File="/terrain/road.jpg" ScaleU="50.000000" ScaleV="50.000000"/>
+		<Texture File="/terrain/road.jpg" ScaleU="200" ScaleV="200"/>
 		<AlphaMap File="/terrain/road_alpha.png" Width="512" Height="512"/>
 	</TerrainLayer>
 </TerrainLayers>
